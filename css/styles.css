@@ -283,7 +283,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* ---------- Coaches / team ---------- */
 .coaches { padding: 110px 0; background: var(--gray-light); }
 .coach-editorial-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px 44px; }
-.coach-editorial-photo { aspect-ratio: 3/4; border-radius: var(--radius-md); overflow: hidden; position: relative; }
+.coach-editorial-photo { aspect-ratio: 1/1; max-width: 320px; border-radius: var(--radius-md); overflow: hidden; position: relative; }
 .coach-editorial-caption { position: absolute; left: 0; right: 0; bottom: 0; padding: 24px 22px; background: linear-gradient(to top, rgba(23,23,23,0.85), rgba(23,23,23,0) 65%); }
 .coach-editorial-caption .tag { display: inline-block; font-family: var(--font-sport); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--orange); margin-bottom: 6px; }
 .coach-editorial-caption h4 { font-family: var(--font-heading); font-weight: 800; font-size: 21px; color: var(--white); margin: 0 0 2px; }
