@@ -282,16 +282,18 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* ---------- Coaches / team ---------- */
 .coaches { padding: 110px 0; background: var(--gray-light); }
-.coach-editorial-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px 44px; }
-.coach-editorial-photo { aspect-ratio: 1/1; max-width: 320px; border-radius: var(--radius-md); overflow: hidden; position: relative; }
-.coach-editorial-caption { position: absolute; left: 0; right: 0; bottom: 0; padding: 24px 22px; background: linear-gradient(to top, rgba(23,23,23,0.85), rgba(23,23,23,0) 65%); }
-.coach-editorial-caption .tag { display: inline-block; font-family: var(--font-sport); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--orange); margin-bottom: 6px; }
-.coach-editorial-caption h4 { font-family: var(--font-heading); font-weight: 800; font-size: 21px; color: var(--white); margin: 0 0 2px; }
-.coach-editorial-caption .title { font-size: 13.5px; color: rgba(255,255,255,0.8); margin: 0; }
-.coach-editorial-bio { padding-top: 18px; }
-.coach-editorial-bio p { font-size: 15px; line-height: 1.7; color: var(--gray-dark); margin-bottom: 12px; }
+.coach-editorial-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 32px 20px; }
+.coach-editorial-photo { aspect-ratio: 1/1; border-radius: var(--radius-md); overflow: hidden; position: relative; }
+.coach-editorial-caption { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 12px; background: linear-gradient(to top, rgba(23,23,23,0.88), rgba(23,23,23,0) 70%); }
+.coach-editorial-caption .tag { display: inline-block; font-family: var(--font-sport); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--orange); margin-bottom: 4px; }
+.coach-editorial-caption h4 { font-family: var(--font-heading); font-weight: 800; font-size: 15px; color: var(--white); margin: 0 0 2px; }
+.coach-editorial-caption .title { font-size: 11.5px; color: rgba(255,255,255,0.8); margin: 0; }
+.coach-editorial-bio { padding-top: 14px; }
+.coach-editorial-bio p { font-size: 13px; line-height: 1.55; color: var(--gray-dark); margin-bottom: 10px; }
 .coach-editorial-bio p:last-child { margin-bottom: 0; }
-@media (max-width: 720px) { .coach-editorial-grid { grid-template-columns: 1fr; gap: 44px; } }
+@media (max-width: 980px) { .coach-editorial-grid { grid-template-columns: repeat(3, 1fr); gap: 32px 24px; } }
+@media (max-width: 640px) { .coach-editorial-grid { grid-template-columns: 1fr 1fr; gap: 28px 18px; } }
+@media (max-width: 420px) { .coach-editorial-grid { grid-template-columns: 1fr; gap: 32px; } }
 
 /* ---------- FAQ ---------- */
 .faq-search-wrap { margin-bottom: 60px; }
