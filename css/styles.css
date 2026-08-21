@@ -398,12 +398,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* ---------- Pricing plans ---------- */
 .plans-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; align-items: stretch; }
-.plans-grid > div { display: flex; flex-direction: column; }
-.plans-grid .plan { flex: 1; }
-.plan-decision { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 14px; }
-.plan-decision .pd-q { color: var(--gray-dark); }
-.plan-decision .pd-arrow { color: var(--orange); }
-.plan-decision .pd-a { font-family: var(--font-heading); font-weight: 800; color: var(--black); }
 .plan-differentiator { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--orange); margin: 0 0 14px; }
 .plan-benefits-intro { font-size: 13px; font-weight: 700; color: var(--gray-dark); margin: -6px 0 6px; }
 .plan-note { font-size: 13px; font-weight: 700; color: var(--black); margin: -12px 0 18px; }

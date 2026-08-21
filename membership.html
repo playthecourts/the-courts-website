@@ -137,7 +137,7 @@
   <div class="photo" role="img" aria-label="Basketball and volleyball athletes training at The Courts"></div>
   <div class="container page-hero-inner">
     <div class="breadcrumb"><a href="index.html">Home</a> / <span class="current">Membership</span></div>
-    <span class="eyebrow eyebrow--light">Membership</span>
+    <span class="eyebrow eyebrow--light" style="font-size:20px;">Membership</span>
     <h1 class="page-hero-title" style="font-size:clamp(32px, 5vw, 54px);">More Court. More Reps. More Ways to Play.</h1>
     <p class="page-hero-sub">Once a week. As much as you can. With a little one-on-one. Or with the whole family.<br><br>Pick the membership that fits how your athlete plays.</p>
     <div class="hero-ctas" style="margin-top:28px;"><a href="#plans" class="btn btn-primary">Find Your Membership ↓</a></div>
@@ -234,7 +234,7 @@
       compare: { training: '1x/week', openGym: '$10', progress: '—', priority: '—', privateTraining: 'Member rate', drDish: 'Member rate', campPricing: 'Member rate', athletes: '1', additional: '—' }
     },
     {
-      id: 'unlimited', name: 'Unlimited', price: 199, differentiator: 'Unlimited Group Training',
+      id: 'unlimited', name: 'Unlimited', price: 199, differentiator: 'Unlimited Training',
       headline: 'Come more. Train more. Play more.',
       benefits: [
         'Unlimited eligible basketball or volleyball group training',
@@ -252,7 +252,7 @@
       compare: { training: 'Unlimited', openGym: 'Included', progress: 'Included', priority: 'Included', privateTraining: 'Member rate', drDish: 'Member rate', campPricing: 'Preferred', athletes: '1', additional: '—' }
     },
     {
-      id: 'fullcourt', name: 'Full Court', price: 299, differentiator: 'Unlimited + Private Coaching',
+      id: 'fullcourt', name: 'Full Court', price: 299, differentiator: '+ Private Coaching',
       headline: 'The full development experience.',
       benefitsIntro: 'Everything in Unlimited, plus:',
       benefits: [
@@ -267,7 +267,7 @@
       compare: { training: 'Unlimited', openGym: 'Included', progress: 'Included', priority: 'Included', privateTraining: '1/month', drDish: '2/month', campPricing: 'Preferred', athletes: '1', additional: '—' }
     },
     {
-      id: 'family', name: 'Family Unlimited', price: 349, differentiator: 'Unlimited for 2 Athletes',
+      id: 'family', name: 'Family Unlimited', price: 349, differentiator: '2 Athletes',
       headline: 'Two athletes. One membership.',
       benefits: [
         'Unlimited eligible group training for 2 athletes',
@@ -299,9 +299,7 @@
   var plansGrid = document.getElementById('plansGrid');
   if (plansGrid) {
     plansGrid.innerHTML = PLANS.map(function (p) {
-      return '<div>' +
-        '<div class="plan-decision"><span class="pd-q">' + p.decision.q + '</span><span class="pd-arrow">→</span><span class="pd-a">' + p.decision.a + '</span></div>' +
-        '<div class="plan' + (p.popular ? ' featured' : '') + '">' +
+      return '<div class="plan' + (p.popular ? ' featured' : '') + '">' +
         (p.popular ? '<span class="plan-badge">Most Popular</span>' : '') +
         '<p class="plan-differentiator">' + p.differentiator + '</p>' +
         '<h3>' + p.name + '</h3>' +
@@ -312,7 +310,6 @@
         (p.note ? '<p class="plan-note">' + p.note + '</p>' : '') +
         '<p class="plan-best-for"><strong>Best for:</strong> ' + p.bestFor + '</p>' +
         '<a href="contact.html?interest=Membership#contact-form" class="btn ' + (p.popular ? 'btn-primary' : 'btn-secondary') + '" data-preset="Membership">' + p.cta + '</a>' +
-        '</div>' +
         '</div>';
     }).join('');
   }
