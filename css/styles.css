@@ -410,7 +410,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .dh-a { font-family: var(--font-heading); font-weight: 800; color: var(--black); }
 @media (max-width: 720px) { .dh-list { flex-direction: column; gap: 10px; } }
 
-.alacarte-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.alacarte-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
 .alacarte-item { padding: 24px; background: var(--white); border-radius: var(--radius-md); }
 .alacarte-item h4 { font-family: var(--font-heading); font-size: 15px; margin: 0 0 4px; }
 .alacarte-item .ac-price { font-family: var(--font-display); font-size: 23px; color: var(--orange-ink); margin-bottom: 2px; }
