@@ -75,11 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (contactForm) {
     contactForm.addEventListener('submit', e => {
       e.preventDefault();
-      const btn = contactForm.querySelector('button[type="submit"]');
-      const original = btn.textContent;
-      btn.textContent = 'Sent ✓';
+      const success = document.getElementById('contactFormSuccess');
       contactForm.reset();
-      setTimeout(() => { btn.textContent = original; }, 2500);
+      contactForm.style.display = 'none';
+      if (success) success.style.display = 'block';
     });
   }
 

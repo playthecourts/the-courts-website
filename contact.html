@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact | The Courts — Nolensville, TN</title>
-<meta name="description" content="Questions about training, membership, court time, or where to start? Contact The Courts in Nolensville, TN — we've got you.">
+<meta name="description" content="Membership, training, court time — or no idea where to start? Contact The Courts in Nolensville, TN. We'll get you there.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
@@ -155,22 +155,29 @@
   <a href="membership.html" class="btn btn-primary btn-block">Become a Member</a>
 </div>
 
-<section class="page-hero" style="padding:140px 0 70px;" id="main">
-  <div class="photo" role="img" aria-label="Athletes at The Courts"></div>
-  <div class="container page-hero-inner">
-    <div class="breadcrumb"><a href="index.html">Home</a> / <span class="current">Contact</span></div>
-    <span class="eyebrow eyebrow--light">Contact The Courts</span>
-    <h1 class="page-hero-title">Let's Get You on the Court.</h1>
-    <p class="page-hero-sub">Questions? Not sure where to start?<br><br>We've got you.</p>
+<section style="padding:150px 0 90px; background:var(--black);" id="main">
+  <div class="container overview-inner">
+    <div>
+      <div class="breadcrumb"><a href="index.html">Home</a> / <span class="current">Contact</span></div>
+      <span class="eyebrow">Contact</span>
+      <h1 style="font-family:var(--font-display); color:var(--white); font-size:clamp(36px, 5.5vw, 60px); line-height:1.02; margin:0 0 20px;">Let's Get You on the Court.</h1>
+      <p style="font-size:17px; line-height:1.7; color:rgba(255,255,255,0.75); max-width:44ch;">Membership. Training. Court time. Or no idea where to start.<br><br>Tell us what you need. We'll take it from there.</p>
+    </div>
+    <div class="overview-art photo" role="img" aria-label="An athlete walking onto the court at The Courts"></div>
   </div>
 </section>
 
-<section style="padding:70px 0;" id="contact-form">
+<section style="padding:90px 0 100px;" id="contact-form">
   <div class="container contact-grid">
     <div class="contact-form-wrap">
       <span class="eyebrow">Say Hello</span>
-      <h2 class="section-title" style="margin-bottom:10px;">How Can We Help?</h2>
-      <p class="section-sub" style="margin-bottom:30px;">Give us the basics. We'll take it from there.</p>
+      <h2 class="section-title" style="margin-bottom:32px;">What brings you here?</h2>
+
+      <div id="contactFormSuccess" class="form-success" style="display:none;">
+        <h3>Got it.</h3>
+        <p>We'll be in touch.</p>
+      </div>
+
       <form id="contactForm">
         <div class="form-row">
           <label for="cName">Name*</label>
@@ -181,7 +188,7 @@
           <input type="email" id="cEmail" required>
         </div>
         <div class="form-row">
-          <label for="cInterest">What brings you to The Courts?*</label>
+          <label for="cInterest">I'm looking for...*</label>
           <select id="cInterest" required>
             <option value="">Select one</option>
             <option value="Membership">Membership</option>
@@ -200,39 +207,29 @@
           </select>
         </div>
         <div class="form-row">
-          <label for="cMessage">Tell us more.*</label>
+          <label for="cMessage">What can we help with?*</label>
           <textarea id="cMessage" required></textarea>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Send It →</button>
       </form>
     </div>
     <div>
-      <div class="sidebar-card">
-        <h4 style="color:var(--orange);">Come See Us</h4>
-        <p style="font-family:var(--font-heading); font-weight:800; font-size:17px; color:var(--black); margin-bottom:10px;">Find the Orange Door.</p>
-        <p style="font-size:14.5px; margin-bottom:10px;">The Courts<br>2011 Johnson Industrial Blvd.<br>Nolensville, TN</p>
-        <p style="font-size:14.5px; margin-bottom:14px;">We're tucked toward the back of the parking lot.<br><br>Head to the back. Look for the orange door. That's us.</p>
-        <a href="https://www.google.com/maps/search/?api=1&query=2011+Johnson+Industrial+Blvd%2C+Nolensville%2C+TN" target="_blank" rel="noopener" class="link">Get Directions →</a>
-      </div>
-      <div class="sidebar-card">
-        <h4>Prefer Email?</h4>
-        <p>Say hello anytime.</p>
-        <a href="mailto:hello@playthecourts.com" class="link">hello@playthecourts.com</a>
-      </div>
-      <div class="sidebar-card">
-        <h4>Looking for Something?</h4>
-        <p>Memberships. Training. Schedules. Camps. Leagues. Rentals + more.</p>
+      <div class="overview-art photo" role="img" aria-label="The orange door at The Courts" style="margin-bottom:24px;"></div>
+      <span class="eyebrow">Come See Us</span>
+      <h3 style="font-family:var(--font-heading); font-weight:800; font-size:20px; margin:0 0 14px;">Look for the Orange Door.</h3>
+      <p style="font-size:14.5px; line-height:1.6; color:var(--gray-dark); margin-bottom:14px;">The Courts<br>2011 Johnson Industrial Blvd.<br>Nolensville, TN 37086</p>
+      <p style="font-size:14.5px; line-height:1.6; color:var(--gray-dark); margin-bottom:22px;">We're tucked toward the back of the parking lot.<br><br>Head to the back. Find the orange door. You're here.</p>
+      <a href="https://www.google.com/maps/search/?api=1&query=2011+Johnson+Industrial+Blvd%2C+Nolensville%2C+TN+37086" target="_blank" rel="noopener" class="link">Get Directions →</a>
+
+      <div style="border-top:1px solid var(--gray-mid); margin-top:32px; padding-top:28px;">
+        <p style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--gray-dark); margin-bottom:8px;">Rather email?</p>
+        <a href="mailto:hello@playthecourts.com" class="link" style="display:inline-block; margin-bottom:24px;">hello@playthecourts.com</a>
+
+        <p style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--gray-dark); margin-bottom:8px;">Need a quick answer?</p>
+        <p style="font-size:14px; line-height:1.6; color:var(--gray-dark); margin-bottom:10px;">Memberships, schedules, camps, rentals + more.</p>
         <a href="faq.html" class="link">View FAQs →</a>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="final-cta">
-  <div class="container">
-    <span class="eyebrow">Ready?</span>
-    <h2>Your Court Is <span class="accent">Waiting.</span></h2>
-    <div class="ctas"><a href="programs.html" class="btn btn-primary">Explore Programs →</a><a href="schedule.html" class="btn btn-on-dark">View Schedule →</a></div>
   </div>
 </section>
 
@@ -248,7 +245,7 @@
         <p>Basketball and volleyball training built around great coaching, real development, and a place athletes want to be.</p>
         <div class="footer-social">
           <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="white" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1" fill="white"/></svg></a>
-          <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 9h3V6h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v6h3v-6H16l.5-3h-3V9.7c0-.4.3-.7.5-.7z" fill="white"/></svg></a>
+          <a href="https://www.facebook.com/playthecourts" target="_blank" rel="noopener" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 9h3V6h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v6h3v-6H16l.5-3h-3V9.7c0-.4.3-.7.5-.7z" fill="white"/></svg></a>
         </div>
       </div>
       <div class="footer-col"><h4>Programs</h4><ul>
