@@ -412,6 +412,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .ways-feature-grid { grid-template-columns: 1fr; }
   .ways-feature-primary { grid-column: auto; min-height: 260px; }
 }
+.ways-feature-grid.three { grid-template-columns: 1.3fr 1fr; }
+@media (max-width: 640px) { .ways-feature-grid.three { grid-template-columns: 1fr; } }
 .filter-empty.show { display: block; }
 
 /* ---------- Age grid ---------- */
