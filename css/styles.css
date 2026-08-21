@@ -439,14 +439,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 @media (max-width: 640px) { .cal-item { grid-template-columns: 1fr; } .cal-date { flex-direction: row; gap: 8px; justify-content: flex-start; padding: 8px 12px; } }
 
 /* ---------- Values row ---------- */
-.values-row { display: flex; flex-wrap: wrap; justify-content: center; border-top: 1px solid var(--gray-mid); border-bottom: 1px solid var(--gray-mid); max-width: 1100px; margin: 0 auto; }
-.values-row-item { flex: 1 1 190px; padding: 32px 22px; text-align: center; border-left: 1px solid var(--gray-mid); }
-.values-row-item:first-child { border-left: none; }
-.values-row-item h4 { font-family: var(--font-sport); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--orange-ink); margin-bottom: 8px; }
-.values-row-item p { font-size: 13.5px; color: var(--gray-dark); line-height: 1.6; }
-@media (max-width: 720px) {
-  .values-row-item { flex: 1 1 45%; border-left: none; border-top: 1px solid var(--gray-mid); }
-  .values-row-item:nth-child(odd) { border-right: 1px solid var(--gray-mid); }
+.scroll-cue { position: absolute; left: 50%; bottom: 36px; transform: translateX(-50%); z-index: 2; opacity: 0.55; animation: scrollCueBounce 2.2s ease-in-out infinite; }
+@keyframes scrollCueBounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
+
+.manifesto-item { padding: 36px 0; border-top: 1px solid var(--gray-mid); }
+.manifesto-item:first-child { border-top: none; }
+.manifesto-item h3 { font-family: var(--font-display); font-size: clamp(30px, 5vw, 54px); line-height: 0.98; margin: 0 0 10px; }
+.manifesto-item p { font-size: 15px; color: var(--gray-dark); max-width: 38ch; }
+.manifesto-photo-strip { aspect-ratio: 16/6; border-radius: var(--radius-md); overflow: hidden; margin: 36px 0; }
+@media (min-width: 900px) {
+  .manifesto-item:nth-child(even) { text-align: right; margin-left: 14%; }
+  .manifesto-item:nth-child(even) p { margin-left: auto; }
 }
 
 /* ---------- Shop ---------- */
