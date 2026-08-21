@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Schedule | The Courts — Nolensville, TN</title>
-<meta name="description" content="Weekly basketball and volleyball class schedule at The Courts in Nolensville, TN.">
+<meta name="description" content="Find your time. Weekly basketball and volleyball classes by day, filtered by sport and age, at The Courts in Nolensville, TN.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
@@ -51,7 +51,7 @@
           <a href="schedule.html?sport=basketball">Basketball Classes</a>
           <a href="schedule.html?sport=volleyball">Volleyball Classes</a>
           <a href="private-coaching.html">Book a Private Lesson</a>
-          <a href="schedule.html#fall-league">Fall League 2026</a>
+          <a href="schedule.html#leagues">Basketball Leagues</a>
         </div>
       </div>
       <div class="nav-item">
@@ -118,7 +118,7 @@
       <a href="schedule.html?sport=basketball">Basketball Classes</a>
       <a href="schedule.html?sport=volleyball">Volleyball Classes</a>
       <a href="private-coaching.html">Book a Private Lesson</a>
-      <a href="schedule.html#fall-league">Fall League 2026</a>
+      <a href="schedule.html#leagues">Basketball Leagues</a>
     </div>
   </div>
   <div class="mobile-nav-group">
@@ -151,71 +151,161 @@
   <a href="membership.html" class="btn btn-primary btn-block">Become a Member</a>
 </div>
 
-<section class="page-hero" style="padding-bottom:70px;" id="main">
+<section class="page-hero" style="padding:150px 0 40px;" id="main">
   <div class="photo" role="img" aria-label="Athletes at The Courts"></div>
   <div class="container page-hero-inner">
     <div class="breadcrumb"><a href="index.html">Home</a> / <span class="current">Schedule</span></div>
     <span class="eyebrow eyebrow--light">Schedule</span>
-    <h1 class="page-hero-title">Find your time.</h1>
-    <p class="page-hero-sub">Weekly basketball and volleyball classes for every age group.</p>
+    <h1 class="page-hero-title" style="font-size:clamp(32px, 5vw, 52px);">Find Your Time.</h1>
+    <p class="page-hero-sub">Basketball. Volleyball. Training. Open gym.<br><br>Pick your day and get on the court.</p>
   </div>
 </section>
 
-<section style="padding:70px 0;">
-  <div class="container">
-    <div class="filter-group">
-      <select data-filter-key="sport">
-        <option value="">All Sports</option>
-        <option value="basketball">Basketball</option>
-        <option value="volleyball">Volleyball</option>
-      </select>
+<div class="schedule-filters">
+  <div class="schedule-filters-inner">
+    <div>
+      <span class="schedule-filter-label">Sport</span>
+      <div class="schedule-filter-group" data-sched-filter="sport">
+        <button type="button" class="filter-pill active" data-value="all">All</button>
+        <button type="button" class="filter-pill" data-value="basketball">Basketball</button>
+        <button type="button" class="filter-pill" data-value="volleyball">Volleyball</button>
+      </div>
     </div>
-    <table class="schedule-table">
-      <thead>
-        <tr><th>Day</th><th>Time</th><th>Class</th><th>Ages</th><th></th></tr>
-      </thead>
-      <tbody>
-        <tr data-row data-sport="basketball">
-          <td>Monday</td><td>4:30–5:30 PM</td><td><span class="tag">Basketball</span> Youth Skills</td><td>6–9</td><td><a href="contact.html?interest=Programs#contact-form" class="link" style="font-weight:700; color:var(--orange-ink);" data-preset="Programs">Join →</a></td>
-        </tr>
-        <tr data-row data-sport="basketball">
-          <td>Monday</td><td>5:30–6:45 PM</td><td><span class="tag">Basketball</span> Juniors Development</td><td>10–13</td><td><a href="contact.html?interest=Programs#contact-form" class="link" style="font-weight:700; color:var(--orange-ink);" data-preset="Programs">Join →</a></td>
-        </tr>
-        <tr data-row data-sport="volleyball">
-          <td>Tuesday</td><td>4:30–5:30 PM</td><td><span class="tag">Volleyball</span> Youth Skills</td><td>6–9</td><td><a href="contact.html?interest=Programs#contact-form" class="link" style="font-weight:700; color:var(--orange-ink);" data-preset="Programs">Join →</a></td>
-        </tr>
-        <tr data-row data-sport="volleyball">
-          <td>Tuesday</td><td>5:30–6:45 PM</td><td><span class="tag">Volleyball</span> Juniors Development</td><td>10–13</td><td><a href="contact.html?interest=Programs#contact-form" class="link" style="font-weight:700; color:var(--orange-ink);" data-preset="Programs">Join →</a></td>
-        </tr>
-        <tr data-row data-sport="basketball">
-          <td>Wednesday</td><td>6:00–7:15 PM</td><td><span class="tag">Basketball</span> High School Training</td><td>14–18</td><td><a href="contact.html?interest=Programs#contact-form" class="link" style="font-weight:700; color:var(--orange-ink);" data-preset="Programs">Join →</a></td>
-        </tr>
-        <tr data-row data-sport="volleyball">
-          <td>Thursday</td><td>6:00–7:15 PM</td><td><span class="tag">Volleyball</span> High School Training</td><td>14–18</td><td><a href="contact.html?interest=Programs#contact-form" class="link" style="font-weight:700; color:var(--orange-ink);" data-preset="Programs">Join →</a></td>
-        </tr>
-        <tr data-row data-sport="basketball">
-          <td>Saturday</td><td>9:00–11:00 AM</td><td><span class="tag">Basketball</span> Winter League Games</td><td>All Ages</td><td><a href="leagues.html#winter-league" class="link" style="font-weight:700; color:var(--orange-ink);">View League →</a></td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="filter-empty" id="scheduleEmpty">Nothing in this category right now — check back soon.</div>
+    <div>
+      <span class="schedule-filter-label">Age</span>
+      <div class="schedule-filter-group" data-sched-filter="age">
+        <button type="button" class="filter-pill active" data-value="all">All Ages</button>
+        <button type="button" class="filter-pill" data-value="6-9">6–9</button>
+        <button type="button" class="filter-pill" data-value="10-13">10–13</button>
+        <button type="button" class="filter-pill" data-value="14+">14+</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section style="padding:50px 0 90px;">
+  <div class="container">
+    <div class="section-head" style="margin-bottom:32px;">
+      <span class="eyebrow">This Week</span>
+      <h2 class="section-title" style="margin-bottom:0;">Get on the court.</h2>
+    </div>
+
+    <div class="day-group">
+      <h3 class="day-heading">Monday</h3>
+      <div class="schedule-row" data-sport="basketball" data-age="6-9">
+        <div class="sr-time">4:30 PM</div>
+        <div><span class="sr-sport">Basketball</span><span class="sr-program">Skills</span></div>
+        <div class="sr-age">Ages 6–9</div>
+        <a href="contact.html?interest=Basketball#contact-form" class="sr-cta" data-preset="Basketball">Join →</a>
+      </div>
+      <div class="schedule-row" data-sport="basketball" data-age="10-13">
+        <div class="sr-time">5:30 PM</div>
+        <div><span class="sr-sport">Basketball</span><span class="sr-program">Development</span></div>
+        <div class="sr-age">Ages 10–13</div>
+        <a href="contact.html?interest=Basketball#contact-form" class="sr-cta" data-preset="Basketball">Join →</a>
+      </div>
+    </div>
+
+    <div class="day-group">
+      <h3 class="day-heading">Tuesday</h3>
+      <div class="schedule-row" data-sport="volleyball" data-age="6-9">
+        <div class="sr-time">4:30 PM</div>
+        <div><span class="sr-sport">Volleyball</span><span class="sr-program">Skills</span></div>
+        <div class="sr-age">Ages 6–9</div>
+        <a href="contact.html?interest=Volleyball#contact-form" class="sr-cta" data-preset="Volleyball">Join →</a>
+      </div>
+      <div class="schedule-row" data-sport="volleyball" data-age="10-13">
+        <div class="sr-time">5:30 PM</div>
+        <div><span class="sr-sport">Volleyball</span><span class="sr-program">Development</span></div>
+        <div class="sr-age">Ages 10–13</div>
+        <a href="contact.html?interest=Volleyball#contact-form" class="sr-cta" data-preset="Volleyball">Join →</a>
+      </div>
+    </div>
+
+    <div class="day-group">
+      <h3 class="day-heading">Wednesday</h3>
+      <div class="schedule-row" data-sport="basketball" data-age="14+">
+        <div class="sr-time">6:00 PM</div>
+        <div><span class="sr-sport">Basketball</span><span class="sr-program">Advanced Training</span></div>
+        <div class="sr-age">Ages 14+</div>
+        <a href="contact.html?interest=Basketball#contact-form" class="sr-cta" data-preset="Basketball">Join →</a>
+      </div>
+    </div>
+
+    <div class="day-group">
+      <h3 class="day-heading">Thursday</h3>
+      <div class="schedule-row" data-sport="volleyball" data-age="14+">
+        <div class="sr-time">6:00 PM</div>
+        <div><span class="sr-sport">Volleyball</span><span class="sr-program">Advanced Training</span></div>
+        <div class="sr-age">Ages 14+</div>
+        <a href="contact.html?interest=Volleyball#contact-form" class="sr-cta" data-preset="Volleyball">Join →</a>
+      </div>
+    </div>
+
+    <div class="day-group">
+      <h3 class="day-heading">Saturday</h3>
+      <div class="schedule-row" data-sport="basketball" data-age="all">
+        <div class="sr-time">9:00 AM</div>
+        <div><span class="sr-sport">Basketball</span><span class="sr-program">Winter League</span></div>
+        <div class="sr-age">Ages Vary</div>
+        <a href="leagues.html#winter-league" class="sr-cta">League Info →</a>
+      </div>
+    </div>
+
+    <div class="filter-empty" id="scheduleEmpty">
+      <p style="margin-bottom:6px;">Nothing here right now.</p>
+      <p style="margin-bottom:20px;">Try another age or sport, or check back soon. We're always adding more ways to play.</p>
+      <button type="button" id="scheduleReset" class="btn btn-secondary">Reset Filters →</button>
+    </div>
   </div>
 </section>
 
-<section style="padding:70px 0; background:var(--white);" id="fall-league">
-  <div class="container" style="max-width:700px; text-align:center;">
-    <span class="eyebrow">Fall League 2026</span>
-    <h2 class="section-title">Coming soon.</h2>
-    <p class="section-sub" style="margin:0 auto;">Details on our Fall League are on the way. Check back soon or reach out to be the first to know when registration opens.</p>
-    <div style="margin-top:24px;"><a href="contact.html?interest=Programs#contact-form" class="btn btn-secondary" data-preset="Programs">Get Notified →</a></div>
+<section style="padding:0 0 90px;">
+  <div class="container">
+    <div class="section-head" style="margin-bottom:24px;">
+      <span class="eyebrow">More Ways to Play</span>
+      <h2 class="section-title" style="margin-bottom:0;">Not everything fits on a weekly schedule.</h2>
+    </div>
+    <div class="ways-grid">
+      <div class="ways-item">
+        <h4>Private Training</h4>
+        <p>Your goals. Your coach. Let's work.</p>
+        <a href="private-coaching.html">Find a Coach →</a>
+      </div>
+      <div class="ways-item">
+        <h4>Open Gym</h4>
+        <p>No drills. No practice plan. Just play.</p>
+        <a href="events.html#rhythm">View Open Gym →</a>
+      </div>
+      <div class="ways-item">
+        <h4>Camps + Clinics</h4>
+        <p>School's out. We're in the gym.</p>
+        <a href="camps.html">See What's Coming →</a>
+      </div>
+      <div class="ways-item">
+        <h4>Court Rentals</h4>
+        <p>Your team. Your group. Your court.</p>
+        <a href="court-rentals.html">Find Court Time →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:90px 0; background:var(--black); color:var(--white);" id="leagues">
+  <div class="container" style="max-width:640px; text-align:center;">
+    <span class="eyebrow">Basketball Leagues</span>
+    <h2 class="section-title" style="color:var(--white);">Game Time.</h2>
+    <p class="section-sub" style="margin:0 auto 28px; color:rgba(255,255,255,0.75);">More games. More competition. More chances to put the work into play.</p>
+    <a href="leagues.html" class="btn btn-primary">View Basketball Leagues →</a>
   </div>
 </section>
 
 <section class="final-cta">
   <div class="container">
-    <h2>Ready to <span class="accent">get on the schedule?</span></h2>
-    <p>Members get priority registration and preferred pricing on every class.</p>
-    <div class="ctas"><a href="membership.html" class="btn btn-primary">Become a Member →</a></div>
+    <span class="eyebrow">Ready?</span>
+    <h2>Get on the <span class="accent">Court.</span></h2>
+    <p>Find your time. Pick your program. Let's play.</p>
+    <div class="ctas"><a href="membership.html" class="btn btn-primary">Become a Member →</a><a href="programs.html" class="btn btn-on-dark">Explore Programs →</a></div>
   </div>
 </section>
 
@@ -235,7 +325,7 @@
         </div>
       </div>
       <div class="footer-col"><h4>Programs</h4><ul>
-        <li><a href="basketball.html">Basketball</a></li><li><a href="volleyball.html">Volleyball</a></li><li><a href="private-coaching.html">Private Training</a></li><li><a href="camps.html">Camps + Clinics</a></li><li><a href="leagues.html">Leagues</a></li>
+        <li><a href="basketball.html">Basketball</a></li><li><a href="volleyball.html">Volleyball</a></li><li><a href="private-coaching.html">Private Training</a></li><li><a href="camps.html">Camps + Clinics</a></li><li><a href="leagues.html">Basketball Leagues</a></li>
       </ul></div>
       <div class="footer-col"><h4>The Courts</h4><ul>
         <li><a href="about.html">About</a></li><li><a href="membership.html">Membership</a></li><li><a href="events.html">Events</a></li><li><a href="shop.html">Pro Shop</a></li>

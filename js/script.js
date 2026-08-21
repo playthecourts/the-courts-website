@@ -99,6 +99,72 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* ---------- Schedule page: sport x age pill filters ---------- */
+  const scheduleFilterBar = document.querySelector('.schedule-filters');
+  if (scheduleFilterBar) {
+    const sportGroup = scheduleFilterBar.querySelector('[data-sched-filter="sport"]');
+    const ageGroup = scheduleFilterBar.querySelector('[data-sched-filter="age"]');
+    const dayGroups = document.querySelectorAll('.day-group');
+    const schedEmpty = document.getElementById('scheduleEmpty');
+
+    const setActivePill = (group, value) => {
+      const pill = [...group.querySelectorAll('.filter-pill')].find(p => p.dataset.value === value);
+      if (!pill) return false;
+      group.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      return true;
+    };
+
+    const applySchedFilters = (pushState) => {
+      const sport = sportGroup.querySelector('.filter-pill.active').dataset.value;
+      const age = ageGroup.querySelector('.filter-pill.active').dataset.value;
+      let totalVisible = 0;
+      dayGroups.forEach(group => {
+        let groupVisible = 0;
+        group.querySelectorAll('.schedule-row').forEach(row => {
+          const sportMatch = sport === 'all' || row.dataset.sport === sport;
+          const ageMatch = age === 'all' || row.dataset.age === age || row.dataset.age === 'all';
+          const match = sportMatch && ageMatch;
+          row.classList.toggle('is-hidden', !match);
+          if (match) groupVisible++;
+        });
+        group.classList.toggle('is-hidden', groupVisible === 0);
+        totalVisible += groupVisible;
+      });
+      if (schedEmpty) schedEmpty.classList.toggle('show', totalVisible === 0);
+
+      if (pushState) {
+        const params = new URLSearchParams(window.location.search);
+        sport === 'all' ? params.delete('sport') : params.set('sport', sport);
+        age === 'all' ? params.delete('age') : params.set('age', age);
+        const qs = params.toString();
+        history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname);
+      }
+    };
+
+    [...sportGroup.querySelectorAll('.filter-pill'), ...ageGroup.querySelectorAll('.filter-pill')].forEach(pill => {
+      pill.addEventListener('click', () => {
+        pill.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        applySchedFilters(true);
+      });
+    });
+
+    const schedParams = new URLSearchParams(window.location.search);
+    if (schedParams.get('sport')) setActivePill(sportGroup, schedParams.get('sport'));
+    if (schedParams.get('age')) setActivePill(ageGroup, schedParams.get('age'));
+    applySchedFilters(false);
+
+    const schedReset = document.getElementById('scheduleReset');
+    if (schedReset) {
+      schedReset.addEventListener('click', () => {
+        setActivePill(sportGroup, 'all');
+        setActivePill(ageGroup, 'all');
+        applySchedFilters(true);
+      });
+    }
+  }
+
   /* ---------- Filter pills (events / shop / programs) ---------- */
   document.querySelectorAll('.filter-pills').forEach(group => {
     const groupPills = group.querySelectorAll('.filter-pill');

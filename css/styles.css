@@ -343,6 +343,34 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .filter-pill.active { background: var(--black); border-color: var(--black); color: var(--white); }
 .is-hidden { display: none !important; }
 .filter-empty { display: none; padding: 60px 0; text-align: center; color: var(--gray-dark); font-size: 15px; }
+
+/* ---------- Schedule (day rows) ---------- */
+.schedule-filters { position: sticky; top: 0; z-index: 20; background: var(--gray-light); border-bottom: 1px solid var(--gray-mid); }
+.schedule-filters-inner { display: flex; gap: 28px; flex-wrap: wrap; align-items: center; padding: 16px var(--pad); }
+.schedule-filter-label { display: block; font-family: var(--font-sport); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-dark); margin-bottom: 6px; }
+.schedule-filter-group { display: flex; gap: 8px; flex-wrap: nowrap; overflow-x: auto; }
+.schedule-filter-group .filter-pill { padding: 8px 16px; font-size: 13px; white-space: nowrap; }
+.day-group { }
+.day-heading { font-family: var(--font-heading); font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 0.05em; padding: 32px 0 6px; }
+.day-group:first-child .day-heading { padding-top: 0; }
+.schedule-row { display: grid; grid-template-columns: 110px 1fr 120px 130px; align-items: center; gap: 18px; padding: 20px 0; border-top: 1px solid var(--gray-mid); }
+.day-group .schedule-row:first-of-type { border-top: none; }
+.sr-time { font-family: var(--font-heading); font-weight: 800; font-size: 16px; }
+.sr-sport { display: block; font-family: var(--font-sport); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--orange-ink); margin-bottom: 2px; }
+.sr-program { font-family: var(--font-heading); font-weight: 700; font-size: 16px; }
+.sr-age { font-size: 14px; color: var(--gray-dark); }
+.sr-cta { font-weight: 700; font-size: 14px; color: var(--orange); white-space: nowrap; text-align: right; }
+@media (max-width: 720px) {
+  .schedule-row { grid-template-columns: 1fr; gap: 4px; padding: 18px 0; }
+  .sr-cta { text-align: left; margin-top: 8px; display: inline-block; }
+}
+
+.ways-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.ways-item { padding: 22px 0 0; border-top: 1px solid var(--gray-mid); }
+.ways-item h4 { font-family: var(--font-heading); font-size: 15px; margin: 0 0 6px; }
+.ways-item p { font-size: 13.5px; color: var(--gray-dark); margin-bottom: 12px; line-height: 1.5; }
+.ways-item a { font-size: 13.5px; font-weight: 700; color: var(--orange); }
+@media (max-width: 720px) { .ways-grid { grid-template-columns: 1fr 1fr; } }
 .filter-empty.show { display: block; }
 
 /* ---------- Age grid ---------- */
