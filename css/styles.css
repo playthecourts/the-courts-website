@@ -414,6 +414,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .ways-feature-grid.three { grid-template-columns: 1.3fr 1fr; }
 @media (max-width: 640px) { .ways-feature-grid.three { grid-template-columns: 1fr; } }
+
+/* ---------- Sport pages: age links + program links row ---------- */
+.age-links { display: flex; justify-content: center; align-items: baseline; gap: 44px; flex-wrap: wrap; margin: 28px 0 36px; }
+.age-links a { font-family: var(--font-display); font-size: clamp(38px, 6.4vw, 68px); color: var(--black); line-height: 1; transition: color 0.2s var(--ease); }
+.age-links a:hover { color: var(--orange); }
+@media (max-width: 640px) { .age-links { gap: 26px; } }
+
+.program-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 28px; margin-bottom: 8px; }
+.program-links a { font-size: 14px; font-weight: 700; color: var(--orange); white-space: nowrap; }
 .filter-empty.show { display: block; }
 
 /* ---------- Age grid ---------- */
