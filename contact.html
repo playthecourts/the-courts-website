@@ -180,6 +180,38 @@
             <option value="Something Else">Something Else</option>
           </select>
         </div>
+        <div id="privateTrainingFields" style="display:none;">
+          <div class="form-row">
+            <label for="ptSport">Sport</label>
+            <select id="ptSport">
+              <option value="">Select one</option>
+              <option value="Basketball">Basketball</option>
+              <option value="Volleyball">Volleyball</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="ptAge">Athlete Age</label>
+            <input type="text" id="ptAge">
+          </div>
+          <div class="form-row">
+            <label for="ptFocus">What are they working on?</label>
+            <input type="text" id="ptFocus">
+          </div>
+          <div class="form-row">
+            <label for="ptTimes">Preferred Days/Times <span style="font-weight:400; color:var(--gray-dark);">(optional)</span></label>
+            <input type="text" id="ptTimes">
+          </div>
+          <div class="form-row">
+            <label for="ptCoach">Coach Preference <span style="font-weight:400; color:var(--gray-dark);">(optional)</span></label>
+            <select id="ptCoach">
+              <option value="">No preference</option>
+              <option value="Johnny Coles">Johnny Coles</option>
+              <option value="Spencer Richardson">Spencer Richardson</option>
+              <option value="Justin Frank">Justin Frank</option>
+              <option value="Sarah Quint">Sarah Quint</option>
+            </select>
+          </div>
+        </div>
         <div class="form-row">
           <label for="cMessage">What can we help with?*</label>
           <textarea id="cMessage" required></textarea>

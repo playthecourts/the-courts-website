@@ -46,6 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Contact form: pre-select interest from ?interest= or data-preset ---------- */
   const interestSelect = document.getElementById('cInterest');
   if (interestSelect) {
+    const ptFields = document.getElementById('privateTrainingFields');
+    const updatePtFields = () => {
+      if (ptFields) ptFields.style.display = interestSelect.value === 'Private Training' ? 'block' : 'none';
+    };
+
     const interestParam = new URLSearchParams(window.location.search).get('interest');
     if (interestParam) {
       const match = [...interestSelect.options].find(o => o.value === interestParam);
@@ -56,8 +61,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const val = el.dataset.preset;
         const match = [...interestSelect.options].find(o => o.value === val);
         if (match) interestSelect.value = val;
+        updatePtFields();
       });
     });
+    interestSelect.addEventListener('change', updatePtFields);
+    updatePtFields();
   }
 
   /* ---------- Contact form submit (visual only) ---------- */
