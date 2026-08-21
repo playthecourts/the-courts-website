@@ -17,16 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ---------- Coach bio accordion ---------- */
-  document.querySelectorAll('.coach-bio-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const bio = btn.closest('.coach-card-body').querySelector('.coach-bio');
-      const open = btn.classList.toggle('open');
-      bio.style.maxHeight = open ? bio.scrollHeight + 'px' : '0';
-      btn.querySelector('.coach-bio-label').textContent = open ? 'Close Bio' : 'Read Bio';
-    });
-  });
-
   /* ---------- FAQ accordion ---------- */
   document.querySelectorAll('.faq-q').forEach(btn => {
     btn.addEventListener('click', () => {

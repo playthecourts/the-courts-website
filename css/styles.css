@@ -282,20 +282,16 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* ---------- Coaches / team ---------- */
 .coaches { padding: 110px 0; background: var(--gray-light); }
-.leadership-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; }
-.coach-card { background: var(--white); border-radius: var(--radius-md); overflow: hidden; }
-.coach-photo { aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; color: rgba(0,0,0,0.25); }
-.coach-card-body { padding: 22px; }
-.coach-card-body .tag { display: inline-block; font-family: var(--font-sport); font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--orange-ink); background: var(--orange-soft); padding: 4px 10px; border-radius: 999px; margin-bottom: 10px; }
-.coach-card-body h4 { font-family: var(--font-heading); font-size: 18px; margin: 0 0 4px; }
-.coach-card-body .title { font-size: 13.5px; color: var(--gray-dark); margin-bottom: 14px; }
-.coach-bio-toggle { display: flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 700; color: var(--orange-ink); }
-.coach-bio-icon { font-size: 16px; line-height: 1; transition: transform 0.2s var(--ease); }
-.coach-bio-toggle.open .coach-bio-icon { transform: rotate(45deg); }
-.coach-bio { max-height: 0; overflow: hidden; transition: max-height 0.3s var(--ease); }
-.coach-bio p { font-size: 13.5px; line-height: 1.6; color: var(--gray-dark); padding-top: 12px; margin: 0; }
-@media (max-width: 980px) { .leadership-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 640px) { .leadership-grid { grid-template-columns: 1fr; } }
+.coach-editorial-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px 44px; }
+.coach-editorial-photo { aspect-ratio: 3/4; border-radius: var(--radius-md); overflow: hidden; position: relative; }
+.coach-editorial-caption { position: absolute; left: 0; right: 0; bottom: 0; padding: 24px 22px; background: linear-gradient(to top, rgba(23,23,23,0.85), rgba(23,23,23,0) 65%); }
+.coach-editorial-caption .tag { display: inline-block; font-family: var(--font-sport); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--orange); margin-bottom: 6px; }
+.coach-editorial-caption h4 { font-family: var(--font-heading); font-weight: 800; font-size: 21px; color: var(--white); margin: 0 0 2px; }
+.coach-editorial-caption .title { font-size: 13.5px; color: rgba(255,255,255,0.8); margin: 0; }
+.coach-editorial-bio { padding-top: 18px; }
+.coach-editorial-bio p { font-size: 15px; line-height: 1.7; color: var(--gray-dark); margin-bottom: 12px; }
+.coach-editorial-bio p:last-child { margin-bottom: 0; }
+@media (max-width: 720px) { .coach-editorial-grid { grid-template-columns: 1fr; gap: 44px; } }
 
 /* ---------- FAQ ---------- */
 .faq-search-wrap { margin-bottom: 60px; }
