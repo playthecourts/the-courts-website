@@ -147,13 +147,12 @@
 <section style="padding:70px 0 40px;" id="plans">
   <div class="container">
     <div class="section-head center">
-      <span class="eyebrow">Pick Your Plan</span>
+      <span class="eyebrow" style="font-size:20px;">Pick Your Plan</span>
       <h2 class="section-title" style="margin-bottom:10px;">How much court time do you want?</h2>
       <p class="section-sub" style="margin:0 auto;">Coming once a week? Start there. Want more? Go Unlimited.</p>
     </div>
     <div class="plans-grid" id="plansGrid"></div>
     <p style="text-align:center; font-size:13px; color:var(--gray-dark); margin-top:28px;">*Dr. Dish is for basketball athletes only.</p>
-    <div class="decision-helper" id="decisionHelper"></div>
   </div>
 </section>
 
@@ -171,7 +170,7 @@
 <section style="padding:80px 0;" id="faqs">
   <div class="container" style="max-width:760px;">
     <div class="section-head center">
-      <span class="eyebrow">Membership FAQs</span>
+      <span class="eyebrow" style="font-size:20px;">Membership FAQs</span>
       <h2 class="section-title">Quick answers.</h2>
     </div>
     <div class="faq-item">
@@ -300,7 +299,9 @@
   var plansGrid = document.getElementById('plansGrid');
   if (plansGrid) {
     plansGrid.innerHTML = PLANS.map(function (p) {
-      return '<div class="plan' + (p.popular ? ' featured' : '') + '">' +
+      return '<div>' +
+        '<div class="plan-decision"><span class="pd-q">' + p.decision.q + '</span><span class="pd-arrow">→</span><span class="pd-a">' + p.decision.a + '</span></div>' +
+        '<div class="plan' + (p.popular ? ' featured' : '') + '">' +
         (p.popular ? '<span class="plan-badge">Most Popular</span>' : '') +
         '<p class="plan-differentiator">' + p.differentiator + '</p>' +
         '<h3>' + p.name + '</h3>' +
@@ -311,16 +312,9 @@
         (p.note ? '<p class="plan-note">' + p.note + '</p>' : '') +
         '<p class="plan-best-for"><strong>Best for:</strong> ' + p.bestFor + '</p>' +
         '<a href="contact.html?interest=Membership#contact-form" class="btn ' + (p.popular ? 'btn-primary' : 'btn-secondary') + '" data-preset="Membership">' + p.cta + '</a>' +
+        '</div>' +
         '</div>';
     }).join('');
-  }
-
-  var decisionHelper = document.getElementById('decisionHelper');
-  if (decisionHelper) {
-    decisionHelper.innerHTML = '<span class="dh-label">Not Sure?</span><div class="dh-list">' +
-      PLANS.map(function (p) {
-        return '<div class="dh-row"><span class="dh-q">' + p.decision.q + '</span><span class="dh-arrow">→</span><span class="dh-a">' + p.decision.a + '</span></div>';
-      }).join('') + '</div>';
   }
 
   var alacarteGrid = document.getElementById('alacarteGrid');
