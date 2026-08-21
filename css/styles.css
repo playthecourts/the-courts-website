@@ -54,7 +54,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 .eyebrow {
   display: block; font-family: var(--font-sport); font-size: 14px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.08em; color: var(--orange-ink); margin-bottom: 12px;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--orange); margin-bottom: 12px;
 }
 .eyebrow--light { color: var(--orange); }
 
