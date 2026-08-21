@@ -335,7 +335,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .sidebar-card { background: var(--white); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 24px; }
 .sidebar-card h4 { font-family: var(--font-heading); font-size: 17px; margin: 0 0 10px; }
 .sidebar-card p { font-size: 14.5px; line-height: 1.6; color: var(--gray-dark); margin: 0 0 14px; }
-.sidebar-card a.link { font-size: 14px; font-weight: 700; color: var(--orange-ink); }
+.sidebar-card a.link { font-size: 14px; font-weight: 700; color: var(--orange); }
 @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } .contact-form-wrap { padding: 30px; } }
 
 /* ---------- Filter pills ---------- */
