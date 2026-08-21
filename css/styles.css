@@ -313,7 +313,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s var(--ease); }
 .faq-a p { font-size: 15px; line-height: 1.7; color: var(--gray-dark); padding-bottom: 20px; margin: 0; }
 .faq-category-cta { margin-top: 18px; }
-.faq-category-cta a { font-size: 14px; font-weight: 700; color: var(--orange-ink); }
+.faq-category-cta a { font-size: 14px; font-weight: 700; color: var(--orange); }
 .faq-category-cta .arrow { display: inline-block; transition: transform 0.2s var(--ease); }
 .faq-category-cta a:hover .arrow { transform: translateX(3px); }
 
