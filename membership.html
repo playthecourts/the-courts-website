@@ -38,9 +38,8 @@
         <a href="membership.html">Membership <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="nav-dropdown">
           <a href="membership.html#plans">Choose Your Plan</a>
-          <a href="membership.html#compare">Compare Plans</a>
-          <a href="membership.html#multi-sport">Multi-Sport &amp; Family</a>
-          <a href="membership.html#private-training">Private Training Pricing</a>
+          <a href="membership.html#open-gym">Open Gym</a>
+          <a href="membership.html#a-la-carte">À La Carte</a>
           <a href="membership.html#faqs">FAQs</a>
         </div>
       </div>
@@ -105,9 +104,8 @@
     <button class="mobile-nav-toggle" type="button">Membership<span class="mobile-nav-chevron">+</span></button>
     <div class="mobile-nav-sub">
       <a href="membership.html#plans">Choose Your Plan</a>
-      <a href="membership.html#compare">Compare Plans</a>
-      <a href="membership.html#multi-sport">Multi-Sport &amp; Family</a>
-      <a href="membership.html#private-training">Private Training Pricing</a>
+      <a href="membership.html#open-gym">Open Gym</a>
+      <a href="membership.html#a-la-carte">À La Carte</a>
       <a href="membership.html#faqs">FAQs</a>
     </div>
   </div>
@@ -171,26 +169,7 @@
     </div>
     <div class="plans-grid" id="plansGrid"></div>
     <p style="text-align:center; font-size:13px; color:var(--gray-dark); margin-top:28px;">*Dr. Dish is for basketball athletes only.</p>
-  </div>
-</section>
-
-<section style="padding:60px 0 90px; background:var(--white);" id="compare">
-  <div class="container">
-    <div class="section-head center">
-      <span class="eyebrow">The Simple Version</span>
-      <h2 class="section-title">Pick how you play.</h2>
-    </div>
-    <div class="simple-compare-grid" id="simpleCompareGrid"></div>
-    <div class="decision-grid" id="decisionGrid"></div>
-
-    <div class="compare-table-wrap" style="overflow-x:auto;">
-      <table class="compare-table">
-        <thead><tr><th>Feature</th><th>Weekly</th><th>Unlimited</th><th>Full Court</th><th>Family Unlimited</th></tr></thead>
-        <tbody id="compareTableBody"></tbody>
-      </table>
-      <p style="font-size:13px; color:var(--gray-dark); margin-top:14px;">*Dr. Dish is for basketball athletes only.</p>
-    </div>
-    <div class="compare-mobile" id="compareMobile"></div>
+    <div class="decision-helper" id="decisionHelper"></div>
   </div>
 </section>
 
@@ -277,15 +256,15 @@
       headline: 'One day a week. Make it count.',
       benefits: [
         '1 eligible basketball or volleyball group training session per week',
-        'Courts member events',
         'Member pricing on private training',
         'Member pricing on Dr. Dish*',
         'Member pricing on select camps + clinics',
-        'Open Gym available for $10/session'
+        'Open Gym for $10/session',
+        'Courts member events'
       ],
       bestFor: 'Athletes who want one consistent training day each week.',
       cta: 'Go Weekly →', popular: false, simple: '1 group training session/week',
-      decision: { q: 'Coming Once a Week?', a: 'Go Weekly.' },
+      decision: { q: 'Once a week', a: 'Weekly' },
       compare: { training: '1x/week', openGym: '$10', progress: '—', priority: '—', privateTraining: 'Member rate', drDish: 'Member rate', campPricing: 'Member rate', athletes: '1', additional: '—' }
     },
     {
@@ -294,16 +273,16 @@
       benefits: [
         'Unlimited eligible basketball or volleyball group training',
         'Scheduled Open Gym included',
+        'Quarterly progress updates',
         'Priority registration on select programming',
         'Preferred member pricing on select camps + clinics',
         'Member pricing on private training',
         'Member pricing on Dr. Dish*',
-        'Quarterly progress update',
         'Courts member events'
       ],
       bestFor: 'Athletes who want to train two or more times a week and spend more time at The Courts.',
       cta: 'Go Unlimited →', popular: true, simple: 'Unlimited group training + Open Gym',
-      decision: { q: 'Coming 2x a Week or More?', a: 'Go Unlimited.' },
+      decision: { q: '2x a week or more', a: 'Unlimited' },
       compare: { training: 'Unlimited', openGym: 'Included', progress: 'Included', priority: 'Included', privateTraining: 'Member rate', drDish: 'Member rate', campPricing: 'Preferred', athletes: '1', additional: '—' }
     },
     {
@@ -318,7 +297,7 @@
       ],
       bestFor: 'Athletes who want the reps of Unlimited plus regular one-on-one attention.',
       cta: 'Go Full Court →', popular: false, simple: 'Unlimited + 1 private session/month',
-      decision: { q: 'Want Individual Coaching, Too?', a: 'Go Full Court.' },
+      decision: { q: 'Want private coaching included', a: 'Full Court' },
       compare: { training: 'Unlimited', openGym: 'Included', progress: 'Included', priority: 'Included', privateTraining: '1/month', drDish: '2/month', campPricing: 'Preferred', athletes: '1', additional: '—' }
     },
     {
@@ -327,9 +306,9 @@
       benefits: [
         'Unlimited eligible group training for 2 athletes',
         'Scheduled Open Gym included for both athletes',
+        'Quarterly progress updates for both athletes',
         'Priority registration on select programming',
         'Preferred member pricing on select camps + clinics',
-        'Quarterly progress updates for both athletes',
         'Member pricing on private training',
         'Member pricing on Dr. Dish*',
         'Courts member events'
@@ -337,7 +316,7 @@
       note: 'Additional athletes: +$75/month each',
       bestFor: 'Families with two or more athletes who want The Courts to be part of their regular routine.',
       cta: 'Join as a Family →', popular: false, simple: 'Unlimited for 2 athletes',
-      decision: { q: 'Have Two Athletes?', a: 'Go Family Unlimited.' },
+      decision: { q: 'Two athletes', a: 'Family Unlimited' },
       compare: { training: 'Unlimited x2', openGym: 'Included x2', progress: 'Included x2', priority: 'Included', privateTraining: 'Member rate', drDish: 'Member rate', campPricing: 'Preferred', athletes: '2', additional: '+$75/mo' }
     }
   ];
@@ -347,7 +326,8 @@
     { name: 'Open Gym', price: '$15', unit: '/session non-members · $10 Weekly members', body: 'Included with Unlimited, Full Court + Family Unlimited. Coach-supervised, advance registration required.', cta: 'See Open Gym →', href: 'events.html#rhythm' },
     { name: 'Private Training', price: 'From $75', unit: '/session', body: 'One-on-one work with a Courts basketball or volleyball coach.', cta: 'Explore Private Training →', href: 'private-coaching.html' },
     { name: 'Dr. Dish*', price: '$20', unit: 'members · $25 non-members', body: 'Get your shots up with dedicated shooting-machine time.', cta: 'Book Dr. Dish →', href: 'schedule.html' },
-    { name: 'Court Rentals', price: '$75', unit: '/hr half court · $150+/hr full court', body: 'Your team. Your group. Your court.', cta: 'Find Court Time →', href: 'court-rentals.html' },
+    { name: 'Half Court', price: '$75', unit: '/hour', body: 'Your team. Your group. Your court.', cta: 'Find Court Time →', href: 'court-rentals.html' },
+    { name: 'Full Court', price: '$150+', unit: '/hour', body: 'Your team. Your group. Your court.', cta: 'Find Court Time →', href: 'court-rentals.html' },
     { name: 'Camps + Clinics', price: 'Varies', unit: '', body: 'Basketball and volleyball programming throughout the year. Members receive preferred pricing on select programming.', cta: 'Explore Camps + Clinics →', href: 'camps.html' },
     { name: 'Basketball Leagues', price: 'Varies', unit: '', body: 'More games. More competition. More chances to play.', cta: 'View Basketball Leagues →', href: 'leagues.html' },
     { name: 'Birthday Parties', price: '$400', unit: '/90 min', body: 'Private full-gym party in select weekend time blocks.', cta: 'Plan a Party →', href: 'contact.html?interest=Birthday%20Party%20%2F%20Event#contact-form' }
@@ -373,45 +353,12 @@
     }).join('');
   }
 
-  var simpleGrid = document.getElementById('simpleCompareGrid');
-  if (simpleGrid) {
-    simpleGrid.innerHTML = PLANS.map(function (p) {
-      return '<div class="simple-compare-item"><p class="sc-name">' + p.name + '</p><p class="sc-price">$' + p.price + '/mo</p><p class="sc-desc">' + p.simple + '</p></div>';
-    }).join('');
-  }
-
-  var decisionGrid = document.getElementById('decisionGrid');
-  if (decisionGrid) {
-    decisionGrid.innerHTML = PLANS.map(function (p) {
-      return '<div class="decision-item"><p class="dc-q">' + p.decision.q + '</p><p class="dc-a">' + p.decision.a + '</p></div>';
-    }).join('');
-  }
-
-  var compareRows = [
-    { label: 'Group Training', key: 'training' },
-    { label: 'Open Gym', key: 'openGym' },
-    { label: 'Quarterly Progress', key: 'progress' },
-    { label: 'Priority Registration', key: 'priority' },
-    { label: 'Private Training', key: 'privateTraining' },
-    { label: 'Dr. Dish*', key: 'drDish' },
-    { label: 'Camp + Clinic Pricing', key: 'campPricing' },
-    { label: 'Athletes Included', key: 'athletes' },
-    { label: 'Additional Athletes', key: 'additional' }
-  ];
-  var tableBody = document.getElementById('compareTableBody');
-  if (tableBody) {
-    tableBody.innerHTML = compareRows.map(function (row) {
-      return '<tr><td>' + row.label + '</td>' + PLANS.map(function (p) { return '<td>' + p.compare[row.key] + '</td>'; }).join('') + '</tr>';
-    }).join('');
-  }
-
-  var compareMobile = document.getElementById('compareMobile');
-  if (compareMobile) {
-    compareMobile.innerHTML = PLANS.map(function (p) {
-      return '<div class="compare-mobile-plan"><h4>' + p.name + '</h4>' +
-        compareRows.map(function (row) { return '<div class="compare-mobile-row"><span>' + row.label + '</span><span>' + p.compare[row.key] + '</span></div>'; }).join('') +
-        '</div>';
-    }).join('');
+  var decisionHelper = document.getElementById('decisionHelper');
+  if (decisionHelper) {
+    decisionHelper.innerHTML = '<span class="dh-label">Not Sure?</span><div class="dh-list">' +
+      PLANS.map(function (p) {
+        return '<div class="dh-row"><span class="dh-q">' + p.decision.q + '</span><span class="dh-arrow">→</span><span class="dh-a">' + p.decision.a + '</span></div>';
+      }).join('') + '</div>';
   }
 
   var alacarteGrid = document.getElementById('alacarteGrid');
