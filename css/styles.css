@@ -616,6 +616,18 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .policy-row.secondary .policy-row-text h4 { font-size: 14.5px; color: var(--gray-dark); }
 @media (max-width: 560px) { .policy-row { align-items: flex-start; } }
 
+/* ---------- Leagues: season info + evaluation callout ---------- */
+.season-info { display: flex; gap: 40px; flex-wrap: wrap; margin: 28px 0 36px; padding-top: 24px; border-top: 1px solid var(--gray-mid); }
+.season-info div { display: flex; flex-direction: column; gap: 4px; }
+.season-info span { font-family: var(--font-sport); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-dark); }
+.season-info strong { font-family: var(--font-heading); font-weight: 700; font-size: 16px; color: var(--black); }
+.eval-callout { background: var(--orange-soft); border-left: 3px solid var(--orange); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 32px 36px; margin-top: 20px; }
+.eval-callout .eyebrow { margin-bottom: 10px; }
+.eval-callout p { font-size: 15.5px; line-height: 1.7; color: var(--gray-dark); margin-bottom: 14px; max-width: 62ch; }
+.eval-callout p:last-child { margin-bottom: 0; }
+.eval-callout .fee { font-family: var(--font-heading); font-weight: 800; font-size: 18px; color: var(--black); margin-bottom: 8px; }
+@media (max-width: 640px) { .season-info { gap: 24px; flex-direction: column; } .eval-callout { padding: 26px 22px; } }
+
 /* ---------- Homepage: Programs ---------- */
 .card-grid.two { grid-template-columns: repeat(2, 1fr); }
 .card-grid.two .program-card { aspect-ratio: 4/5; }
