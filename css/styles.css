@@ -615,3 +615,59 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .policy-row:hover .policy-row-arrow { transform: translateX(4px); }
 .policy-row.secondary .policy-row-text h4 { font-size: 14.5px; color: var(--gray-dark); }
 @media (max-width: 560px) { .policy-row { align-items: flex-start; } }
+
+/* ---------- Homepage: Programs ---------- */
+.card-grid.two { grid-template-columns: repeat(2, 1fr); }
+.card-grid.two .program-card { aspect-ratio: 4/5; }
+.pt-banner { display: flex; align-items: center; gap: 28px; background: var(--gray-light); border-radius: var(--radius-md); padding: 22px; margin-top: 24px; }
+.pt-banner .photo { width: 120px; height: 90px; border-radius: var(--radius-sm); flex-shrink: 0; }
+.pt-banner-body span { font-family: var(--font-sport); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--orange); }
+.pt-banner-body h4 { font-family: var(--font-heading); font-size: 17px; margin: 4px 0 4px; }
+.pt-banner-body p { font-size: 13.5px; color: var(--gray-dark); margin-bottom: 6px; }
+.pt-banner-body a { font-size: 13.5px; font-weight: 700; color: var(--black); }
+@media (max-width: 640px) { .pt-banner { flex-direction: column; align-items: flex-start; } .pt-banner .photo { width: 100%; height: 140px; } }
+
+/* ---------- Homepage: Why The Courts ---------- */
+.principles-split { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: center; }
+.principles-art { aspect-ratio: 4/5; border-radius: var(--radius-md); overflow: hidden; }
+.principles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 32px; }
+.principle-item { padding: 22px 0; border-top: 1px solid var(--gray-mid); }
+.principle-item h3 { font-family: var(--font-display); font-size: clamp(24px, 2.6vw, 32px); line-height: 1.05; margin: 0 0 8px; }
+.principle-item p { font-size: 14px; color: var(--gray-dark); line-height: 1.5; max-width: 30ch; }
+@media (max-width: 900px) { .principles-split { grid-template-columns: 1fr; gap: 32px; } .principles-art { order: -1; } }
+@media (max-width: 560px) { .principles-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Homepage: Membership strip ---------- */
+.mini-plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.mini-plan { position: relative; background: var(--white); border: 1px solid var(--gray-mid); border-radius: var(--radius-md); padding: 26px 22px; }
+.mini-plan.featured { border-color: var(--orange); box-shadow: 0 12px 32px rgba(255,90,0,0.12); }
+.mini-plan-badge { position: absolute; top: -12px; left: 22px; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 4px 12px; border-radius: 999px; }
+.mini-plan h3 { font-family: var(--font-heading); font-size: 17px; margin: 0 0 4px; }
+.mini-plan .price { font-family: var(--font-display); font-size: 30px; margin-bottom: 4px; }
+.mini-plan .price span { font-family: var(--font-body); font-weight: 500; font-size: 13px; color: var(--gray-dark); }
+.mini-plan .differentiator { font-size: 13px; color: var(--gray-dark); margin-bottom: 16px; }
+.mini-plan a { font-size: 13.5px; font-weight: 700; color: var(--black); }
+@media (max-width: 900px) { .mini-plans { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .mini-plans { grid-template-columns: 1fr; } }
+
+/* ---------- Homepage: What's Happening ---------- */
+.upcoming-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.upcoming-item { position: relative; border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 3/4; display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; }
+.upcoming-item .photo { position: absolute; inset: 0; }
+.upcoming-item .photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(23,23,23,0.05) 30%, rgba(23,23,23,0.88) 100%); }
+.upcoming-item-body { position: relative; z-index: 2; }
+.upcoming-item-body .up-type { display: block; font-family: var(--font-sport); font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--orange); margin-bottom: 8px; }
+.upcoming-item-body .up-date { display: block; font-family: var(--font-display); color: var(--white); font-size: clamp(20px, 2.6vw, 26px); line-height: 1; margin-bottom: 6px; }
+.upcoming-item-body h4 { font-family: var(--font-heading); color: var(--white); font-size: 19px; margin: 0 0 6px; }
+.upcoming-item-body p { color: rgba(255,255,255,0.75); font-size: 13.5px; margin-bottom: 12px; }
+.upcoming-item-body a { color: var(--white); font-weight: 700; font-size: 13.5px; }
+@media (max-width: 900px) { .upcoming-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .upcoming-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Homepage: optional gift card module ---------- */
+.gift-module { padding: 100px 0; background: var(--black); }
+.gift-module-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+.gift-module-art { aspect-ratio: 4/5; border-radius: var(--radius-md); overflow: hidden; }
+.gift-module-text .subhead { font-family: var(--font-heading); font-weight: 800; color: var(--orange); font-size: clamp(24px, 3vw, 32px); margin: 0 0 14px; }
+.gift-module-text p { color: rgba(255,255,255,0.75); font-size: 16px; line-height: 1.7; margin-bottom: 24px; }
+@media (max-width: 900px) { .gift-module-inner { grid-template-columns: 1fr; gap: 36px; } .gift-module-art { order: -1; } }
