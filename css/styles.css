@@ -364,15 +364,18 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .day-group { }
 .day-heading { font-family: var(--font-heading); font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 0.05em; padding: 32px 0 6px; }
 .day-group:first-child .day-heading { padding-top: 0; }
-.schedule-row { display: grid; grid-template-columns: 110px 1fr 120px 130px; align-items: center; gap: 18px; padding: 20px 0; border-top: 1px solid var(--gray-mid); }
+.schedule-row { display: grid; grid-template-columns: 110px 1fr 120px 130px; align-items: center; gap: 18px; padding: 20px 0 20px 16px; border-top: 1px solid var(--gray-mid); border-left: 3px solid var(--gray-mid); }
 .day-group .schedule-row:first-of-type { border-top: none; }
+.schedule-row[data-sport="basketball"] { border-left-color: var(--orange); }
+.schedule-row[data-sport="volleyball"] { border-left-color: var(--black); }
 .sr-time { font-family: var(--font-heading); font-weight: 800; font-size: 16px; }
-.sr-sport { display: block; font-family: var(--font-sport); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--orange-ink); margin-bottom: 2px; }
+.sr-sport { display: block; font-family: var(--font-sport); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--orange); margin-bottom: 2px; }
+.schedule-row[data-sport="volleyball"] .sr-sport { color: var(--black); }
 .sr-program { font-family: var(--font-heading); font-weight: 700; font-size: 16px; }
 .sr-age { font-size: 14px; color: var(--gray-dark); }
 .sr-cta { font-weight: 700; font-size: 14px; color: var(--orange); white-space: nowrap; text-align: right; }
 @media (max-width: 720px) {
-  .schedule-row { grid-template-columns: 1fr; gap: 4px; padding: 18px 0; }
+  .schedule-row { grid-template-columns: 1fr; gap: 4px; padding: 18px 0 18px 14px; }
   .sr-cta { text-align: left; margin-top: 8px; display: inline-block; }
 }
 
