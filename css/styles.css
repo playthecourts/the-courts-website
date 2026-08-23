@@ -307,6 +307,62 @@ body.has-announce .nav { top: 52px; }
 .membership-endcap-names { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-bottom: 36px; font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
 @media (max-width: 560px) { .membership-endcap-names { gap: 16px; font-size: 11.5px; } }
 
+/* ---------- Homepage: Pick Your Game (50/50 split) ---------- */
+.pick-split { display: grid; grid-template-columns: 1fr 1fr; min-height: 560px; position: relative; }
+.pick-split-seam { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,0.14); z-index: 3; }
+.pick-panel { position: relative; overflow: hidden; display: flex; align-items: flex-end; padding: 56px; transition: flex-grow 0.4s var(--ease); }
+.pick-panel .photo { position: absolute; inset: 0; transition: transform 0.5s var(--ease); }
+.pick-panel .photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(23,23,23,0.1) 30%, rgba(23,23,23,0.86) 100%); }
+.pick-panel:hover .photo { transform: scale(1.04); }
+.pick-panel-body { position: relative; z-index: 2; max-width: 420px; }
+.pick-panel-body .eyebrow { color: var(--orange); }
+.pick-panel-body h3 { font-family: var(--font-display); font-weight: 900; color: var(--white); font-size: clamp(28px, 3.4vw, 42px); line-height: 1.04; margin: 12px 0 16px; }
+.pick-panel-body p { color: rgba(255,255,255,0.78); font-size: 15.5px; line-height: 1.65; margin: 0 0 22px; }
+.pick-panel-body a { color: var(--white); font-weight: 700; font-size: 15px; }
+@media (max-width: 860px) {
+  .pick-split { grid-template-columns: 1fr; min-height: 0; }
+  .pick-split-seam { display: none; }
+  .pick-panel { min-height: 420px; padding: 40px 28px; }
+}
+
+/* ---------- Homepage: Why The Courts teaser ---------- */
+.why-teaser { padding: 96px 0; background: var(--gray-light); }
+.why-teaser-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+.why-teaser-copy .eyebrow { color: var(--orange); }
+.why-teaser-copy h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.06; margin: 12px 0 20px; color: var(--black); }
+.why-teaser-copy p { font-size: 16px; line-height: 1.75; color: var(--gray-dark); margin: 0 0 24px; max-width: 42ch; }
+.why-teaser-copy a { font-weight: 700; color: var(--black); }
+.why-teaser-grid-principles { display: grid; grid-template-columns: 1fr 1fr; }
+.why-teaser-item { padding: 20px 24px; border-top: 1px solid var(--gray-mid); }
+.why-teaser-item:nth-child(1), .why-teaser-item:nth-child(2) { border-top: none; }
+.why-teaser-item:nth-child(odd) { border-right: 1px solid var(--gray-mid); padding-left: 0; }
+.why-teaser-item:nth-child(even) { padding-right: 0; }
+.why-teaser-item h4 { font-family: var(--font-heading); font-weight: 800; font-size: 16.5px; margin: 0 0 6px; color: var(--black); }
+.why-teaser-item p { font-size: 13.5px; line-height: 1.55; color: var(--gray-dark); margin: 0; }
+@media (max-width: 900px) { .why-teaser-grid { grid-template-columns: 1fr; gap: 32px; } }
+@media (max-width: 560px) {
+  .why-teaser-grid-principles { grid-template-columns: 1fr; }
+  .why-teaser-item { padding: 18px 0 !important; border-right: none !important; }
+  .why-teaser-item:nth-child(n+2) { border-top: 1px solid var(--gray-mid) !important; }
+}
+
+/* ---------- Homepage: Hello Nolensville ---------- */
+.home-nolensville { padding: 0; }
+.home-nolensville-grid { display: grid; grid-template-columns: 1fr 1fr; min-height: 480px; }
+.home-nolensville-photo { position: relative; overflow: hidden; background: var(--black); }
+.home-nolensville-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.home-nolensville-copy { padding: 72px 64px; display: flex; flex-direction: column; justify-content: center; background: var(--white); }
+.home-nolensville-copy .eyebrow { color: var(--orange); }
+.home-nolensville-copy h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3.6vw, 46px); line-height: 1.04; margin: 12px 0 18px; color: var(--black); }
+.home-nolensville-copy p { font-size: 16px; line-height: 1.75; color: var(--gray-dark); margin: 0 0 22px; max-width: 44ch; }
+.home-nolensville-address { font-size: 15px; line-height: 1.7; color: var(--black); margin: 0 0 26px; }
+.home-nolensville-address strong { font-weight: 700; }
+@media (max-width: 860px) {
+  .home-nolensville-grid { grid-template-columns: 1fr; min-height: 0; }
+  .home-nolensville-photo { aspect-ratio: 4/3; }
+  .home-nolensville-copy { padding: 48px 24px; }
+}
+
 /* ---------- Pre-footer CTA band (reusable across pages; content rotates) ---------- */
 .pre-footer { background: var(--black); padding: 80px 0; position: relative; }
 .pre-footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.08); }
