@@ -29,6 +29,10 @@
   .pt-hero-sub { font-size: 17.5px; line-height: 1.75; color: var(--gray-dark); max-width: 44ch; margin: 30px 0 14px; }
   .pt-hero-sub strong { color: var(--black); }
   .pt-hero-sub2 { font-size: 16px; line-height: 1.7; color: var(--gray-dark); max-width: 44ch; margin: 0 0 36px; }
+  .pt-hero-declare { font-family: var(--font-heading); font-weight: 800; font-size: clamp(19px, 2.1vw, 23px); color: var(--black); max-width: 40ch; margin: 30px 0 20px; }
+  .pt-hero-declare-list { font-weight: 600; color: var(--gray-dark); font-size: 16.5px; line-height: 2.05; margin: 0 0 22px; }
+  .pt-hero-declare-close { font-size: 17px; margin: 0 0 36px; }
+  .pt-hero-declare-close strong { color: var(--black); font-weight: 800; }
   .pt-hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
   .pt-hero-media { position: relative; overflow: hidden; }
   .pt-hero-media .pt-hero-photo { position: absolute; top: 8%; right: 0; left: 8%; bottom: 8%; border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 40px 70px rgba(0,0,0,0.28); }
@@ -86,9 +90,14 @@
   }
 
   /* ---------- Availability strip ---------- */
-  .pt-avail { background: var(--charcoal); padding: 34px 0; text-align: center; }
+  .pt-avail { background: var(--charcoal); padding: 34px 0 40px; text-align: center; }
   .pt-avail p { margin: 0; font-family: var(--font-sport); font-size: clamp(22px, 3vw, 32px); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.9); }
   .pt-avail span { color: var(--orange); }
+  .pt-avail-price { margin-top: 22px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.14); display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .pt-avail-price .pt-avail-price-label { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+  .pt-avail-price .pt-avail-price-amount { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 4vw, 40px); color: var(--orange); }
+  .pt-avail-price .pt-avail-price-unit { font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.55); }
+  .pt-avail-price .pt-avail-price-note { font-size: 13.5px; font-weight: 500; text-transform: none; letter-spacing: normal; color: rgba(255,255,255,0.45); margin-top: 2px; }
 
   /* ---------- Why Private Training ---------- */
   .pt-why { background: var(--gray-light); padding: 108px 0; }
@@ -102,8 +111,8 @@
   .pt-why-copy .eyebrow { font-size: 18px; letter-spacing: 0.1em; }
   .pt-why-copy h2 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(28px, 3.6vw, 42px); line-height: 1.12; margin: 14px 0 20px; }
   .pt-why-copy p { font-size: 17px; line-height: 1.75; color: var(--gray-dark); max-width: 46ch; margin: 0 0 18px; }
-  .pt-why-big { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3vw, 38px); line-height: 1.1; color: var(--black); margin: 8px 0 0; }
-  .pt-why-big .accent { color: var(--orange); }
+  .pt-why-copy .pt-why-big { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3vw, 38px); line-height: 1.1; color: var(--black); margin: 8px 0 0; max-width: none; }
+  .pt-why-copy .pt-why-big .accent { color: var(--orange); }
   @media (max-width: 900px) {
     .pt-why-grid { grid-template-columns: 1fr; gap: 32px; }
     .pt-why-label { display: none; }
@@ -115,8 +124,11 @@
   .pt-transition-mark { position: absolute; left: 50%; top: 0; width: 900px; max-width: 140vw; height: 100%; transform: translateX(-50%); pointer-events: none; opacity: 0.5; }
 
   /* ---------- Coaches ---------- */
-  .pt-coaches { background: var(--black); color: var(--white); padding: 48px 0 108px; }
-  .pt-coach-groups { margin-top: 56px; display: flex; flex-direction: column; gap: 72px; }
+  .pt-coaches { background: var(--black); color: var(--white); padding: 100px 0 116px; }
+  .pt-coaches-head { max-width: 720px; margin-bottom: 0; }
+  .pt-coaches-head .eyebrow { color: var(--orange); }
+  .pt-coaches-head h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(36px, 5vw, 58px); line-height: 1.02; margin-top: 14px; }
+  .pt-coach-groups { margin-top: 68px; display: flex; flex-direction: column; gap: 80px; }
   .pt-coach-group-label { font-family: var(--font-sport); font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); margin: 0 0 24px; display: block; }
   .pt-coach-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
   .pt-coach-card { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 22px; align-items: center; }
@@ -132,24 +144,6 @@
     .pt-coach-photo { aspect-ratio: 4/2.8; }
   }
 
-  /* ---------- Final CTA ---------- */
-  .pt-final { background: var(--charcoal); color: var(--white); padding: 110px 0; position: relative; overflow: hidden; }
-  .pt-final-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; align-items: center; gap: 48px; position: relative; z-index: 2; }
-  .pt-final-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(44px, 6.6vw, 88px); line-height: 0.96; margin: 0 0 22px; }
-  .pt-final-title .accent { color: var(--orange); }
-  .pt-final-eyebrow { font-size: 18px; letter-spacing: 0.1em; margin-bottom: 8px; display: block; }
-  .pt-final-body p { color: rgba(255,255,255,0.72); font-size: 16.5px; line-height: 1.75; max-width: 46ch; margin: 0 0 16px; }
-  .pt-final-price { margin: 26px 0 28px; }
-  .pt-final-price .label { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); display: block; margin-bottom: 4px; }
-  .pt-final-price .amount { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 3vw, 36px); color: var(--white); }
-  .pt-final-price .sub { font-size: 14px; color: rgba(255,255,255,0.55); margin-top: 8px; }
-  .pt-final-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
-  .pt-final-media { position: relative; aspect-ratio: 4/4.8; border-radius: var(--radius-md); overflow: hidden; }
-  .pt-final-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  @media (max-width: 900px) {
-    .pt-final-grid { grid-template-columns: 1fr; gap: 32px; }
-    .pt-final-media { order: -1; aspect-ratio: 4/2.6; }
-  }
 </style>
 </head>
 <body class="has-announce">
@@ -290,8 +284,9 @@
           <svg class="pt-thing-mark" viewBox="0 0 300 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2,6 Q150,-2 298,6"/></svg>
         </span>
       </h1>
-      <p class="pt-hero-sub">The shot that keeps drifting. The left hand you keep avoiding. The serve that has a mind of its own.<br><strong>Yeah. That thing.</strong></p>
-      <p class="pt-hero-sub2">Basketball or volleyball. One-on-one or small group. Coaching built around the athlete in front of us.</p>
+      <p class="pt-hero-sub pt-hero-declare">Private training is where we get specific.</p>
+      <p class="pt-hero-sub2 pt-hero-declare-list">What's working.<br>What isn't.<br>What keeps showing up in games.<br>What needs a little more attention.</p>
+      <p class="pt-hero-sub2 pt-hero-declare-close"><strong>Then we get to work.</strong></p>
       <div class="pt-hero-ctas">
         <a href="contact.html?interest=Private%20Training#contact-form" class="btn btn-primary" data-preset="Private Training">Ask About Private Training →</a>
       </div>
@@ -307,7 +302,7 @@
     <div class="pt-head pt-head--built reveal">
       <span class="eyebrow">Built Around You</span>
       <h2>No Generic Workout Here.</h2>
-      <p>Private training is where we get specific. What's working. What isn't. What keeps showing up in games. What needs a little more attention.<br>Then we get to work.</p>
+      <p>Basketball or volleyball. One-on-one or small group. Coaching built around the athlete in front of us.</p>
     </div>
   </div>
 </section>
@@ -321,6 +316,7 @@
         <p>Shooting. Ball handling. Footwork. Finishing. Decision-making.</p>
         <p>Maybe it's mechanics. Maybe it's confidence. Maybe it's that left hand again.</p>
         <p class="pt-sport-closing">We'll find it.</p>
+        <a href="contact.html?interest=Private%20Training#contact-form" class="link pt-sport-cta" data-preset="Private Training">Ask About Private Training →</a>
       </div>
       <div class="pt-sport-media reveal">
         <img src="images/private-training-dribble.jpg" alt="A basketball athlete working through a low, controlled dribble move in a private session.">
@@ -353,6 +349,7 @@
         <p>Serving. Passing. Setting. Hitting. Footwork. Position-specific work.</p>
         <p>Clean up the movement. Fix the timing. Get more comfortable when things speed up.</p>
         <p class="pt-sport-closing">And yes, we'll probably make you do it again.</p>
+        <a href="contact.html?interest=Private%20Training#contact-form" class="link pt-sport-cta" data-preset="Private Training">Ask About Private Training →</a>
       </div>
     </div>
   </div>
@@ -360,6 +357,11 @@
 
 <section class="pt-avail">
   <p reveal="true">Individual <span>+</span> Small-Group Training Available</p>
+  <div class="pt-avail-price">
+    <span class="pt-avail-price-label">Private Training Starts At</span>
+    <span class="pt-avail-price-amount">$75 <span class="pt-avail-price-unit">/ session</span></span>
+    <span class="pt-avail-price-note">Members receive preferred pricing.</span>
+  </div>
 </section>
 
 <section class="pt-why">
@@ -372,10 +374,10 @@
         <span class="pt-why-label pt-why-label--3">Timing</span>
       </div>
       <div class="pt-why-copy reveal">
-        <span class="eyebrow">Why Private Training?</span>
-        <h2>Because Sometimes You Need Someone Watching You.</h2>
+        <span class="eyebrow">What We Catch</span>
+        <h2>This Is Where the Little Stuff Gets Fixed.</h2>
         <p>Group training gives athletes great reps. Private training gives a coach the chance to catch the little stuff.</p>
-        <p>The foot that lands wrong. The elbow that drifts. The platform angle. The extra step. The decision that comes half a second too late.</p>
+        <p>The foot that lands wrong.<br>The elbow that drifts.<br>The platform angle.<br>The extra step.<br>The decision that comes half a second too late.</p>
         <p class="pt-why-big">Little things.<br><span class="accent">Big difference.</span></p>
       </div>
     </div>
@@ -393,10 +395,9 @@
 
 <section class="pt-coaches" id="coaches">
   <div class="container">
-    <div class="pt-head reveal" style="color:var(--white);">
-      <span class="eyebrow">Meet Your Coaches</span>
-      <h2 style="color:var(--white);">Someone's Actually Watching.</h2>
-      <p style="color:rgba(255,255,255,0.68);">In the helpful way. Private training means a coach can see the detail, make the adjustment, watch the next rep, and adjust again.<br>Not just: "Do it again." More like: "Do it again. But this time, here's why."</p>
+    <div class="pt-head pt-coaches-head reveal" style="color:var(--white);">
+      <span class="eyebrow">Our Coaches</span>
+      <h2 style="color:var(--white);">Meet Your Coaches.</h2>
     </div>
 
     <div class="pt-coach-groups">
@@ -409,7 +410,7 @@
             </div>
             <div>
               <h3 class="pt-coach-name">Johnny Coles</h3>
-              <p class="pt-coach-title">Head, Basketball Development</p>
+              <p class="pt-coach-title">Head of Basketball Development</p>
               <p class="pt-coach-bio">Nolensville native. Ravenwood graduate. Emory athlete. Six-year professional player. Johnny brings high-level experience, a sharp eye for the details, and a knack for knowing when to teach, when to push, and when to let an athlete figure it out.</p>
               <p class="pt-coach-closing">He'll notice.</p>
             </div>
@@ -437,7 +438,7 @@
             </div>
             <div>
               <h3 class="pt-coach-name">Justin Frank</h3>
-              <p class="pt-coach-title">Head, Volleyball Development</p>
+              <p class="pt-coach-title">Head of Volleyball Development</p>
               <p class="pt-coach-bio">Bio coming soon.</p>
             </div>
           </div>
@@ -519,30 +520,6 @@
           <img src="images/volleyball-huddle.jpg" alt="A volleyball coach speaking with a group of athletes at the net." style="object-position:50% 20%;">
           <span class="cc-collective-tag">Volleyball</span>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="pt-final">
-  <div class="container">
-    <div class="pt-final-grid">
-      <div class="pt-final-body reveal">
-        <span class="eyebrow pt-final-eyebrow">Ready to Get Specific?</span>
-        <h2 class="pt-final-title">Tell Us<br>What Needs<br><span class="accent">Work.</span></h2>
-        <p>Maybe you know exactly what it is. Maybe you just know something isn't clicking yet. The shot. The serve. The footwork. The confidence. The thing that looks great in practice and suddenly disappears in a game.</p>
-        <p>Tell us about your athlete, their sport, age, and what they want to work on. We'll take it from there.</p>
-        <div class="pt-final-price">
-          <span class="label">Private Training Starts At</span>
-          <span class="amount">$75 <span style="font-size:16px; font-weight:600; color:rgba(255,255,255,0.6);">/ session</span></span>
-          <p class="sub">Members receive preferred pricing. Individual + small-group options available.</p>
-        </div>
-        <div class="pt-final-ctas">
-          <a href="contact.html?interest=Private%20Training#contact-form" class="btn btn-primary" data-preset="Private Training">Ask About Private Training →</a>
-        </div>
-      </div>
-      <div class="pt-final-media reveal">
-        <img src="images/gear-bottle-shoes.jpg" alt="Training shoes and a water bottle waiting courtside between reps." style="object-position:30% 60%;">
       </div>
     </div>
   </div>
