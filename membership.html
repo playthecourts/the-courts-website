@@ -56,8 +56,9 @@
   .plan-summary-card:hover { transform: translateY(-4px); border-color: var(--orange); box-shadow: 0 12px 28px rgba(23,23,23,0.08); }
   .plan-summary-card--featured { background: var(--black); color: var(--white); border-color: var(--black); }
   .plan-summary-card--featured:hover { border-color: var(--orange); }
-  .psc-badge { position: absolute; top: -12px; left: 24px; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; margin: 0; }
-  .psc-num { font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: var(--orange); margin: 0 0 10px; }
+  .psc-badge { position: absolute; top: -12px; left: 24px; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 13px; border-radius: 999px; margin: 0; }
+  .psc-num { font-family: var(--font-display); font-size: 20px; font-weight: 900; letter-spacing: 0.02em; color: var(--orange); margin: 0 0 10px; }
+  .plan-summary-card--featured .psc-num { color: var(--orange); }
   .psc-name { font-family: var(--font-display); font-size: 22px; margin: 0 0 6px; }
   .psc-price { font-family: var(--font-display); font-size: 26px; color: var(--orange); margin: 0 0 10px; }
   .psc-price span { font-family: var(--font-body); font-weight: 500; font-size: 13px; color: var(--gray-dark); }
@@ -91,7 +92,7 @@
   .plan-panel-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 64px; align-items: start; }
   .plan-panel-num { font-family: var(--font-display); font-size: clamp(90px, 11vw, 160px); line-height: 0.8; color: rgba(23,23,23,0.06); margin: 0 0 -10px; }
   .plan-panel--unlimited .plan-panel-num { color: rgba(255,255,255,0.08); }
-  .plan-panel-label { font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 14px; display: flex; align-items: center; gap: 10px; }
+  .plan-panel-label { font-family: var(--font-sport); font-size: 14.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 14px; display: flex; align-items: center; gap: 10px; }
   .plan-panel-badge { background: var(--orange); color: var(--white); font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; }
   .plan-panel-name { font-family: var(--font-display); font-size: clamp(30px, 3.6vw, 46px); margin: 0 0 10px; }
   .plan-panel-headline { font-size: 18px; color: var(--gray-dark); margin: 0 0 22px; max-width: 34ch; }
@@ -112,25 +113,32 @@
     .plan-panel-grid { grid-template-columns: 1fr; gap: 30px; }
   }
 
+  /* ---------- Pink staging CTA (nonfunctional placeholders) ---------- */
+  .staging-cta { display: inline-block; padding: 13px 26px; border-radius: var(--radius-sm); background: #FF3EA5; color: var(--white); font-family: var(--font-heading); font-weight: 700; font-size: 15px; cursor: default; }
+  .staging-cta:hover { background: #E82E93; }
+  .staging-note { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-sport); font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #C33590; margin-top: 10px; }
+  .staging-note::before { content: '●'; font-size: 7px; }
+
   /* ---------- Flexibility reassurance ---------- */
   .mem-flex { padding: 64px 0; background: var(--white); text-align: center; border-top: 1px solid var(--gray-mid); border-bottom: 1px solid var(--gray-mid); }
   .mem-flex-line { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2.6vw, 32px); color: var(--black); margin: 0 0 10px; }
-  .mem-flex-note { font-size: 13.5px; color: var(--gray-dark); margin: 0; }
+  .mem-flex-note { font-size: 15px; color: var(--gray-dark); line-height: 1.7; max-width: 52ch; margin: 0 auto; }
 
   /* ---------- Compare plans (permanent section) ---------- */
   .mem-compare { background: var(--gray-light); padding: 90px 0; }
   .compare-table-wrap { overflow-x: auto; margin-top: 12px; }
   table.compare-table { width: 100%; border-collapse: collapse; min-width: 720px; background: var(--white); border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 1px 0 var(--gray-mid); }
-  table.compare-table th, table.compare-table td { padding: 20px 20px; text-align: left; font-size: 15px; border-bottom: 1px solid var(--gray-mid); }
-  table.compare-table th { font-family: var(--font-sport); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 13px; color: var(--gray-dark); padding-top: 16px; padding-bottom: 16px; }
+  table.compare-table th, table.compare-table td { padding: 22px 20px; text-align: left; font-size: 15.5px; border-bottom: 1px solid var(--gray-mid); }
+  table.compare-table th { font-family: var(--font-sport); font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; font-size: 15px; color: var(--black); padding-top: 20px; padding-bottom: 20px; }
   table.compare-table th:first-child, table.compare-table td:first-child { font-weight: 700; color: var(--black); }
   table.compare-table td:not(:first-child), table.compare-table th:not(:first-child) { text-align: center; }
   table.compare-table tr:last-child td { border-bottom: none; }
   table.compare-table tbody tr:nth-child(even) { background: var(--gray-light); }
-  table.compare-table th:nth-child(3), table.compare-table td:nth-child(3) { background: rgba(213,96,31,0.06); }
-  table.compare-table th:nth-child(3) { color: var(--orange); }
+  table.compare-table th:nth-child(3), table.compare-table td:nth-child(3) { background: rgba(213,96,31,0.07); border-top: 3px solid var(--orange); }
+  table.compare-table th:nth-child(3) { color: var(--orange); padding-top: 12px; }
   table.compare-table td:nth-child(3) { font-weight: 700; color: var(--black); }
-  @media (max-width: 640px) { table.compare-table th, table.compare-table td { padding: 14px 12px; font-size: 13.5px; } }
+  .compare-popular-pill { display: block; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 10px; border-radius: 999px; margin: 0 auto 6px; width: fit-content; }
+  @media (max-width: 640px) { table.compare-table th, table.compare-table td { padding: 14px 12px; font-size: 13.5px; } table.compare-table th { font-size: 12.5px; } }
 
   /* ---------- Drop-in / rate board ---------- */
   .mem-dropin { background: var(--black); padding: 90px 0; }
@@ -138,16 +146,19 @@
   .mem-dropin .mem-section-head p { color: rgba(255,255,255,0.7); }
   .mem-dropin-kicker { text-align: center; font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin: 0 0 40px; }
   .dropin-list { border-top: 1px solid rgba(255,255,255,0.14); max-width: 980px; margin: 0 auto; }
-  .dropin-row { display: grid; grid-template-columns: 1.1fr 1fr 1.6fr 1fr; align-items: center; gap: 24px; padding: 30px 0; border-bottom: 1px solid rgba(255,255,255,0.14); }
+  .dropin-row { display: grid; grid-template-columns: 1fr 1.5fr 1fr; align-items: center; gap: 24px; padding: 32px 0; border-bottom: 1px solid rgba(255,255,255,0.14); }
   .dropin-name { font-family: var(--font-display); font-size: clamp(20px, 2.2vw, 27px); color: var(--white); margin: 0; }
-  .dropin-price { font-family: var(--font-display); font-size: clamp(22px, 2.4vw, 30px); color: var(--orange); }
-  .dropin-price-note { display: block; font-family: var(--font-body); font-weight: 500; font-size: 12.5px; color: rgba(255,255,255,0.5); margin-top: 3px; }
-  .dropin-info { font-size: 14.5px; color: rgba(255,255,255,0.72); line-height: 1.5; }
+  .dropin-rates { display: flex; flex-direction: column; gap: 6px; }
+  .dropin-rate { display: flex; align-items: baseline; gap: 8px; }
+  .dropin-rate-label { font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.5); min-width: 108px; }
+  .dropin-rate-value { font-family: var(--font-display); font-weight: 900; font-size: 20px; color: var(--white); }
+  .dropin-rate--member .dropin-rate-value { color: var(--orange); }
+  .dropin-info { font-size: 13.5px; color: rgba(255,255,255,0.55); line-height: 1.5; margin-top: 4px; }
   .dropin-cta { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--white); text-align: right; white-space: nowrap; }
   .dropin-cta .arrow { color: var(--orange); display: inline-block; transition: transform 0.2s var(--ease); }
   .dropin-row:hover .dropin-cta .arrow { transform: translateX(4px); }
   @media (max-width: 760px) {
-    .dropin-row { grid-template-columns: 1fr; gap: 6px; padding: 26px 0; }
+    .dropin-row { grid-template-columns: 1fr; gap: 10px; padding: 26px 0; }
     .dropin-cta { text-align: left; margin-top: 6px; }
   }
 
@@ -161,7 +172,7 @@
   .mem-final .ctas { position: relative; z-index: 1; justify-content: center; }
 
   /* ---------- Membership FAQ exit row ---------- */
-  .mem-faq-more { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--gray-mid); }
+  .mem-faq-more { margin-top: 32px; }
   .mem-faq-more a { font-weight: 700; color: var(--black); font-size: 14.5px; }
   .mem-faq-more a .arrow { color: var(--orange); }
 </style>
@@ -195,7 +206,7 @@
         <div class="nav-dropdown">
           <a href="membership.html#plan-selector">Membership Plans</a>
           <a href="membership.html#compare-plans">Compare Plans</a>
-          <a href="membership.html#drop-in">Drop-In Pricing</a>
+          <a href="membership.html#non-member-pricing">Non-Member Pricing</a>
           <a href="membership.html#membership-faqs">FAQs</a>
         </div>
       </div>
@@ -255,7 +266,7 @@
     <div class="mobile-nav-sub">
       <a href="membership.html#plan-selector">Membership Plans</a>
       <a href="membership.html#compare-plans">Compare Plans</a>
-      <a href="membership.html#drop-in">Drop-In Pricing</a>
+      <a href="membership.html#non-member-pricing">Non-Member Pricing</a>
       <a href="membership.html#membership-faqs">FAQs</a>
     </div>
   </div>
@@ -300,8 +311,7 @@
         <span class="big">More Court.</span>
         <span class="rest">More Reps. More Ways to Play.</span>
       </h1>
-      <p class="mem-hero-sub">Once a week. As much as you can. With a little one-on-one. Or with the whole family.<br><br>Pick the membership that fits how your athlete plays.</p>
-      <div class="hero-ctas"><a href="#plan-selector" class="btn btn-primary">Find Your Membership ↓</a></div>
+      <div class="hero-ctas" style="margin-top:8px;"><a href="#plan-selector" class="btn btn-primary">Find Your Membership ↓</a></div>
     </div>
     <div class="mem-hero-media">
       <img src="images/volleyball-texture.jpg" alt="">
@@ -318,8 +328,8 @@
   <div class="container">
     <div class="mem-section-head">
       <span class="eyebrow">Pick Your Plan</span>
-      <h2>Four Ways to Join.</h2>
-      <p>Compare plans at a glance, then see the full details below.</p>
+      <h2>Four Ways to Play More.</h2>
+      <p>One day a week. Unlimited reps. More individual attention. Or bring the whole crew.</p>
     </div>
 
     <div class="plan-summary-grid">
@@ -330,7 +340,7 @@
         <p class="psc-line">One day a week. Make it count.</p>
         <ul class="psc-highlights">
           <li>1 group training session / week</li>
-          <li>Member pricing sitewide</li>
+          <li>Member rates on everything else</li>
         </ul>
         <span class="psc-more">See Full Details ↓</span>
       </a>
@@ -341,8 +351,8 @@
         <p class="psc-price">$199<span>/mo</span></p>
         <p class="psc-line">Come more. Train more. Play more.</p>
         <ul class="psc-highlights">
-          <li>Unlimited group training</li>
-          <li>Open Gym included</li>
+          <li>Unlimited eligible group training</li>
+          <li>Scheduled Open Gym included</li>
         </ul>
         <span class="psc-more">See Full Details ↓</span>
       </a>
@@ -353,7 +363,7 @@
         <p class="psc-line">The full development experience.</p>
         <ul class="psc-highlights">
           <li>Everything in Unlimited</li>
-          <li>+ private training &amp; Dr. Dish</li>
+          <li>+ Private Training + Dr. Dish</li>
         </ul>
         <span class="psc-more">See Full Details ↓</span>
       </a>
@@ -385,14 +395,15 @@
         <p class="plan-panel-price">$119<span>/mo</span></p>
         <ul class="plan-benefits">
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>1 eligible basketball or volleyball group training session per week</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Member pricing on private training</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Member pricing on Dr. Dish (basketball only)</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Member pricing on select camps</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Open Gym for $10/session</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Open Gym: $10 / session</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Dr. Dish: $20 / 30 minutes (basketball only)</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Private Training: preferred member pricing</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Select camps: member pricing</li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Courts member events</li>
         </ul>
         <p class="plan-panel-bestfor"><strong>Best for:</strong> Athletes who want one consistent training day each week.</p>
-        <a href="contact.html?interest=Membership#contact-form" class="btn btn-secondary" data-preset="Membership">Go Weekly →</a>
+        <!-- [PLACEHOLDER — MEMBERSHIP PURCHASE FLOW TBD] Pink = staging only, not part of the Courts brand system. Swap to standard .btn.btn-secondary and the real destination once checkout ships. -->
+        <a href="#" class="staging-cta" onclick="return false;">Go Weekly →</a><br><span class="staging-note">Purchase Flow TBD</span>
       </div>
     </div>
   </div>
@@ -414,13 +425,14 @@
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Scheduled Open Gym included</li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Quarterly progress updates</li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority registration on select programming</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Preferred member pricing on select camps</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Member pricing on private training</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Member pricing on Dr. Dish (basketball only)</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Preferred pricing on select camps</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Private Training at member rate</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Dr. Dish at member rate (basketball only)</li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Courts member events</li>
         </ul>
         <p class="plan-panel-bestfor"><strong>Best for:</strong> Athletes who want to train two or more times a week and spend more time at The Courts.</p>
-        <a href="contact.html?interest=Membership#contact-form" class="btn btn-primary" data-preset="Membership">Go Unlimited →</a>
+        <!-- [PLACEHOLDER — MEMBERSHIP PURCHASE FLOW TBD] Pink = staging only, not part of the Courts brand system. Swap to standard .btn.btn-primary and the real destination once checkout ships. -->
+        <a href="#" class="staging-cta" onclick="return false;">Go Unlimited →</a><br><span class="staging-note">Purchase Flow TBD</span>
       </div>
     </div>
   </div>
@@ -439,13 +451,15 @@
         <p class="plan-panel-price">$299<span>/mo</span></p>
         <p class="plan-panel-intro">Everything in Unlimited, plus:</p>
         <ul class="plan-benefits">
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>1 private training session per month</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>2 Dr. Dish sessions / week included (basketball only)</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>1 private training session / month</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>2 Dr. Dish sessions / month included (basketball only)</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Additional Dr. Dish sessions: $20 / 30 minutes member rate</li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Access to select specialty development opportunities</li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>More individualized development guidance</li>
         </ul>
-        <p class="plan-panel-bestfor"><strong>Best for:</strong> Athletes who want the reps of Unlimited plus regular one-on-one attention.</p>
-        <a href="contact.html?interest=Membership#contact-form" class="btn btn-secondary" data-preset="Membership">Go Full Court →</a>
+        <p class="plan-panel-bestfor"><strong>Best for:</strong> Athletes who want Unlimited reps plus regular one-on-one attention.</p>
+        <!-- [PLACEHOLDER — MEMBERSHIP PURCHASE FLOW TBD] Pink = staging only, not part of the Courts brand system. Swap to standard .btn.btn-secondary and the real destination once checkout ships. -->
+        <a href="#" class="staging-cta" onclick="return false;">Go Full Court →</a><br><span class="staging-note">Purchase Flow TBD</span>
       </div>
     </div>
   </div>
@@ -464,17 +478,18 @@
         <p class="plan-panel-price">$349<span>/mo</span></p>
         <ul class="plan-benefits">
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited eligible group training for 2 athletes</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Scheduled Open Gym included for both athletes</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Quarterly progress updates for both athletes</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Scheduled Open Gym included for both</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Quarterly progress updates for both</li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority registration on select programming</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Preferred member pricing on select camps</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Member pricing on private training</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Member pricing on Dr. Dish for basketball athletes</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Preferred pricing on select camps</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Private Training at member rate</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Dr. Dish at member rate for basketball athletes</li>
           <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Courts member events</li>
         </ul>
-        <p class="plan-panel-note">Additional athletes: +$75/month each</p>
+        <p class="plan-panel-note">Additional athletes: +$75 / month each</p>
         <p class="plan-panel-bestfor"><strong>Best for:</strong> Families with two or more athletes who want The Courts to be part of their regular routine.</p>
-        <a href="contact.html?interest=Membership#contact-form" class="btn btn-secondary" data-preset="Membership">Join as a Family →</a>
+        <!-- [PLACEHOLDER — MEMBERSHIP PURCHASE FLOW TBD] Pink = staging only, not part of the Courts brand system. Swap to standard .btn.btn-secondary and the real destination once checkout ships. -->
+        <a href="#" class="staging-cta" onclick="return false;">Join as a Family →</a><br><span class="staging-note">Purchase Flow TBD</span>
       </div>
     </div>
   </div>
@@ -482,20 +497,14 @@
 
 <section class="mem-flex" id="flexibility">
   <div class="container" style="max-width:640px;">
-    <p class="mem-flex-line">No Long-Term Relationship Required.*</p>
-    <p class="mem-flex-note">*Things change. Give us 30 days' notice through your account or the <a href="contact.html?interest=Current%20Member%20Support&amp;sub=Membership%20cancellation#contact-form" data-preset="Current Member Support" data-preset-sub="Membership cancellation" style="color:var(--orange-ink); font-weight:700;">Contact Form</a> and we'll take care of the rest. No awkward breakup conversation required.</p>
-    <!-- [PLACEHOLDER — FINAL MEMBER PORTAL / MANAGE MEMBERSHIP LINK TBD] Pink = staging only, not part of the Courts brand system. Swap to standard .btn.btn-primary and the real destination once the member portal ships. -->
-    <a href="member-portal.html" class="mem-flex-cta-placeholder">Manage Membership →</a>
+    <p class="mem-flex-line">No Long-Term Relationship Required.</p>
+    <p class="mem-flex-note">Things change. Give us 30 days' notice and we'll take care of the rest. No awkward breakup conversation required.</p>
+    <p class="mem-flex-note" style="margin-top:18px; font-weight:700; color:var(--black);">Ready to cancel? Log in to your account and go to Manage Membership.</p>
+    <p class="mem-flex-note" style="margin-top:6px;">Your membership stays active during the 30-day notice period, and regular billing continues through that period.</p>
+    <!-- [PLACEHOLDER — FINAL ACCOUNT CANCELLATION FLOW TBD] Pink = staging only, not part of the Courts brand system. Swap to standard .btn.btn-primary and the real destination once the member portal ships. -->
+    <div style="margin-top:20px;"><a href="#" class="staging-cta" onclick="return false;">Manage Membership →</a><br><span class="staging-note">Account Cancellation Flow TBD</span></div>
   </div>
 </section>
-
-<style>
-  .mem-flex-cta-placeholder {
-    display: inline-block; margin-top: 22px; padding: 13px 26px; border-radius: var(--radius-sm);
-    background: #FF3EA5; color: var(--white); font-family: var(--font-heading); font-weight: 700; font-size: 15px;
-  }
-  .mem-flex-cta-placeholder:hover { background: #E82E93; }
-</style>
 
 <section class="mem-compare" id="compare-plans">
   <div class="container">
@@ -507,54 +516,65 @@
     <div class="compare-table-wrap">
       <table class="compare-table">
         <thead>
-          <tr><th>Benefit</th><th>Weekly</th><th>Unlimited</th><th>Full Court</th><th>Family</th></tr>
+          <tr><th>Benefit</th><th>Weekly</th><th><span class="compare-popular-pill">Most Popular</span>Unlimited</th><th>Full Court</th><th>Family</th></tr>
         </thead>
         <tbody>
-          <tr><td>Group Training</td><td>1x/week</td><td>Unlimited</td><td>Unlimited</td><td>Unlimited for 2</td></tr>
-          <tr><td>Open Gym</td><td>$10/session</td><td>Included</td><td>Included</td><td>Included for 2</td></tr>
-          <tr><td>Private Training</td><td>Member rate</td><td>Member rate</td><td>1/month included</td><td>Member rate</td></tr>
-          <tr><td>Dr. Dish — Basketball Only</td><td>Member rate</td><td>Member rate</td><td>2/week included</td><td>Member rate</td></tr>
+          <tr><td>Group Training</td><td>1x / week</td><td>Unlimited</td><td>Unlimited</td><td>Unlimited for 2</td></tr>
+          <tr><td>Open Gym</td><td>$10 / session</td><td>Included</td><td>Included</td><td>Included for 2</td></tr>
+          <tr><td>Private Training</td><td>Member rate</td><td>Member rate</td><td>1 / month included</td><td>Member rate</td></tr>
+          <tr><td>Dr. Dish — Basketball Only</td><td>$20 / 30 min</td><td>$20 / 30 min</td><td>2 / month included, then $20 / session</td><td>$20 / 30 min for basketball athletes</td></tr>
           <tr><td>Progress Updates</td><td>—</td><td>Included</td><td>Included</td><td>Included for both</td></tr>
           <tr><td>Priority Registration</td><td>—</td><td>Included</td><td>Included</td><td>Included</td></tr>
-          <tr><td>Camps</td><td>Member rate</td><td>Preferred pricing</td><td>Preferred pricing</td><td>Preferred pricing</td></tr>
-          <tr><td>Number of Athletes</td><td>1</td><td>1</td><td>1</td><td>2 (+$75/mo each additional)</td></tr>
+          <tr><td>Camps</td><td>Member pricing</td><td>Preferred pricing</td><td>Preferred pricing</td><td>Preferred pricing</td></tr>
+          <tr><td>Athletes</td><td>1</td><td>1</td><td>1</td><td>2 (+$75 / mo each additional)</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 </section>
 
-<section class="mem-dropin" id="drop-in">
+<section class="mem-dropin" id="non-member-pricing">
   <div class="container">
     <div class="mem-section-head">
       <span class="eyebrow">No Membership? No Problem.</span>
       <h2>Come Play Anyway.</h2>
-      <p>Not ready for a membership? You don't need one to get on the court.</p>
+      <p>You don't need a membership to get on the court. Advance registration or booking is required, and all sessions are subject to capacity and availability.</p>
     </div>
     <div class="dropin-list">
       <div class="dropin-row">
         <h3 class="dropin-name">Group Training</h3>
-        <p class="dropin-price">$35<span class="dropin-price-note">/session</span></p>
-        <p class="dropin-info">Try an eligible basketball or volleyball group training session without committing to a membership.</p>
+        <div class="dropin-rates">
+          <div class="dropin-rate dropin-rate--member"><span class="dropin-rate-label">Non-Member</span><span class="dropin-rate-value">$40 / session</span></div>
+        </div>
+        <p class="dropin-info">Join an eligible basketball or volleyball group training session without a membership. Advance registration required.</p>
         <a href="schedule.html" class="dropin-cta">Find a Session <span class="arrow">→</span></a>
       </div>
       <div class="dropin-row">
         <h3 class="dropin-name">Open Gym</h3>
-        <p class="dropin-price">$15<span class="dropin-price-note">/session non-members · $10 Weekly members</span></p>
-        <p class="dropin-info">Included with Unlimited, Full Court + Family Unlimited. Coach-supervised. Advance registration required.</p>
-        <a href="schedule.html?sport=opengym" class="dropin-cta">See Open Gym <span class="arrow">→</span></a>
+        <div class="dropin-rates">
+          <div class="dropin-rate dropin-rate--member"><span class="dropin-rate-label">Non-Member</span><span class="dropin-rate-value">$20 / session</span></div>
+          <div class="dropin-rate"><span class="dropin-rate-label">Weekly Member</span><span class="dropin-rate-value" style="color:rgba(255,255,255,0.85);">$10 / session</span></div>
+          <div class="dropin-rate"><span class="dropin-rate-label">Unlimited · Full Court · Family</span><span class="dropin-rate-value" style="color:rgba(255,255,255,0.85);">Included</span></div>
+        </div>
+        <p class="dropin-info">Coach-supervised, unstructured court time. Advance registration required.</p>
+        <a href="schedule.html?sport=opengym" class="dropin-cta">Register for Open Gym <span class="arrow">→</span></a>
       </div>
       <div class="dropin-row">
-        <h3 class="dropin-name">Dr. Dish</h3>
-        <p class="dropin-price">$20<span class="dropin-price-note">members · $25 non-members</span></p>
-        <p class="dropin-info">Basketball only. Get your shots up with dedicated shooting-machine time.</p>
-        <a href="schedule.html" class="dropin-cta">Book Dr. Dish <span class="arrow">→</span></a>
+        <h3 class="dropin-name">Dr. Dish <span style="font-weight:500; color:rgba(255,255,255,0.5); text-transform:none; letter-spacing:0; font-family:var(--font-body); font-size:13px;">Basketball Only</span></h3>
+        <div class="dropin-rates">
+          <div class="dropin-rate"><span class="dropin-rate-label">Members</span><span class="dropin-rate-value" style="color:rgba(255,255,255,0.85);">$20 / 30 min</span></div>
+          <div class="dropin-rate dropin-rate--member"><span class="dropin-rate-label">Non-Members</span><span class="dropin-rate-value">$30 / 30 min</span></div>
+        </div>
+        <p class="dropin-info">More shots. Less chasing rebounds. Advance reservation required. Subject to machine and court availability.</p>
+        <a href="dr-dish.html" class="dropin-cta">View Dr. Dish <span class="arrow">→</span></a>
       </div>
       <div class="dropin-row">
         <h3 class="dropin-name">Private Training</h3>
-        <p class="dropin-price">From $75<span class="dropin-price-note">/session</span></p>
-        <p class="dropin-info">One-on-one work with a Courts basketball or volleyball coach.</p>
-        <a href="private-coaching.html" class="dropin-cta">Explore Private Training <span class="arrow">→</span></a>
+        <div class="dropin-rates">
+          <div class="dropin-rate"><span class="dropin-rate-label">Starts At</span><span class="dropin-rate-value" style="color:rgba(255,255,255,0.85);">$75 / session</span></div>
+        </div>
+        <p class="dropin-info">One-on-one or small-group work with a Courts basketball or volleyball coach. Members receive preferred pricing. Advance booking required.</p>
+        <a href="private-coaching.html" class="dropin-cta">View Private Training <span class="arrow">→</span></a>
       </div>
     </div>
   </div>
@@ -583,8 +603,8 @@
       <div class="faq-a"><p>Absolutely.</p><p>Two basketball players. Two volleyball players. One of each. Family Unlimited includes two athletes however your crew plays.</p></div>
     </div>
     <div class="faq-item">
-      <button class="faq-q">Can I change or cancel my membership later? <span class="faq-q-icon">+</span></button>
-      <div class="faq-a"><p>Of course. Training more? Switch plans. Need something different? We can help with that too.</p><p>To cancel, give us 30 days' notice through your account or the <a href="contact.html?interest=Current%20Member%20Support&amp;sub=Membership%20cancellation#contact-form" data-preset="Current Member Support" data-preset-sub="Membership cancellation">Contact Form</a> and we'll take care of the rest.</p><p>No awkward breakup conversation required.</p></div>
+      <button class="faq-q">What isn't included in membership? <span class="faq-q-icon">+</span></button>
+      <div class="faq-a"><p>Some things are separate.</p><p>Camps, basketball leagues, private training, and Dr. Dish may have additional fees depending on your plan.</p><p>Full Court includes one private training session each month and two Dr. Dish sessions each month. Check the plan comparison above for the details.</p></div>
     </div>
     <div class="mem-faq-more">
       <a href="faq.html">View All FAQs <span class="arrow">→</span></a>
