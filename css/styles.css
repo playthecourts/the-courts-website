@@ -300,7 +300,7 @@ body.has-announce .nav { top: 52px; }
 .site-footer { background: var(--gray-light); padding: 96px 0 0; color: var(--black); }
 .footer-main { display: grid; grid-template-columns: 1.3fr 1fr; gap: 64px; padding-bottom: 64px; }
 .footer-brand-col { max-width: 420px; }
-.footer-brand-logo { height: 128px; width: auto; display: block; margin-bottom: 20px; }
+.footer-brand-logo { height: 56px; width: auto; display: block; margin-bottom: 20px; }
 .footer-brand-rule { width: 46px; height: 3px; background: var(--orange); margin-bottom: 22px; }
 .footer-brand-line { font-family: var(--font-heading); font-weight: 700; font-size: 18px; line-height: 1.55; color: var(--black); margin: 0 0 36px; }
 .footer-newsletter { margin-bottom: 28px; }
@@ -314,7 +314,7 @@ body.has-announce .nav { top: 52px; }
 .footer-newsletter-form button:hover { color: var(--orange-hover); }
 .footer-newsletter-success { display: none; font-family: var(--font-heading); font-weight: 700; color: var(--orange-ink); font-size: 14.5px; }
 .footer-newsletter-success.show { display: block; }
-.footer-social-handle { display: block; font-family: var(--font-sport); font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-dark); margin: 0 0 10px; }
+.footer-social-handle { display: block; font-family: var(--font-sport); font-weight: 700; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin: 0 0 10px; }
 .footer-social-links { display: flex; gap: 20px; flex-wrap: wrap; }
 .footer-social-links a { font-size: 14.5px; font-weight: 600; color: var(--black); }
 .footer-social-links a:hover { color: var(--orange); }
