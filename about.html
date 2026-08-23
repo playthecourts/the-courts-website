@@ -35,6 +35,7 @@
           <a href="leagues.html">Leagues</a>
           <a href="events.html#rhythm">Open Gym</a>
           <a href="dr-dish.html">Dr. Dish</a>
+          <a href="private-coaching.html#coach-collective">Coach Collective</a>
         </div>
       </div>
       <div class="nav-item">
@@ -95,6 +96,7 @@
       <a href="leagues.html">Leagues</a>
       <a href="events.html#rhythm">Open Gym</a>
       <a href="dr-dish.html">Dr. Dish</a>
+      <a href="private-coaching.html#coach-collective">Coach Collective</a>
     </div>
   </div>
   <div class="mobile-nav-group">
@@ -306,16 +308,28 @@
         </div>
       </div>
     </div>
-    <p class="coaches-cc-link reveal">
-      <span class="coaches-cc-q">Are you a coach?</span> Interested in training your own athletes at The Courts?
-      <a href="private-coaching.html#coach-collective" class="link">Learn About Coach Collective →</a>
-    </p>
   </div>
 
+  <a href="private-coaching.html#coach-collective" class="coaches-cc-banner reveal">
+    <div class="container coaches-cc-banner-inner">
+      <div>
+        <span class="coaches-cc-banner-eyebrow">Are You a Coach?</span>
+        <h3 class="coaches-cc-banner-title">Bring Your People.<br>Build Your Thing.</h3>
+        <p class="coaches-cc-banner-body">Train your athletes, grow your program, and have a place to call home.</p>
+      </div>
+      <span class="coaches-cc-banner-cta">Learn About Coach Collective <span class="arrow">→</span></span>
+    </div>
+  </a>
+
   <style>
-    .coaches-cc-link { max-width: 640px; margin: 56px auto 0; text-align: center; font-size: 15px; line-height: 1.7; color: var(--gray-dark); padding-top: 40px; border-top: 1px solid var(--gray-mid); }
-    .coaches-cc-q { font-weight: 700; color: var(--black); }
-    .coaches-cc-link .link { margin-left: 4px; }
+    .coaches-cc-banner { display: block; margin-top: 64px; background: var(--charcoal); text-decoration: none; }
+    .coaches-cc-banner-inner { padding: 44px 0; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+    .coaches-cc-banner-eyebrow { display: block; font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
+    .coaches-cc-banner-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2.8vw, 32px); line-height: 1.1; color: var(--white); margin: 0 0 8px; }
+    .coaches-cc-banner-body { font-size: 15px; color: rgba(255,255,255,0.68); margin: 0; max-width: 40ch; }
+    .coaches-cc-banner-cta { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--white); white-space: nowrap; }
+    .coaches-cc-banner-cta .arrow { color: var(--orange); transition: transform 0.2s var(--ease); }
+    .coaches-cc-banner:hover .coaches-cc-banner-cta .arrow { transform: translateX(4px); }
   </style>
 
   <style>
@@ -423,6 +437,7 @@
           </div>
           <span class="partner-sr-only">Ways to partner: Team, Equipment, Events, In-Gym, and your own idea.</span>
           <div class="partner-scoreboard-ticks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+          <p class="partner-scoreboard-note">We're listening.</p>
         </div>
       </div>
     </div>
@@ -465,6 +480,7 @@
   .scoreboard-word.sw-5 { color:var(--orange); }
   .partner-scoreboard-ticks { display:flex; justify-content:center; gap:8px; margin-top:22px; }
   .partner-scoreboard-ticks span { width:6px; height:6px; background:rgba(255,255,255,0.18); }
+  .partner-scoreboard-note { text-align:center; font-family:var(--font-sport); font-weight:700; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--orange); margin:18px 0 0; }
 
   @media (prefers-reduced-motion: no-preference) {
     .scoreboard-window { flex-direction:row; height:clamp(64px, 9vw, 96px); padding:0; gap:0; perspective:600px; }
