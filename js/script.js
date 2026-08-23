@@ -7,6 +7,25 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
+  /* ---------- Legal page: active "On This Page" highlight on scroll ---------- */
+  const legalToc = document.querySelector('.legal-rail-toc');
+  if (legalToc) {
+    const tocLinks = [...legalToc.querySelectorAll('a[href^="#"]')];
+    const sections = tocLinks
+      .map(a => document.getElementById(a.getAttribute('href').slice(1)))
+      .filter(Boolean);
+    if (sections.length) {
+      const setActive = id => {
+        tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+      };
+      const observer = new IntersectionObserver(entries => {
+        const visible = entries.filter(e => e.isIntersecting);
+        if (visible.length) setActive(visible[0].target.id);
+      }, { rootMargin: '-110px 0px -70% 0px', threshold: 0 });
+      sections.forEach(s => observer.observe(s));
+    }
+  }
+
   /* ---------- Mobile menu ---------- */
   const navToggle = document.getElementById('navToggle');
   const mobileMenu = document.getElementById('mobileMenu');
