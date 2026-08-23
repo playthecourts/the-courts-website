@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shop | The Courts — Nolensville, TN</title>
-<meta name="description" content="Tees, hoodies, hats, and gear from The Courts Shop in Nolensville, TN — plus the limited Founders Collection and Courts gift cards.">
+<meta name="description" content="Tees, hoodies, hats, and gear from The Courts Shop in Nolensville, TN — plus Courts gift cards.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
@@ -16,8 +16,8 @@
   .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 
   /* ---------- Hero ---------- */
-  .shop-hero { display:grid; grid-template-columns:45% 55%; align-items:stretch; min-height:460px; }
-  .shop-hero-copy { background:var(--gray-light); display:flex; flex-direction:column; justify-content:center; padding:120px 56px 48px clamp(24px,5vw,72px); }
+  .shop-hero { display:grid; grid-template-columns:45% 55%; align-items:stretch; min-height:400px; }
+  .shop-hero-copy { background:var(--gray-light); display:flex; flex-direction:column; justify-content:center; padding:112px 56px 36px clamp(24px,5vw,72px); }
   .shop-hero-title { font-family:var(--font-display); font-weight:900; font-size:clamp(38px, 5vw, 66px); line-height:1.0; margin:16px 0 22px; max-width:12ch; }
   .shop-hero-title .accent { color:var(--orange); }
   .shop-hero-sub { font-size:17px; line-height:1.6; color:var(--gray-dark); max-width:36ch; margin-bottom:32px; }
@@ -42,10 +42,10 @@
 
   /* ---------- Compact filter row ---------- */
   .shop-filters-wrap { border-bottom:1px solid var(--gray-mid); }
-  .shop-filters { margin:0; padding:22px 0; }
+  .shop-filters { margin:0; padding:16px 0; }
 
   /* ---------- Gift card feature ---------- */
-  .shop-gift { background:var(--black); padding:60px 0; position:relative; overflow:hidden; }
+  .shop-gift { background:var(--black); padding:46px 0; position:relative; overflow:hidden; }
   .shop-gift-grid { display:grid; grid-template-columns:0.85fr 1.15fr; gap:64px; align-items:center; }
   .shop-gift-title { font-family:var(--font-display); font-weight:900; color:var(--white); font-size:clamp(30px,4.2vw,48px); line-height:1.04; margin:14px 0 20px; }
   .shop-gift-body { color:rgba(255,255,255,0.72); font-size:16px; line-height:1.6; margin:0 0 8px; }
@@ -68,7 +68,7 @@
   }
 
   /* ---------- Main product drop: modular grid ---------- */
-  .shop-drop { padding:60px 0 52px; }
+  .shop-drop { padding:44px 0 38px; }
   .tile-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:16px; }
   .tile { position:relative; display:flex; flex-direction:column; }
   .tile--8 { grid-column:span 8; }
@@ -123,7 +123,7 @@
 
   /* ---------- Editorial lifestyle break ---------- */
   .shop-lifestyle { position:relative; overflow:hidden; }
-  .shop-lifestyle .photo { aspect-ratio:32/9; }
+  .shop-lifestyle .photo { aspect-ratio:42/9; }
   .shop-lifestyle .photo::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(23,23,23,0.75) 0%, rgba(23,23,23,0.15) 55%, rgba(23,23,23,0.05) 100%); }
   .shop-lifestyle-copy { position:absolute; left:6%; bottom:9%; z-index:2; max-width:420px; }
   .shop-lifestyle-copy h2 { font-family:var(--font-display); font-weight:900; color:var(--white); font-size:clamp(24px,3.6vw,52px); line-height:1.0; margin:0 0 10px; white-space:nowrap; }
@@ -137,7 +137,7 @@
   }
 
   /* ---------- Accessory moment ---------- */
-  .shop-accessories { padding:52px 0; background:var(--gray-light); }
+  .shop-accessories { padding:40px 0 56px; background:var(--gray-light); }
   .acc-strip { display:grid; grid-template-columns:0.85fr 0.85fr 1.15fr 0.85fr 1fr; gap:14px; align-items:end; }
   .acc-media { border-radius:var(--radius-md); overflow:hidden; background:var(--white); margin-bottom:14px; position:relative; }
   .acc-media .photo { position:absolute; inset:0; }
@@ -149,33 +149,6 @@
   @media (max-width:980px) { .acc-strip { grid-template-columns:repeat(3,1fr); } }
   @media (max-width:640px) { .acc-strip { grid-template-columns:1fr 1fr; gap:18px; } }
   @media (max-width:420px) { .acc-strip { grid-template-columns:1fr; } }
-
-  /* ---------- Founders ---------- */
-  .shop-founders { background:var(--black); padding:76px 0; position:relative; overflow:hidden; }
-  .shop-founders-vert {
-    position:absolute; top:50%; left:-0.15em; transform:translateY(-50%); writing-mode:vertical-rl;
-    font-family:var(--font-display); font-weight:900; font-size:clamp(120px,17vw,240px); color:rgba(255,255,255,0.05);
-    letter-spacing:0.02em; pointer-events:none; z-index:0; white-space:nowrap;
-  }
-  .shop-founders-grid { display:grid; grid-template-columns:0.6fr 1fr; gap:56px; align-items:center; position:relative; z-index:1; }
-  .shop-founders-badge {
-    display:inline-block; margin-bottom:14px; background:transparent; border:1px solid var(--orange); color:var(--orange);
-    font-family:var(--font-sport); font-weight:700; font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase;
-    padding:5px 12px; border-radius:999px;
-  }
-  .shop-founders-copy .eyebrow { display:block; margin-top:2px; }
-  .shop-founders-title { font-family:var(--font-display); font-weight:900; color:var(--white); font-size:clamp(34px,4.6vw,56px); line-height:1.0; margin:14px 0 16px; }
-  .shop-founders-body { color:rgba(255,255,255,0.7); font-size:16px; margin-bottom:28px; }
-  .shop-founders-products { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-  .shop-founders-product-media { aspect-ratio:3/4; border-radius:var(--radius-md); overflow:hidden; background:var(--charcoal); position:relative; }
-  .shop-founders-product-media .photo { position:absolute; inset:0; }
-  .shop-founders-product-name { color:var(--white); font-family:var(--font-heading); font-weight:700; font-size:17px; margin:14px 0 2px; }
-  .shop-founders-product-price { color:rgba(255,255,255,0.55); font-size:14px; margin:0 0 10px; }
-  @media (max-width:900px) {
-    .shop-founders-grid { grid-template-columns:1fr; gap:36px; }
-    .shop-founders-vert { display:none; }
-  }
-  @media (max-width:560px) { .shop-founders-products { grid-template-columns:1fr; } }
 
   /* ---------- Cart drawer ---------- */
   .cart-toggle {
@@ -368,7 +341,6 @@
       <a href="#shop-drop" class="filter-pill active" data-filter="all">All</a>
       <a href="#shop-drop" class="filter-pill" data-filter="apparel">Apparel</a>
       <a href="#shop-accessories" class="filter-pill" data-filter="accessories">Accessories</a>
-      <a href="#founders" class="filter-pill" data-filter="founders">Founders</a>
     </nav>
   </div>
 </div>
@@ -536,40 +508,6 @@
         <h3 class="acc-name">Backpack</h3>
         <span class="acc-price">$48</span>
         <button type="button" class="tile-add shop-add" data-name="Backpack" data-price="48" data-image="backpack">Add to Bag <span class="arrow">→</span></button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="shop-founders" id="founders">
-  <span class="shop-founders-vert" aria-hidden="true">Founders</span>
-  <div class="container shop-founders-grid">
-    <div class="shop-founders-copy">
-      <span class="shop-founders-badge">Limited Run</span>
-      <span class="eyebrow">Founders Collection</span>
-      <h2 class="shop-founders-title">You Were Here First.</h2>
-      <p class="shop-founders-body">Limited run. Bragging rights included.</p>
-      <a href="#shop-founders-products" class="btn btn-on-dark">Shop Founders →</a>
-    </div>
-    <div class="shop-founders-products" id="shop-founders-products">
-      <div class="shop-founders-product" data-category="founders">
-        <div class="shop-founders-product-media"><div class="photo" role="img" aria-label="Founders Collection tee, photo coming soon"></div></div>
-        <h3 class="shop-founders-product-name">Founders Tee</h3>
-        <p class="shop-founders-product-price">$32</p>
-        <fieldset class="tile-variants tile-variants--dark" data-required="true">
-          <legend class="sr-only">Size for Founders Tee</legend>
-          <input type="radio" name="size-founders-tee" id="size-ft-s" value="S"><label for="size-ft-s">S</label>
-          <input type="radio" name="size-founders-tee" id="size-ft-m" value="M"><label for="size-ft-m">M</label>
-          <input type="radio" name="size-founders-tee" id="size-ft-l" value="L"><label for="size-ft-l">L</label>
-          <input type="radio" name="size-founders-tee" id="size-ft-xl" value="XL"><label for="size-ft-xl">XL</label>
-        </fieldset>
-        <button type="button" class="tile-add tile-add--dark shop-add" data-name="Founders Tee" data-price="32" data-image="founders-tee" data-variant-group="size-founders-tee">Add to Bag <span class="arrow">→</span></button>
-      </div>
-      <div class="shop-founders-product" data-category="founders">
-        <div class="shop-founders-product-media"><div class="photo" role="img" aria-label="Founders Collection hat, photo coming soon"></div></div>
-        <h3 class="shop-founders-product-name">Founders Hat</h3>
-        <p class="shop-founders-product-price">$30</p>
-        <button type="button" class="tile-add tile-add--dark shop-add" data-name="Founders Hat" data-price="30" data-image="founders-hat">Add to Bag <span class="arrow">→</span></button>
       </div>
     </div>
   </div>
