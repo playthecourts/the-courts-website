@@ -254,6 +254,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /* ---------- Footer: newsletter signup ---------- */
+  document.querySelectorAll('.footer-newsletter-form').forEach(form => {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const success = form.nextElementSibling;
+      form.style.display = 'none';
+      if (success && success.classList.contains('footer-newsletter-success')) success.classList.add('show');
+    });
+  });
+
   /* ---------- Scroll reveal ---------- */
   const revealEls = document.querySelectorAll('.reveal');
   if (revealEls.length && 'IntersectionObserver' in window) {
