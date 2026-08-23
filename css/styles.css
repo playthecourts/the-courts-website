@@ -85,19 +85,20 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* ---------- Site-wide announcement bar ---------- */
 .site-announce {
-  display: block; position: fixed; left: 0; right: 0; top: 0; z-index: 101;
-  background: var(--orange); color: var(--white); text-align: center; padding: 16px 20px;
+  display: flex; align-items: center; justify-content: center; min-height: 52px; box-sizing: border-box;
+  position: fixed; left: 0; right: 0; top: 0; z-index: 101;
+  background: var(--orange); color: var(--white); text-align: center; padding: 10px 20px;
   font-family: var(--font-sport); font-weight: 700; font-size: 16px; letter-spacing: 0.06em; text-transform: uppercase;
 }
 .site-announce .arrow { display: inline-block; transition: transform 0.2s var(--ease); margin-left: 4px; }
 .site-announce:hover { background: var(--orange-hover); }
 .site-announce:hover .arrow { transform: translateX(3px); }
-body.has-announce { padding-top: 56px; }
-body.has-announce .nav { top: 56px; }
+body.has-announce { padding-top: 52px; }
+body.has-announce .nav { top: 52px; }
 @media (max-width: 640px) {
-  .site-announce { font-size: 13px; padding: 12px 16px; }
-  body.has-announce { padding-top: 46px; }
-  body.has-announce .nav { top: 46px; }
+  .site-announce { min-height: 44px; font-size: 13px; padding: 8px 16px; }
+  body.has-announce { padding-top: 44px; }
+  body.has-announce .nav { top: 44px; }
 }
 
 /* ---------- Nav ---------- */
