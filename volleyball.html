@@ -29,7 +29,6 @@
   .vb-hero-media .vb-hero-photo { position: absolute; top: 9%; right: 6%; left: 10%; bottom: 7%; border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 40px 70px rgba(0,0,0,0.28); }
   .vb-hero-media .vb-hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; }
   .vb-hero-baseline { position: absolute; left: 0; bottom: 9%; width: 22%; height: 3px; background: var(--orange); z-index: 3; }
-  .vb-hero-net { position: absolute; inset: 0; z-index: 3; pointer-events: none; width: 100%; height: 100%; }
   @media (max-width: 980px) {
     .vb-hero-grid { grid-template-columns: 1fr; min-height: 0; }
     .vb-hero-copy { padding: 136px 24px 28px; }
@@ -45,38 +44,32 @@
   .vb-head p { font-size: 16.5px; line-height: 1.65; color: var(--gray-dark); max-width: 56ch; margin: 14px auto 0; }
   .vb-train-section { background: var(--white); padding: 96px 0 0; }
 
-  /* ---------- Pass / Set / Attack / Compete sequence (compact 4-up) ---------- */
-  .vb-sequence { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 48px; align-items: start; }
-  .vb-seq-row { position: relative; }
-  .vb-seq-media { position: relative; aspect-ratio: 4/3.2; overflow: hidden; border-radius: var(--radius-md); margin-bottom: 16px; }
-  .vb-seq-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .vb-seq-label { font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--orange); margin: 0 0 8px; display: block; }
-  .vb-seq-row h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2vw, 26px); line-height: 1; margin: 0 0 6px; }
-  .vb-seq-row p { font-size: 14.5px; line-height: 1.55; color: var(--gray-dark); margin: 0; }
-  .vb-seq-zinger { font-family: var(--font-heading); font-style: italic; font-weight: 600; font-size: 13.5px; color: var(--orange); margin: 10px 0 0; }
-  .vb-seq-again { position: absolute; top: 10px; right: 10px; z-index: 2; font-family: var(--font-sport); font-weight: 700; font-size: 10.5px; letter-spacing: 0.12em; color: var(--white); background: rgba(23,23,23,0.55); padding: 5px 10px; border-radius: 999px; transform: rotate(-4deg); }
-  .vb-seq-graphic { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0.9; }
-  .vb-seq-graphic .dot { fill: var(--orange); opacity: 0; transition: opacity 0.5s var(--ease); }
-  .vb-seq-graphic.in-view .dot { opacity: 0.55; }
-  .vb-seq-graphic .dot:nth-child(1) { transition-delay: 0.05s; }
-  .vb-seq-graphic .dot:nth-child(2) { transition-delay: 0.2s; }
-  .vb-seq-graphic .dot:nth-child(3) { transition-delay: 0.35s; }
-  .vb-seq-graphic .line { stroke: var(--gray-mid); stroke-width: 1.5; stroke-dasharray: 4 5; fill: none; }
-  .vb-seq-row--04 { background: var(--black); color: var(--white); border-radius: var(--radius-md); padding: 16px 16px 20px; }
-  .vb-seq-row--04 .vb-seq-media { margin: 0 0 16px; }
-  .vb-seq-row--04 p { color: rgba(255,255,255,0.78); }
-  @media (max-width: 900px) {
-    .vb-sequence { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; }
-  }
-  @media (max-width: 560px) {
-    .vb-sequence { grid-template-columns: 1fr; max-width: 360px; margin-left: auto; margin-right: auto; }
+  /* ---------- Pass / Set / Attack / Compete — continuous editorial sequence (matches Basketball) ---------- */
+  .vb-sequence { margin-top: 72px; }
+  .seq-row { display: flex; align-items: center; gap: 56px; padding: 64px 0; border-top: 1px solid var(--gray-mid); }
+  .seq-row:first-child { border-top: none; padding-top: 0; }
+  .seq-row--reverse { flex-direction: row-reverse; }
+  .seq-media { flex: 1; aspect-ratio: 4/3; border-radius: var(--radius-md); overflow: hidden; }
+  .seq-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .seq-copy { flex: 1; }
+  .seq-row--wide .seq-media { flex: 1.5; }
+  .seq-num { display: block; font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
+  .seq-copy h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 2.8vw, 34px); margin: 0 0 16px; line-height: 1; }
+  .seq-body { font-size: 15.5px; color: var(--gray-dark); line-height: 1.6; margin: 0 0 10px; }
+  .seq-line { font-weight: 700; font-style: italic; font-size: 15.5px; color: var(--black); margin: 0; }
+  .seq-row--final { flex-direction: column; align-items: stretch; padding-top: 64px; }
+  .seq-row--final .seq-media { width: 100%; aspect-ratio: 21/9; }
+  .seq-row--final .seq-copy { width: 100%; max-width: 640px; margin-top: 32px; }
+  @media (max-width: 820px) {
+    .seq-row, .seq-row--reverse { flex-direction: column; align-items: stretch; gap: 24px; padding: 40px 0; }
+    .seq-media, .seq-row--wide .seq-media { flex: none; aspect-ratio: 4/3; }
+    .seq-row--final .seq-media { aspect-ratio: 4/3; }
   }
 
   /* ---------- Transition beat ---------- */
   .vb-transition { background: var(--black); color: var(--white); padding: 120px 0; text-align: center; overflow: hidden; position: relative; }
   .vb-transition h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(38px, 8.5vw, 96px); line-height: 0.98; letter-spacing: -0.01em; margin: 0; }
   .vb-transition h2 .accent { color: var(--orange); }
-  .vb-transition-net { position: absolute; left: 50%; top: 0; width: 900px; max-width: 140vw; height: 100%; transform: translateX(-50%); pointer-events: none; opacity: 0.5; }
 
   /* ---------- Development by age ---------- */
   .vb-dev { background: var(--gray-light); padding: 100px 0 96px; }
@@ -259,21 +252,19 @@
     <div class="vb-hero-copy">
       <span class="eyebrow">Volleyball</span>
       <h1 class="vb-hero-title">
-        <span>Read the Game<span class="accent">.</span></span>
-        <span>Play Together<span class="accent">.</span></span>
+        <span>Better Touches.</span>
+        <span>Better Reads.</span>
+        <span>Better Game.</span>
       </h1>
-      <p class="vb-hero-sub">Volleyball rewards players who never stop moving their feet.<br>Get the technique right. Get a lot of reps.<br>Learn to read your teammates.<br>Then see if it holds up when the ball isn't coming right to you.</p>
+      <p class="vb-hero-sub">Pass it. Set it. Swing away.</p>
       <div class="vb-hero-ctas">
-        <a href="schedule.html?sport=volleyball" class="btn btn-primary">View Volleyball Schedule →</a>
-        <a href="contact.html?interest=Volleyball#contact-form" class="btn btn-secondary" data-preset="Volleyball">Get Started →</a>
+        <a href="schedule.html?sport=volleyball" class="btn btn-primary">View Schedule →</a>
+        <a href="membership.html" class="btn btn-secondary">Get Started →</a>
       </div>
     </div>
     <div class="vb-hero-media">
       <div class="vb-hero-photo"><img src="images/volleyball-hero.jpg" alt="A volleyball player holding a Molten volleyball on the court."></div>
       <div class="vb-hero-baseline"></div>
-      <svg class="vb-hero-net" viewBox="0 0 400 400" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M20,120 L380,120" fill="none" stroke="var(--orange)" stroke-width="2" opacity="0.75"/>
-      </svg>
     </div>
   </div>
 </section>
@@ -282,63 +273,57 @@
   <div class="container">
     <div class="vb-head reveal">
       <span class="eyebrow">How We Train</span>
-      <h2>Learn It. Trust It. Use It.</h2>
+      <h2>Learn It. Rep It. Use It.</h2>
       <p>Anybody can pass a ball that's served right at them. We build the technique, rep the footwork, speed up the tempo, and put players in situations where the ball doesn't come easy. Because in a real rally, nothing arrives the way you drew it up.</p>
     </div>
 
     <div class="vb-sequence">
-      <div class="vb-seq-row vb-seq-row--01 reveal">
-        <div class="vb-seq-media"><img src="images/volleyball-texture.jpg" alt="A close detail of volleyball leather panels and stitching."></div>
-        <span class="vb-seq-label">01</span>
-        <h3>Pass</h3>
-        <p>Every point starts with a touch nobody remembers. Get under the ball, set your platform, and give your setter something to work with.</p>
-        <p class="vb-seq-zinger">Make the next touch easier, not more interesting.</p>
-      </div>
-
-      <div class="vb-seq-row vb-seq-row--02 reveal">
-        <div class="vb-seq-media">
-          <img src="images/volleyball-hero.jpg" alt="A volleyball player's hands set on the ball, ready to deliver it to a hitter.">
-          <span class="vb-seq-again">AGAIN.</span>
+      <div class="seq-row reveal">
+        <div class="seq-media"><img src="images/volleyball-texture.jpg" alt="A close detail of volleyball leather panels and stitching."></div>
+        <div class="seq-copy">
+          <span class="seq-num">01 — Pass</span>
+          <h3>Platform. Feet. Control.</h3>
+          <p class="seq-body">Build the platform. Move your feet. Control the ball before it controls the point.</p>
+          <p class="seq-line">Make the next touch easier, not more interesting.</p>
         </div>
-        <span class="vb-seq-label">02</span>
-        <h3>Set</h3>
-        <p>A good set is invisible — the hitter never has to adjust. Soft hands, quick feet, and a target picked before the ball even arrives.</p>
-        <p class="vb-seq-zinger">No half-sends.</p>
       </div>
 
-      <div class="vb-seq-row vb-seq-row--03 reveal">
-        <div class="vb-seq-media">
-          <img src="images/sweat-detail.jpg" alt="A close, intense detail shot from a high-level volleyball training session.">
-          <svg class="vb-seq-graphic" viewBox="0 0 400 300" aria-hidden="true">
-            <path class="line" d="M40,260 L200,140 L360,80"/>
-            <circle class="dot" cx="40" cy="260" r="7"/>
-            <circle class="dot" cx="200" cy="140" r="7"/>
-            <circle class="dot" cx="360" cy="80" r="7"/>
-          </svg>
+      <div class="seq-row seq-row--reverse reveal">
+        <div class="seq-media"><img src="images/volleyball-hero.jpg" alt="A volleyball player's hands set on the ball, ready to deliver it to a hitter."></div>
+        <div class="seq-copy">
+          <span class="seq-num">02 — Set</span>
+          <h3>Hands. Feet. Target.</h3>
+          <p class="seq-body">Get to the ball. Square up. Put your hitter somewhere they can do something with it.</p>
+          <p class="seq-line">A little less "good luck." A little more "go get it."</p>
         </div>
-        <span class="vb-seq-label">03</span>
-        <h3>Attack</h3>
-        <p>Footwork first, then the arm. Learn to hit around a block, not just through one. Find the gap and go get it.</p>
-        <p class="vb-seq-zinger">A little less "good luck." A little more "go get it."</p>
       </div>
 
-      <div class="vb-seq-row vb-seq-row--04 reveal">
-        <div class="vb-seq-media"><img src="images/volleyball-huddle.jpg" alt="A coach and a group of teammates in a huddle at the net, one holding a volleyball."></div>
-        <span class="vb-seq-label">04</span>
-        <h3>Compete</h3>
-        <p>Call the ball. Cover your hitter. Play the next one like it's the only one. This is where practice either shows up or it doesn't.</p>
-        <p class="vb-seq-zinger">If it hasn't hit the floor, we're still playing.</p>
+      <div class="seq-row seq-row--wide reveal">
+        <div class="seq-media"><img src="images/sweat-detail.jpg" alt="A close, intense detail shot from a high-level volleyball training session."></div>
+        <div class="seq-copy">
+          <span class="seq-num">03 — Attack</span>
+          <h3>Approach. Timing. Finish.</h3>
+          <p class="seq-body">Learn how to hit with purpose instead of just hitting hard.</p>
+          <p class="seq-line">No half-sends.</p>
+        </div>
+      </div>
+
+      <div class="seq-row seq-row--final reveal">
+        <div class="seq-media"><img src="images/volleyball-huddle.jpg" alt="A coach and a group of teammates in a huddle at the net, one holding a volleyball."></div>
+        <div class="seq-copy">
+          <span class="seq-num">04 — Compete</span>
+          <h3>Read. Talk. Adjust.</h3>
+          <p class="seq-body">Read what's happening. Communicate. Adjust. Then go get the next ball.</p>
+          <p class="seq-line">If it hasn't hit the floor, we're still playing.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <section class="vb-transition">
-  <svg class="vb-transition-net" viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0,192 L400,192" fill="none" stroke="var(--orange)" stroke-width="1.5" opacity="0.6"/>
-  </svg>
   <div class="container">
-    <h2 class="reveal">Because Eventually,<br>Somebody Has to<br>Call the <span class="accent">Ball.</span></h2>
+    <h2 class="reveal">Because Eventually,<br>It Has to Work<br>in a <span class="accent">Match.</span></h2>
   </div>
 </section>
 
@@ -414,7 +399,8 @@
   <div class="container">
     <div class="vb-head reveal">
       <span class="eyebrow">More Volleyball</span>
-      <h2>Good Thing We Have a Net.</h2>
+      <h2 style="white-space:nowrap;">Good Thing We Have a Court.</h2>
+      <style>@media (max-width: 640px) { #more-volleyball .vb-head h2 { white-space: normal; } }</style>
       <p>Work on your game. Get touches in. Train with a coach. Come play open gym volleyball. There's almost always a reason to bring your knee pads.</p>
     </div>
 
@@ -425,7 +411,7 @@
           <p class="vb-way-label">One-on-One + Small Group</p>
           <h3 class="vb-way-name">Private Training</h3>
           <p class="vb-way-copy">The serve that breaks down under pressure. The approach that's a step too early. The set you keep bailing out of. Yeah. That thing. One-on-one or small-group training built around exactly what needs attention.</p>
-          <span class="vb-way-link">Explore Private Training <span class="arrow">→</span></span>
+          <span class="vb-way-link">View Private Training <span class="arrow">→</span></span>
         </div>
       </a>
       <a href="camps.html" class="vb-way-tile vb-way--camps reveal">
@@ -434,16 +420,16 @@
           <p class="vb-way-label">School Breaks + Weekends</p>
           <h3 class="vb-way-name">Camps + Clinics</h3>
           <p class="vb-way-copy">School's out. Knee pads on. More volleyball. More reps. Focused work. Plenty of playing. A very solid use of a day off.</p>
-          <span class="vb-way-link">View Camps + Clinics <span class="arrow">→</span></span>
+          <span class="vb-way-link">View Camps <span class="arrow">→</span></span>
         </div>
       </a>
       <a href="events.html#rhythm" class="vb-way-tile vb-way--opengym reveal">
         <div class="photo-bg"><img src="images/volleyball-hero.jpg" alt="A volleyball player on the court, ready for open gym play." style="object-position:50% 10%;"></div>
         <div class="vb-way-body">
           <p class="vb-way-label">Just Play</p>
-          <h3 class="vb-way-name">No Clipboard Required.</h3>
+          <h3 class="vb-way-name">Open Gym</h3>
           <p class="vb-way-copy">Serve. Run a game. Work on something. Call next. Scheduled. Coach-supervised. Ball. Net. Figure it out.</p>
-          <span class="vb-way-link">See Open Gym <span class="arrow">→</span></span>
+          <span class="vb-way-link">View Open Gym <span class="arrow">→</span></span>
         </div>
       </a>
     </div>
@@ -548,9 +534,6 @@
     }
 
     observe(document.getElementById('devLineFill'), function (el) { el.classList.add('in-view'); });
-    document.querySelectorAll('.vb-seq-graphic').forEach(function (el) {
-      observe(el, function (t) { t.classList.add('in-view'); });
-    });
   })();
 </script>
 <script src="js/script.js"></script>
