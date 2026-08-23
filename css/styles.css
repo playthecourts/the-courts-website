@@ -128,6 +128,9 @@ body.has-announce .nav { top: 52px; }
   font-size: 14.5px; color: var(--white); padding: 8px 0;
 }
 .nav.scrolled .nav-item > a { color: var(--black); }
+.nav-item > a.nav-active { font-weight: 700; box-shadow: inset 0 -2px 0 var(--orange); }
+.mobile-nav-group.nav-active > .mobile-nav-toggle,
+.mobile-menu > a.nav-active { color: var(--orange-ink); }
 .nav-caret { transition: transform 0.2s var(--ease); }
 .nav-item:hover .nav-caret { transform: rotate(180deg); }
 .nav-dropdown {

@@ -7,6 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
+  /* ---------- Active nav state (top-level items whose own link matches the current page) ---------- */
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-item > a[href]').forEach(a => {
+    if (a.getAttribute('href').split('?')[0].split('#')[0] === currentPage) a.classList.add('nav-active');
+  });
+  document.querySelectorAll('.mobile-menu > a[href]').forEach(a => {
+    if (a.getAttribute('href').split('?')[0].split('#')[0] === currentPage) a.classList.add('nav-active');
+  });
+
   /* ---------- Legal page: active "On This Page" highlight on scroll ---------- */
   const legalToc = document.querySelector('.legal-rail-toc');
   if (legalToc) {
