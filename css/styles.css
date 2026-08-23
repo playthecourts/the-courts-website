@@ -326,9 +326,9 @@ body.has-announce .nav { top: 52px; }
 .footer-nav-col a { display: block; padding: 13px 0; font-size: 15px; font-weight: 500; color: var(--black); }
 .footer-nav-col a:hover { color: var(--orange); }
 .footer-utility { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 32px 0; border-top: 1px solid var(--gray-mid); }
-.footer-utility-contact { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; font-size: 14px; }
-.footer-utility-contact span { color: var(--gray-dark); }
-.footer-utility-contact a { color: var(--black); font-weight: 600; }
+.footer-utility-contact { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.footer-utility-contact span { color: var(--gray-dark); font-size: 14px; }
+.footer-utility-contact a { color: var(--black); font-weight: 600; font-size: 16px; }
 .footer-utility-contact a:hover { color: var(--orange); }
 .footer-utility-legal { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--gray-dark); }
 .footer-utility-legal a { color: var(--gray-dark); }
