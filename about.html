@@ -413,7 +413,7 @@
     .cc-tabs-open { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3vw, 38px); line-height: 1.02; color: var(--white); margin: 8px 0 28px; padding-left: 18px; border-left: 4px solid var(--orange); }
     .cc-collective-brand-inline { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3.4vw, 40px); line-height: 1.08; color: var(--white); margin: 36px 0 28px; }
     .cc-collective-brand-inline .accent { color: var(--orange); }
-    .cc-collective-cta--inline { text-align: left; margin-top: 0; }
+    .cc-collective-cta.cc-collective-cta--inline { text-align: left; margin-top: 0; }
     .cc-collective-media { position: relative; display: flex; flex-direction: column; gap: 18px; }
     .cc-collective-photo { position: relative; aspect-ratio: 4/2.9; border-radius: var(--radius-md); overflow: hidden; }
     .cc-collective-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -421,11 +421,8 @@
     .cc-collective-network { position: absolute; right: -50px; top: -46px; width: 200px; height: 200px; opacity: 0.4; pointer-events: none; z-index: 1; }
     .cc-collective-network circle { fill: var(--orange); }
     .cc-collective-network line { stroke: var(--orange); stroke-width: 1; stroke-dasharray: 3 4; }
-    .cc-collective-brand { text-align: center; margin-top: 80px; position: relative; z-index: 2; }
-    .cc-collective-brand h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 5vw, 62px); line-height: 1.06; margin: 0; }
-    .cc-collective-brand .accent { color: var(--orange); }
     .cc-collective-cta { text-align: center; margin-top: 40px; position: relative; z-index: 2; }
-    .cc-collective-wink { font-size: 14px; font-style: italic; color: rgba(255,255,255,0.55); margin: 22px 0 0; }
+    .cc-collective-wink { display: block; font-size: 14px; font-style: italic; line-height: 1.6; color: rgba(255,255,255,0.55); margin: 32px 0 0; max-width: 46ch; }
     .cc-collective-wink a { color: rgba(255,255,255,0.75); font-weight: 700; font-style: normal; margin-left: 4px; }
     @media (max-width: 900px) {
       .cc-collective-grid { grid-template-columns: 1fr; gap: 36px; }
