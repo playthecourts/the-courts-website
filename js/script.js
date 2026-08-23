@@ -94,7 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (minorNote) minorNote.hidden = !athleteCategories.includes(helpSelect.value);
     };
 
-    const interestParam = new URLSearchParams(window.location.search).get('interest');
+    const urlParams = new URLSearchParams(window.location.search);
+    const interestParam = urlParams.get('interest');
+    const subParam = urlParams.get('sub');
     if (interestParam) {
       const match = [...helpSelect.options].find(o => o.value === interestParam);
       if (match) helpSelect.value = interestParam;
@@ -105,10 +107,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const match = [...helpSelect.options].find(o => o.value === val);
         if (match) helpSelect.value = val;
         evaluateVisibility();
+        const sub = el.dataset.presetSub;
+        if (sub) applySub(sub);
       });
     });
     contactForm.addEventListener('change', evaluateVisibility);
     evaluateVisibility();
+
+    // Pre-select a sub-field (e.g. the "What can we help with?" select) within whichever
+    // group is currently visible, matching an option by its exact value/text.
+    function applySub(subValue) {
+      const activeGroup = document.querySelector('.cf-group[data-cat]:not([hidden])');
+      if (!activeGroup) return;
+      const subSelect = [...activeGroup.querySelectorAll('select')].find(sel =>
+        [...sel.options].some(o => o.value === subValue)
+      );
+      if (subSelect) {
+        subSelect.value = subValue;
+        subSelect.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }
+    if (subParam) applySub(subParam);
 
     /* ---------- Contact form submit (visual only, with inline validation) ---------- */
     const errorMessages = {

@@ -161,11 +161,9 @@
   .mem-final .ctas { position: relative; z-index: 1; justify-content: center; }
 
   /* ---------- Membership FAQ exit row ---------- */
-  .mem-faq-more { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--gray-mid); }
-  .mem-faq-more span { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-dark); }
+  .mem-faq-more { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--gray-mid); }
   .mem-faq-more a { font-weight: 700; color: var(--black); font-size: 14.5px; }
   .mem-faq-more a .arrow { color: var(--orange); }
-  @media (max-width: 480px) { .mem-faq-more { flex-direction: column; align-items: flex-start; gap: 10px; } }
 </style>
 </head>
 <body class="has-announce">
@@ -485,13 +483,19 @@
 <section class="mem-flex" id="flexibility">
   <div class="container" style="max-width:640px;">
     <p class="mem-flex-line">No Long-Term Relationship Required.*</p>
-    <p class="mem-flex-note">*Exact cancellation notice period is still being finalized — see note below.</p>
-    <div class="legal-counsel" style="text-align:left; max-width:480px; margin:22px auto 0;">
-      <span class="legal-counsel-label">Counsel Review + Business Decision</span>
-      <p>Final cancellation notice period (e.g. 30 days), billing-date treatment, and failed-payment handling are not yet approved. Do not publish definitive notice language until confirmed — the published language here must match Membership Policies, Terms &amp; Conditions, and checkout language exactly.</p>
-    </div>
+    <p class="mem-flex-note">*Things change. Give us 30 days' notice through your account or the <a href="contact.html?interest=Current%20Member%20Support&amp;sub=Membership%20cancellation#contact-form" data-preset="Current Member Support" data-preset-sub="Membership cancellation" style="color:var(--orange-ink); font-weight:700;">Contact Form</a> and we'll take care of the rest. No awkward breakup conversation required.</p>
+    <!-- [PLACEHOLDER — FINAL MEMBER PORTAL / MANAGE MEMBERSHIP LINK TBD] Pink = staging only, not part of the Courts brand system. Swap to standard .btn.btn-primary and the real destination once the member portal ships. -->
+    <a href="member-portal.html" class="mem-flex-cta-placeholder">Manage Membership →</a>
   </div>
 </section>
+
+<style>
+  .mem-flex-cta-placeholder {
+    display: inline-block; margin-top: 22px; padding: 13px 26px; border-radius: var(--radius-sm);
+    background: #FF3EA5; color: var(--white); font-family: var(--font-heading); font-weight: 700; font-size: 15px;
+  }
+  .mem-flex-cta-placeholder:hover { background: #E82E93; }
+</style>
 
 <section class="mem-compare" id="compare-plans">
   <div class="container">
@@ -563,27 +567,26 @@
       <h2 class="section-title">Quick answers.</h2>
     </div>
     <div class="faq-item">
-      <button class="faq-q">Do I have to be a member to train at The Courts? <span class="faq-q-icon">+</span></button>
-      <div class="faq-a"><p>Nope. Drop into a group training session, book private training, come to Open Gym, register for a camp or clinic, join a basketball league, or reserve court time. If you're here regularly, membership gives you the best value.</p></div>
+      <button class="faq-q">Do I have to be a member to play at The Courts? <span class="faq-q-icon">+</span></button>
+      <div class="faq-a"><p>Nope. Drop into group training, book a private, come to Open Gym, sign up for a camp or clinic, join a basketball league, or rent the court.</p><p>Coming a lot? That's when membership starts to make sense.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q">What does Unlimited actually mean? <span class="faq-q-icon">+</span></button>
-      <div class="faq-a"><p>Unlimited means unlimited eligible group training plus scheduled Open Gym. Programming is still based on the schedule, age, sport, availability, and capacity.</p></div>
+      <div class="faq-a"><p>Unlimited eligible group training plus scheduled Open Gym.</p><p>Come once. Come three times. Come a lot. Just grab a spot on the schedule. Sessions are still based on age, sport, capacity, and availability.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q">Can I use my membership for basketball or volleyball? <span class="faq-q-icon">+</span></button>
-      <div class="faq-a"><p>Yep. Memberships are built for both sports. Pick your plan based on how often your athlete wants to train.</p></div>
+      <div class="faq-a"><p>Yep. Same membership, either sport.</p><p>Basketball. Volleyball. Or a little of both.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q">Can my kids play different sports on Family Unlimited? <span class="faq-q-icon">+</span></button>
-      <div class="faq-a"><p>Absolutely. Two basketball players. Two volleyball players. One of each. Family Unlimited includes two athletes however your family plays.</p></div>
+      <div class="faq-a"><p>Absolutely.</p><p>Two basketball players. Two volleyball players. One of each. Family Unlimited includes two athletes however your crew plays.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q">Can I change or cancel my membership later? <span class="faq-q-icon">+</span></button>
-      <div class="faq-a"><p>Of course. If your athlete starts coming more often — or your whole family starts living here — we'll help you move into the plan that makes sense. Cancellation terms are covered in Membership Policies.</p></div>
+      <div class="faq-a"><p>Of course. Training more? Switch plans. Need something different? We can help with that too.</p><p>To cancel, give us 30 days' notice through your account or the <a href="contact.html?interest=Current%20Member%20Support&amp;sub=Membership%20cancellation#contact-form" data-preset="Current Member Support" data-preset-sub="Membership cancellation">Contact Form</a> and we'll take care of the rest.</p><p>No awkward breakup conversation required.</p></div>
     </div>
     <div class="mem-faq-more">
-      <span>Still Have Questions?</span>
       <a href="faq.html">View All FAQs <span class="arrow">→</span></a>
     </div>
   </div>
