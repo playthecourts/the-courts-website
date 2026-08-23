@@ -20,7 +20,7 @@
 
 <header class="nav" id="nav">
   <div class="container nav-inner">
-    <a href="index.html" class="brand">
+    <a href="index.html" class="brand" aria-label="The Courts — Home">
       <img class="brand-mark brand-mark--wordmark brand-mark--dark" src="images/brand/logo-horizontal.svg" alt="The Courts">
       <img class="brand-mark brand-mark--wordmark brand-mark--light" src="images/brand/logo-horizontal.svg" alt="The Courts">
     </a>
@@ -371,43 +371,148 @@
   </style>
 </section>
 
-<section id="community-partner" style="padding:100px 0; background:var(--gray-light); overflow:hidden;">
-  <div class="container">
-    <div class="section-head" style="margin-bottom:52px;">
-      <span class="eyebrow">More Than the Gym</span>
-      <h2 class="section-title">Nolensville Is Our Home Court.</h2>
-      <p class="section-sub">Being part of a community means more than opening the doors. It means showing up.</p>
-    </div>
-    <div class="mtg-grid">
-      <div class="mtg-col mtg-col--community reveal" id="community">
-        <span class="eyebrow" style="color:var(--orange);">Community</span>
-        <h3 class="mtg-headline">We Play Here.<br>We Give Back Here.</h3>
-        <p class="mtg-body">We want The Courts to support the schools, organizations, events, and people that make Nolensville stronger. Volunteer days. School partnerships. Community projects. And whatever comes next.</p>
-        <a href="contact.html?interest=Community%20%2F%20Partnerships#contact-form" class="link" data-preset="Community / Partnerships">Get Involved →</a>
-      </div>
-      <div class="mtg-col mtg-col--partner reveal" id="partner">
-        <span class="eyebrow" style="color:var(--orange);">Partnerships</span>
-        <h3 class="mtg-headline">Your Logo Could<br>Look Good Here.</h3>
-        <p class="mtg-body">Sponsor a team. Equip the gym. Back an event. Put your name somewhere people will actually see it. Or bring us an idea we haven't thought of yet.</p>
-        <p class="mtg-typeline">Team &middot; Equipment &middot; Events &middot; In-Gym &middot; + Your Idea</p>
-        <a href="contact.html?interest=Community%20%2F%20Partnerships#contact-form" class="link" data-preset="Community / Partnerships">Let's Partner →</a>
+<section id="community" style="position:relative; padding:110px 0; background:var(--gray-light); overflow:hidden;">
+  <div class="container" style="position:relative; z-index:2;">
+    <div class="community-grid">
+      <div class="community-copy">
+        <span class="community-rule" aria-hidden="true"></span>
+        <span class="eyebrow">We Play Here. We Give Back Here.</span>
+        <h2 class="community-headline">Nolensville <span style="white-space:nowrap;">is Our</span> <span style="color:var(--orange); white-space:nowrap;">Home&nbsp;Court.</span></h2>
+        <div class="community-body">
+          <p>Being part of a community means more than opening the doors. <strong>It means showing up.</strong></p>
+          <p>The Courts is here to support the schools, organizations, events, and people that make Nolensville stronger.</p>
+          <p>Volunteer days. School partnerships. Community projects. And whatever comes next.</p>
+        </div>
+        <a href="contact.html?interest=Community%20%2F%20Partnerships#contact-form" class="btn btn-primary" data-preset="Community / Partnerships">Get Involved →</a>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .mtg-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 0; align-items: start; max-width: 1100px; margin: 0 auto; }
-  .mtg-col { padding: 0 48px; }
-  .mtg-col--community { padding-left: 0; border-right: 1px solid var(--gray-mid); }
-  .mtg-col--partner { padding-right: 0; }
-  .mtg-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 3.4vw, 42px); line-height: 1.06; color: var(--black); margin: 14px 0 20px; }
-  .mtg-body { font-size: 16px; line-height: 1.75; color: var(--gray-dark); margin: 0 0 22px; max-width: 42ch; }
-  .mtg-typeline { font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin: 0 0 24px; }
+  .community-grid { max-width: 620px; }
+  .community-rule { display: block; width: 46px; height: 4px; background: var(--orange); border-radius: 2px; margin-bottom: 18px; }
+  .community-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(36px, 5.2vw, 56px); line-height: 1.03; color: var(--black); margin: 0 0 26px; max-width: 11ch; }
+  .community-body p { font-size: 17px; line-height: 1.8; color: var(--gray-dark); margin-bottom: 20px; max-width: 46ch; }
+  .community-body strong { color: var(--black); }
+</style>
+
+<section class="partner-section" id="partner" style="position:relative; padding:150px 0 130px; background:var(--black); overflow:hidden;">
+  <div class="container" style="position:relative; z-index:2;">
+    <div class="partner-grid">
+      <div class="partner-copy">
+        <span class="eyebrow">Partner With The Courts</span>
+        <h2 class="partner-headline">Your Logo<br>Could Look<br>Good Here.</h2>
+        <p class="partner-body">There are plenty of ways to be part of The Courts.</p>
+        <p class="partner-body">Sponsor a team. Equip the gym. Back an event. Put your name somewhere people will actually see it. Or bring us an idea we haven't thought of yet.</p>
+        <div class="ctas">
+          <a href="contact.html?interest=Community%20%2F%20Partnerships#contact-form" class="btn btn-primary" data-preset="Community / Partnerships">Let's Partner →</a>
+        </div>
+      </div>
+      <div class="partner-visual">
+        <div class="partner-scoreboard">
+          <span class="partner-scoreboard-corner partner-scoreboard-corner--tl"></span>
+          <span class="partner-scoreboard-corner partner-scoreboard-corner--br"></span>
+          <span class="partner-scoreboard-label">Ways to Partner</span>
+          <div class="scoreboard-window" aria-hidden="true">
+            <span class="scoreboard-word sw-1">Team</span>
+            <span class="scoreboard-word sw-2">Equipment</span>
+            <span class="scoreboard-word sw-3">Events</span>
+            <span class="scoreboard-word sw-4">In-Gym</span>
+            <span class="scoreboard-word sw-5">+ Your Idea</span>
+          </div>
+          <span class="partner-sr-only">Ways to partner: Team, Equipment, Events, In-Gym, and your own idea.</span>
+          <div class="partner-scoreboard-ticks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .partner-grid { display:grid; grid-template-columns:0.95fr 1.05fr; gap:60px; align-items:center; }
+  .partner-headline { font-family:var(--font-display); font-weight:900; color:var(--white); font-size:clamp(38px, 6vw, 72px); line-height:0.98; margin:16px 0 26px; }
+  .partner-body { font-size:16px; line-height:1.8; color:rgba(255,255,255,0.7); margin-bottom:16px; max-width:42ch; }
+  .partner-body + .partner-body { margin-bottom:34px; }
+
+  .partner-scoreboard {
+    position:relative; border-radius:var(--radius-md); overflow:hidden;
+    background:linear-gradient(180deg, #202020 0%, #161616 100%);
+    border:1px solid rgba(255,255,255,0.12);
+    background-image:repeating-linear-gradient(180deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 34px);
+    padding:46px 36px 38px;
+  }
+  .partner-scoreboard-corner { position:absolute; width:20px; height:20px; border:2px solid var(--orange); z-index:2; }
+  .partner-scoreboard-corner--tl { top:14px; left:14px; border-right:none; border-bottom:none; }
+  .partner-scoreboard-corner--br { bottom:14px; right:14px; border-left:none; border-top:none; }
+  .partner-scoreboard-label {
+    display:block; text-align:center; font-family:var(--font-sport); font-weight:700; font-size:17px;
+    letter-spacing:0.13em; text-transform:uppercase; color:rgba(255,255,255,0.6); margin-bottom:26px;
+  }
+  .partner-sr-only {
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+    clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+  .scoreboard-window {
+    position:relative; display:flex; flex-direction:column; align-items:center; gap:8px;
+    padding:14px 0; border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12);
+  }
+  .scoreboard-word {
+    position:static; opacity:1; transform:none;
+    font-family:var(--font-display); font-weight:900; letter-spacing:0.01em; text-transform:uppercase;
+    color:rgba(255,255,255,0.85); font-size:clamp(19px, 2.6vw, 26px); text-align:center;
+  }
+  .scoreboard-word.sw-5 { color:var(--orange); }
+  .partner-scoreboard-ticks { display:flex; justify-content:center; gap:8px; margin-top:22px; }
+  .partner-scoreboard-ticks span { width:6px; height:6px; background:rgba(255,255,255,0.18); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .scoreboard-window { flex-direction:row; height:clamp(64px, 9vw, 96px); padding:0; gap:0; perspective:600px; }
+    .scoreboard-word {
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+      opacity:0; font-size:clamp(30px, 4vw, 50px);
+      animation-duration:6s; animation-iteration-count:infinite; animation-timing-function:ease-in-out;
+    }
+    .sw-1 { animation-name:sb-word-1; }
+    .sw-2 { animation-name:sb-word-2; }
+    .sw-3 { animation-name:sb-word-3; }
+    .sw-4 { animation-name:sb-word-4; }
+    .sw-5 { animation-name:sb-word-5; }
+    @keyframes sb-word-1 {
+      0%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
+      2% { opacity:1; transform:none; }
+      15% { opacity:1; transform:none; }
+      17% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
+    }
+    @keyframes sb-word-2 {
+      0%, 19%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
+      21% { opacity:1; transform:none; }
+      33% { opacity:1; transform:none; }
+      35% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
+    }
+    @keyframes sb-word-3 {
+      0%, 37%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
+      39% { opacity:1; transform:none; }
+      51% { opacity:1; transform:none; }
+      53% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
+    }
+    @keyframes sb-word-4 {
+      0%, 55%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
+      57% { opacity:1; transform:none; }
+      69% { opacity:1; transform:none; }
+      71% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
+    }
+    @keyframes sb-word-5 {
+      0%, 73%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
+      75% { opacity:1; transform:none; }
+      97% { opacity:1; transform:none; }
+      99% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
+    }
+  }
+
   @media (max-width: 860px) {
-    .mtg-grid { grid-template-columns: 1fr; gap: 44px; }
-    .mtg-col--community { border-right: none; padding-bottom: 40px; border-bottom: 1px solid var(--gray-mid); }
-    .mtg-col { padding: 0; }
+    .partner-grid { grid-template-columns:1fr; gap:40px; }
+    .partner-visual { order:-1; max-width:420px; margin:0 auto; }
   }
 </style>
 
@@ -471,7 +576,7 @@
         <div class="footer-nav-col"><h4>The Courts</h4><ul>
           <li><a href="about.html">About</a></li>
           <li><a href="about.html#community">Community</a></li>
-          <li><a href="about.html#partner">Partner</a></li>
+          <li><a href="about.html#partner">Partner With Us</a></li>
           <li><a href="shop.html">Shop</a></li>
         </ul></div>
         <div class="footer-nav-col"><h4>Help</h4><ul>
