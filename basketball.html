@@ -121,11 +121,11 @@
       "opengym leagues"
       "drdish drdish";
   }
-  .bb-way--private { grid-area: pt; }
-  .bb-way--camps { grid-area: camps; }
+  .bb-way--private { grid-area: camps; }
+  .bb-way--camps { grid-area: pt; }
   .bb-way--leagues { grid-area: leagues; }
-  .bb-way--opengym { grid-area: opengym; }
-  .bb-way--drdish { grid-area: drdish; }
+  .bb-way--opengym { grid-area: drdish; }
+  .bb-way--drdish { grid-area: opengym; }
   .bb-way-tile {
     position: relative; border-radius: var(--radius-md); overflow: hidden;
     display: flex; align-items: flex-end; padding: 26px;
@@ -144,7 +144,7 @@
   .bb-way-link--pill { color: var(--white); background: var(--orange); padding: 9px 16px; border-radius: 999px; transition: background 0.2s var(--ease); margin-top: 2px; }
   .bb-way-link--pill .arrow { color: var(--white); }
   .bb-way-tile:hover .bb-way-link--pill { background: var(--orange-hover); }
-  .bb-way--drdish .bb-way-body { max-width: 60%; }
+  .bb-way--opengym .bb-way-body { max-width: 60%; }
   @media (max-width: 860px) {
     .bb-more-grid { grid-template-columns: 1fr; grid-template-rows: none; grid-template-areas: none; }
     .bb-way-tile { aspect-ratio: 4/3; }
