@@ -301,7 +301,7 @@ body.has-announce .nav { top: 52px; }
 .footer-main { display: grid; grid-template-columns: 1fr 1.5fr; gap: 64px; padding-bottom: 64px; }
 .footer-brand-col { max-width: 420px; }
 .footer-brand-logo { height: 56px; width: auto; display: block; margin-bottom: 20px; }
-.footer-brand-rule { width: 46px; height: 3px; background: var(--orange); margin-bottom: 22px; }
+.footer-brand-rule { width: 154px; height: 3px; background: var(--orange); margin-bottom: 22px; }
 .footer-brand-line { font-family: var(--font-heading); font-weight: 700; font-size: 18px; line-height: 1.55; color: var(--black); margin: 0 0 36px; }
 .footer-newsletter { margin-bottom: 28px; }
 .footer-newsletter-label { display: block; font-family: var(--font-heading); font-weight: 800; font-size: 16px; margin: 0 0 8px; }
