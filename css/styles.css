@@ -299,7 +299,7 @@ body.has-announce .nav { top: 52px; }
 /* ---------- Footer ---------- */
 .site-footer { background: var(--gray-light); padding: 68px 0 0; color: var(--black); }
 .footer-main { display: grid; grid-template-columns: 1fr 1.5fr; gap: 48px; padding-bottom: 44px; }
-.footer-brand-col { max-width: 420px; }
+.footer-brand-col { max-width: 420px; padding-left: 8px; }
 .footer-brand-logo { height: 56px; width: auto; display: block; margin-bottom: 20px; }
 .footer-brand-rule { width: 154px; height: 3px; background: var(--orange); margin-bottom: 22px; }
 .footer-brand-line { font-family: var(--font-heading); font-weight: 700; font-size: 18px; line-height: 1.55; color: var(--black); margin: 0 0 28px; }
