@@ -115,7 +115,8 @@ body.has-announce .nav { top: 52px; }
 .nav.nav-solid .nav-toggle span { background: var(--black); }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; }
 .brand { display: flex; align-items: center; gap: 10px; }
-.brand-mark--wordmark { height: 28px; width: auto; }
+.brand-mark--wordmark { height: 46px; width: auto; }
+@media (max-width: 640px) { .brand-mark--wordmark { height: 40px; } }
 .brand-mark--light { display: block; }
 .brand-mark--dark { display: none; }
 .nav.scrolled .brand-mark--light { display: none; }
