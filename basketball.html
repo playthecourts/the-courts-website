@@ -111,13 +111,6 @@
   @media (max-width: 560px) { .bb-more-strip { grid-template-columns: 1fr; max-width: 340px; margin-left: auto; margin-right: auto; } }
 
   /* ---------- Membership endcap ---------- */
-  .bb-membership { background: var(--black); color: var(--white); padding: 100px 0; text-align: center; }
-  .bb-membership .eyebrow { color: var(--orange); font-size: 13px; letter-spacing: 0.1em; }
-  .bb-membership h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 4.6vw, 48px); margin: 14px 0 16px; }
-  .bb-membership p { color: rgba(255,255,255,0.72); font-size: 16px; margin: 0 0 32px; }
-  .bb-mem-names { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-bottom: 36px; font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
-  .bb-mem-names span.featured { color: var(--white); }
-  @media (max-width: 560px) { .bb-mem-names { gap: 16px; font-size: 11.5px; } }
 </style>
 </head>
 <body class="has-announce">
@@ -425,18 +418,18 @@
   </div>
 </section>
 
-<section class="bb-membership" id="membership">
-  <div class="container">
-    <span class="eyebrow">Playing a Lot?</span>
-    <h2>Okay, You Might Live Here Now.</h2>
-    <p>Once a week. Every chance you get. Somewhere in between.</p>
-    <div class="bb-mem-names">
-      <span>Weekly</span>
-      <span class="featured">Unlimited</span>
-      <span>Full Court</span>
-      <span>Family</span>
+<section class="pre-footer">
+  <div class="container pre-footer-inner">
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Ready to Play?</span>
+      <h3 class="pre-footer-title">Find a Basketball Session.</h3>
+      <a href="schedule.html?sport=basketball" class="pre-footer-link">View Schedule <span class="arrow">→</span></a>
     </div>
-    <a href="membership.html#plan-selector" class="btn btn-primary">See Membership Plans →</a>
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Playing a Lot?</span>
+      <h3 class="pre-footer-title">Okay, You Might Live Here Now.</h3>
+      <a href="membership.html#plan-selector" class="pre-footer-link">See Membership <span class="arrow">→</span></a>
+    </div>
   </div>
 </section>
 

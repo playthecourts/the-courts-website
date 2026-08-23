@@ -78,19 +78,6 @@
   .why-league-item p { font-size: 15px; color: var(--gray-dark); line-height: 1.6; max-width: 32ch; }
   @media (max-width: 760px) { .why-league-grid { grid-template-columns: 1fr; gap: 32px; } }
 
-  .lg-final { background: var(--black); color: var(--white); padding: 110px 0 90px; position: relative; overflow: hidden; }
-  .lg-final-inner { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; flex-wrap: wrap; position: relative; z-index: 2; }
-  .lg-final h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(52px, 10vw, 128px); line-height: 0.9; margin: 0 0 20px; }
-  .lg-final p { color: rgba(255,255,255,0.75); font-size: 16.5px; max-width: 46ch; line-height: 1.65; margin: 0 0 14px; }
-  .lg-final .bold { color: var(--white); font-weight: 700; }
-  .lg-final-badge { text-align: right; flex-shrink: 0; }
-  .lg-final-badge .status { font-family: var(--font-sport); font-weight: 700; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); display: flex; align-items: center; gap: 8px; justify-content: flex-end; margin-bottom: 10px; }
-  .lg-final-badge .status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); animation: lgPulse 2s ease-in-out infinite; }
-  @media (prefers-reduced-motion: reduce) { .lg-final-badge .status .dot { animation: none; } }
-  .lg-final-badge .season { font-family: var(--font-heading); font-weight: 700; font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 2px; }
-  .lg-final-badge .dates { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: rgba(255,255,255,0.85); }
-  .lg-final-court { position: absolute; left: -6%; bottom: -18%; width: 46%; max-width: 480px; opacity: 0.08; z-index: 1; pointer-events: none; }
-  @media (max-width: 760px) { .lg-final-inner { flex-direction: column; align-items: flex-start; } .lg-final-badge { text-align: left; } .lg-final-badge .status { justify-content: flex-start; } }
 
   .lg-form-wrap { background: var(--gray-light); border-radius: var(--radius-md); padding: 44px; margin-top: -60px; position: relative; z-index: 3; }
   .lg-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -414,27 +401,6 @@
   </div>
 </section>
 
-<section class="lg-final">
-  <svg class="lg-final-court" viewBox="0 0 300 300" fill="none" aria-hidden="true">
-    <circle cx="150" cy="150" r="120" stroke="white" stroke-width="2"/>
-    <circle cx="150" cy="150" r="4" fill="white"/>
-    <path d="M30,150 L270,150" stroke="white" stroke-width="2"/>
-  </svg>
-  <div class="container lg-final-inner">
-    <div>
-      <span class="eyebrow eyebrow--light">Roster Spots Don't Fill Themselves.</span>
-      <h2>You In?</h2>
-      <p>We're building the teams now. Tell us about your athlete and we'll follow up with evaluation details, roster availability, pricing, practice schedules, and everything you need for the season.</p>
-      <p class="bold">Shoes tied. Let's go.</p>
-    </div>
-    <div class="lg-final-badge">
-      <div class="status"><span class="dot"></span>Registration Open</div>
-      <div class="season">Fall 2026</div>
-      <div class="dates">Oct 24 → Dec 13</div>
-    </div>
-  </div>
-</section>
-
 <section style="padding:0 0 110px;" id="register">
   <div class="container" style="max-width:760px;">
     <div class="lg-form-wrap">
@@ -477,6 +443,21 @@
           <li>Team placement + schedule follow.</li>
         </ol>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="pre-footer">
+  <div class="container pre-footer-inner">
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Registration Open</span>
+      <h3 class="pre-footer-title">You In?</h3>
+      <a href="#register" class="pre-footer-link">Register Your Athlete <span class="arrow">→</span></a>
+    </div>
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Next Up</span>
+      <h3 class="pre-footer-title">Winter Basketball.</h3>
+      <a href="contact.html?interest=Basketball%20Leagues#contact-form" class="pre-footer-link" data-preset="Basketball Leagues">Get Updates <span class="arrow">→</span></a>
     </div>
   </div>
 </section>

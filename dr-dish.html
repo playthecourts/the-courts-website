@@ -203,36 +203,12 @@
     .dd-rate-row--featured { padding: 26px 20px; }
   }
 
-  /* ---------- Private Training cross-sell ---------- */
-  .dd-crosssell { background: var(--gray-light); padding: 100px 0; }
-  .dd-crosssell-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 56px; align-items: center; }
-  .dd-crosssell-media { aspect-ratio: 4/3.2; border-radius: var(--radius-md); overflow: hidden; }
-  .dd-crosssell-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .dd-crosssell-copy .eyebrow { font-size: 15px; }
-  .dd-crosssell-copy h2 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.1; margin: 12px 0 20px; }
-  .dd-crosssell-copy p { font-size: 16.5px; line-height: 1.7; color: var(--gray-dark); max-width: 46ch; margin: 0 0 14px; }
-  @media (max-width: 900px) {
-    .dd-crosssell { padding: 72px 0; }
-    .dd-crosssell-grid { grid-template-columns: 1fr; gap: 32px; }
-  }
-
-  /* ---------- Final CTA ---------- */
-  .dd-final { background: var(--black); padding: 140px 0; position: relative; overflow: hidden; text-align: center; }
-  .dd-final-arc { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
-  .dd-final-arc svg { width: 100%; height: 100%; }
-  .dd-final-arc path { fill: none; stroke: var(--orange); stroke-width: 2; opacity: 0.35; }
-  .dd-final .container { position: relative; z-index: 2; }
-  .dd-final-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(48px, 8vw, 104px); line-height: 0.96; color: var(--white); margin: 0 0 28px; }
-  .dd-final-title .accent { color: var(--orange); }
-  .dd-final-body { font-size: 17.5px; line-height: 1.7; color: rgba(255,255,255,0.68); max-width: 40ch; margin: 0 auto 18px; }
-  .dd-final-bold { font-family: var(--font-heading); font-weight: 800; font-size: 19px; color: var(--white); max-width: 46ch; margin: 0 auto 36px; }
-  @media (max-width: 700px) {
-    .dd-final { padding: 96px 0; }
-  }
 </style>
 </head>
-<body>
+<body class="has-announce">
 <a href="#main" class="skip-link">Skip to main content</a>
+
+<a href="leagues.html" class="site-announce">Fall League Registration Is Now Open <span class="arrow">→</span></a>
 
 <header class="nav" id="nav">
   <div class="container nav-inner">
@@ -594,30 +570,18 @@
   </div>
 </section>
 
-<!-- ================= 9. DR. DISH + PRIVATE TRAINING ================= -->
-<section class="dd-crosssell">
-  <div class="container dd-crosssell-grid">
-    <div class="dd-crosssell-media reveal"><img src="images/coach-shooting-form.jpg" alt="A coach adjusting an athlete's shooting form during a private training session."></div>
-    <div class="dd-crosssell-copy reveal">
-      <span class="eyebrow">Need More Than Reps?</span>
-      <h2>Want Someone<br>Watching, Too?</h2>
-      <p>Dr. Dish is great when what you need is reps.</p>
-      <p>If you need someone looking at your mechanics, footwork, balance, decisions, or that thing your shot does when you get tired? That's what coaches are for.</p>
-      <a href="private-coaching.html" class="btn btn-secondary">Explore Private Training →</a>
+<section class="pre-footer">
+  <div class="container pre-footer-inner">
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Ready?</span>
+      <h3 class="pre-footer-title">Put Some Shots Up.</h3>
+      <a href="schedule.html" class="pre-footer-link">Book Dr. Dish <span class="arrow">→</span></a>
     </div>
-  </div>
-</section>
-
-<!-- ================= 10. FINAL CTA ================= -->
-<section class="dd-final">
-  <div class="dd-final-arc" aria-hidden="true">
-    <svg viewBox="0 0 1440 500" preserveAspectRatio="none"><path d="M-100,520 Q 720,-120 1540,520"/></svg>
-  </div>
-  <div class="container">
-    <h2 class="dd-final-title reveal">Put Some<br><span class="accent">Shots Up.</span></h2>
-    <p class="dd-final-body reveal">Thirty minutes.<br>No chasing rebounds.<br>No waiting for somebody to pass it back.</p>
-    <p class="dd-final-bold reveal">Just you, the hoop, and a machine that absolutely does not get tired.</p>
-    <a href="schedule.html" class="btn btn-primary">Book Dr. Dish →</a>
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Need More Than Reps?</span>
+      <h3 class="pre-footer-title">Want Someone Watching, Too?</h3>
+      <a href="private-coaching.html" class="pre-footer-link">Private Training <span class="arrow">→</span></a>
+    </div>
   </div>
 </section>
 

@@ -124,32 +124,6 @@
     .vb-more-grid { grid-template-columns: 1fr 1fr; }
   }
 
-  /* ---------- Membership strip ---------- */
-  .vb-membership { background: var(--black); color: var(--white); padding: 88px 0; }
-  .vb-membership-inner { max-width: 920px; margin: 0 auto; text-align: center; }
-  .vb-membership .eyebrow { font-size: clamp(20px, 2.6vw, 28px); letter-spacing: 0.06em; font-weight: 800; }
-  .vb-membership h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(19px, 4.4vw, 46px); margin: 12px 0 16px; white-space: nowrap; }
-  .vb-membership p { color: rgba(255,255,255,0.72); font-size: 16.5px; line-height: 1.7; margin: 0 0 44px; }
-  .vb-mem-track { position: relative; margin: 0 auto 44px; max-width: 560px; }
-  .vb-mem-line-track { position: relative; height: 2px; background: rgba(255,255,255,0.18); }
-  .vb-mem-line-fill { position: absolute; left: 0; top: 0; height: 100%; width: 0; background: var(--orange); transition: width 1.1s var(--ease); }
-  .vb-mem-line-fill.in-view { width: 100%; }
-  .vb-mem-steps { display: flex; justify-content: space-between; margin-top: -6px; }
-  .vb-mem-step { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-  .vb-mem-dot { width: 13px; height: 13px; border-radius: 50%; background: var(--black); border: 2px solid rgba(255,255,255,0.4); }
-  .vb-mem-step--featured .vb-mem-dot { background: var(--orange); border-color: var(--orange); width: 15px; height: 15px; }
-  .vb-mem-label { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.65); }
-  .vb-mem-step--featured .vb-mem-label { color: var(--white); }
-  @media (max-width: 600px) { .vb-mem-label { font-size: 10.5px; } }
-
-  /* ---------- Final CTA ---------- */
-  .vb-final { background: var(--charcoal); color: var(--white); padding: 90px 0; position: relative; overflow: hidden; text-align: center; }
-  .vb-final-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(48px, 9vw, 120px); line-height: 0.9; margin: 0; position: relative; z-index: 2; }
-  .vb-final-title .accent { color: var(--orange); }
-  .vb-final-net { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 900px; max-width: 140vw; opacity: 0.3; z-index: 1; pointer-events: none; }
-  @media (max-width: 900px) {
-    .vb-final-title { font-size: clamp(40px, 14vw, 72px); }
-  }
 </style>
 </head>
 <body class="has-announce">
@@ -472,32 +446,18 @@
   </div>
 </section>
 
-<section class="vb-membership" id="membership">
-  <div class="container">
-    <div class="vb-membership-inner reveal">
-      <span class="eyebrow">Playing a Lot?</span>
-      <h2>Okay, You Might Live Here Now.</h2>
-      <p>Once a week. Every chance you get. Somewhere in between.</p>
-      <div class="vb-mem-track">
-        <div class="vb-mem-line-track"><span class="vb-mem-line-fill" id="memLineFill"></span></div>
-        <div class="vb-mem-steps">
-          <div class="vb-mem-step"><span class="vb-mem-dot"></span><span class="vb-mem-label">Weekly</span></div>
-          <div class="vb-mem-step vb-mem-step--featured"><span class="vb-mem-dot"></span><span class="vb-mem-label">Unlimited</span></div>
-          <div class="vb-mem-step"><span class="vb-mem-dot"></span><span class="vb-mem-label">Full Court</span></div>
-          <div class="vb-mem-step"><span class="vb-mem-dot"></span><span class="vb-mem-label">Family</span></div>
-        </div>
-      </div>
-      <a href="membership.html#plan-selector" class="btn btn-primary">See Membership Plans →</a>
+<section class="pre-footer">
+  <div class="container pre-footer-inner">
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Ready to Play?</span>
+      <h3 class="pre-footer-title">Find a Volleyball Session.</h3>
+      <a href="schedule.html?sport=volleyball" class="pre-footer-link">View Schedule <span class="arrow">→</span></a>
     </div>
-  </div>
-</section>
-
-<section class="vb-final">
-  <svg class="vb-final-net" viewBox="0 0 400 400" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M20,200 L380,200" fill="none" stroke="var(--orange)" stroke-width="2"/>
-  </svg>
-  <div class="container">
-    <h2 class="vb-final-title reveal">Keep It <span class="accent">Up.</span></h2>
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Playing a Lot?</span>
+      <h3 class="pre-footer-title">Okay, You Might Live Here Now.</h3>
+      <a href="membership.html#plan-selector" class="pre-footer-link">See Membership <span class="arrow">→</span></a>
+    </div>
   </div>
 </section>
 
@@ -552,7 +512,6 @@
     }
 
     observe(document.getElementById('devLineFill'), function (el) { el.classList.add('in-view'); });
-    observe(document.getElementById('memLineFill'), function (el) { el.classList.add('in-view'); });
     document.querySelectorAll('.vb-seq-graphic').forEach(function (el) {
       observe(el, function (t) { t.classList.add('in-view'); });
     });
