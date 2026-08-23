@@ -24,7 +24,7 @@
   .bb-hero-copy .eyebrow { font-size: 19px; letter-spacing: 0.1em; text-shadow: 0 1px 3px rgba(0,0,0,0.08); }
   .bb-hero-title { font-family: var(--font-display); font-weight: 900; line-height: 0.94; margin: 16px 0 24px; font-size: clamp(44px, 6.4vw, 84px); }
   .bb-hero-title > span { display: block; }
-  .bb-hero-title .accent { color: var(--orange); }
+  .bb-hero-title .accent { color: var(--black); }
   .bb-hero-sub { font-size: 17.5px; line-height: 1.75; color: var(--gray-dark); max-width: 42ch; margin: 0 0 36px; }
   .bb-hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
   .bb-hero-media { position: relative; overflow: hidden; }
@@ -44,6 +44,7 @@
   .bb-head { max-width: 660px; margin: 0 auto 8px; text-align: center; }
   .bb-head .eyebrow { font-size: 19px; letter-spacing: 0.1em; text-shadow: 0 1px 3px rgba(0,0,0,0.08); }
   .bb-head h2 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(28px, 4vw, 42px); line-height: 1.1; margin: 0; }
+  .bb-more .bb-head h2 { white-space: nowrap; }
   .bb-head p { font-size: 16.5px; line-height: 1.65; color: var(--gray-dark); max-width: 56ch; margin: 14px auto 0; }
   .bb-train-section { background: var(--white); padding: 96px 0 0; }
 
@@ -109,27 +110,45 @@
     .bb-dev-stops { display: none; }
   }
 
-  /* ---------- More Basketball grid (basic cards) ---------- */
+  /* ---------- More Basketball grid (asymmetric editorial) ---------- */
   .bb-more { background: var(--gray-light); padding: 48px 0 100px; }
-  .bb-head p.bb-more-intro { line-height: 2.15; }
-  .bb-more-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 40px; }
-  .bb-way-tile { position: relative; border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; background: var(--white); border: 1px solid var(--gray-mid); box-shadow: 0 1px 2px rgba(0,0,0,0.04); transition: box-shadow 0.2s var(--ease), transform 0.2s var(--ease); }
-  .bb-way-tile:hover { box-shadow: 0 10px 24px rgba(0,0,0,0.08); transform: translateY(-2px); }
-  .bb-way-tile .photo-bg { position: relative; height: 150px; overflow: hidden; }
-  .bb-way-tile .photo-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .bb-way-body { padding: 22px 22px 24px; }
+  .bb-more-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px;
+    grid-template-rows: 230px 230px 230px 190px;
+    grid-template-areas:
+      "pt    camps"
+      "pt    leagues"
+      "opengym leagues"
+      "drdish drdish";
+  }
+  .bb-way--private { grid-area: pt; }
+  .bb-way--camps { grid-area: camps; }
+  .bb-way--leagues { grid-area: leagues; }
+  .bb-way--opengym { grid-area: opengym; }
+  .bb-way--drdish { grid-area: drdish; }
+  .bb-way-tile {
+    position: relative; border-radius: var(--radius-md); overflow: hidden;
+    display: flex; align-items: flex-end; padding: 26px;
+  }
+  .bb-way-tile .photo-bg { position: absolute; inset: 0; }
+  .bb-way-tile .photo-bg img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s var(--ease); }
+  .bb-way-tile .photo-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(23,23,23,0.05) 30%, rgba(23,23,23,0.86) 100%); }
+  .bb-way-tile:hover .photo-bg img { transform: scale(1.025); }
+  .bb-way-body { position: relative; z-index: 2; }
   .bb-way-label { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange); margin: 0 0 8px; }
-  .bb-way-name { font-family: var(--font-display); font-weight: 900; font-size: 19px; margin: 0 0 8px; line-height: 1.1; color: var(--black); }
-  .bb-way-copy { font-size: 13.5px; line-height: 1.55; color: var(--gray-dark); margin: 0 0 14px; }
-  .bb-way-link { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 13.5px; color: var(--black); }
+  .bb-way-name { font-family: var(--font-display); font-weight: 900; font-size: 22px; margin: 0 0 8px; line-height: 1.05; color: var(--white); }
+  .bb-way-copy { font-size: 13.5px; line-height: 1.5; color: rgba(255,255,255,0.82); margin: 0 0 12px; max-width: 30ch; }
+  .bb-way-link { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 13.5px; color: var(--white); }
   .bb-way-link .arrow { transition: transform 0.2s var(--ease); color: var(--orange); }
   .bb-way-tile:hover .bb-way-link .arrow { transform: translateX(4px); }
-  .bb-way-link--pill { color: var(--white); background: var(--orange); padding: 9px 16px; border-radius: 999px; transition: background 0.2s var(--ease); margin-top: 4px; }
+  .bb-way-link--pill { color: var(--white); background: var(--orange); padding: 9px 16px; border-radius: 999px; transition: background 0.2s var(--ease); margin-top: 2px; }
   .bb-way-link--pill .arrow { color: var(--white); }
   .bb-way-tile:hover .bb-way-link--pill { background: var(--orange-hover); }
-  .bb-way--drdish .photo-bg { background: var(--black); }
-  @media (max-width: 640px) {
-    .bb-more-grid { grid-template-columns: 1fr 1fr; }
+  .bb-way--drdish .bb-way-body { max-width: 60%; }
+  @media (max-width: 860px) {
+    .bb-more-grid { grid-template-columns: 1fr; grid-template-rows: none; grid-template-areas: none; }
+    .bb-way-tile { aspect-ratio: 4/3; }
+    .bb-way--private, .bb-way--camps, .bb-way--leagues, .bb-way--opengym, .bb-way--drdish { grid-area: auto; }
   }
 
   /* ---------- Membership strip ---------- */
@@ -150,17 +169,6 @@
   .bb-mem-step--featured .bb-mem-label { color: var(--white); }
   @media (max-width: 600px) { .bb-mem-label { font-size: 10.5px; } }
 
-  /* ---------- Final CTA ---------- */
-  .bb-final { background: var(--charcoal); color: var(--white); padding: 90px 0; position: relative; overflow: hidden; text-align: center; }
-  .bb-final-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(48px, 9vw, 120px); line-height: 0.9; margin: 0; position: relative; z-index: 2; }
-  .bb-final-title .accent { color: var(--orange); }
-  .bb-final-glow { position: absolute; left: 50%; top: 50%; width: 760px; height: 760px; max-width: 130vw; max-height: 130vw; background: radial-gradient(circle, rgba(213,96,31,0.4), rgba(213,96,31,0) 68%); transform: translate(-50%,-50%); z-index: 1; pointer-events: none; }
-  .bb-final-ring { position: absolute; left: 50%; top: 50%; width: 540px; height: 540px; max-width: 100vw; max-height: 100vw; border: 2px dashed rgba(213,96,31,0.45); border-radius: 50%; transform: translate(-50%,-50%); z-index: 1; pointer-events: none; animation: bbSpin 50s linear infinite; }
-  .bb-final-ring--inner { width: 380px; height: 380px; max-width: 76vw; max-height: 76vw; border-color: rgba(213,96,31,0.28); animation-duration: 36s; animation-direction: reverse; }
-  @keyframes bbSpin { to { transform: translate(-50%,-50%) rotate(360deg); } }
-  @media (max-width: 900px) {
-    .bb-final-title { font-size: clamp(40px, 14vw, 72px); }
-  }
 </style>
 </head>
 <body class="has-announce">
@@ -417,8 +425,8 @@
   <div class="container">
     <div class="bb-head reveal">
       <span class="eyebrow">More Basketball</span>
-      <h2>Good Thing We Have a Court.</h2>
-      <p class="bb-more-intro">Work on your game. Get shots up. Play in a league.<br>Come mess around at Open Gym.<br>There's almost always a reason to bring your shoes.</p>
+      <h2>Good Thing We Have a Lot of Court.</h2>
+      <p class="bb-more-intro">Work on something. Get more reps. Play.<br>There's almost always a reason to bring your shoes.</p>
     </div>
 
     <div class="bb-more-grid">
@@ -488,15 +496,6 @@
       </div>
       <a href="membership.html#plan-selector" class="btn btn-primary">See Membership Plans →</a>
     </div>
-  </div>
-</section>
-
-<section class="bb-final">
-  <div class="bb-final-glow" aria-hidden="true"></div>
-  <div class="bb-final-ring" aria-hidden="true"></div>
-  <div class="bb-final-ring bb-final-ring--inner" aria-hidden="true"></div>
-  <div class="container">
-    <h2 class="bb-final-title reveal">Run It <span class="accent">Back.</span></h2>
   </div>
 </section>
 
