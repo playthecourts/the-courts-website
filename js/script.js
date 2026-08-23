@@ -43,17 +43,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ---------- Contact form: pre-select interest from ?interest= or data-preset ---------- */
+  /* ---------- Contact form: conditional field groups ---------- */
   const interestSelect = document.getElementById('cInterest');
   if (interestSelect) {
-    const conditionalFieldGroups = [
-      { value: 'Private Training', el: document.getElementById('privateTrainingFields') },
-      { value: 'Coach Collective / Training Space', el: document.getElementById('coachCollectiveFields') }
+    const groups = [...document.querySelectorAll('.cf-group')];
+    const minorNote = document.getElementById('cfMinorNote');
+    const athleteInterests = [
+      'Membership', 'Private Training', 'Camps + Clinics', 'Basketball Leagues',
+      'Where Should My Athlete Start?', 'Open Gym', 'Birthday Party / Event'
     ];
+
     const updateConditionalFields = () => {
-      conditionalFieldGroups.forEach(group => {
-        if (group.el) group.el.style.display = interestSelect.value === group.value ? 'block' : 'none';
-      });
+      const val = interestSelect.value;
+      groups.forEach(group => { group.hidden = group.dataset.interest !== val; });
+      if (minorNote) minorNote.hidden = !athleteInterests.includes(val);
     };
 
     const interestParam = new URLSearchParams(window.location.search).get('interest');
@@ -73,11 +76,51 @@ document.addEventListener('DOMContentLoaded', () => {
     updateConditionalFields();
   }
 
-  /* ---------- Contact form submit (visual only) ---------- */
+  /* ---------- Contact form submit (visual only, with inline validation) ---------- */
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
+    const errorMessages = {
+      cName: 'Enter your name',
+      cEmail: 'Add an email so we know where to reply',
+      cInterest: 'Choose what you\'re interested in'
+    };
+    const showError = (field, msg) => {
+      const row = field.closest('.form-row');
+      if (!row) return;
+      row.classList.add('field-invalid');
+      let err = row.querySelector('.field-error');
+      if (!err) {
+        err = document.createElement('span');
+        err.className = 'field-error';
+        row.appendChild(err);
+      }
+      err.textContent = msg;
+    };
+    const clearError = field => {
+      const row = field.closest('.form-row');
+      if (row) row.classList.remove('field-invalid');
+    };
+
+    contactForm.querySelectorAll('input, select, textarea').forEach(field => {
+      field.addEventListener('input', () => clearError(field));
+      field.addEventListener('change', () => clearError(field));
+    });
+
     contactForm.addEventListener('submit', e => {
       e.preventDefault();
+      let valid = true;
+      contactForm.querySelectorAll('[required]').forEach(field => {
+        const visible = field.offsetParent !== null;
+        if (!visible) return;
+        if (!field.value.trim()) {
+          valid = false;
+          showError(field, errorMessages[field.id] || 'This field is required');
+        } else {
+          clearError(field);
+        }
+      });
+      if (!valid) return;
+
       const success = document.getElementById('contactFormSuccess');
       contactForm.reset();
       contactForm.style.display = 'none';

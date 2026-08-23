@@ -147,24 +147,33 @@
 </section>
 
 <section class="contact-form-section" style="padding:70px 0 80px;" id="contact-form">
-  <div class="container" style="max-width:640px; position:relative; z-index:1;">
+  <div class="container" style="max-width:680px; position:relative; z-index:1;">
     <div class="contact-form-wrap">
       <span class="eyebrow">Get In Touch</span>
-      <h2 class="section-title" style="margin-bottom:38px; font-size:clamp(32px, 4.6vw, 48px);">Say Hello.</h2>
+      <h2 class="section-title" style="margin-bottom:14px; font-size:clamp(32px, 4.6vw, 48px);">Tell Us What You're Looking For.</h2>
+      <p style="font-size:16.5px; line-height:1.6; color:var(--gray-dark); max-width:520px; margin:0 0 38px;">Answer a few quick questions and we'll come back with a real answer — not another round of questions.</p>
 
       <div id="contactFormSuccess" class="form-success" style="display:none;">
-        <h3>Got It. See You Soon.</h3>
-        <p>We'll be in touch soon.</p>
+        <h3>Got It.</h3>
+        <p>We'll take a look and get back to you soon.</p>
+        <p>If you asked about a program, membership, rental, or training, we'll use what you shared to point you toward the right next step.</p>
+        <p style="margin-top:18px;">See you on the court.</p>
       </div>
 
-      <form id="contactForm">
+      <form id="contactForm" novalidate>
         <div class="form-row">
           <label for="cName">Name*</label>
           <input type="text" id="cName" required autocomplete="name">
         </div>
-        <div class="form-row">
-          <label for="cEmail">Email*</label>
-          <input type="email" id="cEmail" required autocomplete="email">
+        <div class="form-grid-2">
+          <div class="form-row">
+            <label for="cEmail">Email*</label>
+            <input type="email" id="cEmail" required autocomplete="email">
+          </div>
+          <div class="form-row">
+            <label for="cPhone">Phone <span class="form-optional-tag">Optional</span></label>
+            <input type="tel" id="cPhone" autocomplete="tel">
+          </div>
         </div>
         <div class="form-row">
           <label for="cInterest">I'm interested in...*</label>
@@ -177,7 +186,7 @@
             <option value="Open Gym">Open Gym</option>
             <option value="Court Rental">Court Rental</option>
             <option value="Coach Collective / Training Space">Coach Collective / Training Space</option>
-          <option value="Where Should My Athlete Start?">Where Should My Athlete Start?</option>
+            <option value="Where Should My Athlete Start?">Where Should My Athlete Start?</option>
             <option value="Birthday Party / Event">Birthday Party / Event</option>
             <option value="Current Member Support">Current Member Support</option>
             <option value="Coaching at The Courts">Coaching at The Courts</option>
@@ -186,84 +195,155 @@
             <option value="Something Else">Something Else</option>
           </select>
         </div>
-        <div id="privateTrainingFields" style="display:none;">
-          <div class="form-row">
-            <label for="ptSport">Sport</label>
-            <select id="ptSport">
-              <option value="">Select one</option>
-              <option value="Basketball">Basketball</option>
-              <option value="Volleyball">Volleyball</option>
-            </select>
+
+        <div class="cf-group" id="cf-membership" data-interest="Membership" hidden>
+          <div class="form-row"><label for="mem-athlete">Athlete Name <span class="form-optional-tag">Optional</span></label><input type="text" id="mem-athlete"></div>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="mem-age">Age / Grade*</label><input type="text" id="mem-age" required></div>
+            <div class="form-row"><label for="mem-sport">Sport*</label><select id="mem-sport" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option><option>Both</option></select></div>
           </div>
-          <div class="form-row">
-            <label for="ptAge">Athlete Age</label>
-            <input type="text" id="ptAge">
+          <div class="form-grid-2">
+            <div class="form-row"><label for="mem-experience">Experience <span class="form-optional-tag">Optional</span></label><select id="mem-experience"><option value="">Select one</option><option>New to the sport</option><option>Some experience</option><option>Experienced</option></select></div>
+            <div class="form-row"><label for="mem-availability">Preferred Days/Times <span class="form-optional-tag">Optional</span></label><input type="text" id="mem-availability"></div>
           </div>
-          <div class="form-row">
-            <label for="ptFocus">What are they working on?</label>
-            <input type="text" id="ptFocus">
-          </div>
-          <div class="form-row">
-            <label for="ptTimes">Preferred Days/Times <span style="font-weight:400; color:var(--gray-dark);">(optional)</span></label>
-            <input type="text" id="ptTimes">
-          </div>
-          <div class="form-row">
-            <label for="ptCoach">Coach Preference <span style="font-weight:400; color:var(--gray-dark);">(optional)</span></label>
-            <select id="ptCoach">
-              <option value="">No preference</option>
-              <option value="Johnny Coles">Johnny Coles</option>
-              <option value="Spencer Richardson">Spencer Richardson</option>
-              <option value="Justin Frank">Justin Frank</option>
-              <option value="Sarah Quint">Sarah Quint</option>
-            </select>
-          </div>
+          <div class="form-row"><label for="mem-looking">What are you looking for?</label><select id="mem-looking"><option value="">Select one</option><option>Unlimited</option><option>Weekly</option><option>Full Court</option><option>Family</option><option>Not sure yet</option></select></div>
+          <div class="form-row"><label for="mem-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="mem-extra"></textarea></div>
         </div>
-        <div id="coachCollectiveFields" style="display:none;">
-          <div class="form-row">
-            <label for="ccSport">Sport</label>
-            <select id="ccSport">
-              <option value="">Select one</option>
-              <option value="Basketball">Basketball</option>
-              <option value="Volleyball">Volleyball</option>
-              <option value="Other">Other</option>
-            </select>
+
+        <div class="cf-group" id="cf-private-training" data-interest="Private Training" hidden>
+          <div class="form-row"><label for="pt-athlete">Athlete Name <span class="form-optional-tag">Optional</span></label><input type="text" id="pt-athlete"></div>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="pt-age">Age / Grade*</label><input type="text" id="pt-age" required></div>
+            <div class="form-row"><label for="pt-sport">Sport*</label><select id="pt-sport" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option></select></div>
           </div>
-          <div class="form-row">
-            <label for="ccType">Type of Training</label>
-            <select id="ccType">
-              <option value="">Select one</option>
-              <option value="Private Training">Private Training</option>
-              <option value="Small Group">Small Group</option>
-              <option value="Team Practice">Team Practice</option>
-              <option value="Recurring Training">Recurring Training</option>
-              <option value="Other">Other</option>
-            </select>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="pt-experience">Experience <span class="form-optional-tag">Optional</span></label><select id="pt-experience"><option value="">Select one</option><option>New to the sport</option><option>Some experience</option><option>Experienced</option></select></div>
+            <div class="form-row"><label for="pt-availability">Preferred Days/Times <span class="form-optional-tag">Optional</span></label><input type="text" id="pt-availability"></div>
           </div>
-          <div class="form-row">
-            <label for="ccGroupSize">Estimated Group Size <span style="font-weight:400; color:var(--gray-dark);">(optional)</span></label>
-            <input type="text" id="ccGroupSize">
+          <div class="form-row"><label for="pt-focus">What do you want to work on?</label><textarea id="pt-focus"></textarea></div>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="pt-format">Format</label><select id="pt-format"><option value="">Select one</option><option>One-on-one</option><option>Small group</option><option>Either</option></select></div>
+            <div class="form-row"><label for="pt-coach">Coach Preference <span class="form-optional-tag">Optional</span></label><select id="pt-coach"><option value="">No preference</option><option>Johnny Coles</option><option>Spencer Richardson</option><option>Justin Frank</option><option>Sarah Quint</option></select></div>
           </div>
-          <div class="form-row">
-            <label for="ccTimes">Preferred Days/Times <span style="font-weight:400; color:var(--gray-dark);">(optional)</span></label>
-            <input type="text" id="ccTimes">
-          </div>
-          <div class="form-row">
-            <label for="ccFrequency">One-Time or Recurring?</label>
-            <select id="ccFrequency">
-              <option value="">Select one</option>
-              <option value="One-Time">One-Time</option>
-              <option value="Recurring">Recurring</option>
-              <option value="Not Sure Yet">Not Sure Yet</option>
-            </select>
-          </div>
+          <div class="form-row"><label for="pt-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="pt-extra"></textarea></div>
         </div>
-        <div class="form-row">
-          <label for="cMessage">Anything else we should know? <span class="form-optional-tag">(optional)</span></label>
-          <textarea id="cMessage"></textarea>
+
+        <div class="cf-group" id="cf-camps" data-interest="Camps + Clinics" hidden>
+          <div class="form-row"><label for="camp-athlete">Athlete Name <span class="form-optional-tag">Optional</span></label><input type="text" id="camp-athlete"></div>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="camp-age">Age / Grade*</label><input type="text" id="camp-age" required></div>
+            <div class="form-row"><label for="camp-sport">Sport*</label><select id="camp-sport" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option><option>Both</option></select></div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="camp-experience">Experience <span class="form-optional-tag">Optional</span></label><select id="camp-experience"><option value="">Select one</option><option>New to the sport</option><option>Some experience</option><option>Experienced</option></select></div>
+            <div class="form-row"><label for="camp-availability">Preferred Days/Times <span class="form-optional-tag">Optional</span></label><input type="text" id="camp-availability"></div>
+          </div>
+          <div class="form-row"><label for="camp-when">When?</label><select id="camp-when"><option value="">Select one</option><option>This Fall</option><option>Winter Break</option><option>Not sure yet</option></select></div>
+          <div class="form-row"><label for="camp-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="camp-extra"></textarea></div>
         </div>
+
+        <div class="cf-group" id="cf-leagues" data-interest="Basketball Leagues" hidden>
+          <div class="form-row"><label for="lg-athlete">Athlete Name <span class="form-optional-tag">Optional</span></label><input type="text" id="lg-athlete"></div>
+          <div class="form-row"><label for="lg-age">Age / Grade*</label><input type="text" id="lg-age" required></div>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="lg-season">Season*</label><select id="lg-season" required><option value="">Select one</option><option>Fall</option><option>Winter</option><option>Both</option></select></div>
+            <div class="form-row"><label for="lg-experience">Experience*</label><select id="lg-experience" required><option value="">Select one</option><option>Newer to competitive play</option><option>Rec level</option><option>Competitive</option></select></div>
+          </div>
+          <div class="form-row"><label for="lg-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="lg-extra"></textarea></div>
+        </div>
+
+        <div class="cf-group" id="cf-open-gym" data-interest="Open Gym" hidden>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="og-age">Age / Grade <span class="form-optional-tag">Optional</span></label><input type="text" id="og-age"></div>
+            <div class="form-row"><label for="og-sport">Sport <span class="form-optional-tag">Optional</span></label><select id="og-sport"><option value="">Select one</option><option>Basketball</option><option>Volleyball</option></select></div>
+          </div>
+          <div class="form-row"><label for="og-help">What do you need help with? <span class="form-optional-tag">Optional</span></label><input type="text" id="og-help"></div>
+          <div class="form-row"><label for="og-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="og-extra"></textarea></div>
+        </div>
+
+        <div class="cf-group" id="cf-court-rental" data-interest="Court Rental" hidden>
+          <div class="form-row"><label for="cr-use">What's this for?*</label><select id="cr-use" required><option value="">Select one</option><option>Team Practice</option><option>Private Event</option><option>Photo/Video Shoot</option><option>Other</option></select></div>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="cr-date">Date*</label><input type="text" id="cr-date" placeholder="MM/DD/YYYY" required></div>
+            <div class="form-row"><label for="cr-time">Time*</label><input type="text" id="cr-time" required></div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="cr-duration">How Long? <span class="form-optional-tag">Optional</span></label><input type="text" id="cr-duration"></div>
+            <div class="form-row"><label for="cr-groupsize">Group Size <span class="form-optional-tag">Optional</span></label><input type="text" id="cr-groupsize"></div>
+          </div>
+          <div class="form-row"><label for="cr-frequency">One-Time or Recurring?</label><select id="cr-frequency"><option value="">Select one</option><option>One-Time</option><option>Recurring</option></select></div>
+          <div class="form-row"><label for="cr-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="cr-extra"></textarea></div>
+        </div>
+
+        <div class="cf-group" id="cf-birthday" data-interest="Birthday Party / Event" hidden>
+          <div class="form-row"><label for="bday-who">Who's This For?*</label><input type="text" id="bday-who" placeholder="Child's name and age" required></div>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="bday-date">Date*</label><input type="text" id="bday-date" placeholder="MM/DD/YYYY" required></div>
+            <div class="form-row"><label for="bday-groupsize">Group Size*</label><input type="text" id="bday-groupsize" required></div>
+          </div>
+          <div class="form-row"><label for="bday-play">What Do You Want to Play? <span class="form-optional-tag">Optional</span></label><input type="text" id="bday-play"></div>
+          <div class="form-row"><label for="bday-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="bday-extra"></textarea></div>
+        </div>
+
+        <div class="cf-group" id="cf-coach-collective" data-interest="Coach Collective / Training Space" hidden>
+          <div class="form-row"><label for="cc-sport">Sport*</label><select id="cc-sport" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option><option>Other</option></select></div>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="cc-type">Type of Training <span class="form-optional-tag">Optional</span></label><select id="cc-type"><option value="">Select one</option><option>Private Training</option><option>Small Group</option><option>Team Practice</option><option>Recurring Training</option><option>Other</option></select></div>
+            <div class="form-row"><label for="cc-groupsize">Group Size <span class="form-optional-tag">Optional</span></label><input type="text" id="cc-groupsize"></div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="cc-times">Days/Times <span class="form-optional-tag">Optional</span></label><input type="text" id="cc-times"></div>
+            <div class="form-row"><label for="cc-frequency">How Often?</label><select id="cc-frequency"><option value="">Select one</option><option>One-Time</option><option>Recurring</option><option>Not Sure Yet</option></select></div>
+          </div>
+          <div class="form-row"><label for="cc-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="cc-extra"></textarea></div>
+        </div>
+
+        <div class="cf-group" id="cf-start" data-interest="Where Should My Athlete Start?" hidden>
+          <div class="form-row"><label for="start-athlete">Athlete Name <span class="form-optional-tag">Optional</span></label><input type="text" id="start-athlete"></div>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="start-age">Age / Grade*</label><input type="text" id="start-age" required></div>
+            <div class="form-row"><label for="start-sport">Sport*</label><select id="start-sport" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option><option>Not sure</option></select></div>
+          </div>
+          <div class="form-row"><label for="start-looking">What Are They Looking For?</label><input type="text" id="start-looking"></div>
+          <div class="form-row"><label for="start-days">What Days Work? <span class="form-optional-tag">Optional</span></label><input type="text" id="start-days"></div>
+          <div class="form-row"><label for="start-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="start-extra"></textarea></div>
+        </div>
+
+        <div class="cf-group" id="cf-member-support" data-interest="Current Member Support" hidden>
+          <div class="form-row"><label for="sup-help">What Can We Help With?*</label><select id="sup-help" required><option value="">Select one</option><option>Billing</option><option>Membership Change</option><option>Account Access</option><option>Class Question</option><option>Other</option></select></div>
+          <div class="form-row"><label for="sup-athlete">Athlete Name <span class="form-optional-tag">Optional</span></label><input type="text" id="sup-athlete"></div>
+          <div class="form-row"><label for="sup-details">Tell Us What's Going On*</label><textarea id="sup-details" required></textarea></div>
+        </div>
+
+        <div class="cf-group" id="cf-coaching" data-interest="Coaching at The Courts" hidden>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="coach-sport">Sport / Area*</label><select id="coach-sport" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option><option>Both</option><option>Other</option></select></div>
+            <div class="form-row"><label for="coach-interest">Interested In <span class="form-optional-tag">Optional</span></label><select id="coach-interest"><option value="">Select one</option><option>Private Training</option><option>Group Classes</option><option>Camps</option><option>Leagues</option><option>Open to anything</option></select></div>
+          </div>
+          <div class="form-row"><label for="coach-resume">Resume Link <span class="form-optional-tag">Optional</span></label><input type="text" id="coach-resume"></div>
+          <div class="form-row"><label for="coach-experience">Tell Us About Your Experience*</label><textarea id="coach-experience" required></textarea></div>
+        </div>
+
+        <div class="cf-group" id="cf-community" data-interest="Community" hidden>
+          <div class="form-row"><label for="comm-org">Organization <span class="form-optional-tag">Optional</span></label><input type="text" id="comm-org"></div>
+          <div class="form-row"><label for="comm-idea">What Do You Have in Mind?*</label><input type="text" id="comm-idea" required></div>
+          <div class="form-row"><label for="comm-details">Tell Us About It*</label><textarea id="comm-details" required></textarea></div>
+        </div>
+
+        <div class="cf-group" id="cf-partner" data-interest="Partner" hidden>
+          <div class="form-row"><label for="partner-company">Company*</label><input type="text" id="partner-company" required></div>
+          <div class="form-row"><label for="partner-interest">What Are You Interested In? <span class="form-optional-tag">Optional</span></label><input type="text" id="partner-interest"></div>
+          <div class="form-row"><label for="partner-details">Tell Us What You Have in Mind*</label><textarea id="partner-details" required></textarea></div>
+        </div>
+
+        <div class="cf-group" id="cf-something-else" data-interest="Something Else" hidden>
+          <div class="form-row"><label for="other-details">What Can We Help With?*</label><textarea id="other-details" required></textarea></div>
+        </div>
+
+        <p class="cf-minor-note" id="cfMinorNote" hidden>For athletes under 13, this form should be completed by a parent or guardian.</p>
+
         <button type="submit" class="btn btn-primary btn-block">Send It →</button>
       </form>
-      <p style="font-size:13px; color:var(--gray-dark); margin-top:16px;">For athletes under 13, this form should be completed by a parent or guardian.</p>
     </div>
   </div>
 </section>
@@ -271,14 +351,14 @@
 <style>
   .contact-form-wrap .form-row { margin-bottom: 32px; }
   .contact-form-wrap .form-row label {
-    font-family: var(--font-sport); font-weight: 700; font-size: 12.5px; text-transform: uppercase;
+    display: block; font-family: var(--font-sport); font-weight: 700; font-size: 12.5px; text-transform: uppercase;
     letter-spacing: 0.08em; color: var(--gray-dark); margin-bottom: 10px;
   }
   .form-optional-tag { text-transform: none; font-weight: 500; letter-spacing: 0; color: var(--gray-dark); }
   .contact-form-wrap .form-row input,
   .contact-form-wrap .form-row select,
   .contact-form-wrap .form-row textarea {
-    border: none; border-bottom: 2px solid var(--gray-mid); border-radius: 0; background: transparent;
+    width: 100%; border: none; border-bottom: 2px solid var(--gray-mid); border-radius: 0; background: transparent;
     padding: 14px 2px 14px 0; font-size: 17px; font-family: var(--font-body); color: var(--black);
     transition: border-color 0.2s var(--ease);
   }
@@ -290,7 +370,18 @@
   .contact-form-wrap .form-row input:focus,
   .contact-form-wrap .form-row select:focus,
   .contact-form-wrap .form-row textarea:focus { border-bottom-color: var(--orange); }
-  .contact-form-wrap .form-row textarea { min-height: 100px; resize: vertical; }
+  .contact-form-wrap .form-row textarea { min-height: 90px; resize: vertical; }
+  .contact-form-wrap .form-row.field-invalid input,
+  .contact-form-wrap .form-row.field-invalid select,
+  .contact-form-wrap .form-row.field-invalid textarea { border-bottom-color: #C0392B; }
+  .contact-form-wrap .form-row .field-error {
+    display: none; font-size: 13px; color: #C0392B; margin-top: 8px;
+  }
+  .contact-form-wrap .form-row.field-invalid .field-error { display: block; }
+  .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+  .cf-group { padding-top: 6px; margin-bottom: 6px; border-top: 1px solid var(--gray-mid); padding-top: 30px; margin-top: 6px; }
+  .cf-minor-note { font-size: 13px; color: var(--gray-dark); margin: -12px 0 28px; }
+  @media (max-width: 560px) { .form-grid-2 { grid-template-columns: 1fr; } }
   @media (prefers-reduced-motion: reduce) { .contact-form-wrap .form-row input, .contact-form-wrap .form-row select, .contact-form-wrap .form-row textarea, .link, .pre-footer-link { transition: none; } }
 </style>
 
