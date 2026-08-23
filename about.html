@@ -68,7 +68,7 @@
           <a href="about.html">Our Story</a>
           <a href="about.html#how-we-play">How We Play</a>
           <a href="about.html#our-people">Our People</a>
-          <a href="about.html#coach-collective">Coach Collective</a>
+          <a href="private-coaching.html#coach-collective">Coach Collective</a>
           <a href="about.html#community">Community</a>
           <a href="about.html#partner">Partner</a>
         </div>
@@ -128,7 +128,7 @@
       <a href="about.html">Our Story</a>
       <a href="about.html#how-we-play">How We Play</a>
       <a href="about.html#our-people">Our People</a>
-      <a href="about.html#coach-collective">Coach Collective</a>
+      <a href="private-coaching.html#coach-collective">Coach Collective</a>
       <a href="about.html#community">Community</a>
       <a href="about.html#partner">Partner</a>
     </div>
@@ -197,143 +197,124 @@
   </div>
 </section>
 
-<section id="how-we-play" style="padding:70px 0; background:var(--gray-light);">
-  <div class="container" style="max-width:980px;">
+<section id="how-we-play" style="padding:64px 0; background:var(--gray-light);">
+  <div class="container" style="max-width:920px;">
     <div class="section-head">
       <span class="eyebrow">How We Play</span>
       <h2 class="section-title" style="margin-bottom:10px;">Serious About Development.<br>Not Everything Else.</h2>
       <p class="section-sub">We care about good coaching, meaningful reps, and learning how to compete without making every Tuesday feel like Game 7.</p>
     </div>
-
-    <div class="manifesto-row reveal">
-      <div class="manifesto-item">
+    <div class="hwp-grid reveal">
+      <div class="hwp-item">
         <h3>Do the Work.</h3>
-        <p style="line-height:1.8; font-size:17px;">No magic drill. No shortcut.<br><strong>Show up. Put in the reps.</strong></p>
+        <p>No magic drill. No shortcut.<br><strong>Show up. Put in the reps.</strong></p>
       </div>
-      <div class="manifesto-photo-strip photo" role="img" aria-label="Sweat on an athlete's neck and shoulder after training">
-        <img src="images/sweat-detail.jpg" alt="">
-      </div>
-    </div>
-
-    <div class="manifesto-row manifesto-row--reverse reveal">
-      <div class="manifesto-item">
+      <div class="hwp-item">
         <h3>Be Coachable.</h3>
-        <p style="line-height:1.8; font-size:17px;">Listen. Ask questions. Try it differently.<br><strong>Nobody has it all figured out.</strong></p>
+        <p>Listen. Ask questions. Try it differently.<br><strong>Nobody has it all figured out.</strong></p>
       </div>
-      <div class="manifesto-photo-strip photo" role="img" aria-label="Two young athletes sitting on the hardwood, listening as a coach talks to the group">
-        <img src="images/team-listening.jpg" alt="">
-      </div>
-    </div>
-
-    <div class="manifesto-row reveal">
-      <div class="manifesto-item">
+      <div class="hwp-item">
         <h3>Compete Well.</h3>
-        <p style="line-height:1.8; font-size:17px;">Play hard. Want to win.<br><strong>Know how to handle it either way.</strong></p>
+        <p>Play hard. Want to win.<br><strong>Know how to handle it either way.</strong></p>
       </div>
-      <div class="manifesto-photo-strip photo" role="img" aria-label="An athlete's focused, competitive expression during a game"></div>
-    </div>
-
-    <div class="manifesto-row manifesto-row--reverse reveal">
-      <div class="manifesto-item">
+      <div class="hwp-item">
         <h3>Be a Great Teammate.</h3>
-        <p style="line-height:1.8; font-size:17px;">Bring energy. Pick people up.<br><strong>Make the gym better when you're in it.</strong></p>
+        <p>Bring energy. Pick people up.<br><strong>Make the gym better when you're in it.</strong></p>
       </div>
-      <div class="manifesto-photo-strip photo" role="img" aria-label="A teammate helping another athlete up off the court"></div>
     </div>
   </div>
 </section>
 
+<style>
+  .hwp-grid { display: grid; grid-template-columns: 1fr 1fr; }
+  .hwp-item { padding: 32px 36px; border-top: 1px solid var(--gray-mid); }
+  .hwp-item:nth-child(1), .hwp-item:nth-child(2) { border-top: none; padding-top: 0; }
+  .hwp-item:nth-child(odd) { border-right: 1px solid var(--gray-mid); padding-left: 0; }
+  .hwp-item:nth-child(even) { padding-right: 0; }
+  .hwp-item h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(20px, 2.2vw, 26px); margin: 0 0 12px; color: var(--black); }
+  .hwp-item p { font-size: 16px; line-height: 1.65; color: var(--gray-dark); margin: 0; }
+  .hwp-item p strong { color: var(--black); }
+  @media (max-width: 640px) {
+    .hwp-grid { grid-template-columns: 1fr; }
+    .hwp-item { padding: 26px 0 !important; border-right: none !important; }
+    .hwp-item:nth-child(n+2) { border-top: 1px solid var(--gray-mid) !important; }
+  }
+</style>
+
 <section class="coaches" id="our-people" style="padding:70px 0;">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">The People Behind the Play</span>
+      <span class="eyebrow">Our Coaches</span>
       <h2 class="section-title">Good Coaches Change the Game.</h2>
-      <p class="section-sub">Our coaches know when to teach, when to push, when to explain it again, and when to get out of the way and let a player figure it out.</p>    </div>
+      <p class="section-sub">Knowing the game matters. Knowing the athlete in front of you matters just as much. Our coaches know when to teach, when to push, when to explain it again, and when to get out of the way and let a player figure it out. Every rep should have a reason.</p>
+    </div>
     <div class="coaches-board">
       <div class="coach-pill coach-pill--bb"><span class="coach-group-pill">Basketball</span></div>
       <div class="coach-pill coach-pill--vb"><span class="coach-group-pill">Volleyball</span></div>
 
       <div class="coach-card coach-card--1">
         <div class="coach-card-frame">
-          <span class="coach-card-index">01</span>
           <div class="coach-card-photo photo placeholder" role="img" aria-label="Johnny Coles photo coming soon">
             <span class="coach-card-corner"></span>
           </div>
           <div class="coach-card-body">
-            <span class="coach-card-watermark" aria-hidden="true">01</span>
             <h4 class="coach-card-name">Johnny Coles</h4>
             <p class="coach-card-title">Head, Basketball Development</p>
             <p class="coach-card-bio">Focused on footwork, finishing, and reading the game — Johnny pushes players to compete hard and think faster.</p>
-            <div class="coach-card-stats">
-              <div><span>Focus</span><strong>Ball Handling &amp; IQ</strong></div>
-              <div><span>Approach</span><strong>High-Energy</strong></div>
-              <div><span>Known For</span><strong>Detail-First Coaching</strong></div>
-            </div>
           </div>
         </div>
       </div>
 
       <div class="coach-card coach-card--2">
         <div class="coach-card-frame">
-          <span class="coach-card-index">02</span>
           <div class="coach-card-photo photo placeholder" role="img" aria-label="Spencer Richardson photo coming soon">
             <span class="coach-card-corner"></span>
           </div>
           <div class="coach-card-body">
-            <span class="coach-card-watermark" aria-hidden="true">02</span>
             <h4 class="coach-card-name">Spencer Richardson</h4>
             <p class="coach-card-title">Senior Performance Trainer</p>
             <p class="coach-card-bio">Builds strength and speed the right way, with training built around how young athletes actually move and grow.</p>
-            <div class="coach-card-stats">
-              <div><span>Focus</span><strong>Strength &amp; Speed</strong></div>
-              <div><span>Approach</span><strong>Progressive Training</strong></div>
-              <div><span>Known For</span><strong>Movement Fundamentals</strong></div>
-            </div>
           </div>
         </div>
       </div>
 
       <div class="coach-card coach-card--3">
         <div class="coach-card-frame">
-          <span class="coach-card-index">03</span>
           <div class="coach-card-photo photo placeholder" role="img" aria-label="Justin Frank photo coming soon">
             <span class="coach-card-corner"></span>
           </div>
           <div class="coach-card-body">
-            <span class="coach-card-watermark" aria-hidden="true">03</span>
             <h4 class="coach-card-name">Justin Frank</h4>
             <p class="coach-card-title">Head, Volleyball Development</p>
             <p class="coach-card-bio">Believes great volleyball starts with technique — serving, passing, and footwork drilled until it's second nature.</p>
-            <div class="coach-card-stats">
-              <div><span>Focus</span><strong>Serve &amp; Pass Mechanics</strong></div>
-              <div><span>Approach</span><strong>Repetition-Driven</strong></div>
-              <div><span>Known For</span><strong>Building IQ Early</strong></div>
-            </div>
           </div>
         </div>
       </div>
 
       <div class="coach-card coach-card--4">
         <div class="coach-card-frame">
-          <span class="coach-card-index">04</span>
           <div class="coach-card-photo photo placeholder" role="img" aria-label="Sarah Quint photo coming soon">
             <span class="coach-card-corner"></span>
           </div>
           <div class="coach-card-body">
-            <span class="coach-card-watermark" aria-hidden="true">04</span>
             <h4 class="coach-card-name">Sarah Quint</h4>
             <p class="coach-card-title">Senior Performance Trainer</p>
             <p class="coach-card-bio">Trains athletes to move better and recover smarter, with a focus on injury prevention and long-term development.</p>
-            <div class="coach-card-stats">
-              <div><span>Focus</span><strong>Athletic Development</strong></div>
-              <div><span>Approach</span><strong>Injury-Smart Training</strong></div>
-              <div><span>Known For</span><strong>Long-Term Growth</strong></div>
-            </div>
           </div>
         </div>
       </div>
     </div>
+    <p class="coaches-cc-link reveal">
+      <span class="coaches-cc-q">Are you a coach?</span> Interested in training your own athletes at The Courts?
+      <a href="private-coaching.html#coach-collective" class="link">Learn About Coach Collective →</a>
+    </p>
   </div>
+
+  <style>
+    .coaches-cc-link { max-width: 640px; margin: 56px auto 0; text-align: center; font-size: 15px; line-height: 1.7; color: var(--gray-dark); padding-top: 40px; border-top: 1px solid var(--gray-mid); }
+    .coaches-cc-q { font-weight: 700; color: var(--black); }
+    .coaches-cc-link .link { margin-left: 4px; }
+  </style>
 
   <style>
     .coaches-board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; align-items: stretch; max-width: 1120px; margin: 0 auto; }
@@ -359,25 +340,12 @@
       overflow: hidden; transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
     }
     .coach-card-frame:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(23,23,23,0.14); }
-    .coach-card-index {
-      position: absolute; top: 12px; left: 12px; z-index: 2;
-      background: var(--orange); color: var(--white); font-family: var(--font-sport); font-weight: 700;
-      font-size: 11px; letter-spacing: 0.05em; padding: 4px 9px; border-radius: 999px;
-    }
     .coach-card-photo { position: relative; aspect-ratio: 4/5; border-bottom: 2px solid var(--black); }
     .coach-card-corner { position: absolute; top: 10px; right: 10px; width: 20px; height: 20px; border: 2px solid var(--orange); border-left: none; border-bottom: none; z-index: 2; }
     .coach-card-body { position: relative; padding: 20px 20px 22px; flex: 1; display: flex; flex-direction: column; }
-    .coach-card-watermark {
-      position: absolute; top: -6px; right: 6px; font-family: var(--font-display); font-weight: 900;
-      font-size: 84px; line-height: 1; color: var(--gray-light); z-index: 0; pointer-events: none;
-    }
     .coach-card-name { position: relative; z-index: 1; font-family: var(--font-display); font-weight: 900; font-size: 21px; letter-spacing: 0.01em; color: var(--black); margin: 0 0 3px; }
     .coach-card-title { position: relative; z-index: 1; font-family: var(--font-sport); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--orange); margin: 0 0 14px; }
-    .coach-card-bio { position: relative; z-index: 1; font-size: 13.5px; line-height: 1.55; color: var(--gray-dark); margin: 0 0 16px; }
-    .coach-card-stats { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 8px; border-top: 1px dashed var(--gray-mid); padding-top: 14px; margin-top: auto; }
-    .coach-card-stats div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-    .coach-card-stats span { font-family: var(--font-sport); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-dark); flex-shrink: 0; }
-    .coach-card-stats strong { font-family: var(--font-heading); font-size: 12.5px; font-weight: 700; color: var(--black); text-align: right; }
+    .coach-card-bio { position: relative; z-index: 1; font-size: 14.5px; line-height: 1.65; color: var(--gray-dark); margin: 0; }
 
     @media (max-width: 900px) {
       .coaches-board { grid-template-columns: repeat(2, 1fr); max-width: 680px; gap: 28px; }
@@ -401,240 +369,58 @@
   </style>
 </section>
 
-<section class="cc-collective" id="coach-collective">
-  <style>
-    .cc-collective { background: var(--charcoal); color: var(--white); padding: 100px 0; position: relative; overflow: hidden; }
-    .cc-collective-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: start; position: relative; z-index: 2; }
-    .cc-collective-copy .eyebrow { font-size: 18px; letter-spacing: 0.1em; }
-    .cc-collective-copy h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(32px, 4vw, 50px); line-height: 1.05; margin: 12px 0 26px; }
-    .cc-collective-copy h2 .accent { color: var(--orange); }
-    .cc-collective-copy p { font-size: 16px; line-height: 1.75; color: rgba(255,255,255,0.72); margin: 0 0 16px; max-width: 50ch; }
-    .cc-collective-copy p.cc-collective-bold { color: var(--white); font-weight: 700; }
-    .cc-tabs-open { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3vw, 38px); line-height: 1.02; color: var(--white); margin: 8px 0 28px; padding-left: 18px; border-left: 4px solid var(--orange); }
-    .cc-collective-brand-inline { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3.4vw, 40px); line-height: 1.08; color: var(--white); margin: 36px 0 28px; }
-    .cc-collective-brand-inline .accent { color: var(--orange); }
-    .cc-collective-cta.cc-collective-cta--inline { text-align: left; margin-top: 0; }
-    .cc-collective-media { position: relative; display: flex; flex-direction: column; gap: 18px; }
-    .cc-collective-photo { position: relative; aspect-ratio: 4/2.9; border-radius: var(--radius-md); overflow: hidden; }
-    .cc-collective-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .cc-collective-tag { position: absolute; top: 14px; left: 14px; font-family: var(--font-sport); font-weight: 700; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); background: rgba(23,23,23,0.55); padding: 6px 12px; border-radius: 999px; }
-    .cc-collective-network { position: absolute; right: -50px; top: -46px; width: 200px; height: 200px; opacity: 0.4; pointer-events: none; z-index: 1; }
-    .cc-collective-network circle { fill: var(--orange); }
-    .cc-collective-network line { stroke: var(--orange); stroke-width: 1; stroke-dasharray: 3 4; }
-    .cc-collective-cta { text-align: center; margin-top: 40px; position: relative; z-index: 2; }
-    .cc-collective-wink { display: block; font-size: 14px; font-style: italic; line-height: 1.6; color: rgba(255,255,255,0.55); margin: 32px 0 0; max-width: 46ch; }
-    .cc-collective-wink a { color: rgba(255,255,255,0.75); font-weight: 700; font-style: normal; margin-left: 4px; }
-    @media (max-width: 900px) {
-      .cc-collective-grid { grid-template-columns: 1fr; gap: 36px; }
-      .cc-collective-network { display: none; }
-    }
-  </style>
+<section id="community-partner" style="padding:100px 0; background:var(--gray-light); overflow:hidden;">
   <div class="container">
-    <div class="cc-collective-grid">
-      <div class="cc-collective-copy reveal">
-        <span class="eyebrow">Coach Collective</span>
-        <h2>Bring Your People.<br>Build Your <span class="accent">Thing.</span></h2>
-        <p>Coaching can be a weirdly solo job.</p>
-        <p>You're building the workouts, texting the parents, chasing gym space, managing schedules, answering "what time again?" for the fifth time, and somehow still expected to actually coach.</p>
-        <p class="cc-tabs-open">That's a lot<br>of tabs open.</p>
-        <p>Coach Collective is a home base for independent basketball and volleyball coaches to train their athletes, grow their programs, and have other good coaches around while they do it.</p>
-
-        <h3 class="cc-collective-brand-inline">Your Athletes.<br>Your Program.<br><span class="accent">Our Court.</span></h3>
-        <div class="cc-collective-cta cc-collective-cta--inline">
-          <a href="contact.html?interest=Coach%20Collective%20%2F%20Training%20Space#contact-form" class="btn btn-primary" data-preset="Coach Collective / Training Space">Ask About Coach Collective →</a>
-          <p class="cc-collective-wink">Just need a court for an hour and zero new friends? We do that too. <a href="court-rentals.html">View Court Rentals →</a></p>
-        </div>
-      </div>
-      <div class="cc-collective-media reveal">
-        <svg class="cc-collective-network" viewBox="0 0 200 200" aria-hidden="true">
-          <line x1="18" y1="34" x2="92" y2="96"></line>
-          <line x1="92" y1="96" x2="168" y2="52"></line>
-          <line x1="92" y1="96" x2="132" y2="168"></line>
-          <circle cx="18" cy="34" r="3"></circle>
-          <circle cx="92" cy="96" r="3"></circle>
-          <circle cx="168" cy="52" r="3"></circle>
-          <circle cx="132" cy="168" r="3"></circle>
-        </svg>
-        <div class="cc-collective-photo">
-          <img src="images/leagues-huddle.jpg" alt="A basketball coach with a small group of athletes after a training session." style="object-position:60% 30%;">
-          <span class="cc-collective-tag">Basketball</span>
-        </div>
-        <div class="cc-collective-photo">
-          <img src="images/volleyball-huddle.jpg" alt="A volleyball coach speaking with a group of athletes at the net." style="object-position:50% 20%;">
-          <span class="cc-collective-tag">Volleyball</span>
-        </div>
-      </div>
+    <div class="section-head" style="margin-bottom:52px;">
+      <span class="eyebrow">More Than the Gym</span>
+      <h2 class="section-title">Nolensville Is Our Home Court.</h2>
+      <p class="section-sub">Being part of a community means more than opening the doors. It means showing up.</p>
     </div>
-  </div>
-</section>
-
-<section id="community" style="position:relative; padding:130px 0; background:var(--gray-light); overflow:hidden;">
-  <div class="container" style="position:relative; z-index:2;">
-    <div class="community-grid">
-      <div class="community-copy">
-        <span class="community-rule" aria-hidden="true"></span>
-        <span class="eyebrow">We Play Here. We Give Back Here.</span>
-        <h2 class="community-headline">Nolensville <span style="white-space:nowrap;">is Our</span> <span style="color:var(--orange); white-space:nowrap;">Home&nbsp;Court.</span></h2>
-        <div class="community-body">
-          <p>Being part of a community means more than opening the doors. <strong>It means showing up.</strong></p>
-          <p>The Courts is here to support the schools, organizations, events, and people that make Nolensville stronger.</p>
-          <p>Volunteer days. School partnerships. Community projects. And whatever comes next.</p>
-        </div>
+    <div class="mtg-grid">
+      <div class="mtg-col mtg-col--community reveal" id="community">
+        <span class="eyebrow" style="color:var(--orange);">Community</span>
+        <h3 class="mtg-headline">We Play Here.<br>We Give Back Here.</h3>
+        <p class="mtg-body">We want The Courts to support the schools, organizations, events, and people that make Nolensville stronger. Volunteer days. School partnerships. Community projects. And whatever comes next.</p>
+        <a href="contact.html?interest=Community%20%2F%20Partnerships#contact-form" class="link" data-preset="Community / Partnerships">Get Involved →</a>
       </div>
-      <div class="community-statement-wrap">
-        <p class="community-statement">“As our community grows,<br>so should the ways we show up for it.”</p>
-        <div class="ctas">
-          <a href="contact.html?interest=Community#contact-form" class="btn btn-primary community-cta" data-preset="Community">Get Involved →</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="partner-section" id="partner" style="position:relative; padding:150px 0 130px; background:var(--black); overflow:hidden;">
-  <div class="container" style="position:relative; z-index:2;">
-    <div class="partner-grid">
-      <div class="partner-copy">
-        <span class="eyebrow">Partner With The Courts</span>
-        <h2 class="partner-headline">Your Logo<br>Could Look<br>Good Here.</h2>
-        <p class="partner-body">There are plenty of ways to be part of The Courts.</p>
-        <div class="ctas">
-          <a href="contact.html?interest=Partner#contact-form" class="btn btn-primary" data-preset="Partner">Let's Partner →</a>
-        </div>
-      </div>
-      <div class="partner-visual">
-        <div class="partner-scoreboard">
-          <span class="partner-scoreboard-corner partner-scoreboard-corner--tl"></span>
-          <span class="partner-scoreboard-corner partner-scoreboard-corner--br"></span>
-          <span class="partner-scoreboard-label">Ways to Partner</span>
-          <div class="scoreboard-window" aria-hidden="true">
-            <span class="scoreboard-word sw-1">Team</span>
-            <span class="scoreboard-word sw-2">Equipment</span>
-            <span class="scoreboard-word sw-3">Events</span>
-            <span class="scoreboard-word sw-4">In-Gym</span>
-            <span class="scoreboard-word sw-5">+ Your Idea</span>
-          </div>
-          <span class="partner-sr-only">Ways to partner: Team, Equipment, Events, In-Gym, and your own idea.</span>
-          <div class="partner-scoreboard-ticks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-        </div>
+      <div class="mtg-col mtg-col--partner reveal" id="partner">
+        <span class="eyebrow" style="color:var(--orange);">Partnerships</span>
+        <h3 class="mtg-headline">Your Logo Could<br>Look Good Here.</h3>
+        <p class="mtg-body">Sponsor a team. Equip the gym. Back an event. Put your name somewhere people will actually see it. Or bring us an idea we haven't thought of yet.</p>
+        <p class="mtg-typeline">Team &middot; Equipment &middot; Events &middot; In-Gym &middot; + Your Idea</p>
+        <a href="contact.html?interest=Community%20%2F%20Partnerships#contact-form" class="link" data-preset="Community / Partnerships">Let's Partner →</a>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .community-grid { display:grid; grid-template-columns:1.35fr 0.95fr; gap:60px; align-items:center; }
-  .community-rule { display:block; width:46px; height:4px; background:var(--orange); border-radius:2px; margin-bottom:18px; }
-  .community-headline { font-family:var(--font-display); font-weight:900; font-size:clamp(36px, 5.2vw, 60px); line-height:1.03; color:var(--black); margin:0 0 26px; max-width:11ch; }
-  .community-body p { font-size:17px; line-height:1.8; color:var(--gray-dark); margin-bottom:20px; max-width:46ch; }
-  .community-body strong { color:var(--black); }
-  .community-statement-wrap { position:relative; }
-  .community-statement-wrap::before { content:''; display:block; width:46px; height:4px; background:var(--orange); border-radius:2px; margin-bottom:22px; }
-  .community-statement { font-family:var(--font-display); font-weight:900; color:var(--black); font-size:clamp(32px, 3.6vw, 48px); line-height:1.08; margin:0; max-width:14ch; }
-  .community-statement-wrap .ctas { margin-top:42px; }
-  .community-cta { font-size:16.5px; padding:17px 32px; }
+  .mtg-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 0; align-items: start; max-width: 1100px; margin: 0 auto; }
+  .mtg-col { padding: 0 48px; }
+  .mtg-col--community { padding-left: 0; border-right: 1px solid var(--gray-mid); }
+  .mtg-col--partner { padding-right: 0; }
+  .mtg-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 3.4vw, 42px); line-height: 1.06; color: var(--black); margin: 14px 0 20px; }
+  .mtg-body { font-size: 16px; line-height: 1.75; color: var(--gray-dark); margin: 0 0 22px; max-width: 42ch; }
+  .mtg-typeline { font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin: 0 0 24px; }
   @media (max-width: 860px) {
-    .community-grid { grid-template-columns:1fr; gap:36px; }
-    .community-statement-wrap::before { margin-top:6px; }
-  }
-
-  .partner-grid { display:grid; grid-template-columns:0.95fr 1.05fr; gap:60px; align-items:center; }
-  .partner-headline { font-family:var(--font-display); font-weight:900; color:var(--white); font-size:clamp(38px, 6vw, 72px); line-height:0.98; margin:16px 0 26px; }
-  .partner-body { font-size:16px; line-height:1.8; color:rgba(255,255,255,0.7); margin-bottom:34px; max-width:42ch; }
-
-  .partner-scoreboard {
-    position:relative; border-radius:var(--radius-md); overflow:hidden;
-    background:linear-gradient(180deg, #202020 0%, #161616 100%);
-    border:1px solid rgba(255,255,255,0.12);
-    background-image:repeating-linear-gradient(180deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 34px);
-    padding:46px 36px 38px;
-  }
-  .partner-scoreboard-corner { position:absolute; width:20px; height:20px; border:2px solid var(--orange); z-index:2; }
-  .partner-scoreboard-corner--tl { top:14px; left:14px; border-right:none; border-bottom:none; }
-  .partner-scoreboard-corner--br { bottom:14px; right:14px; border-left:none; border-top:none; }
-  .partner-scoreboard-label {
-    display:block; text-align:center; font-family:var(--font-sport); font-weight:700; font-size:17px;
-    letter-spacing:0.13em; text-transform:uppercase; color:rgba(255,255,255,0.6); margin-bottom:26px;
-  }
-  .partner-sr-only {
-    position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
-    clip:rect(0,0,0,0); white-space:nowrap; border:0;
-  }
-  .scoreboard-window {
-    position:relative; display:flex; flex-direction:column; align-items:center; gap:8px;
-    padding:14px 0; border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12);
-  }
-  .scoreboard-word {
-    position:static; opacity:1; transform:none;
-    font-family:var(--font-display); font-weight:900; letter-spacing:0.01em; text-transform:uppercase;
-    color:rgba(255,255,255,0.85); font-size:clamp(19px, 2.6vw, 26px); text-align:center;
-  }
-  .scoreboard-word.sw-5 { color:var(--orange); }
-  .partner-scoreboard-ticks { display:flex; justify-content:center; gap:8px; margin-top:22px; }
-  .partner-scoreboard-ticks span { width:6px; height:6px; background:rgba(255,255,255,0.18); }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .scoreboard-window { flex-direction:row; height:clamp(64px, 9vw, 96px); padding:0; gap:0; perspective:600px; }
-    .scoreboard-word {
-      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-      opacity:0; font-size:clamp(30px, 4vw, 50px);
-      animation-duration:6s; animation-iteration-count:infinite; animation-timing-function:ease-in-out;
-    }
-    .sw-1 { animation-name:sb-word-1; }
-    .sw-2 { animation-name:sb-word-2; }
-    .sw-3 { animation-name:sb-word-3; }
-    .sw-4 { animation-name:sb-word-4; }
-    .sw-5 { animation-name:sb-word-5; }
-    @keyframes sb-word-1 {
-      0%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
-      2% { opacity:1; transform:none; }
-      15% { opacity:1; transform:none; }
-      17% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
-    }
-    @keyframes sb-word-2 {
-      0%, 19%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
-      21% { opacity:1; transform:none; }
-      33% { opacity:1; transform:none; }
-      35% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
-    }
-    @keyframes sb-word-3 {
-      0%, 37%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
-      39% { opacity:1; transform:none; }
-      51% { opacity:1; transform:none; }
-      53% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
-    }
-    @keyframes sb-word-4 {
-      0%, 55%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
-      57% { opacity:1; transform:none; }
-      69% { opacity:1; transform:none; }
-      71% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
-    }
-    @keyframes sb-word-5 {
-      0%, 73%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
-      75% { opacity:1; transform:none; }
-      97% { opacity:1; transform:none; }
-      99% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
-    }
-  }
-
-  @media (max-width: 860px) {
-    .partner-grid { grid-template-columns:1fr; gap:40px; }
-    .partner-visual { order:-1; max-width:420px; margin:0 auto; }
+    .mtg-grid { grid-template-columns: 1fr; gap: 44px; }
+    .mtg-col--community { border-right: none; padding-bottom: 40px; border-bottom: 1px solid var(--gray-mid); }
+    .mtg-col { padding: 0; }
   }
 </style>
 
-<section class="membership-endcap">
-  <div class="container">
-    <span class="eyebrow">Playing a Lot?</span>
-    <h2>There's a Membership for That.</h2>
-    <p>Once a week. All the time. Somewhere in between.</p>
-    <div class="membership-endcap-names">
-      <span>Weekly</span>
-      <span>Unlimited</span>
-      <span>Full Court</span>
-      <span>Family</span>
+<section class="pre-footer">
+  <div class="container pre-footer-inner">
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Ready to Play?</span>
+      <h3 class="pre-footer-title">Find Your Place at The Courts.</h3>
+      <a href="programs.html" class="pre-footer-link">Explore Programs <span class="arrow">→</span></a>
     </div>
-    <a href="membership.html#plan-selector" class="btn btn-primary">See Membership Plans →</a>
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Playing a Lot?</span>
+      <h3 class="pre-footer-title">There's a Membership for That.</h3>
+      <a href="membership.html#plan-selector" class="pre-footer-link">See Membership <span class="arrow">→</span></a>
+    </div>
   </div>
 </section>
 
