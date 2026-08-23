@@ -41,8 +41,20 @@
   }
 
   /* ---------- Compact filter row ---------- */
-  .shop-filters-wrap { border-bottom:1px solid var(--gray-mid); }
-  .shop-filters { margin:0; padding:16px 0; }
+  .shop-filters-wrap { border-bottom:1px solid var(--gray-mid); background:var(--white); position:sticky; top:70px; z-index:40; }
+  .shop-filters { margin:0; padding:16px 0; overflow-x:auto; flex-wrap:nowrap; }
+  .shop-filters.filter-pills .filter-pill {
+    background:none; border:none; border-radius:0; padding:6px 0; margin-right:28px; font-size:14px;
+    color:var(--gray-dark); border-bottom:2px solid transparent;
+  }
+  .shop-filters.filter-pills .filter-pill:hover { color:var(--black); border-color:var(--gray-mid); }
+  .shop-filters.filter-pills .filter-pill.active { background:none; color:var(--orange); font-weight:700; border-bottom-color:var(--orange); }
+
+  .shop-drop-status {
+    display:inline-block; font-family:var(--font-sport); font-weight:700; font-size:11px; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--orange); background:var(--orange-soft); padding:5px 12px; border-radius:999px;
+    margin-bottom:14px;
+  }
 
   /* ---------- Gift card feature ---------- */
   .shop-gift { background:var(--black); padding:46px 0; position:relative; overflow:hidden; }
@@ -174,7 +186,8 @@
   .cart-drawer-head h2 { font-family:var(--font-display); font-weight:900; font-size:22px; margin:0; }
   .cart-drawer-close { background:none; border:none; font-size:26px; line-height:1; cursor:pointer; color:var(--black); min-width:44px; min-height:44px; }
   .cart-drawer-items { flex:1; overflow-y:auto; padding:10px 24px; }
-  .cart-drawer-empty { color:var(--gray-dark); font-size:14.5px; padding:24px 0; }
+  .cart-drawer-empty-title { font-family:var(--font-heading); font-weight:800; font-size:17px; color:var(--black); margin:24px 0 6px; }
+  .cart-drawer-empty { color:var(--gray-dark); font-size:14.5px; margin:0 0 24px; }
   .cart-line { display:flex; gap:14px; padding:16px 0; border-bottom:1px solid var(--gray-mid); }
   .cart-line-media { width:64px; height:64px; border-radius:var(--radius-sm); overflow:hidden; flex-shrink:0; background:var(--gray-light); }
   .cart-line-media .photo { width:100%; height:100%; }
@@ -331,53 +344,24 @@
   <div class="shop-hero-media">
     <div class="photo" role="img" aria-label="A Courts athlete wearing Courts gear, photo coming soon"></div>
     <span class="shop-hero-micro" aria-hidden="true">The Courts Shop</span>
-    <span class="shop-hero-tag">New Drop</span>
   </div>
 </section>
 
 <div class="shop-filters-wrap">
   <div class="container">
     <nav class="filter-pills shop-filters" aria-label="Shop sections">
-      <a href="#shop-drop" class="filter-pill active" data-filter="all">All</a>
+      <a href="#shop-drop" class="filter-pill active" data-filter="all">Shop All</a>
       <a href="#shop-drop" class="filter-pill" data-filter="apparel">Apparel</a>
       <a href="#shop-accessories" class="filter-pill" data-filter="accessories">Accessories</a>
+      <a href="#gift-cards" class="filter-pill" data-filter="gift-cards">Gift Cards</a>
     </nav>
   </div>
 </div>
 
-<section class="shop-gift" id="gift-cards">
-  <div class="container shop-gift-grid">
-    <div class="shop-gift-media">
-      <svg class="shop-gift-lines" viewBox="0 0 300 360" fill="none" aria-hidden="true">
-        <rect x="4" y="4" width="292" height="352" rx="2" stroke="#E5682A" stroke-width="1.5"/>
-        <circle cx="150" cy="180" r="52" stroke="#E5682A" stroke-width="1.5"/>
-        <line x1="4" y1="180" x2="296" y2="180" stroke="#E5682A" stroke-width="1.5"/>
-      </svg>
-      <div class="shop-gift-card-img">
-        <img src="images/gift-card.jpg" alt="A black Courts gift card, with THE COURTS in white and orange lettering, tucked into basketball netting" loading="lazy">
-      </div>
-    </div>
-    <div class="shop-gift-copy">
-      <span class="eyebrow">Gift Cards</span>
-      <h2 class="shop-gift-title">More Court. Less Stuff.</h2>
-      <p class="shop-gift-body">No sizes. No batteries. No assembly required.</p>
-      <p class="shop-gift-body">Training. Camps. Clinics. Dr. Dish. Court time. Their call.</p>
-      <fieldset class="shop-gift-amounts">
-        <legend class="sr-only">Gift card amount</legend>
-        <input type="radio" name="gift-amount" id="gift-25" value="25"><label for="gift-25">$25</label>
-        <input type="radio" name="gift-amount" id="gift-50" value="50" checked><label for="gift-50">$50</label>
-        <input type="radio" name="gift-amount" id="gift-100" value="100"><label for="gift-100">$100</label>
-        <input type="radio" name="gift-amount" id="gift-150" value="150"><label for="gift-150">$150</label>
-        <input type="radio" name="gift-amount" id="gift-250" value="250"><label for="gift-250">$250</label>
-      </fieldset>
-      <button type="button" class="btn btn-primary shop-add" data-name="Courts Gift Card" data-price-source="gift-amount" data-image="gift">Give More Court Time →</button>
-    </div>
-  </div>
-</section>
-
 <section class="shop-drop" id="shop-drop">
   <div class="container">
     <div class="section-head">
+      <span class="shop-drop-status">New Drop</span>
       <span class="eyebrow">The Good Stuff</span>
       <h2 class="section-title">Because Apparently You Need Another Hoodie.</h2>
     </div>
@@ -513,6 +497,51 @@
   </div>
 </section>
 
+<section class="shop-gift" id="gift-cards">
+  <div class="container shop-gift-grid">
+    <div class="shop-gift-media">
+      <svg class="shop-gift-lines" viewBox="0 0 300 360" fill="none" aria-hidden="true">
+        <rect x="4" y="4" width="292" height="352" rx="2" stroke="#E5682A" stroke-width="1.5"/>
+        <circle cx="150" cy="180" r="52" stroke="#E5682A" stroke-width="1.5"/>
+        <line x1="4" y1="180" x2="296" y2="180" stroke="#E5682A" stroke-width="1.5"/>
+      </svg>
+      <div class="shop-gift-card-img">
+        <img src="images/gift-card.jpg" alt="A black Courts gift card, with THE COURTS in white and orange lettering, tucked into basketball netting" loading="lazy">
+      </div>
+    </div>
+    <div class="shop-gift-copy">
+      <span class="eyebrow">Gift Cards</span>
+      <h2 class="shop-gift-title">More Court. Less Stuff.</h2>
+      <p class="shop-gift-body">No sizes. No batteries. No assembly required.</p>
+      <p class="shop-gift-body">Training. Camps. Clinics. Dr. Dish. Court time. Their call.</p>
+      <fieldset class="shop-gift-amounts">
+        <legend class="sr-only">Gift card amount</legend>
+        <input type="radio" name="gift-amount" id="gift-25" value="25"><label for="gift-25">$25</label>
+        <input type="radio" name="gift-amount" id="gift-50" value="50" checked><label for="gift-50">$50</label>
+        <input type="radio" name="gift-amount" id="gift-100" value="100"><label for="gift-100">$100</label>
+        <input type="radio" name="gift-amount" id="gift-150" value="150"><label for="gift-150">$150</label>
+        <input type="radio" name="gift-amount" id="gift-250" value="250"><label for="gift-250">$250</label>
+      </fieldset>
+      <button type="button" class="btn btn-primary shop-add" data-name="Courts Gift Card" data-price-source="gift-amount" data-image="gift">Give More Court Time →</button>
+    </div>
+  </div>
+</section>
+
+<section class="pre-footer">
+  <div class="container pre-footer-inner">
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Ready to Play?</span>
+      <h3 class="pre-footer-title">See What's on the Court.</h3>
+      <a href="schedule.html" class="pre-footer-link">View Schedule <span class="arrow">→</span></a>
+    </div>
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Playing a Lot?</span>
+      <h3 class="pre-footer-title">There's a Membership for That.</h3>
+      <a href="membership.html#plan-selector" class="pre-footer-link">See Membership <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
 <footer class="site-footer">
   <div class="container">
     <div class="footer-main">
@@ -593,12 +622,14 @@
     <button type="button" class="cart-drawer-close" id="cartDrawerClose" aria-label="Close bag">&times;</button>
   </div>
   <div class="cart-drawer-items" id="cartDrawerItems" aria-live="polite">
-    <p class="cart-drawer-empty" id="cartDrawerEmpty">Your bag is empty.</p>
+    <p class="cart-drawer-empty-title" id="cartDrawerEmpty">Your bag is empty.</p>
+    <p class="cart-drawer-empty">Looks like you're traveling light.</p>
+    <a href="#shop-drop" class="btn btn-secondary btn-block" id="cartKeepShopping">Keep Shopping →</a>
   </div>
-  <div class="cart-drawer-foot">
+  <div class="cart-drawer-foot" id="cartDrawerFoot" hidden>
     <div class="cart-drawer-subtotal"><span>Subtotal</span><strong id="cartSubtotal">$0</strong></div>
-    <button type="button" class="btn btn-secondary btn-block" id="cartViewBag">View Bag</button>
-    <button type="button" class="btn btn-primary btn-block" id="cartCheckout" style="margin-top:10px;">Checkout →</button>
+    <button type="button" class="btn btn-primary btn-block" id="cartCheckout">Checkout →</button>
+    <button type="button" class="btn btn-secondary btn-block" id="cartViewBag" style="margin-top:10px;">View Bag</button>
   </div>
 </aside>
 
@@ -634,14 +665,26 @@
     var itemsEl = document.getElementById('cartDrawerItems');
     var countEl = document.getElementById('cartCount');
     var subtotalEl = document.getElementById('cartSubtotal');
+    var footEl = document.getElementById('cartDrawerFoot');
     var totalQty = 0, subtotal = 0;
     itemsEl.innerHTML = '';
+    footEl.hidden = cart.length === 0;
     if (cart.length === 0) {
-      var p = document.createElement('p');
-      p.className = 'cart-drawer-empty';
-      p.id = 'cartDrawerEmpty';
-      p.textContent = 'Your bag is empty.';
-      itemsEl.appendChild(p);
+      var title = document.createElement('p');
+      title.className = 'cart-drawer-empty-title';
+      title.id = 'cartDrawerEmpty';
+      title.textContent = 'Your bag is empty.';
+      var sub = document.createElement('p');
+      sub.className = 'cart-drawer-empty';
+      sub.textContent = "Looks like you're traveling light.";
+      var keepShopping = document.createElement('a');
+      keepShopping.href = '#shop-drop';
+      keepShopping.className = 'btn btn-secondary btn-block';
+      keepShopping.textContent = 'Keep Shopping →';
+      keepShopping.addEventListener('click', closeDrawer);
+      itemsEl.appendChild(title);
+      itemsEl.appendChild(sub);
+      itemsEl.appendChild(keepShopping);
     } else {
       cart.forEach(function (l) {
         totalQty += l.qty;
@@ -691,6 +734,8 @@
   document.getElementById('cartOverlay').addEventListener('click', closeDrawer);
   document.getElementById('cartViewBag').addEventListener('click', openDrawer);
   document.getElementById('cartCheckout').addEventListener('click', function () { openDrawer(); });
+  var staticKeepShopping = document.getElementById('cartKeepShopping');
+  if (staticKeepShopping) staticKeepShopping.addEventListener('click', closeDrawer);
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && document.getElementById('cartDrawer').classList.contains('open')) closeDrawer();
   });
