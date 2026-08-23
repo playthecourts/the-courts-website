@@ -12,11 +12,148 @@
 <link rel="icon" type="image/png" sizes="16x16" href="images/brand/favicon-16.png">
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="css/styles.css">
+<style>
+  /* =====================================================
+     PROGRAMS PAGE — bespoke, page-scoped styles
+     ===================================================== */
+
+  /* ---------- Hero: editorial, offset macro imagery ---------- */
+  .prog-hero { position: relative; background: var(--gray-light); overflow: hidden; }
+  .prog-hero-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; min-height: 620px; }
+  .prog-hero-copy { display: flex; flex-direction: column; justify-content: center; padding: 168px 24px 64px clamp(24px,6vw,88px); position: relative; z-index: 2; }
+  .prog-hero-copy .eyebrow { font-size: 18px; color: var(--orange); }
+  .prog-hero-title { font-family: var(--font-display); line-height: 0.88; margin: 14px 0 22px; }
+  .prog-hero-title span { display: block; font-size: clamp(52px, 7.4vw, 108px); letter-spacing: -0.01em; color: var(--black); }
+  .prog-hero-title .accent { color: var(--orange); }
+  .prog-hero-sub { font-size: 17px; line-height: 1.7; color: var(--gray-dark); max-width: 40ch; margin: 0 0 34px; }
+  .prog-hero-media { position: relative; overflow: hidden; }
+  .prog-hero-media .ph-back, .prog-hero-media .ph-front { position: absolute; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.25); border-radius: var(--radius-md); }
+  .prog-hero-media .ph-back { top: 8%; left: 4%; width: 60%; height: 52%; z-index: 1; }
+  .prog-hero-media .ph-front { bottom: 6%; right: 4%; width: 62%; height: 54%; z-index: 2; }
+  .prog-hero-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .prog-hero-arc { position: absolute; inset: 0; z-index: 3; pointer-events: none; width: 100%; height: 100%; }
+  @media (max-width: 980px) {
+    .prog-hero-grid { grid-template-columns: 1fr; min-height: 0; }
+    .prog-hero-copy { padding: 136px 24px 32px; }
+    .prog-hero-media { aspect-ratio: 4/3; margin: 0 24px 48px; }
+    .prog-hero-media .ph-back { top: 4%; left: 0; width: 58%; height: 60%; }
+    .prog-hero-media .ph-front { bottom: 4%; right: 0; width: 58%; height: 60%; }
+  }
+
+  /* ---------- Shared section rhythm ---------- */
+  .prog-section-head { max-width: 640px; margin: 0 auto 8px; text-align: center; }
+  .prog-section-head .eyebrow { font-size: 19px; color: var(--orange); letter-spacing: 0.1em; text-shadow: 0 1px 1px rgba(0,0,0,0.12); }
+  .prog-section-head h2 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(28px, 4vw, 42px); line-height: 1.1; margin: 0; }
+  .prog-section-head p { font-size: 16.5px; line-height: 1.6; color: var(--gray-dark); max-width: 52ch; margin: 14px auto 0; }
+
+  /* ---------- Pick Your Game: two big sport blocks ---------- */
+  .pick-game { background: var(--white); padding: 64px 0 0; }
+  .sport-block { padding: 64px 0; position: relative; overflow: hidden; }
+  .sport-block-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 0; }
+  .sport-block--basketball { background: var(--gray-light); }
+  .sport-block--basketball .sport-block-grid { grid-template-columns: 1.05fr 0.95fr; }
+  .sport-block--volleyball { background: var(--black); color: var(--white); }
+  .sport-block--volleyball .sport-block-grid { grid-template-columns: 0.95fr 1.05fr; }
+  .sport-media { position: relative; aspect-ratio: 4/3.2; overflow: hidden; }
+  .sport-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s var(--ease); }
+  .sport-block:hover .sport-media img { transform: scale(1.03); }
+  .sport-copy { padding: 56px clamp(24px,5vw,72px); }
+  .sport-label { font-family: var(--font-sport); font-size: 18px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange); margin: 0 0 14px; }
+  .sport-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(32px, 3.8vw, 50px); line-height: 1.02; margin: 0 0 18px; }
+  .sport-body { font-size: 16.5px; line-height: 1.7; max-width: 42ch; margin: 0 0 26px; color: var(--gray-dark); }
+  .sport-block--volleyball .sport-body { color: rgba(255,255,255,0.72); }
+  .sport-tags { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 30px; }
+  .sport-tag { font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 7px 14px; border-radius: 999px; border: 1.5px solid var(--gray-mid); color: var(--gray-dark); }
+  .sport-block--volleyball .sport-tag { border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.8); }
+  .sport-block-arc { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; z-index: 1; pointer-events: none; }
+  @media (max-width: 900px) {
+    .sport-block { padding: 0 0 64px; }
+    .sport-block-grid, .sport-block--basketball .sport-block-grid, .sport-block--volleyball .sport-block-grid { grid-template-columns: 1fr; }
+    .sport-media { aspect-ratio: 16/10; }
+    .sport-copy { padding: 40px 24px 0; }
+  }
+
+  /* ---------- More Ways to Play: mixed editorial grid ---------- */
+  .ways-section { background: var(--gray-light); padding: 64px 0; }
+  .ways-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; margin-top: 36px; }
+  .way-tile { position: relative; border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; min-height: 270px; color: var(--white); }
+  .way-tile .photo-bg { position: absolute; inset: 0; z-index: 0; }
+  .way-tile .photo-bg img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s var(--ease); }
+  .way-tile:hover .photo-bg img { transform: scale(1.04); }
+  .way-tile .photo-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(23,23,23,0) 0%, rgba(23,23,23,0.18) 30%, rgba(23,23,23,0.6) 58%, rgba(23,23,23,0.94) 100%); }
+  .way-tile-body { position: relative; z-index: 1; padding: 26px 28px; }
+  .way-label { font-family: var(--font-sport); font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange) !important; text-shadow: 0 1px 3px rgba(0,0,0,0.5); margin: 0 0 8px; }
+  .way-name { font-family: var(--font-display); font-weight: 900; font-size: clamp(21px, 2.2vw, 28px); margin: 0 0 8px; line-height: 1.05; }
+  .way-copy { font-size: 14px; line-height: 1.55; color: rgba(255,255,255,0.82); margin: 0 0 16px; max-width: 36ch; }
+  .way-link { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-heading); font-weight: 700; font-size: 13.5px; color: var(--white); }
+  .way-link .arrow { color: var(--orange); transition: transform 0.2s var(--ease); }
+  .way-tile:hover .way-link .arrow { transform: translateX(4px); }
+  .way--private { grid-column: span 7; min-height: 340px; }
+  .way--camps { grid-column: span 5; min-height: 340px; }
+  .way--leagues { grid-column: span 5; }
+  .way--opengym { grid-column: span 4; }
+  .way--drdish { grid-column: span 3; min-height: 270px; }
+  .way--drdish { background: var(--black); }
+  .way--drdish .way-copy { color: rgba(255,255,255,0.65); }
+  .way--drdish .way-tile-body { padding: 22px 22px; }
+  .way--leagues .photo-bg { background: linear-gradient(135deg, #2a2a2a, #111); }
+  @media (max-width: 980px) {
+    .ways-grid { grid-template-columns: repeat(2, 1fr); }
+    .way--private, .way--camps, .way--leagues, .way--opengym, .way--drdish { grid-column: span 1; min-height: 300px; }
+  }
+  @media (max-width: 560px) {
+    .ways-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sport-media img, .way-tile .photo-bg img, .way-link .arrow { transition: none !important; }
+  }
+
+  /* ---------- What's Next: unified two-path close ---------- */
+  .prog-next { background: var(--black); }
+  .next-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
+  .next-side { padding: 84px clamp(24px, 5vw, 64px); display: flex; flex-direction: column; justify-content: center; }
+  .next-side--help { border-left: 1.5px solid var(--orange); }
+  .next-inner { max-width: 440px; }
+  .next-side--help .next-inner { max-width: 420px; }
+  .next-eyebrow { font-family: var(--font-sport); font-size: 18px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 12px; display: block; }
+  .next-headline { font-family: var(--font-display); font-weight: 900; color: var(--white); font-size: clamp(28px, 3vw, 38px); line-height: 1.06; margin: 0 0 16px; }
+  .next-body { font-size: 16px; line-height: 1.65; color: rgba(255,255,255,0.72); margin: 0 0 30px; max-width: 40ch; }
+
+  .next-progression { margin: 4px 0 34px; }
+  .next-prog-track { position: relative; display: flex; justify-content: space-between; padding-top: 3px; }
+  .next-prog-line { position: absolute; top: 8px; left: 0; right: 0; height: 2px; background: rgba(255,255,255,0.15); }
+  .next-prog-line-fill { position: absolute; top: 8px; left: 0; height: 2px; width: 0%; background: var(--orange); transition: width 1.1s var(--ease); }
+  .next-prog-line-fill.in-view { width: 100%; }
+  .next-prog-step { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px; flex: 1; }
+  .next-prog-dot { width: 13px; height: 13px; border-radius: 50%; background: var(--orange); border: none; }
+  .next-prog-step--featured .next-prog-dot { width: 17px; height: 17px; margin-top: -2px; background: var(--orange); box-shadow: 0 0 0 4px rgba(213,96,31,0.25); }
+  .next-prog-label { font-family: var(--font-sport); font-weight: 700; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.6); text-align: center; }
+  .next-prog-step--featured .next-prog-label { color: var(--white); font-size: 13px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .next-prog-line-fill { transition: none !important; }
+  }
+
+  @media (max-width: 900px) {
+    .next-grid { grid-template-columns: 1fr; }
+    .next-side { padding: 56px 24px; }
+    .next-side--help { border-left: none; border-top: 1.5px solid var(--orange); }
+    .next-inner, .next-side--help .next-inner { max-width: none; }
+    .next-prog-track { flex-direction: column; align-items: flex-start; gap: 16px; padding-top: 0; padding-left: 8px; }
+    .next-prog-line { top: 0; bottom: 0; left: 6px; right: auto; width: 2px; height: auto; }
+    .next-prog-line-fill { top: 0; left: 6px; width: 2px; height: 0%; }
+    .next-prog-line-fill.in-view { height: 100%; width: 2px; }
+    .next-prog-step { flex-direction: row; align-items: center; gap: 12px; }
+  }
+</style>
 </head>
-<body>
+<body class="has-announce">
 <a href="#main" class="skip-link">Skip to main content</a>
 
-<header class="nav" id="nav">
+<a href="leagues.html" class="site-announce">Fall League Registration Is Now Open <span class="arrow">→</span></a>
+
+<header class="nav nav-solid" id="nav">
   <div class="container nav-inner">
     <a href="index.html" class="brand">
       <img class="brand-mark brand-mark--wordmark brand-mark--dark" src="images/brand/logo-horizontal.svg" alt="The Courts">
@@ -31,14 +168,15 @@
           <a href="private-coaching.html">Private Training</a>
           <a href="camps.html">Camps &amp; Clinics</a>
           <a href="leagues.html">Leagues</a>
-          <a href="events.html#rhythm">Open Play</a>
+          <a href="events.html#rhythm">Open Gym</a>
+          <a href="dr-dish.html">Dr. Dish</a>
         </div>
       </div>
       <div class="nav-item">
         <a href="membership.html">Membership <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="nav-dropdown">
-          <a href="membership.html#plans">Choose Your Plan</a>
-          <a href="membership.html#a-la-carte">À La Carte</a>
+          <a href="membership.html#plan-selector">Choose Your Plan</a>
+          <a href="membership.html#drop-in">À La Carte</a>
           <a href="membership.html#faqs">FAQs</a>
         </div>
       </div>
@@ -65,13 +203,15 @@
           <a href="about.html">Our Story</a>
           <a href="about.html#how-we-play">How We Play</a>
           <a href="about.html#meet-the-team">Meet the Team</a>
-          <a href="community.html">Community</a>
+          <a href="coach-collective.html">Coach Collective</a>
+          <a href="about.html#community">Community</a>
+          <a href="about.html#partner">Partner</a>
         </div>
       </div>
       <div class="nav-item"><a href="contact.html">Contact</a></div>
     </nav>
     <div class="nav-cta">
-      <a href="contact.html" class="btn btn-secondary">Contact</a>
+      <a href="member-portal.html" class="btn btn-secondary">Login</a>
       <a href="membership.html" class="btn btn-primary">Become a Member</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
@@ -87,14 +227,15 @@
       <a href="private-coaching.html">Private Training</a>
       <a href="camps.html">Camps &amp; Clinics</a>
       <a href="leagues.html">Leagues</a>
-      <a href="events.html#rhythm">Open Play</a>
+      <a href="events.html#rhythm">Open Gym</a>
+      <a href="dr-dish.html">Dr. Dish</a>
     </div>
   </div>
   <div class="mobile-nav-group">
     <button class="mobile-nav-toggle" type="button">Membership<span class="mobile-nav-chevron">+</span></button>
     <div class="mobile-nav-sub">
-      <a href="membership.html#plans">Choose Your Plan</a>
-      <a href="membership.html#a-la-carte">À La Carte</a>
+      <a href="membership.html#plan-selector">Choose Your Plan</a>
+      <a href="membership.html#drop-in">À La Carte</a>
       <a href="membership.html#faqs">FAQs</a>
     </div>
   </div>
@@ -122,83 +263,176 @@
       <a href="about.html">Our Story</a>
       <a href="about.html#how-we-play">How We Play</a>
       <a href="about.html#meet-the-team">Meet the Team</a>
-      <a href="community.html">Community</a>
+      <a href="coach-collective.html">Coach Collective</a>
+      <a href="about.html#community">Community</a>
+      <a href="about.html#partner">Partner</a>
     </div>
   </div>
   <a href="contact.html">Contact</a>
   <a href="membership.html" class="btn btn-primary btn-block">Become a Member</a>
 </div>
 
-<section class="page-hero" id="main">
-  <div class="photo" role="img" aria-label="Athletes training at The Courts"></div>
-  <div class="container page-hero-inner">
-    <div class="breadcrumb"><a href="index.html">Home</a> / <span class="current">Programs</span></div>
-    <span class="eyebrow eyebrow--light">Programs</span>
-    <h1 class="page-hero-title">Every way to play.</h1>
-    <p class="page-hero-sub">Basketball, volleyball, private training, camps, and leagues — for every age and every skill level.</p>
+<section class="prog-hero" id="main">
+  <div class="prog-hero-grid">
+    <div class="prog-hero-copy">
+      <span class="eyebrow">Programs</span>
+      <h1 class="prog-hero-title">
+        <span>Every Way</span>
+        <span class="accent">to Play.</span>
+      </h1>
+      <p class="prog-hero-sub">Basketball. Volleyball. Training. Camps. Leagues. Plenty of reasons to get on the court.</p>
+      <div class="hero-ctas"><a href="#pick-game" class="btn btn-primary">Find Your Game ↓</a></div>
+    </div>
+    <div class="prog-hero-media">
+      <div class="ph-back"><img src="images/basketball-texture.jpg" alt=""></div>
+      <div class="ph-front"><img src="images/volleyball-texture.jpg" alt=""></div>
+      <svg class="prog-hero-arc" viewBox="0 0 400 400" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M40,260 Q220,300 360,150" fill="none" stroke="var(--orange)" stroke-width="2" opacity="0.8"/>
+      </svg>
+    </div>
   </div>
 </section>
 
-<section style="padding:100px 0;">
+<section class="pick-game" id="pick-game">
   <div class="container">
-    <div class="card-grid" style="grid-template-columns:repeat(3,1fr);">
-      <div class="program-card reveal">
-        <div class="photo" role="img" aria-label="Basketball training"></div>
-        <div class="program-card-body">
-          <span>Team + Individual</span>
-          <h3>Basketball</h3>
-          <a href="basketball.html">Explore Basketball →</a>
+    <div class="prog-section-head">
+      <span class="eyebrow">Pick Your Game</span>
+      <h2>Basketball or Volleyball.<br>Let's Go.</h2>
+    </div>
+  </div>
+
+  <div class="sport-block sport-block--basketball reveal">
+    <div class="container">
+      <div class="sport-block-grid">
+        <div class="sport-media">
+          <img src="images/basketball-hero.jpg" alt="An athlete's basketball shoes moving through an agility ladder drill on the court.">
+        </div>
+        <div class="sport-copy">
+          <p class="sport-label">Basketball</p>
+          <h3 class="sport-headline">Get Better.<br>Play Better.</h3>
+          <p class="sport-body">Fundamentals. Meaningful reps. Real feedback. <span style="white-space:nowrap;">Then put it to work.</span></p>
+          <div class="sport-tags">
+            <span class="sport-tag">Group Training</span>
+            <span class="sport-tag">Private Training</span>
+            <span class="sport-tag">Camps + Clinics</span>
+            <span class="sport-tag">Basketball Leagues</span>
+            <span class="sport-tag">Open Gym</span>
+            <span class="sport-tag">Dr. Dish</span>
+          </div>
+          <a href="basketball.html" class="btn btn-secondary">Explore Basketball →</a>
         </div>
       </div>
-      <div class="program-card reveal">
-        <div class="photo" role="img" aria-label="Volleyball training"></div>
-        <div class="program-card-body">
-          <span>Team + Individual</span>
-          <h3>Volleyball</h3>
-          <a href="volleyball.html">Explore Volleyball →</a>
+    </div>
+  </div>
+
+  <div class="sport-block sport-block--volleyball reveal">
+    <div class="container">
+      <div class="sport-block-grid">
+        <div class="sport-copy">
+          <p class="sport-label">Volleyball</p>
+          <h3 class="sport-headline">Pass. Set. <span style="white-space:nowrap;">Get After It.</span></h3>
+          <p class="sport-body">More touches. Better movement. Smarter decisions. And plenty of time actually playing.</p>
+          <div class="sport-tags">
+            <span class="sport-tag">Group Training</span>
+            <span class="sport-tag">Private Training</span>
+            <span class="sport-tag">Camps + Clinics</span>
+            <span class="sport-tag">Open Gym</span>
+          </div>
+          <a href="volleyball.html" class="btn btn-primary">Explore Volleyball →</a>
         </div>
-      </div>
-      <div class="program-card reveal">
-        <div class="photo" role="img" aria-label="Private training session"></div>
-        <div class="program-card-body">
-          <span>One-on-One</span>
-          <h3>Private Training</h3>
-          <a href="private-coaching.html">Book a Session →</a>
-        </div>
-      </div>
-      <div class="program-card reveal">
-        <div class="photo" role="img" aria-label="Camp session"></div>
-        <div class="program-card-body">
-          <span>School Breaks + Weekends</span>
-          <h3>Camps &amp; Clinics</h3>
-          <a href="camps.html">View Camps →</a>
-        </div>
-      </div>
-      <div class="program-card reveal">
-        <div class="photo" role="img" aria-label="League game"></div>
-        <div class="program-card-body">
-          <span>Fall + Winter</span>
-          <h3>Leagues</h3>
-          <a href="leagues.html">View Leagues →</a>
-        </div>
-      </div>
-      <div class="program-card reveal">
-        <div class="photo" role="img" aria-label="Membership"></div>
-        <div class="program-card-body">
-          <span>Save on Everything</span>
-          <h3>Membership</h3>
-          <a href="membership.html">View Plans →</a>
+        <div class="sport-media">
+          <img src="images/volleyball-hero.jpg" alt="A volleyball player holding a Molten volleyball on the court.">
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="final-cta">
+<section class="ways-section">
   <div class="container">
-    <h2>Not sure where to <span class="accent">start?</span></h2>
-    <p>Tell us a little about your athlete and we'll point you in the right direction.</p>
-    <div class="ctas"><a href="contact.html" class="btn btn-primary">Contact Us →</a></div>
+    <div class="prog-section-head">
+      <span class="eyebrow">More Ways to Play</span>
+      <h2>There's Always Something Going On.</h2>
+      <p>Practice. Play. Compete. Work on something specific. <span style="white-space:nowrap;">Or just get some more court time.</span></p>
+    </div>
+    <div class="ways-grid">
+      <a href="private-coaching.html" class="way-tile way--private reveal">
+        <div class="photo-bg"><img src="images/private-training-dribble.jpg" alt="An athlete working on ball-handling with two basketballs during a private training session."></div>
+        <div class="way-tile-body">
+          <p class="way-label">One-on-One + Small Group</p>
+          <h3 class="way-name">Private Training</h3>
+          <p class="way-copy">Your game. Your goals. Your coach. Focused basketball or volleyball training built around what your athlete actually needs to work on.</p>
+          <span class="way-link">Explore Private Training <span class="arrow">→</span></span>
+        </div>
+      </a>
+      <a href="camps.html" class="way-tile way--camps reveal">
+        <div class="photo-bg"><img src="images/team-listening.jpg" alt=""></div>
+        <div class="way-tile-body">
+          <p class="way-label">School Breaks + Weekends</p>
+          <h3 class="way-name">Camps + Clinics</h3>
+          <p class="way-copy">School's out. We're not. More reps, focused work, and a pretty good way to spend a day off.</p>
+          <span class="way-link">View Camps + Clinics <span class="arrow">→</span></span>
+        </div>
+      </a>
+      <a href="leagues.html" class="way-tile way--leagues reveal">
+        <div class="photo-bg"><img src="images/leagues-huddle.jpg" alt="Teammates and a coach bringing it in for a huddle before a league game."></div>
+        <div class="way-tile-body">
+          <p class="way-label">Game Time</p>
+          <h3 class="way-name">Basketball Leagues</h3>
+          <p class="way-copy">Practice is great. Eventually, somebody has to keep score. Structured games, plenty of touches, and a chance to put the work to use.</p>
+          <span class="way-link">View Basketball Leagues <span class="arrow">→</span></span>
+        </div>
+      </a>
+      <a href="events.html#rhythm" class="way-tile way--opengym reveal">
+        <div class="photo-bg"><img src="images/gear-bottle-shoes.jpg" alt=""></div>
+        <div class="way-tile-body">
+          <p class="way-label">Just Play</p>
+          <h3 class="way-name">Open Gym</h3>
+          <p class="way-copy">No drill plan. No line to stand in. Just court time. Scheduled, coach-supervised time to shoot, play, and get more reps.</p>
+          <span class="way-link">See Open Gym <span class="arrow">→</span></span>
+        </div>
+      </a>
+      <a href="dr-dish.html" class="way-tile way--drdish reveal">
+        <div class="photo-bg"><img src="images/sweat-detail.jpg" alt=""></div>
+        <div class="way-tile-body">
+          <p class="way-label">Basketball Only</p>
+          <h3 class="way-name">Dr. Dish</h3>
+          <p class="way-copy">More Shots. Less Chasing Rebounds. Dedicated shooting-machine time. You shoot. It feeds. Repeat.</p>
+          <span class="way-link">Book Dr. Dish <span class="arrow">→</span></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="prog-next" id="whats-next">
+  <div class="next-grid">
+    <div class="next-side next-side--membership">
+      <div class="next-inner">
+        <span class="next-eyebrow">Playing a Lot?</span>
+        <h2 class="next-headline">There's a Membership for That.</h2>
+        <p class="next-body">Once a week. All the time. Somewhere in between.</p>
+        <div class="next-progression">
+          <div class="next-prog-track">
+            <span class="next-prog-line"></span>
+            <span class="next-prog-line-fill" id="progLineFill"></span>
+            <div class="next-prog-step"><span class="next-prog-dot"></span><span class="next-prog-label">Weekly</span></div>
+            <div class="next-prog-step next-prog-step--featured"><span class="next-prog-dot"></span><span class="next-prog-label">Unlimited</span></div>
+            <div class="next-prog-step"><span class="next-prog-dot"></span><span class="next-prog-label">Full Court</span></div>
+            <div class="next-prog-step"><span class="next-prog-dot"></span><span class="next-prog-label">Family</span></div>
+          </div>
+        </div>
+        <a href="membership.html#plan-selector" class="btn btn-primary">See Membership Plans →</a>
+      </div>
+    </div>
+    <div class="next-side next-side--help">
+      <div class="next-inner">
+        <span class="next-eyebrow">Not Sure Where to Start?</span>
+        <h2 class="next-headline">Tell Us About Your Athlete.</h2>
+        <p class="next-body">Age. Sport. What they're working on.</p>
+        <a href="contact.html?interest=Where%20Should%20My%20Athlete%20Start%3F#contact-form" class="btn btn-on-dark" data-preset="Where Should My Athlete Start?">Help Me Find a Program →</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -210,8 +444,7 @@
           <img class="brand-mark" src="images/brand/icon-mark.png" alt="">
           <span>THE COURTS<span class="brand-sub">NOLENSVILLE, TN</span></span>
         </a>
-        <p style="margin-bottom:10px;">Where performance meets belonging.</p>
-        <p>Basketball and volleyball training built around great coaching, real development, and a place athletes want to be.</p>
+        <p>Great coaching. Real development. Plenty of reasons to keep showing up.</p>
         <div class="footer-social">
           <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="white" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1" fill="white"/></svg></a>
           <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 9h3V6h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v6h3v-6H16l.5-3h-3V9.7c0-.4.3-.7.5-.7z" fill="white"/></svg></a>
@@ -221,7 +454,7 @@
         <li><a href="basketball.html">Basketball</a></li><li><a href="volleyball.html">Volleyball</a></li><li><a href="private-coaching.html">Private Training</a></li><li><a href="camps.html">Camps + Clinics</a></li><li><a href="leagues.html">Basketball Leagues</a></li>
       </ul></div>
       <div class="footer-col"><h4>The Courts</h4><ul>
-        <li><a href="about.html">About</a></li><li><a href="membership.html">Membership</a></li><li><a href="events.html">Events</a></li><li><a href="shop.html">Pro Shop</a></li><li><a href="community.html">Community</a></li>
+        <li><a href="about.html">About</a></li><li><a href="membership.html">Membership</a></li><li><a href="events.html">Events</a></li><li><a href="shop.html">Shop</a></li><li><a href="about.html#community">Community</a></li><li><a href="about.html#partner">Partner</a></li>
       </ul></div>
       <div class="footer-col"><h4>Support</h4><ul>
         <li><a href="schedule.html">Schedule</a></li><li><a href="court-rentals.html">Court Rentals</a></li><li><a href="resources.html">Resources</a></li><li><a href="faq.html">FAQs</a></li><li><a href="member-portal.html">Member Portal</a></li><li><a href="contact.html">Contact</a></li>
@@ -238,6 +471,26 @@
   </div>
 </footer>
 
+<script>
+(function () {
+  var fill = document.getElementById('progLineFill');
+  if (!fill) return;
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    fill.classList.add('in-view');
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        fill.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  io.observe(fill.closest('.next-progression'));
+})();
+</script>
 <script src="js/script.js"></script>
 </body>
 </html>

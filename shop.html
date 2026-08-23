@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pro Shop | The Courts — Nolensville, TN</title>
-<meta name="description" content="Tees, hoodies, hats, and gear from The Courts Pro Shop in Nolensville, TN — plus the limited Founders Collection and Courts gift cards.">
+<title>Shop | The Courts — Nolensville, TN</title>
+<meta name="description" content="Tees, hoodies, hats, and gear from The Courts Shop in Nolensville, TN — plus the limited Founders Collection and Courts gift cards.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
@@ -12,11 +12,224 @@
 <link rel="icon" type="image/png" sizes="16x16" href="images/brand/favicon-16.png">
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="css/styles.css">
+<style>
+  .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+  /* ---------- Hero ---------- */
+  .shop-hero { display:grid; grid-template-columns:45% 55%; align-items:stretch; min-height:460px; }
+  .shop-hero-copy { background:var(--gray-light); display:flex; flex-direction:column; justify-content:center; padding:120px 56px 48px clamp(24px,5vw,72px); }
+  .shop-hero-title { font-family:var(--font-display); font-weight:900; font-size:clamp(38px, 5vw, 66px); line-height:1.0; margin:16px 0 22px; max-width:12ch; }
+  .shop-hero-title .accent { color:var(--orange); }
+  .shop-hero-sub { font-size:17px; line-height:1.6; color:var(--gray-dark); max-width:36ch; margin-bottom:32px; }
+  .shop-hero-media { position:relative; overflow:hidden; background:var(--charcoal); }
+  .shop-hero-media .photo { position:absolute; inset:0; }
+  .shop-hero-micro {
+    position:absolute; top:36px; right:26px; writing-mode:vertical-rl; text-orientation:mixed;
+    font-family:var(--font-sport); font-weight:700; font-size:12px; letter-spacing:0.24em;
+    text-transform:uppercase; color:rgba(255,255,255,0.7); z-index:2;
+  }
+  .shop-hero-tag {
+    position:absolute; bottom:28px; left:28px; background:var(--orange); color:var(--white);
+    font-family:var(--font-sport); font-weight:700; font-size:11px; letter-spacing:0.08em;
+    text-transform:uppercase; padding:7px 15px; border-radius:999px; z-index:2;
+  }
+  @media (max-width:900px) {
+    .shop-hero { grid-template-columns:1fr; min-height:0; }
+    .shop-hero-copy { padding:104px 24px 32px; }
+    .shop-hero-media { aspect-ratio:4/3; }
+    .shop-hero-micro { display:none; }
+  }
+
+  /* ---------- Compact filter row ---------- */
+  .shop-filters-wrap { border-bottom:1px solid var(--gray-mid); }
+  .shop-filters { margin:0; padding:22px 0; }
+
+  /* ---------- Gift card feature ---------- */
+  .shop-gift { background:var(--black); padding:60px 0; position:relative; overflow:hidden; }
+  .shop-gift-grid { display:grid; grid-template-columns:0.85fr 1.15fr; gap:64px; align-items:center; }
+  .shop-gift-title { font-family:var(--font-display); font-weight:900; color:var(--white); font-size:clamp(30px,4.2vw,48px); line-height:1.04; margin:14px 0 20px; }
+  .shop-gift-body { color:rgba(255,255,255,0.72); font-size:16px; line-height:1.6; margin:0 0 8px; }
+  .shop-gift-amounts { display:flex; flex-wrap:wrap; gap:10px; margin:26px 0 30px; border:none; padding:0; }
+  .shop-gift-amounts input { position:absolute; opacity:0; width:1px; height:1px; }
+  .shop-gift-amounts label {
+    cursor:pointer; padding:12px 22px; border-radius:999px; border:1.5px solid rgba(255,255,255,0.3);
+    color:rgba(255,255,255,0.85); font-family:var(--font-heading); font-weight:700; font-size:15px;
+    transition:all 0.2s var(--ease);
+  }
+  .shop-gift-amounts input:checked + label { background:var(--orange); border-color:var(--orange); color:var(--white); }
+  .shop-gift-amounts input:focus-visible + label { outline:2px solid var(--orange); outline-offset:2px; }
+  .shop-gift-media { position:relative; display:flex; justify-content:center; }
+  .shop-gift-lines { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:120%; height:auto; opacity:0.5; z-index:0; pointer-events:none; }
+  .shop-gift-card-img { position:relative; z-index:1; width:100%; max-width:190px; aspect-ratio:4/5; border-radius:var(--radius-md); overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,0.5); }
+  .shop-gift-card-img img { width:100%; height:100%; object-fit:cover; display:block; }
+  @media (max-width:900px) {
+    .shop-gift-grid { grid-template-columns:1fr; gap:40px; }
+    .shop-gift-media { order:-1; }
+  }
+
+  /* ---------- Main product drop: modular grid ---------- */
+  .shop-drop { padding:60px 0 52px; }
+  .tile-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:16px; }
+  .tile { position:relative; display:flex; flex-direction:column; }
+  .tile--8 { grid-column:span 8; }
+  .tile--4 { grid-column:span 4; }
+  .tile-media { position:relative; aspect-ratio:4/5; border-radius:var(--radius-md); overflow:hidden; background:var(--gray-light); }
+  .tile--8 .tile-media { aspect-ratio:16/8; }
+  .tile-media .photo { position:absolute; inset:0; transition:transform 0.4s var(--ease); }
+  .tile:hover .tile-media .photo { transform:scale(1.03); }
+  .tile-badge {
+    position:absolute; top:14px; left:14px; z-index:2; background:var(--orange); color:var(--white);
+    font-family:var(--font-sport); font-weight:700; font-size:10.5px; letter-spacing:0.07em;
+    text-transform:uppercase; padding:5px 11px; border-radius:999px;
+  }
+  .tile-meta { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-top:16px; }
+  .tile-name { font-family:var(--font-heading); font-weight:700; font-size:16px; color:var(--black); margin:0; }
+  .tile--8 .tile-name { font-size:20px; }
+  .tile-price { font-size:14px; color:var(--gray-dark); font-weight:600; white-space:nowrap; }
+  .tile-variants { display:flex; gap:6px; flex-wrap:wrap; margin:10px 0 0; border:none; padding:0; }
+  .tile-variants input { position:absolute; opacity:0; width:1px; height:1px; }
+  .tile-variants label {
+    cursor:pointer; min-width:34px; text-align:center; padding:6px 8px; border:1.5px solid var(--gray-mid);
+    border-radius:6px; font-family:var(--font-sport); font-weight:700; font-size:11.5px; color:var(--gray-dark);
+    transition:all 0.15s var(--ease);
+  }
+  .tile-variants input:checked + label { background:var(--black); border-color:var(--black); color:var(--white); }
+  .tile-variants input:focus-visible + label { outline:2px solid var(--orange); outline-offset:2px; }
+  .tile-variants--dark label { border-color:rgba(255,255,255,0.3); color:rgba(255,255,255,0.75); }
+  .tile-variants--dark input:checked + label { background:var(--orange); border-color:var(--orange); color:var(--white); }
+  .tile-add-row { margin-top:12px; }
+  .tile-add {
+    font-family:var(--font-heading); font-weight:700; font-size:12.5px; letter-spacing:0.03em; text-transform:uppercase;
+    color:var(--black); display:inline-flex; align-items:center; gap:6px; padding:8px 0; background:none; border:none;
+    cursor:pointer; min-height:44px;
+  }
+  .tile-add .arrow { color:var(--orange); transition:transform 0.2s var(--ease); }
+  .tile-add:hover .arrow, .tile:hover .tile-add .arrow { transform:translateX(3px); }
+  .tile-add--dark { color:var(--white); }
+  .tile-rule { display:block; width:0; height:2px; background:var(--orange); transition:width 0.25s var(--ease); margin-top:4px; }
+  .tile:hover .tile-rule { width:32px; }
+  .tile-add.shake { animation:tile-shake 0.32s ease-in-out; }
+  @keyframes tile-shake { 0%,100% { transform:translateX(0); } 25% { transform:translateX(-4px); } 75% { transform:translateX(4px); } }
+  .tile-quote { background:var(--orange); border-radius:var(--radius-md); align-items:center; justify-content:center; padding:36px; display:flex; }
+  .tile-quote p { font-family:var(--font-display); font-weight:900; color:var(--white); font-size:clamp(21px,2.3vw,27px); line-height:1.08; text-align:center; margin:0; }
+  @media (max-width:980px) {
+    .tile-grid { grid-template-columns:repeat(2,1fr); }
+    .tile--8, .tile--4 { grid-column:span 1; }
+    .tile--8 .tile-media { aspect-ratio:4/3; }
+  }
+  @media (max-width:560px) {
+    .tile-grid { grid-template-columns:1fr; }
+  }
+
+  /* ---------- Editorial lifestyle break ---------- */
+  .shop-lifestyle { position:relative; overflow:hidden; }
+  .shop-lifestyle .photo { aspect-ratio:32/9; }
+  .shop-lifestyle .photo::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(23,23,23,0.75) 0%, rgba(23,23,23,0.15) 55%, rgba(23,23,23,0.05) 100%); }
+  .shop-lifestyle-copy { position:absolute; left:6%; bottom:9%; z-index:2; max-width:420px; }
+  .shop-lifestyle-copy h2 { font-family:var(--font-display); font-weight:900; color:var(--white); font-size:clamp(24px,3.6vw,52px); line-height:1.0; margin:0 0 10px; white-space:nowrap; }
+  .shop-lifestyle-copy p { color:rgba(255,255,255,0.85); font-size:16px; margin:0; }
+  @media (max-width:900px) {
+    .shop-lifestyle .photo { aspect-ratio:4/3; }
+    .shop-lifestyle-copy { left:24px; right:24px; bottom:24px; max-width:none; }
+  }
+  @media (max-width:420px) {
+    .shop-lifestyle-copy h2 { white-space:normal; font-size:clamp(22px,7vw,30px); }
+  }
+
+  /* ---------- Accessory moment ---------- */
+  .shop-accessories { padding:52px 0; background:var(--gray-light); }
+  .acc-strip { display:grid; grid-template-columns:0.85fr 0.85fr 1.15fr 0.85fr 1fr; gap:14px; align-items:end; }
+  .acc-media { border-radius:var(--radius-md); overflow:hidden; background:var(--white); margin-bottom:14px; position:relative; }
+  .acc-media .photo { position:absolute; inset:0; }
+  .acc-media.ratio-square { aspect-ratio:1/1; }
+  .acc-media.ratio-landscape { aspect-ratio:16/10; }
+  .acc-media.ratio-tall { aspect-ratio:3/3.9; }
+  .acc-name { font-family:var(--font-heading); font-weight:700; font-size:15px; margin:0 0 2px; }
+  .acc-price { display:block; font-size:13.5px; color:var(--gray-dark); margin-bottom:10px; }
+  @media (max-width:980px) { .acc-strip { grid-template-columns:repeat(3,1fr); } }
+  @media (max-width:640px) { .acc-strip { grid-template-columns:1fr 1fr; gap:18px; } }
+  @media (max-width:420px) { .acc-strip { grid-template-columns:1fr; } }
+
+  /* ---------- Founders ---------- */
+  .shop-founders { background:var(--black); padding:76px 0; position:relative; overflow:hidden; }
+  .shop-founders-vert {
+    position:absolute; top:50%; left:-0.15em; transform:translateY(-50%); writing-mode:vertical-rl;
+    font-family:var(--font-display); font-weight:900; font-size:clamp(120px,17vw,240px); color:rgba(255,255,255,0.05);
+    letter-spacing:0.02em; pointer-events:none; z-index:0; white-space:nowrap;
+  }
+  .shop-founders-grid { display:grid; grid-template-columns:0.6fr 1fr; gap:56px; align-items:center; position:relative; z-index:1; }
+  .shop-founders-badge {
+    display:inline-block; margin-bottom:14px; background:transparent; border:1px solid var(--orange); color:var(--orange);
+    font-family:var(--font-sport); font-weight:700; font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase;
+    padding:5px 12px; border-radius:999px;
+  }
+  .shop-founders-copy .eyebrow { display:block; margin-top:2px; }
+  .shop-founders-title { font-family:var(--font-display); font-weight:900; color:var(--white); font-size:clamp(34px,4.6vw,56px); line-height:1.0; margin:14px 0 16px; }
+  .shop-founders-body { color:rgba(255,255,255,0.7); font-size:16px; margin-bottom:28px; }
+  .shop-founders-products { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .shop-founders-product-media { aspect-ratio:3/4; border-radius:var(--radius-md); overflow:hidden; background:var(--charcoal); position:relative; }
+  .shop-founders-product-media .photo { position:absolute; inset:0; }
+  .shop-founders-product-name { color:var(--white); font-family:var(--font-heading); font-weight:700; font-size:17px; margin:14px 0 2px; }
+  .shop-founders-product-price { color:rgba(255,255,255,0.55); font-size:14px; margin:0 0 10px; }
+  @media (max-width:900px) {
+    .shop-founders-grid { grid-template-columns:1fr; gap:36px; }
+    .shop-founders-vert { display:none; }
+  }
+  @media (max-width:560px) { .shop-founders-products { grid-template-columns:1fr; } }
+
+  /* ---------- Cart drawer ---------- */
+  .cart-toggle {
+    position:fixed; right:24px; bottom:24px; z-index:150; background:var(--black); color:var(--white);
+    font-family:var(--font-heading); font-weight:700; font-size:14px; border:none; border-radius:999px;
+    padding:14px 22px; display:inline-flex; align-items:center; gap:8px; cursor:pointer; min-height:44px;
+    box-shadow:0 12px 28px rgba(0,0,0,0.28); transition:transform 0.2s var(--ease);
+  }
+  .cart-toggle:hover { transform:translateY(-2px); }
+  .cart-toggle-count {
+    background:var(--orange); color:var(--white); border-radius:999px; min-width:20px; height:20px; padding:0 5px;
+    display:inline-flex; align-items:center; justify-content:center; font-size:11.5px; font-weight:700;
+  }
+  .cart-overlay { position:fixed; inset:0; background:rgba(23,23,23,0.5); z-index:160; opacity:0; pointer-events:none; transition:opacity 0.25s var(--ease); }
+  .cart-overlay.open { opacity:1; pointer-events:auto; }
+  .cart-drawer {
+    position:fixed; top:0; right:0; bottom:0; width:min(400px, 92vw); background:var(--white); z-index:170;
+    display:flex; flex-direction:column; transform:translateX(100%); transition:transform 0.3s var(--ease);
+    box-shadow:-16px 0 40px rgba(0,0,0,0.2);
+  }
+  .cart-drawer.open { transform:translateX(0); }
+  .cart-drawer-head { display:flex; align-items:center; justify-content:space-between; padding:24px 24px 18px; border-bottom:1px solid var(--gray-mid); }
+  .cart-drawer-head h2 { font-family:var(--font-display); font-weight:900; font-size:22px; margin:0; }
+  .cart-drawer-close { background:none; border:none; font-size:26px; line-height:1; cursor:pointer; color:var(--black); min-width:44px; min-height:44px; }
+  .cart-drawer-items { flex:1; overflow-y:auto; padding:10px 24px; }
+  .cart-drawer-empty { color:var(--gray-dark); font-size:14.5px; padding:24px 0; }
+  .cart-line { display:flex; gap:14px; padding:16px 0; border-bottom:1px solid var(--gray-mid); }
+  .cart-line-media { width:64px; height:64px; border-radius:var(--radius-sm); overflow:hidden; flex-shrink:0; background:var(--gray-light); }
+  .cart-line-media .photo { width:100%; height:100%; }
+  .cart-line-body { flex:1; min-width:0; }
+  .cart-line-name { font-family:var(--font-heading); font-weight:700; font-size:14.5px; margin:0 0 2px; }
+  .cart-line-variant { font-size:12.5px; color:var(--gray-dark); margin:0 0 8px; }
+  .cart-line-row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .cart-line-qty { display:flex; align-items:center; gap:8px; border:1px solid var(--gray-mid); border-radius:999px; padding:2px; }
+  .cart-line-qty button { width:26px; height:26px; border:none; background:none; cursor:pointer; font-size:15px; color:var(--black); border-radius:999px; }
+  .cart-line-qty button:hover { background:var(--gray-light); }
+  .cart-line-qty span { min-width:16px; text-align:center; font-size:13px; font-weight:700; }
+  .cart-line-price { font-size:13.5px; font-weight:700; color:var(--black); }
+  .cart-line-remove { font-size:12px; color:var(--gray-dark); background:none; border:none; cursor:pointer; text-decoration:underline; padding:4px 0; margin-top:6px; }
+  .cart-drawer-foot { border-top:1px solid var(--gray-mid); padding:20px 24px 26px; }
+  .cart-drawer-subtotal { display:flex; align-items:center; justify-content:space-between; font-family:var(--font-heading); font-weight:700; font-size:15px; margin-bottom:16px; }
+  @media (prefers-reduced-motion: reduce) {
+    .cart-drawer, .cart-overlay, .tile-media .photo, .tile-rule, .cart-toggle { transition:none; }
+    .tile-add.shake { animation:none; }
+  }
+</style>
+
 </head>
-<body>
+<body class="has-announce">
 <a href="#main" class="skip-link">Skip to main content</a>
 
-<header class="nav" id="nav">
+<a href="leagues.html" class="site-announce">Fall League Registration Is Now Open <span class="arrow">→</span></a>
+
+<header class="nav nav-solid" id="nav">
   <div class="container nav-inner">
     <a href="index.html" class="brand">
       <img class="brand-mark brand-mark--wordmark brand-mark--dark" src="images/brand/logo-horizontal.svg" alt="The Courts">
@@ -31,7 +244,8 @@
           <a href="private-coaching.html">Private Training</a>
           <a href="camps.html">Camps &amp; Clinics</a>
           <a href="leagues.html">Leagues</a>
-          <a href="events.html#rhythm">Open Play</a>
+          <a href="events.html#rhythm">Open Gym</a>
+          <a href="schedule.html">Dr. Dish</a>
         </div>
       </div>
       <div class="nav-item">
@@ -65,13 +279,15 @@
           <a href="about.html">Our Story</a>
           <a href="about.html#how-we-play">How We Play</a>
           <a href="about.html#meet-the-team">Meet the Team</a>
-          <a href="community.html">Community</a>
+          <a href="coach-collective.html">Coach Collective</a>
+          <a href="about.html#community">Community</a>
+          <a href="about.html#partner">Partner</a>
         </div>
       </div>
       <div class="nav-item"><a href="contact.html">Contact</a></div>
     </nav>
     <div class="nav-cta">
-      <a href="contact.html" class="btn btn-secondary">Contact</a>
+      <a href="member-portal.html" class="btn btn-secondary">Login</a>
       <a href="membership.html" class="btn btn-primary">Become a Member</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
@@ -87,7 +303,8 @@
       <a href="private-coaching.html">Private Training</a>
       <a href="camps.html">Camps &amp; Clinics</a>
       <a href="leagues.html">Leagues</a>
-      <a href="events.html#rhythm">Open Play</a>
+      <a href="events.html#rhythm">Open Gym</a>
+      <a href="schedule.html">Dr. Dish</a>
     </div>
   </div>
   <div class="mobile-nav-group">
@@ -122,113 +339,238 @@
       <a href="about.html">Our Story</a>
       <a href="about.html#how-we-play">How We Play</a>
       <a href="about.html#meet-the-team">Meet the Team</a>
-      <a href="community.html">Community</a>
+      <a href="coach-collective.html">Coach Collective</a>
+      <a href="about.html#community">Community</a>
+      <a href="about.html#partner">Partner</a>
     </div>
   </div>
   <a href="contact.html">Contact</a>
   <a href="membership.html" class="btn btn-primary btn-block">Become a Member</a>
 </div>
 
-<section class="page-hero" style="padding-bottom:60px;" id="main">
-  <div class="photo" role="img" aria-label="A Courts athlete wearing Courts gear"></div>
-  <div class="container page-hero-inner">
-    <div class="breadcrumb"><a href="index.html">Home</a> / <span class="current">Pro Shop</span></div>
+<section class="shop-hero" id="main">
+  <div class="shop-hero-copy">
     <span class="eyebrow eyebrow--light">The Courts Shop</span>
-    <h1 class="page-hero-title">Wear Your Court.</h1>
-    <p class="page-hero-sub">Tees. Hoodies. Hats. Gear for the people who practically live here.</p>
-    <div class="hero-ctas" style="margin-top:32px;"><a href="#shop-all" class="btn btn-primary">Shop All →</a></div>
+    <h1 class="shop-hero-title">Turns Out, The Courts Looks Good <span class="accent">on You.</span></h1>
+    <p class="shop-hero-sub">Tees. Hoodies. Hats. Made for practice. Worn pretty much everywhere else.</p>
+    <div class="ctas"><a href="#shop-drop" class="btn btn-primary">Shop All →</a></div>
+  </div>
+  <div class="shop-hero-media">
+    <div class="photo" role="img" aria-label="A Courts athlete wearing Courts gear, photo coming soon"></div>
+    <span class="shop-hero-micro" aria-hidden="true">The Courts Shop</span>
+    <span class="shop-hero-tag">New Drop</span>
   </div>
 </section>
 
-<section style="padding:100px 0; background:var(--black);" id="gift-cards">
-  <div class="container overview-inner">
-    <div class="overview-art photo" role="img" aria-label="A Courts gift card tucked into basketball netting"></div>
-    <div>
+<div class="shop-filters-wrap">
+  <div class="container">
+    <nav class="filter-pills shop-filters" aria-label="Shop sections">
+      <a href="#shop-drop" class="filter-pill active" data-filter="all">All</a>
+      <a href="#shop-drop" class="filter-pill" data-filter="apparel">Apparel</a>
+      <a href="#shop-accessories" class="filter-pill" data-filter="accessories">Accessories</a>
+      <a href="#founders" class="filter-pill" data-filter="founders">Founders</a>
+    </nav>
+  </div>
+</div>
+
+<section class="shop-gift" id="gift-cards">
+  <div class="container shop-gift-grid">
+    <div class="shop-gift-media">
+      <svg class="shop-gift-lines" viewBox="0 0 300 360" fill="none" aria-hidden="true">
+        <rect x="4" y="4" width="292" height="352" rx="2" stroke="#E5682A" stroke-width="1.5"/>
+        <circle cx="150" cy="180" r="52" stroke="#E5682A" stroke-width="1.5"/>
+        <line x1="4" y1="180" x2="296" y2="180" stroke="#E5682A" stroke-width="1.5"/>
+      </svg>
+      <div class="shop-gift-card-img">
+        <img src="images/gift-card.jpg" alt="A black Courts gift card, with THE COURTS in white and orange lettering, tucked into basketball netting" loading="lazy">
+      </div>
+    </div>
+    <div class="shop-gift-copy">
       <span class="eyebrow">Gift Cards</span>
-      <h2 style="font-family:var(--font-display); color:var(--white); font-size:clamp(28px, 4vw, 44px); line-height:1.05; margin:0 0 18px;">Give Them More Court Time.</h2>
-      <p style="font-size:16px; line-height:1.7; color:rgba(255,255,255,0.75); margin-bottom:16px;">Skip the stuff they'll forget by January.<br><br>Give them something they actually want: more time in the gym.</p>
-      <p style="font-size:14.5px; line-height:1.6; color:rgba(255,255,255,0.6); margin-bottom:22px;">Courts gift cards can be used toward training, camps, clinics, court time, Dr. Dish + more.</p>
-      <p style="font-family:var(--font-heading); font-weight:800; color:var(--orange); font-size:17px; margin-bottom:30px;">$25 · $50 · $100 · $150 · $250</p>
-      <button type="button" class="btn btn-primary product-add">Give the Gift of Court Time →</button>
+      <h2 class="shop-gift-title">More Court. Less Stuff.</h2>
+      <p class="shop-gift-body">No sizes. No batteries. No assembly required.</p>
+      <p class="shop-gift-body">Training. Camps. Clinics. Dr. Dish. Court time. Their call.</p>
+      <fieldset class="shop-gift-amounts">
+        <legend class="sr-only">Gift card amount</legend>
+        <input type="radio" name="gift-amount" id="gift-25" value="25"><label for="gift-25">$25</label>
+        <input type="radio" name="gift-amount" id="gift-50" value="50" checked><label for="gift-50">$50</label>
+        <input type="radio" name="gift-amount" id="gift-100" value="100"><label for="gift-100">$100</label>
+        <input type="radio" name="gift-amount" id="gift-150" value="150"><label for="gift-150">$150</label>
+        <input type="radio" name="gift-amount" id="gift-250" value="250"><label for="gift-250">$250</label>
+      </fieldset>
+      <button type="button" class="btn btn-primary shop-add" data-name="Courts Gift Card" data-price-source="gift-amount" data-image="gift">Give More Court Time →</button>
     </div>
   </div>
 </section>
 
-<section style="padding:100px 0 70px;" id="shop-all">
+<section class="shop-drop" id="shop-drop">
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">The Good Stuff</span>
-      <h2 class="section-title">Gear for people who live here.</h2>
+      <h2 class="section-title">Because Apparently You Need Another Hoodie.</h2>
     </div>
-    <div class="product-grid">
-      <div class="product-card">
-        <div class="product-photo photo" role="img" aria-label="The Courts T-Shirt"></div>
-        <div class="product-card-body"><h4>The Courts Tee</h4><p class="product-price">$28</p><button class="product-add">Add to Cart</button></div>
+
+    <div class="tile-grid">
+      <div class="tile tile--8" data-category="apparel">
+        <div class="tile-media">
+          <div class="photo" role="img" aria-label="The Courts Hoodie, photo coming soon"></div>
+          <span class="tile-badge">Best Seller</span>
+        </div>
+        <div class="tile-meta"><h3 class="tile-name">The Courts Hoodie</h3><span class="tile-price">$52</span></div>
+        <fieldset class="tile-variants" data-required="true">
+          <legend class="sr-only">Size for The Courts Hoodie</legend>
+          <input type="radio" name="size-hoodie" id="size-hoodie-s" value="S"><label for="size-hoodie-s">S</label>
+          <input type="radio" name="size-hoodie" id="size-hoodie-m" value="M"><label for="size-hoodie-m">M</label>
+          <input type="radio" name="size-hoodie" id="size-hoodie-l" value="L"><label for="size-hoodie-l">L</label>
+          <input type="radio" name="size-hoodie" id="size-hoodie-xl" value="XL"><label for="size-hoodie-xl">XL</label>
+        </fieldset>
+        <div class="tile-add-row">
+          <button type="button" class="tile-add shop-add" data-name="The Courts Hoodie" data-price="52" data-image="hoodie" data-variant-group="size-hoodie">Add to Bag <span class="arrow">→</span></button>
+        </div>
+        <span class="tile-rule" aria-hidden="true"></span>
       </div>
-      <div class="product-card">
-        <div class="product-photo photo" role="img" aria-label="The Courts Hoodie"></div>
-        <div class="product-card-body"><h4>The Courts Hoodie</h4><p class="product-price">$52</p><button class="product-add">Add to Cart</button></div>
+
+      <div class="tile tile--4" data-category="apparel">
+        <div class="tile-media">
+          <div class="photo" role="img" aria-label="The Courts Tee, photo coming soon"></div>
+        </div>
+        <div class="tile-meta"><h3 class="tile-name">The Courts Tee</h3><span class="tile-price">$28</span></div>
+        <fieldset class="tile-variants" data-required="true">
+          <legend class="sr-only">Size for The Courts Tee</legend>
+          <input type="radio" name="size-tee" id="size-tee-s" value="S"><label for="size-tee-s">S</label>
+          <input type="radio" name="size-tee" id="size-tee-m" value="M"><label for="size-tee-m">M</label>
+          <input type="radio" name="size-tee" id="size-tee-l" value="L"><label for="size-tee-l">L</label>
+          <input type="radio" name="size-tee" id="size-tee-xl" value="XL"><label for="size-tee-xl">XL</label>
+        </fieldset>
+        <div class="tile-add-row">
+          <button type="button" class="tile-add shop-add" data-name="The Courts Tee" data-price="28" data-image="tee" data-variant-group="size-tee">Add to Bag <span class="arrow">→</span></button>
+        </div>
+        <span class="tile-rule" aria-hidden="true"></span>
       </div>
-      <div class="product-card">
-        <div class="product-photo photo" role="img" aria-label="Shorts"></div>
-        <div class="product-card-body"><h4>Shorts</h4><p class="product-price">$32</p><button class="product-add">Add to Cart</button></div>
+
+      <div class="tile tile--4" data-category="apparel">
+        <div class="tile-media">
+          <div class="photo" role="img" aria-label="Courts Shorts, photo coming soon"></div>
+        </div>
+        <div class="tile-meta"><h3 class="tile-name">Shorts</h3><span class="tile-price">$32</span></div>
+        <fieldset class="tile-variants" data-required="true">
+          <legend class="sr-only">Size for Shorts</legend>
+          <input type="radio" name="size-shorts" id="size-shorts-s" value="S"><label for="size-shorts-s">S</label>
+          <input type="radio" name="size-shorts" id="size-shorts-m" value="M"><label for="size-shorts-m">M</label>
+          <input type="radio" name="size-shorts" id="size-shorts-l" value="L"><label for="size-shorts-l">L</label>
+          <input type="radio" name="size-shorts" id="size-shorts-xl" value="XL"><label for="size-shorts-xl">XL</label>
+        </fieldset>
+        <div class="tile-add-row">
+          <button type="button" class="tile-add shop-add" data-name="Shorts" data-price="32" data-image="shorts" data-variant-group="size-shorts">Add to Bag <span class="arrow">→</span></button>
+        </div>
+        <span class="tile-rule" aria-hidden="true"></span>
       </div>
-      <div class="product-card">
-        <div class="product-photo photo" role="img" aria-label="Joggers"></div>
-        <div class="product-card-body"><h4>Joggers</h4><p class="product-price">$46</p><button class="product-add">Add to Cart</button></div>
+
+      <div class="tile tile--4" data-category="apparel">
+        <div class="tile-media">
+          <div class="photo" role="img" aria-label="Courts Joggers, photo coming soon"></div>
+          <span class="tile-badge">New</span>
+        </div>
+        <div class="tile-meta"><h3 class="tile-name">Joggers</h3><span class="tile-price">$46</span></div>
+        <fieldset class="tile-variants" data-required="true">
+          <legend class="sr-only">Size for Joggers</legend>
+          <input type="radio" name="size-joggers" id="size-joggers-s" value="S"><label for="size-joggers-s">S</label>
+          <input type="radio" name="size-joggers" id="size-joggers-m" value="M"><label for="size-joggers-m">M</label>
+          <input type="radio" name="size-joggers" id="size-joggers-l" value="L"><label for="size-joggers-l">L</label>
+          <input type="radio" name="size-joggers" id="size-joggers-xl" value="XL"><label for="size-joggers-xl">XL</label>
+        </fieldset>
+        <div class="tile-add-row">
+          <button type="button" class="tile-add shop-add" data-name="Joggers" data-price="46" data-image="joggers" data-variant-group="size-joggers">Add to Bag <span class="arrow">→</span></button>
+        </div>
+        <span class="tile-rule" aria-hidden="true"></span>
       </div>
-      <div class="product-card">
-        <div class="product-photo photo" role="img" aria-label="Snapback Hat"></div>
-        <div class="product-card-body"><h4>Snapback</h4><p class="product-price">$26</p><button class="product-add">Add to Cart</button></div>
-      </div>
-      <div class="product-card">
-        <div class="product-photo photo" role="img" aria-label="Beanie"></div>
-        <div class="product-card-body"><h4>Beanie</h4><p class="product-price">$22</p><button class="product-add">Add to Cart</button></div>
-      </div>
-      <div class="product-card">
-        <div class="product-photo photo" role="img" aria-label="Headband and sweatband set"></div>
-        <div class="product-card-body"><h4>Headband / Sweatband</h4><p class="product-price">$12</p><button class="product-add">Add to Cart</button></div>
-      </div>
-      <div class="product-card">
-        <div class="product-photo photo" role="img" aria-label="Sweat towel"></div>
-        <div class="product-card-body"><h4>Sweat Towel</h4><p class="product-price">$16</p><button class="product-add">Add to Cart</button></div>
-      </div>
-      <div class="product-card">
-        <div class="product-photo photo" role="img" aria-label="The Courts Basketball"></div>
-        <div class="product-card-body"><h4>The Courts Basketball</h4><p class="product-price">$35</p><button class="product-add">Add to Cart</button></div>
-      </div>
-      <div class="product-card">
-        <div class="product-photo photo" role="img" aria-label="The Courts Volleyball"></div>
-        <div class="product-card-body"><h4>The Courts Volleyball</h4><p class="product-price">$35</p><button class="product-add">Add to Cart</button></div>
-      </div>
-      <div class="product-card">
-        <div class="product-photo photo" role="img" aria-label="Water bottle"></div>
-        <div class="product-card-body"><h4>Water Bottle</h4><p class="product-price">$18</p><button class="product-add">Add to Cart</button></div>
-      </div>
-      <div class="product-card">
-        <div class="product-photo photo" role="img" aria-label="Backpack"></div>
-        <div class="product-card-body"><h4>Backpack</h4><p class="product-price">$48</p><button class="product-add">Add to Cart</button></div>
+
+      <div class="tile tile--4 tile-quote" data-category="apparel">
+        <p>Your kid's not the only one who wants one.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section style="padding:110px 0; background:var(--black);" id="founders">
-  <div class="container overview-inner">
-    <div>
-      <span class="eyebrow">Founders Collection</span>
-      <h2 style="font-family:var(--font-display); color:var(--white); font-size:clamp(28px, 4vw, 44px); line-height:1.05; margin:0 0 18px;">You Had to Be Here.</h2>
-      <p style="font-size:16px; line-height:1.7; color:rgba(255,255,255,0.75); margin-bottom:24px;">Limited Courts gear for the families who were here from the beginning.</p>
-      <div style="display:flex; gap:32px; margin-bottom:26px;">
-        <div><p style="font-family:var(--font-heading); font-weight:700; color:var(--white); margin:0 0 2px;">Founders Tee</p><p style="color:rgba(255,255,255,0.6); font-size:14px;">$32</p></div>
-        <div><p style="font-family:var(--font-heading); font-weight:700; color:var(--white); margin:0 0 2px;">Founders Hat</p><p style="color:rgba(255,255,255,0.6); font-size:14px;">$30</p></div>
-      </div>
-      <p style="font-size:14px; color:rgba(255,255,255,0.55); margin-bottom:28px;">Limited run. When it's gone, it's gone.</p>
-      <button type="button" class="btn btn-on-dark product-add">Shop Founders →</button>
+<section class="shop-lifestyle">
+  <div class="photo" role="img" aria-label="A Courts athlete relaxing off the court in Courts gear, photo coming soon"></div>
+  <div class="shop-lifestyle-copy">
+    <h2>You Clean Up Nice.</h2>
+    <p>Practice gear. Weekend potential.</p>
+  </div>
+</section>
+
+<section class="shop-accessories" id="shop-accessories">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Small Stuff, Still Good</span>
+      <h2 class="section-title">The Accessories.</h2>
     </div>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-      <div class="photo" role="img" aria-label="Founders Collection tee" style="aspect-ratio:3/4; border-radius:var(--radius-md); overflow:hidden;"></div>
-      <div class="photo" role="img" aria-label="Founders Collection hat" style="aspect-ratio:3/4; border-radius:var(--radius-md); overflow:hidden;"></div>
+    <div class="acc-strip">
+      <div class="acc-item" data-category="accessories">
+        <div class="acc-media ratio-square"><div class="photo" role="img" aria-label="Courts Snapback hat, photo coming soon"></div></div>
+        <h3 class="acc-name">Snapback</h3>
+        <span class="acc-price">$26</span>
+        <button type="button" class="tile-add shop-add" data-name="Snapback" data-price="26" data-image="snapback">Add to Bag <span class="arrow">→</span></button>
+      </div>
+      <div class="acc-item" data-category="accessories">
+        <div class="acc-media ratio-square"><div class="photo" role="img" aria-label="Courts Beanie, photo coming soon"></div></div>
+        <h3 class="acc-name">Beanie</h3>
+        <span class="acc-price">$22</span>
+        <button type="button" class="tile-add shop-add" data-name="Beanie" data-price="22" data-image="beanie">Add to Bag <span class="arrow">→</span></button>
+      </div>
+      <div class="acc-item" data-category="accessories">
+        <div class="acc-media ratio-landscape"><div class="photo" role="img" aria-label="Courts sweat towel, photo coming soon"></div></div>
+        <h3 class="acc-name">Sweat Towel</h3>
+        <span class="acc-price">$16</span>
+        <button type="button" class="tile-add shop-add" data-name="Sweat Towel" data-price="16" data-image="towel">Add to Bag <span class="arrow">→</span></button>
+      </div>
+      <div class="acc-item" data-category="accessories">
+        <div class="acc-media ratio-square"><div class="photo" role="img" aria-label="Courts water bottle, photo coming soon"></div></div>
+        <h3 class="acc-name">Water Bottle</h3>
+        <span class="acc-price">$18</span>
+        <button type="button" class="tile-add shop-add" data-name="Water Bottle" data-price="18" data-image="bottle">Add to Bag <span class="arrow">→</span></button>
+      </div>
+      <div class="acc-item" data-category="accessories">
+        <div class="acc-media ratio-tall"><div class="photo" role="img" aria-label="Courts backpack, photo coming soon"></div></div>
+        <h3 class="acc-name">Backpack</h3>
+        <span class="acc-price">$48</span>
+        <button type="button" class="tile-add shop-add" data-name="Backpack" data-price="48" data-image="backpack">Add to Bag <span class="arrow">→</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="shop-founders" id="founders">
+  <span class="shop-founders-vert" aria-hidden="true">Founders</span>
+  <div class="container shop-founders-grid">
+    <div class="shop-founders-copy">
+      <span class="shop-founders-badge">Limited Run</span>
+      <span class="eyebrow">Founders Collection</span>
+      <h2 class="shop-founders-title">You Were Here First.</h2>
+      <p class="shop-founders-body">Limited run. Bragging rights included.</p>
+      <a href="#shop-founders-products" class="btn btn-on-dark">Shop Founders →</a>
+    </div>
+    <div class="shop-founders-products" id="shop-founders-products">
+      <div class="shop-founders-product" data-category="founders">
+        <div class="shop-founders-product-media"><div class="photo" role="img" aria-label="Founders Collection tee, photo coming soon"></div></div>
+        <h3 class="shop-founders-product-name">Founders Tee</h3>
+        <p class="shop-founders-product-price">$32</p>
+        <fieldset class="tile-variants tile-variants--dark" data-required="true">
+          <legend class="sr-only">Size for Founders Tee</legend>
+          <input type="radio" name="size-founders-tee" id="size-ft-s" value="S"><label for="size-ft-s">S</label>
+          <input type="radio" name="size-founders-tee" id="size-ft-m" value="M"><label for="size-ft-m">M</label>
+          <input type="radio" name="size-founders-tee" id="size-ft-l" value="L"><label for="size-ft-l">L</label>
+          <input type="radio" name="size-founders-tee" id="size-ft-xl" value="XL"><label for="size-ft-xl">XL</label>
+        </fieldset>
+        <button type="button" class="tile-add tile-add--dark shop-add" data-name="Founders Tee" data-price="32" data-image="founders-tee" data-variant-group="size-founders-tee">Add to Bag <span class="arrow">→</span></button>
+      </div>
+      <div class="shop-founders-product" data-category="founders">
+        <div class="shop-founders-product-media"><div class="photo" role="img" aria-label="Founders Collection hat, photo coming soon"></div></div>
+        <h3 class="shop-founders-product-name">Founders Hat</h3>
+        <p class="shop-founders-product-price">$30</p>
+        <button type="button" class="tile-add tile-add--dark shop-add" data-name="Founders Hat" data-price="30" data-image="founders-hat">Add to Bag <span class="arrow">→</span></button>
+      </div>
     </div>
   </div>
 </section>
@@ -241,8 +583,7 @@
           <img class="brand-mark" src="images/brand/icon-mark.png" alt="">
           <span>THE COURTS<span class="brand-sub">NOLENSVILLE, TN</span></span>
         </a>
-        <p style="margin-bottom:10px;">Where performance meets belonging.</p>
-        <p>Basketball and volleyball training built around great coaching, real development, and a place athletes want to be.</p>
+        <p>Great coaching. Real development. Plenty of reasons to keep showing up.</p>
         <div class="footer-social">
           <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="white" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1" fill="white"/></svg></a>
           <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 9h3V6h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v6h3v-6H16l.5-3h-3V9.7c0-.4.3-.7.5-.7z" fill="white"/></svg></a>
@@ -252,7 +593,7 @@
         <li><a href="basketball.html">Basketball</a></li><li><a href="volleyball.html">Volleyball</a></li><li><a href="private-coaching.html">Private Training</a></li><li><a href="camps.html">Camps + Clinics</a></li><li><a href="leagues.html">Basketball Leagues</a></li>
       </ul></div>
       <div class="footer-col"><h4>The Courts</h4><ul>
-        <li><a href="about.html">About</a></li><li><a href="membership.html">Membership</a></li><li><a href="events.html">Events</a></li><li><a href="shop.html">Pro Shop</a></li><li><a href="community.html">Community</a></li>
+        <li><a href="about.html">About</a></li><li><a href="membership.html">Membership</a></li><li><a href="events.html">Events</a></li><li><a href="shop.html">Shop</a></li><li><a href="about.html#community">Community</a></li><li><a href="about.html#partner">Partner</a></li>
       </ul></div>
       <div class="footer-col"><h4>Support</h4><ul>
         <li><a href="schedule.html">Schedule</a></li><li><a href="court-rentals.html">Court Rentals</a></li><li><a href="resources.html">Resources</a></li><li><a href="faq.html">FAQs</a></li><li><a href="member-portal.html">Member Portal</a></li><li><a href="contact.html">Contact</a></li>
@@ -268,6 +609,171 @@
     <div class="footer-bottom"><span>&copy; 2026 The Courts. All rights reserved.</span><span><a href="privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="terms.html">Terms &amp; Conditions</a> &nbsp;·&nbsp; <a href="accessibility.html">Accessibility</a></span></div>
   </div>
 </footer>
+
+<button type="button" class="cart-toggle" id="cartToggle" aria-haspopup="dialog" aria-controls="cartDrawer">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 8h12l-1.2 11a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 8V6a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+  Bag
+  <span class="cart-toggle-count" id="cartCount">0</span>
+</button>
+
+<div class="cart-overlay" id="cartOverlay" hidden></div>
+<aside class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-label="Your bag" tabindex="-1">
+  <div class="cart-drawer-head">
+    <h2>Your Bag</h2>
+    <button type="button" class="cart-drawer-close" id="cartDrawerClose" aria-label="Close bag">&times;</button>
+  </div>
+  <div class="cart-drawer-items" id="cartDrawerItems" aria-live="polite">
+    <p class="cart-drawer-empty" id="cartDrawerEmpty">Your bag is empty.</p>
+  </div>
+  <div class="cart-drawer-foot">
+    <div class="cart-drawer-subtotal"><span>Subtotal</span><strong id="cartSubtotal">$0</strong></div>
+    <button type="button" class="btn btn-secondary btn-block" id="cartViewBag">View Bag</button>
+    <button type="button" class="btn btn-primary btn-block" id="cartCheckout" style="margin-top:10px;">Checkout →</button>
+  </div>
+</aside>
+
+<script>
+(function () {
+  var cart = [];
+
+  function money(n) { return '$' + n.toFixed(0); }
+
+  function findLine(id) {
+    for (var i = 0; i < cart.length; i++) { if (cart[i].id === id) return cart[i]; }
+    return null;
+  }
+
+  function addToCart(item) {
+    var id = item.name + '|' + (item.variant || '');
+    var existing = findLine(id);
+    if (existing) { existing.qty += 1; }
+    else { cart.push({ id: id, name: item.name, variant: item.variant || '', price: item.price, qty: 1 }); }
+    render();
+    openDrawer();
+  }
+
+  function removeLine(id) { cart = cart.filter(function (l) { return l.id !== id; }); render(); }
+  function changeQty(id, delta) {
+    var l = findLine(id);
+    if (!l) return;
+    l.qty += delta;
+    if (l.qty <= 0) removeLine(id); else render();
+  }
+
+  function render() {
+    var itemsEl = document.getElementById('cartDrawerItems');
+    var countEl = document.getElementById('cartCount');
+    var subtotalEl = document.getElementById('cartSubtotal');
+    var totalQty = 0, subtotal = 0;
+    itemsEl.innerHTML = '';
+    if (cart.length === 0) {
+      var p = document.createElement('p');
+      p.className = 'cart-drawer-empty';
+      p.id = 'cartDrawerEmpty';
+      p.textContent = 'Your bag is empty.';
+      itemsEl.appendChild(p);
+    } else {
+      cart.forEach(function (l) {
+        totalQty += l.qty;
+        subtotal += l.qty * l.price;
+        var row = document.createElement('div');
+        row.className = 'cart-line';
+        row.innerHTML =
+          '<div class="cart-line-media"><div class="photo" role="img" aria-label=""></div></div>' +
+          '<div class="cart-line-body">' +
+            '<p class="cart-line-name">' + l.name + '</p>' +
+            (l.variant ? '<p class="cart-line-variant">Size ' + l.variant + '</p>' : '') +
+            '<div class="cart-line-row">' +
+              '<span class="cart-line-qty">' +
+                '<button type="button" data-action="dec" aria-label="Decrease quantity">−</button>' +
+                '<span>' + l.qty + '</span>' +
+                '<button type="button" data-action="inc" aria-label="Increase quantity">+</button>' +
+              '</span>' +
+              '<span class="cart-line-price">' + money(l.qty * l.price) + '</span>' +
+            '</div>' +
+            '<button type="button" class="cart-line-remove" data-action="remove">Remove</button>' +
+          '</div>';
+        row.querySelector('[data-action="dec"]').addEventListener('click', function () { changeQty(l.id, -1); });
+        row.querySelector('[data-action="inc"]').addEventListener('click', function () { changeQty(l.id, 1); });
+        row.querySelector('[data-action="remove"]').addEventListener('click', function () { removeLine(l.id); });
+        itemsEl.appendChild(row);
+      });
+    }
+    countEl.textContent = totalQty;
+    subtotalEl.textContent = money(subtotal);
+  }
+
+  function openDrawer() {
+    document.getElementById('cartDrawer').classList.add('open');
+    document.getElementById('cartOverlay').hidden = false;
+    requestAnimationFrame(function () { document.getElementById('cartOverlay').classList.add('open'); });
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    document.getElementById('cartDrawer').classList.remove('open');
+    document.getElementById('cartOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(function () { document.getElementById('cartOverlay').hidden = true; }, 300);
+  }
+
+  document.getElementById('cartToggle').addEventListener('click', openDrawer);
+  document.getElementById('cartDrawerClose').addEventListener('click', closeDrawer);
+  document.getElementById('cartOverlay').addEventListener('click', closeDrawer);
+  document.getElementById('cartViewBag').addEventListener('click', openDrawer);
+  document.getElementById('cartCheckout').addEventListener('click', function () { openDrawer(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && document.getElementById('cartDrawer').classList.contains('open')) closeDrawer();
+  });
+
+  document.querySelectorAll('.shop-add').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var name = btn.getAttribute('data-name');
+      var price = parseFloat(btn.getAttribute('data-price') || '0');
+      var variantGroup = btn.getAttribute('data-variant-group');
+      var priceSource = btn.getAttribute('data-price-source');
+      var variant = null;
+
+      if (priceSource) {
+        var checked = document.querySelector('input[name="' + priceSource + '"]:checked');
+        price = checked ? parseFloat(checked.value) : 0;
+        name = name + ' ($' + price.toFixed(0) + ')';
+      }
+
+      if (variantGroup) {
+        var picked = document.querySelector('input[name="' + variantGroup + '"]:checked');
+        if (!picked) {
+          var fieldset = document.querySelector('fieldset[data-required="true"] input[name="' + variantGroup + '"]');
+          if (fieldset) fieldset.focus();
+          btn.classList.remove('shake');
+          void btn.offsetWidth;
+          btn.classList.add('shake');
+          btn.setAttribute('aria-describedby', variantGroup + '-hint');
+          var hint = document.getElementById(variantGroup + '-hint');
+          if (!hint) {
+            hint = document.createElement('span');
+            hint.id = variantGroup + '-hint';
+            hint.className = 'sr-only';
+            hint.setAttribute('role', 'alert');
+            hint.textContent = 'Please select a size first.';
+            btn.parentNode.appendChild(hint);
+          }
+          return;
+        }
+        variant = picked.value;
+      }
+
+      addToCart({ name: name, price: price, variant: variant });
+    });
+  });
+
+  document.querySelectorAll('.shop-filters .filter-pill').forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      document.querySelectorAll('.shop-filters .filter-pill').forEach(function (p) { p.classList.remove('active'); });
+      pill.classList.add('active');
+    });
+  });
+})();
+</script>
 
 <script src="js/script.js"></script>
 </body>

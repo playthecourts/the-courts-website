@@ -10,11 +10,11 @@
   --gray-mid: #D9D7D2;
   --gray-dark: #343434;
 
-  --orange: #E5682A;
-  --orange-hover: #CE5E26;
-  --orange-press: #B75322;
-  --orange-soft: rgba(229, 104, 42, 0.1);
-  --orange-ink: #AC4E20;
+  --orange: #D5601F;
+  --orange-hover: #BF5419;
+  --orange-press: #A94812;
+  --orange-soft: rgba(213, 96, 31, 0.1);
+  --orange-ink: #96431A;
 
   --font-display: 'Archivo Black', 'Archivo', sans-serif;
   --font-heading: 'Archivo', sans-serif;
@@ -53,7 +53,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .container { max-width: var(--container); margin: 0 auto; padding: 0 var(--pad); }
 
 .eyebrow {
-  display: block; font-family: var(--font-sport); font-size: 14px; font-weight: 700;
+  display: block; font-family: var(--font-sport); font-size: 16px; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.08em; color: var(--orange); margin-bottom: 12px;
 }
 .eyebrow--light { color: var(--orange); }
@@ -83,12 +83,35 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .btn-block { width: 100%; }
 .ctas { display: flex; gap: 16px; flex-wrap: wrap; }
 
+/* ---------- Site-wide announcement bar ---------- */
+.site-announce {
+  display: block; position: fixed; left: 0; right: 0; top: 0; z-index: 101;
+  background: var(--orange); color: var(--white); text-align: center; padding: 16px 20px;
+  font-family: var(--font-sport); font-weight: 700; font-size: 16px; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.site-announce .arrow { display: inline-block; transition: transform 0.2s var(--ease); margin-left: 4px; }
+.site-announce:hover { background: var(--orange-hover); }
+.site-announce:hover .arrow { transform: translateX(3px); }
+body.has-announce { padding-top: 56px; }
+body.has-announce .nav { top: 56px; }
+@media (max-width: 640px) {
+  .site-announce { font-size: 13px; padding: 12px 16px; }
+  body.has-announce { padding-top: 46px; }
+  body.has-announce .nav { top: 46px; }
+}
+
 /* ---------- Nav ---------- */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   padding: 22px 0; transition: all 0.3s var(--ease);
 }
 .nav.scrolled { background: var(--white); padding: 14px 0; box-shadow: 0 1px 0 var(--gray-mid); }
+.nav.nav-solid { background: var(--white); padding: 14px 0; box-shadow: 0 1px 0 var(--gray-mid); }
+.nav.nav-solid .brand-mark--light { display: none; }
+.nav.nav-solid .brand-mark--dark { display: block; }
+.nav.nav-solid .nav-item > a { color: var(--black); }
+.nav.nav-solid .nav-cta .btn-secondary { color: var(--black); border-color: var(--black); }
+.nav.nav-solid .nav-toggle span { background: var(--black); }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; }
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand-mark--wordmark { height: 28px; width: auto; }
@@ -159,6 +182,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .photo.placeholder { background: var(--gray-mid); }
 .photo.placeholder::before { color: rgba(0,0,0,0.25); }
+.photo:has(img)::before { content: none; }
 
 /* ---------- Hero ---------- */
 .hero {
@@ -291,6 +315,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .coach-editorial-bio { padding-top: 14px; }
 .coach-editorial-bio p { font-size: 13px; line-height: 1.55; color: var(--gray-dark); margin-bottom: 10px; }
 .coach-editorial-bio p:last-child { margin-bottom: 0; }
+.coach-editorial-bio summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--orange); user-select: none; }
+.coach-editorial-bio summary::-webkit-details-marker { display: none; }
+.coach-editorial-bio summary::marker { content: ""; }
+.coach-editorial-bio summary::before { content: "+"; display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--orange); font-size: 13px; line-height: 1; flex-shrink: 0; }
+.coach-editorial-bio[open] summary::before { content: "\2212"; }
+.coach-editorial-bio summary:hover { opacity: 0.75; }
+.coach-editorial-bio p { margin-top: 10px; }
 @media (max-width: 980px) { .coach-editorial-grid { grid-template-columns: repeat(3, 1fr); gap: 32px 24px; } }
 @media (max-width: 640px) { .coach-editorial-grid { grid-template-columns: 1fr 1fr; gap: 28px 18px; } }
 @media (max-width: 420px) { .coach-editorial-grid { grid-template-columns: 1fr; gap: 32px; } }
@@ -360,22 +391,29 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .schedule-filters-inner { display: flex; gap: 28px; flex-wrap: wrap; align-items: center; padding: 16px var(--pad); }
 .schedule-filter-label { display: block; font-family: var(--font-sport); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-dark); margin-bottom: 6px; }
 .schedule-filter-group { display: flex; gap: 8px; flex-wrap: nowrap; overflow-x: auto; }
-.schedule-filter-group .filter-pill { padding: 8px 16px; font-size: 13px; white-space: nowrap; }
+.schedule-filter-group .filter-pill { padding: 8px 16px 8px 12px; font-size: 13px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+.schedule-filter-group .filter-pill svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+.sport-marker { display: inline-flex; align-items: center; gap: 6px; padding: 6px 11px; border-radius: 6px; font-family: var(--font-sport); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
+.sport-marker-icon { width: 15px; height: 15px; flex-shrink: 0; }
+.sport-marker--basketball { background: var(--black); color: var(--white); }
+.sport-marker--volleyball { background: rgba(229,104,42,0.08); color: var(--orange-ink); border: 1.5px solid var(--orange); }
+.sport-marker--opengym { background: var(--white); color: var(--gray-dark); border: 1.5px solid var(--gray-mid); }
+
 .day-group { }
 .day-heading { font-family: var(--font-heading); font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 0.05em; padding: 32px 0 6px; }
 .day-group:first-child .day-heading { padding-top: 0; }
-.schedule-row { display: grid; grid-template-columns: 110px 1fr 120px 130px; align-items: center; gap: 18px; padding: 20px 0 20px 16px; border-top: 1px solid var(--gray-mid); border-left: 3px solid var(--gray-mid); }
+.schedule-row { display: grid; grid-template-columns: 150px 1fr 90px 110px 110px; align-items: center; gap: 16px; padding: 18px 0 18px 16px; border-top: 1px solid var(--gray-mid); border-left: 3px solid var(--gray-mid); }
 .day-group .schedule-row:first-of-type { border-top: none; }
-.schedule-row[data-sport="basketball"] { border-left-color: var(--orange); }
-.schedule-row[data-sport="volleyball"] { border-left-color: var(--black); }
-.sr-time { font-family: var(--font-heading); font-weight: 800; font-size: 16px; }
-.sr-sport { display: block; font-family: var(--font-sport); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--orange); margin-bottom: 2px; }
-.schedule-row[data-sport="volleyball"] .sr-sport { color: var(--black); }
+.schedule-row[data-sport="basketball"] { border-left-color: var(--black); }
+.schedule-row[data-sport="volleyball"] { border-left-color: var(--orange); }
+.schedule-row[data-sport="opengym"] { border-left-color: var(--gray-mid); }
 .sr-program { font-family: var(--font-heading); font-weight: 700; font-size: 16px; }
-.sr-age { font-size: 14px; color: var(--gray-dark); }
+.sr-age { font-size: 13.5px; color: var(--gray-dark); font-weight: 600; }
+.sr-time { font-family: var(--font-heading); font-weight: 800; font-size: 15px; }
 .sr-cta { font-weight: 700; font-size: 14px; color: var(--orange); white-space: nowrap; text-align: right; }
 @media (max-width: 720px) {
-  .schedule-row { grid-template-columns: 1fr; gap: 4px; padding: 18px 0 18px 14px; }
+  .schedule-row { grid-template-columns: 1fr; gap: 8px; padding: 18px 0 18px 14px; }
   .sr-cta { text-align: left; margin-top: 8px; display: inline-block; }
 }
 
@@ -485,14 +523,87 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-lg);
   padding: 36px; display: flex; flex-direction: column;
 }
-.plan.featured { border-color: var(--orange); box-shadow: 0 12px 32px rgba(255,90,0,0.12); position: relative; }
+.plan.featured { background: var(--black); border-color: var(--black); box-shadow: 0 20px 44px rgba(0,0,0,0.28); position: relative; z-index: 1; }
 .plan-badge { position: absolute; top: -13px; left: 36px; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 5px 14px; border-radius: 999px; }
 .plan h3 { font-family: var(--font-heading); font-size: 20px; margin: 0 0 6px; }
 .plan .plan-desc { font-size: 14px; color: var(--gray-dark); margin-bottom: 20px; }
 .plan .price { font-family: var(--font-display); font-size: 44px; margin-bottom: 4px; }
 .plan .price span { font-family: var(--font-body); font-weight: 500; font-size: 15px; color: var(--gray-dark); }
 .plan .plan-features { margin: 24px 0 28px; flex: 1; }
+.plan.featured h3, .plan.featured .price { color: var(--white); }
+.plan.featured .plan-desc, .plan.featured .plan-best-for { color: rgba(255,255,255,0.68); }
+.plan.featured .plan-differentiator { color: var(--orange); }
+.plan.featured .price span { color: rgba(255,255,255,0.55); }
+.plan.featured .plan-features li { color: rgba(255,255,255,0.92); }
+.plan.featured .plan-features svg { color: var(--orange); }
+.plan.featured .plan-best-for { border-top-color: rgba(255,255,255,0.16); }
+.plan-best-for { border-top: 1px solid var(--gray-mid); padding-top: 16px; margin-top: auto; }
 @media (max-width: 980px) { .plans-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Membership: court-time scale ---------- */
+.court-scale { display: flex; gap: 22px; max-width: 760px; margin: 0 auto 46px; }
+.court-scale-item { flex: 1; text-align: center; }
+.court-scale-bar { height: 6px; border-radius: 999px; background: var(--gray-mid); overflow: hidden; }
+.court-scale-bar span { display: block; height: 100%; background: var(--orange); border-radius: 999px; }
+.court-scale-item p { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-dark); margin: 10px 0 0; }
+@media (max-width: 640px) { .court-scale { gap: 12px; } .court-scale-item p { font-size: 10.5px; } }
+
+/* ---------- Membership: a la carte icons ---------- */
+.ac-icon { width: 56px; height: 56px; border-radius: 50%; background: var(--gray-light); border: 1.5px solid var(--gray-mid); color: var(--orange-ink); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+.ac-icon svg { width: 30px; height: 30px; }
+.alacarte-item:hover .ac-icon { border-color: var(--orange); background: var(--orange-soft); }
+.alacarte-item { border: 1.5px solid var(--gray-mid); transition: border-color 0.2s var(--ease), transform 0.2s var(--ease); }
+.alacarte-item:hover { border-color: var(--orange); transform: translateY(-3px); }
+
+/* ---------- Membership page: pop pass ---------- */
+#plans { position: relative; overflow: hidden; background: var(--white); }
+#plans::before {
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image: repeating-linear-gradient(115deg, rgba(213,96,31,0.05) 0px, rgba(213,96,31,0.05) 1px, transparent 1px, transparent 68px);
+}
+#plans .plans-watermark {
+  position: absolute; top: -0.14em; right: -0.03em; z-index: 0; pointer-events: none;
+  font-family: var(--font-display); font-weight: 900; line-height: 1; white-space: nowrap;
+  font-size: clamp(110px, 15vw, 230px); color: rgba(213,96,31,0.07);
+}
+#plans .container { position: relative; z-index: 1; }
+
+#plans .section-head.center::after,
+#a-la-carte .section-head.center::after {
+  content: ''; display: block; width: 56px; height: 4px; background: var(--orange); border-radius: 999px; margin: 20px auto 0;
+}
+
+#plans .court-scale-bar { height: 10px; }
+#plans .court-scale-bar span { box-shadow: 0 0 14px rgba(213,96,31,0.55); }
+#plans .court-scale-item p { font-size: 13.5px; color: var(--black); }
+
+#plans .plan { border-width: 2px; position: relative; transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease); }
+#plans .plan::before {
+  content: ''; position: absolute; top: -2px; left: 22px; right: 22px; height: 5px;
+  border-radius: 999px 999px 0 0; background: var(--orange);
+}
+#plans .plan.featured::before { background: linear-gradient(90deg, var(--orange), #F0A560); }
+#plans .plan:hover { transform: translateY(-7px); box-shadow: 0 20px 36px rgba(23,23,23,0.14); }
+#plans .plan .price { font-size: 52px; }
+#plans .plan-badge { top: -15px; font-size: 12px; padding: 6px 16px; box-shadow: 0 8px 16px rgba(213,96,31,0.4); }
+#plans .plan.featured { transform: scale(1.045); box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(213,96,31,0.3); }
+#plans .plan.featured:hover { transform: scale(1.045) translateY(-7px); }
+@media (max-width: 980px) {
+  #plans .plan.featured { transform: none; }
+  #plans .plan.featured:hover { transform: translateY(-7px); }
+  #plans .plans-watermark { display: none; }
+}
+
+#a-la-carte { position: relative; }
+#a-la-carte .alacarte-item { position: relative; border-width: 2px; box-shadow: 0 6px 18px rgba(23,23,23,0.05); }
+#a-la-carte .alacarte-item::after {
+  content: ''; position: absolute; top: -2px; left: 22px; right: 22px; height: 4px;
+  border-radius: 999px 999px 0 0; background: var(--orange); opacity: 0; transition: opacity 0.2s var(--ease);
+}
+#a-la-carte .alacarte-item:hover::after { opacity: 1; }
+#a-la-carte .ac-icon { width: 64px; height: 64px; box-shadow: 0 4px 12px rgba(23,23,23,0.1); }
+#a-la-carte .ac-icon svg { width: 34px; height: 34px; }
+#a-la-carte .alacarte-item .ac-price { font-size: 26px; }
 
 /* ---------- Compare table ---------- */
 .compare-table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: var(--radius-md); overflow: hidden; }
@@ -523,7 +634,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .cal-item--both { border-left-width: 5px; border-left-style: solid; border-image: linear-gradient(var(--orange) 50%, var(--black) 50%) 1; }
 .cal-date { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: var(--gray-light); border-radius: var(--radius-sm); padding: 12px 6px; }
 .cal-weekday { font-family: var(--font-sport); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-dark); }
-.cal-month { font-family: var(--font-sport); font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--orange-ink); margin-top: 2px; }
+.cal-month { font-family: var(--font-sport); font-size: 15px; font-weight: 700; text-transform: uppercase; color: var(--orange); margin-top: 2px; }
 .cal-day { font-family: var(--font-display); font-size: 26px; line-height: 1; margin-top: 2px; }
 .cal-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 700; color: var(--orange-ink); background: var(--orange-soft); padding: 4px 10px; border-radius: 999px; margin-bottom: 10px; }
 .cal-item--volleyball .cal-tag { color: var(--white); background: var(--black); }
@@ -551,6 +662,28 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .cal-item--signature-xl .cal-bullets li { color: rgba(255,255,255,0.75); }
 @media (max-width: 640px) { .cal-item { grid-template-columns: 1fr; } .cal-date { flex-direction: row; gap: 8px; justify-content: flex-start; padding: 8px 12px; } }
 
+/* ---------- Calendar: seasonal card decoration ---------- */
+.cal-item--signature-xl { position: relative; overflow: hidden; }
+.cal-item--signature-xl .cal-body { position: relative; }
+.cal-lights { position: absolute; top: 0; left: 26px; right: 26px; display: flex; justify-content: space-between; z-index: 1; pointer-events: none; }
+.cal-lights span { width: 7px; height: 7px; border-radius: 50%; margin-top: -3.5px; box-shadow: 0 0 6px currentColor; animation: cal-twinkle 1.8s ease-in-out infinite; }
+.cal-lights span:nth-child(odd) { background: var(--orange); color: var(--orange); }
+.cal-lights span:nth-child(even) { background: #FCEBD8; color: #FCEBD8; }
+.cal-lights span:nth-child(3n) { animation-delay: 0.5s; }
+.cal-lights span:nth-child(4n) { animation-delay: 1s; }
+@keyframes cal-twinkle { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+.cal-decor { position: absolute; top: 2px; right: 0; line-height: 0; pointer-events: none; }
+.cal-decor svg circle { animation: cal-twinkle 1.8s ease-in-out infinite; }
+.cal-decor svg circle:nth-of-type(2) { animation-delay: 0.3s; }
+.cal-decor svg circle:nth-of-type(3) { animation-delay: 0.6s; }
+.cal-decor svg circle:nth-of-type(4) { animation-delay: 0.9s; }
+.cal-decor svg circle:nth-of-type(5) { animation-delay: 1.2s; }
+.cal-decor svg circle:nth-of-type(6) { animation-delay: 1.5s; }
+@media (max-width: 640px) {
+  .cal-decor { position: static; margin-bottom: 14px; }
+  .cal-lights { left: 16px; right: 16px; }
+}
+
 /* ---------- Values row ---------- */
 .scroll-cue { position: absolute; left: 50%; bottom: 36px; transform: translateX(-50%); z-index: 2; opacity: 0.55; animation: scrollCueBounce 2.2s ease-in-out infinite; }
 @keyframes scrollCueBounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
@@ -560,9 +693,19 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .manifesto-item h3 { font-family: var(--font-display); font-size: clamp(30px, 5vw, 54px); line-height: 0.98; margin: 0 0 10px; }
 .manifesto-item p { font-size: 15px; color: var(--gray-dark); max-width: 38ch; }
 .manifesto-photo-strip { aspect-ratio: 16/6; border-radius: var(--radius-md); overflow: hidden; margin: 36px 0; }
+.manifesto-row { display: flex; align-items: center; gap: 48px; padding: 40px 0; border-top: 1px solid var(--gray-mid); }
+.manifesto-row:first-child { border-top: none; }
+.manifesto-row--reverse { flex-direction: row-reverse; }
+.manifesto-row .manifesto-item { flex: 1; min-width: 0; padding: 0; border-top: none; }
+.manifesto-row .manifesto-item p { max-width: none; }
+.manifesto-row .manifesto-photo-strip { flex: 1; min-width: 0; aspect-ratio: 4/3; max-width: none; margin: 0; }
+@media (max-width: 760px) {
+  .manifesto-row, .manifesto-row--reverse { flex-direction: column; gap: 22px; padding: 32px 0; }
+  .manifesto-row .manifesto-photo-strip { width: 100%; aspect-ratio: 4/3; }
+}
 @media (min-width: 900px) {
-  .manifesto-item:nth-child(even) { text-align: right; margin-left: 14%; }
-  .manifesto-item:nth-child(even) p { margin-left: auto; }
+  .manifesto-item--right { text-align: right; margin-left: 14%; }
+  .manifesto-item--right p { margin-left: auto; margin-right: 0; }
 }
 
 /* ---------- Shop ---------- */
@@ -683,3 +826,202 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .gift-module-text .subhead { font-family: var(--font-heading); font-weight: 800; color: var(--orange); font-size: clamp(24px, 3vw, 32px); margin: 0 0 14px; }
 .gift-module-text p { color: rgba(255,255,255,0.75); font-size: 16px; line-height: 1.7; margin-bottom: 24px; }
 @media (max-width: 900px) { .gift-module-inner { grid-template-columns: 1fr; gap: 36px; } .gift-module-art { order: -1; } }
+
+/* ---------- Events: Friday Night Lights stadium lighting effect ---------- */
+.stadium-lights { position: absolute; inset: 0; overflow: hidden; z-index: 1; pointer-events: none; }
+.stadium-glow-bar { position: absolute; top: 0; left: 0; right: 0; height: 220px; background: radial-gradient(ellipse 80% 100% at 50% 0%, rgba(252,235,216,0.14), rgba(252,235,216,0) 72%); }
+.stadium-glow { position: absolute; top: -12%; height: 90%; width: 34vw; max-width: 460px; min-width: 220px; border-radius: 50%; background: radial-gradient(ellipse 50% 100% at 50% 0%, rgba(252,235,216,0.16), rgba(252,235,216,0.05) 45%, rgba(252,235,216,0) 76%); filter: blur(22px); animation: stadium-drift 10s ease-in-out infinite; }
+.stadium-glow--1 { left: -8%; animation-delay: 0s; }
+.stadium-glow--2 { left: 28%; animation-delay: 3.3s; opacity: 0.85; }
+.stadium-glow--3 { right: -8%; left: auto; animation-delay: 6.6s; }
+@keyframes stadium-drift { 0%, 100% { opacity: 0.75; } 50% { opacity: 1; } }
+.stadium-grain { position: absolute; inset: 0; opacity: 0.05; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.stadium-lights-content { position: relative; z-index: 2; }
+.stadium-lights-content .section-title { text-shadow: 0 0 34px rgba(252,235,216,0.25); }
+@media (max-width: 900px) { .stadium-glow--2 { display: none; } }
+@media (prefers-reduced-motion: reduce) { .stadium-glow { animation: none; opacity: 0.85; } }
+
+/* ---------- Events: Halloween card extra spooky-fun details ---------- */
+.cal-lights.cal-corner-lights { left: -8px; right: auto; top: -8px; width: 130px; justify-content: flex-start; transform: rotate(38deg); transform-origin: top left; }
+.cal-skeleton { position: absolute; right: 22px; bottom: 60px; z-index: 1; transform-origin: bottom center; animation: cal-sway 2.6s ease-in-out infinite; }
+@keyframes cal-sway { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+.cal-cat { position: absolute; left: 20px; bottom: 18px; z-index: 1; }
+@media (max-width: 640px) { .cal-skeleton, .cal-cat { display: none; } }
+
+/* ---------- Events: signature-xl (dark) cards need a legible tag pill ---------- */
+.cal-item--signature-xl .cal-tag { background: rgba(255,255,255,0.14); color: var(--white); border: 1px solid rgba(255,255,255,0.3); }
+
+/* ---------- Events: Halloween card — big dramatic light string ---------- */
+.cal-lights--dramatic { top: -18px; left: 14px; right: 14px; gap: 6px; }
+.cal-lights--dramatic span { width: 15px; height: 15px; box-shadow: 0 0 16px 5px currentColor, 0 0 30px 8px currentColor; }
+.cal-lights--dramatic span:nth-child(1) { margin-top: 0; }
+.cal-lights--dramatic span:nth-child(2) { margin-top: 5px; }
+.cal-lights--dramatic span:nth-child(3) { margin-top: 9px; }
+.cal-lights--dramatic span:nth-child(4) { margin-top: 12px; }
+.cal-lights--dramatic span:nth-child(5) { margin-top: 14px; }
+.cal-lights--dramatic span:nth-child(6) { margin-top: 15px; }
+.cal-lights--dramatic span:nth-child(7) { margin-top: 15px; }
+.cal-lights--dramatic span:nth-child(8) { margin-top: 15px; }
+.cal-lights--dramatic span:nth-child(9) { margin-top: 15px; }
+.cal-lights--dramatic span:nth-child(10) { margin-top: 14px; }
+.cal-lights--dramatic span:nth-child(11) { margin-top: 12px; }
+.cal-lights--dramatic span:nth-child(12) { margin-top: 9px; }
+.cal-lights--dramatic span:nth-child(13) { margin-top: 5px; }
+.cal-lights--dramatic span:nth-child(14) { margin-top: 0; }
+@media (max-width: 640px) { .cal-lights--dramatic { top: -12px; left: 8px; right: 8px; } .cal-lights--dramatic span { width: 11px; height: 11px; } }
+
+/* ---------- Events: Halloween card — cute illustrative pumpkin + bats ---------- */
+.cal-bat { position: absolute; z-index: 1; pointer-events: none; }
+.cal-bat--1 { top: 92px; right: 58px; animation: cal-bat-float 3.4s ease-in-out infinite; }
+.cal-bat--2 { top: 150px; right: 92px; animation: cal-bat-float 3.4s ease-in-out infinite 1.1s; }
+@keyframes cal-bat-float { 0%, 100% { transform: translateY(0) rotate(0deg) scaleY(1); } 50% { transform: translateY(-6px) rotate(-4deg) scaleY(0.82); } }
+@media (max-width: 640px) { .cal-bat { display: none; } }
+
+/* ---------- Events: Halloween card v3 — drawn light string, ball-pumpkins, visible cat/bats ---------- */
+.cal-lights-drawn { position: absolute; top: -20px; left: 12px; right: 12px; height: 54px; z-index: 1; overflow: visible; pointer-events: none; }
+.cal-lights-drawn .bulb { animation: cal-twinkle 1.7s ease-in-out infinite; }
+.cal-lights-drawn .bulb:nth-of-type(2n) { animation-delay: 0.4s; }
+.cal-lights-drawn .bulb:nth-of-type(3n) { animation-delay: 0.8s; }
+.cal-lights-drawn .bulb:nth-of-type(4n) { animation-delay: 1.2s; }
+.cal-decor-volleyball { position: absolute; right: 6px; bottom: 6px; z-index: 1; pointer-events: none; }
+@media (max-width: 640px) { .cal-lights-drawn { top: -14px; height: 40px; } .cal-decor-volleyball { display: none; } }
+
+/* ---------- Events: Halloween card v4 — bat-shaped light ornaments ---------- */
+.cal-lights-drawn .bulb { filter: drop-shadow(0 0 5px rgba(229,104,42,0.85)); }
+
+/* ---------- Events: Halloween card v5 — lights + creatures draped on the right side ---------- */
+.cal-lights-drawn--right { top: 0; left: auto; right: -8px; width: 54px; height: 100%; }
+.cal-spider { position: absolute; top: 4px; right: 76px; z-index: 1; transform-origin: top center; animation: cal-spider-swing 3s ease-in-out infinite; pointer-events: none; }
+@keyframes cal-spider-swing { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+@media (max-width: 640px) { .cal-lights-drawn--right { width: 40px; } .cal-spider { display: none; } }
+
+/* ---------- Events: Halloween card v6 — more spiders, twinkling bats + volleyball, bigger pumpkins ---------- */
+.cal-spider { animation: none; }
+.cal-spider-drop { transform-origin: top center; }
+@keyframes cal-spider-bob-1 { 0%, 8% { transform: translateY(0); } 30% { transform: translateY(20px); } 55% { transform: translateY(20px); } 78%, 100% { transform: translateY(0); } }
+@keyframes cal-spider-bob-2 { 0%, 10% { transform: translateY(0); } 32% { transform: translateY(13px); } 58% { transform: translateY(13px); } 80%, 100% { transform: translateY(0); } }
+@keyframes cal-spider-bob-3 { 0%, 6% { transform: translateY(0); } 28% { transform: translateY(26px); } 60% { transform: translateY(26px); } 82%, 100% { transform: translateY(0); } }
+.cal-bat { animation-name: cal-bat-float, cal-twinkle; animation-duration: 3.4s, 1.6s; animation-timing-function: ease-in-out, ease-in-out; animation-iteration-count: infinite, infinite; }
+.cal-decor-volleyball svg { animation: cal-decor-glow 2.2s ease-in-out infinite; }
+@keyframes cal-decor-glow { 0%, 100% { filter: drop-shadow(0 0 0 rgba(252,235,216,0)); } 50% { filter: drop-shadow(0 0 10px rgba(252,235,216,0.85)); } }
+@media (max-width: 640px) { .cal-spider-drop:nth-of-type(n+2) { display: none; } }
+
+/* ---------- Events: seasonal decoration — tablet scale-down + Holiday sparkles + reduced motion ---------- */
+@media (max-width: 900px) and (min-width: 641px) {
+  .cal-lights-drawn--right, .cal-decor, .cal-decor-volleyball { transform: scale(0.85); }
+  .cal-lights-drawn--right { transform-origin: top right; }
+  .cal-decor { transform-origin: top right; }
+  .cal-decor-volleyball { transform-origin: bottom right; }
+}
+
+.cal-sparkle { position: absolute; z-index: 1; pointer-events: none; animation: cal-sparkle-pulse 3s ease-in-out infinite; }
+.cal-sparkle--1 { top: 10px; right: 96px; animation-delay: 0s; }
+.cal-sparkle--2 { top: 34px; right: 130px; animation-delay: 0.8s; }
+.cal-sparkle--3 { top: 4px; right: 150px; animation-delay: 1.6s; }
+@keyframes cal-sparkle-pulse { 0%, 100% { opacity: 0.7; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.05); } }
+@media (max-width: 640px) { .cal-sparkle--3 { display: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .cal-lights span,
+  .cal-decor svg circle,
+  .cal-lights-drawn .bulb,
+  .cal-bat,
+  .cal-spider,
+  .cal-spider--1, .cal-spider--2, .cal-spider--3,
+  .cal-decor-volleyball svg,
+  .cal-sparkle {
+    animation: none !important;
+  }
+  .cal-lights span,
+  .cal-decor svg circle,
+  .cal-lights-drawn .bulb { opacity: 0.85; }
+  .cal-sparkle { opacity: 0.9; }
+}
+
+/* ---------- Events: Halloween card v7 — spider positions, repositioned/enlarged pumpkins ---------- */
+.cal-spider--1 { top: 0; left: 26px; right: auto; animation: cal-spider-bob-1 7s ease-in-out infinite; animation-delay: 0s; }
+.cal-spider--2 { top: 0; left: 104px; right: auto; animation: cal-spider-bob-2 9s ease-in-out infinite; animation-delay: 1.2s; }
+.cal-spider--3 { top: 0; right: 150px; animation: cal-spider-bob-3 11s ease-in-out infinite; animation-delay: 2.4s; }
+.cal-item--signature-xl.cal-item--basketball .cal-decor { top: 64px; right: 4px; }
+.cal-decor-volleyball { left: 14px; right: auto; bottom: 14px; }
+@media (max-width: 640px) { .cal-spider--2, .cal-spider--3 { display: none; } }
+
+/* ---------- Events: Halloween card v8 — final redesign: corner web, top-draped lights, right-side-only creatures, copy-safe zone ---------- */
+.cal-item--halloween .cal-body { max-width: 58%; position: static; }
+.cal-web { position: absolute; top: -4px; right: -4px; width: 84px; height: 84px; z-index: 1; opacity: 0.8; pointer-events: none; }
+.cal-lights-drawn--top { top: -4px; left: auto; right: 16px; width: 300px; height: 70px; }
+.light-orange { color: var(--orange); }
+.light-purple { color: #6E3FA3; }
+.cal-lights-drawn--top .bulb { filter: drop-shadow(0 0 5px currentColor); animation-delay: inherit; }
+.cal-lights-drawn--top use:nth-of-type(1) { animation-delay: 0s; }
+.cal-lights-drawn--top use:nth-of-type(2) { animation-delay: 0.2s; }
+.cal-lights-drawn--top use:nth-of-type(3) { animation-delay: 0.4s; }
+.cal-lights-drawn--top use:nth-of-type(4) { animation-delay: 0.6s; }
+.cal-lights-drawn--top use:nth-of-type(5) { animation-delay: 0.8s; }
+.cal-lights-drawn--top use:nth-of-type(6) { animation-delay: 1s; }
+.cal-lights-drawn--top use:nth-of-type(7) { animation-delay: 1.2s; }
+.cal-lights-drawn--top use:nth-of-type(8) { animation-delay: 1.4s; }
+.cal-lights-drawn--top use:nth-of-type(9) { animation-delay: 1.6s; }
+.cal-lights-drawn--top use:nth-of-type(10) { animation-delay: 1.8s; }
+.cal-lights-drawn--top use:nth-of-type(11) { animation-delay: 2s; }
+.cal-lights-drawn--top use:nth-of-type(12) { animation-delay: 2.2s; }
+.cal-lights-drawn--top use:nth-of-type(13) { animation-delay: 2.4s; }
+.cal-item--halloween .cal-spider--1 { top: 64px; left: auto; right: 230px; }
+.cal-item--halloween .cal-spider--2 { top: 96px; left: auto; right: 130px; }
+.cal-item--halloween .cal-spider--3 { top: 40px; right: 42px; }
+.cal-item--halloween .cal-bat--1 { top: 118px; right: 190px; }
+.cal-item--halloween .cal-bat--2 { top: 168px; right: 90px; }
+.cal-bat--3 { top: 78px; right: 290px; animation-name: cal-bat-float, cal-twinkle; animation-duration: 3.4s, 1.6s; animation-timing-function: ease-in-out, ease-in-out; animation-iteration-count: infinite, infinite; animation-delay: 0.6s, 0.6s; }
+.cal-item--halloween.cal-item--signature-xl.cal-item--basketball .cal-decor { top: 84px; right: 44px; z-index: 2; }
+.cal-item--halloween .cal-decor-volleyball { left: auto; right: 12px; top: 138px; bottom: auto; z-index: 1; transform: rotate(-8deg) scale(0.88); }
+@media (max-width: 900px) and (min-width: 641px) {
+  .cal-item--halloween .cal-web { width: 64px; height: 64px; }
+  .cal-item--halloween .cal-lights-drawn--top { width: 220px; }
+}
+@media (max-width: 640px) {
+  .cal-item--halloween .cal-body { max-width: none; }
+  .cal-web, .cal-item--halloween .cal-lights-drawn--top, .cal-bat--3 { display: none; }
+}
+
+/* ---------- Events: Holiday Classic card — snowman, trees, cocoa, red/green/white lights ---------- */
+.cal-item--holiday .cal-body { max-width: 58%; position: static; }
+.cal-lights-drawn--holiday { top: -4px; left: auto; right: 16px; width: 300px; height: 70px; }
+.light-red { color: #C23B3B; }
+.light-green { color: #2F6B4C; }
+.light-white { color: #FCEBD8; }
+.cal-lights-drawn--holiday .bulb { filter: drop-shadow(0 0 5px currentColor); animation-delay: inherit; }
+.cal-lights-drawn--holiday use:nth-of-type(1) { animation-delay: 0s; }
+.cal-lights-drawn--holiday use:nth-of-type(2) { animation-delay: 0.2s; }
+.cal-lights-drawn--holiday use:nth-of-type(3) { animation-delay: 0.4s; }
+.cal-lights-drawn--holiday use:nth-of-type(4) { animation-delay: 0.6s; }
+.cal-lights-drawn--holiday use:nth-of-type(5) { animation-delay: 0.8s; }
+.cal-lights-drawn--holiday use:nth-of-type(6) { animation-delay: 1s; }
+.cal-lights-drawn--holiday use:nth-of-type(7) { animation-delay: 1.2s; }
+.cal-lights-drawn--holiday use:nth-of-type(8) { animation-delay: 1.4s; }
+.cal-lights-drawn--holiday use:nth-of-type(9) { animation-delay: 1.6s; }
+.cal-lights-drawn--holiday use:nth-of-type(10) { animation-delay: 1.8s; }
+.cal-lights-drawn--holiday use:nth-of-type(11) { animation-delay: 2s; }
+.cal-lights-drawn--holiday use:nth-of-type(12) { animation-delay: 2.2s; }
+.cal-lights-drawn--holiday use:nth-of-type(13) { animation-delay: 2.4s; }
+.cal-tree { position: absolute; z-index: 1; pointer-events: none; }
+.cal-tree svg { display: block; width: 100%; height: auto; }
+.cal-tree--1 { top: 34px; right: 200px; width: 78px; }
+.cal-tree--2 { top: 96px; right: 34px; width: 54px; }
+.cal-snowman { position: absolute; z-index: 2; pointer-events: none; bottom: 4px; right: 88px; width: 76px; }
+.cal-snowman svg { display: block; width: 100%; height: auto; }
+.cal-cocoa { position: absolute; z-index: 1; pointer-events: none; top: 130px; right: 260px; width: 46px; }
+.cal-cocoa svg { display: block; width: 100%; height: auto; }
+.cal-item--holiday .cal-sparkle--1 { top: 8px; right: 350px; }
+.cal-item--holiday .cal-sparkle--2 { top: 56px; right: 264px; }
+@media (max-width: 900px) and (min-width: 641px) {
+  .cal-item--holiday .cal-lights-drawn--holiday { width: 220px; }
+  .cal-tree--1, .cal-tree--2, .cal-snowman, .cal-cocoa { transform: scale(0.8); }
+  .cal-tree--1 { transform-origin: top right; }
+  .cal-snowman { transform-origin: bottom right; }
+}
+@media (max-width: 640px) {
+  .cal-item--holiday .cal-body { max-width: none; }
+  .cal-lights-drawn--holiday, .cal-tree, .cal-snowman, .cal-cocoa { display: none; }
+}
+
+

@@ -13,8 +13,10 @@
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body class="has-announce">
 <a href="#main" class="skip-link">Skip to main content</a>
+
+<a href="leagues.html" class="site-announce">Fall League Registration Is Now Open <span class="arrow">→</span></a>
 
 <header class="nav" id="nav">
   <div class="container nav-inner">
@@ -31,7 +33,8 @@
           <a href="private-coaching.html">Private Training</a>
           <a href="camps.html">Camps &amp; Clinics</a>
           <a href="leagues.html">Leagues</a>
-          <a href="events.html#rhythm">Open Play</a>
+          <a href="events.html#rhythm">Open Gym</a>
+          <a href="dr-dish.html">Dr. Dish</a>
         </div>
       </div>
       <div class="nav-item">
@@ -65,13 +68,13 @@
           <a href="about.html">Our Story</a>
           <a href="about.html#how-we-play">How We Play</a>
           <a href="about.html#meet-the-team">Meet the Team</a>
-          <a href="community.html">Community</a>
+          <a href="about.html#community">Community</a>
         </div>
       </div>
       <div class="nav-item"><a href="contact.html">Contact</a></div>
     </nav>
     <div class="nav-cta">
-      <a href="contact.html" class="btn btn-secondary">Contact</a>
+      <a href="member-portal.html" class="btn btn-secondary">Login</a>
       <a href="membership.html" class="btn btn-primary">Become a Member</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
@@ -87,7 +90,8 @@
       <a href="private-coaching.html">Private Training</a>
       <a href="camps.html">Camps &amp; Clinics</a>
       <a href="leagues.html">Leagues</a>
-      <a href="events.html#rhythm">Open Play</a>
+      <a href="events.html#rhythm">Open Gym</a>
+      <a href="dr-dish.html">Dr. Dish</a>
     </div>
   </div>
   <div class="mobile-nav-group">
@@ -122,47 +126,44 @@
       <a href="about.html">Our Story</a>
       <a href="about.html#how-we-play">How We Play</a>
       <a href="about.html#meet-the-team">Meet the Team</a>
-      <a href="community.html">Community</a>
+      <a href="about.html#community">Community</a>
     </div>
   </div>
   <a href="contact.html">Contact</a>
   <a href="membership.html" class="btn btn-primary btn-block">Become a Member</a>
 </div>
 
-<section style="padding:150px 0 90px; background:var(--black);" id="main">
-  <div class="container overview-inner">
-    <div>
-      <div class="breadcrumb"><a href="index.html">Home</a> / <span class="current">Contact</span></div>
-      <span class="eyebrow">Contact</span>
-      <h1 style="font-family:var(--font-display); color:var(--white); font-size:clamp(36px, 5.5vw, 60px); line-height:1.02; margin:0 0 20px;">Let's Get You on the Court.</h1>
-      <p style="font-size:17px; line-height:1.7; color:rgba(255,255,255,0.75); max-width:44ch;">Membership. Training. Court time. Or no idea where to start.<br><br>Tell us what you need. We'll take it from there.</p>
-    </div>
-    <div class="overview-art photo" role="img" aria-label="An athlete walking onto the court at The Courts"></div>
+<section style="padding:180px 0 140px; background:var(--black); overflow:hidden;" id="main">
+  <div class="container" style="max-width:1180px;">
+    <span class="eyebrow">Contact</span>
+    <h1 class="contact-hero-title" style="font-family:var(--font-display); color:var(--white); font-size:clamp(44px, 7.6vw, 108px); letter-spacing:-0.02em; line-height:0.96; margin:14px 0 26px;">Let's Get You on the Court.</h1>
+    <p class="contact-hero-sub" style="font-size:19px; line-height:1.6; color:rgba(255,255,255,0.72); max-width:760px; white-space:nowrap;">Questions about membership, training, court time, or where to start? We'll point you in the right direction.</p>
+    <style>@media (max-width: 1100px) { .contact-hero-sub { white-space: normal; } }</style>
   </div>
 </section>
 
-<section style="padding:90px 0 100px;" id="contact-form">
-  <div class="container contact-grid">
+<section class="contact-form-section" style="padding:70px 0 80px;" id="contact-form">
+  <div class="container" style="max-width:640px; position:relative; z-index:1;">
     <div class="contact-form-wrap">
-      <span class="eyebrow">Say Hello</span>
-      <h2 class="section-title" style="margin-bottom:32px;">What brings you here?</h2>
+      <span class="eyebrow">Get In Touch</span>
+      <h2 class="section-title" style="margin-bottom:38px; font-size:clamp(32px, 4.6vw, 48px);">Say Hello.</h2>
 
       <div id="contactFormSuccess" class="form-success" style="display:none;">
-        <h3>Got it.</h3>
-        <p>We'll be in touch.</p>
+        <h3>Got It. See You Soon.</h3>
+        <p>We'll be in touch soon.</p>
       </div>
 
       <form id="contactForm">
         <div class="form-row">
           <label for="cName">Name*</label>
-          <input type="text" id="cName" required>
+          <input type="text" id="cName" required autocomplete="name">
         </div>
         <div class="form-row">
           <label for="cEmail">Email*</label>
-          <input type="email" id="cEmail" required>
+          <input type="email" id="cEmail" required autocomplete="email">
         </div>
         <div class="form-row">
-          <label for="cInterest">I'm looking for...*</label>
+          <label for="cInterest">I'm interested in...*</label>
           <select id="cInterest" required>
             <option value="">Select one</option>
             <option value="Membership">Membership</option>
@@ -173,10 +174,13 @@
             <option value="Basketball Leagues">Basketball Leagues</option>
             <option value="Open Gym">Open Gym</option>
             <option value="Court Rental">Court Rental</option>
+            <option value="Coach Collective / Training Space">Coach Collective / Training Space</option>
+          <option value="Where Should My Athlete Start?">Where Should My Athlete Start?</option>
             <option value="Birthday Party / Event">Birthday Party / Event</option>
             <option value="Current Member Support">Current Member Support</option>
             <option value="Coaching at The Courts">Coaching at The Courts</option>
-            <option value="Community / Partnership">Community / Partnership</option>
+            <option value="Community">Community + Volunteering</option>
+            <option value="Partner">Sponsorship + Partnerships</option>
             <option value="Something Else">Something Else</option>
           </select>
         </div>
@@ -212,33 +216,160 @@
             </select>
           </div>
         </div>
+        <div id="coachCollectiveFields" style="display:none;">
+          <div class="form-row">
+            <label for="ccSport">Sport</label>
+            <select id="ccSport">
+              <option value="">Select one</option>
+              <option value="Basketball">Basketball</option>
+              <option value="Volleyball">Volleyball</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="ccType">Type of Training</label>
+            <select id="ccType">
+              <option value="">Select one</option>
+              <option value="Private Training">Private Training</option>
+              <option value="Small Group">Small Group</option>
+              <option value="Team Practice">Team Practice</option>
+              <option value="Recurring Training">Recurring Training</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="ccGroupSize">Estimated Group Size <span style="font-weight:400; color:var(--gray-dark);">(optional)</span></label>
+            <input type="text" id="ccGroupSize">
+          </div>
+          <div class="form-row">
+            <label for="ccTimes">Preferred Days/Times <span style="font-weight:400; color:var(--gray-dark);">(optional)</span></label>
+            <input type="text" id="ccTimes">
+          </div>
+          <div class="form-row">
+            <label for="ccFrequency">One-Time or Recurring?</label>
+            <select id="ccFrequency">
+              <option value="">Select one</option>
+              <option value="One-Time">One-Time</option>
+              <option value="Recurring">Recurring</option>
+              <option value="Not Sure Yet">Not Sure Yet</option>
+            </select>
+          </div>
+        </div>
         <div class="form-row">
-          <label for="cMessage">What can we help with?*</label>
-          <textarea id="cMessage" required></textarea>
+          <label for="cMessage">Anything else we should know? <span class="form-optional-tag">(optional)</span></label>
+          <textarea id="cMessage"></textarea>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Send It →</button>
       </form>
       <p style="font-size:13px; color:var(--gray-dark); margin-top:16px;">For athletes under 13, this form should be completed by a parent or guardian.</p>
     </div>
-    <div>
-      <div class="overview-art photo" role="img" aria-label="The orange door at The Courts" style="margin-bottom:24px;"></div>
-      <span class="eyebrow">Come See Us</span>
-      <h3 style="font-family:var(--font-heading); font-weight:800; font-size:20px; margin:0 0 14px;">Look for the Orange Door.</h3>
-      <p style="font-size:14.5px; line-height:1.6; color:var(--gray-dark); margin-bottom:14px;">The Courts<br>2011 Johnson Industrial Blvd.<br>Nolensville, TN 37086</p>
-      <p style="font-size:14.5px; line-height:1.6; color:var(--gray-dark); margin-bottom:22px;">We're tucked toward the back of the parking lot.<br><br>Head to the back. Find the orange door. You're here.</p>
-      <a href="https://www.google.com/maps/search/?api=1&query=2011+Johnson+Industrial+Blvd%2C+Nolensville%2C+TN+37086" target="_blank" rel="noopener" class="link">Get Directions →</a>
+  </div>
+</section>
 
-      <div style="border-top:1px solid var(--gray-mid); margin-top:32px; padding-top:28px;">
-        <p style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--gray-dark); margin-bottom:8px;">Rather email?</p>
-        <a href="mailto:hello@playthecourts.com" class="link" style="display:inline-block; margin-bottom:24px;">hello@playthecourts.com</a>
+<style>
+  .contact-form-wrap .form-row { margin-bottom: 32px; }
+  .contact-form-wrap .form-row label {
+    font-family: var(--font-sport); font-weight: 700; font-size: 12.5px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--gray-dark); margin-bottom: 10px;
+  }
+  .form-optional-tag { text-transform: none; font-weight: 500; letter-spacing: 0; color: var(--gray-dark); }
+  .contact-form-wrap .form-row input,
+  .contact-form-wrap .form-row select,
+  .contact-form-wrap .form-row textarea {
+    border: none; border-bottom: 2px solid var(--gray-mid); border-radius: 0; background: transparent;
+    padding: 14px 2px 14px 0; font-size: 17px; font-family: var(--font-body); color: var(--black);
+    transition: border-color 0.2s var(--ease);
+  }
+  .contact-form-wrap .form-row select {
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23343434' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 4px center; background-size: 11px 7px; padding-right: 22px;
+  }
+  .contact-form-wrap .form-row input:focus,
+  .contact-form-wrap .form-row select:focus,
+  .contact-form-wrap .form-row textarea:focus { border-bottom-color: var(--orange); }
+  .contact-form-wrap .form-row textarea { min-height: 100px; resize: vertical; }
+  @media (prefers-reduced-motion: reduce) { .contact-form-wrap .form-row input, .contact-form-wrap .form-row select, .contact-form-wrap .form-row textarea, .link, .contact-close-link { transition: none; } }
+</style>
 
-        <p style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--gray-dark); margin-bottom:8px;">Need a quick answer?</p>
-        <p style="font-size:14px; line-height:1.6; color:var(--gray-dark); margin-bottom:10px;">Memberships, schedules, camps, rentals + more.</p>
-        <a href="faq.html" class="link">View FAQs →</a>
+<section class="orange-door-section">
+  <div class="orange-door-grid">
+    <div class="orange-door-photo">
+      <img src="images/orange-door.jpg" alt="The black exterior wall of The Courts, with a bright orange door and the painted message: Head to the back. Look for the orange door. You're here.">
+    </div>
+    <span class="orange-door-seam" aria-hidden="true"></span>
+    <div class="orange-door-copy">
+      <span class="eyebrow" style="color:var(--orange);">Come See Us</span>
+      <h2 class="section-title orange-door-headline">Find the Orange Door.</h2>
+      <p class="orange-door-statement">Head to the back.<br>Look for the orange door.<br><span>You're here.</span></p>
+      <p class="orange-door-address"><strong>The Courts</strong><br>2011 Johnson Industrial Blvd.<br>Nolensville, TN 37086</p>
+      <p class="orange-door-note">We're tucked toward the back of the parking lot.</p>
+      <a href="https://www.google.com/maps/search/?api=1&query=2011+Johnson+Industrial+Blvd%2C+Nolensville%2C+TN+37086" target="_blank" rel="noopener" class="link orange-door-cta">Get Directions →</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .orange-door-grid { display: grid; grid-template-columns: 1.1fr 1fr; align-items: stretch; min-height: 620px; position: relative; }
+  .orange-door-photo { position: relative; overflow: hidden; background: var(--black); }
+  .orange-door-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .orange-door-seam { position: absolute; left: calc(52.38% - 7px); top: 0; bottom: 0; width: 14px; background: var(--orange); z-index: 2; }
+  .orange-door-copy {
+    padding: 90px 64px 90px 72px; display: flex; flex-direction: column; justify-content: center;
+    max-width: 580px; background: var(--white);
+  }
+  .orange-door-headline { margin-bottom: 26px; }
+  .orange-door-statement {
+    font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 2.6vw, 32px);
+    line-height: 1.22; color: var(--black); margin: 0 0 36px;
+  }
+  .orange-door-statement span { color: var(--orange); }
+  .orange-door-address { font-size: 16px; line-height: 1.6; color: var(--black); margin: 0 0 10px; }
+  .orange-door-address strong { font-weight: 700; }
+  .orange-door-note { font-size: 14.5px; line-height: 1.6; color: var(--gray-dark); margin: 0 0 28px; }
+  .orange-door-cta { font-size: 15px; }
+  @media (max-width: 900px) {
+    .orange-door-grid { grid-template-columns: 1fr; min-height: 0; }
+    .orange-door-photo { aspect-ratio: 4/3; }
+    .orange-door-seam { display: none; }
+    .orange-door-copy { max-width: none; padding: 56px 24px; }
+  }
+</style>
+
+<section class="contact-close">
+  <div class="container">
+    <div class="contact-close-grid">
+      <div class="contact-close-col">
+        <span class="eyebrow">Rather Email?</span>
+        <h3 class="contact-close-title">That works too.</h3>
+        <a href="mailto:hello@playthecourts.com" class="contact-close-link">hello@playthecourts.com <span class="contact-close-arrow">→</span></a>
+      </div>
+      <div class="contact-close-col">
+        <span class="eyebrow">Need a Quick Answer?</span>
+        <h3 class="contact-close-title">Membership. Schedules. Camps.<span class="contact-close-note">The usual stuff.</span></h3>
+        <a href="faq.html" class="contact-close-link">View FAQs <span class="contact-close-arrow">→</span></a>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .contact-close { position:relative; background:var(--gray-light); border-top:2px solid var(--orange); padding:72px 0; }
+  .contact-close-grid { display:grid; grid-template-columns:1fr 1fr; }
+  .contact-close-col { padding:0 52px; }
+  .contact-close-col:first-child { padding-left:0; border-right:1px solid var(--gray-mid); }
+  .contact-close-col:last-child { padding-right:0; }
+  .contact-close-title { font-family:var(--font-heading); font-weight:800; color:var(--black); font-size:24px; line-height:1.3; margin:10px 0 20px; }
+  .contact-close-note { display:block; font-family:var(--font-body); font-weight:500; font-size:14.5px; color:var(--gray-dark); margin-top:6px; }
+  .contact-close-link { display:inline-flex; align-items:center; gap:6px; font-family:var(--font-heading); font-weight:700; color:var(--black); font-size:16px; text-decoration:none; }
+  .contact-close-link:hover { color:var(--orange); }
+  .contact-close-arrow { color:var(--orange); }
+  @media (max-width: 720px) {
+    .contact-close-grid { grid-template-columns:1fr; }
+    .contact-close-col:first-child { border-right:none; border-bottom:1px solid var(--gray-mid); padding:0 0 32px; margin-bottom:32px; }
+    .contact-close-col:last-child { padding:0; }
+  }
+</style>
 
 <footer class="site-footer">
   <div class="container">
@@ -248,8 +379,7 @@
           <img class="brand-mark" src="images/brand/icon-mark.png" alt="">
           <span>THE COURTS<span class="brand-sub">NOLENSVILLE, TN</span></span>
         </a>
-        <p style="margin-bottom:10px;">Where performance meets belonging.</p>
-        <p>Basketball and volleyball training built around great coaching, real development, and a place athletes want to be.</p>
+        <p>Great coaching. Real development. Plenty of reasons to keep showing up.</p>
         <div class="footer-social">
           <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="white" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1" fill="white"/></svg></a>
           <a href="https://www.facebook.com/playthecourts" target="_blank" rel="noopener" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 9h3V6h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v6h3v-6H16l.5-3h-3V9.7c0-.4.3-.7.5-.7z" fill="white"/></svg></a>
@@ -259,7 +389,7 @@
         <li><a href="basketball.html">Basketball</a></li><li><a href="volleyball.html">Volleyball</a></li><li><a href="private-coaching.html">Private Training</a></li><li><a href="camps.html">Camps + Clinics</a></li><li><a href="leagues.html">Basketball Leagues</a></li>
       </ul></div>
       <div class="footer-col"><h4>The Courts</h4><ul>
-        <li><a href="about.html">About</a></li><li><a href="membership.html">Membership</a></li><li><a href="events.html">Events</a></li><li><a href="shop.html">Pro Shop</a></li><li><a href="community.html">Community</a></li>
+        <li><a href="about.html">About</a></li><li><a href="membership.html">Membership</a></li><li><a href="events.html">Events</a></li><li><a href="shop.html">Shop</a></li><li><a href="about.html#community">Community</a></li>
       </ul></div>
       <div class="footer-col"><h4>Support</h4><ul>
         <li><a href="schedule.html">Schedule</a></li><li><a href="court-rentals.html">Court Rentals</a></li><li><a href="resources.html">Resources</a></li><li><a href="faq.html">FAQs</a></li><li><a href="member-portal.html">Member Portal</a></li><li><a href="contact.html">Contact</a></li>

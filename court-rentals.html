@@ -12,9 +12,33 @@
 <link rel="icon" type="image/png" sizes="16x16" href="images/brand/favicon-16.png">
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="css/styles.css">
+<style>
+  .cc-transition { padding: 54px 0 0; text-align: center; }
+  .cc-kicker { font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-dark); margin: 0; }
+  .coach-collective { background: var(--black); padding: 56px 0 0; overflow: hidden; }
+  .cc-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; min-height: 480px; }
+  .cc-copy { display: flex; flex-direction: column; justify-content: center; padding: 56px clamp(24px,5vw,72px) 64px clamp(24px,6vw,88px); }
+  .cc-copy .eyebrow { font-size: 15px; }
+  .cc-headline { font-family: var(--font-display); font-weight: 900; color: var(--white); font-size: clamp(34px, 4.4vw, 54px); line-height: 1.04; margin: 14px 0 22px; }
+  .cc-body { font-size: 16.5px; line-height: 1.7; color: rgba(255,255,255,0.72); max-width: 42ch; margin: 0 0 18px; }
+  .cc-support { font-family: var(--font-sport); font-size: 14px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin: 0 0 26px; }
+  .cc-closing { font-family: var(--font-heading); font-weight: 700; color: var(--white); font-size: 18px; margin: 0 0 30px; }
+  .cc-media { position: relative; overflow: hidden; background: var(--charcoal); }
+  .cc-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cc-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(23,23,23,0.55) 0%, rgba(23,23,23,0.05) 26%, rgba(23,23,23,0) 50%); }
+  .cc-lines { position: absolute; top: 0; bottom: 0; left: -1px; width: 90px; z-index: 2; pointer-events: none; }
+  @media (max-width: 900px) {
+    .cc-grid { grid-template-columns: 1fr; min-height: 0; }
+    .cc-media { aspect-ratio: 4/3; order: -1; }
+    .cc-copy { padding: 44px 24px 52px; }
+    .cc-lines { display: none; }
+  }
+</style>
 </head>
-<body>
+<body class="has-announce">
 <a href="#main" class="skip-link">Skip to main content</a>
+
+<a href="leagues.html" class="site-announce">Fall League Registration Is Now Open <span class="arrow">→</span></a>
 
 <header class="nav" id="nav">
   <div class="container nav-inner">
@@ -31,7 +55,8 @@
           <a href="private-coaching.html">Private Training</a>
           <a href="camps.html">Camps &amp; Clinics</a>
           <a href="leagues.html">Leagues</a>
-          <a href="events.html#rhythm">Open Play</a>
+          <a href="events.html#rhythm">Open Gym</a>
+          <a href="schedule.html">Dr. Dish</a>
         </div>
       </div>
       <div class="nav-item">
@@ -65,13 +90,15 @@
           <a href="about.html">Our Story</a>
           <a href="about.html#how-we-play">How We Play</a>
           <a href="about.html#meet-the-team">Meet the Team</a>
-          <a href="community.html">Community</a>
+          <a href="coach-collective.html">Coach Collective</a>
+          <a href="about.html#community">Community</a>
+          <a href="about.html#partner">Partner</a>
         </div>
       </div>
       <div class="nav-item"><a href="contact.html">Contact</a></div>
     </nav>
     <div class="nav-cta">
-      <a href="contact.html" class="btn btn-secondary">Contact</a>
+      <a href="member-portal.html" class="btn btn-secondary">Login</a>
       <a href="membership.html" class="btn btn-primary">Become a Member</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
@@ -87,7 +114,8 @@
       <a href="private-coaching.html">Private Training</a>
       <a href="camps.html">Camps &amp; Clinics</a>
       <a href="leagues.html">Leagues</a>
-      <a href="events.html#rhythm">Open Play</a>
+      <a href="events.html#rhythm">Open Gym</a>
+      <a href="schedule.html">Dr. Dish</a>
     </div>
   </div>
   <div class="mobile-nav-group">
@@ -122,7 +150,9 @@
       <a href="about.html">Our Story</a>
       <a href="about.html#how-we-play">How We Play</a>
       <a href="about.html#meet-the-team">Meet the Team</a>
-      <a href="community.html">Community</a>
+      <a href="coach-collective.html">Coach Collective</a>
+      <a href="about.html#community">Community</a>
+      <a href="about.html#partner">Partner</a>
     </div>
   </div>
   <a href="contact.html">Contact</a>
@@ -132,7 +162,6 @@
 <section class="page-hero" style="padding-bottom:70px;" id="main">
   <div class="photo" role="img" aria-label="Court at The Courts"></div>
   <div class="container page-hero-inner">
-    <div class="breadcrumb"><a href="index.html">Home</a> / <span class="current">Court Rentals</span></div>
     <span class="eyebrow eyebrow--light">Court Rentals</span>
     <h1 class="page-hero-title">Your team. Your group. Your court.</h1>
     <p class="page-hero-sub">Half and full court rentals for teams, clubs, schools, and groups — whatever brings you together.</p>
@@ -202,12 +231,24 @@
   </div>
 </section>
 
-<section style="padding:70px 0; background:var(--white); text-align:center;">
-  <div class="container" style="max-width:640px;">
-    <span class="eyebrow" style="color:var(--orange);">Coach Here</span>
-    <h2 class="section-title">Independent coach?</h2>
-    <p class="section-sub" style="margin:0 auto 24px;"><strong>We're building a community of coaches</strong> who use The Courts as their home base for private and small group training.</p>
-    <a href="contact.html?interest=Coaching%20at%20The%20Courts#contact-form" class="btn btn-secondary" data-preset="Coaching at The Courts">Introduce Yourself →</a>
+<div class="cc-transition"><p class="cc-kicker">Coaches + Trainers</p></div>
+<section class="coach-collective" id="coach-collective">
+  <div class="cc-grid">
+    <div class="cc-copy">
+      <span class="eyebrow">Coach Collective</span>
+      <h2 class="cc-headline">Your Athletes.<br>Your Program.<br>Our Court.</h2>
+      <p class="cc-body">Need a place to train your team or run a small group? The Courts offers flexible court space for coaches who want to bring their own athletes and their own training.</p>
+      <p class="cc-support">Teams. Small groups. Private training.</p>
+      <p class="cc-closing">You coach. We'll save you a court.</p>
+      <div class="ctas"><a href="contact.html?interest=Coach%20Collective%20%2F%20Training%20Space#contact-form" class="btn btn-primary" data-preset="Coach Collective / Training Space">Ask About Coach Collective →</a></div>
+    </div>
+    <div class="cc-media">
+      <img src="images/team-listening.jpg" alt="A coach giving instruction to a small group of athletes on the court.">
+      <svg class="cc-lines" viewBox="0 0 90 400" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="1" y1="0" x2="1" y2="400" stroke="var(--orange)" stroke-width="2"/>
+        <path d="M1,140 Q45,180 1,220" fill="none" stroke="var(--orange)" stroke-width="1.5" opacity="0.7"/>
+      </svg>
+    </div>
   </div>
 </section>
 
@@ -253,8 +294,7 @@
           <img class="brand-mark" src="images/brand/icon-mark.png" alt="">
           <span>THE COURTS<span class="brand-sub">NOLENSVILLE, TN</span></span>
         </a>
-        <p style="margin-bottom:10px;">Where performance meets belonging.</p>
-        <p>Basketball and volleyball training built around great coaching, real development, and a place athletes want to be.</p>
+        <p>Great coaching. Real development. Plenty of reasons to keep showing up.</p>
         <div class="footer-social">
           <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="white" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1" fill="white"/></svg></a>
           <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 9h3V6h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v6h3v-6H16l.5-3h-3V9.7c0-.4.3-.7.5-.7z" fill="white"/></svg></a>
@@ -264,7 +304,7 @@
         <li><a href="basketball.html">Basketball</a></li><li><a href="volleyball.html">Volleyball</a></li><li><a href="private-coaching.html">Private Training</a></li><li><a href="camps.html">Camps + Clinics</a></li><li><a href="leagues.html">Basketball Leagues</a></li>
       </ul></div>
       <div class="footer-col"><h4>The Courts</h4><ul>
-        <li><a href="about.html">About</a></li><li><a href="membership.html">Membership</a></li><li><a href="events.html">Events</a></li><li><a href="shop.html">Pro Shop</a></li><li><a href="community.html">Community</a></li>
+        <li><a href="about.html">About</a></li><li><a href="membership.html">Membership</a></li><li><a href="events.html">Events</a></li><li><a href="shop.html">Shop</a></li><li><a href="about.html#community">Community</a></li><li><a href="about.html#partner">Partner</a></li>
       </ul></div>
       <div class="footer-col"><h4>Support</h4><ul>
         <li><a href="schedule.html">Schedule</a></li><li><a href="court-rentals.html">Court Rentals</a></li><li><a href="resources.html">Resources</a></li><li><a href="faq.html">FAQs</a></li><li><a href="member-portal.html">Member Portal</a></li><li><a href="contact.html">Contact</a></li>

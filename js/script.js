@@ -46,9 +46,14 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Contact form: pre-select interest from ?interest= or data-preset ---------- */
   const interestSelect = document.getElementById('cInterest');
   if (interestSelect) {
-    const ptFields = document.getElementById('privateTrainingFields');
-    const updatePtFields = () => {
-      if (ptFields) ptFields.style.display = interestSelect.value === 'Private Training' ? 'block' : 'none';
+    const conditionalFieldGroups = [
+      { value: 'Private Training', el: document.getElementById('privateTrainingFields') },
+      { value: 'Coach Collective / Training Space', el: document.getElementById('coachCollectiveFields') }
+    ];
+    const updateConditionalFields = () => {
+      conditionalFieldGroups.forEach(group => {
+        if (group.el) group.el.style.display = interestSelect.value === group.value ? 'block' : 'none';
+      });
     };
 
     const interestParam = new URLSearchParams(window.location.search).get('interest');
@@ -61,11 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const val = el.dataset.preset;
         const match = [...interestSelect.options].find(o => o.value === val);
         if (match) interestSelect.value = val;
-        updatePtFields();
+        updateConditionalFields();
       });
     });
-    interestSelect.addEventListener('change', updatePtFields);
-    updatePtFields();
+    interestSelect.addEventListener('change', updateConditionalFields);
+    updateConditionalFields();
   }
 
   /* ---------- Contact form submit (visual only) ---------- */
@@ -173,52 +178,72 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ---------- Filter pills (events / shop / programs) ---------- */
-  document.querySelectorAll('.filter-pills').forEach(group => {
-    const groupPills = group.querySelectorAll('.filter-pill');
+  /* ---------- Filter pills (events / shop / programs) — supports multiple independent filter rows (e.g. category + month) that combine with AND logic ---------- */
+  (() => {
+    const filterGroups = document.querySelectorAll('.filter-pills');
     const filterableCards = document.querySelectorAll('[data-category]');
-    if (!groupPills.length || !filterableCards.length) return;
-    const multi = group.dataset.mode === 'multi';
-    const allPill = [...groupPills].find(p => p.dataset.filter === 'all');
+    if (!filterGroups.length || !filterableCards.length) return;
+    const groupStates = new Map();
 
-    function applyFilters() {
-      const active = [...groupPills].filter(p => p.classList.contains('active') && p.dataset.filter !== 'all');
+    function recomputeVisibility() {
       let visibleCount = 0;
       filterableCards.forEach(card => {
-        const match = active.length === 0 || active.some(p => p.dataset.filter === card.dataset.category);
+        let match = true;
+        groupStates.forEach((activeValues, group) => {
+          if (activeValues.size === 0) return;
+          const attr = group.dataset.filterAttr || 'category';
+          if (!activeValues.has(card.dataset[attr])) match = false;
+        });
         card.classList.toggle('is-hidden', !match);
         if (match) visibleCount++;
+      });
+      document.querySelectorAll('.cal-month-head[id]').forEach(head => {
+        const monthCards = document.querySelectorAll(`[data-month="${head.id}"]`);
+        const anyVisible = [...monthCards].some(c => !c.classList.contains('is-hidden'));
+        head.classList.toggle('is-hidden', monthCards.length > 0 && !anyVisible);
       });
       const empty = document.getElementById('eventsEmpty') || document.getElementById('filterEmpty');
       if (empty) empty.classList.toggle('show', visibleCount === 0);
     }
 
-    groupPills.forEach(pill => {
-      pill.addEventListener('click', () => {
-        if (!multi) {
-          groupPills.forEach(p => p.classList.remove('active'));
-          pill.classList.add('active');
-          applyFilters();
-          return;
-        }
-        if (pill.dataset.filter === 'all') {
-          groupPills.forEach(p => p.classList.remove('active'));
-          pill.classList.add('active');
-        } else {
-          pill.classList.toggle('active');
-          const anySelected = [...groupPills].some(p => p.dataset.filter !== 'all' && p.classList.contains('active'));
-          if (allPill) allPill.classList.toggle('active', !anySelected);
-        }
-        applyFilters();
-      });
-    });
+    filterGroups.forEach(group => {
+      const groupPills = group.querySelectorAll('.filter-pill');
+      if (!groupPills.length) return;
+      const multi = group.dataset.mode === 'multi';
+      const allPill = [...groupPills].find(p => p.dataset.filter === 'all');
+      groupStates.set(group, new Set());
 
-    const categoryParam = new URLSearchParams(window.location.search).get('category');
-    if (categoryParam) {
-      const pill = [...groupPills].find(p => p.dataset.filter === categoryParam);
-      if (pill) pill.click();
-    }
-  });
+      groupPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          if (!multi) {
+            groupPills.forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            groupStates.set(group, pill.dataset.filter === 'all' ? new Set() : new Set([pill.dataset.filter]));
+            recomputeVisibility();
+            return;
+          }
+          if (pill.dataset.filter === 'all') {
+            groupPills.forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            groupStates.set(group, new Set());
+          } else {
+            pill.classList.toggle('active');
+            const activeValues = new Set([...groupPills].filter(p => p.dataset.filter !== 'all' && p.classList.contains('active')).map(p => p.dataset.filter));
+            groupStates.set(group, activeValues);
+            if (allPill) allPill.classList.toggle('active', activeValues.size === 0);
+          }
+          recomputeVisibility();
+        });
+      });
+
+      const paramName = group.dataset.filterParam || 'category';
+      const paramVal = new URLSearchParams(window.location.search).get(paramName);
+      if (paramVal) {
+        const pill = [...groupPills].find(p => p.dataset.filter === paramVal);
+        if (pill) pill.click();
+      }
+    });
+  })();
 
   /* ---------- Shop: add to cart (visual only) ---------- */
   document.querySelectorAll('button.product-add').forEach(btn => {

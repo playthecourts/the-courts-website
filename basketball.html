@@ -16,11 +16,6 @@
   /* ================= Basketball page — editorial system (bb-*) ================= */
 
   /* ---------- Announcement bar ---------- */
-  .bb-announce { display: block; position: fixed; left: 0; right: 0; top: 0; z-index: 101; background: var(--orange); color: var(--white); text-align: center; padding: 11px 20px; font-family: var(--font-sport); font-weight: 700; font-size: 13.5px; letter-spacing: 0.06em; text-transform: uppercase; }
-  .bb-announce .arrow { display: inline-block; transition: transform 0.2s var(--ease); margin-left: 2px; }
-  .bb-announce:hover { background: var(--orange-hover); }
-  .bb-announce:hover .arrow { transform: translateX(3px); }
-  .nav#nav { top: 42px; }
 
   /* ---------- Hero ---------- */
   .bb-hero { background: var(--gray-light); overflow: hidden; position: relative; }
@@ -168,10 +163,10 @@
   }
 </style>
 </head>
-<body>
+<body class="has-announce">
 <a href="#main" class="skip-link">Skip to main content</a>
 
-<a href="leagues.html" class="bb-announce">Fall League Registration Is Now Open <span class="arrow">→</span></a>
+<a href="leagues.html" class="site-announce">Fall League Registration Is Now Open <span class="arrow">→</span></a>
 
 <header class="nav nav-solid" id="nav">
   <div class="container nav-inner">
@@ -189,7 +184,7 @@
           <a href="camps.html">Camps &amp; Clinics</a>
           <a href="leagues.html">Leagues</a>
           <a href="events.html#rhythm">Open Gym</a>
-          <a href="schedule.html">Dr. Dish</a>
+          <a href="dr-dish.html">Dr. Dish</a>
         </div>
       </div>
       <div class="nav-item">
@@ -248,7 +243,7 @@
       <a href="camps.html">Camps &amp; Clinics</a>
       <a href="leagues.html">Leagues</a>
       <a href="events.html#rhythm">Open Gym</a>
-      <a href="schedule.html">Dr. Dish</a>
+      <a href="dr-dish.html">Dr. Dish</a>
     </div>
   </div>
   <div class="mobile-nav-group">
@@ -300,6 +295,7 @@
         <span>Get Better<span class="accent">.</span></span>
         <span>Play Better<span class="accent">.</span></span>
       </h1>
+      <p class="bb-hero-sub">Great players aren't built standing in line.<br>Get the fundamentals right. Get a lot of reps.<br>Get real feedback.<br>Then see if it works when somebody's guarding you.</p>
       <div class="bb-hero-ctas">
         <a href="schedule.html?sport=basketball" class="btn btn-primary">View Basketball Schedule →</a>
         <a href="membership.html" class="btn btn-secondary">Get Started →</a>
@@ -320,6 +316,7 @@
     <div class="bb-head reveal">
       <span class="eyebrow">How We Train</span>
       <h2>Learn It. Rep It. Use It.</h2>
+      <p>Anybody can look good when everything goes exactly as planned.<br>We build the skill, rep it, speed it up, add pressure,<br>and make players figure out what comes next.<br>Because the game doesn't wait for you to get comfortable.</p>
     </div>
 
     <div class="bb-sequence">
@@ -327,6 +324,7 @@
         <div class="bb-seq-media"><img src="images/basketball-hero.jpg" alt="An athlete's basketball shoes moving through an agility ladder drill, working on footwork."></div>
         <span class="bb-seq-label">01</span>
         <h3>Handle</h3>
+        <p class="bb-seq-zinger">Get them leaning. Go the other way.</p>
       </div>
 
       <div class="bb-seq-row bb-seq-row--02 reveal">
@@ -335,6 +333,7 @@
         </div>
         <span class="bb-seq-label">02</span>
         <h3>Shoot</h3>
+        <p class="bb-seq-zinger">Wide open is the easy part.</p>
       </div>
 
       <div class="bb-seq-row bb-seq-row--03 reveal">
@@ -349,12 +348,14 @@
         </div>
         <span class="bb-seq-label">03</span>
         <h3>Read</h3>
+        <p class="bb-seq-zinger">The right move beats the fancy one.</p>
       </div>
 
       <div class="bb-seq-row bb-seq-row--04 reveal">
         <div class="bb-seq-media"><img src="images/private-training-dribble.jpg" alt="An athlete pushing hard through a two-ball dribble drill under pressure."></div>
         <span class="bb-seq-label">04</span>
         <h3>Compete</h3>
+        <p class="bb-seq-zinger">Enough rehearsing. Let's play basketball.</p>
       </div>
     </div>
   </div>
@@ -456,7 +457,7 @@
           <span class="bb-way-link bb-way-link--pill">See Open Gym <span class="arrow">→</span></span>
         </div>
       </a>
-      <a href="schedule.html" class="bb-way-tile bb-way--drdish reveal">
+      <a href="dr-dish.html" class="bb-way-tile bb-way--drdish reveal">
         <div class="photo-bg"><img src="images/basketball-texture.jpg" alt="A close macro detail of basketball leather."></div>
         <div class="bb-way-body">
           <p class="bb-way-label">Basketball Only</p>

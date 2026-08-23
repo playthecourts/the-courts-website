@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Private Training | The Courts — Nolensville, TN</title>
-<meta name="description" content="One-on-one and small group private training built around your athlete's goals, in basketball or volleyball, at The Courts in Nolensville, TN.">
+<meta name="description" content="One-on-one and small-group basketball and volleyball training at The Courts in Nolensville, TN. Coaching built around the athlete in front of us.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
@@ -12,11 +12,163 @@
 <link rel="icon" type="image/png" sizes="16x16" href="images/brand/favicon-16.png">
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="css/styles.css">
+<style>
+  /* ================= Private Training page — editorial system (pt-*) ================= */
+
+  /* ---------- Hero ---------- */
+  .pt-hero { background: var(--gray-light); overflow: hidden; position: relative; }
+  .pt-hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; align-items: stretch; min-height: 620px; }
+  .pt-hero-copy { display: flex; flex-direction: column; justify-content: center; padding: 168px 24px 72px clamp(24px,6vw,88px); position: relative; z-index: 2; }
+  .pt-hero-copy .eyebrow { font-size: 19px; letter-spacing: 0.1em; text-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .pt-hero-title { font-family: var(--font-display); font-weight: 900; line-height: 0.92; margin: 16px 0 26px; }
+  .pt-hero-title .l1 { display: block; font-size: clamp(34px, 4.6vw, 60px); }
+  .pt-hero-title .l3 { display: block; font-size: clamp(52px, 8.4vw, 118px); margin-top: 4px; position: relative; }
+  .pt-hero-title .l3 .accent { color: var(--orange); }
+  .pt-thing-mark { position: absolute; left: 2px; bottom: -6px; width: 96%; height: 10px; }
+  .pt-thing-mark path { stroke: var(--orange); stroke-width: 3; fill: none; stroke-linecap: round; }
+  .pt-hero-sub { font-size: 17.5px; line-height: 1.75; color: var(--gray-dark); max-width: 44ch; margin: 30px 0 14px; }
+  .pt-hero-sub strong { color: var(--black); }
+  .pt-hero-sub2 { font-size: 16px; line-height: 1.7; color: var(--gray-dark); max-width: 44ch; margin: 0 0 36px; }
+  .pt-hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
+  .pt-hero-media { position: relative; overflow: hidden; }
+  .pt-hero-media .pt-hero-photo { position: absolute; top: 8%; right: 0; left: 8%; bottom: 8%; border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 40px 70px rgba(0,0,0,0.28); }
+  .pt-hero-media .pt-hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; }
+  @media (max-width: 980px) {
+    .pt-hero-grid { grid-template-columns: 1fr; min-height: 0; }
+    .pt-hero-copy { padding: 136px 24px 28px; }
+    .pt-hero-media { aspect-ratio: 4/3; margin: 0 24px 56px; }
+    .pt-hero-media .pt-hero-photo { top: 0; right: 0; left: 0; bottom: 0; }
+    .pt-hero-title .l3 { font-size: clamp(52px, 16vw, 78px); }
+  }
+
+  /* ---------- Section head (reused pattern) ---------- */
+  .pt-head { max-width: 640px; margin: 0 auto 8px; text-align: center; }
+  .pt-head .eyebrow { font-size: 19px; letter-spacing: 0.1em; text-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .pt-head h2 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(28px, 4vw, 42px); line-height: 1.1; margin: 0; }
+  .pt-head p { font-size: 16.5px; line-height: 1.65; color: var(--gray-dark); max-width: 56ch; margin: 14px auto 0; }
+
+  /* ---------- Built Around You (text-only moment) ---------- */
+  .pt-zoom-section { background: var(--white); padding: 132px 0; }
+  .pt-head--built { max-width: 700px; }
+  .pt-head--built h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(36px, 5.6vw, 68px); line-height: 1.02; }
+  .pt-head--built p { font-size: 18px; max-width: 50ch; }
+
+  /* ---------- Sport worlds (Basketball / Volleyball) ---------- */
+  .pt-sport { padding: 64px 0; overflow: hidden; }
+  .pt-sport--basketball { background: var(--gray-light); }
+  .pt-sport--volleyball { background: var(--white); }
+  .pt-sport-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; align-items: center; gap: 56px; }
+  .pt-sport--volleyball .pt-sport-grid { grid-template-columns: 1.05fr 0.95fr; }
+  .pt-sport--volleyball .pt-sport-media { order: 2; }
+  .pt-sport--volleyball .pt-sport-copy { order: 1; }
+  .pt-sport-copy .eyebrow { font-size: 18px; letter-spacing: 0.1em; }
+  .pt-sport-copy h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(36px, 5vw, 64px); line-height: 0.98; margin: 14px 0 20px; }
+  .pt-sport-copy p { font-size: 17px; line-height: 1.75; color: var(--gray-dark); max-width: 42ch; margin: 0 0 18px; }
+  .pt-sport-closing { font-weight: 700; color: var(--black); font-size: 16.5px; margin: 0 !important; }
+  .pt-sport-media { position: relative; aspect-ratio: 4/4.3; border-radius: var(--radius-md); overflow: hidden; }
+  .pt-sport-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pt-sport-words { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+  .pt-sport-words span { position: absolute; font-family: var(--font-sport); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.85); font-size: 12.5px; text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
+  .pt-sport--basketball .pt-sport-words span:nth-child(1) { top: 8%; left: 6%; }
+  .pt-sport--basketball .pt-sport-words span:nth-child(2) { top: 26%; right: 7%; }
+  .pt-sport--basketball .pt-sport-words span:nth-child(3) { top: 48%; left: 6%; }
+  .pt-sport--basketball .pt-sport-words span:nth-child(4) { bottom: 22%; right: 7%; }
+  .pt-sport--basketball .pt-sport-words span:nth-child(5) { bottom: 7%; left: 6%; }
+  .pt-sport--volleyball .pt-sport-words span:nth-child(1) { top: 8%; right: 6%; }
+  .pt-sport--volleyball .pt-sport-words span:nth-child(2) { top: 30%; left: 7%; }
+  .pt-sport--volleyball .pt-sport-words span:nth-child(3) { top: 52%; right: 7%; }
+  .pt-sport--volleyball .pt-sport-words span:nth-child(4) { bottom: 8%; left: 7%; }
+  .pt-sport-court { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0.5; }
+  @media (max-width: 900px) {
+    .pt-sport-grid, .pt-sport--volleyball .pt-sport-grid { grid-template-columns: 1fr; gap: 32px; }
+    .pt-sport--volleyball .pt-sport-media, .pt-sport--volleyball .pt-sport-copy { order: initial; }
+    .pt-sport-words { display: none; }
+  }
+
+  /* ---------- Availability strip ---------- */
+  .pt-avail { background: var(--charcoal); padding: 34px 0; text-align: center; }
+  .pt-avail p { margin: 0; font-family: var(--font-sport); font-size: clamp(22px, 3vw, 32px); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.9); }
+  .pt-avail span { color: var(--orange); }
+
+  /* ---------- Why Private Training ---------- */
+  .pt-why { background: var(--gray-light); padding: 108px 0; }
+  .pt-why-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; align-items: center; gap: 56px; }
+  .pt-why-media { position: relative; aspect-ratio: 4/4.6; border-radius: var(--radius-md); overflow: hidden; }
+  .pt-why-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pt-why-label { position: absolute; font-family: var(--font-sport); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.85); font-size: 12px; text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
+  .pt-why-label--1 { top: 10%; left: 7%; }
+  .pt-why-label--2 { top: 44%; right: 8%; }
+  .pt-why-label--3 { bottom: 10%; left: 7%; }
+  .pt-why-copy .eyebrow { font-size: 18px; letter-spacing: 0.1em; }
+  .pt-why-copy h2 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(28px, 3.6vw, 42px); line-height: 1.12; margin: 14px 0 20px; }
+  .pt-why-copy p { font-size: 17px; line-height: 1.75; color: var(--gray-dark); max-width: 46ch; margin: 0 0 18px; }
+  .pt-why-big { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3vw, 38px); line-height: 1.1; color: var(--black); margin: 8px 0 0; }
+  .pt-why-big .accent { color: var(--orange); }
+  @media (max-width: 900px) {
+    .pt-why-grid { grid-template-columns: 1fr; gap: 32px; }
+    .pt-why-label { display: none; }
+  }
+
+  /* ---------- Transition beat ---------- */
+  .pt-transition { background: var(--black); color: var(--white); padding: 84px 0 40px; text-align: center; overflow: hidden; position: relative; }
+  .pt-transition h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 6vw, 66px); line-height: 1.04; margin: 0; }
+  .pt-transition-mark { position: absolute; left: 50%; top: 0; width: 900px; max-width: 140vw; height: 100%; transform: translateX(-50%); pointer-events: none; opacity: 0.5; }
+
+  /* ---------- Coaches ---------- */
+  .pt-coaches { background: var(--black); color: var(--white); padding: 48px 0 108px; }
+  .pt-coach-groups { margin-top: 56px; display: flex; flex-direction: column; gap: 72px; }
+  .pt-coach-group-label { font-family: var(--font-sport); font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); margin: 0 0 24px; display: block; }
+  .pt-coach-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .pt-coach-card { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 22px; align-items: center; }
+  .pt-coach-photo { position: relative; aspect-ratio: 4/4.6; border-radius: var(--radius-md); overflow: hidden; }
+  .pt-coach-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pt-coach-name { font-family: var(--font-display); font-weight: 900; font-size: clamp(19px, 2vw, 24px); margin: 0 0 4px; line-height: 1.1; }
+  .pt-coach-title { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 12px; }
+  .pt-coach-bio { font-size: 14.5px; line-height: 1.65; color: rgba(255,255,255,0.72); margin: 0 0 10px; }
+  .pt-coach-closing { font-size: 14.5px; font-weight: 700; color: var(--white); margin: 0; }
+  @media (max-width: 900px) {
+    .pt-coach-pair { grid-template-columns: 1fr; gap: 40px; }
+    .pt-coach-card { grid-template-columns: 1fr; }
+    .pt-coach-photo { aspect-ratio: 4/2.8; }
+  }
+
+  /* ---------- Coach Collective pop-out ---------- */
+  .pt-cc-callout { background: var(--gray-light); padding: 72px 0; }
+  .pt-cc-box { max-width: 640px; margin: 0 auto; background: var(--black); color: var(--white); border-radius: var(--radius-md); padding: 56px 40px; text-align: center; }
+  .pt-cc-box h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 4vw, 42px); line-height: 1.1; margin: 0 0 28px; }
+  .pt-cc-box h3 .accent { color: var(--orange); }
+  .pt-cc-wink { font-size: 14px; font-style: italic; color: rgba(255,255,255,0.55); margin: 22px 0 0; }
+  .pt-cc-wink a { color: rgba(255,255,255,0.75); font-weight: 700; font-style: normal; margin-left: 4px; }
+  @media (max-width: 560px) {
+    .pt-cc-box { padding: 44px 26px; }
+  }
+
+  /* ---------- Final CTA ---------- */
+  .pt-final { background: var(--charcoal); color: var(--white); padding: 110px 0; position: relative; overflow: hidden; }
+  .pt-final-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; align-items: center; gap: 48px; position: relative; z-index: 2; }
+  .pt-final-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(44px, 6.6vw, 88px); line-height: 0.96; margin: 0 0 22px; }
+  .pt-final-title .accent { color: var(--orange); }
+  .pt-final-eyebrow { font-size: 18px; letter-spacing: 0.1em; margin-bottom: 8px; display: block; }
+  .pt-final-body p { color: rgba(255,255,255,0.72); font-size: 16.5px; line-height: 1.75; max-width: 46ch; margin: 0 0 16px; }
+  .pt-final-price { margin: 26px 0 28px; }
+  .pt-final-price .label { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); display: block; margin-bottom: 4px; }
+  .pt-final-price .amount { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 3vw, 36px); color: var(--white); }
+  .pt-final-price .sub { font-size: 14px; color: rgba(255,255,255,0.55); margin-top: 8px; }
+  .pt-final-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
+  .pt-final-media { position: relative; aspect-ratio: 4/4.8; border-radius: var(--radius-md); overflow: hidden; }
+  .pt-final-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @media (max-width: 900px) {
+    .pt-final-grid { grid-template-columns: 1fr; gap: 32px; }
+    .pt-final-media { order: -1; aspect-ratio: 4/2.6; }
+  }
+</style>
 </head>
-<body>
+<body class="has-announce">
 <a href="#main" class="skip-link">Skip to main content</a>
 
-<header class="nav" id="nav">
+<a href="leagues.html" class="site-announce">Fall League Registration Is Now Open <span class="arrow">→</span></a>
+
+<header class="nav nav-solid" id="nav">
   <div class="container nav-inner">
     <a href="index.html" class="brand">
       <img class="brand-mark brand-mark--wordmark brand-mark--dark" src="images/brand/logo-horizontal.svg" alt="The Courts">
@@ -31,7 +183,8 @@
           <a href="private-coaching.html">Private Training</a>
           <a href="camps.html">Camps &amp; Clinics</a>
           <a href="leagues.html">Leagues</a>
-          <a href="events.html#rhythm">Open Play</a>
+          <a href="events.html#rhythm">Open Gym</a>
+          <a href="dr-dish.html">Dr. Dish</a>
         </div>
       </div>
       <div class="nav-item">
@@ -65,13 +218,15 @@
           <a href="about.html">Our Story</a>
           <a href="about.html#how-we-play">How We Play</a>
           <a href="about.html#meet-the-team">Meet the Team</a>
-          <a href="community.html">Community</a>
+          <a href="coach-collective.html">Coach Collective</a>
+          <a href="about.html#community">Community</a>
+          <a href="about.html#partner">Partner</a>
         </div>
       </div>
       <div class="nav-item"><a href="contact.html">Contact</a></div>
     </nav>
     <div class="nav-cta">
-      <a href="contact.html" class="btn btn-secondary">Contact</a>
+      <a href="member-portal.html" class="btn btn-secondary">Login</a>
       <a href="membership.html" class="btn btn-primary">Become a Member</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
@@ -87,7 +242,8 @@
       <a href="private-coaching.html">Private Training</a>
       <a href="camps.html">Camps &amp; Clinics</a>
       <a href="leagues.html">Leagues</a>
-      <a href="events.html#rhythm">Open Play</a>
+      <a href="events.html#rhythm">Open Gym</a>
+      <a href="dr-dish.html">Dr. Dish</a>
     </div>
   </div>
   <div class="mobile-nav-group">
@@ -122,115 +278,223 @@
       <a href="about.html">Our Story</a>
       <a href="about.html#how-we-play">How We Play</a>
       <a href="about.html#meet-the-team">Meet the Team</a>
-      <a href="community.html">Community</a>
+      <a href="coach-collective.html">Coach Collective</a>
+      <a href="about.html#community">Community</a>
+      <a href="about.html#partner">Partner</a>
     </div>
   </div>
   <a href="contact.html">Contact</a>
   <a href="membership.html" class="btn btn-primary btn-block">Become a Member</a>
 </div>
 
-<section class="page-hero" id="main">
-  <div class="photo" role="img" aria-label="A coach correcting an athlete's form during a private training session"></div>
-  <div class="container page-hero-inner">
-    <div class="breadcrumb"><a href="index.html">Home</a> / <a href="programs.html">Programs</a> / <span class="current">Private Training</span></div>
-    <span class="eyebrow eyebrow--light" style="font-size:20px;">Private Training</span>
-    <h1 class="page-hero-title">Your Game. Your Goals. Your Coach.</h1>
-    <p class="page-hero-sub">Sometimes you need more than group reps.<br><br>Private training gives athletes focused coaching built around exactly what they need to work on, in basketball or volleyball.</p>
-    <div class="hero-ctas" style="margin-top:32px;">
-      <a href="contact.html?interest=Private%20Training#contact-form" class="btn btn-primary" data-preset="Private Training">Ask About Private Training →</a>
+<section class="pt-hero" id="main">
+  <div class="pt-hero-grid">
+    <div class="pt-hero-copy">
+      <span class="eyebrow">Private Training</span>
+      <h1 class="pt-hero-title">
+        <span class="l1">Let's Work on</span>
+        <span class="l3">the <span class="accent">Thing<span class="pt-thing-inner">.</span></span>
+          <svg class="pt-thing-mark" viewBox="0 0 300 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2,6 Q150,-2 298,6"/></svg>
+        </span>
+      </h1>
+      <p class="pt-hero-sub">The shot that keeps drifting. The left hand you keep avoiding. The serve that has a mind of its own.<br><strong>Yeah. That thing.</strong></p>
+      <p class="pt-hero-sub2">Basketball or volleyball. One-on-one or small group. Coaching built around the athlete in front of us.</p>
+      <div class="pt-hero-ctas">
+        <a href="contact.html?interest=Private%20Training#contact-form" class="btn btn-primary" data-preset="Private Training">Ask About Private Training →</a>
+      </div>
+    </div>
+    <div class="pt-hero-media">
+      <div class="pt-hero-photo"><img src="images/coach-shooting-form.jpg" alt="A coach standing close with an athlete, adjusting their shooting form." style="object-position:50% 25%;"></div>
     </div>
   </div>
 </section>
 
-<section style="padding:90px 0 80px;">
-  <div class="container" style="max-width:800px;">
-    <div class="section-head center">
-      <span class="eyebrow" style="font-size:20px;">Built Around You</span>
-      <h2 class="section-title" style="margin-bottom:10px;">Get Specific. Get Better.</h2>
-      <p class="section-sub" style="margin:0 auto;">No generic workout. No getting lost in the group.<br><br>We start with the athlete in front of us: where they are, what they're working toward, and what can make the biggest difference in their game.</p>
+<section class="pt-zoom-section">
+  <div class="container">
+    <div class="pt-head pt-head--built reveal">
+      <span class="eyebrow">Built Around You</span>
+      <h2>No Generic Workout Here.</h2>
+      <p>Private training is where we get specific. What's working. What isn't. What keeps showing up in games. What needs a little more attention.<br>Then we get to work.</p>
     </div>
-    <div class="skills-cols">
-      <div class="skills-col">
-        <h4>Basketball</h4>
+  </div>
+</section>
+
+<section class="pt-sport pt-sport--basketball">
+  <div class="container">
+    <div class="pt-sport-grid">
+      <div class="pt-sport-copy reveal">
+        <span class="eyebrow">Basketball</span>
+        <h3>Your Game.<br>Zoomed In.</h3>
         <p>Shooting. Ball handling. Footwork. Finishing. Decision-making.</p>
+        <p>Maybe it's mechanics. Maybe it's confidence. Maybe it's that left hand again.</p>
+        <p class="pt-sport-closing">We'll find it.</p>
       </div>
-      <div class="skills-col">
-        <h4>Volleyball</h4>
-        <p>Serving. Passing. Setting. Hitting. Footwork. Position-specific development.</p>
+      <div class="pt-sport-media reveal">
+        <img src="images/private-training-dribble.jpg" alt="A basketball athlete working through a low, controlled dribble move in a private session.">
+        <div class="pt-sport-words" aria-hidden="true">
+          <span>Shot</span><span>Handle</span><span>Footwork</span><span>Finish</span><span>Read</span>
+        </div>
+        <svg class="pt-sport-court" viewBox="0 0 400 460" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M-20,420 Q200,340 420,420" fill="none" stroke="var(--orange)" stroke-width="1.5" opacity="0.5"/>
+        </svg>
       </div>
     </div>
-    <p style="text-align:center; font-weight:700; color:var(--black); font-size:15px;">Individual + small-group training available.</p>
   </div>
 </section>
 
-<section class="coaches" id="meet-the-team">
+<section class="pt-sport pt-sport--volleyball">
   <div class="container">
-    <div class="section-head center">
-      <span class="eyebrow" style="font-size:20px;">Meet Your Coaches</span>
-      <h2 class="section-title">Great Coaching Gets Personal.</h2>
-      <p class="section-sub">Private training is about more than extra reps. It's having a coach who sees what you're doing, knows what needs work, and helps you get there.</p>
-    </div>
-    <div class="coach-editorial-grid four">
-      <div>
-        <div class="coach-editorial-photo photo placeholder" role="img" aria-label="Johnny Coles photo coming soon">
-          <div class="coach-editorial-caption">
-            <span class="tag">Basketball</span>
-            <h4>Johnny Coles</h4>
-            <p class="title">Head, Basketball Development</p>
-          </div>
+    <div class="pt-sport-grid">
+      <div class="pt-sport-media reveal">
+        <img src="images/volleyball-huddle.jpg" alt="A volleyball coach speaking closely with an athlete at the net." style="object-position:32% 30%;">
+        <div class="pt-sport-words" aria-hidden="true">
+          <span>Serve</span><span>Pass</span><span>Set</span><span>Attack</span>
         </div>
-        <div class="coach-editorial-bio">
-          <p>Nolensville native and six-year professional player who knows how to push, encourage, and connect with athletes.</p>
-        </div>
+        <svg class="pt-sport-court" viewBox="0 0 400 460" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0,90 L400,90" fill="none" stroke="var(--orange)" stroke-width="1.5" opacity="0.5"/>
+        </svg>
       </div>
-      <div>
-        <div class="coach-editorial-photo photo placeholder" role="img" aria-label="Spencer Richardson photo coming soon">
-          <div class="coach-editorial-caption">
-            <span class="tag">Performance</span>
-            <h4>Spencer Richardson</h4>
-            <p class="title">Senior Performance Trainer</p>
-          </div>
-        </div>
-        <div class="coach-editorial-bio">
-          <p>Founder of All-Around-Game Basketball, developing complete players through skill, IQ, and confidence.</p>
-        </div>
-      </div>
-      <div>
-        <div class="coach-editorial-photo photo placeholder" role="img" aria-label="Justin Frank photo coming soon">
-          <div class="coach-editorial-caption">
-            <span class="tag">Volleyball</span>
-            <h4>Justin Frank</h4>
-            <p class="title">Head, Volleyball Development</p>
-          </div>
-        </div>
-        <div class="coach-editorial-bio">
-          <p>Bio coming soon.</p>
-        </div>
-      </div>
-      <div>
-        <div class="coach-editorial-photo photo placeholder" role="img" aria-label="Sarah Quint photo coming soon">
-          <div class="coach-editorial-caption">
-            <span class="tag">Performance</span>
-            <h4>Sarah Quint</h4>
-            <p class="title">Senior Performance Trainer</p>
-          </div>
-        </div>
-        <div class="coach-editorial-bio">
-          <p>Bio coming soon.</p>
-        </div>
+      <div class="pt-sport-copy reveal">
+        <span class="eyebrow">Volleyball</span>
+        <h3>One Touch<br>at a Time.</h3>
+        <p>Serving. Passing. Setting. Hitting. Footwork. Position-specific work.</p>
+        <p>Clean up the movement. Fix the timing. Get more comfortable when things speed up.</p>
+        <p class="pt-sport-closing">And yes, we'll probably make you do it again.</p>
       </div>
     </div>
-    <div style="text-align:center; margin-top:44px;"><a href="contact.html?interest=Private%20Training#contact-form" class="btn btn-primary" data-preset="Private Training">Ask About Private Training →</a></div>
   </div>
 </section>
 
-<section class="final-cta">
+<section class="pt-avail">
+  <p reveal="true">Individual <span>+</span> Small-Group Training Available</p>
+</section>
+
+<section class="pt-why">
   <div class="container">
-    <h2>Tell Us <span class="accent">What You're Working On.</span></h2>
-    <p>Send us a little about your athlete, their sport, age, goals, and what they'd like to work on.<br>We'll take it from there.</p>
-    <p style="font-weight:700; color:var(--white); margin-bottom:8px;">Private training starts at $75/session.</p>
-    <p style="color:rgba(255,255,255,0.75); margin-bottom:28px;">Members receive preferred pricing. Individual + small-group options available.</p>
-    <div class="ctas"><a href="contact.html?interest=Private%20Training#contact-form" class="btn btn-primary" data-preset="Private Training">Ask About Private Training →</a></div>
+    <div class="pt-why-grid">
+      <div class="pt-why-media reveal">
+        <img src="images/sweat-detail.jpg" alt="A close, candid moment of an athlete mid-effort during a private training session.">
+        <span class="pt-why-label pt-why-label--1">Footwork</span>
+        <span class="pt-why-label pt-why-label--2">Balance</span>
+        <span class="pt-why-label pt-why-label--3">Timing</span>
+      </div>
+      <div class="pt-why-copy reveal">
+        <span class="eyebrow">Why Private Training?</span>
+        <h2>Because Sometimes You Need Someone Watching You.</h2>
+        <p>Group training gives athletes great reps. Private training gives a coach the chance to catch the little stuff.</p>
+        <p>The foot that lands wrong. The elbow that drifts. The platform angle. The extra step. The decision that comes half a second too late.</p>
+        <p class="pt-why-big">Little things.<br><span class="accent">Big difference.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pt-transition">
+  <svg class="pt-transition-mark" viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,90 L400,90 M60,90 L60,120 M140,90 L140,115 M220,90 L220,115 M300,90 L300,115" fill="none" stroke="var(--orange)" stroke-width="1.5" opacity="0.55"/>
+  </svg>
+  <div class="container">
+    <h2 class="reveal">The Details Don't<br>Fix Themselves.</h2>
+  </div>
+</section>
+
+<section class="pt-coaches" id="coaches">
+  <div class="container">
+    <div class="pt-head reveal" style="color:var(--white);">
+      <span class="eyebrow">Meet Your Coaches</span>
+      <h2 style="color:var(--white);">Someone's Actually Watching.</h2>
+      <p style="color:rgba(255,255,255,0.68);">In the helpful way. Private training means a coach can see the detail, make the adjustment, watch the next rep, and adjust again.<br>Not just: "Do it again." More like: "Do it again. But this time, here's why."</p>
+    </div>
+
+    <div class="pt-coach-groups">
+      <div>
+        <span class="pt-coach-group-label reveal">Basketball</span>
+        <div class="pt-coach-pair">
+          <div class="pt-coach-card reveal">
+            <div class="pt-coach-photo">
+              <img src="images/coach-shooting-form.jpg" alt="Johnny Coles working through shooting form with an athlete." style="object-position:65% 20%;">
+            </div>
+            <div>
+              <h3 class="pt-coach-name">Johnny Coles</h3>
+              <p class="pt-coach-title">Head, Basketball Development</p>
+              <p class="pt-coach-bio">Nolensville native. Ravenwood graduate. Emory athlete. Six-year professional player. Johnny brings high-level experience, a sharp eye for the details, and a knack for knowing when to teach, when to push, and when to let an athlete figure it out.</p>
+              <p class="pt-coach-closing">He'll notice.</p>
+            </div>
+          </div>
+          <div class="pt-coach-card reveal">
+            <div class="pt-coach-photo">
+              <img src="images/leagues-huddle.jpg" alt="Spencer Richardson with a group of athletes after a training session." style="object-position:65% 30%;">
+            </div>
+            <div>
+              <h3 class="pt-coach-name">Spencer Richardson</h3>
+              <p class="pt-coach-title">Senior Performance Trainer</p>
+              <p class="pt-coach-bio">Founder of All-Around-Game Basketball, Spencer develops complete players through skill, basketball IQ, confidence, and better decisions.</p>
+              <p class="pt-coach-closing">Because sometimes the answer isn't another move. It's knowing what to do with the ones you already have.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <span class="pt-coach-group-label reveal">Volleyball</span>
+        <div class="pt-coach-pair">
+          <div class="pt-coach-card reveal">
+            <div class="pt-coach-photo">
+              <img src="images/volleyball-huddle.jpg" alt="Justin Frank speaking with athletes at the net." style="object-position:34% 24%;">
+            </div>
+            <div>
+              <h3 class="pt-coach-name">Justin Frank</h3>
+              <p class="pt-coach-title">Head, Volleyball Development</p>
+              <p class="pt-coach-bio">Bio coming soon.</p>
+            </div>
+          </div>
+          <div class="pt-coach-card reveal">
+            <div class="pt-coach-photo">
+              <img src="images/volleyball-huddle.jpg" alt="Sarah Quint with athletes during a volleyball training session." style="object-position:88% 22%;">
+            </div>
+            <div>
+              <h3 class="pt-coach-name">Sarah Quint</h3>
+              <p class="pt-coach-title">Senior Performance Trainer</p>
+              <p class="pt-coach-bio">Bio coming soon.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pt-cc-callout">
+  <div class="container">
+    <div class="pt-cc-box reveal">
+      <h3>Your Athletes.<br>Your Program.<br><span class="accent">Our Court.</span></h3>
+      <a href="contact.html?interest=Coach%20Collective%20%2F%20Training%20Space#contact-form" class="btn btn-primary" data-preset="Coach Collective / Training Space">Ask About Coach Collective →</a>
+      <p class="pt-cc-wink">Just need a court for an hour and zero new friends? We do that too. <a href="court-rentals.html">View Court Rentals →</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="pt-final">
+  <div class="container">
+    <div class="pt-final-grid">
+      <div class="pt-final-body reveal">
+        <span class="eyebrow pt-final-eyebrow">Ready to Get Specific?</span>
+        <h2 class="pt-final-title">Tell Us<br>What Needs<br><span class="accent">Work.</span></h2>
+        <p>Maybe you know exactly what it is. Maybe you just know something isn't clicking yet. The shot. The serve. The footwork. The confidence. The thing that looks great in practice and suddenly disappears in a game.</p>
+        <p>Tell us about your athlete, their sport, age, and what they want to work on. We'll take it from there.</p>
+        <div class="pt-final-price">
+          <span class="label">Private Training Starts At</span>
+          <span class="amount">$75 <span style="font-size:16px; font-weight:600; color:rgba(255,255,255,0.6);">/ session</span></span>
+          <p class="sub">Members receive preferred pricing. Individual + small-group options available.</p>
+        </div>
+        <div class="pt-final-ctas">
+          <a href="contact.html?interest=Private%20Training#contact-form" class="btn btn-primary" data-preset="Private Training">Ask About Private Training →</a>
+        </div>
+      </div>
+      <div class="pt-final-media reveal">
+        <img src="images/gear-bottle-shoes.jpg" alt="Training shoes and a water bottle waiting courtside between reps." style="object-position:30% 60%;">
+      </div>
+    </div>
   </div>
 </section>
 
@@ -242,8 +506,7 @@
           <img class="brand-mark" src="images/brand/icon-mark.png" alt="">
           <span>THE COURTS<span class="brand-sub">NOLENSVILLE, TN</span></span>
         </a>
-        <p style="margin-bottom:10px;">Where performance meets belonging.</p>
-        <p>Basketball and volleyball training built around great coaching, real development, and a place athletes want to be.</p>
+        <p>Great coaching. Real development. Plenty of reasons to keep showing up.</p>
         <div class="footer-social">
           <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="white" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1" fill="white"/></svg></a>
           <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 9h3V6h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v6h3v-6H16l.5-3h-3V9.7c0-.4.3-.7.5-.7z" fill="white"/></svg></a>
@@ -253,7 +516,7 @@
         <li><a href="basketball.html">Basketball</a></li><li><a href="volleyball.html">Volleyball</a></li><li><a href="private-coaching.html">Private Training</a></li><li><a href="camps.html">Camps + Clinics</a></li><li><a href="leagues.html">Basketball Leagues</a></li>
       </ul></div>
       <div class="footer-col"><h4>The Courts</h4><ul>
-        <li><a href="about.html">About</a></li><li><a href="membership.html">Membership</a></li><li><a href="events.html">Events</a></li><li><a href="shop.html">Pro Shop</a></li><li><a href="community.html">Community</a></li>
+        <li><a href="about.html">About</a></li><li><a href="membership.html">Membership</a></li><li><a href="events.html">Events</a></li><li><a href="shop.html">Shop</a></li><li><a href="about.html#community">Community</a></li><li><a href="about.html#partner">Partner</a></li>
       </ul></div>
       <div class="footer-col"><h4>Support</h4><ul>
         <li><a href="schedule.html">Schedule</a></li><li><a href="court-rentals.html">Court Rentals</a></li><li><a href="resources.html">Resources</a></li><li><a href="faq.html">FAQs</a></li><li><a href="member-portal.html">Member Portal</a></li><li><a href="contact.html">Contact</a></li>
