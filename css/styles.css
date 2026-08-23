@@ -841,6 +841,19 @@ body.has-announce .nav { top: 56px; }
 @media (max-width: 900px) { .stadium-glow--2 { display: none; } }
 @media (prefers-reduced-motion: reduce) { .stadium-glow { animation: none; opacity: 0.85; } }
 
+/* ---------- Events: Parties + Events split ---------- */
+.party-split { background: var(--black); padding: 100px 0; overflow: hidden; position: relative; }
+.party-split-line { position: absolute; left: -6%; bottom: 14%; width: 38%; height: 1px; background: var(--orange); opacity: 0.5; z-index: 1; }
+.party-split-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; position: relative; z-index: 2; }
+.party-split-copy .eyebrow { color: var(--orange); }
+.party-split-title { font-family: var(--font-display); font-weight: 900; color: var(--white); font-size: clamp(38px, 5.5vw, 62px); line-height: 0.98; margin: 14px 0 24px; }
+.party-split-copy p { color: rgba(255,255,255,0.78); font-size: 16px; line-height: 1.7; margin: 0 0 16px; max-width: 46ch; }
+.party-split-copy p.bold { color: var(--white); font-weight: 700; }
+.party-split-price { color: var(--white); font-weight: 700; font-size: 15px; margin-bottom: 24px !important; }
+.party-split-strip { display: block; font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 22px; }
+.party-split-photo { position: relative; aspect-ratio: 4/5; border-radius: var(--radius-md); overflow: hidden; }
+@media (max-width: 860px) { .party-split-inner { grid-template-columns: 1fr; gap: 36px; } .party-split-photo { order: -1; } }
+
 /* ---------- Events: Halloween card extra spooky-fun details ---------- */
 .cal-lights.cal-corner-lights { left: -8px; right: auto; top: -8px; width: 130px; justify-content: flex-start; transform: rotate(38deg); transform-origin: top left; }
 .cal-skeleton { position: absolute; right: 22px; bottom: 60px; z-index: 1; transform-origin: bottom center; animation: cal-sway 2.6s ease-in-out infinite; }
