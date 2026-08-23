@@ -142,6 +142,7 @@
 <section id="main" style="position:relative; padding:164px 0 70px; background:var(--black); overflow:hidden;">
   <div class="photo" role="img" aria-label="Young athletes and coaches at The Courts" style="position:absolute; inset:0; opacity:0.32;"></div>
   <div class="container" style="position:relative; z-index:2; max-width:760px;">
+    <span class="eyebrow eyebrow--light">About</span>
     <h1 class="page-hero-title" style="margin-top:14px;">Hello, <span class="accent" style="position:relative; display:inline-block;"><span class="about-hero-badge" style="position:absolute; bottom:100%; right:0; margin-bottom:20px; display:inline-block; background:var(--orange); color:var(--white); font-family:var(--font-sport); font-size:15px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; padding:10px 24px; border-radius:999px; white-space:nowrap;"><span class="badge-fx" aria-hidden="true">
       <span class="badge-spark badge-spark--w" style="--a:0deg; --d:0s;"></span>
       <span class="badge-spark badge-spark--o" style="--a:30deg; --d:0.1s;"></span>
@@ -242,12 +243,12 @@
   }
 </style>
 
-<section class="coaches" id="our-people" style="padding:70px 0;">
+<section class="coaches" id="our-people" style="padding:70px 0; background:var(--black);">
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">Our Coaches</span>
-      <h2 class="section-title">Good Coaches Change the Game.</h2>
-      <p class="section-sub">Knowing the game matters. Knowing the athlete in front of you matters just as much. Our coaches know when to teach, when to push, when to explain it again, and when to get out of the way and let a player figure it out. Every rep should have a reason.</p>
+      <h2 class="section-title" style="color:var(--white);">Good Coaches Change the Game.</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,0.72);">Knowing the game matters. Knowing the athlete in front of you matters just as much. Our coaches know when to teach, when to push, when to explain it again, and when to get out of the way and let a player figure it out. Every rep should have a reason.</p>
     </div>
     <div class="coaches-board">
       <div class="coach-pill coach-pill--bb"><span class="coach-group-pill">Basketball</span></div>
@@ -529,7 +530,7 @@
   }
 </style>
 
-<section class="pre-footer">
+<section class="pre-footer pre-footer--light">
   <div class="container pre-footer-inner">
     <div class="pre-footer-col">
       <span class="pre-footer-eyebrow">Ready to Play?</span>
@@ -543,6 +544,15 @@
     </div>
   </div>
 </section>
+
+<style>
+  .pre-footer--light { background: var(--gray-light); }
+  .pre-footer--light::before { background: var(--gray-mid); }
+  .pre-footer--light .pre-footer-col:first-child { border-right-color: var(--gray-mid); }
+  .pre-footer--light .pre-footer-title { color: var(--black); }
+  .pre-footer--light .pre-footer-title .note { color: var(--gray-dark); }
+  .pre-footer--light .pre-footer-link { color: var(--black); }
+</style>
 
 <footer class="site-footer">
   <div class="container">
