@@ -289,7 +289,7 @@
   .contact-form-wrap .form-row select:focus,
   .contact-form-wrap .form-row textarea:focus { border-bottom-color: var(--orange); }
   .contact-form-wrap .form-row textarea { min-height: 100px; resize: vertical; }
-  @media (prefers-reduced-motion: reduce) { .contact-form-wrap .form-row input, .contact-form-wrap .form-row select, .contact-form-wrap .form-row textarea, .link, .contact-close-link { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .contact-form-wrap .form-row input, .contact-form-wrap .form-row select, .contact-form-wrap .form-row textarea, .link, .pre-footer-link { transition: none; } }
 </style>
 
 <section class="orange-door-section">
@@ -336,40 +336,20 @@
   }
 </style>
 
-<section class="contact-close">
-  <div class="container">
-    <div class="contact-close-grid">
-      <div class="contact-close-col">
-        <span class="eyebrow">Rather Email?</span>
-        <h3 class="contact-close-title">That works too.</h3>
-        <a href="mailto:hello@playthecourts.com" class="contact-close-link">hello@playthecourts.com <span class="contact-close-arrow">→</span></a>
-      </div>
-      <div class="contact-close-col">
-        <span class="eyebrow">Need a Quick Answer?</span>
-        <h3 class="contact-close-title">Membership. Schedules. Camps.<span class="contact-close-note">The usual stuff.</span></h3>
-        <a href="faq.html" class="contact-close-link">View FAQs <span class="contact-close-arrow">→</span></a>
-      </div>
+<section class="pre-footer">
+  <div class="container pre-footer-inner">
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Rather Email?</span>
+      <h3 class="pre-footer-title">That Works Too.</h3>
+      <a href="mailto:hello@playthecourts.com" class="pre-footer-link">hello@playthecourts.com <span class="arrow">→</span></a>
+    </div>
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Need a Quick Answer?</span>
+      <h3 class="pre-footer-title">Membership. Schedules. Camps.<span class="note">The usual stuff.</span></h3>
+      <a href="faq.html" class="pre-footer-link">View FAQs <span class="arrow">→</span></a>
     </div>
   </div>
 </section>
-
-<style>
-  .contact-close { position:relative; background:var(--gray-light); border-top:2px solid var(--orange); padding:72px 0; }
-  .contact-close-grid { display:grid; grid-template-columns:1fr 1fr; }
-  .contact-close-col { padding:0 52px; }
-  .contact-close-col:first-child { padding-left:0; border-right:1px solid var(--gray-mid); }
-  .contact-close-col:last-child { padding-right:0; }
-  .contact-close-title { font-family:var(--font-heading); font-weight:800; color:var(--black); font-size:24px; line-height:1.3; margin:10px 0 20px; }
-  .contact-close-note { display:block; font-family:var(--font-body); font-weight:500; font-size:14.5px; color:var(--gray-dark); margin-top:6px; }
-  .contact-close-link { display:inline-flex; align-items:center; gap:6px; font-family:var(--font-heading); font-weight:700; color:var(--black); font-size:16px; text-decoration:none; }
-  .contact-close-link:hover { color:var(--orange); }
-  .contact-close-arrow { color:var(--orange); }
-  @media (max-width: 720px) {
-    .contact-close-grid { grid-template-columns:1fr; }
-    .contact-close-col:first-child { border-right:none; border-bottom:1px solid var(--gray-mid); padding:0 0 32px; margin-bottom:32px; }
-    .contact-close-col:last-child { padding:0; }
-  }
-</style>
 
 <footer class="site-footer">
   <div class="container">
