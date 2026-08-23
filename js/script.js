@@ -325,6 +325,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 
+  /* ---------- Events page: month tabs (show one month's head + list at a time) ---------- */
+  (() => {
+    const monthTabs = document.querySelectorAll('.events-month-tab');
+    if (!monthTabs.length) return;
+    const showMonth = month => {
+      monthTabs.forEach(t => t.classList.toggle('active', t.dataset.month === month));
+      document.querySelectorAll('.cal-month-head[id]').forEach(head => {
+        head.style.display = head.id === month ? '' : 'none';
+      });
+      document.querySelectorAll('.cal-list[data-month-group]').forEach(list => {
+        list.style.display = list.dataset.monthGroup === month ? '' : 'none';
+      });
+    };
+    monthTabs.forEach(tab => tab.addEventListener('click', () => showMonth(tab.dataset.month)));
+    const monthParam = new URLSearchParams(window.location.search).get('month');
+    const hashMonth = window.location.hash.replace('#', '');
+    const candidates = [monthParam, hashMonth];
+    const initialMonth = candidates.find(m => [...monthTabs].some(t => t.dataset.month === m)) || monthTabs[0].dataset.month;
+    showMonth(initialMonth);
+    if (hashMonth === initialMonth) {
+      const head = document.getElementById(hashMonth);
+      if (head) setTimeout(() => head.scrollIntoView({ block: 'start' }), 50);
+    }
+  })();
+
   /* ---------- Shop: add to cart (visual only) ---------- */
   document.querySelectorAll('button.product-add').forEach(btn => {
     btn.addEventListener('click', () => {

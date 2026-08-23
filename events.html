@@ -155,29 +155,61 @@
   </div>
 </section>
 
-<section style="padding:80px 0 0;">
+<section class="feat-section">
   <div class="container">
-    <span class="schedule-filter-label">Month</span>
-    <div class="filter-pills" data-filter-attr="month" data-filter-param="month" style="margin-bottom:20px;">
-      <button class="filter-pill active" data-filter="all">All Months</button>
-      <button class="filter-pill" data-filter="october">October</button>
-      <button class="filter-pill" data-filter="november">November</button>
-      <button class="filter-pill" data-filter="december">December</button>
+    <div class="section-head">
+      <span class="eyebrow">Happening at The Courts</span>
+      <h2 class="section-title">A Few Things Worth Putting on the Calendar.</h2>
+    </div>
+    <div class="feat-grid">
+      <a href="#opening-celebration" class="feat-card feat-card--large reveal">
+        <div class="photo"><img src="images/team-listening.jpg" alt="Athletes and coaches gathered together at The Courts."></div>
+        <span class="feat-status">Oct 24 &middot; Signature Event</span>
+        <div class="feat-body">
+          <h3>The Courts Opening Celebration</h3>
+          <p>Nolensville, come see us. Mini-clinics, Dr. Dish demos, open gym, and family activities &mdash; free and open to the community.</p>
+          <span class="feat-link">See Details →</span>
+        </div>
+      </a>
+      <div class="feat-col-side">
+        <a href="#halloween-shootout" class="feat-card feat-card--small reveal">
+          <span class="feat-status">Oct 31 &middot; Registration Open</span>
+          <div class="feat-body">
+            <h4>Halloween Shootout</h4>
+            <p>Costumes. Hoops. Bragging rights. A Halloween 3-on-3 tournament.</p>
+            <span class="feat-link">Register →</span>
+          </div>
+        </a>
+        <a href="#fall-break-camp" class="feat-card feat-card--small reveal">
+          <span class="feat-status">Oct 12&ndash;16 &middot; Camp</span>
+          <div class="feat-body">
+            <h4>Fall Break Camp</h4>
+            <p>School's out. We're in the gym. A full week of basketball and volleyball camps.</p>
+            <span class="feat-link">View Camps + Clinics →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:64px 0 0;" id="rhythm">
+  <div class="container">
+    <div class="section-head" style="margin-bottom:34px;">
+      <span class="eyebrow">The Calendar</span>
+      <h2 class="section-title">Everything Coming Up.</h2>
     </div>
 
-    <span class="schedule-filter-label">Category</span>
-    <div class="filter-pills" data-mode="multi">
-      <button class="filter-pill active" data-filter="all">All</button>
-      <button class="filter-pill" data-filter="basketball">Basketball</button>
-      <button class="filter-pill" data-filter="volleyball">Volleyball</button>
-      <button class="filter-pill" data-filter="camps">Camps + Clinics</button>
-      <button class="filter-pill" data-filter="opengym">Open Gym</button>
-      <button class="filter-pill" data-filter="special">Special Events</button>
-      <button class="filter-pill" data-filter="community">Community</button>
-    </div>
+    <div class="events-layout">
+      <div class="events-main">
+        <div class="events-month-tabs" role="tablist" aria-label="Month">
+          <button class="events-month-tab active" data-month="october">October</button>
+          <button class="events-month-tab" data-month="november">November</button>
+          <button class="events-month-tab" data-month="december">December</button>
+        </div>
 
-    <div class="cal-month-head" id="october"><span class="eyebrow">October</span><h2 class="section-title">Doors open. Games on.</h2></div>
-    <div class="cal-list">
+        <div class="cal-month-head" id="october"><span class="eyebrow">October</span><h2 class="section-title">Doors open. Games on.</h2></div>
+        <div class="cal-list" data-month-group="october">
       <div class="cal-item cal-item--both reveal" data-category="community">
         <div class="cal-date"><span class="cal-weekday">Thu</span><span class="cal-month">Oct</span><span class="cal-day">1</span></div>
         <div class="cal-body">
@@ -198,7 +230,7 @@
         </div>
       </div>
 
-      <div class="cal-item cal-item--both reveal" data-category="camps">
+      <div class="cal-item cal-item--both reveal" data-category="camps" id="fall-break-camp">
         <div class="cal-date"><span class="cal-weekday">Mon–Fri</span><span class="cal-month">Oct</span><span class="cal-day">12–16</span></div>
         <div class="cal-body">
           <span class="cal-tag">Basketball + Volleyball · Camp</span>
@@ -228,7 +260,7 @@
         </div>
       </div>
 
-      <div class="cal-item cal-item--signature cal-item--both reveal" data-category="community">
+      <div class="cal-item cal-item--signature cal-item--both reveal" data-category="community" id="opening-celebration">
         <div class="cal-date"><span class="cal-weekday">Sat</span><span class="cal-month">Oct</span><span class="cal-day">24</span></div>
         <div class="cal-body">
           <span class="cal-tag">Community · Special Event</span>
@@ -248,7 +280,7 @@
         </div>
       </div>
 
-      <div class="cal-item cal-item--signature-xl cal-item--basketball cal-item--halloween reveal" data-category="special">
+      <div class="cal-item cal-item--signature-xl cal-item--basketball cal-item--halloween reveal" data-category="special" id="halloween-shootout">
         <svg class="cal-web" viewBox="0 0 130 130" fill="none" aria-hidden="true">
           <g stroke="rgba(255,255,255,0.4)" stroke-width="1">
             <line x1="130" y1="0" x2="30" y2="0"/>
@@ -382,7 +414,7 @@
     </div>
 
     <div class="cal-month-head" id="november"><span class="eyebrow">November</span><h2 class="section-title">Play hard. Give thanks. Keep going.</h2></div>
-    <div class="cal-list">
+        <div class="cal-list" data-month-group="november">
       <div class="cal-item cal-item--both reveal" data-category="community">
         <div class="cal-date"><span class="cal-weekday">Sat</span><span class="cal-month">Nov</span><span class="cal-day">14</span></div>
         <div class="cal-body">
@@ -406,7 +438,7 @@
     </div>
 
     <div class="cal-month-head" id="december"><span class="eyebrow">December</span><h2 class="section-title">Close the season. Open the holidays.</h2></div>
-    <div class="cal-list">
+        <div class="cal-list" data-month-group="december">
       <div class="cal-item cal-item--both reveal" data-category="camps">
         <div class="cal-date"><span class="cal-weekday">Mon–Fri</span><span class="cal-month">Dec</span><span class="cal-day">21–24</span></div>
         <div class="cal-body">
@@ -523,53 +555,47 @@
       </div>
     </div>
 
-    <div class="filter-empty" id="eventsEmpty">Nothing in this category right now — check back soon.</div>
-  </div>
-</section>
+      </div>
 
-<section style="position:relative; padding:110px 0; background:var(--black); margin-top:100px; overflow:hidden;">
-  <div class="stadium-lights" aria-hidden="true">
-    <div class="stadium-glow-bar"></div>
-    <span class="stadium-glow stadium-glow--1"></span>
-    <span class="stadium-glow stadium-glow--2"></span>
-    <span class="stadium-glow stadium-glow--3"></span>
-    <span class="stadium-grain"></span>
-  </div>
-  <div class="container stadium-lights-content" style="text-align:center;">
-    <span class="eyebrow eyebrow--light">Coming in January</span>
-    <h2 class="section-title" style="color:var(--white);">Friday Night Lights.</h2>
-    <p style="color:rgba(255,255,255,0.75); max-width:56ch; margin:0 auto;">A first-Friday-of-the-month tradition we're kicking off this winter — lights, music, and open gym for the whole community. More details soon.</p>
-  </div>
-</section>
-
-<section class="party-split" id="parties">
-  <div class="party-split-line" aria-hidden="true"></div>
-  <div class="container party-split-inner">
-    <div class="party-split-copy">
-      <span class="eyebrow eyebrow--light">Parties + Events</span>
-      <h2 class="party-split-title">Your Party.<br>Our<br>Court.</h2>
-      <p>Birthday? Team celebration? Something worth getting everybody out of the house for?</p>
-      <p>Take over The Courts for 90 minutes of basketball, volleyball, games, music, and very little standing around.</p>
-      <p class="bold">You bring the people. We'll bring the court.</p>
-      <p class="party-split-price">Birthday parties start at $400 and include private use of the full gym on select weekends.</p>
-      <span class="party-split-strip">Birthdays · Team Parties · Group Events · Your Thing</span>
-      <a href="contact.html?interest=Birthday%20Party%20%2F%20Event#contact-form" class="btn btn-primary" data-preset="Birthday Party / Event">Ask About a Party or Event →</a>
+      <aside class="events-rail">
+        <div class="fnl-card">
+          <div class="stadium-lights" aria-hidden="true">
+            <div class="stadium-glow-bar"></div>
+            <span class="stadium-glow stadium-glow--1"></span>
+            <span class="stadium-glow stadium-glow--2"></span>
+            <span class="stadium-glow stadium-glow--3"></span>
+            <span class="stadium-grain"></span>
+          </div>
+          <div class="fnl-card-content">
+            <span class="fnl-card-marker">Coming in January</span>
+            <h4>Friday Night Lights.</h4>
+            <p>A first-Friday-of-the-month tradition we're kicking off this winter &mdash; lights, music, and open gym for the whole community. More details soon.</p>
+          </div>
+        </div>
+        <div class="rail-party-card" id="parties">
+          <span class="eyebrow">Parties + Events</span>
+          <h4>Your Party. Our Court.</h4>
+          <p>Birthday? Team celebration? Something worth getting everybody out of the house for? Take over The Courts for 90 minutes of basketball, volleyball, games, and music.</p>
+          <span class="rail-party-strip">Birthdays &middot; Team Parties &middot; Group Events &middot; Your Thing</span>
+          <a href="contact.html?interest=Birthday%20Party%20%2F%20Event#contact-form" class="btn btn-primary" data-preset="Birthday Party / Event">Ask About a Party or Event →</a>
+          <span class="rail-secondary">Just need the space? <a href="court-rentals.html">View Court Rentals →</a></span>
+        </div>
+      </aside>
     </div>
-    <div class="party-split-photo photo" role="img" aria-label="A group of kids gathered at center court, laughing between games at a Courts party"></div>
   </div>
 </section>
 
-<section class="pre-footer" id="rhythm">
+<section class="pre-footer">
   <div class="container pre-footer-inner">
     <div class="pre-footer-col">
-      <span class="pre-footer-eyebrow">What's Coming Up?</span>
-      <h3 class="pre-footer-title">See What's Happening.</h3>
-      <a href="#october" class="pre-footer-link">View Events <span class="arrow">→</span></a>
+      <span class="pre-footer-eyebrow">Ready to Play?</span>
+      <h3 class="pre-footer-title">See What's on the Court.</h3>
+      <a href="schedule.html" class="pre-footer-link">View Schedule <span class="arrow">→</span></a>
     </div>
     <div class="pre-footer-col">
-      <span class="pre-footer-eyebrow">Your Party. Our Court.</span>
-      <h3 class="pre-footer-title">Bring Your People.</h3>
-      <a href="contact.html?interest=Birthday%20Party%20%2F%20Event#contact-form" class="pre-footer-link" data-preset="Birthday Party / Event">Ask About a Party <span class="arrow">→</span></a>
+      <span class="pre-footer-eyebrow">Not Sure Where to Start?</span>
+      <h3 class="pre-footer-title">We'll Point You in the Right Direction.</h3>
+      <a href="contact.html" class="pre-footer-link">Contact The Courts <span class="arrow">→</span></a>
     </div>
   </div>
 </section>
