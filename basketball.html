@@ -48,6 +48,14 @@
   .bb-head p { font-size: 16.5px; line-height: 1.65; color: var(--gray-dark); max-width: 56ch; margin: 14px auto 0; }
   .bb-train-section { background: var(--white); padding: 96px 0 0; }
 
+  /* ---------- How We Train: manifesto statement ---------- */
+  .bb-train-statement { max-width: 880px; margin: 36px auto 0; text-align: center; }
+  .bb-train-line1 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(19px, 2.3vw, 24px); line-height: 1.35; margin: 0 0 30px; color: var(--black); }
+  .bb-train-line2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 6.2vw, 66px); line-height: 0.98; letter-spacing: -0.01em; margin: 0 0 30px; color: var(--black); }
+  .bb-train-line3 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(17px, 2vw, 21px); line-height: 1.4; margin: 0; color: var(--black); }
+  .bb-train-emph { color: var(--orange); }
+  @media (max-width: 640px) { .bb-train-statement { margin-top: 28px; } .bb-train-line1, .bb-train-line3 { margin-bottom: 22px; } }
+
   /* ---------- Handle / Shoot / Read / Compete sequence (compact 4-up) ---------- */
   .bb-sequence { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 48px; align-items: start; }
   .bb-seq-row { position: relative; }
@@ -323,7 +331,12 @@
     <div class="bb-head reveal">
       <span class="eyebrow">How We Train</span>
       <h2>Learn It. Rep It. Use It.</h2>
-      <p>Anybody can look good when everything goes exactly as planned.<br>We build the skill, rep it, speed it up, add pressure,<br>and make players figure out what comes next.<br>Because the game doesn't wait for you to get comfortable.</p>
+    </div>
+
+    <div class="bb-train-statement reveal">
+      <p class="bb-train-line1">Anybody can look good when it goes exactly as planned.</p>
+      <p class="bb-train-line2">Build the skill.<br>Speed it up.<br>Add pressure.<br>Figure out what's next.</p>
+      <p class="bb-train-line3">Because the game <span class="bb-train-emph">isn't waiting</span> for you to get comfortable.</p>
     </div>
 
     <div class="bb-sequence">
