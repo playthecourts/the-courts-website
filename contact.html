@@ -149,14 +149,14 @@
 <section class="contact-form-section" style="padding:70px 0 80px;" id="contact-form">
   <div class="container" style="max-width:680px; position:relative; z-index:1;">
     <div class="contact-form-wrap">
-      <span class="eyebrow">Get In Touch</span>
+      <span class="eyebrow">Get in Touch</span>
       <h2 class="section-title" style="margin-bottom:14px; font-size:clamp(32px, 4.6vw, 48px);">Tell Us What You're Looking For.</h2>
-      <p style="font-size:16.5px; line-height:1.6; color:var(--gray-dark); max-width:520px; margin:0 0 38px;">Answer a few quick questions and we'll come back with a real answer — not another round of questions.</p>
+      <p style="font-size:16.5px; line-height:1.6; color:var(--gray-dark); max-width:520px; margin:0 0 38px;">Give us the basics and we'll get you to the right person, program, or next step.</p>
 
       <div id="contactFormSuccess" class="form-success" style="display:none;">
         <h3>Got It.</h3>
         <p>We'll take a look and get back to you soon.</p>
-        <p>If you asked about a program, membership, rental, or training, we'll use what you shared to point you toward the right next step.</p>
+        <p>If you asked about a program, training, league, rental, or event, we'll use what you shared to point you toward the right next step.</p>
         <p style="margin-top:18px;">See you on the court.</p>
       </div>
 
@@ -176,168 +176,338 @@
           </div>
         </div>
         <div class="form-row">
-          <label for="cInterest">I'm interested in...*</label>
-          <select id="cInterest" required>
+          <label for="cHelp">What can we help with?*</label>
+          <select id="cHelp" required>
             <option value="">Select one</option>
-            <option value="Membership">Membership</option>
+            <option value="Programs + Membership">Programs + Membership</option>
             <option value="Private Training">Private Training</option>
-            <option value="Camps + Clinics">Camps + Clinics</option>
             <option value="Basketball Leagues">Basketball Leagues</option>
-            <option value="Open Gym">Open Gym</option>
-            <option value="Court Rental">Court Rental</option>
+            <option value="Court Rental / Party / Event">Court Rental / Party / Event</option>
             <option value="Coach Collective / Training Space">Coach Collective / Training Space</option>
-            <option value="Where Should My Athlete Start?">Where Should My Athlete Start?</option>
-            <option value="Birthday Party / Event">Birthday Party / Event</option>
             <option value="Current Member Support">Current Member Support</option>
             <option value="Coaching at The Courts">Coaching at The Courts</option>
-            <option value="Community">Community + Volunteering</option>
-            <option value="Partner">Sponsorship + Partnerships</option>
+            <option value="Community / Partnerships">Community / Partnerships</option>
             <option value="Something Else">Something Else</option>
           </select>
         </div>
 
-        <div class="cf-group" id="cf-membership" data-interest="Membership" hidden>
-          <div class="form-row"><label for="mem-athlete">Athlete Name <span class="form-optional-tag">Optional</span></label><input type="text" id="mem-athlete"></div>
-          <div class="form-grid-2">
-            <div class="form-row"><label for="mem-age">Age / Grade*</label><input type="text" id="mem-age" required></div>
-            <div class="form-row"><label for="mem-sport">Sport*</label><select id="mem-sport" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option><option>Both</option></select></div>
+        <div class="cf-group" data-cat="Programs + Membership" hidden>
+          <div class="form-row">
+            <label for="pm-lookingfor">What are you looking for?*</label>
+            <select id="pm-lookingfor" required><option value="">Select one</option><option>Membership</option><option>Camps + Clinics</option><option>Open Gym</option><option>Help me find the right program</option><option>General program question</option></select>
           </div>
-          <div class="form-grid-2">
-            <div class="form-row"><label for="mem-experience">Experience <span class="form-optional-tag">Optional</span></label><select id="mem-experience"><option value="">Select one</option><option>New to the sport</option><option>Some experience</option><option>Experienced</option></select></div>
-            <div class="form-row"><label for="mem-availability">Preferred Days/Times <span class="form-optional-tag">Optional</span></label><input type="text" id="mem-availability"></div>
+
+          <div class="cf-subgroup" data-show-if="pm-lookingfor:Membership" hidden>
+            <div class="form-row"><label for="pm-mem-athlete">Athlete name <span class="form-optional-tag">Optional</span></label><input type="text" id="pm-mem-athlete"></div>
+            <div class="form-grid-2">
+              <div class="form-row"><label for="pm-mem-age">Athlete age / grade*</label><input type="text" id="pm-mem-age" placeholder="e.g. 10 / 5th grade" required></div>
+              <div class="form-row"><label for="pm-mem-sport">Sport*</label><select id="pm-mem-sport" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option><option>Both</option><option>Not sure</option></select></div>
+            </div>
+            <div class="form-row"><label for="pm-mem-experience">Experience <span class="form-optional-tag">Optional</span></label><select id="pm-mem-experience"><option value="">Select one</option><option>New to the sport</option><option>Recreational</option><option>Competitive</option><option>Club / school team</option></select></div>
+            <div class="form-grid-2">
+              <div class="form-row"><label for="pm-mem-count">How many athletes?</label><select id="pm-mem-count"><option value="">Select one</option><option>1</option><option>2</option><option>3+</option><option>Not sure yet</option></select></div>
+              <div class="form-row"><label for="pm-mem-freq">How often do you want to come?</label><select id="pm-mem-freq"><option value="">Select one</option><option>About once a week</option><option>A few times a week</option><option>As much as possible</option><option>Not sure yet</option></select></div>
+            </div>
+            <div class="form-row"><label>What matters most? <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="pm-priorities">
+          <label class="chip"><input type="checkbox" id="pm-priorities-group-training" name="pm-priorities"><span>Group training</span></label>
+          <label class="chip"><input type="checkbox" id="pm-priorities-open-gym" name="pm-priorities"><span>Open Gym</span></label>
+          <label class="chip"><input type="checkbox" id="pm-priorities-private-training" name="pm-priorities"><span>Private Training</span></label>
+          <label class="chip"><input type="checkbox" id="pm-priorities-dr-dish" name="pm-priorities"><span>Dr. Dish</span></label>
+          <label class="chip"><input type="checkbox" id="pm-priorities-family-membership" name="pm-priorities"><span>Family membership</span></label>
+          <label class="chip"><input type="checkbox" id="pm-priorities-flexible-schedule" name="pm-priorities"><span>Flexible schedule</span></label>
+          <label class="chip"><input type="checkbox" id="pm-priorities-not-sure-yet" name="pm-priorities"><span>Not sure yet</span></label>
+        </div></div>
+            <div class="form-row"><label>Preferred days <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="pm-mem-days">
+          <label class="chip"><input type="checkbox" id="pm-mem-days-monday" name="pm-mem-days"><span>Monday</span></label>
+          <label class="chip"><input type="checkbox" id="pm-mem-days-tuesday" name="pm-mem-days"><span>Tuesday</span></label>
+          <label class="chip"><input type="checkbox" id="pm-mem-days-wednesday" name="pm-mem-days"><span>Wednesday</span></label>
+          <label class="chip"><input type="checkbox" id="pm-mem-days-thursday" name="pm-mem-days"><span>Thursday</span></label>
+          <label class="chip"><input type="checkbox" id="pm-mem-days-friday" name="pm-mem-days"><span>Friday</span></label>
+          <label class="chip"><input type="checkbox" id="pm-mem-days-saturday" name="pm-mem-days"><span>Saturday</span></label>
+          <label class="chip"><input type="checkbox" id="pm-mem-days-sunday" name="pm-mem-days"><span>Sunday</span></label>
+          <label class="chip"><input type="checkbox" id="pm-mem-days-flexible" name="pm-mem-days"><span>Flexible</span></label>
+        </div></div>
+            <div class="form-row"><label>Preferred time <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="pm-mem-time">
+          <label class="chip"><input type="checkbox" id="pm-mem-time-after-school" name="pm-mem-time"><span>After school</span></label>
+          <label class="chip"><input type="checkbox" id="pm-mem-time-evening" name="pm-mem-time"><span>Evening</span></label>
+          <label class="chip"><input type="checkbox" id="pm-mem-time-weekend" name="pm-mem-time"><span>Weekend</span></label>
+          <label class="chip"><input type="checkbox" id="pm-mem-time-flexible" name="pm-mem-time"><span>Flexible</span></label>
+        </div></div>
+            <div class="form-row"><label for="pm-mem-extra">Anything else? <span class="form-optional-tag">Optional</span></label><textarea id="pm-mem-extra"></textarea></div>
           </div>
-          <div class="form-row"><label for="mem-looking">What are you looking for?</label><select id="mem-looking"><option value="">Select one</option><option>Unlimited</option><option>Weekly</option><option>Full Court</option><option>Family</option><option>Not sure yet</option></select></div>
-          <div class="form-row"><label for="mem-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="mem-extra"></textarea></div>
+
+          <div class="cf-subgroup" data-show-if="pm-lookingfor:Camps + Clinics" hidden>
+            <div class="form-row"><label>What are you looking for? <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="pm-camp-sport">
+          <label class="chip"><input type="checkbox" id="pm-camp-sport-basketball" name="pm-camp-sport"><span>Basketball</span></label>
+          <label class="chip"><input type="checkbox" id="pm-camp-sport-volleyball" name="pm-camp-sport"><span>Volleyball</span></label>
+          <label class="chip"><input type="checkbox" id="pm-camp-sport-either-sport" name="pm-camp-sport"><span>Either sport</span></label>
+        </div></div>
+            <div class="form-row"><label>When are you looking? <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="pm-camp-when">
+          <label class="chip"><input type="checkbox" id="pm-camp-when-school-break" name="pm-camp-when"><span>School break</span></label>
+          <label class="chip"><input type="checkbox" id="pm-camp-when-weekend-clinic" name="pm-camp-when"><span>Weekend clinic</span></label>
+          <label class="chip"><input type="checkbox" id="pm-camp-when-summer" name="pm-camp-when"><span>Summer</span></label>
+          <label class="chip"><input type="checkbox" id="pm-camp-when-just-looking-ahead" name="pm-camp-when"><span>Just looking ahead</span></label>
+        </div></div>
+            <div class="form-row"><label for="pm-camp-age">Athlete age / grade*</label><input type="text" id="pm-camp-age" placeholder="e.g. 10 / 5th grade" required></div>
+            <div class="form-row"><label for="pm-camp-extra">Anything else? <span class="form-optional-tag">Optional</span></label><textarea id="pm-camp-extra"></textarea></div>
+          </div>
+
+          <div class="cf-subgroup" data-show-if="pm-lookingfor:Open Gym" hidden>
+            <div class="form-grid-2">
+              <div class="form-row"><label for="pm-og-sport">Sport*</label><select id="pm-og-sport" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option></select></div>
+              <div class="form-row"><label for="pm-og-age">Athlete age / grade <span class="form-optional-tag">Optional</span></label><input type="text" id="pm-og-age"></div>
+            </div>
+            <div class="form-row"><label>What can we help with?* <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="pm-og-help" data-chip-required="true">
+          <label class="chip"><input type="checkbox" id="pm-og-help-upcoming-open-gym-times" name="pm-og-help"><span>Upcoming Open Gym times</span></label>
+          <label class="chip"><input type="checkbox" id="pm-og-help-age-eligibility" name="pm-og-help"><span>Age / eligibility</span></label>
+          <label class="chip"><input type="checkbox" id="pm-og-help-member-access" name="pm-og-help"><span>Member access</span></label>
+          <label class="chip"><input type="checkbox" id="pm-og-help-drop-in-pricing" name="pm-og-help"><span>Drop-in pricing</span></label>
+          <label class="chip"><input type="checkbox" id="pm-og-help-registration" name="pm-og-help"><span>Registration</span></label>
+          <label class="chip"><input type="checkbox" id="pm-og-help-other" name="pm-og-help"><span>Something else</span></label>
+        </div></div>
+            <div class="form-row" data-reveal-if="pm-og-help-other" hidden><label for="pm-og-extra">Tell us what you need.</label><textarea id="pm-og-extra"></textarea></div>
+          </div>
+
+          <div class="cf-subgroup" data-show-if="pm-lookingfor:Help me find the right program" hidden>
+            <div class="form-grid-2">
+              <div class="form-row"><label for="pm-fp-age">Athlete age / grade*</label><input type="text" id="pm-fp-age" required></div>
+              <div class="form-row"><label for="pm-fp-sport">Sport*</label><select id="pm-fp-sport" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option><option>Both</option><option>Not sure</option></select></div>
+            </div>
+            <div class="form-row"><label>What are they looking for? <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="pm-fp-goals">
+          <label class="chip"><input type="checkbox" id="pm-fp-goals-learn-the-basics" name="pm-fp-goals"><span>Learn the basics</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-goals-get-more-reps" name="pm-fp-goals"><span>Get more reps</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-goals-build-confidence" name="pm-fp-goals"><span>Build confidence</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-goals-prepare-for-a-team" name="pm-fp-goals"><span>Prepare for a team</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-goals-more-competition" name="pm-fp-goals"><span>More competition</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-goals-private-attention" name="pm-fp-goals"><span>Private attention</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-goals-more-opportunities-to-play" name="pm-fp-goals"><span>More opportunities to play</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-goals-not-sure" name="pm-fp-goals"><span>Not sure</span></label>
+        </div></div>
+            <div class="form-row"><label>Preferred days <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="pm-fp-days">
+          <label class="chip"><input type="checkbox" id="pm-fp-days-monday" name="pm-fp-days"><span>Monday</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-days-tuesday" name="pm-fp-days"><span>Tuesday</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-days-wednesday" name="pm-fp-days"><span>Wednesday</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-days-thursday" name="pm-fp-days"><span>Thursday</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-days-friday" name="pm-fp-days"><span>Friday</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-days-saturday" name="pm-fp-days"><span>Saturday</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-days-sunday" name="pm-fp-days"><span>Sunday</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-days-flexible" name="pm-fp-days"><span>Flexible</span></label>
+        </div></div>
+            <div class="form-row"><label>Preferred time <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="pm-fp-time">
+          <label class="chip"><input type="checkbox" id="pm-fp-time-after-school" name="pm-fp-time"><span>After school</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-time-evening" name="pm-fp-time"><span>Evening</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-time-weekend" name="pm-fp-time"><span>Weekend</span></label>
+          <label class="chip"><input type="checkbox" id="pm-fp-time-flexible" name="pm-fp-time"><span>Flexible</span></label>
+        </div></div>
+            <div class="form-row"><label for="pm-fp-extra">Anything else? <span class="form-optional-tag">Optional</span></label><textarea id="pm-fp-extra"></textarea></div>
+          </div>
+
+          <div class="cf-subgroup" data-show-if="pm-lookingfor:General program question" hidden>
+            <div class="form-row"><label for="pm-gen-sport">Sport <span class="form-optional-tag">Optional</span></label><select id="pm-gen-sport"><option value="">Select one</option><option>Basketball</option><option>Volleyball</option><option>Both</option><option>Not sure</option></select></div>
+            <div class="form-row"><label for="pm-gen-question">What can we help with?*</label><textarea id="pm-gen-question" required></textarea></div>
+          </div>
         </div>
 
-        <div class="cf-group" id="cf-private-training" data-interest="Private Training" hidden>
-          <div class="form-row"><label for="pt-athlete">Athlete Name <span class="form-optional-tag">Optional</span></label><input type="text" id="pt-athlete"></div>
+        <div class="cf-group" data-cat="Private Training" hidden>
+          <div class="form-row"><label for="pt-athlete">Athlete name <span class="form-optional-tag">Optional</span></label><input type="text" id="pt-athlete"></div>
           <div class="form-grid-2">
-            <div class="form-row"><label for="pt-age">Age / Grade*</label><input type="text" id="pt-age" required></div>
+            <div class="form-row"><label for="pt-age">Athlete age / grade*</label><input type="text" id="pt-age" placeholder="e.g. 10 / 5th grade" required></div>
             <div class="form-row"><label for="pt-sport">Sport*</label><select id="pt-sport" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option></select></div>
           </div>
-          <div class="form-grid-2">
-            <div class="form-row"><label for="pt-experience">Experience <span class="form-optional-tag">Optional</span></label><select id="pt-experience"><option value="">Select one</option><option>New to the sport</option><option>Some experience</option><option>Experienced</option></select></div>
-            <div class="form-row"><label for="pt-availability">Preferred Days/Times <span class="form-optional-tag">Optional</span></label><input type="text" id="pt-availability"></div>
+          <div class="form-row"><label for="pt-experience">Experience <span class="form-optional-tag">Optional</span></label><select id="pt-experience"><option value="">Select one</option><option>New to the sport</option><option>Recreational</option><option>Competitive</option><option>Club / school team</option></select></div>
+          <div class="form-row">
+            <label>What do you want to work on? <span class="form-optional-tag">Choose all that apply</span></label>
+            <div class="cf-subgroup" data-show-if="pt-sport:Basketball" hidden><div class="chip-group" data-group="pt-skills-bb">
+          <label class="chip"><input type="checkbox" id="pt-skills-bb-shooting" name="pt-skills-bb"><span>Shooting</span></label>
+          <label class="chip"><input type="checkbox" id="pt-skills-bb-ball-handling" name="pt-skills-bb"><span>Ball handling</span></label>
+          <label class="chip"><input type="checkbox" id="pt-skills-bb-finishing" name="pt-skills-bb"><span>Finishing</span></label>
+          <label class="chip"><input type="checkbox" id="pt-skills-bb-footwork" name="pt-skills-bb"><span>Footwork</span></label>
+          <label class="chip"><input type="checkbox" id="pt-skills-bb-decision-making" name="pt-skills-bb"><span>Decision-making</span></label>
+          <label class="chip"><input type="checkbox" id="pt-skills-bb-confidence" name="pt-skills-bb"><span>Confidence</span></label>
+          <label class="chip"><input type="checkbox" id="pt-skills-bb-game-preparation" name="pt-skills-bb"><span>Game preparation</span></label>
+          <label class="chip"><input type="checkbox" id="pt-skills-bb-other" name="pt-skills-bb"><span>Other</span></label>
+        </div></div>
+            <div class="cf-subgroup" data-show-if="pt-sport:Volleyball" hidden><div class="chip-group" data-group="pt-skills-vb">
+          <label class="chip"><input type="checkbox" id="pt-skills-vb-serving" name="pt-skills-vb"><span>Serving</span></label>
+          <label class="chip"><input type="checkbox" id="pt-skills-vb-passing" name="pt-skills-vb"><span>Passing</span></label>
+          <label class="chip"><input type="checkbox" id="pt-skills-vb-setting" name="pt-skills-vb"><span>Setting</span></label>
+          <label class="chip"><input type="checkbox" id="pt-skills-vb-hitting" name="pt-skills-vb"><span>Hitting</span></label>
+          <label class="chip"><input type="checkbox" id="pt-skills-vb-footwork" name="pt-skills-vb"><span>Footwork</span></label>
+          <label class="chip"><input type="checkbox" id="pt-skills-vb-position-specific-work" name="pt-skills-vb"><span>Position-specific work</span></label>
+          <label class="chip"><input type="checkbox" id="pt-skills-vb-confidence" name="pt-skills-vb"><span>Confidence</span></label>
+          <label class="chip"><input type="checkbox" id="pt-skills-vb-game-preparation" name="pt-skills-vb"><span>Game preparation</span></label>
+          <label class="chip"><input type="checkbox" id="pt-skills-vb-other" name="pt-skills-vb"><span>Other</span></label>
+        </div></div>
           </div>
-          <div class="form-row"><label for="pt-focus">What do you want to work on?</label><textarea id="pt-focus"></textarea></div>
-          <div class="form-grid-2">
-            <div class="form-row"><label for="pt-format">Format</label><select id="pt-format"><option value="">Select one</option><option>One-on-one</option><option>Small group</option><option>Either</option></select></div>
-            <div class="form-row"><label for="pt-coach">Coach Preference <span class="form-optional-tag">Optional</span></label><select id="pt-coach"><option value="">No preference</option><option>Johnny Coles</option><option>Spencer Richardson</option><option>Justin Frank</option><option>Sarah Quint</option></select></div>
-          </div>
-          <div class="form-row"><label for="pt-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="pt-extra"></textarea></div>
+          <div class="form-row" data-reveal-if="pt-skills-bb-other" hidden><label for="pt-skills-bb-extra">What else?</label><input type="text" id="pt-skills-bb-extra"></div>
+          <div class="form-row" data-reveal-if="pt-skills-vb-other" hidden><label for="pt-skills-vb-extra">What else?</label><input type="text" id="pt-skills-vb-extra"></div>
+          <div class="form-row"><label for="pt-format">Training format</label><select id="pt-format"><option value="">Select one</option><option>One-on-one</option><option>Small group</option><option>Either</option><option>Not sure</option></select></div>
+          <div class="form-row"><label>Preferred days <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="pt-days">
+          <label class="chip"><input type="checkbox" id="pt-days-monday" name="pt-days"><span>Monday</span></label>
+          <label class="chip"><input type="checkbox" id="pt-days-tuesday" name="pt-days"><span>Tuesday</span></label>
+          <label class="chip"><input type="checkbox" id="pt-days-wednesday" name="pt-days"><span>Wednesday</span></label>
+          <label class="chip"><input type="checkbox" id="pt-days-thursday" name="pt-days"><span>Thursday</span></label>
+          <label class="chip"><input type="checkbox" id="pt-days-friday" name="pt-days"><span>Friday</span></label>
+          <label class="chip"><input type="checkbox" id="pt-days-saturday" name="pt-days"><span>Saturday</span></label>
+          <label class="chip"><input type="checkbox" id="pt-days-sunday" name="pt-days"><span>Sunday</span></label>
+          <label class="chip"><input type="checkbox" id="pt-days-flexible" name="pt-days"><span>Flexible</span></label>
+        </div></div>
+          <div class="form-row"><label>Preferred time <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="pt-time">
+          <label class="chip"><input type="checkbox" id="pt-time-after-school" name="pt-time"><span>After school</span></label>
+          <label class="chip"><input type="checkbox" id="pt-time-evening" name="pt-time"><span>Evening</span></label>
+          <label class="chip"><input type="checkbox" id="pt-time-weekend" name="pt-time"><span>Weekend</span></label>
+          <label class="chip"><input type="checkbox" id="pt-time-flexible" name="pt-time"><span>Flexible</span></label>
+        </div></div>
+          <div class="form-row"><label for="pt-extra">Anything else? <span class="form-optional-tag">Optional</span></label><textarea id="pt-extra"></textarea></div>
         </div>
 
-        <div class="cf-group" id="cf-camps" data-interest="Camps + Clinics" hidden>
-          <div class="form-row"><label for="camp-athlete">Athlete Name <span class="form-optional-tag">Optional</span></label><input type="text" id="camp-athlete"></div>
+        <div class="cf-group" data-cat="Basketball Leagues" hidden>
+          <div class="form-row"><label for="lg-athlete">Athlete name <span class="form-optional-tag">Optional</span></label><input type="text" id="lg-athlete"></div>
           <div class="form-grid-2">
-            <div class="form-row"><label for="camp-age">Age / Grade*</label><input type="text" id="camp-age" required></div>
-            <div class="form-row"><label for="camp-sport">Sport*</label><select id="camp-sport" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option><option>Both</option></select></div>
+            <div class="form-row"><label for="lg-age">Athlete age / grade*</label><input type="text" id="lg-age" required></div>
+            <div class="form-row"><label for="lg-gender">Gender*</label><select id="lg-gender" required><option value="">Select one</option><option>Boy</option><option>Girl</option><option>Prefer not to say</option></select></div>
           </div>
           <div class="form-grid-2">
-            <div class="form-row"><label for="camp-experience">Experience <span class="form-optional-tag">Optional</span></label><select id="camp-experience"><option value="">Select one</option><option>New to the sport</option><option>Some experience</option><option>Experienced</option></select></div>
-            <div class="form-row"><label for="camp-availability">Preferred Days/Times <span class="form-optional-tag">Optional</span></label><input type="text" id="camp-availability"></div>
+            <div class="form-row"><label for="lg-experience">Basketball experience*</label><select id="lg-experience" required><option value="">Select one</option><option>Newer player</option><option>Recreational</option><option>Competitive</option><option>Club / school team</option></select></div>
+            <div class="form-row"><label for="lg-season">Which season are you interested in?*</label><select id="lg-season" required><option value="">Select one</option><option>Fall</option><option>Winter</option><option>Both</option></select></div>
           </div>
-          <div class="form-row"><label for="camp-when">When?</label><select id="camp-when"><option value="">Select one</option><option>This Fall</option><option>Winter Break</option><option>Not sure yet</option></select></div>
-          <div class="form-row"><label for="camp-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="camp-extra"></textarea></div>
+          <div class="form-row"><label>What can we help with? <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="lg-help">
+          <label class="chip"><input type="checkbox" id="lg-help-roster-availability" name="lg-help"><span>Roster availability</span></label>
+          <label class="chip"><input type="checkbox" id="lg-help-player-evaluation" name="lg-help"><span>Player evaluation</span></label>
+          <label class="chip"><input type="checkbox" id="lg-help-registration" name="lg-help"><span>Registration</span></label>
+          <label class="chip"><input type="checkbox" id="lg-help-practice-schedule" name="lg-help"><span>Practice schedule</span></label>
+          <label class="chip"><input type="checkbox" id="lg-help-game-schedule" name="lg-help"><span>Game schedule</span></label>
+          <label class="chip"><input type="checkbox" id="lg-help-general-league-question" name="lg-help"><span>General league question</span></label>
+        </div></div>
+          <div class="form-row"><label for="lg-extra">Anything else? <span class="form-optional-tag">Optional</span></label><textarea id="lg-extra"></textarea></div>
         </div>
 
-        <div class="cf-group" id="cf-leagues" data-interest="Basketball Leagues" hidden>
-          <div class="form-row"><label for="lg-athlete">Athlete Name <span class="form-optional-tag">Optional</span></label><input type="text" id="lg-athlete"></div>
-          <div class="form-row"><label for="lg-age">Age / Grade*</label><input type="text" id="lg-age" required></div>
-          <div class="form-grid-2">
-            <div class="form-row"><label for="lg-season">Season*</label><select id="lg-season" required><option value="">Select one</option><option>Fall</option><option>Winter</option><option>Both</option></select></div>
-            <div class="form-row"><label for="lg-experience">Experience*</label><select id="lg-experience" required><option value="">Select one</option><option>Newer to competitive play</option><option>Rec level</option><option>Competitive</option></select></div>
+        <div class="cf-group" data-cat="Court Rental / Party / Event" hidden>
+          <div class="form-row">
+            <label for="ev-planning">What are you planning?*</label>
+            <select id="ev-planning" required><option value="">Select one</option><option>Just need the court</option><option>Birthday party</option><option>Team celebration</option><option>Private / group event</option><option>Recurring group or activity</option><option>Something else</option></select>
           </div>
-          <div class="form-row"><label for="lg-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="lg-extra"></textarea></div>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="ev-date">Preferred date*</label><input type="text" id="ev-date" placeholder="MM/DD/YYYY" required></div>
+            <div class="form-row"><label for="ev-time">Preferred start time*</label><input type="text" id="ev-time" required></div>
+          </div>
+          <div class="form-row"><label for="ev-altdatetime">Alternate date / time <span class="form-optional-tag">Optional</span></label><input type="text" id="ev-altdatetime"></div>
+          <div class="form-row"><label for="ev-groupsize">Estimated group size*</label><input type="number" id="ev-groupsize" min="1" required></div>
+          <div class="form-row"><label>What are you planning to do? <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="ev-activities">
+          <label class="chip"><input type="checkbox" id="ev-activities-basketball" name="ev-activities"><span>Basketball</span></label>
+          <label class="chip"><input type="checkbox" id="ev-activities-volleyball" name="ev-activities"><span>Volleyball</span></label>
+          <label class="chip"><input type="checkbox" id="ev-activities-pickleball" name="ev-activities"><span>Pickleball</span></label>
+          <label class="chip"><input type="checkbox" id="ev-activities-fitness" name="ev-activities"><span>Fitness</span></label>
+          <label class="chip"><input type="checkbox" id="ev-activities-games-activities" name="ev-activities"><span>Games / activities</span></label>
+          <label class="chip"><input type="checkbox" id="ev-activities-meeting-gathering" name="ev-activities"><span>Meeting / gathering</span></label>
+          <label class="chip"><input type="checkbox" id="ev-activities-other" name="ev-activities"><span>Other</span></label>
+          <label class="chip"><input type="checkbox" id="ev-activities-not-sure-yet" name="ev-activities"><span>Not sure yet</span></label>
+        </div></div>
+          <div class="form-row"><label for="ev-support">What do you need from us?*</label><select id="ev-support" required><option value="">Select one</option><option>Just the space</option><option>Coach-led games / programming</option><option>Some help putting it together</option><option>Not sure yet</option></select></div>
+
+          <div class="cf-subgroup" data-show-if="ev-planning:Just need the court" hidden>
+            <div class="form-grid-2">
+              <div class="form-row"><label for="ev-duration">How long do you need?</label><select id="ev-duration"><option value="">Select one</option><option>1 hour</option><option>90 minutes</option><option>2 hours</option><option>2+ hours</option><option>Not sure</option></select></div>
+              <div class="form-row"><label for="ev-recurring">Is this:</label><select id="ev-recurring"><option value="">Select one</option><option>One time</option><option>Recurring</option><option>Not sure yet</option></select></div>
+            </div>
+            <div class="form-row" data-show-if="ev-recurring:Recurring" hidden><label for="ev-recurring-freq">How often?</label><select id="ev-recurring-freq"><option value="">Select one</option><option>Weekly</option><option>Multiple times per week</option><option>Monthly</option><option>Other</option></select></div>
+          </div>
+
+          <div class="cf-subgroup" data-show-if="ev-planning:Birthday party|Team celebration|Private / group event" hidden>
+            <div class="form-row"><label for="ev-agerange">Age range <span class="form-optional-tag">Optional</span></label><input type="text" id="ev-agerange"></div>
+            <div class="form-row"><label>What would you like the group to do? <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="ev-group-activities">
+          <label class="chip"><input type="checkbox" id="ev-group-activities-basketball" name="ev-group-activities"><span>Basketball</span></label>
+          <label class="chip"><input type="checkbox" id="ev-group-activities-volleyball" name="ev-group-activities"><span>Volleyball</span></label>
+          <label class="chip"><input type="checkbox" id="ev-group-activities-organized-games" name="ev-group-activities"><span>Organized games</span></label>
+          <label class="chip"><input type="checkbox" id="ev-group-activities-open-court-time" name="ev-group-activities"><span>Open court time</span></label>
+          <label class="chip"><input type="checkbox" id="ev-group-activities-a-mix" name="ev-group-activities"><span>A mix</span></label>
+          <label class="chip"><input type="checkbox" id="ev-group-activities-not-sure-yet" name="ev-group-activities"><span>Not sure yet</span></label>
+        </div></div>
+            <div class="form-row"><label for="ev-event-extra">Anything else we should know about the event? <span class="form-optional-tag">Optional</span></label><textarea id="ev-event-extra"></textarea></div>
+          </div>
+
+          <div class="cf-subgroup" data-show-if="ev-planning:Recurring group or activity|Something else" hidden>
+            <div class="form-row"><label for="ev-other-extra">Anything else we should know? <span class="form-optional-tag">Optional</span></label><textarea id="ev-other-extra"></textarea></div>
+          </div>
         </div>
 
-        <div class="cf-group" id="cf-open-gym" data-interest="Open Gym" hidden>
-          <div class="form-grid-2">
-            <div class="form-row"><label for="og-age">Age / Grade <span class="form-optional-tag">Optional</span></label><input type="text" id="og-age"></div>
-            <div class="form-row"><label for="og-sport">Sport <span class="form-optional-tag">Optional</span></label><select id="og-sport"><option value="">Select one</option><option>Basketball</option><option>Volleyball</option></select></div>
-          </div>
-          <div class="form-row"><label for="og-help">What do you need help with? <span class="form-optional-tag">Optional</span></label><input type="text" id="og-help"></div>
-          <div class="form-row"><label for="og-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="og-extra"></textarea></div>
-        </div>
-
-        <div class="cf-group" id="cf-court-rental" data-interest="Court Rental" hidden>
-          <div class="form-row"><label for="cr-use">What's this for?*</label><select id="cr-use" required><option value="">Select one</option><option>Team Practice</option><option>Private Event</option><option>Photo/Video Shoot</option><option>Other</option></select></div>
-          <div class="form-grid-2">
-            <div class="form-row"><label for="cr-date">Date*</label><input type="text" id="cr-date" placeholder="MM/DD/YYYY" required></div>
-            <div class="form-row"><label for="cr-time">Time*</label><input type="text" id="cr-time" required></div>
-          </div>
-          <div class="form-grid-2">
-            <div class="form-row"><label for="cr-duration">How Long? <span class="form-optional-tag">Optional</span></label><input type="text" id="cr-duration"></div>
-            <div class="form-row"><label for="cr-groupsize">Group Size <span class="form-optional-tag">Optional</span></label><input type="text" id="cr-groupsize"></div>
-          </div>
-          <div class="form-row"><label for="cr-frequency">One-Time or Recurring?</label><select id="cr-frequency"><option value="">Select one</option><option>One-Time</option><option>Recurring</option></select></div>
-          <div class="form-row"><label for="cr-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="cr-extra"></textarea></div>
-        </div>
-
-        <div class="cf-group" id="cf-birthday" data-interest="Birthday Party / Event" hidden>
-          <div class="form-row"><label for="bday-who">Who's This For?*</label><input type="text" id="bday-who" placeholder="Child's name and age" required></div>
-          <div class="form-grid-2">
-            <div class="form-row"><label for="bday-date">Date*</label><input type="text" id="bday-date" placeholder="MM/DD/YYYY" required></div>
-            <div class="form-row"><label for="bday-groupsize">Group Size*</label><input type="text" id="bday-groupsize" required></div>
-          </div>
-          <div class="form-row"><label for="bday-play">What Do You Want to Play? <span class="form-optional-tag">Optional</span></label><input type="text" id="bday-play"></div>
-          <div class="form-row"><label for="bday-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="bday-extra"></textarea></div>
-        </div>
-
-        <div class="cf-group" id="cf-coach-collective" data-interest="Coach Collective / Training Space" hidden>
+        <div class="cf-group" data-cat="Coach Collective / Training Space" hidden>
           <div class="form-row"><label for="cc-sport">Sport*</label><select id="cc-sport" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option><option>Other</option></select></div>
-          <div class="form-grid-2">
-            <div class="form-row"><label for="cc-type">Type of Training <span class="form-optional-tag">Optional</span></label><select id="cc-type"><option value="">Select one</option><option>Private Training</option><option>Small Group</option><option>Team Practice</option><option>Recurring Training</option><option>Other</option></select></div>
-            <div class="form-row"><label for="cc-groupsize">Group Size <span class="form-optional-tag">Optional</span></label><input type="text" id="cc-groupsize"></div>
-          </div>
-          <div class="form-grid-2">
-            <div class="form-row"><label for="cc-times">Days/Times <span class="form-optional-tag">Optional</span></label><input type="text" id="cc-times"></div>
-            <div class="form-row"><label for="cc-frequency">How Often?</label><select id="cc-frequency"><option value="">Select one</option><option>One-Time</option><option>Recurring</option><option>Not Sure Yet</option></select></div>
-          </div>
-          <div class="form-row"><label for="cc-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="cc-extra"></textarea></div>
+          <div class="form-row"><label>What kind of training do you run? <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="cc-type">
+          <label class="chip"><input type="checkbox" id="cc-type-private" name="cc-type"><span>Private</span></label>
+          <label class="chip"><input type="checkbox" id="cc-type-small-group" name="cc-type"><span>Small group</span></label>
+          <label class="chip"><input type="checkbox" id="cc-type-team" name="cc-type"><span>Team</span></label>
+          <label class="chip"><input type="checkbox" id="cc-type-clinics" name="cc-type"><span>Clinics</span></label>
+          <label class="chip"><input type="checkbox" id="cc-type-other" name="cc-type"><span>Other</span></label>
+        </div></div>
+          <div class="form-row"><label for="cc-groupsize">Typical group size <span class="form-optional-tag">Optional</span></label><input type="text" id="cc-groupsize"></div>
+          <div class="form-row"><label>Preferred days <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="cc-days">
+          <label class="chip"><input type="checkbox" id="cc-days-monday" name="cc-days"><span>Monday</span></label>
+          <label class="chip"><input type="checkbox" id="cc-days-tuesday" name="cc-days"><span>Tuesday</span></label>
+          <label class="chip"><input type="checkbox" id="cc-days-wednesday" name="cc-days"><span>Wednesday</span></label>
+          <label class="chip"><input type="checkbox" id="cc-days-thursday" name="cc-days"><span>Thursday</span></label>
+          <label class="chip"><input type="checkbox" id="cc-days-friday" name="cc-days"><span>Friday</span></label>
+          <label class="chip"><input type="checkbox" id="cc-days-saturday" name="cc-days"><span>Saturday</span></label>
+          <label class="chip"><input type="checkbox" id="cc-days-sunday" name="cc-days"><span>Sunday</span></label>
+          <label class="chip"><input type="checkbox" id="cc-days-flexible" name="cc-days"><span>Flexible</span></label>
+        </div></div>
+          <div class="form-row"><label>Preferred times <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="cc-times">
+          <label class="chip"><input type="checkbox" id="cc-times-morning" name="cc-times"><span>Morning</span></label>
+          <label class="chip"><input type="checkbox" id="cc-times-afternoon" name="cc-times"><span>Afternoon</span></label>
+          <label class="chip"><input type="checkbox" id="cc-times-evening" name="cc-times"><span>Evening</span></label>
+          <label class="chip"><input type="checkbox" id="cc-times-weekend" name="cc-times"><span>Weekend</span></label>
+          <label class="chip"><input type="checkbox" id="cc-times-flexible" name="cc-times"><span>Flexible</span></label>
+        </div></div>
+          <div class="form-row"><label for="cc-frequency">How often are you looking for space?</label><select id="cc-frequency"><option value="">Select one</option><option>One time</option><option>Weekly</option><option>Multiple times per week</option><option>Occasionally</option><option>Still figuring it out</option></select></div>
+          <div class="form-row"><label for="cc-about">Tell us a little about your program. <span class="form-optional-tag">Optional</span></label><textarea id="cc-about"></textarea></div>
         </div>
 
-        <div class="cf-group" id="cf-start" data-interest="Where Should My Athlete Start?" hidden>
-          <div class="form-row"><label for="start-athlete">Athlete Name <span class="form-optional-tag">Optional</span></label><input type="text" id="start-athlete"></div>
-          <div class="form-grid-2">
-            <div class="form-row"><label for="start-age">Age / Grade*</label><input type="text" id="start-age" required></div>
-            <div class="form-row"><label for="start-sport">Sport*</label><select id="start-sport" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option><option>Not sure</option></select></div>
-          </div>
-          <div class="form-row"><label for="start-looking">What Are They Looking For?</label><input type="text" id="start-looking"></div>
-          <div class="form-row"><label for="start-days">What Days Work? <span class="form-optional-tag">Optional</span></label><input type="text" id="start-days"></div>
-          <div class="form-row"><label for="start-extra">Anything Else? <span class="form-optional-tag">Optional</span></label><textarea id="start-extra"></textarea></div>
+        <div class="cf-group" data-cat="Current Member Support" hidden>
+          <div class="form-row"><label for="sup-help">What can we help with?*</label><select id="sup-help" required><option value="">Select one</option><option>Billing</option><option>Membership change</option><option>Membership cancellation</option><option>Registration</option><option>Schedule</option><option>Account / login</option><option>Program question</option><option>Something else</option></select></div>
+          <div class="form-row"><label for="sup-name">Member / athlete name*</label><input type="text" id="sup-name" required></div>
+          <div class="form-row"><label for="sup-details">Tell us what's going on.*</label><textarea id="sup-details" required></textarea></div>
+          <div class="form-row"><label for="sup-contact">Best way to reach you <span class="form-optional-tag">Optional</span></label><select id="sup-contact"><option value="">Select one</option><option>Email</option><option>Phone</option><option>Either</option></select></div>
         </div>
 
-        <div class="cf-group" id="cf-member-support" data-interest="Current Member Support" hidden>
-          <div class="form-row"><label for="sup-help">What Can We Help With?*</label><select id="sup-help" required><option value="">Select one</option><option>Billing</option><option>Membership Change</option><option>Account Access</option><option>Class Question</option><option>Other</option></select></div>
-          <div class="form-row"><label for="sup-athlete">Athlete Name <span class="form-optional-tag">Optional</span></label><input type="text" id="sup-athlete"></div>
-          <div class="form-row"><label for="sup-details">Tell Us What's Going On*</label><textarea id="sup-details" required></textarea></div>
+        <div class="cf-group" data-cat="Coaching at The Courts" hidden>
+          <div class="form-row"><label for="coach-area">Sport / area*</label><select id="coach-area" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option><option>Strength / performance</option><option>Other</option></select></div>
+          <div class="form-row"><label>What are you interested in? <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="coach-interest">
+          <label class="chip"><input type="checkbox" id="coach-interest-coaching" name="coach-interest"><span>Coaching</span></label>
+          <label class="chip"><input type="checkbox" id="coach-interest-private-training" name="coach-interest"><span>Private training</span></label>
+          <label class="chip"><input type="checkbox" id="coach-interest-camps-clinics" name="coach-interest"><span>Camps / clinics</span></label>
+          <label class="chip"><input type="checkbox" id="coach-interest-future-opportunities" name="coach-interest"><span>Future opportunities</span></label>
+          <label class="chip"><input type="checkbox" id="coach-interest-not-sure" name="coach-interest"><span>Not sure</span></label>
+        </div></div>
+          <div class="form-row"><label for="coach-experience">Tell us a little about your experience.*</label><textarea id="coach-experience" required></textarea></div>
+          <div class="form-row"><label for="coach-resume">Resume / coaching profile / LinkedIn <span class="form-optional-tag">Optional</span></label><input type="text" id="coach-resume"></div>
+          <div class="form-row"><label>General availability <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="coach-availability">
+          <label class="chip"><input type="checkbox" id="coach-availability-weekdays" name="coach-availability"><span>Weekdays</span></label>
+          <label class="chip"><input type="checkbox" id="coach-availability-weeknights" name="coach-availability"><span>Weeknights</span></label>
+          <label class="chip"><input type="checkbox" id="coach-availability-weekends" name="coach-availability"><span>Weekends</span></label>
+          <label class="chip"><input type="checkbox" id="coach-availability-flexible" name="coach-availability"><span>Flexible</span></label>
+        </div></div>
         </div>
 
-        <div class="cf-group" id="cf-coaching" data-interest="Coaching at The Courts" hidden>
-          <div class="form-grid-2">
-            <div class="form-row"><label for="coach-sport">Sport / Area*</label><select id="coach-sport" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option><option>Both</option><option>Other</option></select></div>
-            <div class="form-row"><label for="coach-interest">Interested In <span class="form-optional-tag">Optional</span></label><select id="coach-interest"><option value="">Select one</option><option>Private Training</option><option>Group Classes</option><option>Camps</option><option>Leagues</option><option>Open to anything</option></select></div>
-          </div>
-          <div class="form-row"><label for="coach-resume">Resume Link <span class="form-optional-tag">Optional</span></label><input type="text" id="coach-resume"></div>
-          <div class="form-row"><label for="coach-experience">Tell Us About Your Experience*</label><textarea id="coach-experience" required></textarea></div>
+        <div class="cf-group" data-cat="Community / Partnerships" hidden>
+          <div class="form-row"><label>What do you have in mind?* <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="comm-interest" data-chip-required="true">
+          <label class="chip"><input type="checkbox" id="comm-interest-school-partnership" name="comm-interest"><span>School partnership</span></label>
+          <label class="chip"><input type="checkbox" id="comm-interest-community-organization" name="comm-interest"><span>Community organization</span></label>
+          <label class="chip"><input type="checkbox" id="comm-interest-volunteer-opportunity" name="comm-interest"><span>Volunteer opportunity</span></label>
+          <label class="chip"><input type="checkbox" id="comm-interest-fundraiser" name="comm-interest"><span>Fundraiser</span></label>
+          <label class="chip"><input type="checkbox" id="comm-interest-team-sponsorship" name="comm-interest"><span>Team sponsorship</span></label>
+          <label class="chip"><input type="checkbox" id="comm-interest-event-sponsorship" name="comm-interest"><span>Event sponsorship</span></label>
+          <label class="chip"><input type="checkbox" id="comm-interest-equipment-partnership" name="comm-interest"><span>Equipment partnership</span></label>
+          <label class="chip"><input type="checkbox" id="comm-interest-in-gym-partnership" name="comm-interest"><span>In-gym partnership</span></label>
+          <label class="chip"><input type="checkbox" id="comm-interest-other" name="comm-interest"><span>Other</span></label>
+        </div></div>
+          <div class="form-row"><label for="comm-org">Organization / company <span class="form-optional-tag">Optional</span></label><input type="text" id="comm-org"></div>
+          <div class="form-row"><label for="comm-idea">Tell us about the idea.*</label><textarea id="comm-idea" required></textarea></div>
+          <div class="form-row"><label for="comm-timeline">Is there a date or timeline we should know about? <span class="form-optional-tag">Optional</span></label><input type="text" id="comm-timeline"></div>
+          <div class="form-row"><label for="comm-contact">Best way to follow up <span class="form-optional-tag">Optional</span></label><select id="comm-contact"><option value="">Select one</option><option>Email</option><option>Phone</option><option>Either</option></select></div>
         </div>
 
-        <div class="cf-group" id="cf-community" data-interest="Community" hidden>
-          <div class="form-row"><label for="comm-org">Organization <span class="form-optional-tag">Optional</span></label><input type="text" id="comm-org"></div>
-          <div class="form-row"><label for="comm-idea">What Do You Have in Mind?*</label><input type="text" id="comm-idea" required></div>
-          <div class="form-row"><label for="comm-details">Tell Us About It*</label><textarea id="comm-details" required></textarea></div>
-        </div>
-
-        <div class="cf-group" id="cf-partner" data-interest="Partner" hidden>
-          <div class="form-row"><label for="partner-company">Company*</label><input type="text" id="partner-company" required></div>
-          <div class="form-row"><label for="partner-interest">What Are You Interested In? <span class="form-optional-tag">Optional</span></label><input type="text" id="partner-interest"></div>
-          <div class="form-row"><label for="partner-details">Tell Us What You Have in Mind*</label><textarea id="partner-details" required></textarea></div>
-        </div>
-
-        <div class="cf-group" id="cf-something-else" data-interest="Something Else" hidden>
-          <div class="form-row"><label for="other-details">What Can We Help With?*</label><textarea id="other-details" required></textarea></div>
+        <div class="cf-group" data-cat="Something Else" hidden>
+          <div class="form-row"><label for="other-details">What can we help with?*</label><textarea id="other-details" required></textarea></div>
         </div>
 
         <p class="cf-minor-note" id="cfMinorNote" hidden>For athletes under 13, this form should be completed by a parent or guardian.</p>
@@ -349,12 +519,12 @@
 </section>
 
 <style>
-  .contact-form-wrap .form-row { margin-bottom: 32px; }
+  .contact-form-wrap .form-row { margin-bottom: 30px; }
   .contact-form-wrap .form-row label {
     display: block; font-family: var(--font-sport); font-weight: 700; font-size: 12.5px; text-transform: uppercase;
     letter-spacing: 0.08em; color: var(--gray-dark); margin-bottom: 10px;
   }
-  .form-optional-tag { text-transform: none; font-weight: 500; letter-spacing: 0; color: var(--gray-dark); }
+  .form-optional-tag { text-transform: none; font-weight: 500; letter-spacing: 0; color: var(--gray-dark); font-style: italic; }
   .contact-form-wrap .form-row input,
   .contact-form-wrap .form-row select,
   .contact-form-wrap .form-row textarea {
@@ -374,15 +544,27 @@
   .contact-form-wrap .form-row.field-invalid input,
   .contact-form-wrap .form-row.field-invalid select,
   .contact-form-wrap .form-row.field-invalid textarea { border-bottom-color: #C0392B; }
-  .contact-form-wrap .form-row .field-error {
-    display: none; font-size: 13px; color: #C0392B; margin-top: 8px;
-  }
-  .contact-form-wrap .form-row.field-invalid .field-error { display: block; }
+  .contact-form-wrap .form-row .field-error,
+  .contact-form-wrap .chip-group-error { display: none; font-size: 13px; color: #C0392B; margin-top: 8px; }
+  .contact-form-wrap .form-row.field-invalid .field-error,
+  .contact-form-wrap .field-invalid .chip-group-error { display: block; }
   .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
-  .cf-group { padding-top: 6px; margin-bottom: 6px; border-top: 1px solid var(--gray-mid); padding-top: 30px; margin-top: 6px; }
+  .cf-group { padding-top: 28px; margin-top: 4px; border-top: 1px solid var(--gray-mid); }
+  .cf-subgroup { padding-left: 18px; border-left: 2px solid var(--gray-mid); margin: -6px 0 30px; }
+  .cf-subgroup .form-row:last-child { margin-bottom: 6px; }
   .cf-minor-note { font-size: 13px; color: var(--gray-dark); margin: -12px 0 28px; }
+  .chip-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 2px; }
+  .chip { position: relative; cursor: pointer; }
+  .chip input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .chip span {
+    display: inline-flex; align-items: center; padding: 10px 18px; border-radius: 999px;
+    border: 1.5px solid var(--gray-mid); background: var(--white); font-size: 14.5px; font-weight: 600;
+    color: var(--black); transition: border-color 0.15s var(--ease), background 0.15s var(--ease), color 0.15s var(--ease);
+  }
+  .chip input:checked + span { border-color: var(--orange); background: var(--orange-soft); color: var(--orange-ink); }
+  .chip input:focus-visible + span { outline: 2px solid var(--orange); outline-offset: 2px; }
   @media (max-width: 560px) { .form-grid-2 { grid-template-columns: 1fr; } }
-  @media (prefers-reduced-motion: reduce) { .contact-form-wrap .form-row input, .contact-form-wrap .form-row select, .contact-form-wrap .form-row textarea, .link, .pre-footer-link { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .contact-form-wrap .form-row input, .contact-form-wrap .form-row select, .contact-form-wrap .form-row textarea, .chip span, .link, .pre-footer-link { transition: none; } }
 </style>
 
 <section class="orange-door-section">

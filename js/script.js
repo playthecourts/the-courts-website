@@ -44,82 +44,100 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ---------- Contact form: conditional field groups ---------- */
-  const interestSelect = document.getElementById('cInterest');
-  if (interestSelect) {
-    const groups = [...document.querySelectorAll('.cf-group')];
+  const contactForm = document.getElementById('contactForm');
+  const helpSelect = document.getElementById('cHelp');
+  if (contactForm && helpSelect) {
     const minorNote = document.getElementById('cfMinorNote');
-    const athleteInterests = [
-      'Membership', 'Private Training', 'Camps + Clinics', 'Basketball Leagues',
-      'Where Should My Athlete Start?', 'Open Gym', 'Birthday Party / Event'
-    ];
+    const athleteCategories = ['Programs + Membership', 'Private Training', 'Basketball Leagues'];
 
-    const updateConditionalFields = () => {
-      const val = interestSelect.value;
-      groups.forEach(group => { group.hidden = group.dataset.interest !== val; });
-      if (minorNote) minorNote.hidden = !athleteInterests.includes(val);
+    const evaluateVisibility = () => {
+      document.querySelectorAll('[data-cat]').forEach(el => {
+        el.hidden = el.dataset.cat !== helpSelect.value;
+      });
+      document.querySelectorAll('[data-show-if]').forEach(el => {
+        const [fieldId, valuesRaw] = el.dataset.showIf.split(':');
+        const field = document.getElementById(fieldId);
+        el.hidden = !(field && valuesRaw.split('|').includes(field.value));
+      });
+      document.querySelectorAll('[data-reveal-if]').forEach(el => {
+        const cb = document.getElementById(el.dataset.revealIf);
+        el.hidden = !(cb && cb.checked);
+      });
+      if (minorNote) minorNote.hidden = !athleteCategories.includes(helpSelect.value);
     };
 
     const interestParam = new URLSearchParams(window.location.search).get('interest');
     if (interestParam) {
-      const match = [...interestSelect.options].find(o => o.value === interestParam);
-      if (match) interestSelect.value = interestParam;
+      const match = [...helpSelect.options].find(o => o.value === interestParam);
+      if (match) helpSelect.value = interestParam;
     }
     document.querySelectorAll('[data-preset]').forEach(el => {
       el.addEventListener('click', () => {
         const val = el.dataset.preset;
-        const match = [...interestSelect.options].find(o => o.value === val);
-        if (match) interestSelect.value = val;
-        updateConditionalFields();
+        const match = [...helpSelect.options].find(o => o.value === val);
+        if (match) helpSelect.value = val;
+        evaluateVisibility();
       });
     });
-    interestSelect.addEventListener('change', updateConditionalFields);
-    updateConditionalFields();
-  }
+    contactForm.addEventListener('change', evaluateVisibility);
+    evaluateVisibility();
 
-  /* ---------- Contact form submit (visual only, with inline validation) ---------- */
-  const contactForm = document.getElementById('contactForm');
-  if (contactForm) {
+    /* ---------- Contact form submit (visual only, with inline validation) ---------- */
     const errorMessages = {
       cName: 'Enter your name',
       cEmail: 'Add an email so we know where to reply',
-      cInterest: 'Choose what you\'re interested in'
+      cHelp: 'Choose what we can help with'
     };
-    const showError = (field, msg) => {
-      const row = field.closest('.form-row');
-      if (!row) return;
+    const showError = (row, msg) => {
       row.classList.add('field-invalid');
-      let err = row.querySelector('.field-error');
+      let err = row.querySelector('.field-error, .chip-group-error');
       if (!err) {
         err = document.createElement('span');
-        err.className = 'field-error';
+        err.className = row.classList.contains('chip-group') ? 'chip-group-error' : 'field-error';
         row.appendChild(err);
       }
       err.textContent = msg;
     };
-    const clearError = field => {
-      const row = field.closest('.form-row');
-      if (row) row.classList.remove('field-invalid');
-    };
+    const clearError = row => row.classList.remove('field-invalid');
+    const isVisible = el => el.offsetParent !== null;
 
     contactForm.querySelectorAll('input, select, textarea').forEach(field => {
-      field.addEventListener('input', () => clearError(field));
-      field.addEventListener('change', () => clearError(field));
+      const clear = () => { const row = field.closest('.form-row'); if (row) clearError(row); };
+      field.addEventListener('input', clear);
+      field.addEventListener('change', clear);
     });
 
     contactForm.addEventListener('submit', e => {
       e.preventDefault();
       let valid = true;
+
       contactForm.querySelectorAll('[required]').forEach(field => {
-        const visible = field.offsetParent !== null;
-        if (!visible) return;
+        if (!isVisible(field)) return;
+        const row = field.closest('.form-row');
         if (!field.value.trim()) {
           valid = false;
-          showError(field, errorMessages[field.id] || 'This field is required');
+          showError(row, errorMessages[field.id] || 'This field is required');
         } else {
-          clearError(field);
+          clearError(row);
         }
       });
-      if (!valid) return;
+
+      contactForm.querySelectorAll('.chip-group[data-chip-required]').forEach(group => {
+        if (!isVisible(group)) return;
+        const checked = group.querySelector('input[type="checkbox"]:checked');
+        if (!checked) {
+          valid = false;
+          showError(group, 'Choose at least one');
+        } else {
+          clearError(group);
+        }
+      });
+
+      if (!valid) {
+        const firstInvalid = contactForm.querySelector('.field-invalid');
+        if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
 
       const success = document.getElementById('contactFormSuccess');
       contactForm.reset();
