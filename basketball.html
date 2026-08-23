@@ -12,11 +12,168 @@
 <link rel="icon" type="image/png" sizes="16x16" href="images/brand/favicon-16.png">
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="css/styles.css">
+<style>
+  /* ================= Basketball page — editorial system (bb-*) ================= */
+
+  /* ---------- Announcement bar ---------- */
+  .bb-announce { display: block; position: fixed; left: 0; right: 0; top: 0; z-index: 101; background: var(--orange); color: var(--white); text-align: center; padding: 11px 20px; font-family: var(--font-sport); font-weight: 700; font-size: 13.5px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .bb-announce .arrow { display: inline-block; transition: transform 0.2s var(--ease); margin-left: 2px; }
+  .bb-announce:hover { background: var(--orange-hover); }
+  .bb-announce:hover .arrow { transform: translateX(3px); }
+  .nav#nav { top: 42px; }
+
+  /* ---------- Hero ---------- */
+  .bb-hero { background: var(--gray-light); overflow: hidden; position: relative; }
+  .bb-hero-grid { display: grid; grid-template-columns: 1.35fr 0.65fr; align-items: stretch; min-height: 520px; }
+  .bb-hero-copy { display: flex; flex-direction: column; justify-content: center; padding: 168px 24px 72px clamp(24px,6vw,88px); position: relative; z-index: 2; }
+  .bb-hero-copy .eyebrow { font-size: 19px; letter-spacing: 0.1em; text-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .bb-hero-title { font-family: var(--font-display); font-weight: 900; line-height: 0.94; margin: 16px 0 24px; font-size: clamp(44px, 6.4vw, 84px); }
+  .bb-hero-title > span { display: block; }
+  .bb-hero-title .accent { color: var(--orange); }
+  .bb-hero-sub { font-size: 17.5px; line-height: 1.75; color: var(--gray-dark); max-width: 42ch; margin: 0 0 36px; }
+  .bb-hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
+  .bb-hero-media { position: relative; overflow: hidden; }
+  .bb-hero-media .bb-hero-photo { position: absolute; top: 9%; right: 6%; left: 10%; bottom: 7%; border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 40px 70px rgba(0,0,0,0.28); }
+  .bb-hero-media .bb-hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; }
+  .bb-hero-baseline { position: absolute; left: 0; bottom: 9%; width: 22%; height: 3px; background: var(--orange); z-index: 3; }
+  .bb-hero-arc { position: absolute; inset: 0; z-index: 3; pointer-events: none; width: 100%; height: 100%; }
+  @media (max-width: 980px) {
+    .bb-hero-grid { grid-template-columns: 1fr; min-height: 0; }
+    .bb-hero-copy { padding: 136px 24px 28px; }
+    .bb-hero-media { aspect-ratio: 4/2.6; max-width: 420px; margin: 0 auto 56px; }
+    .bb-hero-media .bb-hero-photo { top: 4%; right: 0; left: 0; bottom: 4%; }
+    .bb-hero-baseline { display: none; }
+  }
+
+  /* ---------- Section head (reused pattern) ---------- */
+  .bb-head { max-width: 660px; margin: 0 auto 8px; text-align: center; }
+  .bb-head .eyebrow { font-size: 19px; letter-spacing: 0.1em; text-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .bb-head h2 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(28px, 4vw, 42px); line-height: 1.1; margin: 0; }
+  .bb-head p { font-size: 16.5px; line-height: 1.65; color: var(--gray-dark); max-width: 56ch; margin: 14px auto 0; }
+  .bb-train-section { background: var(--white); padding: 96px 0 0; }
+
+  /* ---------- Handle / Shoot / Read / Compete sequence (compact 4-up) ---------- */
+  .bb-sequence { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 48px; align-items: start; }
+  .bb-seq-row { position: relative; }
+  .bb-seq-media { position: relative; aspect-ratio: 4/3.2; overflow: hidden; border-radius: var(--radius-md); margin-bottom: 16px; }
+  .bb-seq-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .bb-seq-label { font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--orange); margin: 0 0 8px; display: block; }
+  .bb-seq-row h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2vw, 26px); line-height: 1; margin: 0 0 6px; }
+  .bb-seq-row p { font-size: 14.5px; line-height: 1.55; color: var(--gray-dark); margin: 0; }
+  .bb-seq-zinger { font-family: var(--font-heading); font-style: italic; font-weight: 600; font-size: 13.5px; color: var(--orange); margin: 10px 0 0; }
+  .bb-seq-again { position: absolute; top: 10px; right: 10px; z-index: 2; font-family: var(--font-sport); font-weight: 700; font-size: 10.5px; letter-spacing: 0.12em; color: var(--white); background: rgba(23,23,23,0.55); padding: 5px 10px; border-radius: 999px; transform: rotate(-4deg); }
+  .bb-seq-graphic { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0.9; }
+  .bb-seq-graphic .dot { fill: var(--orange); opacity: 0; transition: opacity 0.5s var(--ease); }
+  .bb-seq-graphic.in-view .dot { opacity: 1; }
+  .bb-seq-graphic .dot:nth-child(1) { transition-delay: 0.05s; }
+  .bb-seq-graphic .dot:nth-child(2) { transition-delay: 0.2s; }
+  .bb-seq-graphic .dot:nth-child(3) { transition-delay: 0.35s; }
+  .bb-seq-graphic .line { stroke: var(--gray-mid); stroke-width: 1.5; stroke-dasharray: 4 5; fill: none; }
+  .bb-seq-row--04 { background: var(--black); color: var(--white); border-radius: var(--radius-md); padding: 16px 16px 20px; }
+  .bb-seq-row--04 .bb-seq-media { margin: 0 0 16px; }
+  .bb-seq-row--04 p { color: rgba(255,255,255,0.78); }
+  @media (max-width: 900px) {
+    .bb-sequence { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; }
+  }
+  @media (max-width: 560px) {
+    .bb-sequence { grid-template-columns: 1fr; max-width: 360px; margin-left: auto; margin-right: auto; }
+  }
+
+  /* ---------- Transition beat ---------- */
+  .bb-transition { background: var(--black); color: var(--white); padding: 120px 0; text-align: center; overflow: hidden; position: relative; }
+  .bb-transition h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(38px, 8.5vw, 96px); line-height: 0.98; letter-spacing: -0.01em; margin: 0; position: relative; z-index: 2; }
+  .bb-transition h2 .accent { color: var(--orange); }
+  .bb-transition-glow { position: absolute; left: 50%; top: 50%; width: 760px; height: 760px; max-width: 130vw; max-height: 130vw; background: radial-gradient(circle, rgba(213,96,31,0.4), rgba(213,96,31,0) 68%); transform: translate(-50%,-50%); z-index: 1; pointer-events: none; }
+  .bb-transition-ring { position: absolute; left: 50%; top: 50%; width: 560px; height: 560px; max-width: 110vw; max-height: 110vw; border: 2px dashed rgba(213,96,31,0.45); border-radius: 50%; transform: translate(-50%,-50%); z-index: 1; pointer-events: none; animation: bbSpin 50s linear infinite; }
+  .bb-transition-ring--inner { width: 400px; height: 400px; max-width: 82vw; max-height: 82vw; border-color: rgba(213,96,31,0.28); animation-duration: 36s; animation-direction: reverse; }
+
+  /* ---------- Development by age ---------- */
+  .bb-dev { background: var(--gray-light); padding: 56px 0 96px; }
+  .bb-dev-track { position: relative; max-width: 920px; margin: 56px auto 0; padding: 0 12px; }
+  .bb-dev-line-track { position: relative; height: 3px; background: var(--gray-mid); border-radius: 3px; }
+  .bb-dev-line-fill { position: absolute; left: 0; top: 0; height: 100%; width: 0; background: var(--orange); border-radius: 3px; transition: width 1.1s var(--ease); }
+  .bb-dev-line-fill.in-view { width: 100%; }
+  .bb-dev-stops { display: flex; justify-content: space-between; margin-top: -8px; position: relative; z-index: 2; }
+  .bb-dev-stop-dot { width: 18px; height: 18px; border-radius: 50%; background: var(--white); border: 3px solid var(--orange); }
+  .bb-dev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 44px; }
+  .bb-dev-item { display: flex; flex-direction: column; }
+  .bb-dev-photo { border-radius: var(--radius-md); overflow: hidden; margin-bottom: 22px; aspect-ratio: 4/3.3; }
+  .bb-dev-item:nth-child(2) .bb-dev-photo { aspect-ratio: 4/3.5; }
+  .bb-dev-item:nth-child(3) .bb-dev-photo { aspect-ratio: 4/3.7; }
+  .bb-dev-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .bb-dev-range { font-family: var(--font-sport); font-size: clamp(18px, 2vw, 24px); font-weight: 800; letter-spacing: 0.02em; text-transform: uppercase; color: var(--orange); margin: 0 0 10px; line-height: 1; }
+  .bb-dev-item h3 { font-family: var(--font-display); font-weight: 900; line-height: 1.04; margin: 0 0 12px; }
+  .bb-dev-item:nth-child(1) h3 { font-size: clamp(22px, 2.2vw, 27px); }
+  .bb-dev-item:nth-child(2) h3 { font-size: clamp(23px, 2.3vw, 29px); }
+  .bb-dev-item:nth-child(3) h3 { font-size: clamp(24px, 2.5vw, 31px); }
+  .bb-dev-item p { font-size: 15.5px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 12px; }
+  .bb-dev-item .bb-dev-closing { font-weight: 700; color: var(--black); font-size: 15px; margin: 0; }
+  .bb-dev-cta { text-align: center; margin-top: 52px; }
+  @media (max-width: 900px) {
+    .bb-dev-grid { grid-template-columns: 1fr; gap: 44px; }
+    .bb-dev-stops { display: none; }
+  }
+
+  /* ---------- More Basketball grid (basic cards) ---------- */
+  .bb-more { background: var(--gray-light); padding: 48px 0 100px; }
+  .bb-head p.bb-more-intro { line-height: 2.15; }
+  .bb-more-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 40px; }
+  .bb-way-tile { position: relative; border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; background: var(--white); border: 1px solid var(--gray-mid); box-shadow: 0 1px 2px rgba(0,0,0,0.04); transition: box-shadow 0.2s var(--ease), transform 0.2s var(--ease); }
+  .bb-way-tile:hover { box-shadow: 0 10px 24px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .bb-way-tile .photo-bg { position: relative; height: 150px; overflow: hidden; }
+  .bb-way-tile .photo-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .bb-way-body { padding: 22px 22px 24px; }
+  .bb-way-label { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange); margin: 0 0 8px; }
+  .bb-way-name { font-family: var(--font-display); font-weight: 900; font-size: 19px; margin: 0 0 8px; line-height: 1.1; color: var(--black); }
+  .bb-way-copy { font-size: 13.5px; line-height: 1.55; color: var(--gray-dark); margin: 0 0 14px; }
+  .bb-way-link { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 13.5px; color: var(--black); }
+  .bb-way-link .arrow { transition: transform 0.2s var(--ease); color: var(--orange); }
+  .bb-way-tile:hover .bb-way-link .arrow { transform: translateX(4px); }
+  .bb-way-link--pill { color: var(--white); background: var(--orange); padding: 9px 16px; border-radius: 999px; transition: background 0.2s var(--ease); margin-top: 4px; }
+  .bb-way-link--pill .arrow { color: var(--white); }
+  .bb-way-tile:hover .bb-way-link--pill { background: var(--orange-hover); }
+  .bb-way--drdish .photo-bg { background: var(--black); }
+  @media (max-width: 640px) {
+    .bb-more-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ---------- Membership strip ---------- */
+  .bb-membership { background: var(--black); color: var(--white); padding: 88px 0; }
+  .bb-membership-inner { max-width: 920px; margin: 0 auto; text-align: center; }
+  .bb-membership .eyebrow { font-size: clamp(20px, 2.6vw, 28px); letter-spacing: 0.06em; font-weight: 800; }
+  .bb-membership h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(19px, 4.4vw, 46px); margin: 12px 0 16px; white-space: nowrap; }
+  .bb-membership p { color: rgba(255,255,255,0.72); font-size: 16.5px; line-height: 1.7; margin: 0 0 44px; }
+  .bb-mem-track { position: relative; margin: 0 auto 44px; max-width: 560px; }
+  .bb-mem-line-track { position: relative; height: 2px; background: rgba(255,255,255,0.18); }
+  .bb-mem-line-fill { position: absolute; left: 0; top: 0; height: 100%; width: 0; background: var(--orange); transition: width 1.1s var(--ease); }
+  .bb-mem-line-fill.in-view { width: 100%; }
+  .bb-mem-steps { display: flex; justify-content: space-between; margin-top: -6px; }
+  .bb-mem-step { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .bb-mem-dot { width: 13px; height: 13px; border-radius: 50%; background: var(--orange); border: none; }
+  .bb-mem-step--featured .bb-mem-dot { background: var(--orange); border-color: var(--orange); width: 15px; height: 15px; }
+  .bb-mem-label { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.65); }
+  .bb-mem-step--featured .bb-mem-label { color: var(--white); }
+  @media (max-width: 600px) { .bb-mem-label { font-size: 10.5px; } }
+
+  /* ---------- Final CTA ---------- */
+  .bb-final { background: var(--charcoal); color: var(--white); padding: 90px 0; position: relative; overflow: hidden; text-align: center; }
+  .bb-final-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(48px, 9vw, 120px); line-height: 0.9; margin: 0; position: relative; z-index: 2; }
+  .bb-final-title .accent { color: var(--orange); }
+  .bb-final-glow { position: absolute; left: 50%; top: 50%; width: 760px; height: 760px; max-width: 130vw; max-height: 130vw; background: radial-gradient(circle, rgba(213,96,31,0.4), rgba(213,96,31,0) 68%); transform: translate(-50%,-50%); z-index: 1; pointer-events: none; }
+  .bb-final-ring { position: absolute; left: 50%; top: 50%; width: 540px; height: 540px; max-width: 100vw; max-height: 100vw; border: 2px dashed rgba(213,96,31,0.45); border-radius: 50%; transform: translate(-50%,-50%); z-index: 1; pointer-events: none; animation: bbSpin 50s linear infinite; }
+  .bb-final-ring--inner { width: 380px; height: 380px; max-width: 76vw; max-height: 76vw; border-color: rgba(213,96,31,0.28); animation-duration: 36s; animation-direction: reverse; }
+  @keyframes bbSpin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+  @media (max-width: 900px) {
+    .bb-final-title { font-size: clamp(40px, 14vw, 72px); }
+  }
+</style>
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to main content</a>
 
-<header class="nav" id="nav">
+<a href="leagues.html" class="bb-announce">Fall League Registration Is Now Open <span class="arrow">→</span></a>
+
+<header class="nav nav-solid" id="nav">
   <div class="container nav-inner">
     <a href="index.html" class="brand">
       <img class="brand-mark brand-mark--wordmark brand-mark--dark" src="images/brand/logo-horizontal.svg" alt="The Courts">
@@ -31,7 +188,8 @@
           <a href="private-coaching.html">Private Training</a>
           <a href="camps.html">Camps &amp; Clinics</a>
           <a href="leagues.html">Leagues</a>
-          <a href="events.html#rhythm">Open Play</a>
+          <a href="events.html#rhythm">Open Gym</a>
+          <a href="schedule.html">Dr. Dish</a>
         </div>
       </div>
       <div class="nav-item">
@@ -65,13 +223,15 @@
           <a href="about.html">Our Story</a>
           <a href="about.html#how-we-play">How We Play</a>
           <a href="about.html#meet-the-team">Meet the Team</a>
-          <a href="community.html">Community</a>
+          <a href="coach-collective.html">Coach Collective</a>
+          <a href="about.html#community">Community</a>
+          <a href="about.html#partner">Partner</a>
         </div>
       </div>
       <div class="nav-item"><a href="contact.html">Contact</a></div>
     </nav>
     <div class="nav-cta">
-      <a href="contact.html" class="btn btn-secondary">Contact</a>
+      <a href="member-portal.html" class="btn btn-secondary">Login</a>
       <a href="membership.html" class="btn btn-primary">Become a Member</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
@@ -87,7 +247,8 @@
       <a href="private-coaching.html">Private Training</a>
       <a href="camps.html">Camps &amp; Clinics</a>
       <a href="leagues.html">Leagues</a>
-      <a href="events.html#rhythm">Open Play</a>
+      <a href="events.html#rhythm">Open Gym</a>
+      <a href="schedule.html">Dr. Dish</a>
     </div>
   </div>
   <div class="mobile-nav-group">
@@ -122,49 +283,223 @@
       <a href="about.html">Our Story</a>
       <a href="about.html#how-we-play">How We Play</a>
       <a href="about.html#meet-the-team">Meet the Team</a>
-      <a href="community.html">Community</a>
+      <a href="coach-collective.html">Coach Collective</a>
+      <a href="about.html#community">Community</a>
+      <a href="about.html#partner">Partner</a>
     </div>
   </div>
   <a href="contact.html">Contact</a>
   <a href="membership.html" class="btn btn-primary btn-block">Become a Member</a>
 </div>
 
-<section class="page-hero" id="main">
-  <div class="photo" role="img" aria-label="A basketball athlete mid-move on the hardwood at The Courts"></div>
-  <div class="container page-hero-inner">
-    <div class="breadcrumb"><a href="index.html">Home</a> / <a href="programs.html">Programs</a> / <span class="current">Basketball</span></div>
-    <span class="eyebrow eyebrow--light" style="font-size:20px;">Basketball</span>
-    <h1 class="page-hero-title">Get Better. Play Better.</h1>
-    <p class="page-hero-sub">Great players aren't built standing in line.<br><br>We focus on the fundamentals, meaningful reps, real feedback, and plenty of opportunities to put it all into play.</p>
-    <div class="hero-ctas" style="margin-top:32px;">
-      <a href="schedule.html?sport=basketball" class="btn btn-primary">View Basketball Schedule →</a>
-      <a href="contact.html?interest=Basketball#contact-form" class="btn btn-on-dark" data-preset="Basketball">Get Started →</a>
+<section class="bb-hero" id="main">
+  <div class="bb-hero-grid">
+    <div class="bb-hero-copy">
+      <span class="eyebrow">Basketball</span>
+      <h1 class="bb-hero-title">
+        <span>Get Better<span class="accent">.</span></span>
+        <span>Play Better<span class="accent">.</span></span>
+      </h1>
+      <div class="bb-hero-ctas">
+        <a href="schedule.html?sport=basketball" class="btn btn-primary">View Basketball Schedule →</a>
+        <a href="membership.html" class="btn btn-secondary">Get Started →</a>
+      </div>
+    </div>
+    <div class="bb-hero-media">
+      <div class="bb-hero-photo"><img src="images/basketball-dribble-cones.jpg" alt="A basketball athlete low in a dribble move during a cone drill."></div>
+      <div class="bb-hero-baseline"></div>
+      <svg class="bb-hero-arc" viewBox="0 0 400 400" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M20,340 Q220,380 380,180" fill="none" stroke="var(--orange)" stroke-width="2" opacity="0.75"/>
+      </svg>
     </div>
   </div>
 </section>
 
-<section style="padding:90px 0 80px;">
+<section class="bb-train-section">
   <div class="container">
-    <div class="section-head center">
-      <span class="eyebrow" style="font-size:20px;">How We Train</span>
-      <h2 class="section-title" style="margin-bottom:10px;">Learn It. Rep It. Play.</h2>
-      <p class="section-sub" style="margin:0 auto;">Strong fundamentals come first. Then we add speed, pressure, decision-making, and competition so the work actually shows up in the game.</p>
+    <div class="bb-head reveal">
+      <span class="eyebrow">How We Train</span>
+      <h2>Learn It. Rep It. Use It.</h2>
+      <p>Anybody can look good when everything goes exactly as planned.<br>We build the skill, rep it, speed it up, add pressure,<br>and make players figure out what comes next.<br>Because the game doesn't wait for you to get comfortable.</p>
     </div>
-    <div class="train-row">
-      <div class="train-item"><h4>Handle</h4><p>Control. Footwork. Pace.</p></div>
-      <div class="train-item"><h4>Shoot</h4><p>Mechanics. Balance. Reps.</p></div>
-      <div class="train-item"><h4>Read</h4><p>Awareness. Decisions. IQ.</p></div>
-      <div class="train-item"><h4>Compete</h4><p>Pressure. Confidence. Play.</p></div>
+
+    <div class="bb-sequence">
+      <div class="bb-seq-row bb-seq-row--01 reveal">
+        <div class="bb-seq-media"><img src="images/basketball-hero.jpg" alt="An athlete's basketball shoes moving through an agility ladder drill, working on footwork."></div>
+        <span class="bb-seq-label">01</span>
+        <h3>Handle</h3>
+        <p class="bb-seq-zinger">Get them leaning. Go the other way.</p>
+      </div>
+
+      <div class="bb-seq-row bb-seq-row--02 reveal">
+        <div class="bb-seq-media">
+          <img src="images/coach-shooting-form.jpg" alt="A coach helping an athlete work through their shooting form.">
+        </div>
+        <span class="bb-seq-label">02</span>
+        <h3>Shoot</h3>
+        <p class="bb-seq-zinger">Wide open is the easy part.</p>
+      </div>
+
+      <div class="bb-seq-row bb-seq-row--03 reveal">
+        <div class="bb-seq-media">
+          <img src="images/court-floor-detail.jpg" alt="An abstract detail of hardwood court lines.">
+          <svg class="bb-seq-graphic" viewBox="0 0 400 300" aria-hidden="true">
+            <path class="line" d="M40,240 L200,120 L360,180"/>
+            <circle class="dot" cx="40" cy="240" r="7"/>
+            <circle class="dot" cx="200" cy="120" r="7"/>
+            <circle class="dot" cx="360" cy="180" r="7"/>
+          </svg>
+        </div>
+        <span class="bb-seq-label">03</span>
+        <h3>Read</h3>
+        <p class="bb-seq-zinger">The right move beats the fancy one.</p>
+      </div>
+
+      <div class="bb-seq-row bb-seq-row--04 reveal">
+        <div class="bb-seq-media"><img src="images/private-training-dribble.jpg" alt="An athlete pushing hard through a two-ball dribble drill under pressure."></div>
+        <span class="bb-seq-label">04</span>
+        <h3>Compete</h3>
+        <p class="bb-seq-zinger">Enough rehearsing. Let's play basketball.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="final-cta">
+<section class="bb-transition">
+  <div class="bb-transition-glow" aria-hidden="true"></div>
+  <div class="bb-transition-ring" aria-hidden="true"></div>
+  <div class="bb-transition-ring bb-transition-ring--inner" aria-hidden="true"></div>
   <div class="container">
-    <span class="eyebrow" style="font-size:20px;">Your Court Is Waiting.</span>
-    <h2>Let's <span class="accent">Play.</span></h2>
-    <p>Come once a week. Come every chance you get.<br>Just come ready to work.</p>
-    <div class="ctas"><a href="schedule.html?sport=basketball" class="btn btn-primary">View Basketball Schedule →</a><a href="membership.html" class="btn btn-on-dark">Explore Membership →</a></div>
+    <h2 class="reveal">Because Eventually,<br>It Has to Work<br>in a <span class="accent">Game.</span></h2>
+  </div>
+</section>
+
+<section class="bb-dev" id="development">
+  <div class="container">
+    <div class="bb-head reveal">
+      <span class="eyebrow">Start Here. Keep Going.</span>
+      <h2>The Work Changes as They Do.</h2>
+      <p>A 7-year-old and a 15-year-old shouldn't be doing the same workout.<br>The fundamentals stay. The speed, pressure, and expectations<br>grow with the player.</p>
+    </div>
+
+    <div class="bb-dev-track reveal">
+      <div class="bb-dev-line-track"><span class="bb-dev-line-fill" id="devLineFill"></span></div>
+      <div class="bb-dev-stops"><span class="bb-dev-stop-dot"></span><span class="bb-dev-stop-dot"></span><span class="bb-dev-stop-dot"></span></div>
+    </div>
+
+    <div class="bb-dev-grid">
+      <div class="bb-dev-item reveal">
+        <div class="bb-dev-photo"><img src="images/team-listening.jpg" alt="A young group of athletes listening to a coach during a basketball session."></div>
+        <span class="bb-dev-range">Ages 6–9</span>
+        <h3>Build the Base.</h3>
+        <p>Ball control. Footwork. Shooting mechanics. Lots of touches.</p>
+        <p class="bb-dev-closing">Learn the game. Love playing it.<br>Ask for one more shot.</p>
+      </div>
+      <div class="bb-dev-item reveal">
+        <div class="bb-dev-photo"><img src="images/leagues-huddle.jpg" alt="A group of teammates and a coach in a huddle before a game."></div>
+        <span class="bb-dev-range">Ages 10–13</span>
+        <h3>Add Speed.<br>Add Decisions.</h3>
+        <p>Stronger fundamentals. Faster reads.<br>More competition.</p>
+        <p class="bb-dev-closing">Less thinking about the move.<br>More knowing when to use it.</p>
+      </div>
+      <div class="bb-dev-item reveal">
+        <div class="bb-dev-photo"><img src="images/sweat-detail.jpg" alt="A close, intense detail shot from a high-level basketball training session."></div>
+        <span class="bb-dev-range">Ages 14+</span>
+        <h3>Make It Game Ready.</h3>
+        <p>Sharper reps. Smarter decisions.<br>More pressure. More purpose.</p>
+        <p class="bb-dev-closing">The little stuff is the big stuff now.</p>
+      </div>
+    </div>
+
+    <div class="bb-dev-cta reveal">
+      <a href="schedule.html?sport=basketball" class="btn btn-primary">Find a Basketball Session →</a>
+    </div>
+  </div>
+</section>
+
+<section class="bb-more" id="more-basketball">
+  <div class="container">
+    <div class="bb-head reveal">
+      <span class="eyebrow">More Basketball</span>
+      <h2>Good Thing We Have a Court.</h2>
+      <p class="bb-more-intro">Work on your game. Get shots up. Play in a league.<br>Come mess around at Open Gym.<br>There's almost always a reason to bring your shoes.</p>
+    </div>
+
+    <div class="bb-more-grid">
+      <a href="private-coaching.html" class="bb-way-tile bb-way--private reveal">
+        <div class="photo-bg"><img src="images/gear-bottle-shoes.jpg" alt="Training gear set out courtside before a private training session."></div>
+        <div class="bb-way-body">
+          <p class="bb-way-label">One-on-One + Small Group</p>
+          <h3 class="bb-way-name">Private Training</h3>
+          <p class="bb-way-copy">The handle that disappears under pressure. The shot that keeps drifting. The left hand you keep avoiding. Yeah. That thing. One-on-one or small-group training built around exactly what needs attention.</p>
+          <span class="bb-way-link">Explore Private Training <span class="arrow">→</span></span>
+        </div>
+      </a>
+      <a href="camps.html" class="bb-way-tile bb-way--camps reveal">
+        <div class="photo-bg"><img src="images/team-listening.jpg" alt="A group of young athletes listening to a coach during a camp session."></div>
+        <div class="bb-way-body">
+          <p class="bb-way-label">School Breaks + Weekends</p>
+          <h3 class="bb-way-name">Camps + Clinics</h3>
+          <p class="bb-way-copy">School's out. Shoes on. More basketball. More reps. Focused work. Plenty of playing. A very solid use of a day off.</p>
+          <span class="bb-way-link">View Camps + Clinics <span class="arrow">→</span></span>
+        </div>
+      </a>
+      <a href="leagues.html" class="bb-way-tile bb-way--leagues reveal">
+        <div class="photo-bg"><img src="images/basketball-dribble-cones.jpg" alt="An athlete driving hard through traffic during competitive play."></div>
+        <div class="bb-way-body">
+          <p class="bb-way-label">Game Time</p>
+          <h3 class="bb-way-name">Basketball Leagues</h3>
+          <p class="bb-way-copy">Eventually, somebody has to keep score. Take all those reps and see what happens when there's a clock, a defender, and something on the line. Structured games. Plenty of touches. Real decisions.</p>
+          <span class="bb-way-link">View Basketball Leagues <span class="arrow">→</span></span>
+        </div>
+      </a>
+      <a href="events.html#rhythm" class="bb-way-tile bb-way--opengym reveal">
+        <div class="photo-bg"><img src="images/court-floor-detail.jpg" alt="An open, empty basketball court ready for open gym play."></div>
+        <div class="bb-way-body">
+          <p class="bb-way-label">No Clipboard Required.</p>
+          <h3 class="bb-way-name">Open Gym</h3>
+          <span class="bb-way-link bb-way-link--pill">See Open Gym <span class="arrow">→</span></span>
+        </div>
+      </a>
+      <a href="schedule.html" class="bb-way-tile bb-way--drdish reveal">
+        <div class="photo-bg"><img src="images/basketball-texture.jpg" alt="A close macro detail of basketball leather."></div>
+        <div class="bb-way-body">
+          <p class="bb-way-label">Basketball Only</p>
+          <h3 class="bb-way-name">Dr. Dish</h3>
+          <p class="bb-way-copy">Dedicated shooting-machine time for the days when the prescription is simple: more shots, a lot more shots. Good luck blaming the passer.</p>
+          <span class="bb-way-link">Book Dr. Dish <span class="arrow">→</span></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="bb-membership" id="membership">
+  <div class="container">
+    <div class="bb-membership-inner reveal">
+      <span class="eyebrow">Playing a Lot?</span>
+      <h2>Okay, You Might Live Here Now.</h2>
+      <p>Once a week. Every chance you get. Somewhere in between.</p>
+      <div class="bb-mem-track">
+        <div class="bb-mem-line-track"><span class="bb-mem-line-fill" id="memLineFill"></span></div>
+        <div class="bb-mem-steps">
+          <div class="bb-mem-step"><span class="bb-mem-dot"></span><span class="bb-mem-label">Weekly</span></div>
+          <div class="bb-mem-step bb-mem-step--featured"><span class="bb-mem-dot"></span><span class="bb-mem-label">Unlimited</span></div>
+          <div class="bb-mem-step"><span class="bb-mem-dot"></span><span class="bb-mem-label">Full Court</span></div>
+          <div class="bb-mem-step"><span class="bb-mem-dot"></span><span class="bb-mem-label">Family</span></div>
+        </div>
+      </div>
+      <a href="membership.html#plan-selector" class="btn btn-primary">See Membership Plans →</a>
+    </div>
+  </div>
+</section>
+
+<section class="bb-final">
+  <div class="bb-final-glow" aria-hidden="true"></div>
+  <div class="bb-final-ring" aria-hidden="true"></div>
+  <div class="bb-final-ring bb-final-ring--inner" aria-hidden="true"></div>
+  <div class="container">
+    <h2 class="bb-final-title reveal">Run It <span class="accent">Back.</span></h2>
   </div>
 </section>
 
@@ -176,8 +511,7 @@
           <img class="brand-mark" src="images/brand/icon-mark.png" alt="">
           <span>THE COURTS<span class="brand-sub">NOLENSVILLE, TN</span></span>
         </a>
-        <p style="margin-bottom:10px;">Where performance meets belonging.</p>
-        <p>Basketball and volleyball training built around great coaching, real development, and a place athletes want to be.</p>
+        <p>Great coaching. Real development. Plenty of reasons to keep showing up.</p>
         <div class="footer-social">
           <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="white" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1" fill="white"/></svg></a>
           <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 9h3V6h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v6h3v-6H16l.5-3h-3V9.7c0-.4.3-.7.5-.7z" fill="white"/></svg></a>
@@ -187,7 +521,7 @@
         <li><a href="basketball.html">Basketball</a></li><li><a href="volleyball.html">Volleyball</a></li><li><a href="private-coaching.html">Private Training</a></li><li><a href="camps.html">Camps + Clinics</a></li><li><a href="leagues.html">Basketball Leagues</a></li>
       </ul></div>
       <div class="footer-col"><h4>The Courts</h4><ul>
-        <li><a href="about.html">About</a></li><li><a href="membership.html">Membership</a></li><li><a href="events.html">Events</a></li><li><a href="shop.html">Pro Shop</a></li><li><a href="community.html">Community</a></li>
+        <li><a href="about.html">About</a></li><li><a href="membership.html">Membership</a></li><li><a href="events.html">Events</a></li><li><a href="shop.html">Shop</a></li><li><a href="about.html#community">Community</a></li><li><a href="about.html#partner">Partner</a></li>
       </ul></div>
       <div class="footer-col"><h4>Support</h4><ul>
         <li><a href="schedule.html">Schedule</a></li><li><a href="court-rentals.html">Court Rentals</a></li><li><a href="resources.html">Resources</a></li><li><a href="faq.html">FAQs</a></li><li><a href="member-portal.html">Member Portal</a></li><li><a href="contact.html">Contact</a></li>
@@ -204,6 +538,28 @@
   </div>
 </footer>
 
+<script>
+  (function () {
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function observe(el, activate) {
+      if (!el) return;
+      if (reduceMotion) { activate(el); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { activate(entry.target); io.unobserve(entry.target); }
+        });
+      }, { threshold: 0.4 });
+      io.observe(el);
+    }
+
+    observe(document.getElementById('devLineFill'), function (el) { el.classList.add('in-view'); });
+    observe(document.getElementById('memLineFill'), function (el) { el.classList.add('in-view'); });
+    document.querySelectorAll('.bb-seq-graphic').forEach(function (el) {
+      observe(el, function (t) { t.classList.add('in-view'); });
+    });
+  })();
+</script>
 <script src="js/script.js"></script>
 </body>
 </html>
