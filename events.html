@@ -32,7 +32,7 @@
     </a>
     <nav class="nav-links">
       <div class="nav-item">
-        <a href="programs.html">Programs <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="programs.html">Programs <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="nav-dropdown">
           <a href="basketball.html">Basketball</a>
           <a href="volleyball.html">Volleyball</a>
@@ -44,7 +44,7 @@
         </div>
       </div>
       <div class="nav-item">
-        <a href="membership.html">Membership <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="membership.html">Membership <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="nav-dropdown">
           <a href="membership.html#plan-selector">Membership Plans</a>
           <a href="membership.html#compare-plans">Compare Plans</a>
@@ -53,7 +53,7 @@
         </div>
       </div>
       <div class="nav-item">
-        <a href="schedule.html">Schedule <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="schedule.html">Schedule <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="nav-dropdown">
           <a href="schedule.html">Full Schedule</a>
           <a href="schedule.html?sport=basketball">Basketball Classes</a>
@@ -61,7 +61,7 @@
         </div>
       </div>
       <div class="nav-item">
-        <a href="events.html">Events <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="events.html">Events <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="nav-dropdown">
           <a href="events.html#october">October</a>
           <a href="events.html#november">November</a>
@@ -70,7 +70,7 @@
       </div>
       <div class="nav-item"><a href="shop.html">Shop</a></div>
       <div class="nav-item">
-        <a href="about.html">About <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="about.html">About <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="nav-dropdown">
           <a href="about.html">Our Story</a>
           <a href="about.html#how-we-play">How We Play</a>
@@ -593,6 +593,34 @@
   </div>
 </section>
 
+<section class="evt-rentals-banner">
+  <div class="container evt-rentals-grid">
+    <div>
+      <span class="evt-rentals-eyebrow">More Than Court Time</span>
+      <h2 class="evt-rentals-title">Got a Thing?<br>Bring It Here.</h2>
+    </div>
+    <div class="evt-rentals-side">
+      <p class="evt-rentals-pair">Pickleball.<br>Mah Jong.</p>
+      <p class="evt-rentals-curious">Honestly, we're curious too.</p>
+      <a href="contact.html?interest=Court%20Rental%20%2F%20Party%20%2F%20Event#contact-form" class="evt-rentals-cta" data-preset="Court Rental / Party / Event">Let's Make Some Room <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .evt-rentals-banner { background: #F1EEE7; padding: 90px 0; }
+  .evt-rentals-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: center; }
+  .evt-rentals-eyebrow { display: block; font-family: var(--font-sport); font-weight: 700; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
+  .evt-rentals-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(32px, 4.2vw, 50px); line-height: 1.02; color: var(--black); margin: 0 0 18px; }
+  .evt-rentals-side { text-align: left; }
+  .evt-rentals-pair { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3vw, 34px); line-height: 1.08; color: var(--black); margin: 0 0 12px; }
+  .evt-rentals-curious { font-size: 16px; font-weight: 600; color: var(--orange); margin: 0 0 26px; }
+  .evt-rentals-cta { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-heading); font-weight: 800; font-size: 16px; color: var(--black); }
+  .evt-rentals-cta .arrow { color: var(--orange); transition: transform 0.2s var(--ease); }
+  .evt-rentals-cta:hover .arrow { transform: translateX(4px); }
+  @media (max-width: 900px) { .evt-rentals-grid { grid-template-columns: 1fr; gap: 28px; } }
+</style>
+
 <section class="pre-footer">
   <div class="container pre-footer-inner">
     <div class="pre-footer-col">
@@ -653,7 +681,7 @@
         <div class="footer-nav-col"><h4>The Courts</h4><ul>
           <li><a href="about.html">About</a></li>
           <li><a href="about.html#community">Community</a></li>
-          <li><a href="about.html#partner">Partner</a></li>
+          <li><a href="about.html#partner">Partner With Us</a></li>
           <li><a href="shop.html">Shop</a></li>
         </ul></div>
         <div class="footer-nav-col"><h4>Help</h4><ul>
