@@ -62,11 +62,23 @@
   .psc-price { font-family: var(--font-display); font-size: 26px; color: var(--orange); margin: 0 0 10px; }
   .psc-price span { font-family: var(--font-body); font-weight: 500; font-size: 13px; color: var(--gray-dark); }
   .psc-line { font-size: 14.5px; line-height: 1.5; color: var(--gray-dark); margin: 0 0 16px; min-height: 42px; }
-  .psc-highlights { list-style: none; margin: 0 0 20px; padding: 0; display: flex; flex-direction: column; gap: 6px; }
-  .psc-highlights li { font-size: 13.5px; color: var(--black); padding-left: 16px; position: relative; }
-  .psc-highlights li::before { content: ''; position: absolute; left: 0; top: 7px; width: 6px; height: 1.5px; background: var(--orange); }
+  .psc-stack { display: flex; gap: 18px; margin: 0 0 22px; flex-wrap: wrap; }
+  .psc-stack-item { display: flex; flex-direction: column; gap: 2px; }
+  .psc-stack-num { font-family: var(--font-display); font-weight: 900; font-size: 30px; color: var(--orange); line-height: 1; }
+  .psc-stack-label { font-family: var(--font-sport); font-weight: 700; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); line-height: 1.3; }
   .psc-more { margin-top: auto; font-family: var(--font-heading); font-weight: 700; font-size: 13.5px; color: var(--black); display: inline-flex; align-items: center; gap: 4px; transition: color 0.2s var(--ease); }
   .plan-summary-card:hover .psc-more { color: var(--orange); }
+
+  .plan-summary-card--dark { background: var(--charcoal); border-color: var(--charcoal); }
+  .plan-summary-card--dark:hover { border-color: var(--orange); }
+  .plan-summary-card--dark .psc-num { color: var(--orange); }
+  .plan-summary-card--dark .psc-name, .plan-summary-card--dark .psc-price { color: var(--white); }
+  .plan-summary-card--dark .psc-price span { color: rgba(255,255,255,0.55); }
+  .plan-summary-card--dark .psc-line { color: rgba(255,255,255,0.7); }
+  .plan-summary-card--dark .psc-stack-num { font-size: 34px; }
+  .plan-summary-card--dark .psc-stack-label { color: rgba(255,255,255,0.6); }
+  .plan-summary-card--dark .psc-more { color: var(--white); }
+  .plan-summary-card--dark:hover .psc-more { color: var(--orange); }
   @media (prefers-reduced-motion: reduce) {
     .plan-summary-card { transition: none !important; }
     .plan-summary-card:hover { transform: none; }
@@ -349,11 +361,10 @@
         <p class="psc-num">01</p>
         <h3 class="psc-name">Weekly</h3>
         <p class="psc-price">$119<span>/mo</span></p>
-        <p class="psc-line">One day a week. Make it count.</p>
-        <ul class="psc-highlights">
-          <li>1 group training session / week</li>
-          <li>Member pricing on everything else</li>
-        </ul>
+        <p class="psc-line">Your day. Every week.</p>
+        <div class="psc-stack">
+          <div class="psc-stack-item"><span class="psc-stack-num">1x</span><span class="psc-stack-label">/ Week</span></div>
+        </div>
         <span class="psc-more">See Full Details ↓</span>
       </a>
       <a href="#unlimited" class="plan-summary-card plan-summary-card--featured">
@@ -361,33 +372,33 @@
         <p class="psc-num">02</p>
         <h3 class="psc-name">Unlimited</h3>
         <p class="psc-price">$199<span>/mo</span></p>
-        <p class="psc-line">Come more. Train more. Play more.</p>
-        <ul class="psc-highlights">
-          <li>Unlimited eligible group training</li>
-          <li>Scheduled Open Gym included</li>
-        </ul>
+        <p class="psc-line">Come a lot.</p>
+        <div class="psc-stack">
+          <div class="psc-stack-item"><span class="psc-stack-num">&infin;</span><span class="psc-stack-label">Group Training</span></div>
+          <div class="psc-stack-item"><span class="psc-stack-num">+</span><span class="psc-stack-label">Open Gym</span></div>
+        </div>
         <span class="psc-more">See Full Details ↓</span>
       </a>
-      <a href="#fullcourt" class="plan-summary-card">
+      <a href="#fullcourt" class="plan-summary-card plan-summary-card--dark">
         <p class="psc-num">03</p>
         <h3 class="psc-name">Full Court</h3>
         <p class="psc-price">$299<span>/mo</span></p>
-        <p class="psc-line">The full development experience.</p>
-        <ul class="psc-highlights">
-          <li>Everything in Unlimited</li>
-          <li>Private Training + Dr. Dish included</li>
-        </ul>
+        <p class="psc-line">Okay. You're serious.</p>
+        <div class="psc-stack">
+          <div class="psc-stack-item"><span class="psc-stack-num">1</span><span class="psc-stack-label">Private Training<br>Session / Month</span></div>
+          <div class="psc-stack-item"><span class="psc-stack-num">2</span><span class="psc-stack-label">Dr. Dish<br>Sessions / Month</span></div>
+          <div class="psc-stack-item"><span class="psc-stack-num">&infin;</span><span class="psc-stack-label">Group Training<br>+ Open Gym</span></div>
+        </div>
         <span class="psc-more">See Full Details ↓</span>
       </a>
       <a href="#family" class="plan-summary-card">
         <p class="psc-num">04</p>
         <h3 class="psc-name">Family Unlimited</h3>
         <p class="psc-price">$349<span>/mo</span></p>
-        <p class="psc-line">Two athletes. One membership.</p>
-        <ul class="psc-highlights">
-          <li>Unlimited training for 2</li>
-          <li>+$75 /mo each additional athlete</li>
-        </ul>
+        <p class="psc-line">Bring the whole crew.</p>
+        <div class="psc-stack">
+          <div class="psc-stack-item"><span class="psc-stack-num">2+</span><span class="psc-stack-label">Household<br>Access</span></div>
+        </div>
         <span class="psc-more">See Full Details ↓</span>
       </a>
     </div>
