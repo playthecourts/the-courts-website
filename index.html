@@ -144,6 +144,7 @@
     <img src="images/basketball-hero.jpg" alt="" style="object-position:50% 30%;">
   </div>
   <div class="container hero-inner">
+    <span class="hero-opening">Opening October 1</span>
     <span class="eyebrow eyebrow--light" style="font-size:20px;">The Courts &middot; Nolensville, TN</span>
     <h1 class="hero-title">This Is Your Court.</h1>
     <p class="hero-sub">Basketball. Volleyball. Great coaching. More reps.<br>More ways to play.</p>
@@ -151,9 +152,13 @@
       <a href="programs.html" class="btn btn-primary">Explore Programs →</a>
       <a href="schedule.html" class="btn btn-on-dark">View Schedule →</a>
     </div>
-    <p style="color:rgba(255,255,255,0.6); font-size:13px; font-family:var(--font-sport); font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-top:44px;">Opening October 1</p>
   </div>
 </section>
+
+<style>
+  .hero-opening { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-sport); font-weight: 800; font-size: clamp(14px, 1.6vw, 17px); letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); background: var(--orange); border-radius: 999px; padding: 10px 22px; margin-bottom: 22px; }
+  .hero-opening::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--white); flex-shrink: 0; }
+</style>
 
 <section style="padding:64px 0 0;">
   <div class="container">
