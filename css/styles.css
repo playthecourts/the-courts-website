@@ -1139,8 +1139,6 @@ body.has-announce .nav { top: 64px; }
 .feat-status--live::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--white); flex-shrink: 0; animation: featStatusPulse 1.6s ease-in-out infinite; }
 @keyframes featStatusPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
 @media (prefers-reduced-motion: reduce) { .feat-status--live::before { animation: none; } }
-.feat-status-arrow { position: absolute; z-index: 2; top: 8px; left: 108px; width: 78px; height: 56px; transform: rotate(-4deg); pointer-events: none; }
-@media (max-width: 640px) { .feat-status-arrow { display: none; } }
 .feat-body { position: relative; z-index: 2; }
 .feat-card--large .feat-body h3 { font-family: var(--font-display); font-weight: 900; color: var(--white); font-size: clamp(26px, 3vw, 38px); line-height: 1.04; margin: 14px 0 10px; }
 .feat-card--large .feat-body p { color: rgba(255,255,255,0.78); font-size: 15px; line-height: 1.6; margin: 0 0 16px; max-width: 42ch; }
