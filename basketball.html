@@ -80,13 +80,9 @@
   }
 
   /* ---------- Game payoff transition ---------- */
-  .bb-transition { background: var(--black); color: var(--white); padding: 90px 0; text-align: center; overflow: hidden; position: relative; }
-  .bb-transition h2 { margin: 0; font-family: var(--font-display); font-weight: 900; letter-spacing: -0.01em; }
-  .bb-transition-lead { display: block; font-family: var(--font-heading); font-weight: 700; font-size: clamp(16px, 2vw, 22px); line-height: 1.2; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
-  .bb-transition-main { display: block; font-size: clamp(30px, 6vw, 80px); line-height: 0.94; margin-bottom: 8px; white-space: nowrap; }
-  @media (max-width: 480px) { .bb-transition-main { white-space: normal; } }
-  .bb-transition-close { display: block; font-size: clamp(22px, 3.8vw, 40px); line-height: 1.05; color: rgba(255,255,255,0.9); }
-  .bb-transition-close .accent { color: var(--orange); }
+  .bb-transition { background: var(--black); color: var(--white); padding: 100px 0; text-align: center; overflow: hidden; position: relative; }
+  .bb-transition h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 6vw, 72px); line-height: 1; letter-spacing: -0.01em; margin: 0; }
+  .bb-transition h2 .accent { color: var(--orange); }
 
   /* ---------- Development by age: connected timeline ---------- */
   .bb-dev { background: var(--gray-light); padding: 90px 0 130px; }
@@ -328,11 +324,7 @@
 
 <section class="bb-transition">
   <div class="container">
-    <h2 class="reveal">
-      <span class="bb-transition-lead">Because Eventually,</span>
-      <span class="bb-transition-main">Somebody Has to</span>
-      <span class="bb-transition-close">Take the <span class="accent">Shot.</span></span>
-    </h2>
+    <h2 class="reveal">Because Eventually,<br>Somebody Has to<br>Take the <span class="accent">Shot.</span></h2>
   </div>
 </section>
 
