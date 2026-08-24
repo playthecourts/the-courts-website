@@ -157,7 +157,9 @@
 
 <style>
   .hero-opening { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-sport); font-weight: 800; font-size: clamp(14px, 1.6vw, 17px); letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); background: var(--orange); border-radius: 999px; padding: 10px 22px; margin-bottom: 22px; }
-  .hero-opening::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--white); flex-shrink: 0; }
+  .hero-opening::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--white); flex-shrink: 0; animation: heroOpeningPulse 1.6s ease-in-out infinite; }
+  @keyframes heroOpeningPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
+  @media (prefers-reduced-motion: reduce) { .hero-opening::before { animation: none; } }
 </style>
 
 <section style="padding:64px 0 0;">
