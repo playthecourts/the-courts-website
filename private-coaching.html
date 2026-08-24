@@ -125,21 +125,22 @@
   /* ---------- Transition beat ---------- */
 
   /* ---------- Coaches ---------- */
-  .pt-coaches { background: var(--black); color: var(--white); padding: 100px 0 60px; }
+  .pt-coaches { background: var(--black); color: var(--white); padding: 100px 0 0; }
+  .pt-coach-band { background: var(--gray-light); color: var(--black); padding: 56px 0 64px; margin-top: 56px; }
   .pt-coaches-head { max-width: 720px; margin-bottom: 0; }
   .pt-coaches-head .eyebrow { color: var(--orange); }
   .pt-coaches-head h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(36px, 5vw, 58px); line-height: 1.02; margin-top: 14px; }
-  .pt-coach-groups { margin-top: 68px; display: flex; flex-direction: column; gap: 14px; }
+  .pt-coach-groups { display: flex; flex-direction: column; gap: 56px; }
   .pt-coach-group-label { font-family: var(--font-sport); font-size: clamp(20px, 2.4vw, 26px); font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); margin: 0 0 24px; display: block; }
   .pt-coach-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
   .pt-coach-card { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 22px; align-items: center; }
   .pt-coach-photo { position: relative; aspect-ratio: 4/4.6; border-radius: var(--radius-md); overflow: hidden; }
   .pt-coach-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pt-coach-photo-placeholder { position: absolute; inset: 0; background: var(--orange-soft); display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+  .pt-coach-photo-placeholder span { font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange-ink); }
   .pt-coach-name { font-family: var(--font-display); font-weight: 900; font-size: clamp(19px, 2vw, 24px); margin: 0 0 4px; line-height: 1.1; }
   .pt-coach-title { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 12px; }
-  .pt-coach-bio { font-size: 14.5px; line-height: 1.65; color: rgba(255,255,255,0.72); margin: 0 0 10px; }
-  .pt-coach-group--cream { background: var(--gray-light); color: var(--black); padding: 48px clamp(24px, 4vw, 56px); border-radius: var(--radius-md); }
-  .pt-coach-group--cream .pt-coach-bio { color: var(--gray-dark); }
+  .pt-coach-bio { font-size: 14px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 10px; }
   @media (max-width: 900px) {
     .pt-coach-pair { grid-template-columns: 1fr; gap: 40px; }
     .pt-coach-card { grid-template-columns: 1fr; }
@@ -396,55 +397,59 @@
       <span class="eyebrow">Our People</span>
       <h2>Meet Your Coaches.</h2>
     </div>
+  </div>
 
-    <div class="pt-coach-groups">
-      <div class="pt-coach-group--cream">
-        <span class="pt-coach-group-label reveal">Basketball</span>
-        <div class="pt-coach-pair">
-          <div class="pt-coach-card reveal">
-            <div class="pt-coach-photo">
-              <img src="images/coach-shooting-form.jpg" alt="Johnny Coles working through shooting form with an athlete." style="object-position:65% 20%;">
+  <div class="pt-coach-band">
+    <div class="container">
+      <div class="pt-coach-groups">
+        <div>
+          <span class="pt-coach-group-label reveal">Basketball</span>
+          <div class="pt-coach-pair">
+            <div class="pt-coach-card reveal">
+              <div class="pt-coach-photo">
+                <div class="pt-coach-photo-placeholder"><span>Photo Coming Soon</span></div>
+              </div>
+              <div>
+                <h3 class="pt-coach-name">Johnny Coles</h3>
+                <p class="pt-coach-title">Head of Basketball Development</p>
+                <p class="pt-coach-bio">Nolensville native, college athlete,<br>and five-year professional player, Johnny knows the game and knows what to look for. He helps athletes clean up the details, build confidence, and make their work translate when it matters.</p>
+              </div>
             </div>
-            <div>
-              <h3 class="pt-coach-name">Johnny Coles</h3>
-              <p class="pt-coach-title">Head of Basketball Development</p>
-              <p class="pt-coach-bio">Nolensville native, college athlete,<br>and five-year professional player, Johnny knows the game and knows what to look for. He helps athletes clean up the details, build confidence, and make their work translate when it matters.</p>
-            </div>
-          </div>
-          <div class="pt-coach-card reveal">
-            <div class="pt-coach-photo">
-              <img src="images/leagues-huddle.jpg" alt="Spencer Richardson with a group of athletes after a training session." style="object-position:65% 30%;">
-            </div>
-            <div>
-              <h3 class="pt-coach-name">Spencer Richardson</h3>
-              <p class="pt-coach-title">Senior Performance Trainer</p>
-              <p class="pt-coach-bio">Founder of All-Around-Game Basketball, Spencer develops complete players through skill, basketball IQ, confidence, and better decisions.</p>
+            <div class="pt-coach-card reveal">
+              <div class="pt-coach-photo">
+                <div class="pt-coach-photo-placeholder"><span>Photo Coming Soon</span></div>
+              </div>
+              <div>
+                <h3 class="pt-coach-name">Spencer Richardson</h3>
+                <p class="pt-coach-title">Senior Performance Trainer</p>
+                <p class="pt-coach-bio">Founder of All-Around-Game Basketball, Spencer develops complete players through skill, basketball IQ, confidence, and better decisions.</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="pt-coach-group--cream">
-        <span class="pt-coach-group-label reveal">Volleyball</span>
-        <div class="pt-coach-pair">
-          <div class="pt-coach-card reveal">
-            <div class="pt-coach-photo">
-              <img src="images/volleyball-huddle.jpg" alt="Justin Frank speaking with athletes at the net." style="object-position:34% 24%;">
+        <div>
+          <span class="pt-coach-group-label reveal">Volleyball</span>
+          <div class="pt-coach-pair">
+            <div class="pt-coach-card reveal">
+              <div class="pt-coach-photo">
+                <div class="pt-coach-photo-placeholder"><span>Photo Coming Soon</span></div>
+              </div>
+              <div>
+                <h3 class="pt-coach-name">Justin Frank</h3>
+                <p class="pt-coach-title">Head of Volleyball Development</p>
+                <p class="pt-coach-bio">Bio coming soon.</p>
+              </div>
             </div>
-            <div>
-              <h3 class="pt-coach-name">Justin Frank</h3>
-              <p class="pt-coach-title">Head of Volleyball Development</p>
-              <p class="pt-coach-bio">Bio coming soon.</p>
-            </div>
-          </div>
-          <div class="pt-coach-card reveal">
-            <div class="pt-coach-photo">
-              <img src="images/volleyball-huddle.jpg" alt="Sarah Quint with athletes during a volleyball training session." style="object-position:88% 22%;">
-            </div>
-            <div>
-              <h3 class="pt-coach-name">Sarah Quint</h3>
-              <p class="pt-coach-title">Senior Performance Trainer</p>
-              <p class="pt-coach-bio">Bio coming soon.</p>
+            <div class="pt-coach-card reveal">
+              <div class="pt-coach-photo">
+                <div class="pt-coach-photo-placeholder"><span>Photo Coming Soon</span></div>
+              </div>
+              <div>
+                <h3 class="pt-coach-name">Sarah Quint</h3>
+                <p class="pt-coach-title">Senior Performance Trainer</p>
+                <p class="pt-coach-bio">Bio coming soon.</p>
+              </div>
             </div>
           </div>
         </div>
