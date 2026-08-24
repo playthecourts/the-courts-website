@@ -355,7 +355,7 @@ body.has-announce .nav { top: 64px; }
 .why-teaser-copy .eyebrow { color: var(--orange); }
 .why-teaser-copy h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.06; margin: 12px 0 20px; color: var(--black); }
 .why-teaser-copy p { font-size: 16px; line-height: 1.75; color: var(--gray-dark); margin: 0 0 24px; max-width: 42ch; }
-.why-teaser-copy a { font-weight: 700; color: var(--black); }
+.why-teaser-copy a { font-weight: 700; color: var(--orange); }
 .why-teaser-grid-principles { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .why-teaser-item { padding: 26px 28px; background: var(--white); border-radius: var(--radius-sm); border-left: 6px solid var(--orange); box-shadow: 0 6px 20px rgba(23,23,23,0.06); }
 .why-teaser-item h4 { font-family: var(--font-display); font-weight: 900; font-size: 21px; letter-spacing: -0.01em; margin: 0 0 8px; color: var(--black); }
