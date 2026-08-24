@@ -377,7 +377,7 @@
     <div class="section-head">
       <span class="eyebrow">Our People</span>
       <h2 class="section-title" style="color:var(--white);">Good Coaches Change the Game.</h2>
-      <p class="section-sub" style="color:rgba(255,255,255,0.72);">Knowing the game matters. Knowing the athlete matters, too. Our coaches know when to teach, when to push, and when to step back.</p>
+      <p class="section-sub" style="color:rgba(255,255,255,0.72);">Knowing the game matters. Knowing the athlete matters, too.<br>Our coaches know when to teach, when to push, and when to step back.</p>
       <p class="section-sub" style="color:rgba(255,255,255,0.72); margin-top:14px;">Give them what they need. Then let them own it.</p>
     </div>
     <div class="coaches-board">
@@ -526,28 +526,32 @@
           <p>And we want our athletes to have opportunities to be part of that, too. <strong>Because being a great teammate shouldn't stop at the gym door.</strong></p>
           <p>School partnerships. Volunteer projects. Community service. A chance to show up for the place that shows up for us.</p>
         </div>
-        <div class="community-giveback">
-          <h3>Our First Chance to Give Back Is Coming in December.</h3>
-          <p>We'll organize a Courts community give-back opportunity once a quarter, giving our athletes and families a chance to show up together for Nolensville.</p>
-          <!-- [PINK — FINAL COMMUNITY GIVE-BACK DESTINATION] Staging only. Link to events.html or a future Community/Updates page once the December partner is finalized. -->
-          <a href="events.html" class="community-giveback-link">Stay Tuned for December →</a>
-        </div>
+      </div>
+      <div class="community-giveback">
+        <h3>Our First Chance to Give Back Is Coming in December.</h3>
+        <p>We'll organize a Courts community give-back opportunity once a quarter, giving our athletes and families a chance to show up together for Nolensville.</p>
+        <!-- [PINK — FINAL COMMUNITY GIVE-BACK DESTINATION] Staging only. Link to events.html or a future Community/Updates page once the December partner is finalized. -->
+        <a href="events.html" class="community-giveback-link">Stay Tuned for December →</a>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .community-grid { max-width: 620px; }
+  .community-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: start; }
   .community-rule { display: block; width: 46px; height: 4px; background: var(--orange); border-radius: 2px; margin-bottom: 18px; }
   .community-kicker { font-family: var(--font-heading); font-weight: 800; font-size: 17px; color: var(--black); margin: 10px 0 0; }
   .community-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(36px, 5.2vw, 56px); line-height: 1.03; color: var(--black); margin: 10px 0 26px; max-width: 11ch; }
   .community-body p { font-size: 17px; line-height: 1.8; color: var(--gray-dark); margin-bottom: 20px; max-width: 46ch; }
   .community-body strong { color: var(--black); }
-  .community-giveback { margin-top: 12px; padding-top: 28px; border-top: 1px solid var(--gray-mid); max-width: 46ch; }
-  .community-giveback h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(19px, 2.2vw, 23px); color: var(--black); margin: 0 0 10px; }
-  .community-giveback p { font-size: 15px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 14px; }
+  .community-giveback { margin-top: 96px; padding: 32px; background: var(--white); border-radius: var(--radius-md); }
+  .community-giveback h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(21px, 2.6vw, 27px); color: var(--black); margin: 0 0 12px; line-height: 1.2; }
+  .community-giveback p { font-size: 15px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 16px; }
   .community-giveback-link { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--orange); }
+  @media (max-width: 860px) {
+    .community-grid { grid-template-columns: 1fr; gap: 40px; }
+    .community-giveback { margin-top: 0; }
+  }
 </style>
 
 <section class="partner-section" id="partner" style="position:relative; padding:150px 0 130px; background:var(--gray-light); overflow:hidden;">
