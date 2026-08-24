@@ -74,7 +74,8 @@
   .bb-transition { background: var(--black); color: var(--white); padding: 150px 0; text-align: center; overflow: hidden; position: relative; }
   .bb-transition h2 { margin: 0; font-family: var(--font-display); font-weight: 900; letter-spacing: -0.01em; }
   .bb-transition-lead { display: block; font-family: var(--font-heading); font-weight: 700; font-size: clamp(19px, 2.5vw, 28px); line-height: 1.2; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
-  .bb-transition-main { display: block; font-size: clamp(48px, 10.5vw, 132px); line-height: 0.92; margin-bottom: 10px; }
+  .bb-transition-main { display: block; font-size: clamp(36px, 8vw, 108px); line-height: 0.92; margin-bottom: 10px; white-space: nowrap; }
+  @media (max-width: 480px) { .bb-transition-main { white-space: normal; } }
   .bb-transition-close { display: block; font-size: clamp(28px, 5vw, 54px); line-height: 1.05; color: rgba(255,255,255,0.9); }
   .bb-transition-close .accent { color: var(--orange); }
 
@@ -117,9 +118,9 @@
 
 <a href="leagues.html" class="site-announce">
   <span class="site-announce-inner">
-    <span class="site-announce-headline">Fall League.</span>
-    <span class="site-announce-detail">Basketball registration ends <strong>September 20 at 5 PM</strong>.</span>
-    <span class="site-announce-cta">Register Now <span class="arrow">→</span></span>
+    <span class="site-announce-headline">Fall League. Let's Go.</span>
+    <span class="site-announce-detail">Basketball registration closes <strong>September 20 at 5 PM</strong>.</span>
+    <span class="site-announce-cta">Save Your Spot <span class="arrow">→</span></span>
   </span>
 </a>
 
