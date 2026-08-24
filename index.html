@@ -165,6 +165,9 @@
   .hero-opening::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--white); flex-shrink: 0; animation: heroOpeningPulse 1.6s ease-in-out infinite; }
   @keyframes heroOpeningPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
   @media (prefers-reduced-motion: reduce) { .hero-opening::before { animation: none; } }
+
+  .home-pill-link { display: inline-flex !important; align-items: center; align-self: flex-start; justify-content: center; gap: 6px; font-weight: 700 !important; font-size: 14px; color: var(--white) !important; background: var(--orange); padding: 9px 18px; border-radius: 999px; text-decoration: none; transition: background 0.2s var(--ease); width: fit-content; }
+  .home-pill-link:hover { background: var(--orange-hover); }
 </style>
 
 <section style="padding:64px 0 0;">
@@ -202,7 +205,7 @@
         <span class="eyebrow">How We Play</span>
         <h2>Serious About Development.<br>Not Everything Else.</h2>
         <p>Great coaching matters. So do meaningful reps, learning to compete, having good teammates, and actually wanting to come back tomorrow.</p>
-        <a href="about.html">About The Courts →</a>
+        <a href="about.html" class="home-pill-link">About The Courts →</a>
       </div>
       <div class="why-teaser-grid-principles reveal">
         <div class="why-teaser-item"><h4>Do the Work.</h4><p>No magic drill. No shortcut.</p></div>
@@ -251,7 +254,7 @@
           <div class="feat-body">
             <h4>Fall Break Camp</h4>
             <p>School's out. Shoes on. Basketball + volleyball during Fall Break.</p>
-            <span class="feat-link">See Camp →</span>
+            <span class="feat-link home-pill-link">See Camp →</span>
           </div>
         </a>
         <a href="events.html#opening-celebration" class="feat-card feat-card--small reveal">
@@ -259,7 +262,7 @@
           <div class="feat-body">
             <h4>Opening Celebration</h4>
             <p>Hello, Nolensville. Come see the place, meet the coaches, and get on the court.</p>
-            <span class="feat-link">See What's Happening →</span>
+            <span class="feat-link home-pill-link">See What's Happening →</span>
           </div>
         </a>
       </div>
@@ -277,7 +280,7 @@
       <h2>Our Home Court.</h2>
       <p>The Courts was built to be a place athletes can work, play, compete, and keep coming back to. And yes, we're the place with the orange door.</p>
       <p class="home-nolensville-address"><strong>The Courts</strong><br>2011 Johnson Industrial Blvd.<br>Nolensville, TN 37086</p>
-      <a href="https://www.google.com/maps/search/?api=1&query=2011+Johnson+Industrial+Blvd%2C+Nolensville%2C+TN+37086" class="link" target="_blank" rel="noopener">Get Directions →</a>
+      <a href="https://www.google.com/maps/search/?api=1&query=2011+Johnson+Industrial+Blvd%2C+Nolensville%2C+TN+37086" class="link home-pill-link" target="_blank" rel="noopener">Get Directions →</a>
     </div>
   </div>
 </section>
