@@ -132,8 +132,8 @@ body.has-announce .nav { top: 64px; }
 .nav.nav-solid .nav-toggle span { background: var(--black); }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; }
 .brand { display: flex; align-items: center; gap: 10px; }
-.brand-mark--wordmark { height: 58px; width: auto; }
-@media (max-width: 640px) { .brand-mark--wordmark { height: 48px; } }
+.brand-mark--wordmark { height: 40px; width: auto; }
+@media (max-width: 640px) { .brand-mark--wordmark { height: 32px; } }
 .brand-mark--light { display: block; }
 .brand-mark--dark { display: none; }
 .nav.scrolled .brand-mark--light { display: none; }
