@@ -159,12 +159,15 @@
       <p>I saw what was special here. And, like most parents, I had a few thoughts about what could be even better.</p>
       <p><strong>I grew up as a competitive cheerleader, so I spent a lot of time on the sidelines cheering other people on.</strong></p>
       <p><strong>Turns out, I'm still doing it.</strong></p>
-      <p>I know how much it matters to have someone in your corner. Someone who believes in you, wants you to get better, and keeps cheering through the great games, the hard ones, and everything in between.</p>
-      <p>I'll be cheering for your kid, too. Not just for the points they put on the board, but for the teammate they're becoming. The confidence they're building. The way they help someone up, listen to a coach, try again, and keep going when something doesn't come easily.</p>
-      <p>Because resilience matters. Character matters. Feeling like you belong matters.</p>
-      <p><strong>Getting better at the game matters. Who they become along the way matters, too.</strong></p>
-      <p>The Courts is our chance to build on what families already loved about NextGen and make the experience even better, for the athletes on the court and the families on the sidelines.</p>
-      <p>And I promise I'm going to work just as hard on this place as I'm asking your kid to work when they walk through the orange door.</p>
+      <button type="button" class="founder-note-toggle" id="founderToggle" aria-expanded="false" aria-controls="founder-more">Read the Full Letter <span class="arrow">↓</span></button>
+      <div class="founder-note-more" id="founder-more" hidden>
+        <p>I know how much it matters to have someone in your corner. Someone who believes in you, wants you to get better, and keeps cheering through the great games, the hard ones, and everything in between.</p>
+        <p>I'll be cheering for your kid, too. Not just for the points they put on the board, but for the teammate they're becoming. The confidence they're building. The way they help someone up, listen to a coach, try again, and keep going when something doesn't come easily.</p>
+        <p>Because resilience matters. Character matters. Feeling like you belong matters.</p>
+        <p><strong>Getting better at the game matters. Who they become along the way matters, too.</strong></p>
+        <p>The Courts is our chance to build on what families already loved about NextGen and make the experience even better, for the athletes on the court and the families on the sidelines.</p>
+        <p>And I promise I'm going to work just as hard on this place as I'm asking your kid to work when they walk through the orange door.</p>
+      </div>
       <p class="founder-note-signoff"><em>See you on the court.</em><br><strong>Melissa Carle</strong><br><span class="founder-note-title">Founder, The Courts</span></p>
     </div>
   </div>
@@ -177,6 +180,11 @@
   .founder-note p a { color: var(--orange); }
   .founder-note-signoff { margin-top: 30px !important; }
   .founder-note-title { color: rgba(255,255,255,0.6); font-size: 14px; }
+  .founder-note-toggle { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--white); background: none; border: none; border-bottom: 1px solid rgba(255,255,255,0.3); padding: 0 0 3px; cursor: pointer; margin: 4px 0 6px; }
+  .founder-note-toggle .arrow { color: var(--orange); transition: transform 0.2s var(--ease); }
+  .founder-note-toggle[aria-expanded="true"] .arrow { transform: rotate(180deg); }
+  .founder-note-more[hidden] { display: none; }
+  .founder-note-more { margin-top: 6px; }
 </style>
 
 <section id="how-we-play" style="padding:64px 0; background:var(--gray-light);">
@@ -680,6 +688,19 @@
   </div>
 </footer>
 
+<script>
+  (function () {
+    var btn = document.getElementById('founderToggle');
+    var more = document.getElementById('founder-more');
+    if (!btn || !more) return;
+    btn.addEventListener('click', function () {
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      more.hidden = expanded;
+      btn.setAttribute('aria-expanded', String(!expanded));
+      btn.innerHTML = expanded ? 'Read the Full Letter <span class="arrow">↓</span>' : 'Show Less <span class="arrow">↑</span>';
+    });
+  })();
+</script>
 <script src="js/script.js"></script>
 </body>
 </html>
