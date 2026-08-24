@@ -12,6 +12,25 @@
 <link rel="icon" type="image/png" sizes="16x16" href="images/brand/favicon-16.png">
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="css/styles.css">
+<style>
+  /* ================= Schedule page — Upper Hand gateway (sched-*) ================= */
+  .sched-gate { padding: 12px 0 90px; }
+  .sched-gate-head { max-width: 620px; margin: 0 auto 40px; text-align: center; }
+  .sched-gate-head .eyebrow { color: var(--orange); }
+  .sched-gate-note { font-size: 14.5px; color: var(--gray-dark); margin: 10px auto 0; max-width: 52ch; }
+  .sched-gate-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .sched-gate-card { display: flex; flex-direction: column; text-decoration: none; color: var(--black); background: var(--gray-light); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-md); padding: 30px 26px 26px; transition: transform 0.2s var(--ease), border-color 0.2s var(--ease), box-shadow 0.2s var(--ease); }
+  .sched-gate-card:hover { transform: translateY(-4px); border-color: var(--orange); box-shadow: 0 12px 28px rgba(23,23,23,0.08); }
+  .sched-gate-icon { color: var(--orange); margin-bottom: 16px; }
+  .sched-gate-name { font-family: var(--font-display); font-weight: 900; font-size: 21px; margin: 0 0 8px; }
+  .sched-gate-desc { font-size: 14px; line-height: 1.55; color: var(--gray-dark); margin: 0 0 20px; flex-grow: 1; }
+  .sched-gate-link { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--black); display: inline-flex; align-items: center; gap: 4px; transition: color 0.2s var(--ease); }
+  .sched-gate-card:hover .sched-gate-link { color: var(--orange); }
+  .sched-gate-powered { text-align: center; font-family: var(--font-sport); font-weight: 700; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin: 36px 0 0; }
+  @media (prefers-reduced-motion: reduce) { .sched-gate-card { transition: none !important; } .sched-gate-card:hover { transform: none; } }
+  @media (max-width: 900px) { .sched-gate-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .sched-gate-grid { grid-template-columns: 1fr; } }
+</style>
 </head>
 <body class="has-announce">
 <a href="#main" class="skip-link">Skip to main content</a>
@@ -155,246 +174,43 @@
   </div>
 </section>
 
-<div class="schedule-filters">
-  <div class="schedule-filters-inner">
-    <div>
-      <span class="schedule-filter-label">Sport</span>
-      <div class="schedule-filter-group" data-sched-filter="sport" data-multi="true">
-        <button type="button" class="filter-pill active" data-value="all">All</button>
-        <button type="button" class="filter-pill multi" data-value="basketball" aria-pressed="false"><span class="check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Basketball</button>
-        <button type="button" class="filter-pill multi" data-value="volleyball" aria-pressed="false"><span class="check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Volleyball</button>
-      </div>
-    </div>
-    <div>
-      <span class="schedule-filter-label">Type</span>
-      <div class="schedule-filter-group" data-sched-filter="type">
-        <button type="button" class="filter-pill active" data-value="all">All</button>
-        <button type="button" class="filter-pill" data-value="grouptraining">Group Training</button>
-        <button type="button" class="filter-pill" data-value="opengym">Open Gym</button>
-        <button type="button" class="filter-pill" data-value="drdish">Dr. Dish</button>
-        <button type="button" class="filter-pill" data-value="privatetraining">Private Training</button>
-      </div>
-    </div>
-    <div>
-      <span class="schedule-filter-label">Age</span>
-      <div class="schedule-filter-group" data-sched-filter="age" data-multi="true">
-        <button type="button" class="filter-pill active" data-value="all">All Ages</button>
-        <button type="button" class="filter-pill multi" data-value="6-9" aria-pressed="false"><span class="check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>6&ndash;9</button>
-        <button type="button" class="filter-pill multi" data-value="10-13" aria-pressed="false"><span class="check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>10&ndash;13</button>
-        <button type="button" class="filter-pill multi" data-value="14+" aria-pressed="false"><span class="check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>14+</button>
-      </div>
-    </div>
-    <div>
-      <span class="schedule-filter-label">Day</span>
-      <div class="schedule-filter-group" data-sched-filter="day">
-        <button type="button" class="filter-pill active" data-value="all">All Days</button>
-        <button type="button" class="filter-pill" data-value="mon">Mon</button>
-        <button type="button" class="filter-pill" data-value="tue">Tue</button>
-        <button type="button" class="filter-pill" data-value="wed">Wed</button>
-        <button type="button" class="filter-pill" data-value="thu">Thu</button>
-        <button type="button" class="filter-pill" data-value="fri">Fri</button>
-        <button type="button" class="filter-pill" data-value="sat">Sat</button>
-        <button type="button" class="filter-pill" data-value="sun">Sun</button>
-      </div>
-    </div>
-    <button type="button" class="schedule-filter-clear" id="scheduleClear">Clear All</button>
-  </div>
-</div>
-
-<section style="padding:0 0 60px;">
+<section class="sched-gate">
   <div class="container">
-    <div class="schedule-board">
-      <div class="section-head" style="margin-bottom:8px; text-align:center;">
-        <span class="eyebrow">This Week</span>
-        <h2 class="section-title" style="margin-bottom:0;">Get on the Court.</h2>
-      </div>
-      <p class="schedule-note">Advance registration or booking is required. Sessions are subject to capacity and availability.</p>
-
-      <div class="day-group">
-        <div class="day-heading-row">
-          <h3 class="day-heading">Monday</h3>
-          <span class="sport-marker sport-marker--volleyball day-sport-badge"><svg class="sport-marker-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3c-5 4-5 14 0 18M4 9c5-3 11-3 16 0M4 15c5 3 11 3 16 0" stroke="currentColor" stroke-width="1.6" fill="none"/></svg><span>Volleyball</span></span>
-        </div>
-        <div class="schedule-row" data-sport="volleyball" data-type="grouptraining" data-age="6-9" data-day="mon">
-          <span class="sr-time">6:00 PM</span>
-          <div><div class="sr-program">Skills</div><div class="sr-age">Ages 6&ndash;9</div></div>
-          <a href="contact.html?interest=Volleyball#contact-form" class="sr-cta" data-preset="Volleyball">Register →</a>
-        </div>
-        <div class="schedule-row" data-sport="volleyball" data-type="grouptraining" data-age="10-13" data-day="mon">
-          <span class="sr-time">7:00 PM</span>
-          <div><div class="sr-program">Development</div><div class="sr-age">Ages 10&ndash;13</div></div>
-          <a href="contact.html?interest=Volleyball#contact-form" class="sr-cta" data-preset="Volleyball">Register →</a>
-        </div>
-        <div class="schedule-row" data-sport="volleyball" data-type="grouptraining" data-age="14+" data-day="mon">
-          <span class="sr-time">8:00 PM</span>
-          <div><div class="sr-program">Advanced Training</div><div class="sr-age">Ages 14+</div></div>
-          <a href="contact.html?interest=Volleyball#contact-form" class="sr-cta" data-preset="Volleyball">Register →</a>
-        </div>
-      </div>
-
-      <div class="day-group">
-        <div class="day-heading-row">
-          <h3 class="day-heading">Tuesday</h3>
-          <span class="sport-marker sport-marker--volleyball day-sport-badge"><svg class="sport-marker-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3c-5 4-5 14 0 18M4 9c5-3 11-3 16 0M4 15c5 3 11 3 16 0" stroke="currentColor" stroke-width="1.6" fill="none"/></svg><span>Volleyball</span></span>
-        </div>
-        <div class="schedule-row" data-sport="volleyball" data-type="grouptraining" data-age="6-9" data-day="tue">
-          <span class="sr-time">6:00 PM</span>
-          <div><div class="sr-program">Skills</div><div class="sr-age">Ages 6&ndash;9</div></div>
-          <a href="contact.html?interest=Volleyball#contact-form" class="sr-cta" data-preset="Volleyball">Register →</a>
-        </div>
-        <div class="schedule-row" data-sport="volleyball" data-type="grouptraining" data-age="10-13" data-day="tue">
-          <span class="sr-time">7:00 PM</span>
-          <div><div class="sr-program">Development</div><div class="sr-age">Ages 10&ndash;13</div></div>
-          <a href="contact.html?interest=Volleyball#contact-form" class="sr-cta" data-preset="Volleyball">Register →</a>
-        </div>
-        <div class="schedule-row" data-sport="volleyball" data-type="grouptraining" data-age="14+" data-day="tue">
-          <span class="sr-time">8:00 PM</span>
-          <div><div class="sr-program">Advanced Training</div><div class="sr-age">Ages 14+</div></div>
-          <a href="contact.html?interest=Volleyball#contact-form" class="sr-cta" data-preset="Volleyball">Register →</a>
-        </div>
-      </div>
-
-      <div class="day-group">
-        <div class="day-heading-row">
-          <h3 class="day-heading">Wednesday</h3>
-          <span class="sport-marker sport-marker--basketball day-sport-badge"><svg class="sport-marker-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3v18M5.5 5.5c3 3 3 10 0 13M18.5 5.5c-3 3-3 10 0 13" stroke="currentColor" stroke-width="1.6"/></svg><span>Basketball</span></span>
-        </div>
-        <div class="schedule-row" data-sport="basketball" data-type="grouptraining" data-age="6-9" data-day="wed">
-          <span class="sr-time">6:00 PM</span>
-          <div><div class="sr-program">Skills</div><div class="sr-age">Ages 6&ndash;9</div></div>
-          <a href="contact.html?interest=Basketball#contact-form" class="sr-cta" data-preset="Basketball">Register →</a>
-        </div>
-        <div class="schedule-row" data-sport="basketball" data-type="grouptraining" data-age="10-13" data-day="wed">
-          <span class="sr-time">7:00 PM</span>
-          <div><div class="sr-program">Development</div><div class="sr-age">Ages 10&ndash;13</div></div>
-          <a href="contact.html?interest=Basketball#contact-form" class="sr-cta" data-preset="Basketball">Register →</a>
-        </div>
-        <div class="schedule-row" data-sport="basketball" data-type="grouptraining" data-age="14+" data-day="wed">
-          <span class="sr-time">8:00 PM</span>
-          <div><div class="sr-program">Advanced Training</div><div class="sr-age">Ages 14+</div></div>
-          <a href="contact.html?interest=Basketball#contact-form" class="sr-cta" data-preset="Basketball">Register →</a>
-        </div>
-      </div>
-
-      <div class="day-group">
-        <div class="day-heading-row">
-          <h3 class="day-heading">Thursday</h3>
-          <span class="sport-marker sport-marker--basketball day-sport-badge"><svg class="sport-marker-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3v18M5.5 5.5c3 3 3 10 0 13M18.5 5.5c-3 3-3 10 0 13" stroke="currentColor" stroke-width="1.6"/></svg><span>Basketball</span></span>
-        </div>
-        <div class="schedule-row" data-sport="basketball" data-type="grouptraining" data-age="6-9" data-day="thu">
-          <span class="sr-time">6:00 PM</span>
-          <div><div class="sr-program">Skills</div><div class="sr-age">Ages 6&ndash;9</div></div>
-          <a href="contact.html?interest=Basketball#contact-form" class="sr-cta" data-preset="Basketball">Register →</a>
-        </div>
-        <div class="schedule-row" data-sport="basketball" data-type="grouptraining" data-age="10-13" data-day="thu">
-          <span class="sr-time">7:00 PM</span>
-          <div><div class="sr-program">Development</div><div class="sr-age">Ages 10&ndash;13</div></div>
-          <a href="contact.html?interest=Basketball#contact-form" class="sr-cta" data-preset="Basketball">Register →</a>
-        </div>
-        <div class="schedule-row" data-sport="basketball" data-type="grouptraining" data-age="14+" data-day="thu">
-          <span class="sr-time">8:00 PM</span>
-          <div><div class="sr-program">Advanced Training</div><div class="sr-age">Ages 14+</div></div>
-          <a href="contact.html?interest=Basketball#contact-form" class="sr-cta" data-preset="Basketball">Register →</a>
-        </div>
-      </div>
-
-      <div class="day-group">
-        <div class="day-heading-row">
-          <h3 class="day-heading">Friday</h3>
-          <span class="sport-marker sport-marker--basketball day-sport-badge"><svg class="sport-marker-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3v18M5.5 5.5c3 3 3 10 0 13M18.5 5.5c-3 3-3 10 0 13" stroke="currentColor" stroke-width="1.6"/></svg><span>Basketball</span></span>
-        </div>
-        <div class="schedule-row" data-sport="basketball" data-type="grouptraining" data-age="6-9" data-day="fri">
-          <span class="sr-time">6:00 PM</span>
-          <div><div class="sr-program">Skills</div><div class="sr-age">Ages 6&ndash;9</div></div>
-          <a href="contact.html?interest=Basketball#contact-form" class="sr-cta" data-preset="Basketball">Register →</a>
-        </div>
-        <div class="schedule-row" data-sport="basketball" data-type="grouptraining" data-age="10-13" data-day="fri">
-          <span class="sr-time">7:00 PM</span>
-          <div><div class="sr-program">Development</div><div class="sr-age">Ages 10&ndash;13</div></div>
-          <a href="contact.html?interest=Basketball#contact-form" class="sr-cta" data-preset="Basketball">Register →</a>
-        </div>
-        <div class="schedule-row" data-sport="basketball" data-type="grouptraining" data-age="14+" data-day="fri">
-          <span class="sr-time">8:00 PM</span>
-          <div><div class="sr-program">Advanced Training</div><div class="sr-age">Ages 14+</div></div>
-          <a href="contact.html?interest=Basketball#contact-form" class="sr-cta" data-preset="Basketball">Register →</a>
-        </div>
-      </div>
-
-      <div class="day-group">
-        <div class="day-heading-row">
-          <h3 class="day-heading">Saturday</h3>
-        </div>
-        <div class="schedule-row" data-sport="basketball" data-type="grouptraining" data-age="6-9" data-day="sat">
-          <span class="sr-time">10:00 AM</span>
-          <div>
-            <div class="sr-session-sport"><span class="sport-marker sport-marker--basketball"><svg class="sport-marker-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3v18M5.5 5.5c3 3 3 10 0 13M18.5 5.5c-3 3-3 10 0 13" stroke="currentColor" stroke-width="1.6"/></svg><span>Basketball</span></span></div>
-            <div class="sr-program">Skills</div><div class="sr-age">Ages 6&ndash;9</div>
-          </div>
-          <a href="contact.html?interest=Basketball#contact-form" class="sr-cta" data-preset="Basketball">Register →</a>
-        </div>
-        <div class="schedule-row" data-sport="basketball" data-type="grouptraining" data-age="10-13" data-day="sat">
-          <span class="sr-time">11:00 AM</span>
-          <div>
-            <div class="sr-session-sport"><span class="sport-marker sport-marker--basketball"><svg class="sport-marker-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3v18M5.5 5.5c3 3 3 10 0 13M18.5 5.5c-3 3-3 10 0 13" stroke="currentColor" stroke-width="1.6"/></svg><span>Basketball</span></span></div>
-            <div class="sr-program">Development</div><div class="sr-age">Ages 10&ndash;13</div>
-          </div>
-          <a href="contact.html?interest=Basketball#contact-form" class="sr-cta" data-preset="Basketball">Register →</a>
-        </div>
-        <div class="schedule-row" data-sport="basketball" data-type="grouptraining" data-age="14+" data-day="sat">
-          <span class="sr-time">12:00 PM</span>
-          <div>
-            <div class="sr-session-sport"><span class="sport-marker sport-marker--basketball"><svg class="sport-marker-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3v18M5.5 5.5c3 3 3 10 0 13M18.5 5.5c-3 3-3 10 0 13" stroke="currentColor" stroke-width="1.6"/></svg><span>Basketball</span></span></div>
-            <div class="sr-program">Advanced Training</div><div class="sr-age">Ages 14+</div>
-          </div>
-          <a href="contact.html?interest=Basketball#contact-form" class="sr-cta" data-preset="Basketball">Register →</a>
-        </div>
-        <div class="schedule-row" data-sport="basketball" data-type="opengym" data-age="all" data-day="sat">
-          <span class="sr-time">2&ndash;3 PM</span>
-          <div>
-            <div class="sr-session-sport"><span class="sport-marker sport-marker--basketball"><svg class="sport-marker-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3v18M5.5 5.5c3 3 3 10 0 13M18.5 5.5c-3 3-3 10 0 13" stroke="currentColor" stroke-width="1.6"/></svg><span>Basketball</span></span></div>
-            <div class="sr-program">Open Gym</div><div class="sr-note">Advance registration required.</div>
-          </div>
-          <a href="schedule.html?type=opengym" class="sr-cta">Register →</a>
-        </div>
-        <div class="schedule-row" data-sport="volleyball" data-type="opengym" data-age="all" data-day="sat">
-          <span class="sr-time">3&ndash;4 PM</span>
-          <div>
-            <div class="sr-session-sport"><span class="sport-marker sport-marker--volleyball"><svg class="sport-marker-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3c-5 4-5 14 0 18M4 9c5-3 11-3 16 0M4 15c5 3 11 3 16 0" stroke="currentColor" stroke-width="1.6" fill="none"/></svg><span>Volleyball</span></span></div>
-            <div class="sr-program">Open Gym</div><div class="sr-note">Advance registration required.</div>
-          </div>
-          <a href="schedule.html?type=opengym" class="sr-cta">Register →</a>
-        </div>
-      </div>
-
-      <div class="day-group" data-type="drdish" data-day="sun">
-        <div class="day-heading-row">
-          <h3 class="day-heading">Sunday</h3>
-        </div>
-        <div class="drdish-card" data-sport="basketball" data-type="drdish" data-age="all" data-day="sun">
-          <div class="drdish-card-info">
-            <span class="drdish-card-sub">Basketball Only</span>
-            <h4>Dr. Dish</h4>
-            <p>10:00 AM&ndash;6:00 PM &middot; 30-minute reservations</p>
-          </div>
-          <div class="drdish-card-rates">
-            <div class="drdish-rate"><span class="label">Members</span><span class="value">$20 / 30 min</span></div>
-            <div class="drdish-rate drdish-rate--member"><span class="label">Non-Members</span><span class="value">$30 / 30 min</span></div>
-          </div>
-          <a href="dr-dish.html" class="sr-cta">Reserve Dr. Dish →</a>
-        </div>
-      </div>
-
-      <div class="pt-utility-row" data-sport="basketball volleyball" data-type="privatetraining" data-age="all">
-        <p><strong>Private Training</strong> &mdash; By Appt. Basketball + Volleyball.</p>
-        <a href="private-coaching.html">View Private Training →</a>
-      </div>
-
-      <div class="filter-empty" id="scheduleEmpty">
-        <p style="margin-bottom:6px;">Nothing on the board.</p>
-        <p style="margin-bottom:20px;">Try another day, or clear a filter.</p>
-        <button type="button" id="scheduleReset" class="btn btn-secondary">Clear All →</button>
-      </div>
+    <div class="sched-gate-head">
+      <span class="eyebrow">Live Schedule</span>
+      <p class="sched-gate-note">Advance registration or booking is required. Sessions are subject to capacity and availability.</p>
     </div>
+    <div class="sched-gate-grid">
+      <!-- [PINK — UPPER HAND BASKETBALL URL] Staging only. Replace href with the live Upper Hand basketball event-type link. -->
+      <a href="#" class="sched-gate-card">
+        <span class="sched-gate-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3v18M5.5 5.5c3 3 3 10 0 13M18.5 5.5c-3 3-3 10 0 13" stroke="currentColor" stroke-width="1.6"/></svg></span>
+        <h3 class="sched-gate-name">Basketball</h3>
+        <p class="sched-gate-desc">Group training for athletes across age groups.</p>
+        <span class="sched-gate-link">View Basketball Schedule →</span>
+      </a>
+      <!-- [PINK — UPPER HAND VOLLEYBALL URL] Staging only. Replace href with the live Upper Hand volleyball event-type link. -->
+      <a href="#" class="sched-gate-card">
+        <span class="sched-gate-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3c-5 4-5 14 0 18M4 9c5-3 11-3 16 0M4 15c5 3 11 3 16 0" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></span>
+        <h3 class="sched-gate-name">Volleyball</h3>
+        <p class="sched-gate-desc">Group training for athletes across age groups.</p>
+        <span class="sched-gate-link">View Volleyball Schedule →</span>
+      </a>
+      <!-- [PINK — UPPER HAND OPEN GYM URL] Staging only. Replace href with the live Upper Hand Open Gym event-type link. -->
+      <a href="#" class="sched-gate-card">
+        <span class="sched-gate-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9h17M9 9v11" stroke="currentColor" stroke-width="1.6"/></svg></span>
+        <h3 class="sched-gate-name">Open Gym</h3>
+        <p class="sched-gate-desc">Scheduled, coach-supervised court time.</p>
+        <span class="sched-gate-link">View Open Gym →</span>
+      </a>
+      <!-- [PINK — UPPER HAND DR. DISH URL] Staging only. Replace href with the live Upper Hand Dr. Dish booking link. -->
+      <a href="#" class="sched-gate-card">
+        <span class="sched-gate-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        <h3 class="sched-gate-name">Dr. Dish</h3>
+        <p class="sched-gate-desc">Basketball-only shooting reservations.</p>
+        <span class="sched-gate-link">Book Dr. Dish →</span>
+      </a>
+    </div>
+    <p class="sched-gate-powered">Live booking powered by Upper Hand</p>
   </div>
 </section>
 
