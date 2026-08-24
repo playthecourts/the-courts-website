@@ -68,12 +68,7 @@
     .lg-seq-arrow { transform: rotate(90deg); }
   }
 
-  .lg-transition { background: var(--black); color: var(--white); padding: 130px 0; text-align: center; overflow: hidden; position: relative; }
-  .lg-transition h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(32px, 7.5vw, 84px); line-height: 1; margin: 0; position: relative; z-index: 2; }
-  .lg-transition-arc { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-  .lg-transition-arc .arc-line { fill: none; stroke: var(--orange); stroke-width: 1.5; opacity: 0.4; }
-  .lg-transition-arc .arc-court { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 1; }
-  .lg-transition-arc .arc-make { fill: var(--orange); opacity: 0.55; }
+  .lg-glance-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 4.6vw, 52px); line-height: 1.02; margin: 12px 0 0; }
 
   .season-board { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin-top: 36px; border-top: 1px solid var(--gray-mid); border-left: 1px solid var(--gray-mid); }
   .season-board-item { border-right: 1px solid var(--gray-mid); border-bottom: 1px solid var(--gray-mid); padding: 26px 18px; text-align: center; }
@@ -82,11 +77,22 @@
   @media (max-width: 900px) { .season-board { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 560px) { .season-board { grid-template-columns: repeat(2, 1fr); } }
 
-  .why-league-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 48px; }
-  .why-league-item { padding-top: 22px; border-top: 3px solid var(--orange); }
-  .why-league-item h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3vw, 36px); margin: 0 0 10px; color: var(--black); }
-  .why-league-item p { font-size: 15px; color: var(--gray-dark); line-height: 1.6; max-width: 32ch; }
-  @media (max-width: 760px) { .why-league-grid { grid-template-columns: 1fr; gap: 32px; } }
+  .lg-rhythm-head { margin-top: 76px; text-align: center; }
+  .lg-rhythm-eyebrow { font-family: var(--font-sport); font-weight: 800; font-size: clamp(18px, 2vw, 20px); letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); display: block; margin-bottom: 8px; }
+  .lg-rhythm-sub { font-size: 15.5px; color: var(--gray-dark); max-width: 56ch; margin: 8px auto 0; }
+
+  .why-league-strip { display: flex; align-items: flex-start; margin-top: 48px; border-top: 3px solid var(--orange); padding-top: 26px; }
+  .why-league-item { flex: 1; padding: 0 28px; }
+  .why-league-item:first-child { padding-left: 0; }
+  .why-league-item:last-child { padding-right: 0; }
+  .why-league-item + .why-league-item { border-left: 1px solid var(--gray-mid); }
+  .why-league-item h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 2.8vw, 32px); margin: 0 0 8px; color: var(--black); }
+  .why-league-item p { font-size: 14.5px; color: var(--gray-dark); line-height: 1.6; max-width: 32ch; }
+  @media (max-width: 760px) {
+    .why-league-strip { flex-direction: column; gap: 28px; }
+    .why-league-item { padding: 0 !important; }
+    .why-league-item + .why-league-item { border-left: none; }
+  }
 
 
   .lg-form-wrap { background: var(--gray-light); border-radius: var(--radius-md); padding: 44px; margin-top: -60px; position: relative; z-index: 3; }
@@ -272,7 +278,6 @@
         <div class="roster-grade-wrap">
           <span class="roster-grade">3rd&ndash;4th Grade Boys</span>
           <span class="roster-note">We're building the roster now.</span>
-          <span class="roster-deadline">Registration Closes <strong>September 20 · 5 PM</strong></span>
         </div>
         <div class="roster-status-wrap">
           <span class="roster-status roster-status--forming"><span class="dot"></span>Forming Now</span>
@@ -283,7 +288,6 @@
         <div class="roster-grade-wrap">
           <span class="roster-grade">6th&ndash;7th Grade Boys</span>
           <span class="roster-note">We're building this group as registrations come in.</span>
-          <span class="roster-deadline">Registration Closes <strong>September 20 · 5 PM</strong></span>
         </div>
         <div class="roster-status-wrap">
           <span class="roster-status roster-status--forming"><span class="dot"></span>Forming Now</span>
@@ -314,49 +318,29 @@
   </div>
 </section>
 
-<section class="lg-transition" style="padding:90px 0;">
-  <svg class="lg-transition-arc" viewBox="0 0 1200 500" preserveAspectRatio="none" aria-hidden="true">
-    <path class="arc-court" d="M1220,500 L1220,120 Q1220,80 1180,80 L980,80 Q940,80 940,120 L940,500"/>
-    <path class="arc-court" d="M1220,340 Q1060,240 940,340"/>
-    <path class="arc-line" d="M40,190 Q560,60 1140,460"/>
-    <circle class="arc-make" cx="80" cy="176" r="4.5"/>
-  </svg>
-  <div class="container">
-    <h2 class="reveal" style="font-size:clamp(28px, 5vw, 56px);">The Scoreboard<br>Has Entered the Chat.</h2>
-  </div>
-</section>
-
 <section style="padding:100px 0;" id="fall-league">
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">Fall 2026</span>
-      <h2 class="section-title">Here's the Season.</h2>
+      <h2 class="lg-glance-headline reveal">The Scoreboard Has Entered the Chat.</h2>
       <p class="section-sub">The Courts teams will compete through <a href="https://www.wnsl.org/default.aspx?tabid=212773" target="_blank" rel="noopener" style="color:var(--black); text-decoration:underline; font-weight:700;">WNSL Basketball</a> with one practice and one game each week. <a href="https://www.wnsl.org/default.aspx?tabid=212773" target="_blank" rel="noopener" style="color:var(--orange); font-weight:700;">Learn About WNSL ↗</a></p>
     </div>
     <div class="season-board season-board--six">
       <div class="season-board-item"><span>Season</span><strong>Oct 24 &ndash; Dec 13</strong></div>
       <div class="season-board-item"><span>Regular Season</span><strong>Oct 24 &ndash; Dec 5</strong></div>
-      <div class="season-board-item"><span>End-of-Season Tournament</span><strong>Dec 11&ndash;13</strong></div>
+      <div class="season-board-item"><span>Tournament</span><strong>Dec 11&ndash;13</strong></div>
       <div class="season-board-item"><span>Game Day</span><strong>Saturdays</strong></div>
       <div class="season-board-item"><span>Practice</span><strong>One practice each week at The Courts</strong></div>
-      <div class="season-board-item"><span>Registration Deadline</span><strong style="color:var(--orange);">September 20 · 5 PM</strong></div>
+      <div class="season-board-item"><span>Registration Closes</span><strong style="color:var(--orange);">September 20 · 5 PM</strong></div>
     </div>
     <div class="legal-counsel" style="margin-top:28px;">
       <div class="legal-counsel-label">Staging Note</div>
       <p>Practice day TBD. Wednesday is the current target — not yet guaranteed. Remove before production.</p>
     </div>
-    <div class="ctas" style="margin-top:20px;">
-      <a href="#register" class="btn btn-primary">Register for Fall →</a>
-    </div>
-  </div>
-</section>
 
-<section style="padding:90px 0; background:var(--gray-light);">
-  <div class="container">
-    <div class="section-head center">
-      <span class="eyebrow">The Weekly Rhythm</span>
-      <h2 class="section-title">One Practice. One Game.<br>Then We Do It Again.</h2>
-      <p class="section-sub" style="margin-left:auto; margin-right:auto;">Practice at The Courts during the week. Play on Saturday. Come back, work on what happened, and get ready for the next one.</p>
+    <div class="lg-rhythm-head">
+      <span class="lg-rhythm-eyebrow">The Weekly Rhythm</span>
+      <p class="lg-rhythm-sub">Practice at The Courts during the week. Play on Saturday. Come back, work on what happened, and get ready for the next one.</p>
     </div>
     <div class="lg-sequence">
       <span class="lg-seq-word">Practice</span>
@@ -388,9 +372,6 @@
       <div class="legal-counsel-label">Staging Note</div>
       <p>Finalize evaluation date and confirm whether evaluation occurs before or immediately after the September 20 registration close. Remove before production.</p>
     </div>
-    <div class="ctas" style="margin-top:24px;">
-      <a href="#register" class="btn btn-secondary">Register →</a>
-    </div>
   </div>
 </section>
 
@@ -401,7 +382,7 @@
       <h2 class="section-title">Because Eventually, Somebody Has to Take the Shot.</h2>
       <p class="section-sub">Training gives athletes the reps. Games give them the decisions. Teammates. Pressure. Mistakes. Big plays. Weird plays. Possessions where absolutely nothing goes according to plan. That's basketball, too.</p>
     </div>
-    <div class="why-league-grid">
+    <div class="why-league-strip">
       <div class="why-league-item"><h3>Teammates.</h3><p>Learn to play with people, not just next to them.</p></div>
       <div class="why-league-item"><h3>Decisions.</h3><p>The game doesn't pause while you figure it out.</p></div>
       <div class="why-league-item"><h3>Compete.</h3><p>Want to win. Play hard. Learn either way.</p></div>
@@ -502,13 +483,13 @@
       <div class="sgi-side">
         <p class="sgi-body">A Tuesday-night basketball league for dads who still believe the jumper is there, the handle is alive, and the knees are "basically fine."</p>
         <p class="sgi-stat-lines">Real Games. Real Score.<br>Questionable Pace. Elite Confidence.</p>
-        <a href="#sgi-form" class="btn btn-primary sgi-cta">I Still Got It →</a>
+        <button type="button" class="btn btn-primary sgi-cta" id="sgiToggle" aria-expanded="false" aria-controls="sgi-form">I Still Got It →</button>
         <p class="sgi-seeing">We're only gauging interest.</p>
         <p class="sgi-disclaimer">Your hamstrings,<br>however, are on notice.</p>
       </div>
     </div>
-    <div class="sgi-formwrap-outer">
-      <div class="sgi-formwrap" id="sgi-form">
+    <div class="sgi-formwrap-outer" id="sgi-form" hidden>
+      <div class="sgi-formwrap">
         <form id="sgiForm">
           <div class="sgi-form-grid">
             <div><label for="sgiName">Name*</label><input type="text" id="sgiName" required></div>
@@ -567,6 +548,7 @@
 <style>
   .sgi { background: var(--black); color: var(--white); padding: 130px 0 100px; overflow: hidden; position: relative; }
   .sgi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--orange); }
+  .sgi::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 6px; background: var(--orange); }
   .sgi-label { display: inline-flex; align-items: center; gap: 11px; font-family: var(--font-sport); font-weight: 800; font-size: clamp(15px, 1.5vw, 18px); letter-spacing: 0.09em; text-transform: uppercase; color: var(--white); background: var(--orange); border-radius: 999px; padding: 13px 28px; margin-bottom: 44px; box-shadow: 0 10px 28px rgba(213,96,31,0.45); }
   .sgi-label::before { content: ''; width: 11px; height: 11px; border-radius: 50%; background: var(--white); flex-shrink: 0; animation: sgiPulse 1.6s ease-in-out infinite; }
   @keyframes sgiPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
@@ -616,6 +598,19 @@
 
 <script>
 (function () {
+  var toggle = document.getElementById('sgiToggle');
+  var wrap = document.getElementById('sgi-form');
+  if (toggle && wrap) {
+    toggle.addEventListener('click', function () {
+      var expanded = toggle.getAttribute('aria-expanded') === 'true';
+      wrap.hidden = expanded;
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      if (!expanded) {
+        wrap.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+      }
+    });
+  }
+
   var form = document.getElementById('sgiForm');
   var success = document.getElementById('sgiSuccess');
   if (form) {
@@ -631,14 +626,14 @@
 <section class="pre-footer">
   <div class="container pre-footer-inner">
     <div class="pre-footer-col">
-      <span class="pre-footer-eyebrow">Registration Closes September 20 · 5 PM</span>
-      <h3 class="pre-footer-title">Ready to Play?</h3>
+      <span class="pre-footer-eyebrow">Ready to Play?</span>
+      <h3 class="pre-footer-title">Get on the Roster.</h3>
       <a href="#register" class="pre-footer-link">Register Your Athlete <span class="arrow">→</span></a>
     </div>
     <div class="pre-footer-col">
-      <span class="pre-footer-eyebrow">Next Up</span>
-      <h3 class="pre-footer-title">Winter Basketball.</h3>
-      <a href="contact.html?interest=Basketball%20Leagues#contact-form" class="pre-footer-link" data-preset="Basketball Leagues">Get Winter Updates <span class="arrow">→</span></a>
+      <span class="pre-footer-eyebrow">Have a Question?</span>
+      <h3 class="pre-footer-title">Let's Talk League Ball.</h3>
+      <a href="contact.html?interest=Basketball%20Leagues#contact-form" class="pre-footer-link" data-preset="Basketball Leagues">Ask Us About Leagues <span class="arrow">→</span></a>
     </div>
   </div>
 </section>
