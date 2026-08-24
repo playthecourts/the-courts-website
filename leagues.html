@@ -15,15 +15,7 @@
 <style>
   /* ================= Leagues page — editorial system (lg-*) ================= */
 
-  .lg-ticker { background: var(--black); color: var(--white); padding: 14px 0; }
-  .lg-ticker-inner { display: flex; align-items: center; justify-content: center; gap: 18px; flex-wrap: wrap; text-align: center; }
-  .lg-ticker-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); flex-shrink: 0; animation: lgPulse 2s ease-in-out infinite; }
-  .lg-ticker-main { font-family: var(--font-sport); font-weight: 700; font-size: 13.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); }
-  .lg-ticker-detail { font-size: 13px; color: rgba(255,255,255,0.75); }
-  .lg-ticker-cta { font-size: 13px; font-weight: 700; color: var(--white); white-space: nowrap; }
   @keyframes lgPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
-  @media (prefers-reduced-motion: reduce) { .lg-ticker-dot { animation: none; } }
-  @media (max-width: 760px) { .lg-ticker-inner { flex-direction: column; gap: 6px; } }
 
   .lg-hero-bold { font-family: var(--font-heading); font-weight: 800; font-size: 17px; color: var(--white); margin: 18px 0 30px; }
   .lg-hero-deadline { display: flex; align-items: baseline; gap: 12px; margin: 24px 0 30px; }
@@ -240,15 +232,6 @@
   </div>
   <a href="contact.html">Contact</a>
   <a href="membership.html" class="btn btn-primary btn-block">Become a Member</a>
-</div>
-
-<div class="lg-ticker">
-  <div class="container lg-ticker-inner">
-    <span class="lg-ticker-dot" aria-hidden="true"></span>
-    <span class="lg-ticker-main">Fall League Registration Closes September 22</span>
-    <span class="lg-ticker-detail">3rd–4th Grade Boys Forming Now · 6th–7th Grade Boys Forming Now · Girls Basketball — Who's In?</span>
-    <a href="#register" class="lg-ticker-cta">Register Now →</a>
-  </div>
 </div>
 
 <section class="page-hero" id="main">
