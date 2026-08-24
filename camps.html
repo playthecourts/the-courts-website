@@ -23,72 +23,53 @@
   /* ---------- Three ways to spend a day off ---------- */
   .ways-day { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 52px; }
   .ways-day-item { border-top: 3px solid var(--black); padding-top: 22px; }
-  .ways-day-num { font-family: var(--font-display); font-weight: 900; font-size: 52px; line-height: 1; color: var(--orange); display: block; margin-bottom: 12px; }
+  .ways-day-num { font-family: var(--font-display); font-weight: 900; font-size: 52px; line-height: 1; color: var(--orange); display: block; margin-bottom: 4px; }
+  .ways-day-type { display: block; font-family: var(--font-sport); font-weight: 700; font-size: 12.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 14px; }
   .ways-day-item h3 { font-family: var(--font-heading); font-weight: 800; font-size: 21px; margin: 0 0 10px; }
   .ways-day-item p { font-size: 15px; line-height: 1.65; color: var(--gray-dark); margin: 0; }
   @media (max-width: 900px) { .ways-day { grid-template-columns: 1fr; gap: 36px; } }
 
-  /* ---------- Departures board ---------- */
-  .board-wrap { margin-top: 48px; }
-  .board { background: var(--black); border-radius: var(--radius-md); overflow: hidden; }
-  .board-note { font-size: 13.5px; color: var(--gray-dark); margin: 10px 0 0; }
-  .board-head-row { display: grid; grid-template-columns: 110px 1fr 110px; gap: 16px; padding: 12px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-  .board-head-row span { font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.65); }
-  .board-row { display: grid; grid-template-columns: 110px 1fr 110px; align-items: center; gap: 16px; padding: 13px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-  .board-row:last-child { border-bottom: none; }
-  .board-date { font-family: var(--font-display); font-weight: 900; color: var(--white); font-size: 15px; letter-spacing: 0.01em; }
-  .board-what { display: flex; align-items: center; gap: 12px; }
-  .board-what h4 { font-family: var(--font-heading); font-weight: 800; color: var(--white); font-size: 16px; margin: 0 0 2px; }
-  .board-what span { font-size: 12px; color: rgba(255,255,255,0.5); }
-  .board-status { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-sport); font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; white-space: nowrap; }
-  .board-status--soon { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.55); }
-  .board-action { font-size: 13px; font-weight: 700; color: var(--orange); text-align: right; white-space: nowrap; }
-  @media (max-width: 900px) {
-    .board-head-row { display: none; }
-    .board-row { grid-template-columns: 1fr; gap: 8px; padding: 22px; }
-    .board-date { font-size: 12.5px; color: var(--orange); text-transform: uppercase; letter-spacing: 0.06em; }
-    .board-action { text-align: left; }
-  }
-
   /* ---------- Camp feature (editorial media + copy row) ---------- */
   .camp-feature { padding: 76px 0; }
   .camp-feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
-  .camp-feature--reverse .camp-feature-media { order: 2; }
-  .camp-feature--reverse .camp-feature-copy { order: 1; }
   .camp-feature-media { position: relative; aspect-ratio: 4/3.2; border-radius: var(--radius-md); overflow: hidden; }
   .camp-feature-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .camp-feature-copy h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(32px, 4.4vw, 52px); line-height: 1.02; margin: 12px 0 20px; }
   .camp-feature-copy p { font-size: 16.5px; line-height: 1.75; color: var(--gray-dark); max-width: 44ch; margin: 0 0 16px; }
   .camp-feature-detail { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--black); margin: 20px 0 24px; }
   .camp-feature-detail .sep { color: var(--gray-mid); margin: 0 10px; }
-  @media (max-width: 900px) { .camp-feature-grid { grid-template-columns: 1fr; gap: 32px; } .camp-feature--reverse .camp-feature-media { order: -1; } }
+  @media (max-width: 900px) { .camp-feature-grid { grid-template-columns: 1fr; gap: 32px; } }
 
-  /* ---------- Early Release repeatable dates ---------- */
-  .early-release-dates { margin-top: 26px; border-top: 1px solid var(--gray-mid); }
-  .early-release-date-row { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--gray-mid); }
-  .early-release-date-row .erd-date { font-family: var(--font-display); font-weight: 900; font-size: 19px; white-space: nowrap; }
-  .early-release-date-row .erd-line { font-size: 14px; color: var(--gray-dark); flex: 1; }
-  .early-release-date-row a { font-size: 13px; font-weight: 700; color: var(--orange); white-space: nowrap; }
-
-  /* ---------- December lineup ---------- */
-  .dec-lineup { margin-top: 52px; display: flex; flex-direction: column; }
-  .dec-row { display: grid; grid-template-columns: 130px 1fr auto; gap: 20px; align-items: center; padding: 24px 0; border-bottom: 1px solid var(--gray-mid); }
-  .dec-row:last-child { border-bottom: none; }
-  .dec-row .dec-date { font-family: var(--font-display); font-weight: 900; font-size: 18px; }
-  .dec-row .dec-info h4 { font-family: var(--font-heading); font-weight: 800; font-size: 17px; margin: 0 0 4px; }
-  .dec-row .dec-info p { font-size: 13.5px; color: var(--gray-dark); margin: 0; }
-  .dec-row a.dec-action { font-size: 13px; font-weight: 700; color: var(--orange); white-space: nowrap; }
-  .dec-row--event { background: var(--gray-light); margin: 4px -24px; padding: 24px; border-radius: var(--radius-sm); border-bottom: none; }
-  .dec-row--event .dec-date { color: var(--orange); }
-  @media (max-width: 640px) { .dec-row { grid-template-columns: 1fr; gap: 6px; } .dec-row--event { margin: 4px 0; } }
+  /* ---------- Compact month-grouped calendar ---------- */
+  .cal-wrap { margin-top: 48px; }
+  .cal-board { background: var(--black); border-radius: var(--radius-md); padding: 8px 24px; }
+  .cal-month-label { font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange); padding: 22px 0 10px; }
+  .cal-month-group:first-child .cal-month-label { padding-top: 24px; }
+  .cal-row { display: grid; grid-template-columns: 100px 1fr 110px; align-items: center; gap: 16px; padding: 13px 0; border-top: 1px solid rgba(255,255,255,0.08); }
+  .cal-date { font-family: var(--font-display); font-weight: 900; color: var(--white); font-size: 15px; letter-spacing: 0.01em; }
+  .cal-info h4 { font-family: var(--font-heading); font-weight: 800; color: var(--white); font-size: 16px; margin: 0 0 2px; display: inline; }
+  .cal-tag { display: inline-block; margin-left: 8px; font-family: var(--font-sport); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.1); padding: 3px 9px; border-radius: 999px; vertical-align: middle; }
+  .cal-info p { font-size: 12.5px; color: rgba(255,255,255,0.5); margin: 2px 0 0; }
+  .cal-action { font-size: 13px; font-weight: 700; color: var(--orange); text-align: right; white-space: nowrap; }
+  .cal-expand-wrap { text-align: center; margin-top: 22px; }
+  .cal-expand-toggle { font-family: var(--font-heading); font-weight: 700; font-size: 14.5px; color: var(--black); background: none; border: none; cursor: pointer; padding: 4px; }
+  .cal-expand-toggle .arrow { color: var(--orange); display: inline-block; transition: transform 0.2s var(--ease); }
+  .cal-expand-toggle[aria-expanded="true"] .arrow { transform: rotate(180deg); }
+  #cal-later[hidden] { display: none; }
+  @media (max-width: 640px) {
+    .cal-board { padding: 4px 18px; }
+    .cal-row { grid-template-columns: 1fr; gap: 4px; padding: 16px 0; }
+    .cal-date { font-size: 12.5px; color: var(--orange); text-transform: uppercase; letter-spacing: 0.06em; }
+    .cal-action { text-align: left; }
+  }
 
   /* ---------- What a day looks like ---------- */
-  .day-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 52px; }
-  .day-flow-item { position: relative; padding-top: 20px; border-top: 2px solid var(--black); }
+  .day-flow { display: flex; align-items: flex-start; margin-top: 52px; }
+  .day-flow-item { flex: 1; position: relative; padding-top: 20px; border-top: 2px solid var(--black); }
   .day-flow-item h4 { font-family: var(--font-display); font-weight: 900; font-size: 19px; margin: 0 0 8px; }
   .day-flow-item p { font-size: 14px; color: var(--gray-dark); line-height: 1.6; margin: 0; }
-  @media (max-width: 900px) { .day-flow { grid-template-columns: 1fr 1fr; gap: 32px 20px; } }
-  @media (max-width: 560px) { .day-flow { grid-template-columns: 1fr; } }
+  .day-flow-arrow { flex: 0 0 auto; color: var(--orange); font-size: 22px; padding: 20px 16px 0; }
+  @media (max-width: 900px) { .day-flow { flex-direction: column; gap: 28px; } .day-flow-arrow { display: none; } }
 
   /* ---------- Basketball + Volleyball split ---------- */
   .camp-sports-split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 52px; }
@@ -96,14 +77,13 @@
   .camp-sport-panel .photo { position: absolute; inset: 0; }
   .camp-sport-panel .photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(23,23,23,0.1) 30%, rgba(23,23,23,0.86) 100%); }
   .camp-sport-panel-body { position: relative; z-index: 2; }
-  .camp-sport-panel-body .eyebrow { color: var(--orange); }
-  .camp-sport-panel-body h3 { font-family: var(--font-display); font-weight: 900; color: var(--white); font-size: clamp(26px, 3vw, 36px); margin: 10px 0 16px; }
+  .camp-sport-panel-body h3 { font-family: var(--font-display); font-weight: 900; color: var(--white); font-size: clamp(26px, 3vw, 36px); margin: 0 0 16px; }
   .camp-sport-skills { display: flex; flex-wrap: wrap; gap: 8px 0; padding: 0; margin: 0; list-style: none; }
   .camp-sport-skills li { font-size: 14.5px; color: rgba(255,255,255,0.88); font-weight: 600; }
   .camp-sport-skills li:not(:last-child)::after { content: '·'; margin: 0 12px; color: rgba(255,255,255,0.4); }
   @media (max-width: 900px) { .camp-sports-split { grid-template-columns: 1fr; gap: 16px; } }
 
-  /* ---------- Camp Basics board ---------- */
+  /* ---------- Good to Know ---------- */
   .basics-board { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--gray-mid); border-radius: var(--radius-md); overflow: hidden; }
   .basics-item { background: var(--white); padding: 30px 28px; }
   .basics-item h4 { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 10px; }
@@ -268,84 +248,21 @@
     <div class="ways-day">
       <div class="ways-day-item reveal">
         <span class="ways-day-num">01</span>
+        <span class="ways-day-type">Early Release</span>
         <h3>Two Hours Early?<br>We Can Work With That.</h3>
-        <p>A little extra afternoon for basketball,<br>volleyball, games, and more time on the court.</p>
+        <p>A little extra afternoon for basketball, volleyball, games, and more time on the court.</p>
       </div>
       <div class="ways-day-item reveal">
         <span class="ways-day-num">02</span>
-        <h3>No School.</h3>
-        <p>Spend the day moving, training, and competing.</p>
+        <span class="ways-day-type">No School Day</span>
+        <h3>Day Off. Game On.</h3>
+        <p>Spend the day moving, training, competing, and playing.</p>
       </div>
       <div class="ways-day-item reveal">
         <span class="ways-day-num">03</span>
+        <span class="ways-day-type">School Break</span>
         <h3>A Few Days Off? Even Better.</h3>
-        <p>School-break camps filled with basketball, volleyball, games, competition,<br>and plenty of court time.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="board" style="padding:90px 0; background:var(--gray-light); scroll-margin-top:100px;">
-  <div class="container">
-    <div class="section-head center">
-      <span class="eyebrow">Upcoming</span>
-      <h2 class="section-title">Your Next Day Off Is Boarding.</h2>
-      <p class="board-note">Every camp and session below covers both basketball and volleyball.</p>
-    </div>
-    <div class="board-wrap">
-      <div class="board">
-        <div class="board-head-row"><span>Date</span><span>What's Happening</span><span></span></div>
-
-        <div class="board-row reveal">
-          <span class="board-date">Oct 12&ndash;16</span>
-          <div class="board-what"><h4>Fall Break Camp</h4></div>
-          <a href="#fall-break" class="board-action">Register →</a>
-        </div>
-        <div class="board-row reveal">
-          <span class="board-date">Oct 28</span>
-          <div class="board-what"><h4>Early Release @ The Courts</h4></div>
-          <a href="#early-release" class="board-action">Register →</a>
-        </div>
-        <div class="board-row reveal">
-          <span class="board-date">Nov 3</span>
-          <div class="board-what"><h4>Day Off. Game On.</h4></div>
-          <a href="#day-off" class="board-action">Register →</a>
-        </div>
-        <div class="board-row reveal">
-          <span class="board-date">Nov 18</span>
-          <div class="board-what"><h4>Early Release @ The Courts</h4></div>
-          <a href="#early-release" class="board-action">Register →</a>
-        </div>
-        <div class="board-row reveal">
-          <span class="board-date">Nov 23&ndash;25</span>
-          <div class="board-what"><h4>Thanksgiving Break Camp</h4></div>
-          <a href="#thanksgiving" class="board-action">Register →</a>
-        </div>
-        <div class="board-row reveal">
-          <span class="board-date">Dec 9</span>
-          <div class="board-what"><h4>Early Release @ The Courts</h4></div>
-          <a href="#early-release" class="board-action">Register →</a>
-        </div>
-        <div class="board-row reveal">
-          <span class="board-date">Dec 18</span>
-          <div class="board-what"><h4>The Winter Classic <span>&middot; Special Event</span></h4><span class="board-status board-status--soon">Coming Soon</span></div>
-          <a href="events.html#december" class="board-action">View Event →</a>
-        </div>
-        <div class="board-row reveal">
-          <span class="board-date">Dec 21&ndash;23</span>
-          <div class="board-what"><h4>Holiday Break Camp</h4></div>
-          <a href="#december" class="board-action">Register →</a>
-        </div>
-        <div class="board-row reveal">
-          <span class="board-date">Dec 28&ndash;30</span>
-          <div class="board-what"><h4>New Year Camp</h4></div>
-          <a href="#december" class="board-action">Register →</a>
-        </div>
-        <div class="board-row reveal">
-          <span class="board-date">Jan 1</span>
-          <div class="board-what"><h4>New Year Tip-Off <span>&middot; Special Event</span></h4><span class="board-status board-status--soon">Coming Soon</span></div>
-          <a href="events.html#december" class="board-action">View Event →</a>
-        </div>
+        <p>Basketball. Volleyball. Games. Competition. Plenty of court time.</p>
       </div>
     </div>
   </div>
@@ -358,112 +275,96 @@
         <img src="images/basketball-dribble-cones.jpg" alt="A youth basketball athlete working through a training drill during camp." style="object-position:50% 35%;">
       </div>
       <div class="camp-feature-copy reveal">
-        <span class="eyebrow">Fall Break Camp</span>
+        <span class="eyebrow">Next Up</span>
         <h2>Fall Break.<br>Full Court.</h2>
         <p>Five days without school. Seems like a pretty good reason to play.</p>
         <p>Basketball and volleyball training, games, competitions, and plenty of actual court time throughout the week.</p>
-        <p class="camp-feature-detail">Basketball + Volleyball<span class="sep">&middot;</span>October 12&ndash;16</p>
+        <p class="camp-feature-detail">October 12&ndash;16<span class="sep">&middot;</span>Basketball + Volleyball</p>
         <a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" class="btn btn-primary" data-preset="Programs + Membership">Register →</a>
       </div>
     </div>
   </div>
 </section>
 
-<section class="camp-feature camp-feature--reverse" id="early-release" style="background:var(--gray-light);">
-  <div class="container">
-    <div class="camp-feature-grid">
-      <!-- PHOTO-CAMPS-EARLY-RELEASE-01 · LANDSCAPE · 3:2
-           IMAGE NEEDED: Candid transitional moment of youth athletes arriving at the gym after school,
-           one athlete dropping a backpack near the court while another changes shoes, basketball and
-           volleyball equipment visible naturally, ages approximately 9–14, warm afternoon light,
-           documentary youth-sports photography. -->
-      <div class="camp-feature-media reveal"><div class="img-placeholder"><span class="img-placeholder-id">PHOTO-CAMPS-EARLY-RELEASE-01</span><span class="img-placeholder-ratio">3:2</span></div></div>
-      <div class="camp-feature-copy reveal">
-        <span class="eyebrow">Early Release</span>
-        <h2>Two Hours Early?<br>We Can Work With That.</h2>
-        <p>School wraps up a little early. We'll take it from here.</p>
-        <div class="early-release-dates">
-          <div class="early-release-date-row"><span class="erd-date">Oct 28</span><span class="erd-line">Drop the backpack. Grab the shoes.</span><a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" data-preset="Programs + Membership">Register →</a></div>
-          <div class="early-release-date-row"><span class="erd-date">Nov 18</span><span class="erd-line">School ends early. Apparently we have plans now.</span><a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" data-preset="Programs + Membership">Register →</a></div>
-          <div class="early-release-date-row"><span class="erd-date">Dec 9</span><span class="erd-line">School's out early. You know the drill.</span><a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" data-preset="Programs + Membership">Register →</a></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="camp-feature" id="day-off">
-  <div class="container">
-    <div class="camp-feature-grid">
-      <div class="camp-feature-media reveal">
-        <img src="images/leagues-huddle.jpg" alt="A group of youth athletes huddled together during a full day of play at The Courts." style="object-position:60% 30%;">
-      </div>
-      <div class="camp-feature-copy reveal">
-        <span class="eyebrow">No School Day</span>
-        <h2>Day Off.<br>Game On.</h2>
-        <p>No school. No elaborate explanation necessary.</p>
-        <p>Come spend the day on the court with basketball, volleyball, games, competitions, and plenty of time to play.</p>
-        <p class="camp-feature-detail">November 3<span class="sep">&middot;</span>Basketball + Volleyball</p>
-        <a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" class="btn btn-primary" data-preset="Programs + Membership">Register →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="camp-feature camp-feature--reverse" id="thanksgiving" style="background:var(--gray-light);">
-  <div class="container">
-    <div class="camp-feature-grid">
-      <div class="camp-feature-media reveal">
-        <img src="images/court-floor-detail.jpg" alt="A close detail shot of hardwood court flooring and basketball shoes." style="object-position:50% 60%;">
-      </div>
-      <div class="camp-feature-copy reveal">
-        <span class="eyebrow">Thanksgiving Break Camp</span>
-        <h2>Three Days.<br>Then Turkey.</h2>
-        <p>Three days of basketball, volleyball, games, competition, and court time before Thanksgiving takes over.</p>
-        <p class="camp-feature-detail">November 23&ndash;25<span class="sep">&middot;</span>Basketball + Volleyball</p>
-        <a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" class="btn btn-primary" data-preset="Programs + Membership">Register →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section style="padding:96px 0;" id="december">
+<section id="board" style="padding:90px 0; background:var(--gray-light); scroll-margin-top:100px;">
   <div class="container">
     <div class="section-head center">
-      <span class="eyebrow">December at The Courts</span>
-      <h2 class="section-title">Things Are Getting Festive.</h2>
+      <span class="eyebrow">Coming Up</span>
+      <h2 class="section-title">Well, Look at All Those Days Off.</h2>
+      <p class="board-note">Every camp and session below covers both basketball and volleyball.</p>
     </div>
-    <div class="dec-lineup">
-      <div class="dec-row reveal">
-        <span class="dec-date">Dec 9</span>
-        <div class="dec-info"><h4>Early Release @ The Courts</h4><p>School's out early. You know the drill.</p></div>
-        <a href="#early-release" class="dec-action">Register →</a>
+    <div class="cal-wrap">
+      <div class="cal-board">
+        <div class="cal-month-group">
+          <div class="cal-month-label">October</div>
+          <div class="cal-row reveal">
+            <span class="cal-date">Oct 12&ndash;16</span>
+            <div class="cal-info"><h4>Fall Break Camp</h4></div>
+            <a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
+          </div>
+          <div class="cal-row reveal">
+            <span class="cal-date">Oct 28</span>
+            <div class="cal-info"><h4>Early Release @ The Courts</h4><p>Drop the backpack. Grab the shoes.</p></div>
+            <a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
+          </div>
+        </div>
+
+        <div class="cal-month-group">
+          <div class="cal-month-label">November</div>
+          <div class="cal-row reveal">
+            <span class="cal-date">Nov 3</span>
+            <div class="cal-info"><h4>Day Off. Game On.</h4><p>No elaborate explanation necessary.</p></div>
+            <a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
+          </div>
+          <div class="cal-row reveal">
+            <span class="cal-date">Nov 18</span>
+            <div class="cal-info"><h4>Early Release @ The Courts</h4></div>
+            <a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
+          </div>
+          <div class="cal-row reveal">
+            <span class="cal-date">Nov 23&ndash;25</span>
+            <div class="cal-info"><h4>Thanksgiving Break Camp</h4><p>Three days. Then turkey.</p></div>
+            <a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
+          </div>
+        </div>
+
+        <div class="cal-month-group" id="cal-later" hidden>
+          <div class="cal-month-label">December + January</div>
+          <div class="cal-row reveal">
+            <span class="cal-date">Dec 9</span>
+            <div class="cal-info"><h4>Early Release @ The Courts</h4></div>
+            <a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
+          </div>
+          <div class="cal-row reveal">
+            <span class="cal-date">Dec 18</span>
+            <div class="cal-info"><h4>The Winter Classic<span class="cal-tag">Special Event</span></h4></div>
+            <a href="events.html#december" class="cal-action">View Event →</a>
+          </div>
+          <div class="cal-row reveal">
+            <span class="cal-date">Dec 21&ndash;23</span>
+            <div class="cal-info"><h4>Holiday Break Camp</h4></div>
+            <a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
+          </div>
+          <div class="cal-row reveal">
+            <span class="cal-date">Dec 28&ndash;30</span>
+            <div class="cal-info"><h4>New Year Camp</h4></div>
+            <a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
+          </div>
+          <div class="cal-row reveal">
+            <span class="cal-date">Jan 1</span>
+            <div class="cal-info"><h4>New Year Tip-Off<span class="cal-tag">Special Event</span></h4></div>
+            <a href="events.html#december" class="cal-action">View Event →</a>
+          </div>
+        </div>
       </div>
-      <div class="dec-row dec-row--event reveal">
-        <span class="dec-date">Dec 18</span>
-        <div class="dec-info"><h4>The Winter Classic <span style="font-weight:500; text-transform:none; letter-spacing:0; color:var(--gray-dark); font-family:var(--font-body); font-size:13px;">&middot; Special Event</span></h4><p>One last run before break. Basketball. Volleyball. Games. Music. Competitions. A little holiday chaos.</p></div>
-        <a href="events.html#december" class="dec-action">View Event →</a>
-      </div>
-      <div class="dec-row reveal">
-        <span class="dec-date">Dec 21&ndash;23</span>
-        <div class="dec-info"><h4>Holiday Break Camp &mdash; Break, Round One.</h4><p>Three days on the court before everybody disappears into wrapping paper. Basketball. Volleyball. Training. Games. Competition.</p></div>
-        <a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" class="dec-action" data-preset="Programs + Membership">Register →</a>
-      </div>
-      <div class="dec-row reveal">
-        <span class="dec-date">Dec 28&ndash;30</span>
-        <div class="dec-info"><h4>New Year Camp &mdash; Break, Round Two.</h4><p>The presents are open. The leftovers are questionable. Come play. Three more days of basketball, volleyball, games, and training before the year wraps up.</p></div>
-        <a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" class="dec-action" data-preset="Programs + Membership">Register →</a>
-      </div>
-      <div class="dec-row dec-row--event reveal">
-        <span class="dec-date">Jan 1</span>
-        <div class="dec-info"><h4>New Year Tip-Off <span style="font-weight:500; text-transform:none; letter-spacing:0; color:var(--gray-dark); font-family:var(--font-body); font-size:13px;">&middot; Special Event</span></h4><p>Set the goal. Take the first rep. New year, new goals, same court &mdash; we'll talk about what athletes want to get better at and get to work.</p></div>
-        <a href="events.html#december" class="dec-action">View Event →</a>
+      <div class="cal-expand-wrap">
+        <button type="button" class="cal-expand-toggle" id="calExpandBtn" aria-expanded="false" aria-controls="cal-later">See December + January <span class="arrow">↓</span></button>
       </div>
     </div>
   </div>
 </section>
 
-<section style="padding:96px 0; background:var(--gray-light);">
+<section style="padding:96px 0; background:var(--white);">
   <div class="container">
     <div class="section-head center">
       <span class="eyebrow">What a Day Looks Like</span>
@@ -471,14 +372,17 @@
     </div>
     <div class="day-flow">
       <div class="day-flow-item reveal"><h4>Get Moving.</h4><p>Warm up. Footwork. Get the body going.</p></div>
+      <span class="day-flow-arrow" aria-hidden="true">→</span>
       <div class="day-flow-item reveal"><h4>Get Better.</h4><p>Basketball or volleyball instruction and meaningful reps.</p></div>
+      <span class="day-flow-arrow" aria-hidden="true">→</span>
       <div class="day-flow-item reveal"><h4>Compete.</h4><p>Games. Challenges. Small-sided play.</p></div>
+      <span class="day-flow-arrow" aria-hidden="true">→</span>
       <div class="day-flow-item reveal"><h4>Just Play.</h4><p>Because not every minute needs a drill attached to it.</p></div>
     </div>
   </div>
 </section>
 
-<section style="padding:96px 0;">
+<section style="padding:96px 0; background:var(--gray-light);">
   <div class="container">
     <div class="section-head center">
       <span class="eyebrow">Basketball + Volleyball</span>
@@ -488,7 +392,6 @@
       <div class="camp-sport-panel reveal">
         <div class="photo"><img src="images/basketball-texture.jpg" alt="" style="object-position:50% 40%;"></div>
         <div class="camp-sport-panel-body">
-          <span class="eyebrow eyebrow--light">Basketball</span>
           <h3>Basketball</h3>
           <ul class="camp-sport-skills"><li>Handles</li><li>Shooting</li><li>Finishing</li><li>Decisions</li><li>Games</li></ul>
         </div>
@@ -501,7 +404,6 @@
              no commercial posing. -->
         <div class="img-placeholder"><span class="img-placeholder-id">PHOTO-CAMPS-VOLLEYBALL-01</span><span class="img-placeholder-ratio">3:2</span></div>
         <div class="camp-sport-panel-body">
-          <span class="eyebrow eyebrow--light">Volleyball</span>
           <h3>Volleyball</h3>
           <ul class="camp-sport-skills"><li>Passing</li><li>Setting</li><li>Serving</li><li>Attacking</li><li>Games</li></ul>
         </div>
@@ -511,21 +413,21 @@
   </div>
 </section>
 
-<section style="padding:96px 0; background:var(--gray-light);">
+<section style="padding:96px 0; background:var(--white);">
   <div class="container">
     <div class="section-head center">
-      <span class="eyebrow">The Basics</span>
-      <h2 class="section-title">Before You Drop Them Off.</h2>
+      <span class="eyebrow">Good to Know</span>
+      <h2 class="section-title">What to Know Before You Drop Them Off.</h2>
     </div>
     <div class="basics-board">
-      <div class="basics-item"><h4>Who</h4><p>Age / grade ranges listed with each camp or program.</p></div>
-      <div class="basics-item"><h4>When</h4><p>Dates + times listed with registration.</p></div>
-      <div class="basics-item"><h4>What to Bring</h4><p>Court shoes. Water bottle. Lunch / snacks when applicable.</p></div>
-      <div class="basics-item"><h4>Membership</h4><p>No membership required.</p></div>
-      <div class="basics-item"><h4>Pricing</h4><p>Varies by camp / program.</p></div>
-      <div class="basics-item"><h4>Registration</h4><p>Advance registration required.</p></div>
+      <div class="basics-item"><h4>What Are We Doing?</h4><p>Basketball or volleyball training, games, competitions, and plenty of time to just play.</p></div>
+      <div class="basics-item"><h4>What Should They Bring?</h4><p>Court shoes. Water bottle. Lunch or snacks when the day calls for it.</p></div>
+      <div class="basics-item"><h4>Who's It For?</h4><p>Age and grade ranges are listed with each camp or session.</p></div>
+      <div class="basics-item"><h4>When Do I Drop Off?</h4><p>Exact times and drop-off details come with registration.</p></div>
+      <div class="basics-item"><h4>Do I Need a Membership?</h4><p>Nope.</p></div>
+      <div class="basics-item"><h4>Do I Need to Register Ahead of Time?</h4><p>Yep. Advance registration is required and space may be limited.</p></div>
     </div>
-    <div style="text-align:center; margin-top:32px;"><a href="faq.html" style="font-weight:700; color:var(--black);">View Camp FAQs →</a></div>
+    <div style="text-align:center; margin-top:32px;"><a href="faq.html" style="font-weight:700; color:var(--orange);">View Camp FAQs →</a></div>
   </div>
 </section>
 
@@ -611,6 +513,19 @@
   </div>
 </footer>
 
+<script>
+  (function () {
+    var btn = document.getElementById('calExpandBtn');
+    var later = document.getElementById('cal-later');
+    if (!btn || !later) return;
+    btn.addEventListener('click', function () {
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      later.hidden = expanded;
+      btn.setAttribute('aria-expanded', String(!expanded));
+      btn.firstChild.textContent = expanded ? 'See December + January ' : 'Show Less ';
+    });
+  })();
+</script>
 <script src="js/script.js"></script>
 </body>
 </html>
