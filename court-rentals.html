@@ -13,26 +13,91 @@
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="css/styles.css">
 <style>
-  .cc-transition { padding: 54px 0 0; text-align: center; }
-  .cc-kicker { font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-dark); margin: 0; }
-  .coach-collective { background: var(--black); padding: 56px 0 0; overflow: hidden; }
-  .cc-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; min-height: 480px; }
-  .cc-copy { display: flex; flex-direction: column; justify-content: center; padding: 56px clamp(24px,5vw,72px) 64px clamp(24px,6vw,88px); }
-  .cc-copy .eyebrow { font-size: 15px; }
-  .cc-headline { font-family: var(--font-display); font-weight: 900; color: var(--white); font-size: clamp(34px, 4.4vw, 54px); line-height: 1.04; margin: 14px 0 22px; }
-  .cc-body { font-size: 16.5px; line-height: 1.7; color: rgba(255,255,255,0.72); max-width: 42ch; margin: 0 0 18px; }
-  .cc-support { font-family: var(--font-sport); font-size: 14px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin: 0 0 26px; }
-  .cc-closing { font-family: var(--font-heading); font-weight: 700; color: var(--white); font-size: 18px; margin: 0 0 30px; }
-  .cc-media { position: relative; overflow: hidden; background: var(--charcoal); }
-  .cc-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .cc-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(23,23,23,0.55) 0%, rgba(23,23,23,0.05) 26%, rgba(23,23,23,0) 50%); }
-  .cc-lines { position: absolute; top: 0; bottom: 0; left: -1px; width: 90px; z-index: 2; pointer-events: none; }
-  @media (max-width: 900px) {
-    .cc-grid { grid-template-columns: 1fr; min-height: 0; }
-    .cc-media { aspect-ratio: 4/3; order: -1; }
-    .cc-copy { padding: 44px 24px 52px; }
-    .cc-lines { display: none; }
-  }
+  /* ---------- Named photo placeholder ---------- */
+  .img-placeholder { position: absolute; inset: 0; background: var(--gray-mid); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px; text-align: center; padding: 20px; }
+  .img-placeholder-id { font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); }
+  .img-placeholder-ratio { font-size: 10px; color: var(--gray-dark); opacity: 0.65; }
+
+  /* ---------- Got a Thing (big idea) ---------- */
+  .cr-idea { background: var(--white); padding: 120px 0; }
+  .cr-idea-head { max-width: 680px; margin: 0 auto; text-align: center; }
+  .cr-idea-head h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.02; margin: 14px 0 0; }
+  .cr-idea-lead { text-align: center; font-size: 18px; color: var(--gray-dark); max-width: 46ch; margin: 24px auto 0; }
+  .cr-idea-list { max-width: 620px; margin: 40px auto 0; display: flex; flex-direction: column; }
+  .cr-idea-list li { font-size: 19px; font-weight: 700; color: var(--black); padding: 16px 0; border-bottom: 1px solid var(--gray-mid); list-style: none; }
+  .cr-idea-list li:first-child { border-top: 1px solid var(--gray-mid); }
+  .cr-idea-more { text-align: center; font-size: 16px; color: var(--gray-dark); margin: 24px 0 0; }
+  .cr-idea-strong { text-align: center; font-family: var(--font-display); font-weight: 900; font-size: clamp(20px, 2.4vw, 28px); color: var(--black); margin: 40px 0 0; }
+  .cr-idea-strong .accent { color: var(--orange); }
+
+  /* ---------- Use cases ---------- */
+  .cr-uses { background: var(--gray-light); padding: 120px 0; }
+  .cr-uses-list { max-width: 780px; margin: 48px auto 0; display: flex; flex-direction: column; }
+  .cr-use-row { display: grid; grid-template-columns: 220px 1fr; gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--gray-mid); align-items: baseline; }
+  .cr-use-row:first-child { border-top: 1px solid var(--gray-mid); }
+  .cr-use-name { font-family: var(--font-display); font-weight: 900; font-size: clamp(18px, 2vw, 22px); color: var(--black); }
+  .cr-use-desc { font-size: 15.5px; line-height: 1.6; color: var(--gray-dark); margin: 0; }
+  @media (max-width: 640px) { .cr-use-row { grid-template-columns: 1fr; gap: 4px; } }
+
+  /* ---------- Pricing ---------- */
+  .cr-pricing { padding: 120px 0; background: var(--white); }
+  .cr-price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 900px; margin: 48px auto 0; }
+  .cr-price-col { border: 1.5px solid var(--gray-mid); border-radius: var(--radius-md); padding: 36px 32px; }
+  .cr-price-col--prime { border-color: var(--black); background: var(--black); color: var(--white); }
+  .cr-price-label { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); display: block; margin-bottom: 8px; }
+  .cr-price-col h3 { font-family: var(--font-display); font-weight: 900; font-size: 28px; margin: 0 0 10px; }
+  .cr-price-col--prime h3 { color: var(--white); }
+  .cr-price-window { font-size: 14px; color: var(--gray-dark); margin: 0 0 24px; }
+  .cr-price-col--prime .cr-price-window { color: rgba(255,255,255,0.65); }
+  .cr-price-row { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--gray-mid); }
+  .cr-price-col--prime .cr-price-row { border-top-color: rgba(255,255,255,0.16); }
+  .cr-price-row .name { font-size: 15px; font-weight: 600; }
+  .cr-price-row .amount { font-family: var(--font-display); font-weight: 900; font-size: 20px; }
+  .cr-price-note { font-size: 13px; color: var(--gray-dark); margin-top: 22px; }
+  .cr-price-col--prime .cr-price-note { color: rgba(255,255,255,0.6); }
+  .cr-price-disclaimer { text-align: center; font-size: 13.5px; color: var(--gray-dark); max-width: 52ch; margin: 32px auto 0; }
+  @media (max-width: 720px) { .cr-price-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- Off-peak / recurring / weather callouts ---------- */
+  .cr-callout { padding: 90px 0; text-align: center; }
+  .cr-callout--dark { background: var(--charcoal); color: var(--white); }
+  .cr-callout--light { background: var(--gray-light); }
+  .cr-callout h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 3.6vw, 44px); line-height: 1.04; margin: 12px 0 18px; }
+  .cr-callout--dark h2 { color: var(--white); }
+  .cr-callout p { font-size: 16px; line-height: 1.7; max-width: 52ch; margin: 0 auto 18px; }
+  .cr-callout--dark p { color: rgba(255,255,255,0.72); }
+  .cr-callout:not(.cr-callout--dark) p { color: var(--gray-dark); }
+  .cr-callout-strong { font-family: var(--font-display); font-weight: 900; font-size: clamp(18px, 2.2vw, 24px); margin: 22px 0 26px; }
+  .cr-callout--dark .cr-callout-strong { color: var(--orange); }
+  .cr-callout:not(.cr-callout--dark) .cr-callout-strong { color: var(--black); }
+
+  /* ---------- Open-ended idea ---------- */
+  .cr-openend { background: var(--white); padding: 110px 0; text-align: center; }
+  .cr-openend h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(32px, 4.4vw, 52px); margin: 12px 0 20px; }
+  .cr-openend h2 .accent { color: var(--orange); }
+  .cr-openend p { font-size: 17px; color: var(--gray-dark); max-width: 48ch; margin: 0 auto 30px; }
+
+  /* ---------- Parties gateway ---------- */
+  .cr-parties { background: var(--gray-light); padding: 80px 0; text-align: center; }
+  .cr-parties h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 3vw, 34px); margin: 12px 0 14px; }
+  .cr-parties p { font-size: 16px; color: var(--gray-dark); margin: 0 0 20px; }
+  .cr-parties-price { font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 20px; }
+  .cr-parties-price strong { font-family: var(--font-display); font-size: 22px; color: var(--black); text-transform: none; letter-spacing: 0; }
+
+  /* ---------- Coach Collective crosslink ---------- */
+  .cr-cc-link { background: var(--black); padding: 64px 0; text-align: center; }
+  .cr-cc-link p { color: rgba(255,255,255,0.75); font-size: 16px; margin: 0 0 16px; max-width: 46ch; margin-left: auto; margin-right: auto; }
+  .cr-cc-link a.cta { font-family: var(--font-heading); font-weight: 700; color: var(--white); font-size: 15.5px; }
+  .cr-cc-link a.cta .arrow { color: var(--orange); }
+
+  /* ---------- The Basics ---------- */
+  .cr-basics { background: var(--white); padding: 120px 0; }
+  .cr-basics-board { max-width: 900px; margin: 48px auto 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--gray-mid); border-radius: var(--radius-md); overflow: hidden; }
+  .cr-basics-item { background: var(--white); padding: 28px 26px; }
+  .cr-basics-item h4 { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 10px; }
+  .cr-basics-item p { font-size: 14.5px; line-height: 1.6; color: var(--black); margin: 0; }
+  @media (max-width: 900px) { .cr-basics-board { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .cr-basics-board { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body class="has-announce">
@@ -162,94 +227,179 @@
 </div>
 
 <section class="page-hero" style="padding-bottom:70px;" id="main">
-  <div class="photo" role="img" aria-label="Court at The Courts"></div>
+  <!-- PHOTO-RENTALS-HERO-01 · WIDE · 16:9
+       IMAGE NEEDED: Wide documentary-style photograph showing an indoor youth sports court as a
+       flexible open space. Hardwood visible, basketball hoops and volleyball setup subtly present,
+       enough open floor area to understand scale and rental potential. Warm realistic gym lighting,
+       clean but lived-in environment, no staged crowd, no fabricated signage. -->
+  <div class="photo" role="img" aria-label="Photo placeholder — wide view of the open court"><div class="img-placeholder"><span class="img-placeholder-id">PHOTO-RENTALS-HERO-01</span><span class="img-placeholder-ratio">16:9</span></div></div>
   <div class="container page-hero-inner">
     <span class="eyebrow eyebrow--light">Court Rentals</span>
-    <h1 class="page-hero-title">Your team. Your group. Your court.</h1>
-    <p class="page-hero-sub">Half and full court rentals for teams, clubs, schools, and groups — whatever brings you together.</p>
+    <h1 class="page-hero-title">Your People.<br>Your Court.</h1>
+    <p class="page-hero-sub">Practice. Play. Train. Meet. Compete.<br>Or bring us something we haven't thought of yet.</p>
     <div class="hero-ctas" style="margin-top:32px;">
-      <a href="contact.html?interest=Court%20Rental#contact-form" class="btn btn-primary" data-preset="Court Rental">Find Court Time →</a>
-      <a href="#rates" class="btn btn-on-dark">View Rental Options →</a>
+      <a href="contact.html?interest=Court%20Rental%20%2F%20Party%20%2F%20Event#contact-form" class="btn btn-primary" data-preset="Court Rental / Party / Event">Check Court Availability →</a>
+      <a href="#uses" class="btn btn-on-dark">See What Fits ↓</a>
     </div>
   </div>
 </section>
 
-<section style="padding:100px 0;">
+<section class="cr-idea" id="uses">
+  <div class="container">
+    <div class="cr-idea-head">
+      <span class="eyebrow">More Than Court Time</span>
+      <h2>Got a Thing?<br>Bring It <span style="color:var(--orange);">Here.</span></h2>
+      <p class="cr-idea-lead">Not everything at The Courts needs a scoreboard.</p>
+    </div>
+    <ul class="cr-idea-list">
+      <li>Pickleball crew.</li>
+      <li>Mah jong night.</li>
+      <li>Yoga class.</li>
+      <li>Homeschool group.</li>
+      <li>Team meeting.</li>
+      <li>Corporate outing, minus the trust falls.</li>
+    </ul>
+    <p class="cr-idea-more">Or something we haven't thought of yet.</p>
+    <p class="cr-idea-strong">You've Got the People.<br><span class="accent">We've Got the Space.</span></p>
+  </div>
+</section>
+
+<section class="cr-uses">
   <div class="container">
     <div class="section-head center">
-      <span class="eyebrow">Ways to Use the Court</span>
-      <h2 class="section-title">However you play, there's a rental for it.</h2>
+      <span class="eyebrow">What Are We Doing?</span>
+      <h2 class="section-title">Plenty, Apparently.</h2>
     </div>
-    <div class="benefits-grid">
-      <div class="benefit-card"><h4>Teams + Clubs</h4><p>Practice space for club teams, travel teams, and select squads.</p></div>
-      <div class="benefit-card"><h4>Pickup + Group Play</h4><p>Get your crew together for a casual game on your own time.</p></div>
-      <div class="benefit-card"><h4>Schools + Organizations</h4><p>Practice or game space for school teams and local organizations.</p></div>
-      <div class="benefit-card"><h4>Special Uses</h4><p>Tryouts, private events, and one-off bookings.</p></div>
+    <div class="cr-uses-list">
+      <div class="cr-use-row">
+        <span class="cr-use-name">Pickleball</span>
+        <p class="cr-use-desc">Get your crew together. Skip the heat, cold, or rain.</p>
+      </div>
+      <div class="cr-use-row">
+        <span class="cr-use-name">Mah Jong</span>
+        <p class="cr-use-desc">Tables out. Tiles down. Absolutely no vertical jump required.</p>
+      </div>
+      <div class="cr-use-row">
+        <span class="cr-use-name">Fitness + Yoga</span>
+        <p class="cr-use-desc">Bring your instructor. Bring your people. We have the floor.</p>
+      </div>
+      <div class="cr-use-row">
+        <span class="cr-use-name">Team Practice</span>
+        <p class="cr-use-desc">When your usual gym disappears from the group text.</p>
+      </div>
+      <div class="cr-use-row">
+        <span class="cr-use-name">Homeschool Groups</span>
+        <p class="cr-use-desc">Move around. Play something. Call it PE if you want.</p>
+      </div>
+      <div class="cr-use-row">
+        <span class="cr-use-name">Corporate Outings</span>
+        <p class="cr-use-desc">Minus the trust falls.</p>
+      </div>
+      <div class="cr-use-row">
+        <span class="cr-use-name">Meetings + Groups</span>
+        <p class="cr-use-desc">Turns out a little space can be useful even without a basketball.</p>
+      </div>
     </div>
+    <p style="text-align:center; font-size:14.5px; color:var(--gray-dark); max-width:52ch; margin:32px auto 0;">Certain uses may require setup, equipment, or capacity review. Tell us what you're planning and we'll let you know what works.</p>
   </div>
 </section>
 
-<section style="padding:0 0 100px;" id="rates">
+<section class="cr-pricing" id="rates">
   <div class="container">
     <div class="section-head center">
       <span class="eyebrow">Rental Rates</span>
-      <h2 class="section-title">Simple, transparent pricing.</h2>
+      <h2 class="section-title">Off-Peak vs. Prime Time.</h2>
+      <p class="section-sub" style="margin:0 auto;">Prime-time court hours have one value. Lower-demand hours create room for something else entirely.</p>
     </div>
-    <div class="plans-grid" style="grid-template-columns:repeat(2,1fr); max-width:900px; margin:0 auto;">
-      <div class="plan">
-        <h3>Half Court</h3>
-        <p class="plan-desc">One half of the gym.</p>
-        <div class="price">$75<span>/hour</span></div>
-        <p style="font-weight:700; font-size:13.5px; color:var(--gray-dark); margin-bottom:10px;">Great for:</p>
-        <ul class="plan-features">
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Small group practice</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Pickup games</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Individual skill work</li>
-        </ul>
-        <a href="contact.html?interest=Court%20Rental#contact-form" class="btn btn-secondary" data-preset="Court Rental">Book Half Court →</a>
+    <div class="cr-price-grid">
+      <div class="cr-price-col">
+        <span class="cr-price-label">Off-Peak</span>
+        <h3>Weekday Daytime</h3>
+        <p class="cr-price-window">Select weekday + lower-demand hours.</p>
+        <p style="font-size:15px; color:var(--gray-dark); margin:0 0 8px;">Special off-peak rates available.</p>
+        <a href="contact.html?interest=Court%20Rental%20%2F%20Party%20%2F%20Event#contact-form" class="btn btn-secondary" data-preset="Court Rental / Party / Event" style="margin-top:14px;">Ask About Off-Peak Time →</a>
       </div>
-      <div class="plan featured">
-        <h3>Full Court</h3>
-        <p class="plan-desc">The entire gym.</p>
-        <div class="price">$150<span>/hour+</span></div>
-        <p style="font-weight:700; font-size:13.5px; color:var(--gray-dark); margin-bottom:10px;">Great for:</p>
-        <ul class="plan-features">
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Full team practice</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Games + scrimmages</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Tournaments + events</li>
-        </ul>
-        <a href="contact.html?interest=Court%20Rental#contact-form" class="btn btn-primary" data-preset="Court Rental">Book Full Court →</a>
+      <div class="cr-price-col cr-price-col--prime">
+        <span class="cr-price-label">Prime Time</span>
+        <h3>Afternoons + Evenings</h3>
+        <p class="cr-price-window">High-demand weekday and weekend hours.</p>
+        <div class="cr-price-row"><span class="name">Half Court</span><span class="amount">$75<span style="font-size:13px; font-weight:600;">/hr</span></span></div>
+        <div class="cr-price-row"><span class="name">Full Court</span><span class="amount">$150<span style="font-size:13px; font-weight:600;">+/hr</span></span></div>
+        <a href="contact.html?interest=Court%20Rental%20%2F%20Party%20%2F%20Event#contact-form" class="btn btn-primary" data-preset="Court Rental / Party / Event" style="margin-top:22px;">Check Availability →</a>
       </div>
     </div>
+    <p class="cr-price-disclaimer">Rates and availability may vary based on timing, setup, use, and court needs.</p>
   </div>
 </section>
 
-<section style="padding:110px 0; background:var(--black); text-align:center;">
-  <div class="container" style="max-width:640px;">
-    <span class="eyebrow eyebrow--light">Recurring Court Time</span>
-    <h2 class="section-title" style="color:var(--white); font-weight:800;">From a single practice to recurring court time.</h2>
-    <p style="color:rgba(255,255,255,0.75); margin-bottom:30px;">Need the same time slot every week? We can set up standing court time for your team or group.</p>
-    <a href="contact.html?interest=Court%20Rental#contact-form" class="btn btn-primary" data-preset="Court Rental">Ask About Recurring Time →</a>
+<section class="cr-callout cr-callout--light">
+  <div class="container">
+    <span class="eyebrow">Off-Peak</span>
+    <h2>The Court's Quiet.<br>Yours Doesn't Have To Be.</h2>
+    <p>Weekday daytime and select lower-demand hours can be a great fit for recurring groups, workouts, meetings, pickleball, mah jong, homeschool groups, and whatever else you've got going on.</p>
+    <p class="cr-callout-strong">Same Court. A Little More Room to Play With.</p>
+    <a href="contact.html?interest=Court%20Rental%20%2F%20Party%20%2F%20Event#contact-form" class="btn btn-primary" data-preset="Court Rental / Party / Event">Ask About Off-Peak Time →</a>
   </div>
 </section>
 
-<div class="cc-transition"><p class="cc-kicker">Coaches + Trainers</p></div>
-<section class="coach-collective" id="coach-collective">
-  <div class="cc-grid">
-    <div class="cc-copy">
-      <span class="eyebrow">Coach Collective</span>
-      <h2 class="cc-headline">Your Athletes.<br>Your Program.<br>Our Court.</h2>
-      <p class="cc-body">Need a place to train your team or run a small group? The Courts offers flexible court space for coaches who want to bring their own athletes and their own training.</p>
-      <p class="cc-support">Teams. Small groups. Private training.</p>
-      <p class="cc-closing">You coach. We'll save you a court.</p>
-      <div class="ctas"><a href="contact.html?interest=The%20Coach%20Collective#contact-form" class="btn btn-primary" data-preset="The Coach Collective">Ask About The Coach Collective →</a></div>
+<section class="cr-callout cr-callout--dark">
+  <div class="container">
+    <span class="eyebrow">Make It a Thing.</span>
+    <h2>Same Time<br>Next Week?</h2>
+    <p>Got a group that wants to come back regularly? Ask about recurring off-peak availability for practices, pickleball, fitness groups, homeschool groups, clubs, or whatever you're building.</p>
+    <a href="contact.html?interest=Court%20Rental%20%2F%20Party%20%2F%20Event#contact-form" class="btn btn-primary" data-preset="Court Rental / Party / Event">Ask About Recurring Time →</a>
+  </div>
+</section>
+
+<section class="cr-callout cr-callout--light">
+  <div class="container">
+    <span class="eyebrow">Tennessee Weather</span>
+    <h2>Has Plans<br>of Its Own.</h2>
+    <p>Too hot. Too cold. Raining sideways. Your game doesn't necessarily have to care.</p>
+    <p>Bring the practice, workout, pickleball game, or group inside.</p>
+    <a href="contact.html?interest=Court%20Rental%20%2F%20Party%20%2F%20Event#contact-form" class="btn btn-primary" data-preset="Court Rental / Party / Event">Check Availability →</a>
+  </div>
+</section>
+
+<section class="cr-openend">
+  <div class="container">
+    <span class="eyebrow">Don't See Your Thing?</span>
+    <h2><span class="accent">Good.</span></h2>
+    <p>We're not trying to guess every possible reason someone might need a gym. Tell us what you have in mind.</p>
+    <a href="contact.html?interest=Court%20Rental%20%2F%20Party%20%2F%20Event#contact-form" class="btn btn-primary" data-preset="Court Rental / Party / Event">Pitch Us Your Idea →</a>
+  </div>
+</section>
+
+<section class="cr-parties">
+  <div class="container" style="max-width:560px;">
+    <span class="eyebrow">Looking for Cake with Your Court Time?</span>
+    <h3>We Do Parties, Too.</h3>
+    <p class="cr-parties-price">90 minutes &middot; Full gym &middot; Select weekends<br>From <strong>$400</strong></p>
+    <a href="events.html#parties" class="btn btn-secondary">Ask About a Party →</a>
+  </div>
+</section>
+
+<section class="cr-cc-link">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--orange);">Are You a Coach Bringing Your Own Athletes?</span>
+    <p>That might be The Coach Collective — a home base for independent coaches training their own athletes, not a one-time court rental.</p>
+    <a href="coach-collective.html" class="cta">Learn About The Coach Collective <span class="arrow">→</span></a>
+  </div>
+</section>
+
+<section class="cr-basics">
+  <div class="container">
+    <div class="section-head center">
+      <span class="eyebrow">The Basics</span>
+      <h2 class="section-title">Before You Take Over the Court.</h2>
     </div>
-    <div class="cc-media">
-      <img src="images/team-listening.jpg" alt="A coach giving instruction to a small group of athletes on the court.">
-      <svg class="cc-lines" viewBox="0 0 90 400" preserveAspectRatio="none" aria-hidden="true">
-        <line x1="1" y1="0" x2="1" y2="400" stroke="var(--orange)" stroke-width="2"/>
-        <path d="M1,140 Q45,180 1,220" fill="none" stroke="var(--orange)" stroke-width="1.5" opacity="0.7"/>
-      </svg>
+    <div class="cr-basics-board">
+      <div class="cr-basics-item"><h4>Availability</h4><p>Based around The Courts programming schedule.</p></div>
+      <div class="cr-basics-item"><h4>Reservations</h4><p>Advance booking required.</p></div>
+      <div class="cr-basics-item"><h4>Capacity</h4><p>Varies based on activity and setup.</p></div>
+      <div class="cr-basics-item"><h4>Equipment</h4><p>Discuss what's included or needed when booking.</p></div>
+      <div class="cr-basics-item"><h4>Setup</h4><p>Some activities may require additional setup time.</p></div>
+      <div class="cr-basics-item"><h4>Members</h4><p>Members receive preferred pricing on all court rentals.</p></div>
     </div>
   </div>
 </section>
@@ -282,9 +432,25 @@
 
 <section class="final-cta">
   <div class="container">
-    <h2>The Court is <span class="accent">Yours.</span></h2>
-    <p>Find your time, book it, and get on the court.</p>
-    <div class="ctas"><a href="contact.html?interest=Court%20Rental#contact-form" class="btn btn-primary" data-preset="Court Rental">Find Court Time →</a></div>
+    <span class="eyebrow">Got a Thing?</span>
+    <h2>Let's Find It <span class="accent">a Court.</span></h2>
+    <p>One practice. Every Tuesday. Mah jong. Pickleball. A company outing. Or something we haven't heard yet.</p>
+    <div class="ctas"><a href="contact.html?interest=Court%20Rental%20%2F%20Party%20%2F%20Event#contact-form" class="btn btn-primary" data-preset="Court Rental / Party / Event">Tell Us What You're Planning →</a></div>
+  </div>
+</section>
+
+<section class="pre-footer">
+  <div class="container pre-footer-inner">
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Just Need to Play?</span>
+      <h3 class="pre-footer-title">See What's on the Court.</h3>
+      <a href="schedule.html" class="pre-footer-link">View Schedule <span class="arrow">→</span></a>
+    </div>
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Building Something of Your Own?</span>
+      <h3 class="pre-footer-title">Coaches, This One's for You.</h3>
+      <a href="coach-collective.html" class="pre-footer-link">The Coach Collective <span class="arrow">→</span></a>
+    </div>
   </div>
 </section>
 
