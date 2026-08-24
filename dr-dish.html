@@ -43,10 +43,6 @@
   .dd-hero-media .dd-hero-photo { position: absolute; top: 8%; right: 0; left: 8%; bottom: 6%; border-radius: var(--radius-md) 0 0 var(--radius-md); overflow: hidden; box-shadow: -40px 30px 90px rgba(0,0,0,0.45); }
   .dd-hero-media .dd-hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 30%; display: block; filter: saturate(1.05) contrast(1.05); }
   .dd-hero-media .dd-hero-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0) 30%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5)); }
-  .dd-hero-data { position: absolute; z-index: 3; font-family: var(--font-sport); font-weight: 700; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.85); background: rgba(23,23,23,0.55); backdrop-filter: blur(3px); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; padding: 7px 14px; }
-  .dd-hero-data--1 { top: 12%; right: 6%; }
-  .dd-hero-data--2 { top: 12%; right: 6%; margin-top: 40px; }
-  .dd-hero-data--3 { bottom: 9%; left: 2%; font-family: var(--font-display); font-size: 20px; letter-spacing: 0.02em; padding: 10px 16px; color: var(--white); background: rgba(213,96,31,0.85); border-color: transparent; }
   @media (max-width: 980px) {
     .dd-hero-grid { grid-template-columns: 1fr; min-height: 0; }
     .dd-hero-copy { padding: 140px 24px 28px; }
@@ -69,6 +65,8 @@
   .dd-seq-step h3 { font-family: var(--font-heading); font-weight: 800; font-size: 21px; margin: 0 0 10px; }
   .dd-seq-step p { font-size: 15px; line-height: 1.6; color: var(--gray-dark); margin: 0 0 10px; }
   .dd-seq-zinger { font-family: var(--font-heading); font-weight: 700; color: var(--black); font-size: 15.5px; }
+  .dd-how-utility { text-align: center; margin: 44px 0 0; font-size: 14.5px; color: var(--gray-dark); }
+  .dd-how-utility a { color: var(--orange); font-weight: 700; }
   @media (max-width: 900px) {
     .dd-how { padding: 76px 0; }
     .dd-seq-trail { display: none; }
@@ -125,29 +123,11 @@
     .dd-framework-arrow { transform: rotate(90deg); padding: 2px 0; }
   }
 
-  /* ---------- Video ---------- */
-  .dd-video-section { background: var(--white); padding: 0 0 108px; }
-  .dd-video-module { position: relative; max-width: 980px; margin: 52px auto 0; aspect-ratio: 16/9; border-radius: var(--radius-md); overflow: hidden; background: var(--black); box-shadow: 0 40px 80px rgba(0,0,0,0.25); }
-  .dd-video-poster { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(0.9) brightness(0.75); }
-  .dd-video-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.55)); }
-  .dd-video-kicker { position: absolute; top: 22px; left: 24px; font-family: var(--font-sport); font-weight: 700; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
-  .dd-video-play { position: absolute; inset: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: transparent; border: none; cursor: pointer; color: var(--white); }
-  .dd-video-play svg circle { transition: fill 0.2s var(--ease); }
-  .dd-video-play:hover svg circle { fill: rgba(213,96,31,0.85); }
-  .dd-video-play span { font-family: var(--font-heading); font-weight: 700; font-size: 15px; }
-  .dd-video-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-  .dd-video-credit { text-align: center; font-size: 13.5px; color: var(--gray-dark); margin: 18px 0 0; }
-  .dd-video-credit a { color: var(--orange); font-weight: 700; }
-  @media (max-width: 820px) {
-    .dd-video-section { padding: 0 0 76px; }
-  }
-
-  /* ---------- Progress ---------- */
-  .dd-progress { background: var(--black); padding: 108px 0; }
-  .dd-progress-panel { max-width: 760px; margin: 48px auto 40px; background: var(--charcoal); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-md); padding: 40px clamp(24px,4vw,48px); }
+  /* ---------- Progress (merged into Feedback section) ---------- */
+  .dd-progress-panel { max-width: 760px; margin: 48px auto 40px; background: var(--charcoal); border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius-md); padding: 40px clamp(24px,4vw,48px); }
   .dd-progress-tag { display: inline-block; font-family: var(--font-sport); font-weight: 700; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); border: 1px solid rgba(213,96,31,0.4); border-radius: 999px; padding: 5px 12px; margin-bottom: 26px; }
   .dd-progress-rows { display: flex; flex-direction: column; gap: 20px; }
-  .dd-progress-row { display: grid; grid-template-columns: 96px 1fr auto; align-items: center; gap: 16px; }
+  .dd-progress-row { display: grid; grid-template-columns: 140px 1fr auto; align-items: center; gap: 16px; }
   .dd-progress-session { font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
   .dd-progress-bar { height: 8px; border-radius: 999px; background: rgba(255,255,255,0.1); overflow: hidden; }
   .dd-progress-bar span { display: block; height: 100%; width: 0; border-radius: 999px; background: linear-gradient(90deg, var(--orange-hover), var(--orange)); transition: width 1.2s var(--ease); }
@@ -155,11 +135,8 @@
   .dd-progress-best { font-family: var(--font-sport); font-weight: 700; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); white-space: nowrap; }
   .dd-progress-labels { display: flex; justify-content: space-between; gap: 12px; margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); font-family: var(--font-sport); font-weight: 700; font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.4); text-align: center; }
   .dd-progress-labels span { flex: 1; }
-  .dd-progress .dd-feedback-payoff { color: var(--white); }
-  .dd-progress .dd-feedback-payoff .accent { color: var(--orange); }
   @media (max-width: 820px) {
-    .dd-progress { padding: 76px 0; }
-    .dd-progress-row { grid-template-columns: 72px 1fr; }
+    .dd-progress-row { grid-template-columns: 100px 1fr; }
     .dd-progress-best { grid-column: 1 / -1; text-align: right; }
     .dd-progress-labels { flex-direction: column; gap: 8px; }
   }
@@ -355,9 +332,6 @@
       <div class="dd-hero-photo">
         <img src="images/private-training-dribble.jpg" alt="An athlete working intently with the ball under the lights at The Courts.">
       </div>
-      <span class="dd-hero-data dd-hero-data--1">Made</span>
-      <span class="dd-hero-data dd-hero-data--2">Arc</span>
-      <span class="dd-hero-data dd-hero-data--3">30:00</span>
     </div>
   </div>
 </section>
@@ -405,6 +379,7 @@
           <p class="dd-seq-zinger">Some days it's you vs. the machine.<br>Some days it's you vs. last Tuesday.</p>
         </div>
       </div>
+      <p class="dd-how-utility">Never used one? <a href="https://www.youtube.com/watch?v=2ur42dLnH_Y" target="_blank" rel="noopener">Watch how Dr. Dish works ↗</a></p>
     </div>
   </div>
 </section>
@@ -417,7 +392,6 @@
       <h2>A Lot Can Happen in Half an Hour.</h2>
       <p>This isn't standing around waiting for somebody to chase the ball down.<br>It's 30 minutes built for shooting.</p>
       <p class="dd-session-bold">Less chasing. More shooting.</p>
-      <a href="schedule.html" class="btn btn-primary">Book a 30-Minute Session →</a>
     </div>
     <div class="dd-session-clock reveal">
       <div class="dd-clock-glow" aria-hidden="true"></div>
@@ -433,13 +407,13 @@
   </div>
 </section>
 
-<!-- ================= 4. FEEDBACK + ARC TRACKING ================= -->
+<!-- ================= 4. FEEDBACK + PROGRESS ================= -->
 <section class="dd-feedback">
   <div class="container">
     <div class="dd-head">
-      <span class="eyebrow">The Feedback</span>
+      <span class="eyebrow">Feedback + Progress</span>
       <h2>Your Shot Has <span class="accent">Stats</span> Now.</h2>
-      <p>Dr. Dish FCLTY1 goes beyond makes and misses. Its Arc Tracking technology measures shot arc in real time and provides immediate visual and audio feedback, giving athletes another way to understand what their shot is doing.</p>
+      <p>Dr. Dish FCLTY1 goes beyond makes and misses. Its Arc Tracking technology measures shot arc in real time and gives athletes immediate visual and audio feedback. Over multiple sessions, it can save that data too — so athletes can see where they started, what's changing, and what still needs work.</p>
     </div>
     <div class="dd-framework reveal">
       <div class="dd-framework-step"><span class="dd-framework-label">Shot Arc</span><span class="dd-framework-verb">See it.</span></div>
@@ -450,56 +424,23 @@
       <div class="dd-framework-arrow">→</div>
       <div class="dd-framework-step"><span class="dd-framework-label">Progress</span><span class="dd-framework-verb">Come back and prove it.</span></div>
     </div>
-    <p class="dd-feedback-payoff">No more "I think I'm getting better."<br><span class="accent">Let's see it.</span></p>
-  </div>
-</section>
-
-<!-- ================= 5. SEE IT IN ACTION ================= -->
-<section class="dd-video-section">
-  <div class="container">
-    <div class="dd-head" style="padding-top:104px;">
-      <span class="eyebrow">See It in Action</span>
-      <h2>Never Used One?<br>Watch This.</h2>
-      <p>It makes a lot more sense once you see the ball come back.</p>
-    </div>
-    <div class="dd-video-module reveal" id="ddVideoModule">
-      <img src="images/basketball-dribble-cones.jpg" alt="" class="dd-video-poster">
-      <div class="dd-video-overlay" aria-hidden="true"></div>
-      <span class="dd-video-kicker">Dr. Dish · How It Works</span>
-      <button type="button" class="dd-video-play" id="ddVideoPlay" aria-label="Play video: How Dr. Dish Works">
-        <svg viewBox="0 0 68 68" width="68" height="68" aria-hidden="true"><circle cx="34" cy="34" r="33" fill="rgba(255,255,255,0.14)" stroke="white" stroke-width="1.5"/><path d="M27 20 L48 34 L27 48 Z" fill="white"/></svg>
-        <span>Watch How Dr. Dish Works</span>
-      </button>
-    </div>
-    <p class="dd-video-credit">Official demo from Dr. Dish Basketball. <a href="https://www.youtube.com/watch?v=2ur42dLnH_Y" target="_blank" rel="noopener">Watch on YouTube ↗</a></p>
-  </div>
-</section>
-
-<!-- ================= 6. TRACK YOUR WORK ================= -->
-<section class="dd-progress">
-  <div class="container">
-    <div class="dd-head dd-head--light">
-      <span class="eyebrow">Progress</span>
-      <h2>Your Shot Has a <span class="accent">Memory.</span></h2>
-      <p>One session is useful.<br>A bunch of sessions? That's where it gets interesting.<br>Dr. Dish can save player performance data over time, helping athletes see where they started, what's changing, and where there's still work to do.</p>
-    </div>
     <div class="dd-progress-panel reveal">
-      <span class="dd-progress-tag">Sample Player View</span>
+      <span class="dd-progress-tag">Example — Not Live Data</span>
       <div class="dd-progress-rows">
         <div class="dd-progress-row">
-          <span class="dd-progress-session">Session 01</span>
+          <span class="dd-progress-session">Early Sessions</span>
           <div class="dd-progress-bar" style="--w:34%"><span></span></div>
         </div>
         <div class="dd-progress-row">
-          <span class="dd-progress-session">Session 04</span>
+          <span class="dd-progress-session">Getting Consistent</span>
           <div class="dd-progress-bar" style="--w:52%"><span></span></div>
         </div>
         <div class="dd-progress-row">
-          <span class="dd-progress-session">Session 08</span>
+          <span class="dd-progress-session">Leveling Up</span>
           <div class="dd-progress-bar" style="--w:71%"><span></span></div>
         </div>
         <div class="dd-progress-row">
-          <span class="dd-progress-session">Session 12</span>
+          <span class="dd-progress-session">Most Recent</span>
           <div class="dd-progress-bar" style="--w:90%"><span></span></div>
           <span class="dd-progress-best">Personal Best ↑</span>
         </div>
@@ -508,11 +449,11 @@
         <span>Where you started.</span><span>Where you're getting better.</span><span>What still needs work.</span>
       </div>
     </div>
-    <p class="dd-feedback-payoff">No More "I Think I'm Better."<br><span class="accent">Let's see it.</span></p>
+    <p class="dd-feedback-payoff">No more "I think I'm getting better."<br><span class="accent">Let's see it.</span></p>
   </div>
 </section>
 
-<!-- ================= 7. WEEKLY LEADERBOARD ================= -->
+<!-- ================= 5. WEEKLY LEADERBOARD ================= -->
 <section class="dd-leaderboard">
   <div class="container">
     <div class="dd-head">
@@ -540,22 +481,21 @@
       <p class="dd-board-status">Leaderboard launching soon.</p>
       <p class="dd-board-cta-line">Your name could look good up here.</p>
     </div>
-    <div class="dd-cta-center"><a href="schedule.html" class="btn btn-primary">Book Your Shots →</a></div>
   </div>
 </section>
 
-<!-- ================= 8. PRICING + MEMBERSHIP ================= -->
+<!-- ================= 6. PRICING + AVAILABILITY ================= -->
 <section class="dd-pricing">
   <div class="container">
     <div class="dd-head">
-      <span class="eyebrow">Get Your Shots</span>
+      <span class="eyebrow">Pricing + Availability</span>
       <h2>Thirty Minutes.<br>Your Shot.</h2>
     </div>
     <div class="dd-rateboard reveal">
       <div class="dd-rate-row dd-rate-row--featured">
-        <div class="dd-rate-label"><span class="dd-rate-tag">Full Court Members</span><span class="dd-rate-name">2x / Week Included</span></div>
+        <div class="dd-rate-label"><span class="dd-rate-tag">Full Court Members</span><span class="dd-rate-name">2x / Month Included</span></div>
         <div class="dd-rate-body">
-          <p>Two 30-minute Dr. Dish sessions every week included with Full Court membership.</p>
+          <p>Two 30-minute Dr. Dish sessions every month included with Full Court membership.</p>
           <p class="dd-rate-zinger">Yes, really. Use them.</p>
         </div>
       </div>
@@ -564,7 +504,7 @@
         <div class="dd-rate-body"><p>Member pricing for dedicated Dr. Dish time.</p></div>
       </div>
       <div class="dd-rate-row">
-        <div class="dd-rate-label"><span class="dd-rate-tag">Not a Member?</span><span class="dd-rate-name">$25 <small>/ 30 min</small></span></div>
+        <div class="dd-rate-label"><span class="dd-rate-tag">Not a Member?</span><span class="dd-rate-name">$30 <small>/ 30 min</small></span></div>
         <div class="dd-rate-body">
           <p>No membership required.</p>
           <p class="dd-rate-zinger">Come shoot. We're not weird about it.</p>
@@ -573,7 +513,7 @@
     </div>
     <div class="dd-cta-center">
       <a href="schedule.html" class="btn btn-primary">Book Dr. Dish →</a>
-      <p class="dd-pricing-note">Basketball only. Advance reservation required. Subject to machine and court availability.</p>
+      <p class="dd-pricing-note">Basketball only. 1–2 athletes can share a reservation. Advance booking required, subject to machine and court availability.</p>
     </div>
   </div>
 </section>
@@ -586,9 +526,9 @@
       <a href="schedule.html" class="pre-footer-link">Book Dr. Dish <span class="arrow">→</span></a>
     </div>
     <div class="pre-footer-col">
-      <span class="pre-footer-eyebrow">Need More Than Reps?</span>
-      <h3 class="pre-footer-title">Want Someone Watching, Too?</h3>
-      <a href="private-coaching.html" class="pre-footer-link">Private Training <span class="arrow">→</span></a>
+      <span class="pre-footer-eyebrow">Want Someone Watching, Too?</span>
+      <h3 class="pre-footer-title">That's Private Training.</h3>
+      <a href="private-coaching.html" class="pre-footer-link">View Private Training <span class="arrow">→</span></a>
     </div>
   </div>
 </section>
@@ -660,25 +600,6 @@
   </div>
 </footer>
 
-<script>
-  (function () {
-    var playBtn = document.getElementById('ddVideoPlay');
-    var module = document.getElementById('ddVideoModule');
-    if (playBtn && module) {
-      playBtn.addEventListener('click', function () {
-        var iframe = document.createElement('iframe');
-        iframe.className = 'dd-video-frame';
-        iframe.src = 'https://www.youtube-nocookie.com/embed/2ur42dLnH_Y?autoplay=1&rel=0';
-        iframe.title = 'Dr. Dish FCLTY Overview';
-        iframe.setAttribute('frameborder', '0');
-        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-        iframe.setAttribute('allowfullscreen', '');
-        module.innerHTML = '';
-        module.appendChild(iframe);
-      });
-    }
-  })();
-</script>
 <script src="js/script.js"></script>
 </body>
 </html>
