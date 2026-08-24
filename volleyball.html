@@ -74,31 +74,19 @@
   .vb-transition-lead { display: block; font-family: var(--font-heading); font-weight: 700; font-size: clamp(16px, 2vw, 22px); line-height: 1.2; letter-spacing: normal; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
 
   /* ---------- Development by age ---------- */
-  .vb-dev { background: var(--gray-light); padding: 80px 0 96px; }
-  .vb-dev-track { position: relative; max-width: 920px; margin: 56px auto 0; padding: 0 21px; }
-  .vb-dev-line-track { position: relative; height: 3px; background: var(--gray-mid); border-radius: 3px; }
-  .vb-dev-line-fill { position: absolute; left: 0; top: 0; height: 100%; width: 0; background: var(--orange); border-radius: 3px; transition: width 1.1s var(--ease); }
-  .vb-dev-line-fill.in-view { width: 100%; }
-  .vb-dev-stops { display: flex; justify-content: space-between; align-items: center; margin-top: -21px; position: relative; z-index: 2; }
-  .vb-dev-ball-wrap { display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--gray-light); }
-  .vb-dev-range { font-family: var(--font-sport); font-size: clamp(26px, 2.8vw, 34px); font-weight: 800; letter-spacing: 0.01em; text-transform: uppercase; color: var(--orange); margin: 0 0 12px; line-height: 1; }
-  .vb-dev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 44px; }
-  .vb-dev-item { display: flex; flex-direction: column; }
-  .vb-dev-photo { border-radius: var(--radius-md); overflow: hidden; margin-bottom: 22px; aspect-ratio: 4/3.3; }
-  .vb-dev-item:nth-child(2) .vb-dev-photo { aspect-ratio: 4/3.5; }
-  .vb-dev-item:nth-child(3) .vb-dev-photo { aspect-ratio: 4/3.7; }
+  .vb-dev { background: var(--gray-light); padding: 80px 0 130px; }
+  .vb-dev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 64px; position: relative; }
+  .vb-dev-grid::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gray-mid); }
+  .vb-dev-item { position: relative; padding-top: 26px; }
+  .vb-dev-item::before { content: ''; position: absolute; top: -2px; left: 0; width: 46px; height: 2px; background: var(--orange); }
+  .vb-dev-photo { border-radius: var(--radius-md); overflow: hidden; margin-bottom: 24px; aspect-ratio: 4/3.3; }
   .vb-dev-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .vb-dev-item h3 { font-family: var(--font-display); font-weight: 900; line-height: 1.04; margin: 0 0 12px; }
-  .vb-dev-item:nth-child(1) h3 { font-size: clamp(22px, 2.2vw, 27px); }
-  .vb-dev-item:nth-child(2) h3 { font-size: clamp(23px, 2.3vw, 29px); }
-  .vb-dev-item:nth-child(3) h3 { font-size: clamp(24px, 2.5vw, 31px); }
-  .vb-dev-item p { font-size: 15.5px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 12px; }
-  .vb-dev-item .vb-dev-closing { font-weight: 700; color: var(--black); font-size: 15px; margin: 0; }
-  .vb-dev-cta { text-align: center; margin-top: 52px; }
-  @media (max-width: 900px) {
-    .vb-dev-grid { grid-template-columns: 1fr; gap: 44px; }
-    .vb-dev-stops { display: none; }
-  }
+  .vb-dev-range { font-family: var(--font-sport); font-size: clamp(26px, 2.8vw, 34px); font-weight: 800; letter-spacing: 0.01em; text-transform: uppercase; color: var(--orange); margin: 0 0 12px; line-height: 1; display: block; }
+  .vb-dev-item h3 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(19px, 1.9vw, 22px); line-height: 1.2; margin: 0 0 10px; }
+  .vb-dev-item p { font-size: 15px; line-height: 1.6; color: var(--gray-dark); margin: 0 0 10px; }
+  .vb-dev-item .vb-dev-closing { font-weight: 700; color: var(--black); font-size: 14.5px; margin: 0; }
+  .vb-dev-cta { text-align: center; margin-top: 64px; }
+  @media (max-width: 820px) { .vb-dev-grid { grid-template-columns: 1fr; gap: 48px; } .vb-dev-grid::before { display: none; } .vb-dev-item::before { width: 32px; } }
 
   /* ---------- More Volleyball grid (basic cards) ---------- */
   .vb-more { background: var(--gray-light); padding: 100px 0; }
@@ -339,36 +327,6 @@
       <h2>The Work Changes as They Do.</h2>
     </div>
 
-    <div class="vb-dev-track reveal">
-      <div class="vb-dev-line-track"><span class="vb-dev-line-fill" id="devLineFill"></span></div>
-      <div class="vb-dev-stops">
-        <span class="vb-dev-ball-wrap" style="width:24px;height:24px;">
-          <svg viewBox="0 0 40 40" width="16" height="16" aria-hidden="true">
-            <circle cx="20" cy="20" r="17" fill="var(--white)" stroke="var(--orange)" stroke-width="2.6"/>
-            <path d="M20,3 C10,11 10,29 20,37" fill="none" stroke="var(--orange)" stroke-width="1.8" opacity="0.75"/>
-            <path d="M5,15 C14,11 26,11 35,15" fill="none" stroke="var(--orange)" stroke-width="1.8" opacity="0.75"/>
-            <path d="M5,25 C14,29 26,29 35,25" fill="none" stroke="var(--orange)" stroke-width="1.8" opacity="0.75"/>
-          </svg>
-        </span>
-        <span class="vb-dev-ball-wrap" style="width:32px;height:32px;">
-          <svg viewBox="0 0 40 40" width="24" height="24" aria-hidden="true">
-            <circle cx="20" cy="20" r="17" fill="var(--white)" stroke="var(--orange)" stroke-width="2.4"/>
-            <path d="M20,3 C10,11 10,29 20,37" fill="none" stroke="var(--orange)" stroke-width="1.7" opacity="0.75"/>
-            <path d="M5,15 C14,11 26,11 35,15" fill="none" stroke="var(--orange)" stroke-width="1.7" opacity="0.75"/>
-            <path d="M5,25 C14,29 26,29 35,25" fill="none" stroke="var(--orange)" stroke-width="1.7" opacity="0.75"/>
-          </svg>
-        </span>
-        <span class="vb-dev-ball-wrap" style="width:42px;height:42px;">
-          <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
-            <circle cx="20" cy="20" r="17" fill="var(--white)" stroke="var(--orange)" stroke-width="2.2"/>
-            <path d="M20,3 C10,11 10,29 20,37" fill="none" stroke="var(--orange)" stroke-width="1.6" opacity="0.75"/>
-            <path d="M5,15 C14,11 26,11 35,15" fill="none" stroke="var(--orange)" stroke-width="1.6" opacity="0.75"/>
-            <path d="M5,25 C14,29 26,29 35,25" fill="none" stroke="var(--orange)" stroke-width="1.6" opacity="0.75"/>
-          </svg>
-        </span>
-      </div>
-    </div>
-
     <div class="vb-dev-grid">
       <div class="vb-dev-item reveal">
         <div class="vb-dev-photo"><img src="images/volleyball-hero.jpg" alt="A young volleyball player holding a Molten volleyball on the court." style="object-position:50% 15%;"></div>
@@ -522,24 +480,6 @@
   </div>
 </footer>
 
-<script>
-  (function () {
-    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    function observe(el, activate) {
-      if (!el) return;
-      if (reduceMotion) { activate(el); return; }
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) { activate(entry.target); io.unobserve(entry.target); }
-        });
-      }, { threshold: 0.4 });
-      io.observe(el);
-    }
-
-    observe(document.getElementById('devLineFill'), function (el) { el.classList.add('in-view'); });
-  })();
-</script>
 <script src="js/script.js"></script>
 </body>
 </html>
