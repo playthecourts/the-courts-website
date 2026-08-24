@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Basketball Leagues | The Courts — Nolensville, TN</title>
-<meta name="description" content="Fall Basketball League registration closes September 22 at The Courts in Nolensville, TN — one practice and one game each week through WNSL Basketball, with teams forming now.">
+<meta name="description" content="Fall Basketball League registration closes September 20 at 5 PM at The Courts in Nolensville, TN — one practice and one game each week through WNSL Basketball, with teams forming now.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@
 
   .lg-hero-bold { font-family: var(--font-heading); font-weight: 800; font-size: 17px; color: var(--white); margin: 18px 0 30px; }
   .lg-hero-deadline { display: flex; align-items: baseline; gap: 12px; margin: 24px 0 30px; }
-  .lg-hero-deadline-label { font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+  .lg-hero-deadline-label { font-family: var(--font-sport); font-size: 14px; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255,255,255,0.75); }
   .lg-hero-deadline-date { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 3vw, 32px); color: var(--orange); }
   .lg-hero-micro { font-size: 13.5px; color: rgba(255,255,255,0.6); margin-top: 20px; }
   .lg-hero-secondary { display: inline-block; margin-top: 4px; color: rgba(255,255,255,0.8); font-size: 14px; font-weight: 700; }
@@ -32,7 +32,7 @@
   .roster-grade-wrap { display: flex; flex-direction: column; gap: 8px; max-width: 60ch; }
   .roster-grade { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3.4vw, 38px); line-height: 1.05; color: var(--white); }
   .roster-note { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.55; }
-  .roster-deadline { font-family: var(--font-sport); font-size: 11.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-top: 4px; }
+  .roster-deadline { font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-top: 4px; }
   .roster-deadline strong { color: var(--orange); font-weight: 700; }
   .roster-status-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; flex-shrink: 0; }
   .roster-status { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-sport); font-weight: 700; font-size: 15px; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; padding: 9px 18px; border-radius: 999px; }
@@ -50,8 +50,10 @@
   }
 
   .roster-comms { margin-top: 56px; padding: 40px; background: var(--gray-light); border-radius: var(--radius-md); }
-  .roster-comms h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 3vw, 34px); line-height: 1.1; margin: 0 0 14px; }
+  .roster-comms h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 3vw, 34px); line-height: 1.1; margin: 0 0 22px; }
   .roster-comms h3 .accent { color: var(--orange); }
+  .roster-comms-stack { display: flex; flex-wrap: wrap; gap: 10px 28px; margin: 0 0 20px; }
+  .roster-comms-stack span { font-family: var(--font-display); font-weight: 900; font-size: clamp(20px, 2.4vw, 27px); color: var(--orange); line-height: 1.05; }
   .roster-comms p { font-size: 15.5px; line-height: 1.7; color: var(--gray-dark); max-width: 62ch; margin: 0; }
 
   .season-board--six { grid-template-columns: repeat(3, 1fr); }
@@ -81,7 +83,8 @@
   @media (max-width: 560px) { .season-board { grid-template-columns: repeat(2, 1fr); } }
 
   .why-league-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 48px; }
-  .why-league-item h3 { font-family: var(--font-display); font-size: clamp(24px, 2.8vw, 32px); margin: 0 0 10px; }
+  .why-league-item { padding-top: 22px; border-top: 3px solid var(--orange); }
+  .why-league-item h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3vw, 36px); margin: 0 0 10px; color: var(--black); }
   .why-league-item p { font-size: 15px; color: var(--gray-dark); line-height: 1.6; max-width: 32ch; }
   @media (max-width: 760px) { .why-league-grid { grid-template-columns: 1fr; gap: 32px; } }
 
@@ -245,8 +248,8 @@
   <div class="container page-hero-inner">
     <span class="eyebrow eyebrow--light">Basketball Leagues</span>
     <h1 class="page-hero-title">Practice Is Great.<br>Eventually, Somebody Has to Keep Score.</h1>
-    <p class="page-hero-sub">Weekly practice. Saturday games. Real teammates. Real competition.<br>Fall teams are forming now.</p>
-    <p class="lg-hero-deadline"><span class="lg-hero-deadline-label">Registration Deadline</span><span class="lg-hero-deadline-date">September 22</span></p>
+    <p class="page-hero-sub">Weekly practice. Saturday games. Real teammates. Real competition.<br>Fall teams are forming now. Registration closes September 20 at 5 PM.</p>
+    <p class="lg-hero-deadline"><span class="lg-hero-deadline-label">Registration Closes</span><span class="lg-hero-deadline-date">September 20 · 5 PM</span></p>
     <div class="hero-ctas ctas">
       <a href="#register" class="btn btn-primary" target="_blank" rel="noopener">Register Your Athlete →</a>
       <a href="#roster" class="btn btn-on-dark lg-hero-secondary" target="_blank" rel="noopener">See Teams Forming ↓</a>
@@ -269,7 +272,7 @@
         <div class="roster-grade-wrap">
           <span class="roster-grade">3rd&ndash;4th Grade Boys</span>
           <span class="roster-note">We're building the roster now.</span>
-          <span class="roster-deadline">Registration Deadline <strong>September 22</strong></span>
+          <span class="roster-deadline">Registration Closes <strong>September 20 · 5 PM</strong></span>
         </div>
         <div class="roster-status-wrap">
           <span class="roster-status roster-status--forming"><span class="dot"></span>Forming Now</span>
@@ -280,7 +283,7 @@
         <div class="roster-grade-wrap">
           <span class="roster-grade">6th&ndash;7th Grade Boys</span>
           <span class="roster-note">We're building this group as registrations come in.</span>
-          <span class="roster-deadline">Registration Deadline <strong>September 22</strong></span>
+          <span class="roster-deadline">Registration Closes <strong>September 20 · 5 PM</strong></span>
         </div>
         <div class="roster-status-wrap">
           <span class="roster-status roster-status--forming"><span class="dot"></span>Forming Now</span>
@@ -299,13 +302,14 @@
       </div>
     </div>
 
-    <div class="ctas" style="margin-top:36px;">
-      <a href="#register" class="btn btn-primary" target="_blank" rel="noopener">Register Your Athlete →</a>
-    </div>
-
     <div class="roster-comms reveal">
       <h3>Smaller Teams.<br>Better <span class="accent">Communication.</span></h3>
-      <p>More meaningful minutes. More touches. Fewer surprises. We'll share schedules and season details as early as possible and keep rosters intentionally smaller so athletes have more opportunities to play, contribute, and develop.</p>
+      <div class="roster-comms-stack">
+        <span>More Minutes.</span>
+        <span>More Touches.</span>
+        <span>Fewer Surprises.</span>
+      </div>
+      <p>We'll keep rosters intentionally smaller and share schedules and season details as early as possible.</p>
     </div>
   </div>
 </section>
@@ -335,11 +339,11 @@
       <div class="season-board-item"><span>End-of-Season Tournament</span><strong>Dec 11&ndash;13</strong></div>
       <div class="season-board-item"><span>Game Day</span><strong>Saturdays</strong></div>
       <div class="season-board-item"><span>Practice</span><strong>One practice each week at The Courts</strong></div>
-      <div class="season-board-item"><span>Registration Deadline</span><strong style="color:var(--orange);">September 22</strong></div>
+      <div class="season-board-item"><span>Registration Deadline</span><strong style="color:var(--orange);">September 20 · 5 PM</strong></div>
     </div>
     <div class="legal-counsel" style="margin-top:28px;">
       <div class="legal-counsel-label">Staging Note</div>
-      <p>Final practice day pending team availability. Wednesday is the current target — not yet guaranteed.</p>
+      <p>Practice day TBD. Wednesday is the current target — not yet guaranteed. Remove before production.</p>
     </div>
     <div class="ctas" style="margin-top:20px;">
       <a href="#register" class="btn btn-primary" target="_blank" rel="noopener">Register for Fall →</a>
@@ -375,13 +379,14 @@
     <p style="font-weight:800; font-size:16px; margin:-10px 0 4px;">This is for team placement. Not cuts.</p>
     <p style="font-weight:700; font-size:15px; margin:0 0 8px; color:var(--gray-dark);">No need to audition for the NBA. Just come play.</p>
     <div class="eval-callout">
-      <span class="eyebrow">Player Evaluation · September &middot; Date TBD</span>
-      <p class="fee">Evaluation Fee: $25</p>
+      <span class="eyebrow">Player Evaluation</span>
+      <p>Date TBD</p>
+      <p class="fee">$25 Evaluation Fee</p>
       <p>The $25 evaluation fee will be applied toward league registration for athletes who join a team.</p>
     </div>
     <div class="legal-counsel" style="margin-top:20px;">
       <div class="legal-counsel-label">Staging Note</div>
-      <p>Evaluation date TBD — must align with the September 22 registration deadline.</p>
+      <p>Finalize evaluation date and confirm whether evaluation occurs before or immediately after the September 20 registration close. Remove before production.</p>
     </div>
     <div class="ctas" style="margin-top:24px;">
       <a href="#register" class="btn btn-secondary" target="_blank" rel="noopener">Register →</a>
@@ -409,7 +414,7 @@
     <div class="section-head center">
       <span class="eyebrow">Fall 2026</span>
       <h2 class="section-title">You In?</h2>
-      <p class="section-sub" style="margin-left:auto; margin-right:auto;">Fall registration closes September 22.</p>
+      <p class="section-sub" style="margin-left:auto; margin-right:auto;">Fall registration closes September 20 at 5 PM.</p>
     </div>
     <div class="lg-form-wrap">
       <form id="leagueForm">
@@ -497,7 +502,7 @@
       <div class="sgi-side">
         <p class="sgi-body">A Tuesday-night basketball league for dads who still believe the jumper is there, the handle is alive, and the knees are "basically fine."</p>
         <p class="sgi-stat-lines">Real Games. Real Score.<br>Questionable Pace. Elite Confidence.</p>
-        <a href="#sgi-form" class="btn btn-primary sgi-cta" target="_blank" rel="noopener">I'll Start Icing. →</a>
+        <a href="#sgi-form" class="btn btn-primary sgi-cta" target="_blank" rel="noopener">I Still Got It →</a>
         <p class="sgi-seeing">We're only gauging interest.</p>
         <p class="sgi-disclaimer">Your hamstrings,<br>however, are on notice.</p>
       </div>
@@ -558,38 +563,6 @@
     </div>
   </div>
 </section>
-
-<a href="#sgi-form" class="sgi-pop-banner reveal" target="_blank" rel="noopener">
-  <div class="container sgi-pop-banner-inner">
-    <div class="sgi-pop-banner-copy">
-      <span class="sgi-pop-banner-eyebrow">For the Grown-Ups</span>
-      <h3 class="sgi-pop-banner-title">Still Got It?</h3>
-      <p class="sgi-pop-banner-body">We're seeing who's interested in Tuesday-night basketball for dads.<br><strong>Real games. Real score. Questionable pace.</strong></p>
-    </div>
-    <div class="sgi-pop-banner-cta-wrap">
-      <span class="sgi-pop-banner-cta">I Still Got It <span class="arrow">→</span></span>
-      <span class="sgi-pop-banner-note">Interest only. Stretch accordingly.</span>
-    </div>
-  </div>
-</a>
-
-<style>
-  .sgi-pop-banner { display: block; background: var(--orange); text-decoration: none; }
-  .sgi-pop-banner-inner { padding: 56px 0; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
-  .sgi-pop-banner-eyebrow { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 14px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--black); margin-bottom: 10px; }
-  .sgi-pop-banner-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 4.4vw, 56px); color: var(--black); margin: 0 0 12px; line-height: 0.95; }
-  .sgi-pop-banner-body { font-size: 17px; color: rgba(23,23,23,0.78); margin: 0; line-height: 1.55; max-width: 46ch; }
-  .sgi-pop-banner-body strong { color: var(--black); }
-  .sgi-pop-banner-cta-wrap { text-align: right; flex-shrink: 0; }
-  .sgi-pop-banner-cta { font-family: var(--font-heading); font-weight: 800; font-size: 18px; color: var(--white); display: inline-flex; align-items: center; gap: 8px; background: var(--black); padding: 16px 30px; border-radius: 999px; }
-  .sgi-pop-banner-cta .arrow { color: var(--orange); display: inline-block; transition: transform 0.2s var(--ease); }
-  .sgi-pop-banner:hover .sgi-pop-banner-cta .arrow { transform: translateX(4px); }
-  .sgi-pop-banner-note { display: block; font-size: 12px; font-style: italic; color: rgba(23,23,23,0.62); margin-top: 10px; }
-  @media (max-width: 640px) {
-    .sgi-pop-banner-inner { flex-direction: column; align-items: flex-start; }
-    .sgi-pop-banner-cta-wrap { text-align: left; }
-  }
-</style>
 
 <style>
   .sgi { background: var(--black); color: var(--white); padding: 130px 0 100px; overflow: hidden; position: relative; }
@@ -658,14 +631,14 @@
 <section class="pre-footer">
   <div class="container pre-footer-inner">
     <div class="pre-footer-col">
-      <span class="pre-footer-eyebrow">Registration Closes Sept 22</span>
+      <span class="pre-footer-eyebrow">Registration Closes September 20 · 5 PM</span>
       <h3 class="pre-footer-title">Ready to Play?</h3>
       <a href="#register" class="pre-footer-link" target="_blank" rel="noopener">Register Your Athlete <span class="arrow">→</span></a>
     </div>
     <div class="pre-footer-col">
       <span class="pre-footer-eyebrow">Next Up</span>
       <h3 class="pre-footer-title">Winter Basketball.</h3>
-      <a href="contact.html?interest=Basketball%20Leagues#contact-form" class="pre-footer-link" data-preset="Basketball Leagues" target="_blank" rel="noopener">Get Updates <span class="arrow">→</span></a>
+      <a href="contact.html?interest=Basketball%20Leagues#contact-form" class="pre-footer-link" data-preset="Basketball Leagues" target="_blank" rel="noopener">Get Winter Updates <span class="arrow">→</span></a>
     </div>
   </div>
 </section>
