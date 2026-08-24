@@ -339,7 +339,8 @@ body.has-announce .nav { top: 64px; }
 .pick-panel:hover .photo { transform: scale(1.04); }
 .pick-panel-body { position: relative; z-index: 2; max-width: 420px; }
 .pick-panel-body .eyebrow { color: var(--orange); }
-.pick-panel-body h3 { font-family: var(--font-display); font-weight: 900; color: var(--white); font-size: clamp(28px, 3.4vw, 42px); line-height: 1.04; margin: 12px 0 16px; }
+.pick-panel-body h3 { font-family: var(--font-display); font-weight: 900; color: var(--white); font-size: clamp(24px, 2.6vw, 32px); line-height: 1.08; margin: 12px 0 16px; white-space: nowrap; }
+@media (max-width: 480px) { .pick-panel-body h3 { white-space: normal; } }
 .pick-panel-body p { color: rgba(255,255,255,0.78); font-size: 15.5px; line-height: 1.65; margin: 0 0 22px; }
 .pick-panel-link { display: inline-block; color: var(--white); font-weight: 700; font-size: 15px; }
 @media (max-width: 860px) {
