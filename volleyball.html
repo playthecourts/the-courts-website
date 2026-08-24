@@ -45,24 +45,24 @@
   .vb-train-section { background: var(--white); padding: 96px 0 0; }
 
   /* ---------- Pass / Set / Attack / Compete — continuous editorial sequence (matches Basketball) ---------- */
-  .vb-sequence { margin-top: 72px; }
-  .seq-row { display: flex; align-items: center; gap: 56px; padding: 64px 0; border-top: 1px solid var(--gray-mid); }
+  .vb-sequence { margin-top: 48px; }
+  .seq-row { display: flex; align-items: center; gap: 44px; padding: 38px 0; border-top: 1px solid var(--gray-mid); }
   .seq-row:first-child { border-top: none; padding-top: 0; }
   .seq-row--reverse { flex-direction: row-reverse; }
-  .seq-media { flex: 1; aspect-ratio: 4/3; border-radius: var(--radius-md); overflow: hidden; }
+  .seq-media { flex: 0.8; max-width: 340px; aspect-ratio: 4/3; border-radius: var(--radius-md); overflow: hidden; }
   .seq-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .seq-copy { flex: 1; }
-  .seq-row--wide .seq-media { flex: 1.5; }
+  .seq-copy { flex: 1.2; }
+  .seq-row--wide .seq-media { flex: 1.1; max-width: 460px; }
   .seq-num { display: block; font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
   .seq-copy h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 2.8vw, 34px); margin: 0 0 16px; line-height: 1; }
   .seq-body { font-size: 15.5px; color: var(--gray-dark); line-height: 1.6; margin: 0 0 10px; }
   .seq-line { font-weight: 700; font-style: italic; font-size: 15.5px; color: var(--black); margin: 0; }
-  .seq-row--final { flex-direction: column; align-items: stretch; padding-top: 64px; }
-  .seq-row--final .seq-media { width: 100%; aspect-ratio: 21/9; }
-  .seq-row--final .seq-copy { width: 100%; max-width: 640px; margin-top: 32px; }
+  .seq-row--final { flex-direction: column; align-items: stretch; padding-top: 38px; }
+  .seq-row--final .seq-media { width: 100%; max-width: none; aspect-ratio: 21/7; }
+  .seq-row--final .seq-copy { width: 100%; max-width: 640px; margin-top: 24px; }
   @media (max-width: 820px) {
-    .seq-row, .seq-row--reverse { flex-direction: column; align-items: stretch; gap: 24px; padding: 40px 0; }
-    .seq-media, .seq-row--wide .seq-media { flex: none; aspect-ratio: 4/3; }
+    .seq-row, .seq-row--reverse { flex-direction: column; align-items: stretch; gap: 20px; padding: 28px 0; }
+    .seq-media, .seq-row--wide .seq-media { flex: none; max-width: none; aspect-ratio: 4/3; }
     .seq-row--final .seq-media { aspect-ratio: 4/3; }
   }
 
@@ -260,7 +260,6 @@
         <span>Better Reads.</span>
         <span>Better Game.</span>
       </h1>
-      <p class="vb-hero-sub">Pass it. Set it. Swing away.</p>
       <div class="vb-hero-ctas">
         <a href="schedule.html?sport=volleyball" class="btn btn-primary">View Schedule →</a>
         <a href="membership.html" class="btn btn-secondary">Get Started →</a>

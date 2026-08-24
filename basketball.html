@@ -19,7 +19,7 @@
   .bb-hero { background: var(--gray-light); overflow: hidden; position: relative; }
   .bb-hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; align-items: stretch; min-height: 640px; }
   .bb-hero-copy { display: flex; flex-direction: column; justify-content: center; padding: 180px 24px 100px clamp(24px,6vw,88px); position: relative; z-index: 2; }
-  .bb-hero-copy .eyebrow { font-size: 14px; letter-spacing: 0.1em; }
+  .bb-hero-copy .eyebrow { font-size: 19px; letter-spacing: 0.1em; }
   .bb-hero-title { font-family: var(--font-display); font-weight: 900; line-height: 0.92; margin: 18px 0 34px; font-size: clamp(46px, 6.8vw, 92px); }
   .bb-hero-title > span { display: block; }
   .bb-hero-title .accent { color: var(--black); }
@@ -38,45 +38,52 @@
 
   /* ---------- Shared editorial head ---------- */
   .bb-head-row { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: end; max-width: 1080px; margin: 0 auto; }
-  .bb-head-row .eyebrow { font-size: 13px; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .bb-head-row .eyebrow { font-size: 19px; letter-spacing: 0.1em; margin-bottom: 12px; }
   .bb-head-row h2 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(26px, 3.2vw, 38px); line-height: 1.1; margin: 0; }
   .bb-head-row-copy p { font-size: 16px; line-height: 1.7; color: var(--gray-dark); margin: 0; max-width: 46ch; }
   .bb-head-row-copy .bold { color: var(--black); font-weight: 700; }
   @media (max-width: 760px) { .bb-head-row { grid-template-columns: 1fr; gap: 20px; align-items: start; } }
 
+  /* ---------- How We Train intro (centered, matches volleyball .vb-head) ---------- */
+  .bb-head { max-width: 660px; margin: 0 auto 8px; text-align: center; }
+  .bb-head .eyebrow { font-size: 19px; letter-spacing: 0.1em; text-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .bb-head h2 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(28px, 4vw, 42px); line-height: 1.1; margin: 0; }
+  .bb-head p { font-size: 16.5px; line-height: 1.65; color: var(--gray-dark); max-width: 56ch; margin: 14px auto 0; }
+  .bb-head .bold { color: var(--black); font-weight: 700; }
+
   /* ---------- How We Train intro ---------- */
   .bb-train-section { background: var(--white); padding: 130px 0 90px; }
 
   /* ---------- Handle / Shoot / Read / Compete — continuous editorial sequence ---------- */
-  .bb-sequence { margin-top: 72px; }
-  .seq-row { display: flex; align-items: center; gap: 56px; padding: 64px 0; border-top: 1px solid var(--gray-mid); }
+  .bb-sequence { margin-top: 48px; }
+  .seq-row { display: flex; align-items: center; gap: 44px; padding: 38px 0; border-top: 1px solid var(--gray-mid); }
   .seq-row:first-child { border-top: none; padding-top: 0; }
   .seq-row--reverse { flex-direction: row-reverse; }
-  .seq-media { flex: 1; aspect-ratio: 4/3; border-radius: var(--radius-md); overflow: hidden; }
+  .seq-media { flex: 0.8; max-width: 340px; aspect-ratio: 4/3; border-radius: var(--radius-md); overflow: hidden; }
   .seq-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .seq-copy { flex: 1; }
-  .seq-row--wide .seq-media { flex: 1.5; }
+  .seq-copy { flex: 1.2; }
+  .seq-row--wide .seq-media { flex: 1.1; max-width: 460px; }
   .seq-num { display: block; font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
   .seq-copy h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 2.8vw, 34px); margin: 0 0 16px; line-height: 1; }
   .seq-micro { font-weight: 700; font-size: 15.5px; color: var(--black); margin: 0 0 10px; }
   .seq-body { font-size: 15.5px; color: var(--gray-dark); line-height: 1.6; margin: 0 0 10px; }
   .seq-line { font-weight: 700; font-style: italic; font-size: 15.5px; color: var(--black); margin: 0; }
-  .seq-row--final { flex-direction: column; align-items: stretch; padding-top: 64px; }
-  .seq-row--final .seq-media { width: 100%; aspect-ratio: 21/9; }
-  .seq-row--final .seq-copy { width: 100%; max-width: 640px; margin-top: 32px; }
+  .seq-row--final { flex-direction: column; align-items: stretch; padding-top: 38px; }
+  .seq-row--final .seq-media { width: 100%; max-width: none; aspect-ratio: 21/7; }
+  .seq-row--final .seq-copy { width: 100%; max-width: 640px; margin-top: 24px; }
   @media (max-width: 820px) {
-    .seq-row, .seq-row--reverse { flex-direction: column; align-items: stretch; gap: 24px; padding: 40px 0; }
-    .seq-media, .seq-row--wide .seq-media { flex: none; aspect-ratio: 4/3; }
+    .seq-row, .seq-row--reverse { flex-direction: column; align-items: stretch; gap: 20px; padding: 28px 0; }
+    .seq-media, .seq-row--wide .seq-media { flex: none; max-width: none; aspect-ratio: 4/3; }
     .seq-row--final .seq-media { aspect-ratio: 4/3; }
   }
 
   /* ---------- Game payoff transition ---------- */
-  .bb-transition { background: var(--black); color: var(--white); padding: 150px 0; text-align: center; overflow: hidden; position: relative; }
+  .bb-transition { background: var(--black); color: var(--white); padding: 90px 0; text-align: center; overflow: hidden; position: relative; }
   .bb-transition h2 { margin: 0; font-family: var(--font-display); font-weight: 900; letter-spacing: -0.01em; }
-  .bb-transition-lead { display: block; font-family: var(--font-heading); font-weight: 700; font-size: clamp(19px, 2.5vw, 28px); line-height: 1.2; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
-  .bb-transition-main { display: block; font-size: clamp(36px, 8vw, 108px); line-height: 0.92; margin-bottom: 10px; white-space: nowrap; }
+  .bb-transition-lead { display: block; font-family: var(--font-heading); font-weight: 700; font-size: clamp(16px, 2vw, 22px); line-height: 1.2; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
+  .bb-transition-main { display: block; font-size: clamp(30px, 6vw, 80px); line-height: 0.94; margin-bottom: 8px; white-space: nowrap; }
   @media (max-width: 480px) { .bb-transition-main { white-space: normal; } }
-  .bb-transition-close { display: block; font-size: clamp(28px, 5vw, 54px); line-height: 1.05; color: rgba(255,255,255,0.9); }
+  .bb-transition-close { display: block; font-size: clamp(22px, 3.8vw, 40px); line-height: 1.05; color: rgba(255,255,255,0.9); }
   .bb-transition-close .accent { color: var(--orange); }
 
   /* ---------- Development by age: connected timeline ---------- */
@@ -267,14 +274,10 @@
 
 <section class="bb-train-section">
   <div class="container">
-    <div class="bb-head-row reveal">
-      <div>
-        <span class="eyebrow">How We Train</span>
-        <h2>Learn It. Rep It. Use It.</h2>
-      </div>
-      <div class="bb-head-row-copy">
-        <p>Anybody can look good when it goes exactly as planned. Build the skill. Speed it up. Add pressure. Figure out what's next. Because <span class="bold">the game isn't waiting</span> for you to get comfortable.</p>
-      </div>
+    <div class="bb-head reveal">
+      <span class="eyebrow">How We Train</span>
+      <h2>Learn It. Rep It. Use It.</h2>
+      <p>Anybody can look good when it goes exactly as planned. Build the skill. Speed it up. Add pressure. Figure out what's next.<br>Because <span class="bold">the game isn't waiting</span> for you to get comfortable.</p>
     </div>
 
     <div class="bb-sequence">
