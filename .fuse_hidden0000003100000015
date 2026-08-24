@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programs | The Courts — Nolensville, TN</title>
+<meta name="description" content="Basketball, volleyball, private training, camps, and leagues for every age and skill level at The Courts in Nolensville, TN.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="images/brand/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/brand/favicon-16.png">
+<link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<header class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="brand">
+      <img class="brand-mark brand-mark--wordmark brand-mark--dark" src="images/brand/logo-horizontal.svg" alt="The Courts">
+      <img class="brand-mark brand-mark--wordmark brand-mark--light" src="images/brand/logo-horizontal.svg" alt="The Courts">
+    </a>
+    <nav class="nav-links">
+      <div class="nav-item">
+        <a href="programs.html">Programs <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav-dropdown">
+          <a href="basketball.html">Basketball</a>
+          <a href="volleyball.html">Volleyball</a>
+          <a href="private-coaching.html">Private Training</a>
+          <a href="camps.html">Camps &amp; Clinics</a>
+          <a href="leagues.html">Leagues</a>
+          <a href="events.html#rhythm">Open Play</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="membership.html">Membership <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav-dropdown">
+          <a href="membership.html#plans">Choose Your Plan</a>
+          <a href="membership.html#a-la-carte">À La Carte</a>
+          <a href="membership.html#faqs">FAQs</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="schedule.html">Schedule <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav-dropdown">
+          <a href="schedule.html">Full Schedule</a>
+          <a href="schedule.html?sport=basketball">Basketball Classes</a>
+          <a href="schedule.html?sport=volleyball">Volleyball Classes</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="events.html">Events <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav-dropdown">
+          <a href="events.html#october">October</a>
+          <a href="events.html#november">November</a>
+          <a href="events.html#december">December</a>
+        </div>
+      </div>
+      <div class="nav-item"><a href="shop.html">Shop</a></div>
+      <div class="nav-item">
+        <a href="about.html">About <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav-dropdown">
+          <a href="about.html">Our Story</a>
+          <a href="about.html#how-we-play">How We Play</a>
+          <a href="about.html#meet-the-team">Meet the Team</a>
+          <a href="community.html">Community</a>
+        </div>
+      </div>
+      <div class="nav-item"><a href="contact.html">Contact</a></div>
+    </nav>
+    <div class="nav-cta">
+      <a href="member-portal.html" class="btn btn-secondary">Login</a>
+      <a href="membership.html" class="btn btn-primary">Become a Member</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-nav-group">
+    <button class="mobile-nav-toggle" type="button">Programs<span class="mobile-nav-chevron">+</span></button>
+    <div class="mobile-nav-sub">
+      <a href="basketball.html">Basketball</a>
+      <a href="volleyball.html">Volleyball</a>
+      <a href="private-coaching.html">Private Training</a>
+      <a href="camps.html">Camps &amp; Clinics</a>
+      <a href="leagues.html">Leagues</a>
+      <a href="events.html#rhythm">Open Play</a>
+    </div>
+  </div>
+  <div class="mobile-nav-group">
+    <button class="mobile-nav-toggle" type="button">Membership<span class="mobile-nav-chevron">+</span></button>
+    <div class="mobile-nav-sub">
+      <a href="membership.html#plans">Choose Your Plan</a>
+      <a href="membership.html#a-la-carte">À La Carte</a>
+      <a href="membership.html#faqs">FAQs</a>
+    </div>
+  </div>
+  <div class="mobile-nav-group">
+    <button class="mobile-nav-toggle" type="button">Schedule<span class="mobile-nav-chevron">+</span></button>
+    <div class="mobile-nav-sub">
+      <a href="schedule.html">Full Schedule</a>
+      <a href="schedule.html?sport=basketball">Basketball Classes</a>
+      <a href="schedule.html?sport=volleyball">Volleyball Classes</a>
+    </div>
+  </div>
+  <div class="mobile-nav-group">
+    <button class="mobile-nav-toggle" type="button">Events<span class="mobile-nav-chevron">+</span></button>
+    <div class="mobile-nav-sub">
+      <a href="events.html">Calendar Overview</a>
+      <a href="events.html#october">October</a>
+      <a href="events.html#november">November</a>
+      <a href="events.html#december">December</a>
+    </div>
+  </div>
+  <a href="shop.html">Shop</a>
+  <div class="mobile-nav-group">
+    <button class="mobile-nav-toggle" type="button">About<span class="mobile-nav-chevron">+</span></button>
+    <div class="mobile-nav-sub">
+      <a href="about.html">Our Story</a>
+      <a href="about.html#how-we-play">How We Play</a>
+      <a href="about.html#meet-the-team">Meet the Team</a>
+      <a href="community.html">Community</a>
+    </div>
+  </div>
+  <a href="contact.html">Contact</a>
+  <a href="membership.html" class="btn btn-primary btn-block">Become a Member</a>
+</div>
+
+<section class="page-hero" id="main">
+  <div class="photo" role="img" aria-label="Athletes training at The Courts"></div>
+  <div class="container page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a> / <span class="current">Programs</span></div>
+    <span class="eyebrow eyebrow--light">Programs</span>
+    <h1 class="page-hero-title">Every way to play.</h1>
+    <p class="page-hero-sub">Basketball, volleyball, private training, camps, and leagues — for every age and every skill level.</p>
+  </div>
+</section>
+
+<section style="padding:100px 0;">
+  <div class="container">
+    <div class="card-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="program-card reveal">
+        <div class="photo" role="img" aria-label="An athlete working through a cone drill during basketball training">
+          <img src="images/basketball-dribble-cones.jpg" alt="">
+        </div>
+        <div class="program-card-body">
+          <span>Team + Individual</span>
+          <h3>Basketball</h3>
+          <a href="basketball.html">Explore Basketball →</a>
+        </div>
+      </div>
+      <div class="program-card reveal">
+        <div class="photo" role="img" aria-label="A volleyball coach talking through a play with her team">
+          <img src="images/volleyball-huddle.jpg" alt="">
+        </div>
+        <div class="program-card-body">
+          <span>Team + Individual</span>
+          <h3>Volleyball</h3>
+          <a href="volleyball.html">Explore Volleyball →</a>
+        </div>
+      </div>
+      <div class="program-card reveal">
+        <div class="photo" role="img" aria-label="A coach helping an athlete work on his shooting form">
+          <img src="images/coach-shooting-form.jpg" alt="">
+        </div>
+        <div class="program-card-body">
+          <span>One-on-One</span>
+          <h3>Private Training</h3>
+          <a href="private-coaching.html">Book a Session →</a>
+        </div>
+      </div>
+      <div class="program-card reveal">
+        <div class="photo" role="img" aria-label="Camp session"></div>
+        <div class="program-card-body">
+          <span>School Breaks + Weekends</span>
+          <h3>Camps &amp; Clinics</h3>
+          <a href="camps.html">View Camps →</a>
+        </div>
+      </div>
+      <div class="program-card reveal">
+        <div class="photo" role="img" aria-label="League game"></div>
+        <div class="program-card-body">
+          <span>Fall + Winter</span>
+          <h3>Leagues</h3>
+          <a href="leagues.html">View Leagues →</a>
+        </div>
+      </div>
+      <div class="program-card reveal">
+        <div class="photo" role="img" aria-label="Membership"></div>
+        <div class="program-card-body">
+          <span>Save on Everything</span>
+          <h3>Membership</h3>
+          <a href="membership.html">View Plans →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="container">
+    <h2>Not sure where to <span class="accent">start?</span></h2>
+    <p>Tell us a little about your athlete and we'll point you in the right direction.</p>
+    <div class="ctas"><a href="contact.html" class="btn btn-primary">Contact Us →</a></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="brand">
+          <img class="brand-mark" src="images/brand/icon-mark.png" alt="">
+          <span>THE COURTS<span class="brand-sub">NOLENSVILLE, TN</span></span>
+        </a>
+        <p style="margin-bottom:10px;">Where performance meets belonging.</p>
+        <p>Basketball and volleyball training built around great coaching, real development, and a place athletes want to be.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="white" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1" fill="white"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 9h3V6h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v6h3v-6H16l.5-3h-3V9.7c0-.4.3-.7.5-.7z" fill="white"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Programs</h4><ul>
+        <li><a href="basketball.html">Basketball</a></li><li><a href="volleyball.html">Volleyball</a></li><li><a href="private-coaching.html">Private Training</a></li><li><a href="camps.html">Camps + Clinics</a></li><li><a href="leagues.html">Basketball Leagues</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>The Courts</h4><ul>
+        <li><a href="about.html">About</a></li><li><a href="membership.html">Membership</a></li><li><a href="events.html">Events</a></li><li><a href="shop.html">Shop</a></li><li><a href="community.html">Community</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Support</h4><ul>
+        <li><a href="schedule.html">Schedule</a></li><li><a href="court-rentals.html">Court Rentals</a></li><li><a href="resources.html">Resources</a></li><li><a href="faq.html">FAQs</a></li><li><a href="member-portal.html">Member Portal</a></li><li><a href="contact.html">Contact</a></li>
+      </ul></div>
+      <div class="footer-col">
+        <h4>Stay in the Loop.</h4>
+        <p style="font-size:14px; color:rgba(255,255,255,0.55); margin-bottom:14px;">News, programs, camps, events, and more from The Courts.</p>
+        <form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Your email" required><button type="submit">Join →</button></form>
+        <p style="font-size:14px; color:rgba(255,255,255,0.55); margin-top:16px; margin-bottom:4px;">Nolensville, TN</p>
+        <p style="font-size:14px; color:rgba(255,255,255,0.55);">hello@playthecourts.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>&copy; 2026 The Courts. All rights reserved.</span><span><a href="privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="terms.html">Terms &amp; Conditions</a> &nbsp;·&nbsp; <a href="accessibility.html">Accessibility</a></span></div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

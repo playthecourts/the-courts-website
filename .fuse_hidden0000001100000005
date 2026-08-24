@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Coach Collective | The Courts — Nolensville, TN</title>
+<meta name="description" content="The Coach Collective is a home base for approved independent private coaches at The Courts in Nolensville, TN — facility access for athletes, court-hour rates for coaches.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="images/brand/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/brand/favicon-16.png">
+<link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<header class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="brand">
+      <img class="brand-mark brand-mark--wordmark brand-mark--dark" src="images/brand/logo-horizontal.svg" alt="The Courts">
+      <img class="brand-mark brand-mark--wordmark brand-mark--light" src="images/brand/logo-horizontal.svg" alt="The Courts">
+    </a>
+    <nav class="nav-links">
+      <div class="nav-item">
+        <a href="programs.html">Programs <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav-dropdown">
+          <a href="basketball.html">Basketball</a>
+          <a href="volleyball.html">Volleyball</a>
+          <a href="private-coaching.html">Private Training</a>
+          <a href="camps.html">Camps &amp; Clinics</a>
+          <a href="leagues.html">Leagues</a>
+          <a href="events.html#rhythm">Open Play</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="membership.html">Membership <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav-dropdown">
+          <a href="membership.html#plans">Choose Your Plan</a>
+          <a href="membership.html#a-la-carte">À La Carte</a>
+          <a href="membership.html#faqs">FAQs</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="schedule.html">Schedule <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav-dropdown">
+          <a href="schedule.html">Full Schedule</a>
+          <a href="schedule.html?sport=basketball">Basketball Classes</a>
+          <a href="schedule.html?sport=volleyball">Volleyball Classes</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="events.html">Events <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav-dropdown">
+          <a href="events.html#october">October</a>
+          <a href="events.html#november">November</a>
+          <a href="events.html#december">December</a>
+        </div>
+      </div>
+      <div class="nav-item"><a href="shop.html">Shop</a></div>
+      <div class="nav-item">
+        <a href="about.html">About <svg class="nav-caret" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav-dropdown">
+          <a href="about.html">Our Story</a>
+          <a href="about.html#how-we-play">How We Play</a>
+          <a href="about.html#meet-the-team">Meet the Team</a>
+          <a href="community.html">Community</a>
+        </div>
+      </div>
+      <div class="nav-item"><a href="contact.html">Contact</a></div>
+    </nav>
+    <div class="nav-cta">
+      <a href="member-portal.html" class="btn btn-secondary">Login</a>
+      <a href="membership.html" class="btn btn-primary">Become a Member</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-nav-group">
+    <button class="mobile-nav-toggle" type="button">Programs<span class="mobile-nav-chevron">+</span></button>
+    <div class="mobile-nav-sub">
+      <a href="basketball.html">Basketball</a>
+      <a href="volleyball.html">Volleyball</a>
+      <a href="private-coaching.html">Private Training</a>
+      <a href="camps.html">Camps &amp; Clinics</a>
+      <a href="leagues.html">Leagues</a>
+      <a href="events.html#rhythm">Open Play</a>
+    </div>
+  </div>
+  <div class="mobile-nav-group">
+    <button class="mobile-nav-toggle" type="button">Membership<span class="mobile-nav-chevron">+</span></button>
+    <div class="mobile-nav-sub">
+      <a href="membership.html#plans">Choose Your Plan</a>
+      <a href="membership.html#a-la-carte">À La Carte</a>
+      <a href="membership.html#faqs">FAQs</a>
+    </div>
+  </div>
+  <div class="mobile-nav-group">
+    <button class="mobile-nav-toggle" type="button">Schedule<span class="mobile-nav-chevron">+</span></button>
+    <div class="mobile-nav-sub">
+      <a href="schedule.html">Full Schedule</a>
+      <a href="schedule.html?sport=basketball">Basketball Classes</a>
+      <a href="schedule.html?sport=volleyball">Volleyball Classes</a>
+    </div>
+  </div>
+  <div class="mobile-nav-group">
+    <button class="mobile-nav-toggle" type="button">Events<span class="mobile-nav-chevron">+</span></button>
+    <div class="mobile-nav-sub">
+      <a href="events.html">Calendar Overview</a>
+      <a href="events.html#october">October</a>
+      <a href="events.html#november">November</a>
+      <a href="events.html#december">December</a>
+    </div>
+  </div>
+  <a href="shop.html">Shop</a>
+  <div class="mobile-nav-group">
+    <button class="mobile-nav-toggle" type="button">About<span class="mobile-nav-chevron">+</span></button>
+    <div class="mobile-nav-sub">
+      <a href="about.html">Our Story</a>
+      <a href="about.html#how-we-play">How We Play</a>
+      <a href="about.html#meet-the-team">Meet the Team</a>
+      <a href="community.html">Community</a>
+    </div>
+  </div>
+  <a href="contact.html">Contact</a>
+  <a href="membership.html" class="btn btn-primary btn-block">Become a Member</a>
+</div>
+
+
+
+<section class="page-hero" id="main">
+  <div class="photo" role="img" aria-label="Independent coach training an athlete at The Courts"></div>
+  <div class="container page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a> / <a href="programs.html">Programs</a> / <span class="current">The Coach Collective</span></div>
+    <span class="eyebrow eyebrow--light">For Independent Coaches</span>
+    <h1 class="page-hero-title">The Coach Collective</h1>
+    <p class="page-hero-sub">A home base for approved independent private coaches — and the athletes who train with them. Court space, structure, and community, without going through a club.</p>
+    <a href="contact.html" class="btn btn-primary">Apply as a Coach</a>
+    <div class="page-hero-meta">
+      <div><span>Athlete Access</span><strong>$100 / mo</strong></div>
+      <div><span>Coach Court Rate</span><strong>$35 / hour</strong></div>
+      <div><span>Approval</span><strong>By Application</strong></div>
+      <div><span>Location</span><strong>Nolensville, TN</strong></div>
+    </div>
+  </div>
+</section>
+
+<section class="overview">
+  <div class="container overview-inner">
+    <div class="overview-art photo" role="img" aria-label="Court space at The Courts"></div>
+    <div class="overview-text">
+      <span class="eyebrow">Overview</span>
+      <h2 class="section-title" style="margin-bottom:24px;">Not every athlete trains through a class. Some train through a coach.</h2>
+      <p>Some of the best development happens one-on-one, with a coach an athlete and family already trust. The Coach Collective makes The Courts that coach's home base — approved independent coaches (like Spencer) get reliable court access, and their athletes get a real facility instead of a driveway hoop or a borrowed gym.</p>
+      <p>It's a simple, two-sided model: athletes carry a low-cost Facility Access membership, and independent coaches pay for the court time they use. No club fees, no exclusivity requirements — just a shared home court.</p>
+    </div>
+  </div>
+</section>
+
+<section class="benefits">
+  <div class="container">
+    <div class="section-head"><span class="eyebrow">For Athletes</span><h2 class="section-title">Facility Access — $100/month</h2></div>
+    <div class="benefits-grid">
+      <div class="benefit-card reveal">
+        <div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 21v-7a8 8 0 0116 0v7" stroke="currentColor" stroke-width="1.6"/><path d="M4 14h16" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        <h4>Home Base Access</h4><p>For athletes who primarily work with a private coach, but need somewhere reliable to train.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 2v4M16 2v4M3 9h18" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        <h4>Scheduled Sessions Only</h4><p>Access is limited to scheduled private coaching sessions — no group classes are included.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h4>Purchased Separately</h4><p>Private training is billed directly by your coach and purchased separately from Facility Access.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+        <h4>Fair to the Facility</h4><p>Ensures every athlete regularly using The Courts contributes to operating costs — even when working mainly with a private coach.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing-strip">
+  <div class="container">
+    <div class="section-head center"><span class="eyebrow">For Independent Coaches</span><h2 class="section-title">A home base for approved coaches like Spencer.</h2><p class="section-sub">The Courts can serve as a home base for approved independent coaches. Athletes pay Facility Access on top of the coach's own private training fee; coaches pay a flat court-hour rate directly to The Courts.</p></div>
+    <div class="pricing-strip-row">
+      <div class="pricing-mini reveal"><div class="name">Athlete Facility Access</div><div class="price">$100<span>/mo</span></div></div>
+      <div class="pricing-mini popular reveal"><div class="name">★ Coach Court Rate</div><div class="price">$35<span>/court hour</span></div></div>
+      <div class="pricing-mini reveal"><div class="name">Coach's Own Training Fee</div><div class="price">Set by Coach</div></div>
+      <div class="pricing-mini reveal"><div class="name">Coach Approval</div><div class="price">Apply</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="overview" style="padding-top:0;">
+  <div class="container">
+    <div class="section-head center"><span class="eyebrow">How the Math Works</span><h2 class="section-title">One weekly athlete, no coaching payroll.</h2></div>
+    <div class="pricing-strip-row" style="margin-top:20px;">
+      <div class="pricing-mini reveal"><div class="name">Facility Access</div><div class="price">$100<span>/mo</span></div></div>
+      <div class="pricing-mini reveal"><div class="name">Court Fees (4 sessions × $35)</div><div class="price">$140<span>/mo</span></div></div>
+      <div class="pricing-mini popular reveal"><div class="name">★ Total to The Courts</div><div class="price">$240<span>/mo</span></div></div>
+    </div>
+    <p style="max-width:640px; margin:28px auto 0; text-align:center; color:var(--gray-dark); font-size:15px; line-height:1.7;">Example: an athlete training weekly with an independent coach generates roughly $100/month in Facility Access plus about $140/month in court fees from the coach — about $240/month to The Courts, without The Courts carrying the coaching payroll for that session.</p>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="container">
+    <div class="section-head center"><span class="eyebrow">FAQs</span><h2 class="section-title">Common questions.</h2></div>
+    <div class="faq-list">
+      <div class="faq-item"><button class="faq-question"><span>Can any private coach join the Coach Collective?</span><span class="faq-icon">+</span></button><div class="faq-answer"><div class="faq-answer-inner">No — independent coaches must be approved by The Courts before booking court time or bringing athletes on-site.</div></div></div>
+      <div class="faq-item"><button class="faq-question"><span>Do I need Facility Access if I only take group classes?</span><span class="faq-icon">+</span></button><div class="faq-answer"><div class="faq-answer-inner">No. Facility Access is required only for athletes who regularly private-train at The Courts with an independent coach. Members enrolled in classes or memberships already have access.</div></div></div>
+      <div class="faq-item"><button class="faq-question"><span>Does Facility Access include group classes or open gym?</span><span class="faq-icon">+</span></button><div class="faq-answer"><div class="faq-answer-inner">No. Access is limited to scheduled private coaching sessions. Group classes and open gym require a separate membership.</div></div></div>
+      <div class="faq-item"><button class="faq-question"><span>Who pays for the coach's own training fee?</span><span class="faq-icon">+</span></button><div class="faq-answer"><div class="faq-answer-inner">The athlete pays the coach directly for private training. Facility Access and court fees are separate from that arrangement.</div></div></div>
+      <div class="faq-item"><button class="faq-question"><span>How do I apply as an independent coach?</span><span class="faq-icon">+</span></button><div class="faq-answer"><div class="faq-answer-inner">Reach out through our contact page with your coaching background and the sport you train. Our team reviews applications on a rolling basis.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="container">
+    <span class="eyebrow">Ready to Get Started?</span>
+    <h2>Bring Your <span class="accent">Coaching</span> Home.</h2>
+    <p>Whether you're an athlete looking for a facility or a coach looking for a home base, let's talk.</p>
+    <div class="ctas"><a href="contact.html" class="btn btn-primary">Apply as a Coach</a><a href="contact.html" class="btn btn-on-dark">Ask About Facility Access</a></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="brand">
+          <img class="brand-mark" src="images/brand/icon-mark.png" alt="">
+          <span>THE COURTS<span class="brand-sub">NOLENSVILLE, TN</span></span>
+        </a>
+        <p style="margin-bottom:10px;">Where performance meets belonging.</p>
+        <p>Basketball and volleyball training built around great coaching, real development, and a place athletes want to be.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="white" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1" fill="white"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 9h3V6h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v6h3v-6H16l.5-3h-3V9.7c0-.4.3-.7.5-.7z" fill="white"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Programs</h4><ul>
+        <li><a href="basketball.html">Basketball</a></li><li><a href="volleyball.html">Volleyball</a></li><li><a href="private-coaching.html">Private Training</a></li><li><a href="camps.html">Camps + Clinics</a></li><li><a href="leagues.html">Basketball Leagues</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>The Courts</h4><ul>
+        <li><a href="about.html">About</a></li><li><a href="membership.html">Membership</a></li><li><a href="events.html">Events</a></li><li><a href="shop.html">Shop</a></li><li><a href="community.html">Community</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Support</h4><ul>
+        <li><a href="schedule.html">Schedule</a></li><li><a href="court-rentals.html">Court Rentals</a></li><li><a href="resources.html">Resources</a></li><li><a href="faq.html">FAQs</a></li><li><a href="member-portal.html">Member Portal</a></li><li><a href="contact.html">Contact</a></li>
+      </ul></div>
+      <div class="footer-col">
+        <h4>Stay in the Loop.</h4>
+        <p style="font-size:14px; color:rgba(255,255,255,0.55); margin-bottom:14px;">News, programs, camps, events, and more from The Courts.</p>
+        <form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Your email" required><button type="submit">Join →</button></form>
+        <p style="font-size:14px; color:rgba(255,255,255,0.55); margin-top:16px; margin-bottom:4px;">Nolensville, TN</p>
+        <p style="font-size:14px; color:rgba(255,255,255,0.55);">hello@playthecourts.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>&copy; 2026 The Courts. All rights reserved.</span><span><a href="privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="terms.html">Terms &amp; Conditions</a> &nbsp;·&nbsp; <a href="accessibility.html">Accessibility</a></span></div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
