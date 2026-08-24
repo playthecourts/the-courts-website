@@ -1135,8 +1135,8 @@ body.has-announce .nav { top: 64px; }
 .feat-card .photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(23,23,23,0.05) 25%, rgba(23,23,23,0.88) 100%); }
 .feat-status { position: relative; z-index: 2; display: inline-flex; align-self: flex-start; align-items: center; gap: 6px; font-family: var(--font-sport); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--white); background: rgba(255,255,255,0.14); backdrop-filter: blur(4px); padding: 5px 12px; border-radius: 999px; margin-bottom: auto; }
 .feat-card--small .feat-status { background: var(--orange-soft); color: var(--orange-ink); }
-.feat-status--live { gap: 12px; color: var(--white); background: var(--orange); box-shadow: 0 8px 20px rgba(213,96,31,0.4); padding: 12px 26px; font-size: 20px; letter-spacing: 0.05em; }
-.feat-status--live::before { content: ''; width: 13px; height: 13px; border-radius: 50%; background: var(--white); flex-shrink: 0; animation: featStatusPulse 1.6s ease-in-out infinite; }
+.feat-status--live { gap: 8px; color: var(--white); background: var(--orange); box-shadow: 0 8px 20px rgba(213,96,31,0.4); padding: 8px 17px; font-size: 14px; letter-spacing: 0.05em; }
+.feat-status--live::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--white); flex-shrink: 0; animation: featStatusPulse 1.6s ease-in-out infinite; }
 @keyframes featStatusPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
 @media (prefers-reduced-motion: reduce) { .feat-status--live::before { animation: none; } }
 .feat-body { position: relative; z-index: 2; }
