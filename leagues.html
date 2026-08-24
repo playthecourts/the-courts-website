@@ -498,17 +498,22 @@
 
 <section class="sgi" id="still-got-it">
   <div class="container">
+    <span class="sgi-label">Gauging Interest &middot; Tuesday Nights</span>
     <div class="sgi-grid">
       <div class="sgi-copy">
-        <span class="eyebrow">The Kids Have Heard the Stories.</span>
-        <h2 class="sgi-headline">Time to Back<br>Them Up.</h2>
-        <p class="sgi-mark">Still Got It?</p>
-        <p class="sgi-body">A Tuesday-night basketball league for dads who still believe the jumper is there, the handle is alive, and the knees are "basically fine."</p>
-        <p class="sgi-stat">Real games. Real score.<br>Questionable pace. Elite confidence.</p>
-        <p class="sgi-seeing">We're seeing who's in.</p>
-        <a href="#sgi-form" class="btn btn-primary">I Still Got It →</a>
-        <p class="sgi-disclaimer">We're only gauging interest. Your hamstrings, however, are on notice.</p>
+        <span class="sgi-eyebrow">The Kids Have Heard the Stories.</span>
+        <h2 class="sgi-mark">STILL<br>GOT<br>IT<span class="accent">?</span></h2>
+        <p class="sgi-headline">Time to Back Them Up.</p>
       </div>
+      <div class="sgi-side">
+        <p class="sgi-body">A Tuesday-night basketball league for dads who still believe the jumper is there, the handle is alive, and the knees are "basically fine."</p>
+        <p class="sgi-stat-lines">Real Games. Real Score.<br>Questionable Pace. Elite Confidence.</p>
+        <a href="#sgi-form" class="btn btn-primary sgi-cta">I Still Got It →</a>
+        <p class="sgi-seeing">We're only gauging interest.</p>
+        <p class="sgi-disclaimer">Your hamstrings,<br>however, are on notice.</p>
+      </div>
+    </div>
+    <div class="sgi-formwrap-outer">
       <div class="sgi-formwrap" id="sgi-form">
         <form id="sgiForm">
           <div class="sgi-form-grid">
@@ -566,17 +571,28 @@
 </section>
 
 <style>
-  .sgi { background: var(--black); color: var(--white); padding: 110px 0; overflow: hidden; }
-  .sgi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
-  .sgi-copy .eyebrow { font-size: 15px; }
-  .sgi-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(32px, 4.2vw, 52px); line-height: 1.02; color: var(--white); margin: 14px 0 18px; }
-  .sgi-mark { display: inline-block; font-family: var(--font-display); font-weight: 900; font-size: clamp(20px, 2.4vw, 26px); color: var(--orange); border: 2px solid var(--orange); border-radius: 999px; padding: 8px 22px; margin: 0 0 26px; }
-  .sgi-body { font-size: 16px; line-height: 1.75; color: rgba(255,255,255,0.75); max-width: 42ch; margin: 0 0 22px; }
-  .sgi-stat { font-family: var(--font-heading); font-weight: 800; font-size: 16.5px; color: var(--white); line-height: 1.6; margin: 0 0 22px; }
-  .sgi-seeing { font-size: 15px; color: rgba(255,255,255,0.6); margin: 0 0 22px; }
-  .sgi-disclaimer { font-size: 13px; font-style: italic; color: rgba(255,255,255,0.5); margin: 18px 0 0; max-width: 40ch; }
+  .sgi { background: var(--black); color: var(--white); padding: 130px 0 100px; overflow: hidden; position: relative; }
+  .sgi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--orange); }
+  .sgi-label { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-weight: 700; font-size: 13.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); background: var(--orange); border-radius: 999px; padding: 9px 20px; margin-bottom: 44px; }
+  .sgi-label::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--white); flex-shrink: 0; animation: sgiPulse 1.6s ease-in-out infinite; }
+  @keyframes sgiPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
+  @media (prefers-reduced-motion: reduce) { .sgi-label::before { animation: none; } }
 
-  .sgi-formwrap { background: var(--gray-light); border-radius: var(--radius-md); padding: 40px; scroll-margin-top: 100px; }
+  .sgi-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: center; }
+  .sgi-eyebrow { display: block; font-family: var(--font-sport); font-weight: 700; font-size: clamp(20px, 2.2vw, 27px); letter-spacing: 0.04em; text-transform: uppercase; color: var(--orange); margin-bottom: 20px; }
+  .sgi-mark { font-family: var(--font-display); font-weight: 900; font-size: clamp(48px, 8vw, 118px); line-height: 0.88; color: var(--white); margin: 0; letter-spacing: -0.01em; }
+  .sgi-mark .accent { color: var(--orange); }
+  .sgi-headline { font-family: var(--font-heading); font-weight: 800; font-size: clamp(20px, 2.4vw, 28px); color: rgba(255,255,255,0.85); margin: 22px 0 0; }
+
+  .sgi-side { border-left: 3px solid var(--orange); padding-left: 36px; }
+  .sgi-body { font-size: 19px; line-height: 1.7; color: rgba(255,255,255,0.85); margin: 0 0 30px; }
+  .sgi-stat-lines { font-family: var(--font-display); font-weight: 900; font-size: clamp(18px, 1.9vw, 23px); color: var(--white); line-height: 1.4; margin: 0 0 34px; }
+  .sgi-cta { font-size: 17px; padding: 16px 34px; }
+  .sgi-seeing { font-size: 14px; color: rgba(255,255,255,0.5); margin: 26px 0 4px; text-transform: uppercase; letter-spacing: 0.04em; font-family: var(--font-sport); font-weight: 700; }
+  .sgi-disclaimer { font-family: var(--font-display); font-weight: 900; font-size: clamp(18px, 2vw, 23px); font-style: italic; color: var(--orange); margin: 0; line-height: 1.25; }
+
+  .sgi-formwrap-outer { margin-top: 64px; }
+  .sgi-formwrap { background: var(--gray-light); border-radius: var(--radius-md); padding: 40px; scroll-margin-top: 100px; max-width: 780px; margin: 0 auto; }
   .sgi-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   .sgi-form-grid .full { grid-column: 1 / -1; }
   .sgi-form-grid label { display: block; font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 8px; }
@@ -596,7 +612,9 @@
   .sgi-success p { color: var(--gray-dark); font-size: 15px; margin: 0 0 8px; }
   .sgi-success-wink { font-style: italic; }
   @media (max-width: 900px) {
+    .sgi { padding: 90px 0 70px; }
     .sgi-grid { grid-template-columns: 1fr; gap: 40px; }
+    .sgi-side { border-left: none; border-top: 3px solid var(--orange); padding-left: 0; padding-top: 28px; }
     .sgi-formwrap { padding: 28px 22px; }
     .sgi-form-grid { grid-template-columns: 1fr; }
   }
