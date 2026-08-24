@@ -18,6 +18,19 @@
   .img-placeholder-id { font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); }
   .img-placeholder-ratio { font-size: 10px; color: var(--gray-dark); opacity: 0.65; }
 
+  /* ---------- Quick-glance utility strip ---------- */
+  .cr-glance { padding: 56px 0; background: var(--white); border-bottom: 1px solid var(--gray-mid); }
+  .cr-glance-grid { display: flex; justify-content: center; gap: 0; flex-wrap: wrap; }
+  .cr-glance-item { padding: 0 40px; text-align: center; }
+  .cr-glance-item:first-child { padding-left: 0; }
+  .cr-glance-item:last-child { padding-right: 0; }
+  .cr-glance-item + .cr-glance-item { border-left: 1px solid var(--gray-mid); }
+  .cr-glance-label { font-family: var(--font-display); font-weight: 900; font-size: clamp(17px, 1.9vw, 21px); color: var(--black); }
+  @media (max-width: 700px) {
+    .cr-glance-grid { flex-direction: column; gap: 18px; }
+    .cr-glance-item { padding: 0 !important; border-left: none !important; }
+  }
+
   /* ---------- Got a Thing (big idea) ---------- */
   .cr-idea { background: var(--white); padding: 120px 0; }
   .cr-idea-head { max-width: 680px; margin: 0 auto; text-align: center; }
@@ -52,7 +65,8 @@
   .cr-price-row { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--gray-mid); }
   .cr-price-col--prime .cr-price-row { border-top-color: rgba(255,255,255,0.16); }
   .cr-price-row .name { font-size: 15px; font-weight: 600; }
-  .cr-price-row .amount { font-family: var(--font-display); font-weight: 900; font-size: 20px; }
+  .cr-price-row .amount { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3vw, 34px); color: var(--orange); }
+  .cr-price-col--prime .cr-price-row .amount { color: var(--orange); }
   .cr-price-note { font-size: 13px; color: var(--gray-dark); margin-top: 22px; }
   .cr-price-col--prime .cr-price-note { color: rgba(255,255,255,0.6); }
   .cr-price-disclaimer { text-align: center; font-size: 13.5px; color: var(--gray-dark); max-width: 52ch; margin: 32px auto 0; }
@@ -246,6 +260,16 @@
     <div class="hero-ctas" style="margin-top:32px;">
       <a href="contact.html?interest=Court%20Rental%20%2F%20Party%20%2F%20Event#contact-form" class="btn btn-primary" data-preset="Court Rental / Party / Event">Check Court Availability →</a>
       <a href="#uses" class="btn btn-on-dark">See What Fits ↓</a>
+    </div>
+  </div>
+</section>
+
+<section class="cr-glance">
+  <div class="container">
+    <div class="cr-glance-grid">
+      <div class="cr-glance-item"><span class="cr-glance-label">Half Court</span></div>
+      <div class="cr-glance-item"><span class="cr-glance-label">Full Court</span></div>
+      <div class="cr-glance-item"><span class="cr-glance-label">One-Time or Recurring</span></div>
     </div>
   </div>
 </section>
