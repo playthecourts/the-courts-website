@@ -42,7 +42,8 @@
   .vb-head .eyebrow { font-size: 19px; letter-spacing: 0.1em; text-shadow: 0 1px 3px rgba(0,0,0,0.08); }
   .vb-head h2 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(28px, 4vw, 42px); line-height: 1.1; margin: 0; }
   .vb-head p { font-size: 16.5px; line-height: 1.65; color: var(--gray-dark); max-width: 56ch; margin: 14px auto 0; }
-  .vb-train-section { background: var(--white); padding: 96px 0 0; }
+  .vb-train-section { background: var(--white); padding: 70px 0 0; }
+  .vb-train-section .vb-head { margin-bottom: 32px; }
 
   /* ---------- Pass / Set / Attack / Compete — continuous editorial sequence (matches Basketball) ---------- */
   .vb-sequence { margin-top: 48px; }
@@ -53,12 +54,12 @@
   .seq-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .seq-copy { flex: 1.2; }
   .seq-row--wide .seq-media { flex: 1.1; max-width: 460px; }
-  .seq-num { display: block; font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
+  .seq-num { display: block; font-family: var(--font-sport); font-size: 17px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; }
   .seq-copy h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 2.8vw, 34px); margin: 0 0 16px; line-height: 1; }
   .seq-body { font-size: 15.5px; color: var(--gray-dark); line-height: 1.6; margin: 0 0 10px; }
   .seq-line { font-weight: 700; font-style: italic; font-size: 15.5px; color: var(--black); margin: 0; }
   .seq-row--final { flex-direction: column; align-items: stretch; padding-top: 38px; }
-  .seq-row--final .seq-media { width: 100%; max-width: none; aspect-ratio: 21/7; }
+  .seq-row--final .seq-media { width: 100%; max-width: none; aspect-ratio: 21/5.5; }
   .seq-row--final .seq-copy { width: 100%; max-width: 640px; margin-top: 24px; }
   @media (max-width: 820px) {
     .seq-row, .seq-row--reverse { flex-direction: column; align-items: stretch; gap: 20px; padding: 28px 0; }
@@ -79,7 +80,7 @@
   .vb-dev-line-fill.in-view { width: 100%; }
   .vb-dev-stops { display: flex; justify-content: space-between; align-items: center; margin-top: -21px; position: relative; z-index: 2; }
   .vb-dev-ball-wrap { display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--gray-light); }
-  .vb-dev-range { font-family: var(--font-sport); font-size: clamp(24px, 2.6vw, 32px); font-weight: 800; letter-spacing: 0.01em; text-transform: uppercase; color: var(--orange); margin: 0 0 12px; line-height: 1; }
+  .vb-dev-range { font-family: var(--font-sport); font-size: clamp(26px, 2.8vw, 34px); font-weight: 800; letter-spacing: 0.01em; text-transform: uppercase; color: var(--orange); margin: 0 0 12px; line-height: 1; }
   .vb-dev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 44px; }
   .vb-dev-item { display: flex; flex-direction: column; }
   .vb-dev-photo { border-radius: var(--radius-md); overflow: hidden; margin-bottom: 22px; aspect-ratio: 4/3.3; }
@@ -335,7 +336,6 @@
     <div class="vb-head reveal">
       <span class="eyebrow">Start Here. Keep Going.</span>
       <h2>The Work Changes as They Do.</h2>
-      <p>A 7-year-old and a 15-year-old shouldn't be doing the same workout. The fundamentals stay. The speed, pressure, and expectations grow with the player.</p>
     </div>
 
     <div class="vb-dev-track reveal">
