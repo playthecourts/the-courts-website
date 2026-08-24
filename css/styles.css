@@ -83,6 +83,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .btn-block { width: 100%; }
 .ctas { display: flex; gap: 16px; flex-wrap: wrap; }
 
+/* ---------- Courts Commentary (shared microcopy device — use sparingly, 0-2 per page) ---------- */
+.courts-commentary { display: block; font-family: var(--font-body); font-style: italic; font-size: 14px; line-height: 1.5; color: var(--gray-dark); margin-top: 18px; max-width: 44ch; }
+.courts-commentary--on-dark { color: rgba(255,255,255,0.65); }
+
 /* ---------- Site-wide announcement bar ---------- */
 /* [REMOVE / REPLACE FALL LEAGUE BANNER SEPTEMBER 20 AT 5 PM — campaign expires at the registration deadline] */
 .site-announce {
