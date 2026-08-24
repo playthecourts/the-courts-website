@@ -18,7 +18,7 @@
   @keyframes lgPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
 
   .lg-hero-bold { font-family: var(--font-heading); font-weight: 800; font-size: 17px; color: var(--white); margin: 18px 0 30px; }
-  .lg-hero-deadline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; margin: 22px 0 6px; }
+  .lg-hero-deadline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; margin: 22px 0 26px; }
   .lg-hero-deadline-label, .lg-hero-deadline-date { font-family: var(--font-sport); font-size: clamp(16px, 1.9vw, 20px); letter-spacing: 0.05em; text-transform: uppercase; }
   .lg-hero-deadline-label { font-weight: 800; color: rgba(255,255,255,0.92); }
   .lg-hero-deadline-date { font-weight: 900; color: var(--orange); }
@@ -61,7 +61,10 @@
   .roster-comms p { font-size: 15.5px; line-height: 1.7; color: var(--gray-dark); max-width: 62ch; margin: 0; }
 
   .lg-roster-head { margin-bottom: 32px; }
-  .lg-roster-head .section-sub { font-size: clamp(19px, 2.1vw, 22px); font-weight: 500; line-height: 1.5; max-width: 64ch; color: var(--gray-dark); }
+  .lg-roster-head .section-sub { font-size: clamp(19px, 2.1vw, 22px); font-weight: 500; line-height: 1.5; max-width: 90ch; color: var(--gray-dark); }
+  @media (min-width: 860px) {
+    .lg-roster-head .section-sub { white-space: nowrap; }
+  }
 
   .season-board--six { grid-template-columns: repeat(3, 1fr); }
   @media (max-width: 900px) { .season-board--six { grid-template-columns: repeat(2, 1fr); } }
@@ -110,12 +113,13 @@
   .season-board-item { border-right: 1px solid var(--gray-mid); border-bottom: 1px solid var(--gray-mid); padding: 26px 18px; text-align: center; }
   .season-board-item span { display: block; font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 10px; }
   .season-board-item strong { display: block; font-family: var(--font-display); font-size: clamp(14px, 1.5vw, 18px); color: var(--black); line-height: 1.25; }
+  .season-board-item--accent strong { color: var(--orange); font-size: clamp(16px, 1.7vw, 20px); }
   @media (max-width: 900px) { .season-board { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 560px) { .season-board { grid-template-columns: repeat(2, 1fr); } }
 
   .lg-rhythm-head { margin-top: 76px; text-align: center; }
   .lg-rhythm-eyebrow { font-family: var(--font-sport); font-weight: 800; font-size: clamp(18px, 2vw, 20px); letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); display: block; margin-bottom: 8px; }
-  .lg-rhythm-sub { font-size: 15.5px; color: var(--gray-dark); max-width: 56ch; margin: 8px auto 0; }
+  .lg-rhythm-sub { font-size: 15.5px; color: var(--gray-dark); max-width: 56ch; margin: 8px 0 0; }
 
   .why-league { padding: 100px 0; }
   .why-league-big { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 4vw, 44px); line-height: 1.15; color: var(--black); margin: 28px 0 0; }
@@ -294,7 +298,7 @@
   <div class="container page-hero-inner">
     <span class="eyebrow eyebrow--light">Basketball Leagues</span>
     <h1 class="page-hero-title">Practice Is Great. Let&rsquo;s Keep Score.</h1>
-    <p class="page-hero-sub">Weekly practice. Saturday games. Real teammates. Real competition.<br>Fall teams are forming now.</p>
+    <p class="page-hero-sub">Weekly practice. Saturday games. Real teammates. Real competition.<br><strong>Fall teams are forming now.</strong></p>
     <p class="lg-hero-deadline"><span class="lg-hero-deadline-label">Registration Closes</span><span class="lg-hero-deadline-date">September 20 · 5 PM</span></p>
     <div class="hero-ctas ctas">
       <a href="#register" class="btn btn-primary">Register Your Athlete →</a>
@@ -369,11 +373,11 @@
       <p class="section-sub" style="margin-top:20px;">The Courts teams will compete through WNSL Basketball with one practice and one game each week. <a href="https://www.wnsl.org/default.aspx?tabid=212773" target="_blank" rel="noopener" style="color:var(--orange); font-weight:700;">Learn About WNSL ↗</a></p>
     </div>
     <div class="season-board season-board--six">
-      <div class="season-board-item"><span>Season</span><strong>Oct 24 &ndash; Dec 13</strong></div>
+      <div class="season-board-item season-board-item--accent"><span>Season</span><strong>Oct 24 &ndash; Dec 13</strong></div>
       <div class="season-board-item"><span>Regular Season</span><strong>Oct 24 &ndash; Dec 5</strong></div>
-      <div class="season-board-item"><span>Tournament</span><strong>Dec 11&ndash;13</strong></div>
+      <div class="season-board-item season-board-item--accent"><span>Tournament</span><strong>Dec 11&ndash;13</strong></div>
       <div class="season-board-item"><span>Game Day</span><strong>Saturdays</strong></div>
-      <div class="season-board-item"><span>Practice</span><strong>One practice each week at The Courts</strong></div>
+      <div class="season-board-item season-board-item--accent"><span>Practice</span><strong>One practice each week at The Courts</strong></div>
       <div class="season-board-item"><span>Registration Closes</span><strong style="color:var(--orange);">September 20 · 5 PM</strong></div>
     </div>
   </div>
