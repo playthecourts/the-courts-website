@@ -50,13 +50,12 @@
     .roster-status-wrap { align-items: flex-start; }
   }
 
-  .roster-comms { margin-top: 64px; padding-top: 36px; border-top: 2px solid var(--orange); display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 40px; align-items: start; }
-  .roster-comms .eyebrow { color: var(--orange); font-size: 15px; }
-  .roster-comms h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.1; margin: 10px 0 0; }
-  .roster-comms h3 .accent { color: var(--orange); }
-  .roster-comms-body p { font-size: 15.5px; line-height: 1.7; color: var(--gray-dark); margin: 0 0 14px; }
-  .roster-comms-body p:last-child { margin-bottom: 0; }
-  @media (max-width: 700px) { .roster-comms { grid-template-columns: 1fr; gap: 18px; } }
+  .lg-heard-tag { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 5vw, 56px); color: var(--black); line-height: 1.02; border-bottom: 4px solid var(--orange); padding-bottom: 14px; margin-bottom: 18px; width: fit-content; }
+  .lg-heard-commitments { display: flex; gap: 48px; flex-wrap: wrap; margin-top: 52px; padding-top: 40px; border-top: 1px solid var(--gray-mid); }
+  .lg-heard-item { flex: 1; min-width: 220px; }
+  .lg-heard-item h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(18px, 2vw, 22px); margin: 0 0 8px; color: var(--black); }
+  .lg-heard-item p { font-size: 14.5px; line-height: 1.6; color: var(--gray-dark); margin: 0; max-width: 32ch; }
+  @media (max-width: 760px) { .lg-heard-commitments { flex-direction: column; gap: 24px; } }
 
   .lg-roster-head { margin-bottom: 32px; }
   .lg-roster-head .section-sub { font-size: clamp(19px, 2.1vw, 22px); font-weight: 500; line-height: 1.5; max-width: 90ch; color: var(--gray-dark); }
@@ -306,6 +305,52 @@
   </div>
 </section>
 
+<section style="padding:90px 0 96px; background:var(--white);" id="heard-you">
+  <div class="container">
+    <div class="section-head">
+      <span class="lg-heard-tag">We Heard You.</span>
+      <h2 class="section-title">And We're Taking It Into Fall.</h2>
+      <p class="section-sub">The summer league gave us a lot to learn from. Thanks for telling us what worked, what didn't, and what you wanted more of.</p>
+    </div>
+    <div class="lg-heard-commitments">
+      <div class="lg-heard-item">
+        <h3>Smaller Rosters.</h3>
+        <p>We're keeping teams intentionally tighter.</p>
+      </div>
+      <div class="lg-heard-item">
+        <h3>Earlier Communication.</h3>
+        <p>Schedules and season details will go out as early as possible.</p>
+      </div>
+      <div class="lg-heard-item">
+        <h3>We're Paying Attention.</h3>
+        <p>We'll keep an eye on how the season is going and keep making it better as we go.</p>
+      </div>
+    </div>
+    <span class="courts-commentary">If something's not working, we want to know.</span>
+  </div>
+</section>
+
+<section style="padding:0 0 100px;">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Before We Set the Rosters</span>
+      <h2 class="section-title">Come Show Us Your Game.</h2>
+      <p class="section-sub">Players will attend a short evaluation before teams are finalized.</p>
+      <p class="lg-eval-detail">We're looking at how athletes play, move, make decisions, compete, and fit into a team.</p>
+    </div>
+    <p class="lg-eval-reassure">This is for team placement. <span class="accent">Not cuts.</span></p>
+    <p class="lg-eval-reassure lg-eval-reassure--sub">No need to audition for the NBA. Just come play.</p>
+    <div class="eval-callout">
+      <span class="eyebrow">Player Evaluation</span>
+      <div class="lg-eval-row">
+        <p class="lg-eval-date">September 12 · 3 PM</p>
+        <p class="fee">$25 Evaluation Fee*</p>
+      </div>
+      <p class="lg-eval-footnote">*$25 evaluation fee will be applied toward league registration for athletes who join a team.</p>
+    </div>
+  </div>
+</section>
+
 <section style="padding:56px 0 100px;" id="roster">
   <div class="container">
     <div class="section-head lg-roster-head">
@@ -347,36 +392,6 @@
         </div>
       </div>
     </div>
-
-    <div class="roster-comms reveal">
-      <div>
-        <span class="eyebrow">What We Heard</span>
-        <h3>Smaller Teams.<br>Better <span class="accent">Communication.</span></h3>
-      </div>
-      <div class="roster-comms-body">
-        <p>We heard the feedback from the NextGen summer league, and we're taking it with us into fall.</p>
-        <p>We're keeping rosters intentionally smaller and sharing schedules and season details as early as possible.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section style="padding:72px 0 100px;" id="fall-league">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow lg-rhythm-eyebrow">Fall 2026</span>
-      <h2 class="lg-glance-headline reveal">The Weekly Rhythm.</h2>
-      <p class="lg-rhythm-sub">Practice at The Courts during the week. Play on Saturday. Come back, work on what happened, and get ready for the next one.</p>
-      <p class="section-sub" style="margin-top:20px;">The Courts teams will compete through WNSL Basketball with one practice and one game each week. <a href="https://www.wnsl.org/default.aspx?tabid=212773" target="_blank" rel="noopener" style="color:var(--orange); font-weight:700;">Learn About WNSL ↗</a></p>
-    </div>
-    <div class="season-board season-board--six">
-      <div class="season-board-item season-board-item--accent"><span>Season</span><strong>Oct 24 &ndash; Dec 13</strong></div>
-      <div class="season-board-item"><span>Regular Season</span><strong>Oct 24 &ndash; Dec 5</strong></div>
-      <div class="season-board-item season-board-item--accent"><span>Tournament</span><strong>Dec 11&ndash;13</strong></div>
-      <div class="season-board-item"><span>Game Day</span><strong>Saturdays</strong></div>
-      <div class="season-board-item season-board-item--accent"><span>Practice</span><strong>One practice each week at The Courts</strong></div>
-      <div class="season-board-item"><span>Registration Closes</span><strong style="color:var(--orange);">September 20 · 5 PM</strong></div>
-    </div>
   </div>
 </section>
 
@@ -401,23 +416,21 @@
   </div>
 </section>
 
-<section style="padding:0 0 100px;">
+<section style="padding:72px 0 100px;" id="fall-league">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">Before We Set the Rosters</span>
-      <h2 class="section-title">Come Show Us Your Game.</h2>
-      <p class="section-sub">Players will attend a short evaluation before teams are finalized.</p>
-      <p class="lg-eval-detail">We're looking at how athletes play, move, make decisions, compete, and fit into a team.</p>
+      <span class="eyebrow lg-rhythm-eyebrow">Fall 2026</span>
+      <h2 class="lg-glance-headline reveal">The Weekly Rhythm.</h2>
+      <p class="lg-rhythm-sub">Practice at The Courts during the week. Play on Saturday. Come back, work on what happened, and get ready for the next one.</p>
+      <p class="section-sub" style="margin-top:20px;">The Courts teams will compete through WNSL Basketball with one practice and one game each week. <a href="https://www.wnsl.org/default.aspx?tabid=212773" target="_blank" rel="noopener" style="color:var(--orange); font-weight:700;">Learn About WNSL ↗</a></p>
     </div>
-    <p class="lg-eval-reassure">This is for team placement. <span class="accent">Not cuts.</span></p>
-    <p class="lg-eval-reassure lg-eval-reassure--sub">No need to audition for the NBA. Just come play.</p>
-    <div class="eval-callout">
-      <span class="eyebrow">Player Evaluation</span>
-      <div class="lg-eval-row">
-        <p class="lg-eval-date">September 12 · 3 PM</p>
-        <p class="fee">$25 Evaluation Fee*</p>
-      </div>
-      <p class="lg-eval-footnote">*$25 evaluation fee will be applied toward league registration for athletes who join a team.</p>
+    <div class="season-board season-board--six">
+      <div class="season-board-item season-board-item--accent"><span>Season</span><strong>Oct 24 &ndash; Dec 13</strong></div>
+      <div class="season-board-item"><span>Regular Season</span><strong>Oct 24 &ndash; Dec 5</strong></div>
+      <div class="season-board-item season-board-item--accent"><span>Tournament</span><strong>Dec 11&ndash;13</strong></div>
+      <div class="season-board-item"><span>Game Day</span><strong>Saturdays</strong></div>
+      <div class="season-board-item season-board-item--accent"><span>Practice</span><strong>One practice each week at The Courts</strong></div>
+      <div class="season-board-item"><span>Registration Closes</span><strong style="color:var(--orange);">September 20 · 5 PM</strong></div>
     </div>
   </div>
 </section>
