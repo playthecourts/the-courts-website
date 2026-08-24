@@ -38,7 +38,18 @@
   .camp-feature-copy p { font-size: 16.5px; line-height: 1.75; color: var(--gray-dark); max-width: 44ch; margin: 0 0 16px; }
   .camp-feature-detail { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--black); margin: 20px 0 24px; }
   .camp-feature-detail .sep { color: var(--gray-mid); margin: 0 10px; }
+  .camp-glance { display: flex; gap: 36px; margin: 24px 0 8px; }
+  .camp-glance-item { display: flex; flex-direction: column; gap: 2px; }
+  .camp-glance-num { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3.4vw, 38px); color: var(--orange); line-height: 1; }
+  .camp-glance-label { font-family: var(--font-sport); font-weight: 700; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); }
+  .camp-progression { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; margin-top: 64px; padding-top: 44px; border-top: 1px solid var(--gray-mid); }
+  .camp-prog-word { font-family: var(--font-display); font-weight: 900; font-size: clamp(20px, 3vw, 32px); color: var(--black); padding: 6px 22px; line-height: 1; }
+  .camp-prog-arrow { color: var(--orange); font-family: var(--font-display); font-weight: 900; font-size: clamp(18px, 2.4vw, 26px); }
   @media (max-width: 900px) { .camp-feature-grid { grid-template-columns: 1fr; gap: 32px; } }
+  @media (max-width: 700px) {
+    .camp-progression { flex-direction: column; gap: 14px; margin-top: 44px; padding-top: 32px; }
+    .camp-prog-arrow { transform: rotate(90deg); }
+  }
 
   /* ---------- Compact month-grouped calendar ---------- */
   .cal-wrap { margin-top: 48px; }
@@ -279,9 +290,22 @@
         <h2>Fall Break.<br>Full Court.</h2>
         <p>Five days without school. Seems like a pretty good reason to play.</p>
         <p>Basketball and volleyball training, games, competitions, and plenty of actual court time throughout the week.</p>
+        <div class="camp-glance">
+          <div class="camp-glance-item"><span class="camp-glance-num">5</span><span class="camp-glance-label">Days</span></div>
+          <div class="camp-glance-item"><span class="camp-glance-num">A Lot</span><span class="camp-glance-label">of Court</span></div>
+        </div>
         <p class="camp-feature-detail">October 12&ndash;16<span class="sep">&middot;</span>Basketball + Volleyball</p>
         <a href="contact.html?interest=Programs%20%2B%20Membership#contact-form" class="btn btn-primary" data-preset="Programs + Membership">Register →</a>
       </div>
+    </div>
+    <div class="camp-progression">
+      <span class="camp-prog-word">Get Moving</span>
+      <span class="camp-prog-arrow">→</span>
+      <span class="camp-prog-word">Get Better</span>
+      <span class="camp-prog-arrow">→</span>
+      <span class="camp-prog-word">Compete</span>
+      <span class="camp-prog-arrow">→</span>
+      <span class="camp-prog-word">Just Play</span>
     </div>
   </div>
 </section>
