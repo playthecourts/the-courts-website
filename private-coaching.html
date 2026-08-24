@@ -138,6 +138,8 @@
   .pt-coach-name { font-family: var(--font-display); font-weight: 900; font-size: clamp(19px, 2vw, 24px); margin: 0 0 4px; line-height: 1.1; }
   .pt-coach-title { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 12px; }
   .pt-coach-bio { font-size: 14.5px; line-height: 1.65; color: rgba(255,255,255,0.72); margin: 0 0 10px; }
+  .pt-coach-group--volleyball { background: var(--gray-light); color: var(--black); padding: 48px clamp(24px, 4vw, 56px); border-radius: var(--radius-md); }
+  .pt-coach-group--volleyball .pt-coach-bio { color: var(--gray-dark); }
   @media (max-width: 900px) {
     .pt-coach-pair { grid-template-columns: 1fr; gap: 40px; }
     .pt-coach-card { grid-template-columns: 1fr; }
@@ -422,7 +424,7 @@
         </div>
       </div>
 
-      <div>
+      <div class="pt-coach-group--volleyball">
         <span class="pt-coach-group-label reveal">Volleyball</span>
         <div class="pt-coach-pair">
           <div class="pt-coach-card reveal">
