@@ -427,7 +427,31 @@
   .prog-cc-banner-cta { font-family: var(--font-heading); font-weight: 700; font-size: 15.5px; color: var(--white); }
   .prog-cc-banner-cta .arrow { color: var(--orange); transition: transform 0.2s var(--ease); }
   .prog-cc-banner:hover .prog-cc-banner-cta .arrow { transform: translateX(4px); }
+
+  .prog-rentals-banner { background: #F1EEE7; padding: 90px 0; }
+  .prog-rentals-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: center; }
+  .prog-rentals-eyebrow { display: block; font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
+  .prog-rentals-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(32px, 4.2vw, 50px); line-height: 1.02; color: var(--black); margin: 0 0 18px; }
+  .prog-rentals-body { font-size: 16.5px; line-height: 1.75; color: var(--gray-dark); max-width: 50ch; margin: 0; }
+  .prog-rentals-side { text-align: left; }
+  .prog-rentals-strong { font-family: var(--font-display); font-weight: 900; font-size: clamp(19px, 2.2vw, 24px); line-height: 1.15; color: var(--black); margin: 0 0 22px; }
+  .prog-rentals-strong .accent { color: var(--orange); }
+  @media (max-width: 900px) { .prog-rentals-grid { grid-template-columns: 1fr; gap: 28px; } }
 </style>
+
+<section class="prog-rentals-banner">
+  <div class="container prog-rentals-grid">
+    <div>
+      <span class="prog-rentals-eyebrow">More Than Court Time</span>
+      <h2 class="prog-rentals-title">Got a Thing?<br>Bring It Here.</h2>
+      <p class="prog-rentals-body">Not everything at The Courts needs a scoreboard. Pickleball crew. Mah jong night. Yoga class. Homeschool group. Team meeting. Corporate outing, minus the trust falls. Or something we haven't thought of yet.</p>
+    </div>
+    <div class="prog-rentals-side">
+      <p class="prog-rentals-strong">You've Got the People.<br><span class="accent">We've Got the Space.</span></p>
+      <a href="court-rentals.html" class="btn btn-primary">Explore Court Rentals →</a>
+    </div>
+  </div>
+</section>
 
 <section class="prog-next" id="whats-next">
   <div class="next-grid">
