@@ -42,8 +42,17 @@
   .vb-head .eyebrow { font-size: 19px; letter-spacing: 0.1em; text-shadow: 0 1px 3px rgba(0,0,0,0.08); }
   .vb-head h2 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(28px, 4vw, 42px); line-height: 1.1; margin: 0; }
   .vb-head p { font-size: 16.5px; line-height: 1.65; color: var(--gray-dark); max-width: 56ch; margin: 14px auto 0; }
-  .vb-train-section { background: var(--white); padding: 70px 0 0; }
-  .vb-train-section .vb-head { margin-bottom: 32px; }
+  .vb-train-section { background: var(--white); padding: 100px 0 90px; }
+
+  /* ---------- How We Train intro (shared .train-module system — identical on basketball + volleyball) ---------- */
+  .train-module { max-width: 620px; margin: 0 auto 52px; text-align: center; }
+  .train-module-eyebrow { font-size: clamp(18px, 2vw, 20px); font-weight: 800; letter-spacing: 0.07em; margin-bottom: 14px; }
+  .train-module-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 3.4vw, 40px); line-height: 1.06; margin: 0 0 20px; color: var(--black); }
+  .train-module-progression { display: flex; align-items: center; justify-content: center; gap: 10px; font-family: var(--font-sport); font-weight: 800; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 26px; }
+  .train-module-arrow { color: var(--orange); }
+  .train-module-right p { font-size: 16px; line-height: 1.65; color: var(--gray-dark); margin: 0 auto 14px; max-width: 52ch; }
+  .train-module-punch { font-weight: 700; color: var(--black); font-size: 16.5px; margin-bottom: 0 !important; }
+  .train-module-punch strong { font-weight: 900; }
 
   /* ---------- Pass / Set / Attack / Compete — continuous editorial sequence (matches Basketball) ---------- */
   .vb-sequence { margin-top: 48px; }
@@ -265,10 +274,19 @@
 
 <section class="vb-train-section">
   <div class="container">
-    <div class="vb-head reveal">
-      <span class="eyebrow">How We Train</span>
-      <h2>Learn It. Rep It. Use It.</h2>
-      <p>Anybody can pass a ball that's served right at them.<br>We build the technique, rep the footwork, speed up the tempo, and put players in situations where the ball doesn't come easy.<br>Because in a real rally, nothing arrives the way you drew it up.</p>
+    <div class="train-module reveal">
+      <div class="train-module-left">
+        <span class="eyebrow train-module-eyebrow">How We Train</span>
+        <h2 class="train-module-headline">Learn It.<br>Rep It.<br>Use It.</h2>
+        <div class="train-module-progression" aria-hidden="true">
+          <span>Learn</span><span class="train-module-arrow">→</span><span>Rep</span><span class="train-module-arrow">→</span><span>Use</span>
+        </div>
+      </div>
+      <div class="train-module-right">
+        <p>Anybody can pass when the ball comes right to them.</p>
+        <p>Build the technique. Speed it up. Add pressure. Learn to adjust.</p>
+        <p class="train-module-punch">Because <strong>nobody's serving you the perfect ball in a match.</strong></p>
+      </div>
     </div>
 
     <div class="vb-sequence">
@@ -372,7 +390,7 @@
         <div class="vb-way-body">
           <p class="vb-way-label">One-on-One + Small Group</p>
           <h3 class="vb-way-name">Private Training</h3>
-          <p class="vb-way-copy">The serve that breaks down under pressure. The approach that's a step too early. The set you keep bailing out of. Yeah. That thing. One-on-one or small-group training built around exactly what needs attention.</p>
+          <p class="vb-way-copy">Work on the thing that needs work, with a coach focused on you.</p>
           <span class="vb-way-link">View Private Training <span class="arrow">→</span></span>
         </div>
       </a>
