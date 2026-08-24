@@ -52,10 +52,10 @@
   .pt-head p { font-size: 16.5px; line-height: 1.65; color: var(--gray-dark); max-width: 56ch; margin: 14px auto 0; }
 
   /* ---------- Built Around You (text-only moment) ---------- */
-  .pt-zoom-section { background: var(--white); padding: 132px 0; }
+  .pt-zoom-section { background: var(--black); padding: 132px 0; }
   .pt-head--built { max-width: 700px; }
-  .pt-head--built h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(36px, 5.6vw, 68px); line-height: 1.02; }
-  .pt-head--built p { font-size: 18px; max-width: 50ch; }
+  .pt-head--built h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(36px, 5.6vw, 68px); line-height: 1.02; color: var(--white); }
+  .pt-head--built p { font-size: 18px; max-width: 50ch; color: rgba(255,255,255,0.72); }
 
   /* ---------- Sport worlds (Basketball / Volleyball) ---------- */
   .pt-sport { padding: 64px 0; overflow: hidden; }
@@ -104,7 +104,7 @@
   .pt-avail-price .pt-avail-price-note { font-size: 13.5px; font-weight: 500; text-transform: none; letter-spacing: normal; color: rgba(255,255,255,0.62); margin-top: 2px; }
 
   /* ---------- Why Private Training ---------- */
-  .pt-why { background: var(--gray-light); padding: 108px 0; }
+  .pt-why { background: var(--white); padding: 108px 0; }
   .pt-why-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; align-items: center; gap: 56px; }
   .pt-why-media { position: relative; aspect-ratio: 4/4.6; border-radius: var(--radius-md); overflow: hidden; }
   .pt-why-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -125,7 +125,7 @@
   /* ---------- Transition beat ---------- */
 
   /* ---------- Coaches ---------- */
-  .pt-coaches { background: var(--black); color: var(--white); padding: 100px 0 116px; }
+  .pt-coaches { background: var(--gray-light); color: var(--black); padding: 100px 0 116px; }
   .pt-coaches-head { max-width: 720px; margin-bottom: 0; }
   .pt-coaches-head .eyebrow { color: var(--orange); }
   .pt-coaches-head h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(36px, 5vw, 58px); line-height: 1.02; margin-top: 14px; }
@@ -137,7 +137,7 @@
   .pt-coach-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .pt-coach-name { font-family: var(--font-display); font-weight: 900; font-size: clamp(19px, 2vw, 24px); margin: 0 0 4px; line-height: 1.1; }
   .pt-coach-title { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 12px; }
-  .pt-coach-bio { font-size: 14.5px; line-height: 1.65; color: rgba(255,255,255,0.72); margin: 0 0 10px; }
+  .pt-coach-bio { font-size: 14.5px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 10px; }
   @media (max-width: 900px) {
     .pt-coach-pair { grid-template-columns: 1fr; gap: 40px; }
     .pt-coach-card { grid-template-columns: 1fr; }
@@ -390,9 +390,9 @@
 
 <section class="pt-coaches" id="coaches">
   <div class="container">
-    <div class="pt-head pt-coaches-head reveal" style="color:var(--white);">
+    <div class="pt-head pt-coaches-head reveal">
       <span class="eyebrow">Our People</span>
-      <h2 style="color:var(--white);">Meet Your Coaches.</h2>
+      <h2>Meet Your Coaches.</h2>
     </div>
 
     <div class="pt-coach-groups">
