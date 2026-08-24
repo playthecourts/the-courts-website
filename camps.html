@@ -31,16 +31,16 @@
   /* ---------- Departures board ---------- */
   .board-wrap { margin-top: 48px; }
   .board { background: var(--black); border-radius: var(--radius-md); overflow: hidden; }
-  .board-head-row { display: grid; grid-template-columns: 110px 1fr 170px 150px 110px; gap: 16px; padding: 14px 28px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .board-note { font-size: 13.5px; color: var(--gray-dark); margin: 10px 0 0; }
+  .board-head-row { display: grid; grid-template-columns: 110px 1fr 110px; gap: 16px; padding: 14px 28px; border-bottom: 1px solid rgba(255,255,255,0.1); }
   .board-head-row span { font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
-  .board-row { display: grid; grid-template-columns: 110px 1fr 170px 150px 110px; align-items: center; gap: 16px; padding: 20px 28px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .board-row { display: grid; grid-template-columns: 110px 1fr 110px; align-items: center; gap: 16px; padding: 20px 28px; border-bottom: 1px solid rgba(255,255,255,0.08); }
   .board-row:last-child { border-bottom: none; }
   .board-date { font-family: var(--font-display); font-weight: 900; color: var(--white); font-size: 15px; letter-spacing: 0.01em; }
+  .board-what { display: flex; align-items: center; gap: 12px; }
   .board-what h4 { font-family: var(--font-heading); font-weight: 800; color: var(--white); font-size: 16px; margin: 0 0 2px; }
   .board-what span { font-size: 12px; color: rgba(255,255,255,0.5); }
-  .board-sport { font-size: 12.5px; color: rgba(255,255,255,0.65); font-weight: 600; }
   .board-status { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-sport); font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; white-space: nowrap; }
-  .board-status--open { background: var(--orange); color: var(--white); }
   .board-status--soon { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.55); }
   .board-action { font-size: 13px; font-weight: 700; color: var(--orange); text-align: right; white-space: nowrap; }
   @media (max-width: 900px) {
@@ -290,79 +290,60 @@
     <div class="section-head center">
       <span class="eyebrow">Upcoming</span>
       <h2 class="section-title">Your Next Day Off Is Boarding.</h2>
+      <p class="board-note">Every camp and session below covers both basketball and volleyball.</p>
     </div>
     <div class="board-wrap">
       <div class="board">
-        <div class="board-head-row"><span>Date</span><span>What's Happening</span><span>Sport</span><span>Status</span><span></span></div>
+        <div class="board-head-row"><span>Date</span><span>What's Happening</span><span></span></div>
 
         <div class="board-row reveal">
           <span class="board-date">Oct 12&ndash;16</span>
           <div class="board-what"><h4>Fall Break Camp</h4></div>
-          <span class="board-sport">Basketball + Volleyball</span>
-          <span class="board-status board-status--open">Registration Open</span>
           <a href="#fall-break" class="board-action" target="_blank" rel="noopener">Register →</a>
         </div>
         <div class="board-row reveal">
           <span class="board-date">Oct 28</span>
           <div class="board-what"><h4>Early Release @ The Courts</h4></div>
-          <span class="board-sport">Basketball + Volleyball</span>
-          <span class="board-status board-status--open">Registration Open</span>
           <a href="#early-release" class="board-action" target="_blank" rel="noopener">Register →</a>
         </div>
         <div class="board-row reveal">
           <span class="board-date">Nov 3</span>
           <div class="board-what"><h4>Day Off. Game On.</h4></div>
-          <span class="board-sport">Basketball + Volleyball</span>
-          <span class="board-status board-status--open">Registration Open</span>
           <a href="#day-off" class="board-action" target="_blank" rel="noopener">Register →</a>
         </div>
         <div class="board-row reveal">
           <span class="board-date">Nov 18</span>
           <div class="board-what"><h4>Early Release @ The Courts</h4></div>
-          <span class="board-sport">Basketball + Volleyball</span>
-          <span class="board-status board-status--open">Registration Open</span>
           <a href="#early-release" class="board-action" target="_blank" rel="noopener">Register →</a>
         </div>
         <div class="board-row reveal">
           <span class="board-date">Nov 23&ndash;25</span>
           <div class="board-what"><h4>Thanksgiving Break Camp</h4></div>
-          <span class="board-sport">Basketball + Volleyball</span>
-          <span class="board-status board-status--open">Registration Open</span>
           <a href="#thanksgiving" class="board-action" target="_blank" rel="noopener">Register →</a>
         </div>
         <div class="board-row reveal">
           <span class="board-date">Dec 9</span>
           <div class="board-what"><h4>Early Release @ The Courts</h4></div>
-          <span class="board-sport">Basketball + Volleyball</span>
-          <span class="board-status board-status--open">Registration Open</span>
           <a href="#early-release" class="board-action" target="_blank" rel="noopener">Register →</a>
         </div>
         <div class="board-row reveal">
           <span class="board-date">Dec 18</span>
-          <div class="board-what"><h4>The Winter Classic <span>&middot; Special Event</span></h4></div>
-          <span class="board-sport">Basketball + Volleyball</span>
-          <span class="board-status board-status--soon">Coming Soon</span>
+          <div class="board-what"><h4>The Winter Classic <span>&middot; Special Event</span></h4><span class="board-status board-status--soon">Coming Soon</span></div>
           <a href="events.html#december" class="board-action" target="_blank" rel="noopener">View Event →</a>
         </div>
         <div class="board-row reveal">
           <span class="board-date">Dec 21&ndash;23</span>
           <div class="board-what"><h4>Holiday Break Camp</h4></div>
-          <span class="board-sport">Basketball + Volleyball</span>
-          <span class="board-status board-status--open">Registration Open</span>
           <a href="#december" class="board-action" target="_blank" rel="noopener">Register →</a>
         </div>
         <div class="board-row reveal">
           <span class="board-date">Dec 28&ndash;30</span>
           <div class="board-what"><h4>New Year Camp</h4></div>
-          <span class="board-sport">Basketball + Volleyball</span>
-          <span class="board-status board-status--open">Registration Open</span>
           <a href="#december" class="board-action" target="_blank" rel="noopener">Register →</a>
         </div>
         <div class="board-row reveal">
           <span class="board-date">Jan 1</span>
-          <div class="board-what"><h4>New Year Tip-Off <span>&middot; Special Event</span></h4></div>
-          <span class="board-sport">Basketball + Volleyball</span>
-          <span class="board-status board-status--soon">Coming Soon</span>
+          <div class="board-what"><h4>New Year Tip-Off <span>&middot; Special Event</span></h4><span class="board-status board-status--soon">Coming Soon</span></div>
           <a href="events.html#december" class="board-action" target="_blank" rel="noopener">View Event →</a>
         </div>
       </div>
