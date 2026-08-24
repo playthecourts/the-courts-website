@@ -496,6 +496,126 @@
   </div>
 </section>
 
+<section class="sgi" id="still-got-it">
+  <div class="container">
+    <div class="sgi-grid">
+      <div class="sgi-copy">
+        <span class="eyebrow">The Kids Have Heard the Stories.</span>
+        <h2 class="sgi-headline">Time to Back<br>Them Up.</h2>
+        <p class="sgi-mark">Still Got It?</p>
+        <p class="sgi-body">A Tuesday-night basketball league for dads who still believe the jumper is there, the handle is alive, and the knees are "basically fine."</p>
+        <p class="sgi-stat">Real games. Real score.<br>Questionable pace. Elite confidence.</p>
+        <p class="sgi-seeing">We're seeing who's in.</p>
+        <a href="#sgi-form" class="btn btn-primary">I Still Got It →</a>
+        <p class="sgi-disclaimer">We're only gauging interest. Your hamstrings, however, are on notice.</p>
+      </div>
+      <div class="sgi-formwrap" id="sgi-form">
+        <form id="sgiForm">
+          <div class="sgi-form-grid">
+            <div><label for="sgiName">Name*</label><input type="text" id="sgiName" required></div>
+            <div><label for="sgiEmail">Email*</label><input type="email" id="sgiEmail" required></div>
+            <div><label for="sgiPhone">Phone <span class="sgi-optional">Optional</span></label><input type="tel" id="sgiPhone"></div>
+            <div>
+              <label for="sgiAge">Age Range <span class="sgi-optional">Optional</span></label>
+              <select id="sgiAge">
+                <option value="">Prefer not to say</option>
+                <option>Under 35</option>
+                <option>35–39</option>
+                <option>40–44</option>
+                <option>45–49</option>
+                <option>50+</option>
+              </select>
+            </div>
+            <div class="full">
+              <label>How Long Has It Been?</label>
+              <div class="sgi-radios">
+                <label><input type="radio" name="sgiExperience" value="Still play regularly"> Still play regularly</label>
+                <label><input type="radio" name="sgiExperience" value="Every now and then"> Every now and then</label>
+                <label><input type="radio" name="sgiExperience" value="It's been a minute"> It's been a minute</label>
+                <label><input type="radio" name="sgiExperience" value="Let's not talk about it"> Let's not talk about it</label>
+              </div>
+            </div>
+            <div class="full">
+              <label>Got a Few Guys?</label>
+              <div class="sgi-radios">
+                <label><input type="radio" name="sgiGroup" value="Just me"> Just me</label>
+                <label><input type="radio" name="sgiGroup" value="I could bring 1-2"> I could bring 1&ndash;2</label>
+                <label><input type="radio" name="sgiGroup" value="I could probably bring a team"> I could probably bring a team</label>
+              </div>
+            </div>
+            <div class="full">
+              <label>Does Tuesday Work?</label>
+              <div class="sgi-radios">
+                <label><input type="radio" name="sgiNight" value="Tuesday works"> Tuesday works</label>
+                <label><input type="radio" name="sgiNight" value="Another weeknight would be better"> Another weeknight would be better</label>
+                <label><input type="radio" name="sgiNight" value="Flexible"> Flexible</label>
+              </div>
+            </div>
+            <div class="full"><label for="sgiNotes">Anything else we should know? <span class="sgi-optional">Optional</span></label><textarea id="sgiNotes" rows="2"></textarea></div>
+          </div>
+          <button type="submit" class="btn btn-primary sgi-submit">I Still Got It →</button>
+        </form>
+        <div class="sgi-success" id="sgiSuccess">
+          <h3>You're on the List.</h3>
+          <p>We're seeing if Tuesday Night Dad Ball has legs.</p>
+          <p class="sgi-success-wink">Speaking of legs, maybe start stretching.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sgi { background: var(--black); color: var(--white); padding: 110px 0; overflow: hidden; }
+  .sgi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+  .sgi-copy .eyebrow { font-size: 15px; }
+  .sgi-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(32px, 4.2vw, 52px); line-height: 1.02; color: var(--white); margin: 14px 0 18px; }
+  .sgi-mark { display: inline-block; font-family: var(--font-display); font-weight: 900; font-size: clamp(20px, 2.4vw, 26px); color: var(--orange); border: 2px solid var(--orange); border-radius: 999px; padding: 8px 22px; margin: 0 0 26px; }
+  .sgi-body { font-size: 16px; line-height: 1.75; color: rgba(255,255,255,0.75); max-width: 42ch; margin: 0 0 22px; }
+  .sgi-stat { font-family: var(--font-heading); font-weight: 800; font-size: 16.5px; color: var(--white); line-height: 1.6; margin: 0 0 22px; }
+  .sgi-seeing { font-size: 15px; color: rgba(255,255,255,0.6); margin: 0 0 22px; }
+  .sgi-disclaimer { font-size: 13px; font-style: italic; color: rgba(255,255,255,0.5); margin: 18px 0 0; max-width: 40ch; }
+
+  .sgi-formwrap { background: var(--gray-light); border-radius: var(--radius-md); padding: 40px; scroll-margin-top: 100px; }
+  .sgi-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .sgi-form-grid .full { grid-column: 1 / -1; }
+  .sgi-form-grid label { display: block; font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 8px; }
+  .sgi-optional { text-transform: none; font-weight: 400; color: var(--gray-dark); }
+  .sgi-form-grid input, .sgi-form-grid select, .sgi-form-grid textarea {
+    width: 100%; padding: 12px 14px; border: 1.5px solid var(--gray-mid); border-radius: var(--radius-sm);
+    font-family: var(--font-body); font-size: 14.5px; background: var(--white); color: var(--black);
+  }
+  .sgi-form-grid input:focus, .sgi-form-grid select:focus, .sgi-form-grid textarea:focus { outline: none; border-color: var(--orange); }
+  .sgi-radios { display: flex; flex-wrap: wrap; gap: 14px; }
+  .sgi-radios label { display: flex; align-items: center; gap: 7px; font-family: var(--font-body); font-size: 13.5px; font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--black); }
+  .sgi-radios input { width: auto; }
+  .sgi-submit { margin-top: 22px; }
+  .sgi-success { display: none; text-align: center; padding: 20px 10px; }
+  .sgi-success.show { display: block; }
+  .sgi-success h3 { font-family: var(--font-display); font-size: 26px; margin: 0 0 10px; }
+  .sgi-success p { color: var(--gray-dark); font-size: 15px; margin: 0 0 8px; }
+  .sgi-success-wink { font-style: italic; }
+  @media (max-width: 900px) {
+    .sgi-grid { grid-template-columns: 1fr; gap: 40px; }
+    .sgi-formwrap { padding: 28px 22px; }
+    .sgi-form-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+(function () {
+  var form = document.getElementById('sgiForm');
+  var success = document.getElementById('sgiSuccess');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      form.style.display = 'none';
+      success.classList.add('show');
+    });
+  }
+})();
+</script>
+
 <section class="pre-footer">
   <div class="container pre-footer-inner">
     <div class="pre-footer-col">
