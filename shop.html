@@ -40,21 +40,11 @@
     .shop-hero-micro { display:none; }
   }
 
-  /* ---------- Compact filter row ---------- */
-  .shop-filters-wrap { border-bottom:1px solid var(--gray-mid); background:var(--white); position:sticky; top:70px; z-index:40; }
-  .shop-filters { margin:0; padding:16px 0; overflow-x:auto; flex-wrap:nowrap; }
-  .shop-filters.filter-pills .filter-pill {
-    background:none; border:none; border-radius:0; padding:6px 0; margin-right:28px; font-size:14px;
-    color:var(--gray-dark); border-bottom:2px solid transparent;
-  }
-  .shop-filters.filter-pills .filter-pill:hover { color:var(--black); border-color:var(--gray-mid); }
-  .shop-filters.filter-pills .filter-pill.active { background:none; color:var(--orange); font-weight:700; border-bottom-color:var(--orange); }
-
-  .shop-drop-status {
-    display:inline-block; font-family:var(--font-sport); font-weight:700; font-size:11px; letter-spacing:0.08em;
-    text-transform:uppercase; color:var(--orange); background:var(--orange-soft); padding:5px 12px; border-radius:999px;
-    margin-bottom:14px;
-  }
+  /* ---------- Orange callout band ---------- */
+  .shop-callout { background:var(--orange); padding:64px 0; }
+  .shop-callout-inner { text-align:center; }
+  .shop-callout-title { font-family:var(--font-display); font-weight:900; color:var(--black); font-size:clamp(28px,4.4vw,52px); line-height:1.08; margin:0 0 14px; max-width:16ch; margin-left:auto; margin-right:auto; }
+  .shop-callout-sub { font-family:var(--font-heading); font-weight:800; color:var(--black); font-size:clamp(17px,2vw,22px); margin:0; }
 
   /* ---------- Gift card feature ---------- */
   .shop-gift { background:var(--black); padding:46px 0; position:relative; overflow:hidden; }
@@ -84,6 +74,7 @@
   .tile-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:16px; }
   .tile { position:relative; display:flex; flex-direction:column; }
   .tile--8 { grid-column:span 8; }
+  .tile--6 { grid-column:span 6; }
   .tile--4 { grid-column:span 4; }
   .tile-media { position:relative; aspect-ratio:4/5; border-radius:var(--radius-md); overflow:hidden; background:var(--gray-light); }
   .tile--8 .tile-media { aspect-ratio:16/8; }
@@ -122,30 +113,13 @@
   .tile:hover .tile-rule { width:32px; }
   .tile-add.shake { animation:tile-shake 0.32s ease-in-out; }
   @keyframes tile-shake { 0%,100% { transform:translateX(0); } 25% { transform:translateX(-4px); } 75% { transform:translateX(4px); } }
-  .tile-quote { background:var(--orange); border-radius:var(--radius-md); align-items:center; justify-content:center; padding:36px; display:flex; }
-  .tile-quote p { font-family:var(--font-display); font-weight:900; color:var(--white); font-size:clamp(21px,2.3vw,27px); line-height:1.08; text-align:center; margin:0; }
   @media (max-width:980px) {
     .tile-grid { grid-template-columns:repeat(2,1fr); }
-    .tile--8, .tile--4 { grid-column:span 1; }
+    .tile--8, .tile--6, .tile--4 { grid-column:span 1; }
     .tile--8 .tile-media { aspect-ratio:4/3; }
   }
   @media (max-width:560px) {
     .tile-grid { grid-template-columns:1fr; }
-  }
-
-  /* ---------- Editorial lifestyle break ---------- */
-  .shop-lifestyle { position:relative; overflow:hidden; }
-  .shop-lifestyle .photo { aspect-ratio:42/9; }
-  .shop-lifestyle .photo::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(23,23,23,0.75) 0%, rgba(23,23,23,0.15) 55%, rgba(23,23,23,0.05) 100%); }
-  .shop-lifestyle-copy { position:absolute; left:6%; bottom:9%; z-index:2; max-width:420px; }
-  .shop-lifestyle-copy h2 { font-family:var(--font-display); font-weight:900; color:var(--white); font-size:clamp(24px,3.6vw,52px); line-height:1.0; margin:0 0 10px; white-space:nowrap; }
-  .shop-lifestyle-copy p { color:rgba(255,255,255,0.85); font-size:16px; margin:0; }
-  @media (max-width:900px) {
-    .shop-lifestyle .photo { aspect-ratio:4/3; }
-    .shop-lifestyle-copy { left:24px; right:24px; bottom:24px; max-width:none; }
-  }
-  @media (max-width:420px) {
-    .shop-lifestyle-copy h2 { white-space:normal; font-size:clamp(22px,7vw,30px); }
   }
 
   /* ---------- Accessory moment ---------- */
@@ -347,7 +321,7 @@
     <span class="eyebrow eyebrow--light">Shop</span>
     <h1 class="shop-hero-title">Turns Out, The Courts Looks Good <span class="accent">on You.</span></h1>
     <p class="shop-hero-sub">Tees. Hoodies. Hats. Made for practice. Worn pretty much everywhere else.</p>
-    <div class="ctas"><a href="#shop-drop" class="btn btn-primary">Shop All →</a></div>
+    <div class="ctas"><a href="#shop-drop" class="btn btn-primary">Shop the Drop ↓</a></div>
   </div>
   <div class="shop-hero-media">
     <div class="photo" role="img" aria-label="A Courts athlete wearing Courts gear, photo coming soon"></div>
@@ -355,23 +329,11 @@
   </div>
 </section>
 
-<div class="shop-filters-wrap">
-  <div class="container">
-    <nav class="filter-pills shop-filters" aria-label="Shop sections">
-      <a href="#shop-drop" class="filter-pill active" data-filter="all">Shop All</a>
-      <a href="#shop-drop" class="filter-pill" data-filter="apparel">Apparel</a>
-      <a href="#shop-accessories" class="filter-pill" data-filter="accessories">Accessories</a>
-      <a href="#gift-cards" class="filter-pill" data-filter="gift-cards">Gift Cards</a>
-    </nav>
-  </div>
-</div>
-
 <section class="shop-drop" id="shop-drop">
   <div class="container">
     <div class="section-head">
-      <span class="shop-drop-status">New Drop</span>
       <span class="eyebrow">The Good Stuff</span>
-      <h2 class="section-title">Because Apparently You Need Another Hoodie.</h2>
+      <h2 class="section-title">Apparently, You Need Another Hoodie.</h2>
     </div>
 
     <div class="tile-grid">
@@ -412,7 +374,7 @@
         <span class="tile-rule" aria-hidden="true"></span>
       </div>
 
-      <div class="tile tile--4" data-category="apparel">
+      <div class="tile tile--6" data-category="apparel">
         <div class="tile-media">
           <div class="photo" role="img" aria-label="Courts Shorts, photo coming soon"></div>
         </div>
@@ -430,7 +392,7 @@
         <span class="tile-rule" aria-hidden="true"></span>
       </div>
 
-      <div class="tile tile--4" data-category="apparel">
+      <div class="tile tile--6" data-category="apparel">
         <div class="tile-media">
           <div class="photo" role="img" aria-label="Courts Joggers, photo coming soon"></div>
           <span class="tile-badge">New</span>
@@ -448,27 +410,22 @@
         </div>
         <span class="tile-rule" aria-hidden="true"></span>
       </div>
-
-      <div class="tile tile--4 tile-quote" data-category="apparel">
-        <p>Your kid's not the only one who wants one.</p>
-      </div>
     </div>
   </div>
 </section>
 
-<section class="shop-lifestyle">
-  <div class="photo" role="img" aria-label="A Courts athlete relaxing off the court in Courts gear, photo coming soon"></div>
-  <div class="shop-lifestyle-copy">
-    <h2>You Clean Up Nice.</h2>
-    <p>Practice gear. Weekend potential.</p>
+<section class="shop-callout">
+  <div class="container shop-callout-inner">
+    <h2 class="shop-callout-title">Your Kid&rsquo;s Not the Only One Who Wants One.</h2>
+    <p class="shop-callout-sub">We noticed.</p>
   </div>
 </section>
 
 <section class="shop-accessories" id="shop-accessories">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">Small Stuff, Still Good</span>
-      <h2 class="section-title">The Accessories.</h2>
+      <span class="eyebrow">A Few Extras</span>
+      <h2 class="section-title">Grab One on Your Way Out.</h2>
     </div>
     <div class="acc-strip">
       <div class="acc-item" data-category="accessories">
@@ -786,13 +743,6 @@
       }
 
       addToCart({ name: name, price: price, variant: variant });
-    });
-  });
-
-  document.querySelectorAll('.shop-filters .filter-pill').forEach(function (pill) {
-    pill.addEventListener('click', function () {
-      document.querySelectorAll('.shop-filters .filter-pill').forEach(function (p) { p.classList.remove('active'); });
-      pill.classList.add('active');
     });
   });
 })();
