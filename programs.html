@@ -109,43 +109,6 @@
     .sport-media img, .way-tile .photo-bg img, .way-link .arrow { transition: none !important; }
   }
 
-  /* ---------- What's Next: unified two-path close ---------- */
-  .prog-next { background: var(--black); }
-  .next-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
-  .next-side { padding: 84px clamp(24px, 5vw, 64px); display: flex; flex-direction: column; justify-content: center; }
-  .next-side--help { border-left: 1.5px solid var(--orange); }
-  .next-inner { max-width: 440px; }
-  .next-side--help .next-inner { max-width: 420px; }
-  .next-eyebrow { font-family: var(--font-sport); font-size: 18px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 12px; display: block; }
-  .next-headline { font-family: var(--font-display); font-weight: 900; color: var(--white); font-size: clamp(28px, 3vw, 38px); line-height: 1.06; margin: 0 0 16px; }
-  .next-body { font-size: 16px; line-height: 1.65; color: rgba(255,255,255,0.72); margin: 0 0 30px; max-width: 40ch; }
-
-  .next-progression { margin: 4px 0 34px; }
-  .next-prog-track { position: relative; display: flex; justify-content: space-between; padding-top: 3px; }
-  .next-prog-line { position: absolute; top: 8px; left: 0; right: 0; height: 2px; background: rgba(255,255,255,0.15); }
-  .next-prog-line-fill { position: absolute; top: 8px; left: 0; height: 2px; width: 0%; background: var(--orange); transition: width 1.1s var(--ease); }
-  .next-prog-line-fill.in-view { width: 100%; }
-  .next-prog-step { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px; flex: 1; }
-  .next-prog-dot { width: 13px; height: 13px; border-radius: 50%; background: var(--orange); border: none; }
-  .next-prog-step--featured .next-prog-dot { width: 17px; height: 17px; margin-top: -2px; background: var(--orange); box-shadow: 0 0 0 4px rgba(213,96,31,0.25); }
-  .next-prog-label { font-family: var(--font-sport); font-weight: 700; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.6); text-align: center; }
-  .next-prog-step--featured .next-prog-label { color: var(--white); font-size: 13px; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .next-prog-line-fill { transition: none !important; }
-  }
-
-  @media (max-width: 900px) {
-    .next-grid { grid-template-columns: 1fr; }
-    .next-side { padding: 56px 24px; }
-    .next-side--help { border-left: none; border-top: 1.5px solid var(--orange); }
-    .next-inner, .next-side--help .next-inner { max-width: none; }
-    .next-prog-track { flex-direction: column; align-items: flex-start; gap: 16px; padding-top: 0; padding-left: 8px; }
-    .next-prog-line { top: 0; bottom: 0; left: 6px; right: auto; width: 2px; height: auto; }
-    .next-prog-line-fill { top: 0; left: 6px; width: 2px; height: 0%; }
-    .next-prog-line-fill.in-view { height: 100%; width: 2px; }
-    .next-prog-step { flex-direction: row; align-items: center; gap: 12px; }
-  }
 </style>
 </head>
 <body class="has-announce">
@@ -485,33 +448,17 @@
   </div>
 </section>
 
-<section class="prog-next" id="whats-next">
-  <div class="next-grid">
-    <div class="next-side next-side--membership">
-      <div class="next-inner">
-        <span class="next-eyebrow">Playing a Lot?</span>
-        <h2 class="next-headline">There's a Membership for That.</h2>
-        <p class="next-body">Once a week. All the time. Somewhere in between.</p>
-        <div class="next-progression">
-          <div class="next-prog-track">
-            <span class="next-prog-line"></span>
-            <span class="next-prog-line-fill" id="progLineFill"></span>
-            <div class="next-prog-step"><span class="next-prog-dot"></span><span class="next-prog-label">Weekly</span></div>
-            <div class="next-prog-step next-prog-step--featured"><span class="next-prog-dot"></span><span class="next-prog-label">Unlimited</span></div>
-            <div class="next-prog-step"><span class="next-prog-dot"></span><span class="next-prog-label">Full Court</span></div>
-            <div class="next-prog-step"><span class="next-prog-dot"></span><span class="next-prog-label">Family</span></div>
-          </div>
-        </div>
-        <a href="membership.html#plan-selector" class="btn btn-primary">See Membership Plans →</a>
-      </div>
+<section class="pre-footer" id="whats-next">
+  <div class="container pre-footer-inner">
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Playing a Lot?</span>
+      <h3 class="pre-footer-title">There's a Membership for That.<span class="note">Once a week. All the time. Somewhere in between.</span></h3>
+      <a href="membership.html#plan-selector" class="pre-footer-link">See Membership Plans <span class="arrow">→</span></a>
     </div>
-    <div class="next-side next-side--help">
-      <div class="next-inner">
-        <span class="next-eyebrow">Not Sure Where to Start?</span>
-        <h2 class="next-headline">Tell Us About Your Athlete.</h2>
-        <p class="next-body">Age. Sport. What they're working on.</p>
-        <a href="contact.html?interest=Where%20Should%20My%20Athlete%20Start%3F#contact-form" class="btn btn-on-dark" data-preset="Where Should My Athlete Start?">Help Me Find a Program →</a>
-      </div>
+    <div class="pre-footer-col">
+      <span class="pre-footer-eyebrow">Not Sure Where to Start?</span>
+      <h3 class="pre-footer-title">Tell Us About Your Athlete.<span class="note">Age. Sport. What they're working on.</span></h3>
+      <a href="contact.html?interest=Where%20Should%20My%20Athlete%20Start%3F#contact-form" class="pre-footer-link" data-preset="Where Should My Athlete Start?">Help Me Find a Program <span class="arrow">→</span></a>
     </div>
   </div>
 </section>
@@ -583,26 +530,6 @@
   </div>
 </footer>
 
-<script>
-(function () {
-  var fill = document.getElementById('progLineFill');
-  if (!fill) return;
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMotion || !('IntersectionObserver' in window)) {
-    fill.classList.add('in-view');
-    return;
-  }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        fill.classList.add('in-view');
-        io.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.4 });
-  io.observe(fill.closest('.next-progression'));
-})();
-</script>
 <script src="js/script.js"></script>
 </body>
 </html>
