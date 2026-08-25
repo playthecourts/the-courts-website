@@ -60,8 +60,8 @@
   .ev-halloween-web--tl { left:0; }
   .ev-halloween-web--tr { right:0; transform:scaleX(-1); }
 
-  .ev-halloween-cat { position:absolute; bottom:6px; z-index:2; pointer-events:none; }
-  .ev-halloween-cat--1 { right:6%; }
+  .ev-halloween-cat { position:absolute; z-index:2; pointer-events:none; }
+  .ev-halloween-cat--1 { top:58px; right:7%; }
 
   .ev-spider { position:absolute; top:0; z-index:2; display:flex; flex-direction:column; align-items:center; pointer-events:none; transform-origin:top center; animation-name:ev-spider-bob; animation-timing-function:ease-in-out; animation-iteration-count:infinite; }
   .ev-spider-thread { display:block; width:1px; background:rgba(255,255,255,0.4); }
@@ -75,20 +75,22 @@
   @media (prefers-reduced-motion:reduce) { .ev-spider { animation:none; } }
 
   .ev-halloween-split { display:grid; grid-template-columns:1fr 1fr; }
-  .ev-halloween-day { position:relative; padding:36px clamp(20px,3vw,40px) 40px; }
-  .ev-halloween-day--fri { background:#2B1B10; border-right:1px solid rgba(255,255,255,0.1); }
+  .ev-halloween-day { position:relative; padding:36px clamp(20px,3vw,40px) 40px; overflow:hidden; }
+  .ev-halloween-day--fri { background:#F2E9DC; border-right:1px solid rgba(23,23,23,0.12); }
   .ev-halloween-day--sat { background:#F2E9DC; }
   .ev-halloween-decor { display:block; margin-bottom:16px; }
   .ev-halloween-date { display:block; font-family:var(--font-sport); font-weight:700; font-size:14.5px; letter-spacing:0.06em; text-transform:uppercase; color:rgba(255,255,255,0.7); margin-bottom:8px; }
   .ev-halloween-sport { display:block; font-family:var(--font-sport); font-weight:800; font-size:14px; letter-spacing:0.09em; text-transform:uppercase; color:var(--orange); margin-bottom:10px; }
+  .ev-halloween-divider { display:block; width:36px; height:2px; background:var(--orange); margin:0 0 14px; }
   .ev-halloween-day h4 { font-family:var(--font-display); font-weight:900; font-size:clamp(22px,2.8vw,30px); color:var(--white); margin:0 0 10px; }
   .ev-halloween-tagline { font-family:var(--font-heading); font-weight:700; font-size:15px; color:rgba(255,255,255,0.85); margin:0 0 12px; }
   .ev-halloween-day p:not(.ev-halloween-tagline) { font-size:14.5px; line-height:1.6; color:rgba(255,255,255,0.65); margin:0 0 20px; }
   .ev-halloween-day .courts-commentary { margin-top:16px; }
-  .ev-halloween-day--sat .ev-halloween-date { color:rgba(23,23,23,0.6); }
-  .ev-halloween-day--sat h4 { color:var(--black); }
-  .ev-halloween-day--sat .ev-halloween-tagline { color:rgba(23,23,23,0.85); }
-  .ev-halloween-day--sat p:not(.ev-halloween-tagline) { color:rgba(23,23,23,0.65); }
+  .ev-halloween-day--fri .ev-halloween-date, .ev-halloween-day--sat .ev-halloween-date { color:rgba(23,23,23,0.6); }
+  .ev-halloween-day--fri h4, .ev-halloween-day--sat h4 { color:var(--black); }
+  .ev-halloween-day--fri .ev-halloween-tagline, .ev-halloween-day--sat .ev-halloween-tagline { color:rgba(23,23,23,0.85); }
+  .ev-halloween-day--fri p:not(.ev-halloween-tagline), .ev-halloween-day--sat p:not(.ev-halloween-tagline) { color:rgba(23,23,23,0.65); }
+  .ev-halloween-day-web { position:absolute; top:0; right:0; z-index:0; pointer-events:none; opacity:0.9; }
 
   .ev-poster--grand .ev-poster-status { font-size:19px; }
   .ev-poster--halloween .ev-poster-status { font-size:19px; }
@@ -102,10 +104,10 @@
   .ev-poster--quiet .ev-poster-link { font-size:15px; }
   .ev-poster--quiet .ev-poster-link:hover { color:var(--orange); }
   .ev-fallbreak-grid { display:flex; gap:32px; flex-wrap:wrap; margin:18px 0 16px; padding:18px 0; border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); }
-  .ev-fallbreak-label { display:block; font-family:var(--font-sport); font-weight:700; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:8px; }
+  .ev-fallbreak-label { display:block; font-family:var(--font-sport); font-weight:700; font-size:13.5px; letter-spacing:0.05em; text-transform:uppercase; color:rgba(255,255,255,0.6); margin-bottom:8px; }
   .ev-fallbreak-sport { display:block; font-family:var(--font-heading); font-weight:700; font-size:15px; color:var(--white); margin-bottom:3px; }
   .ev-fallbreak-comp { display:block; font-family:var(--font-heading); font-weight:700; font-size:15px; color:var(--orange); }
-  .ev-fallbreak-sport em, .ev-fallbreak-comp em { font-style:normal; font-weight:500; color:rgba(255,255,255,0.55); margin-left:6px; font-size:13px; }
+  .ev-fallbreak-sport em, .ev-fallbreak-comp em { font-style:normal; font-weight:500; color:rgba(255,255,255,0.6); margin-left:6px; font-size:14.5px; }
 
   .ev-halloween-access { display:block; font-family:var(--font-sport); font-weight:700; font-size:13.5px; letter-spacing:0.05em; text-transform:uppercase; color:var(--orange); margin-bottom:14px; }
 
@@ -344,6 +346,7 @@
       </div>
       <div class="ev-halloween-split">
         <div class="ev-halloween-day ev-halloween-day--fri">
+          <svg class="ev-halloween-day-web" aria-hidden="true" width="80" height="80" viewBox="0 0 90 90" fill="none" style="transform:scaleX(-1);"><g stroke="rgba(23,23,23,0.28)" stroke-width="1.1"><path d="M0,0 L90,0"/><path d="M0,0 L0,90"/><path d="M0,0 L90,90"/><path d="M0,0 L64,22"/><path d="M0,0 L22,64"/><path d="M12,0 Q12,12 0,12"/><path d="M28,0 Q28,28 0,28"/><path d="M50,0 Q50,50 0,50"/><path d="M72,0 Q72,72 0,72"/></g></svg>
           <span class="ev-halloween-decor" aria-hidden="true"><svg width="60" height="60" viewBox="0 0 70 70" fill="none">
             <path d="M32,20 Q31,9 40,10 Q42,17 35,21 Z" fill="#6B4226"/>
             <ellipse cx="35" cy="41" rx="26" ry="22" fill="#D5601F"/>
@@ -358,6 +361,7 @@
           </svg></span>
           <span class="ev-halloween-date">Friday, October 30 &middot; 5&ndash;8 PM</span>
           <span class="ev-halloween-sport">Basketball</span>
+          <span class="ev-halloween-divider" aria-hidden="true"></span>
           <h4>Halloween Shootout</h4>
           <p class="ev-halloween-tagline">Wear a costume. Bring a jumper.</p>
           <p>3-on-3 basketball, shooting challenges, music, prizes, and<br>a completely reasonable amount of Halloween chaos.</p>
@@ -365,9 +369,10 @@
           <!-- [PINK — INSERT APPROVED MEMBER / NON-MEMBER PRICE FOR HALLOWEEN SHOOTOUT] Staging only. Do not publish a placeholder price; use the approved registration price once set. -->
           <!-- [PINK — UPPER HAND HALLOWEEN SHOOTOUT REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
           <a href="#" class="btn btn-primary">Register →</a>
-          <span class="courts-commentary courts-commentary--on-dark">Dribble. Shoot. Boo.</span>
+          <span class="courts-commentary">Dribble. Shoot. Boo.</span>
         </div>
         <div class="ev-halloween-day ev-halloween-day--sat">
+          <svg class="ev-halloween-day-web" aria-hidden="true" width="80" height="80" viewBox="0 0 90 90" fill="none" style="transform:scaleX(-1);"><g stroke="rgba(23,23,23,0.28)" stroke-width="1.1"><path d="M0,0 L90,0"/><path d="M0,0 L0,90"/><path d="M0,0 L90,90"/><path d="M0,0 L64,22"/><path d="M0,0 L22,64"/><path d="M12,0 Q12,12 0,12"/><path d="M28,0 Q28,28 0,28"/><path d="M50,0 Q50,50 0,50"/><path d="M72,0 Q72,72 0,72"/></g></svg>
           <span class="ev-halloween-decor" aria-hidden="true"><svg width="52" height="52" viewBox="0 0 70 70" fill="none">
             <path d="M32,20 Q31,9 40,10 Q42,17 35,21 Z" fill="#6B4226"/>
             <ellipse cx="35" cy="41" rx="26" ry="22" fill="#F2C89B"/>
@@ -382,6 +387,7 @@
           </svg></span>
           <span class="ev-halloween-date">Saturday, October 31 &middot; 1&ndash;3 PM</span>
           <span class="ev-halloween-sport">Volleyball</span>
+          <span class="ev-halloween-divider" aria-hidden="true"></span>
           <h4>Volleyween</h4>
           <p class="ev-halloween-tagline">Wear a costume. Bring your kneepads.</p>
           <p>Volleyball games, serving challenges, hitting competitions, music,<br>prizes, and two hours of Halloween on the court.</p>
