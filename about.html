@@ -152,29 +152,23 @@
   </div>
 
   <div class="container founder-note-wrap">
-    <div class="founder-note-grid">
-      <div class="founder-note-col">
-        <p>I had the opportunity to experience NextGen first as a parent, which gave me a front-row seat to what made this place special.</p>
-        <p>I watched my son train, play, make friends, and find a place he genuinely wanted to keep coming back to. I saw coaches who cared, relationships that formed, and a community that grew around the court.</p>
-        <p><strong>I was a parent here before I was the owner.</strong></p>
+    <div class="founder-note">
+      <p>I had the opportunity to experience NextGen first as a parent, which gave me a front-row seat to what made this place special.</p>
+      <p>I watched my son train, play, make friends, and find a place he genuinely wanted to keep coming back to. I saw coaches who cared, relationships that formed, and a community that grew around the court.</p>
+      <p><strong>I was a parent here before I was the owner.</strong></p>
+      <button type="button" class="founder-note-toggle" id="founderToggle" aria-expanded="false" aria-controls="founder-more">Read the Full Letter <span class="founder-note-toggle-icon">+</span></button>
+      <div class="founder-note-more" id="founder-more" hidden>
         <p>I grew up as a competitive cheerleader, so I've spent a lot of my life on the sidelines cheering other people on.</p>
         <p><strong>Turns out, I still am.</strong></p>
-      </div>
-      <div class="founder-note-col">
         <p>I know how much it matters to have someone in your corner. Someone who believes in you, pushes you, and keeps cheering through the great games, the hard ones, and everything in between.</p>
         <p>I'll be cheering for your kid, too.</p>
         <p>Not just for the points they score, but for the teammate they're becoming. The confidence they're building. The way they listen, help someone up, try again, and keep going when it's hard.</p>
         <p><strong>Getting better at the game matters. Who they become along the way matters, too.</strong></p>
         <p>The Courts is our chance to build on what families already loved about NextGen and keep creating an even stronger experience for athletes on the court and families on the sidelines.</p>
+        <p><strong>I'm grateful for the opportunity to carry that forward, and really excited about what we get to build together from here.</strong></p>
+        <p>And I promise I'll work just as hard on this place as I'm asking your kid to work when they walk through the orange door.</p>
       </div>
-    </div>
-
-    <div class="founder-note-closing">
-      <p><strong>I'm grateful for the opportunity to carry that forward, and really excited about what we get to build together from here.</strong></p>
-      <p>And I promise I'll work just as hard on this place as I'm asking your kid to work when they walk through the orange door.</p>
-      <p class="founder-note-seeyou"><em>See you on the court.</em></p>
-      <p class="founder-note-sig">Melissa Carle</p>
-      <p class="founder-note-title">Founder, The Courts</p>
+      <p class="founder-note-signoff"><em>See you on the court.</em><br><strong>Melissa Carle</strong><br><span class="founder-note-title">Founder, The Courts</span></p>
     </div>
   </div>
 </section>
@@ -185,27 +179,20 @@
   .ab-opening-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); flex-shrink: 0; animation: featStatusPulse 1.6s ease-in-out infinite; }
   @media (prefers-reduced-motion: reduce) { .ab-opening-dot { animation: none; } }
 
-  .founder-note-wrap { max-width: 1120px; margin-top: 64px; }
-  .founder-note-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
-  .founder-note-col p { font-size: 18px; line-height: 1.75; color: var(--gray-dark); margin: 0 0 22px; }
-  .founder-note-col p:last-child { margin-bottom: 0; }
-  .founder-note-col p strong { color: var(--black); font-weight: 800; }
+  .founder-note-wrap { max-width: 640px; margin-top: 48px; }
+  .founder-note p { font-size: 16px; line-height: 1.7; color: var(--gray-dark); margin: 0 0 18px; }
+  .founder-note p strong { color: var(--black); font-weight: 800; }
+  .founder-note-signoff { margin-top: 30px !important; }
+  .founder-note-title { color: var(--gray-dark); font-size: 14px; }
+  .founder-note-toggle { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--black); background: none; border: none; border-bottom: 1px solid var(--gray-mid); padding: 0 0 3px; cursor: pointer; margin: 4px 0 6px; }
+  .founder-note-toggle-icon { display: inline-block; font-family: var(--font-heading); font-weight: 900; color: var(--orange); font-size: 17px; line-height: 1; transition: transform 0.2s var(--ease); }
+  .founder-note-toggle[aria-expanded="true"] .founder-note-toggle-icon { transform: rotate(45deg); }
+  .founder-note-more[hidden] { display: none; }
+  .founder-note-more { margin-top: 6px; }
 
-  .founder-note-closing { max-width: 820px; margin-top: 64px; padding-top: 56px; border-top: 1px solid var(--gray-mid); }
-  .founder-note-closing p { font-size: 18px; line-height: 1.75; color: var(--gray-dark); margin: 0 0 22px; }
-  .founder-note-closing p strong { color: var(--black); font-weight: 800; }
-  .founder-note-seeyou { font-style: italic; color: var(--black); font-size: 19px; margin-bottom: 26px !important; }
-  .founder-note-sig { font-family: var(--font-display); font-weight: 800; font-size: 20px; color: var(--black); margin: 0 0 4px !important; }
-  .founder-note-title { font-size: 14px; color: var(--gray-dark); margin: 0 !important; }
-
-  @media (max-width: 900px) {
-    .founder-note-grid { grid-template-columns: 1fr; gap: 0; }
-    .founder-note-wrap { margin-top: 48px; }
-    .founder-note-closing { margin-top: 48px; padding-top: 40px; }
-  }
   @media (max-width: 640px) {
     .ab-intro-headline { font-size: clamp(32px, 10vw, 44px); }
-    .founder-note-col p, .founder-note-closing p { font-size: 16.5px; }
+    .founder-note p { font-size: 15px; }
   }
 </style>
 
@@ -710,6 +697,19 @@
   </div>
 </footer>
 
+<script>
+  (function () {
+    var btn = document.getElementById('founderToggle');
+    var more = document.getElementById('founder-more');
+    if (!btn || !more) return;
+    btn.addEventListener('click', function () {
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      more.hidden = expanded;
+      btn.setAttribute('aria-expanded', String(!expanded));
+      btn.innerHTML = expanded ? 'Read the Full Letter <span class="founder-note-toggle-icon">+</span>' : 'Show Less <span class="founder-note-toggle-icon">+</span>';
+    });
+  })();
+</script>
 <script src="js/script.js"></script>
 </body>
 </html>
