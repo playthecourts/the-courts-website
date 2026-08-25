@@ -28,10 +28,11 @@
   .cal-tag { font-size: 13.5px; padding: 5px 12px; }
   .ev-poster--grand h3 { font-family:var(--font-display); font-weight:900; font-size:clamp(28px,4vw,46px); line-height:1.05; color:var(--white); margin:0 0 16px; max-width:16ch; }
   .ev-poster--grand p { font-size:16px; line-height:1.6; color:rgba(255,255,255,0.75); max-width:52ch; margin:0 0 22px; }
-  .ev-poster-words { display:flex; flex-wrap:wrap; gap:10px 18px; margin:0 0 22px; }
-  .ev-poster-words span { font-family:var(--font-display); font-weight:800; font-size:clamp(14px,1.6vw,18px); text-transform:uppercase; color:var(--white); }
-  .ev-poster-tag { display:inline-block; font-family:var(--font-sport); font-weight:700; font-size:12.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--orange); border:1px solid rgba(213,96,31,0.5); border-radius:999px; padding:8px 16px; margin-bottom:20px; width:fit-content; }
-  .ev-poster-link { display:inline-flex; align-items:center; gap:6px; font-family:var(--font-heading); font-weight:800; font-size:15px; color:var(--white); }
+  .ev-poster-words { display:flex; flex-wrap:nowrap; align-items:baseline; margin:0 0 22px; overflow-x:auto; }
+  .ev-poster-words span { font-family:var(--font-display); font-weight:800; font-size:clamp(11px,1.6vw,18px); text-transform:uppercase; color:var(--white); white-space:nowrap; }
+  .ev-poster-words span:not(:last-child)::after { content:'\00b7'; color:var(--orange); margin:0 10px; font-weight:900; }
+  .ev-poster-tag { display:inline-block; font-family:var(--font-sport); font-weight:800; font-size:15px; letter-spacing:0.05em; text-transform:uppercase; color:var(--white); background:var(--orange); border-radius:999px; padding:10px 20px; margin-bottom:22px; width:fit-content; }
+  .ev-poster-link { display:inline-flex; align-items:center; gap:8px; font-family:var(--font-heading); font-weight:800; font-size:19px; color:var(--white); }
   .ev-poster--grand:hover .ev-poster-link, .ev-poster--halloween:hover .ev-poster-link { color:var(--orange); }
 
   .ev-poster--halloween { background:var(--charcoal); padding:0; }
@@ -241,10 +242,10 @@
         <h3>We Built the Place.<br>Now Let's Make Some Noise.</h3>
         <p>Nolensville, come celebrate the start of The Courts. Meet the coaches. Try the courts. Take on Dr. Dish. Jump into games, skills challenges, and whatever else we decide looks fun that day.</p>
         <div class="ev-poster-words">
-          <span>Basketball</span><span>Volleyball</span><span>Dr. Dish</span><span>Meet the Coaches</span><span>Skills Challenges</span><span>Open Gym</span><span>Merch</span><span>Family Stuff</span>
+          <span>Basketball</span><span>Volleyball</span><span>Dr. Dish</span><span>Meet the Coaches</span><span>Challenges</span><span>Merch</span><span>Family Stuff</span>
         </div>
         <span class="ev-poster-tag">Free + Open to the Community</span>
-        <span class="ev-poster-link">I'm In →</span>
+        <span class="ev-poster-link">Tell Us You're Coming →</span>
       </div>
     </a>
 
