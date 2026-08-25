@@ -142,27 +142,6 @@
 
 
   .lg-register-reminder { font-size: 14.5px; font-weight: 700; color: var(--gray-dark); max-width: 56ch; margin: 14px auto 0; }
-  .lg-form-wrap { background: var(--gray-light); border-radius: var(--radius-md); padding: 44px; margin-top: 32px; position: relative; z-index: 3; }
-  .lg-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .lg-form-grid .full { grid-column: 1 / -1; }
-  .lg-form-grid label { display: block; font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 8px; }
-  .lg-form-grid input, .lg-form-grid select, .lg-form-grid textarea {
-    width: 100%; padding: 13px 14px; border: 1.5px solid var(--gray-mid); border-radius: var(--radius-sm);
-    font-family: var(--font-body); font-size: 15px; background: var(--white); color: var(--black);
-  }
-  .lg-form-grid input:focus, .lg-form-grid select:focus, .lg-form-grid textarea:focus { outline: none; border-color: var(--orange); }
-  .lg-form-radios { display: flex; gap: 20px; flex-wrap: wrap; }
-  .lg-form-radios--stack { flex-direction: column; gap: 13px; }
-  .lg-form-radios label { display: flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 14px; font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--black); }
-  .lg-form-radios input { width: auto; }
-  .lg-form-note { font-size: 13px; color: var(--gray-dark); margin-top: 20px; }
-  .lg-form-submit { margin-top: 24px; }
-  .lg-form-success { display: none; text-align: center; padding: 30px 10px; }
-  .lg-form-success.show { display: block; }
-  .lg-form-success h3 { font-family: var(--font-display); font-size: 28px; margin: 0 0 12px; }
-  .lg-form-success p { color: var(--gray-dark); font-size: 15px; }
-  .lg-form-success ol { text-align: left; max-width: 440px; margin: 22px auto 0; padding-left: 22px; color: var(--gray-dark); font-size: 14.5px; line-height: 1.85; }
-  @media (max-width: 640px) { .lg-form-wrap { padding: 28px 22px; margin-top: -40px; } .lg-form-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body class="has-announce">
@@ -291,65 +270,76 @@
     <p class="page-hero-sub">Weekly practice. Saturday games. Real teammates. Real competition.<br><strong>Fall teams are forming now.</strong></p>
     <p class="lg-hero-deadline"><span class="lg-hero-deadline-label">Registration Closes</span><span class="lg-hero-deadline-date">September 20 · 5 PM</span></p>
     <div class="hero-ctas ctas">
-      <a href="#register" class="btn btn-primary">Register Your Athlete →</a>
-      <a href="#roster" class="btn btn-on-dark">See Teams Forming ↓</a>
+      <a href="#register" class="btn btn-primary">Get in the League →</a>
+      <a href="#fall-league" class="btn btn-on-dark">See How Fall Works ↓</a>
     </div>
     <p class="lg-hero-micro">Fall season begins October 24.</p>
   </div>
 </section>
 
-<section style="padding:90px 0 96px; background:var(--white);" id="heard-you">
+<section style="padding:56px 0 20px;" id="fall-snapshot">
   <div class="container">
-    <div class="section-head">
-      <span class="lg-heard-tag">We Heard You.</span>
-      <h2 class="section-title">And We're Taking It Into Fall.</h2>
-      <p class="section-sub">The summer league gave us a lot to learn from. Thanks for telling us what worked, what didn't, and what you wanted more of.</p>
+    <div class="season-board season-board--six">
+      <div class="season-board-item season-board-item--accent"><span>Oct 24</span><strong>First Games</strong></div>
+      <div class="season-board-item season-board-item--accent"><span>Dec 11&ndash;13</span><strong>Tournament</strong></div>
+      <div class="season-board-item"><span>Saturdays</span><strong>Game Day</strong></div>
+      <div class="season-board-item"><span>1x / Week</span><strong>Team Practice</strong></div>
+      <div class="season-board-item"><span>Sept 20 &middot; 5 PM</span><strong style="color:var(--orange);">Registration Closes</strong></div>
     </div>
-    <div class="lg-heard-commitments">
-      <div class="lg-heard-item">
-        <h3>Smaller Rosters.</h3>
-        <p>We're keeping teams intentionally tighter.</p>
-      </div>
-      <div class="lg-heard-item">
-        <h3>Earlier Communication.</h3>
-        <p>Schedules and season details will go out as early as possible.</p>
-      </div>
-      <div class="lg-heard-item">
-        <h3>We're Paying Attention.</h3>
-        <p>We'll keep an eye on how the season is going and keep making it better as we go.</p>
-      </div>
-    </div>
-    <span class="courts-commentary">If something's not working, we want to know.</span>
   </div>
 </section>
 
-<section style="padding:0 0 100px;">
+<section style="padding:44px 0 100px;">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">Before We Set the Rosters</span>
+      <span class="eyebrow">Fall League Evaluation</span>
       <h2 class="section-title">Come Show Us Your Game.</h2>
-      <p class="section-sub">Players will attend a short evaluation before teams are finalized.</p>
-      <p class="lg-eval-detail">We're looking at how athletes play, move, make decisions, compete, and fit into a team.</p>
     </div>
-    <p class="lg-eval-reassure">This is for team placement. <span class="accent">Not cuts.</span></p>
+    <p class="lg-eval-reassure">Placement. <span class="accent">Not cuts.</span></p>
+    <p class="lg-eval-detail" style="margin-top:0;">We're looking at how athletes move, make decisions, compete, and fit into a team.</p>
     <p class="lg-eval-reassure lg-eval-reassure--sub">No need to audition for the NBA. Just come play.</p>
     <div class="eval-callout">
       <span class="eyebrow">Player Evaluation</span>
       <div class="lg-eval-row">
-        <p class="lg-eval-date">September 12 · 3 PM</p>
-        <p class="fee">$25 Evaluation Fee*</p>
+        <p class="lg-eval-date">September 12 &middot; 3 PM <span style="font-family:var(--font-sport); font-size:13px; letter-spacing:0.06em; text-transform:uppercase; color:var(--gray-dark); font-weight:700;">Date TBC</span></p>
+        <p class="fee">$25 Evaluation</p>
       </div>
-      <p class="lg-eval-footnote">*$25 evaluation fee will be applied toward league registration for athletes who join a team.</p>
+      <p class="lg-eval-footnote"><strong>The $25 evaluation fee will be applied toward the program fee if your athlete joins a team.</strong></p>
+      <!-- [PINK — UPPER HAND EVALUATION REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
+      <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-primary" data-preset="Basketball Leagues" style="margin-top:22px;">Save Your Evaluation Spot →</a>
     </div>
   </div>
 </section>
 
-<section style="padding:56px 0 100px;" id="roster">
+<section style="padding:0 0 100px; background:var(--white);" id="heard-you">
+  <div class="container">
+    <div class="section-head">
+      <span class="lg-heard-tag">We Heard You.</span>
+      <h2 class="section-title">We're Taking It Into Fall.</h2>
+    </div>
+    <div class="lg-heard-commitments">
+      <div class="lg-heard-item">
+        <h3>Smaller Rosters.</h3>
+        <p>More touches. More opportunities. More basketball.</p>
+      </div>
+      <div class="lg-heard-item">
+        <h3>Earlier Communication.</h3>
+        <p>Schedules and season details sooner, not later.</p>
+      </div>
+      <div class="lg-heard-item">
+        <h3>Keep Paying Attention.</h3>
+        <p>If something isn't working, we want to know.</p>
+      </div>
+    </div>
+    <span class="courts-commentary">Turns out parents have opinions. Helpful ones.</span>
+  </div>
+</section>
+
+<section style="padding:0 0 100px;" id="roster">
   <div class="container">
     <div class="section-head lg-roster-head">
       <span class="eyebrow">Roster Watch</span>
-      <h2 class="section-title">Find Your Team.</h2>
-      <p class="section-sub">We're building the first Courts teams now. If your athlete wants in, this is the time to raise a hand.</p>
+      <h2 class="section-title">Who&rsquo;s In?</h2>
     </div>
 
     <div class="roster-board">
@@ -357,74 +347,74 @@
       <div class="roster-row">
         <div class="roster-grade-wrap">
           <span class="roster-grade">3rd&ndash;4th Grade Boys</span>
-          <span class="roster-note">We're building the roster now.</span>
         </div>
         <div class="roster-status-wrap">
           <span class="roster-status roster-status--forming"><span class="dot"></span>Forming Now</span>
-          <a href="#register" class="roster-cta">Register →</a>
+          <a href="#register" class="roster-cta">Get In →</a>
         </div>
       </div>
       <div class="roster-row">
         <div class="roster-grade-wrap">
           <span class="roster-grade">6th&ndash;7th Grade Boys</span>
-          <span class="roster-note">We're building this group as registrations come in.</span>
         </div>
         <div class="roster-status-wrap">
           <span class="roster-status roster-status--forming"><span class="dot"></span>Forming Now</span>
-          <a href="#register" class="roster-cta">Register →</a>
+          <a href="#register" class="roster-cta">Get In →</a>
         </div>
       </div>
       <div class="roster-row">
         <div class="roster-grade-wrap">
           <span class="roster-grade">Girls Basketball</span>
-          <span class="roster-note">We'd love to put a girls team on the court this fall.<br>Tell us your athlete's grade and we'll build around interest.</span>
+          <span class="roster-note">Tell us your athlete&rsquo;s grade. We&rsquo;ll build around interest.</span>
         </div>
         <div class="roster-status-wrap">
-          <span class="roster-status roster-status--whosin">Who's In?</span>
-          <a href="#register" class="roster-cta">I'm Interested →</a>
+          <span class="roster-status roster-status--whosin">Building From Interest</span>
+          <a href="#register" class="roster-cta">Raise a Hand →</a>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<section style="padding:20px 0 100px;" id="league-training">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">League + Training</span>
-      <h2 class="section-title">Games Are Only Part of It.</h2>
-      <p class="section-sub">Courts league athletes must have at least a Weekly membership ($119/month). That gives every player a consistent training session each week in addition to league practice, so they're getting the coaching and reps they need between games.</p>
-    </div>
-    <p class="lg-training-callout">Your Weekly membership session is <span class="accent">in addition to</span> league practice.</p>
-    <div class="lg-equation">
-      <div class="lg-equation-item"><span class="lg-equation-word">Practice</span><span class="lg-equation-label">League Practice</span></div>
-      <span class="lg-equation-plus">+</span>
-      <div class="lg-equation-item"><span class="lg-equation-word">Train</span><span class="lg-equation-label">Membership Session</span></div>
-      <span class="lg-equation-plus">+</span>
-      <div class="lg-equation-item"><span class="lg-equation-word">Play</span><span class="lg-equation-label">Saturday Game</span></div>
-    </div>
-    <p class="lg-training-note">Two coached sessions during the week. One game to put it to work.</p>
-    <p class="lg-training-policy">An active Weekly, Unlimited, Full Court, or Family Unlimited membership is required for league participation.</p>
-    <a href="membership#plan-selector" class="lg-training-link">See Membership Options →</a>
   </div>
 </section>
 
 <section style="padding:72px 0 100px; background:var(--black);" id="fall-league" class="lg-fall-league-dark">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow lg-rhythm-eyebrow">Fall 2026</span>
-      <h2 class="lg-glance-headline reveal">The Weekly Rhythm.</h2>
-      <p class="lg-rhythm-sub">Practice at The Courts during the week. Play on Saturday. Come back, work on what happened, and get ready for the next one.</p>
-      <p class="section-sub" style="margin-top:20px;">The Courts teams will compete through WNSL Basketball with one practice and one game each week. <a href="https://www.wnsl.org/default.aspx?tabid=212773" target="_blank" rel="noopener" style="color:var(--orange); font-weight:700;">Learn About WNSL ↗</a></p>
+      <span class="eyebrow lg-rhythm-eyebrow">The Weekly Rhythm</span>
+      <h2 class="lg-glance-headline reveal">Practice. Train. Play.</h2>
     </div>
-    <div class="season-board season-board--six">
-      <div class="season-board-item season-board-item--accent"><span>Season</span><strong>Oct 24 &ndash; Dec 13</strong></div>
+    <div class="lg-equation">
+      <div class="lg-equation-item"><span class="lg-equation-word" style="color:var(--white);">Practice</span><span class="lg-equation-label" style="color:rgba(255,255,255,0.55);">Team practice at The Courts</span></div>
+      <span class="lg-equation-plus">+</span>
+      <div class="lg-equation-item"><span class="lg-equation-word" style="color:var(--white);">Train</span><span class="lg-equation-label" style="color:rgba(255,255,255,0.55);">Group Training through membership</span></div>
+      <span class="lg-equation-plus">+</span>
+      <div class="lg-equation-item"><span class="lg-equation-word" style="color:var(--white);">Play</span><span class="lg-equation-label" style="color:rgba(255,255,255,0.55);">Saturday games through WNSL</span></div>
+    </div>
+    <div class="season-board season-board--six" style="margin-top:56px;">
+      <div class="season-board-item season-board-item--accent"><span>First Games</span><strong>Oct 24</strong></div>
       <div class="season-board-item"><span>Regular Season</span><strong>Oct 24 &ndash; Dec 5</strong></div>
       <div class="season-board-item season-board-item--accent"><span>Tournament</span><strong>Dec 11&ndash;13</strong></div>
-      <div class="season-board-item"><span>Game Day</span><strong>Saturdays</strong></div>
-      <div class="season-board-item season-board-item--accent"><span>Practice</span><strong>One practice each week at The Courts</strong></div>
-      <div class="season-board-item"><span>Registration Closes</span><strong style="color:var(--orange);">September 20 · 5 PM</strong></div>
     </div>
+    <div style="text-align:center; margin-top:48px;">
+      <a href="#register" class="btn btn-primary">Get in the League →</a>
+      <a href="https://www.wnsl.org/default.aspx?tabid=212773" target="_blank" rel="noopener" style="display:block; margin-top:18px; color:rgba(255,255,255,0.65); font-weight:700; font-size:14.5px;">Learn About WNSL ↗</a>
+    </div>
+  </div>
+</section>
+
+<section style="padding:72px 0 100px;" id="cost">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">What It Takes to Play</span>
+      <h2 class="section-title">The Real Cost, Up Front.</h2>
+    </div>
+    <div class="season-board season-board--six">
+      <div class="season-board-item season-board-item--accent"><span>WNSL League Fee</span><strong>$175</strong></div>
+      <div class="season-board-item"><span>The Courts Program Fee</span><strong><!-- [PINK — INSERT APPROVED COURTS PROGRAM FEE. Do not invent an amount; leave this placeholder until finalized.] -->TBD</strong></div>
+      <div class="season-board-item season-board-item--accent"><span>Membership</span><strong>Weekly or higher</strong></div>
+      <div class="season-board-item"><span>Evaluation</span><strong>$25, applied to program fee</strong></div>
+    </div>
+    <p style="text-align:center; font-size:14px; color:var(--gray-dark); max-width:56ch; margin:24px auto 0;">The WNSL fee is paid to WNSL. The Courts Program Fee covers coach-led team practices, game-day coaching, and season support.</p>
+    <a href="membership#plan-selector" class="lg-training-link">See Memberships →</a>
   </div>
 </section>
 
@@ -447,64 +437,20 @@
   </div>
 </section>
 
-<section style="padding:100px 0 20px;" id="register">
-  <div class="container" style="max-width:760px;">
+<section style="padding:100px 0 96px;" id="register">
+  <div class="container" style="max-width:640px;">
     <div class="section-head center">
       <span class="eyebrow">Fall 2026</span>
       <h2 class="section-title">You In?</h2>
-      <p class="section-sub" style="margin-left:auto; margin-right:auto;">Fall registration closes September 20 at 5 PM.</p>
-      <p class="lg-register-reminder">League athletes must maintain a Weekly membership ($119/month) or higher. Your membership training session is in addition to league practice.</p>
+      <p class="section-sub" style="margin-left:auto; margin-right:auto;">Registration closes September 20 at 5 PM.</p>
     </div>
-    <div class="lg-form-wrap">
-      <form id="leagueForm">
-        <div class="lg-form-grid">
-          <div><label for="lgParent">Parent / Guardian Name*</label><input type="text" id="lgParent" required></div>
-          <div><label for="lgEmail">Email*</label><input type="email" id="lgEmail" required></div>
-          <div><label for="lgPhone">Phone <span style="text-transform:none; font-weight:400; color:var(--gray-dark);">(Optional)</span></label><input type="tel" id="lgPhone"></div>
-          <div><label for="lgAthleteName">Athlete Name*</label><input type="text" id="lgAthleteName" required></div>
-          <div><label for="lgGrade">Athlete Grade*</label><input type="text" id="lgGrade" required></div>
-          <div><label for="lgAge">Athlete Age*</label><input type="text" id="lgAge" required></div>
-          <div class="full">
-            <label>Basketball Experience</label>
-            <div class="lg-form-radios lg-form-radios--stack">
-              <label><input type="radio" name="lgExperience" value="Newer to organized basketball" required> Newer to organized basketball</label>
-              <label><input type="radio" name="lgExperience" value="Has played rec / league basketball"> Has played rec / league basketball</label>
-              <label><input type="radio" name="lgExperience" value="Has played competitive / club basketball"> Has played competitive / club basketball</label>
-            </div>
-          </div>
-          <div class="full">
-            <label>Team Interest</label>
-            <div class="lg-form-radios">
-              <label><input type="radio" name="lgTeamInterest" value="3rd–4th Grade Boys" required> 3rd&ndash;4th Grade Boys</label>
-              <label><input type="radio" name="lgTeamInterest" value="6th–7th Grade Boys"> 6th&ndash;7th Grade Boys</label>
-              <label><input type="radio" name="lgTeamInterest" value="Girls Basketball"> Girls Basketball</label>
-              <label><input type="radio" name="lgTeamInterest" value="Other / Not Sure"> Other / Not Sure</label>
-            </div>
-          </div>
-          <div class="full">
-            <label>Season</label>
-            <div class="lg-form-radios">
-              <label><input type="radio" name="lgSeason" value="Fall 2026" required> Fall 2026</label>
-              <label><input type="radio" name="lgSeason" value="Winter 2027"> Winter 2027</label>
-              <label><input type="radio" name="lgSeason" value="Both"> Both</label>
-            </div>
-          </div>
-          <div class="full"><label for="lgNotes">Anything else we should know? <span style="text-transform:none; font-weight:400; color:var(--gray-dark);">(Optional)</span></label><textarea id="lgNotes" rows="3"></textarea></div>
-        </div>
-        <p class="lg-form-note">For athletes under 13, this form should be completed by a parent or guardian.</p>
-        <button type="submit" class="btn btn-primary lg-form-submit">Register Your Athlete →</button>
-      </form>
-      <div class="lg-form-success" id="lgFormSuccess">
-        <h3 id="lgSuccessTitle">You're on the List.</h3>
-        <p id="lgSuccessSub">Here's what happens next:</p>
-        <ol id="lgSuccessSteps">
-          <li>We'll confirm roster availability.</li>
-          <li>We'll send evaluation information.</li>
-          <li>Athlete attends evaluation.</li>
-          <li>Team placement + schedule follow.</li>
-        </ol>
-      </div>
+    <div class="hero-ctas ctas" style="justify-content:center;">
+      <!-- [PINK — UPPER HAND FALL LEAGUE REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
+      <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-primary" data-preset="Basketball Leagues">Get in the League →</a>
+      <!-- [PINK — UPPER HAND EVALUATION REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
+      <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-secondary" data-preset="Basketball Leagues">Save Your Evaluation Spot →</a>
     </div>
+    <p class="lg-register-reminder" style="text-align:center; margin-left:auto; margin-right:auto;">Weekly membership or higher required for league participation.</p>
   </div>
 </section>
 
@@ -766,33 +712,5 @@
 </footer>
 
 <script src="js/script.js"></script>
-<script>
-  (function () {
-    var form = document.getElementById('leagueForm');
-    var success = document.getElementById('lgFormSuccess');
-    var successTitle = document.getElementById('lgSuccessTitle');
-    var successSub = document.getElementById('lgSuccessSub');
-    var successSteps = document.getElementById('lgSuccessSteps');
-    if (form) {
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var teamInterest = form.querySelector('input[name="lgTeamInterest"]:checked');
-        var isGirls = teamInterest && teamInterest.value === 'Girls Basketball';
-        if (isGirls) {
-          successTitle.textContent = "You're on the List.";
-          successSub.textContent = "We're building girls basketball around interest and will keep you posted as the roster takes shape.";
-          successSteps.style.display = 'none';
-        } else {
-          successTitle.textContent = "You're on the List.";
-          successSub.textContent = "Here's what happens next:";
-          successSteps.style.display = '';
-        }
-        form.style.display = 'none';
-        success.classList.add('show');
-        success.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
-      });
-    }
-  })();
-</script>
 </body>
 </html>
