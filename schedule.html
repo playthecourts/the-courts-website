@@ -30,6 +30,11 @@
   @media (prefers-reduced-motion: reduce) { .sched-gate-card { transition: none !important; } .sched-gate-card:hover { transform: none; } }
   @media (max-width: 900px) { .sched-gate-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px) { .sched-gate-grid { grid-template-columns: 1fr; } }
+  .sched-gate-card.is-hidden { display: none; }
+  .sched-filter { display: flex; gap: 28px; justify-content: center; margin: 0 0 32px; border-bottom: 1px solid var(--gray-mid); }
+  .sched-filter-tab { font-family: var(--font-sport); font-weight: 700; font-size: 15px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-dark); padding: 10px 4px 14px; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px; background: none; cursor: pointer; }
+  .sched-filter-tab:hover { color: var(--black); }
+  .sched-filter-tab.active { color: var(--black); border-bottom-color: var(--orange); }
 
   /* ================= More Ways to Play — editorial modules (mwp-*) ================= */
   .mwp-head { max-width: 620px; margin: 0 0 32px; }
@@ -214,30 +219,35 @@
       <span class="eyebrow">Live Schedule</span>
       <p class="sched-gate-note">Advance registration is required. Sessions are subject to capacity and availability.</p>
     </div>
+    <div class="sched-filter" role="tablist" aria-label="Filter by sport">
+      <button type="button" class="sched-filter-tab" data-sport="all">All</button>
+      <button type="button" class="sched-filter-tab" data-sport="basketball">Basketball</button>
+      <button type="button" class="sched-filter-tab" data-sport="volleyball">Volleyball</button>
+    </div>
     <div class="sched-gate-grid">
       <!-- [PINK — UPPER HAND BASKETBALL URL] Staging only. Replace href with the live Upper Hand basketball event-type link. -->
-      <a href="#" class="sched-gate-card">
+      <a href="#" class="sched-gate-card" data-sport="basketball">
         <span class="sched-gate-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3v18M5.5 5.5c3 3 3 10 0 13M18.5 5.5c-3 3-3 10 0 13" stroke="currentColor" stroke-width="1.6"/></svg></span>
         <h3 class="sched-gate-name">Basketball</h3>
         <p class="sched-gate-desc">Group training for athletes across age groups.</p>
         <span class="sched-gate-link">View Basketball Schedule →</span>
       </a>
       <!-- [PINK — UPPER HAND VOLLEYBALL URL] Staging only. Replace href with the live Upper Hand volleyball event-type link. -->
-      <a href="#" class="sched-gate-card">
+      <a href="#" class="sched-gate-card" data-sport="volleyball">
         <span class="sched-gate-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3c-5 4-5 14 0 18M4 9c5-3 11-3 16 0M4 15c5 3 11 3 16 0" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></span>
         <h3 class="sched-gate-name">Volleyball</h3>
         <p class="sched-gate-desc">Group training for athletes across age groups.</p>
         <span class="sched-gate-link">View Volleyball Schedule →</span>
       </a>
       <!-- [PINK — UPPER HAND OPEN GYM URL] Staging only. Replace href with the live Upper Hand Open Gym event-type link. -->
-      <a href="#" class="sched-gate-card">
+      <a href="#" class="sched-gate-card" data-sport="both">
         <span class="sched-gate-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9h17M9 9v11" stroke="currentColor" stroke-width="1.6"/></svg></span>
         <h3 class="sched-gate-name">Open Gym</h3>
         <p class="sched-gate-desc">Scheduled, coach-supervised court time.</p>
         <span class="sched-gate-link">View Open Gym →</span>
       </a>
       <!-- [PINK — UPPER HAND DR. DISH URL] Staging only. Replace href with the live Upper Hand Dr. Dish booking link. -->
-      <a href="#" class="sched-gate-card">
+      <a href="dr-dish" class="sched-gate-card" data-sport="basketball">
         <span class="sched-gate-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
         <h3 class="sched-gate-name">Dr. Dish</h3>
         <p class="sched-gate-desc">Basketball-only shooting reservations.</p>

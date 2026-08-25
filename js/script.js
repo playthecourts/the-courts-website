@@ -193,163 +193,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ---------- Schedule filters (select dropdowns) ---------- */
-  const scheduleFilters = document.querySelectorAll('.filter-group select[data-filter-key]');
-  if (scheduleFilters.length) {
-    const applyScheduleFilters = () => {
-      const active = {};
-      scheduleFilters.forEach(sel => { if (sel.value) active[sel.dataset.filterKey] = sel.value; });
-      let visibleCount = 0;
-      document.querySelectorAll('[data-row]').forEach(row => {
-        const match = Object.keys(active).every(key => row.dataset[key] === active[key]);
-        row.classList.toggle('is-hidden', !match);
-        if (match) visibleCount++;
+  /* ---------- Schedule page: sport filter (All / Basketball / Volleyball) ---------- */
+  const schedFilterTabs = document.querySelectorAll('.sched-filter-tab');
+  if (schedFilterTabs.length) {
+    const schedCards = document.querySelectorAll('.sched-gate-card');
+    const showSport = sport => {
+      schedFilterTabs.forEach(t => {
+        const active = t.dataset.sport === sport;
+        t.classList.toggle('active', active);
+        t.setAttribute('aria-current', active ? 'true' : 'false');
       });
-      const empty = document.getElementById('scheduleEmpty');
-      if (empty) empty.classList.toggle('show', visibleCount === 0);
+      schedCards.forEach(c => {
+        const match = sport === 'all' || c.dataset.sport === sport || c.dataset.sport === 'both';
+        c.classList.toggle('is-hidden', !match);
+      });
     };
-    scheduleFilters.forEach(sel => sel.addEventListener('change', applyScheduleFilters));
-
-    const sportParam = new URLSearchParams(window.location.search).get('sport');
-    if (sportParam) {
-      const sportSelect = document.querySelector('.filter-group select[data-filter-key="sport"]');
-      if (sportSelect && [...sportSelect.options].some(o => o.value === sportParam)) {
-        sportSelect.value = sportParam;
-        applyScheduleFilters();
-      }
-    }
-  }
-
-  /* ---------- Schedule page: sport(multi) x type x age(multi) x day pill filters ---------- */
-  const scheduleFilterBar = document.querySelector('.schedule-filters');
-  if (scheduleFilterBar) {
-    const sportGroup = scheduleFilterBar.querySelector('[data-sched-filter="sport"]');
-    const typeGroup = scheduleFilterBar.querySelector('[data-sched-filter="type"]');
-    const ageGroup = scheduleFilterBar.querySelector('[data-sched-filter="age"]');
-    const dayGroup = scheduleFilterBar.querySelector('[data-sched-filter="day"]');
-    const dayGroups = document.querySelectorAll('.day-group');
-    const standaloneItems = document.querySelectorAll('.schedule-board > .pt-utility-row');
-    const schedEmpty = document.getElementById('scheduleEmpty');
-
-    const setActivePill = (group, value) => {
-      const pill = [...group.querySelectorAll('.filter-pill')].find(p => p.dataset.value === value);
-      if (!pill) return false;
-      group.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      return true;
-    };
-
-    const setMultiActive = (group, values) => {
-      const allPill = group.querySelector('.filter-pill[data-value="all"]');
-      group.querySelectorAll('.filter-pill.multi').forEach(p => {
-        const on = values.includes(p.dataset.value);
-        p.classList.toggle('active', on);
-        p.setAttribute('aria-pressed', on ? 'true' : 'false');
-      });
-      const anyActive = group.querySelectorAll('.filter-pill.multi.active').length > 0;
-      allPill.classList.toggle('active', !anyActive);
-    };
-
-    const getMultiSelected = (group) => [...group.querySelectorAll('.filter-pill.multi.active')].map(p => p.dataset.value);
-    const getSingleSelected = (group) => group.querySelector('.filter-pill.active').dataset.value;
-
-    const rowMatches = (el, sports, type, ages, day) => {
-      const rowSports = (el.dataset.sport || '').split(/\s+/).filter(Boolean);
-      const sportMatch = sports.length === 0 || rowSports.some(s => sports.includes(s));
-      const typeMatch = type === 'all' || el.dataset.type === type;
-      const ageMatch = ages.length === 0 || el.dataset.age === 'all' || ages.includes(el.dataset.age);
-      const dayMatch = day === 'all' || !el.dataset.day || el.dataset.day === day;
-      return sportMatch && typeMatch && ageMatch && dayMatch;
-    };
-
-    const applySchedFilters = (pushState) => {
-      const sports = getMultiSelected(sportGroup);
-      const type = getSingleSelected(typeGroup);
-      const ages = getMultiSelected(ageGroup);
-      const day = getSingleSelected(dayGroup);
-      let totalVisible = 0;
-
-      dayGroups.forEach(group => {
-        let groupVisible = 0;
-        group.querySelectorAll('.schedule-row, .drdish-card').forEach(row => {
-          const match = rowMatches(row, sports, type, ages, day);
-          row.classList.toggle('is-hidden', !match);
-          if (match) groupVisible++;
-        });
-        group.classList.toggle('is-hidden', groupVisible === 0);
-        totalVisible += groupVisible;
-      });
-
-      standaloneItems.forEach(item => {
-        const match = rowMatches(item, sports, type, ages, day);
-        item.classList.toggle('is-hidden', !match);
-      });
-
-      if (schedEmpty) schedEmpty.classList.toggle('show', totalVisible === 0);
-
-      if (pushState) {
-        const params = new URLSearchParams(window.location.search);
-        sports.length ? params.set('sport', sports.join(',')) : params.delete('sport');
-        type === 'all' ? params.delete('type') : params.set('type', type);
-        ages.length ? params.set('age', ages.join(',')) : params.delete('age');
-        day === 'all' ? params.delete('day') : params.set('day', day);
-        const qs = params.toString();
-        history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname);
-      }
-    };
-
-    sportGroup.querySelectorAll('.filter-pill').forEach(pill => {
-      pill.addEventListener('click', () => {
-        if (pill.dataset.value === 'all') {
-          setMultiActive(sportGroup, []);
-        } else {
-          const current = getMultiSelected(sportGroup);
-          const next = current.includes(pill.dataset.value) ? current.filter(v => v !== pill.dataset.value) : [...current, pill.dataset.value];
-          setMultiActive(sportGroup, next);
-        }
-        applySchedFilters(true);
-      });
-    });
-
-    ageGroup.querySelectorAll('.filter-pill').forEach(pill => {
-      pill.addEventListener('click', () => {
-        if (pill.dataset.value === 'all') {
-          setMultiActive(ageGroup, []);
-        } else {
-          const current = getMultiSelected(ageGroup);
-          const next = current.includes(pill.dataset.value) ? current.filter(v => v !== pill.dataset.value) : [...current, pill.dataset.value];
-          setMultiActive(ageGroup, next);
-        }
-        applySchedFilters(true);
-      });
-    });
-
-    [...typeGroup.querySelectorAll('.filter-pill'), ...dayGroup.querySelectorAll('.filter-pill')].forEach(pill => {
-      pill.addEventListener('click', () => {
-        pill.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-        pill.classList.add('active');
-        applySchedFilters(true);
-      });
-    });
-
-    const schedParams = new URLSearchParams(window.location.search);
-    if (schedParams.get('sport')) setMultiActive(sportGroup, schedParams.get('sport').split(',').filter(Boolean));
-    if (schedParams.get('type')) setActivePill(typeGroup, schedParams.get('type'));
-    if (schedParams.get('age')) setMultiActive(ageGroup, schedParams.get('age').split(',').filter(Boolean));
-    if (schedParams.get('day')) setActivePill(dayGroup, schedParams.get('day'));
-    applySchedFilters(false);
-
-    const schedReset = document.getElementById('scheduleReset');
-    const schedClear = document.getElementById('scheduleClear');
-    const clearAllSched = () => {
-      setMultiActive(sportGroup, []);
-      setActivePill(typeGroup, 'all');
-      setMultiActive(ageGroup, []);
-      setActivePill(dayGroup, 'all');
-      applySchedFilters(true);
-    };
-    if (schedReset) schedReset.addEventListener('click', clearAllSched);
-    if (schedClear) schedClear.addEventListener('click', clearAllSched);
+    schedFilterTabs.forEach(t => t.addEventListener('click', () => showSport(t.dataset.sport)));
+    const typeParam = new URLSearchParams(window.location.search).get('type');
+    const initialSport = [...schedFilterTabs].some(t => t.dataset.sport === typeParam) ? typeParam : 'all';
+    showSport(initialSport);
   }
 
   /* ---------- Filter pills (events / shop / programs) — supports multiple independent filter rows (e.g. category + month) that combine with AND logic ---------- */
