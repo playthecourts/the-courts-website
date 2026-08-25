@@ -98,6 +98,15 @@
   .ev-poster--grand .ev-poster-status { font-size:19px; }
   .ev-poster--halloween .ev-poster-status { font-size:19px; }
 
+  .ev-poster--winter { background:var(--charcoal); padding:0; position:relative; text-align:center; }
+  .ev-poster--winter::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg, var(--orange), #F2A65A 50%, var(--orange)); }
+  .ev-poster--winter .ev-poster-body { padding:38px clamp(24px,4vw,44px) 34px; }
+  .ev-poster--winter h3 { font-family:var(--font-display); font-weight:900; font-size:clamp(26px,3.4vw,38px); color:var(--white); margin:0 0 12px; }
+  .ev-poster--winter .ev-poster-words { justify-content:center; margin:18px 0 22px; }
+  .ev-winter-copy { font-size:15px; line-height:1.6; color:rgba(255,255,255,0.7); max-width:52ch; margin:16px auto 0; }
+  .ev-poster--winter .ev-halloween-access { margin:0 auto 14px; }
+  .ev-poster--winter .courts-commentary { margin-top:16px; }
+
   .ev-poster--quiet { background:var(--charcoal); position:relative; padding:36px clamp(24px,4vw,44px); }
   .ev-poster--quiet::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg, var(--orange), #F2A65A 50%, var(--orange)); }
   .ev-poster--quiet .ev-poster-status { font-size:17px; margin-bottom:12px; }
@@ -618,14 +627,19 @@
         </div>
       </div>
 
-      <div class="cal-item cal-item--compact reveal" data-category="special">
-        <div class="cal-date"><span class="cal-weekday">Fri</span><span class="cal-month">Dec</span><span class="cal-day">18</span></div>
-        <div class="cal-body">
-          <span class="cal-tag">Winter Classic</span>
-          <h4>School's Almost Out. We're Getting Started.</h4>
-          <p>Details on this one are still coming together &mdash; check back as we get closer.</p>
+      <div class="ev-poster ev-poster--winter reveal">
+        <div class="ev-poster-body">
+          <span class="ev-poster-status">Dec 18 &middot; Winter Classic</span>
+          <h3>Winter Classic</h3>
+          <p class="ev-poster-sub">One last big night before winter break.<br>Seems like a good reason to make it count.</p>
+          <p class="ev-winter-copy">Games, challenges, music, prizes, and a whole lot of court time. Basketball and volleyball both get in on this one.</p>
+          <div class="ev-poster-words">
+            <span>Basketball</span><span>Volleyball</span><span>Games</span><span>Challenges</span><span>Music</span><span>Prizes</span>
+          </div>
+          <span class="ev-halloween-access">Member Pricing &middot; Non-Members Welcome</span>
           <!-- [PINK — INSERT APPROVED WINTER CLASSIC FORMAT (SKILLS EVENT / COMPETITION / CLINIC / CAMP-STYLE SESSION), SCHEDULE, AND MEMBER / NON-MEMBER PRICE] Staging only. Do not invent programming details, times, or prices. -->
-          <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-link" data-preset="Programs + Membership">Register →</a>
+          <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="btn btn-primary" data-preset="Programs + Membership">Register →</a>
+          <span class="courts-commentary courts-commentary--on-dark">Holiday spirit. Competitive spirit. We&rsquo;ll take both.</span>
         </div>
       </div>
 
