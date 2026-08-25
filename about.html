@@ -480,6 +480,7 @@
 
 <section id="community" style="position:relative; padding:110px 0; background:var(--gray-light); overflow:hidden;">
   <div class="container" style="position:relative; z-index:2;">
+    <div class="community-grid">
     <div class="community-copy">
       <span class="community-rule" aria-hidden="true"></span>
       <span class="eyebrow">Community</span>
@@ -503,10 +504,12 @@
       <!-- [PINK — FINAL COMMUNITY GIVE-BACK DESTINATION] Staging only. Link to events.html or a future Community/Updates page once the December partner is finalized. -->
       <a href="events" class="community-giveback-link">Stay Tuned →</a>
     </div>
+    </div>
   </div>
 </section>
 
 <style>
+  .community-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: start; }
   .community-copy { max-width: 640px; }
   .community-rule { display: block; width: 46px; height: 4px; background: var(--orange); border-radius: 2px; margin-bottom: 18px; }
   .community-kicker { font-family: var(--font-heading); font-weight: 800; font-size: 17px; color: var(--black); margin: 10px 0 0; }
@@ -526,7 +529,8 @@
   .community-giveback p { font-size: 15px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 16px; }
   .community-giveback-link { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--orange); }
   @media (max-width: 860px) {
-    .community-giveback { max-width: 100%; }
+    .community-grid { grid-template-columns: 1fr; gap: 40px; }
+    .community-giveback { max-width: 100%; margin-top: 0; }
   }
 </style>
 
@@ -557,7 +561,7 @@
           </div>
           <span class="partner-sr-only">Ways to partner: Teams, Gear, Events, Court-Side, Community-Wide, and your own call.</span>
           <div class="partner-scoreboard-ticks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-          <p class="partner-scoreboard-note"><span class="partner-scoreboard-note-dot" aria-hidden="true"></span>You've got our attention.</p>
+          <p class="partner-scoreboard-note">You've got our attention.</p>
         </div>
       </div>
     </div>
@@ -602,13 +606,9 @@
   .partner-scoreboard-ticks { display:flex; justify-content:center; gap:8px; margin-top:22px; }
   .partner-scoreboard-ticks span { width:6px; height:6px; background:var(--gray-mid); }
   .partner-scoreboard-note {
-    display:flex; align-items:center; justify-content:center; gap:9px;
     text-align:center; font-family:var(--font-display); font-weight:800; font-style:italic;
     font-size:clamp(19px, 2.4vw, 25px); letter-spacing:0.01em; text-transform:none; color:var(--orange); margin:24px 0 0;
   }
-  .partner-scoreboard-note-dot { width:9px; height:9px; border-radius:50%; background:var(--orange); flex-shrink:0; animation: partnerNotePulse 1.6s ease-in-out infinite; }
-  @keyframes partnerNotePulse { 0%, 100% { opacity:1; transform:scale(1); } 50% { opacity:0.4; transform:scale(0.7); } }
-  @media (prefers-reduced-motion: reduce) { .partner-scoreboard-note-dot { animation:none; } }
 
   @media (prefers-reduced-motion: no-preference) {
     .scoreboard-window { flex-direction:row; height:clamp(64px, 9vw, 96px); padding:0; gap:0; perspective:600px; }
