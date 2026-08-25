@@ -418,7 +418,7 @@ body.has-announce .nav { top: 64px; }
 .footer-top { display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; padding-bottom: 40px; }
 
 .footer-brand-col { position: relative; max-width: 420px; }
-.footer-cmark { position: absolute; top: -34px; left: -108px; width: 320px; height: auto; opacity: 0.07; z-index: 0; pointer-events: none; user-select: none; }
+.footer-cmark { position: absolute; top: -14px; left: -92px; width: 170px; height: auto; opacity: 0.05; z-index: 0; pointer-events: none; user-select: none; }
 .footer-brand-inner { position: relative; z-index: 1; }
 .footer-brand-logo { height: 38px; width: auto; display: block; margin-bottom: 26px; }
 .footer-brand-statement { font-family: var(--font-display); font-weight: 900; font-size: clamp(21px, 2.2vw, 27px); line-height: 1.18; letter-spacing: -0.005em; text-transform: uppercase; color: var(--black); margin: 0 0 10px; }
@@ -459,7 +459,7 @@ body.has-announce .nav { top: 64px; }
 
 @media (max-width: 980px) {
   .footer-top { grid-template-columns: 1fr; gap: 40px; }
-  .footer-cmark { top: -20px; left: -70px; width: 240px; opacity: 0.06; }
+  .footer-cmark { top: -10px; left: -60px; width: 130px; opacity: 0.045; }
   .footer-nav { grid-template-columns: 1fr 1fr; gap: 32px 40px; }
   .card-grid, .benefits-grid, .benefits-grid.three, .stat-row { grid-template-columns: 1fr 1fr; }
   .overview-inner { grid-template-columns: 1fr; gap: 40px; }
