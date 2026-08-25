@@ -58,11 +58,6 @@
   .cal-tag { display: inline-block; margin-left: 8px; font-family: var(--font-sport); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.1); padding: 3px 9px; border-radius: 999px; vertical-align: middle; }
   .cal-info p { font-size: 12.5px; color: rgba(255,255,255,0.85); margin: 2px 0 0; }
   .cal-action { font-size: 13px; font-weight: 700; color: var(--orange); text-align: right; white-space: nowrap; }
-  .cal-expand-wrap { text-align: center; margin-top: 22px; }
-  .cal-expand-toggle { font-family: var(--font-heading); font-weight: 800; font-size: 18px; color: var(--black); background: none; border: none; cursor: pointer; padding: 4px; }
-  .cal-expand-toggle .arrow { color: var(--orange); display: inline-block; transition: transform 0.2s var(--ease); }
-  .cal-expand-toggle[aria-expanded="true"] .arrow { transform: rotate(180deg); }
-  #cal-later[hidden] { display: none; }
   @media (max-width: 640px) {
     .cal-board { padding: 4px 18px; }
     .cal-row { grid-template-columns: 1fr; gap: 4px; padding: 16px 0; }
@@ -227,7 +222,7 @@
   <div class="container page-hero-inner">
     <span class="eyebrow eyebrow--light">Camps</span>
     <h1 class="page-hero-title">School's Out.<br>We're Not.</h1>
-    <p class="page-hero-sub">Fall break. Teacher workdays. Early release. Holiday break.<br>When school gives you a few extra hours, we know a place with a court.</p>
+    <p class="page-hero-sub">Fall break. Teacher workdays. Early release. Holiday break.<br><strong>No school? We have plans.</strong></p>
     <div class="hero-ctas" style="margin-top:28px;"><a href="#board" class="btn btn-primary">See What's Coming ↓</a></div>
   </div>
 </section>
@@ -243,21 +238,23 @@
         <span class="ways-day-num">01</span>
         <span class="ways-day-type">Early Release</span>
         <h3>Two Hours Early?<br>We Can Work With That.</h3>
-        <p>A little extra afternoon for basketball, volleyball, games, and more time on the court.</p>
+        <p>Drop the backpack. Grab the shoes. <strong>We&rsquo;ll take it from here.</strong></p>
       </div>
       <div class="ways-day-item reveal">
         <span class="ways-day-num">02</span>
         <span class="ways-day-type">No School Day</span>
         <h3>Day Off. Game On.</h3>
-        <p>Spend the day moving, training, competing, and playing.</p>
+        <p>Basketball in the morning. Volleyball in the afternoon.</p>
+        <span class="courts-commentary">Apparently, school being closed does not require sitting on the couch all day.</span>
       </div>
       <div class="ways-day-item reveal">
         <span class="ways-day-num">03</span>
         <span class="ways-day-type">School Break</span>
         <h3>A Few Days Off? Even Better.</h3>
-        <p>Basketball. Volleyball. Games. Competition.<br>Plenty of court time.</p>
+        <p>Train. Compete. Play. Repeat.</p>
       </div>
     </div>
+    <p style="text-align:center; font-style:italic; color:var(--gray-dark); font-size:14.5px; margin-top:40px;">Like the &rsquo;90s summer your parents keep talking about. Just with better supervision.</p>
   </div>
 </section>
 
@@ -269,11 +266,17 @@
       </div>
       <div class="camp-feature-copy reveal">
         <span class="eyebrow">Next Up</span>
-        <h2>Fall Break.<br>Full Court.</h2>
-        <p>Five days without school. Seems like a pretty good reason to play.</p>
-        <p>Basketball and volleyball training, games, competitions, and plenty of actual court time throughout the week.</p>
-        <p class="camp-feature-detail">October 12&ndash;16<span class="sep">&middot;</span>Basketball + Volleyball</p>
-        <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="btn btn-primary" data-preset="Programs + Membership">Register →</a>
+        <h2>Four Days of Camp.<br>Friday&rsquo;s Your Call.</h2>
+        <p class="camp-feature-detail">Mon&ndash;Thu, Oct 12&ndash;15<span class="sep">&middot;</span>Basketball 8 AM&ndash;12 PM<span class="sep">&middot;</span>Volleyball 1&ndash;5 PM</p>
+        <!-- [PINK — INSERT APPROVED MEMBER / NON-MEMBER PRICE FOR THE 4-DAY FALL BREAK CAMP] Staging only. Do not publish a placeholder price. -->
+        <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="btn btn-primary" data-preset="Programs + Membership">Register for Fall Break →</a>
+        <div style="margin:28px 0 0; padding-top:24px; border-top:1px solid var(--gray-mid);">
+          <p class="camp-feature-detail" style="margin:0 0 8px;">Fri, Oct 16<span class="sep">&middot;</span>Competition Day<span class="sep">&middot;</span><strong>Optional Fall Break Add-On</strong></p>
+          <p style="margin:0 0 14px;">Okay, now we&rsquo;re keeping score. Games. Challenges. Bragging rights.</p>
+          <span class="courts-commentary" style="margin:0 0 14px; display:block;">You know. The important stuff.</span>
+          <!-- [PINK — INSERT APPROVED MEMBER / NON-MEMBER PRICE FOR FRIDAY COMPETITION DAY] Staging only. Do not publish a placeholder price. -->
+          <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="dropin-cta" data-preset="Programs + Membership" style="color:var(--orange); font-weight:700;">Add Friday →</a>
+        </div>
       </div>
     </div>
     <div class="camp-progression">
@@ -293,20 +296,29 @@
     <div class="section-head center">
       <span class="eyebrow">Coming Up</span>
       <h2 class="section-title">Well, Look at All Those Days Off.</h2>
-      <p class="board-note">Every camp and session below covers both basketball and volleyball.</p>
+      <p class="board-note"><strong>Basketball mornings. Volleyball afternoons. Pick your court.</strong></p>
     </div>
+    <p style="text-align:center; font-size:13.5px; color:var(--gray-dark); max-width:56ch; margin:14px auto 0;"><strong>Camps + school-day programs require registration. Members get preferred pricing.</strong></p>
     <div class="cal-wrap">
       <div class="cal-board">
         <div class="cal-month-group">
           <div class="cal-month-label">October</div>
           <div class="cal-row reveal">
-            <span class="cal-date">Oct 12&ndash;16</span>
-            <div class="cal-info"><h4>Fall Break Camp</h4></div>
+            <span class="cal-date">Oct 12&ndash;15</span>
+            <div class="cal-info"><h4>Fall Break Camp</h4><p>School&rsquo;s Out. We Have Plans. &middot; Basketball 8&ndash;12 &middot; Volleyball 1&ndash;5</p></div>
+            <!-- [PINK — UPPER HAND FALL BREAK CAMP REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
             <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
           </div>
           <div class="cal-row reveal">
+            <span class="cal-date">Oct 16</span>
+            <div class="cal-info"><h4>Competition Day<span class="cal-tag">Optional Add-On</span></h4><p>Okay, Now We&rsquo;re Keeping Score. &middot; Games. Challenges. Bragging rights.</p></div>
+            <!-- [PINK — UPPER HAND COMPETITION DAY REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
+            <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Add Friday →</a>
+          </div>
+          <div class="cal-row reveal">
             <span class="cal-date">Oct 28</span>
-            <div class="cal-info"><h4>Early Release @ The Courts</h4><p>Drop the backpack. Grab the shoes.</p></div>
+            <div class="cal-info"><h4>Early Release</h4><p>Drop the Backpack. Grab the Shoes. &middot; School called it early. We didn&rsquo;t.</p></div>
+            <!-- [PINK — INSERT APPROVED TIME ONCE FINALIZED] Do not invent a time. -->
             <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
           </div>
         </div>
@@ -315,53 +327,48 @@
           <div class="cal-month-label">November</div>
           <div class="cal-row reveal">
             <span class="cal-date">Nov 3</span>
-            <div class="cal-info"><h4>Day Off. Game On.</h4><p>No elaborate explanation necessary.</p></div>
+            <div class="cal-info"><h4>No School Day</h4><p>Day Off. Game On. &middot; Basketball 8&ndash;12 &middot; Volleyball 1&ndash;5</p></div>
             <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
           </div>
           <div class="cal-row reveal">
             <span class="cal-date">Nov 18</span>
-            <div class="cal-info"><h4>Early Release @ The Courts</h4></div>
+            <div class="cal-info"><h4>Early Release</h4><p>Oh Look. Another Early Release. &middot; Good thing we planned ahead.</p></div>
+            <!-- [PINK — INSERT APPROVED TIME ONCE FINALIZED] Do not invent a time. -->
             <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
           </div>
           <div class="cal-row reveal">
             <span class="cal-date">Nov 23&ndash;25</span>
-            <div class="cal-info"><h4>Thanksgiving Break Camp</h4><p>Three days. Then turkey.</p></div>
+            <div class="cal-info"><h4>Thanksgiving Break</h4><p>Three Days. Then Turkey. &middot; Basketball 8&ndash;12 &middot; Volleyball 1&ndash;5</p></div>
             <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
           </div>
         </div>
 
-        <div class="cal-month-group" id="cal-later" hidden>
-          <div class="cal-month-label">December + January</div>
+        <div class="cal-month-group">
+          <div class="cal-month-label">December</div>
           <div class="cal-row reveal">
             <span class="cal-date">Dec 9</span>
-            <div class="cal-info"><h4>Early Release @ The Courts</h4></div>
+            <div class="cal-info"><h4>Early Release</h4><p>They&rsquo;re Letting Them Out Early Again. &middot; We know. Send them over.</p></div>
+            <!-- [PINK — INSERT APPROVED TIME ONCE FINALIZED] Do not invent a time. -->
             <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
           </div>
           <div class="cal-row reveal">
-            <span class="cal-date">Dec 18</span>
-            <div class="cal-info"><h4>The Winter Classic<span class="cal-tag">Special Event</span></h4></div>
-            <a href="events#december" class="cal-action">View Event →</a>
-          </div>
-          <div class="cal-row reveal">
             <span class="cal-date">Dec 21&ndash;23</span>
-            <div class="cal-info"><h4>Holiday Break Camp</h4></div>
+            <div class="cal-info"><h4>Holiday Camp</h4><p>The Break Is Long. We Can Help. &middot; Basketball 8&ndash;12 &middot; Volleyball 1&ndash;5</p></div>
             <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
           </div>
           <div class="cal-row reveal">
             <span class="cal-date">Dec 28&ndash;30</span>
-            <div class="cal-info"><h4>New Year Camp</h4></div>
+            <div class="cal-info"><h4>New Year Camp</h4><p>One More Run Before We Call It a Year. &middot; Basketball 8&ndash;12 &middot; Volleyball 1&ndash;5</p></div>
             <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
-          </div>
-          <div class="cal-row reveal">
-            <span class="cal-date">Jan 1</span>
-            <div class="cal-info"><h4>New Year Tip-Off<span class="cal-tag">Special Event</span></h4></div>
-            <a href="events#december" class="cal-action">View Event →</a>
           </div>
         </div>
       </div>
-      <div class="cal-expand-wrap">
-        <button type="button" class="cal-expand-toggle" id="calExpandBtn" aria-expanded="false" aria-controls="cal-later">See December + January <span class="arrow">↓</span></button>
-      </div>
+    </div>
+    <div style="text-align:center; margin-top:40px;">
+      <span class="eyebrow">2027</span>
+      <h3 style="font-family:var(--font-display); font-weight:900; font-size:clamp(20px,2.4vw,28px); margin:6px 0 8px;">We&rsquo;re Already Making Plans.</h3>
+      <p style="color:var(--gray-dark); font-size:14.5px; margin:0 0 10px;">Spring break. Summer. More school days off.</p>
+      <span class="cal-tag" style="background:var(--gray-mid); color:var(--gray-dark);">Coming Soon</span>
     </div>
   </div>
 </section>
@@ -370,16 +377,16 @@
   <div class="container">
     <div class="section-head center">
       <span class="eyebrow">What a Day Looks Like</span>
-      <h2 class="section-title">A Lot of Moving.<br>Not a Lot of Standing Around.</h2>
+      <h2 class="section-title">A Lot of Moving.<br>Very Little Standing Around.</h2>
     </div>
     <div class="day-flow">
-      <div class="day-flow-item reveal"><h4>Get Moving.</h4><p>Warm up. Footwork. Get the body going.</p></div>
+      <div class="day-flow-item reveal"><h4>Get Moving.</h4><p>Warm up. Footwork. Wake everything up.</p></div>
       <span class="day-flow-arrow" aria-hidden="true">→</span>
-      <div class="day-flow-item reveal"><h4>Get Better.</h4><p>Basketball or volleyball instruction and meaningful reps.</p></div>
+      <div class="day-flow-item reveal"><h4>Get Better.</h4><p>Coaching. Reps. The stuff you came for.</p></div>
       <span class="day-flow-arrow" aria-hidden="true">→</span>
-      <div class="day-flow-item reveal"><h4>Compete.</h4><p>Games. Challenges. Small-sided play.</p></div>
+      <div class="day-flow-item reveal"><h4>Compete.</h4><p>Games. Challenges. Somebody wins.</p></div>
       <span class="day-flow-arrow" aria-hidden="true">→</span>
-      <div class="day-flow-item reveal"><h4>Just Play.</h4><p>Because not every minute needs a drill attached to it.</p></div>
+      <div class="day-flow-item reveal"><h4>Just Play.</h4><p>Because sometimes the drill is just&hellip; play.</p></div>
     </div>
   </div>
 </section>
@@ -519,19 +526,6 @@
   </div>
 </footer>
 
-<script>
-  (function () {
-    var btn = document.getElementById('calExpandBtn');
-    var later = document.getElementById('cal-later');
-    if (!btn || !later) return;
-    btn.addEventListener('click', function () {
-      var expanded = btn.getAttribute('aria-expanded') === 'true';
-      later.hidden = expanded;
-      btn.setAttribute('aria-expanded', String(!expanded));
-      btn.firstChild.textContent = expanded ? 'See December + January ' : 'Show Less ';
-    });
-  })();
-</script>
 <script src="js/script.js"></script>
 </body>
 </html>
