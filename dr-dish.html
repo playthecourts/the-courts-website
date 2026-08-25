@@ -30,6 +30,7 @@
   .dd-hero-copy { display: flex; flex-direction: column; justify-content: center; padding: 176px 24px 72px clamp(24px,6vw,88px); position: relative; z-index: 2; }
   .dd-hero-badge { display: inline-flex; align-items: center; gap: 9px; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-weight: 800; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 16px; border-radius: 999px; }
   .dd-hero-badge .divider { opacity: 0.55; }
+  .dd-hero-badge-sub { display: block; margin-top: 10px; font-family: var(--font-body); font-style: italic; font-size: 14px; color: rgba(255,255,255,0.6); }
   .dd-hero-title { font-family: var(--font-display); font-weight: 900; line-height: 0.96; margin: 22px 0 26px; font-size: clamp(42px, 6vw, 78px); color: var(--white); }
   .dd-hero-title .accent { color: var(--orange); }
   .dd-hero-sub { font-size: 17px; line-height: 1.7; color: rgba(255,255,255,0.68); max-width: 46ch; margin: 0 0 14px; }
@@ -312,7 +313,8 @@
 <section class="dd-hero" id="main">
   <div class="dd-hero-grid">
     <div class="dd-hero-copy">
-      <span class="dd-hero-badge">Dr. Dish <span class="divider">·</span> Basketball Only</span>
+      <span class="dd-hero-badge">Dr. Dish</span>
+      <span class="dd-hero-badge-sub">Basketball Only</span>
       <h1 class="dd-hero-title">More Shots.<br>Less Chasing<br><span class="accent">Rebounds.</span></h1>
       <p class="dd-hero-sub">Thirty minutes. A ball that keeps coming back.</p>
       <p class="dd-hero-sub-strong">And a whole lot of chances to get it right.</p>
