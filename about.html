@@ -272,13 +272,17 @@
         <span class="ts-sb-sparkle ts-sb-sparkle--4" aria-hidden="true"><svg width="6" height="6" viewBox="0 0 24 24" fill="none"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" fill="#D5601F"/></svg></span>
         <span class="ts-sb-label">Monthly Recognition</span>
         <div class="ts-sb-ticks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-        <p class="ts-sb-body">Each month, we'll recognize one basketball or volleyball athlete who shows what The Courts is really about.</p>
-        <p class="ts-sb-body">Not who scored the most &mdash; the effort, character, encouragement, and resilience it took to get there.</p>
+        <p class="ts-sb-body">Each month, we'll recognize one basketball or volleyball athlete<br>who shows what The Courts is really about.</p>
+        <p class="ts-sb-body">Not who scored the most &mdash;<br>the effort, character, encouragement,<br>and resilience it took to get there.</p>
         <div class="ts-sb-prizes">
           <span>A Courts t-shirt.</span>
           <span>A free pass for a friend.</span>
         </div>
         <p class="ts-sb-note">We'll announce our first winner at the Opening Party.</p>
+        <div class="ts-sb-winners">
+          <span class="ts-sb-winners-label">Past Winners</span>
+          <p class="ts-sb-winners-empty">This spot's empty.<br>For now.</p>
+        </div>
         <a href="contact?interest=Something%20Else#contact-form" class="ts-sb-cta" data-preset="Something Else">Nominate an Athlete →</a>
       </div>
     </div>
@@ -307,10 +311,10 @@
   .ts-sb-corner--tl { top: 12px; left: 12px; border-right: none; border-bottom: none; }
   .ts-sb-corner--br { bottom: 12px; right: 12px; border-left: none; border-top: none; }
   .ts-sb-sparkle { position: absolute; z-index: 1; pointer-events: none; animation: cal-sparkle-pulse 3s ease-in-out infinite; }
-  .ts-sb-sparkle--1 { top: 10px; right: 34px; animation-delay: 0s; }
-  .ts-sb-sparkle--2 { top: 26px; right: 20px; animation-delay: 1s; }
-  .ts-sb-sparkle--3 { bottom: 74px; left: 22px; animation-delay: 1.6s; }
-  .ts-sb-sparkle--4 { top: 44px; left: 46px; animation-delay: 0.5s; }
+  .ts-sb-sparkle--1 { top: 14px; right: 14px; animation-delay: 0s; }
+  .ts-sb-sparkle--2 { top: 36px; right: 6px; animation-delay: 1s; }
+  .ts-sb-sparkle--3 { bottom: 36px; left: 6px; animation-delay: 1.6s; }
+  .ts-sb-sparkle--4 { bottom: 14px; left: 14px; animation-delay: 0.5s; }
   @media (prefers-reduced-motion: reduce) { .ts-sb-sparkle { animation: none; } }
   .ts-sb-label { display: block; text-align: center; font-family: var(--font-sport); font-weight: 800; font-size: 17px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
   .ts-sb-ticks { display: flex; justify-content: center; gap: 7px; margin-bottom: 20px; }
@@ -320,6 +324,9 @@
   .ts-sb-prizes span { display: flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-display); font-weight: 800; font-size: 14.5px; color: var(--black); text-transform: uppercase; letter-spacing: 0.01em; }
   .ts-sb-prizes span::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
   .ts-sb-note { font-size: 12px; font-style: italic; text-align: center; color: var(--gray-dark); margin: 0 0 20px; }
+  .ts-sb-winners { text-align: center; padding: 16px 0; margin: 0 0 20px; border-top: 1px solid var(--gray-mid); }
+  .ts-sb-winners-label { display: block; font-family: var(--font-sport); font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(23,23,23,0.4); margin-bottom: 8px; }
+  .ts-sb-winners-empty { font-size: 12.5px; font-style: italic; line-height: 1.5; color: var(--gray-dark); margin: 0; }
   .ts-sb-cta { display: block; text-align: center; font-family: var(--font-heading); font-weight: 800; font-size: 14px; color: var(--orange); }
   .ts-sb-cta:hover { color: var(--orange-hover); }
   @media (max-width: 860px) {
