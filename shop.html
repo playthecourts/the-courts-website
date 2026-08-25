@@ -45,7 +45,6 @@
   .shop-callout-inner { text-align:center; }
   .shop-callout-rule { display:block; width:60px; height:4px; background:var(--orange); margin:0 auto 24px; }
   .shop-callout-title { font-family:var(--font-display); font-weight:900; color:var(--black); font-size:clamp(28px,4.4vw,52px); line-height:1.08; margin:0 0 14px; max-width:16ch; margin-left:auto; margin-right:auto; }
-  .shop-callout-sub { font-family:var(--font-heading); font-weight:800; color:var(--orange); font-size:clamp(17px,2vw,22px); margin:0; }
 
   /* ---------- Gift card feature ---------- */
   .shop-gift { background:var(--black); padding:46px 0; position:relative; overflow:hidden; }
@@ -90,6 +89,7 @@
   .tile-name { font-family:var(--font-heading); font-weight:700; font-size:16px; color:var(--black); margin:0; }
   .tile--8 .tile-name { font-size:20px; }
   .tile-price { font-size:14px; color:var(--gray-dark); font-weight:600; white-space:nowrap; }
+  .tile-sizing-note { font-size:12.5px; color:var(--gray-dark); margin:4px 0 0; }
   .tile-variants { display:flex; gap:6px; flex-wrap:wrap; margin:10px 0 0; border:none; padding:0; }
   .tile-variants input { position:absolute; opacity:0; width:1px; height:1px; }
   .tile-variants label {
@@ -114,6 +114,24 @@
   .tile:hover .tile-rule { width:32px; }
   .tile-add.shake { animation:tile-shake 0.32s ease-in-out; }
   @keyframes tile-shake { 0%,100% { transform:translateX(0); } 25% { transform:translateX(-4px); } 75% { transform:translateX(4px); } }
+  .tile-status { font-family:var(--font-sport); font-weight:700; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:var(--gray-dark); display:inline-block; padding:8px 0; }
+
+  /* ---------- Branded product-photo placeholder (until real photography exists) ---------- */
+  .shop-placeholder { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; overflow:hidden; padding:16px; }
+  .shop-placeholder--dark { background:var(--black); }
+  .shop-placeholder--light { background:var(--gray-light); }
+  .shop-placeholder-mark { position:absolute; width:60%; max-width:200px; opacity:0.07; pointer-events:none; }
+  .shop-placeholder--dark .shop-placeholder-mark { filter:brightness(0) invert(1); opacity:0.05; }
+  .shop-placeholder-cat { position:relative; font-family:var(--font-sport); font-weight:700; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:10px; }
+  .shop-placeholder--dark .shop-placeholder-cat { color:rgba(255,255,255,0.45); }
+  .shop-placeholder--light .shop-placeholder-cat { color:var(--gray-dark); opacity:0.65; }
+  .shop-placeholder-primary { position:relative; font-family:var(--font-display); font-weight:900; font-size:clamp(12.5px,1.3vw,15px); letter-spacing:0.01em; margin:0 0 4px; }
+  .shop-placeholder--dark .shop-placeholder-primary { color:var(--white); }
+  .shop-placeholder--light .shop-placeholder-primary { color:var(--black); }
+  .shop-placeholder-secondary { position:relative; font-family:var(--font-body); font-size:11.5px; margin:0; }
+  .shop-placeholder--dark .shop-placeholder-secondary { color:rgba(255,255,255,0.55); }
+  .shop-placeholder--light .shop-placeholder-secondary { color:var(--gray-dark); }
+  .shop-placeholder-accent { position:relative; width:22px; height:3px; background:var(--orange); border-radius:2px; margin:10px 0 0; }
   @media (max-width:980px) {
     .tile-grid { grid-template-columns:repeat(2,1fr); }
     .tile--8, .tile--6, .tile--4 { grid-column:span 1; }
@@ -340,10 +358,17 @@
     <div class="tile-grid">
       <div class="tile tile--8" data-category="apparel">
         <div class="tile-media">
-          <div class="photo" role="img" aria-label="The Courts Hoodie, photo coming soon"></div>
-          <span class="tile-badge">Best Seller</span>
+          <div class="shop-placeholder shop-placeholder--dark" role="img" aria-label="The Courts Hoodie, photo coming soon">
+            <img class="shop-placeholder-mark" src="images/brand/icon-mark.png" alt="" aria-hidden="true">
+            <span class="shop-placeholder-cat">Hoodie</span>
+            <p class="shop-placeholder-primary">Looks Good. Promise.</p>
+            <p class="shop-placeholder-secondary">Photos coming soon.</p>
+            <span class="shop-placeholder-accent" aria-hidden="true"></span>
+          </div>
+          <span class="tile-badge">Court Favorite</span>
         </div>
         <div class="tile-meta"><h3 class="tile-name">The Courts Hoodie</h3><span class="tile-price">$52</span></div>
+        <p class="tile-sizing-note">Adult sizing.</p>
         <fieldset class="tile-variants" data-required="true">
           <legend class="sr-only">Size for The Courts Hoodie</legend>
           <input type="radio" name="size-hoodie" id="size-hoodie-xs" value="XS"><label for="size-hoodie-xs">XS</label>
@@ -360,11 +385,18 @@
 
       <div class="tile tile--4" data-category="apparel">
         <div class="tile-media">
-          <div class="photo" role="img" aria-label="The Courts Tee, photo coming soon"></div>
+          <div class="shop-placeholder shop-placeholder--light" role="img" aria-label="Courts Tee, photo coming soon">
+            <img class="shop-placeholder-mark" src="images/brand/icon-mark.png" alt="" aria-hidden="true">
+            <span class="shop-placeholder-cat">Tee</span>
+            <p class="shop-placeholder-primary">Looks Good. Promise.</p>
+            <p class="shop-placeholder-secondary">Photos coming soon.</p>
+            <span class="shop-placeholder-accent" aria-hidden="true"></span>
+          </div>
         </div>
-        <div class="tile-meta"><h3 class="tile-name">The Courts Tee</h3><span class="tile-price">$28</span></div>
+        <div class="tile-meta"><h3 class="tile-name">Courts Tee</h3><span class="tile-price">$28</span></div>
+        <p class="tile-sizing-note">Adult sizing.</p>
         <fieldset class="tile-variants" data-required="true">
-          <legend class="sr-only">Size for The Courts Tee</legend>
+          <legend class="sr-only">Size for Courts Tee</legend>
           <input type="radio" name="size-tee" id="size-tee-xs" value="XS"><label for="size-tee-xs">XS</label>
           <input type="radio" name="size-tee" id="size-tee-s" value="S"><label for="size-tee-s">S</label>
           <input type="radio" name="size-tee" id="size-tee-m" value="M"><label for="size-tee-m">M</label>
@@ -372,18 +404,43 @@
           <input type="radio" name="size-tee" id="size-tee-xl" value="XL"><label for="size-tee-xl">XL</label>
         </fieldset>
         <div class="tile-add-row">
-          <button type="button" class="tile-add shop-add" data-name="The Courts Tee" data-price="28" data-image="tee" data-variant-group="size-tee">Add to Bag <span class="arrow">→</span></button>
+          <button type="button" class="tile-add shop-add" data-name="Courts Tee" data-price="28" data-image="tee" data-variant-group="size-tee">Add to Bag <span class="arrow">→</span></button>
         </div>
         <span class="tile-rule" aria-hidden="true"></span>
       </div>
 
-      <div class="tile tile--6" data-category="apparel">
+      <div class="tile tile--4" data-category="apparel">
         <div class="tile-media">
-          <div class="photo" role="img" aria-label="Courts Shorts, photo coming soon"></div>
+          <div class="shop-placeholder shop-placeholder--dark" role="img" aria-label="Courts Performance Tee, photo coming soon">
+            <img class="shop-placeholder-mark" src="images/brand/icon-mark.png" alt="" aria-hidden="true">
+            <span class="shop-placeholder-cat">Performance Tee</span>
+            <p class="shop-placeholder-primary">Looks Good. Promise.</p>
+            <p class="shop-placeholder-secondary">Photos coming soon.</p>
+            <span class="shop-placeholder-accent" aria-hidden="true"></span>
+          </div>
         </div>
-        <div class="tile-meta"><h3 class="tile-name">Shorts</h3><span class="tile-price">$32</span></div>
+        <div class="tile-meta"><h3 class="tile-name">Courts Performance Tee</h3><span class="tile-price">Price TBD</span></div>
+        <p class="tile-sizing-note">For practice, not posing.</p>
+        <div class="tile-add-row">
+          <span class="tile-status">Coming Soon</span>
+        </div>
+        <span class="tile-rule" aria-hidden="true"></span>
+      </div>
+
+      <div class="tile tile--4" data-category="apparel">
+        <div class="tile-media">
+          <div class="shop-placeholder shop-placeholder--light" role="img" aria-label="Court Shorts, photo coming soon">
+            <img class="shop-placeholder-mark" src="images/brand/icon-mark.png" alt="" aria-hidden="true">
+            <span class="shop-placeholder-cat">Shorts</span>
+            <p class="shop-placeholder-primary">Looks Good. Promise.</p>
+            <p class="shop-placeholder-secondary">Photos coming soon.</p>
+            <span class="shop-placeholder-accent" aria-hidden="true"></span>
+          </div>
+        </div>
+        <div class="tile-meta"><h3 class="tile-name">Court Shorts</h3><span class="tile-price">$32</span></div>
+        <p class="tile-sizing-note">Adult sizing.</p>
         <fieldset class="tile-variants" data-required="true">
-          <legend class="sr-only">Size for Shorts</legend>
+          <legend class="sr-only">Size for Court Shorts</legend>
           <input type="radio" name="size-shorts" id="size-shorts-xs" value="XS"><label for="size-shorts-xs">XS</label>
           <input type="radio" name="size-shorts" id="size-shorts-s" value="S"><label for="size-shorts-s">S</label>
           <input type="radio" name="size-shorts" id="size-shorts-m" value="M"><label for="size-shorts-m">M</label>
@@ -391,19 +448,26 @@
           <input type="radio" name="size-shorts" id="size-shorts-xl" value="XL"><label for="size-shorts-xl">XL</label>
         </fieldset>
         <div class="tile-add-row">
-          <button type="button" class="tile-add shop-add" data-name="Shorts" data-price="32" data-image="shorts" data-variant-group="size-shorts">Add to Bag <span class="arrow">→</span></button>
+          <button type="button" class="tile-add shop-add" data-name="Court Shorts" data-price="32" data-image="shorts" data-variant-group="size-shorts">Add to Bag <span class="arrow">→</span></button>
         </div>
         <span class="tile-rule" aria-hidden="true"></span>
       </div>
 
-      <div class="tile tile--6" data-category="apparel">
+      <div class="tile tile--4" data-category="apparel">
         <div class="tile-media">
-          <div class="photo" role="img" aria-label="Courts Joggers, photo coming soon"></div>
-          <span class="tile-badge">New</span>
+          <div class="shop-placeholder shop-placeholder--dark" role="img" aria-label="Courts Joggers, photo coming soon">
+            <img class="shop-placeholder-mark" src="images/brand/icon-mark.png" alt="" aria-hidden="true">
+            <span class="shop-placeholder-cat">Joggers</span>
+            <p class="shop-placeholder-primary">Looks Good. Promise.</p>
+            <p class="shop-placeholder-secondary">Photos coming soon.</p>
+            <span class="shop-placeholder-accent" aria-hidden="true"></span>
+          </div>
+          <span class="tile-badge">Just Dropped</span>
         </div>
-        <div class="tile-meta"><h3 class="tile-name">Joggers</h3><span class="tile-price">$46</span></div>
+        <div class="tile-meta"><h3 class="tile-name">Courts Joggers</h3><span class="tile-price">$46</span></div>
+        <p class="tile-sizing-note">Adult sizing.</p>
         <fieldset class="tile-variants" data-required="true">
-          <legend class="sr-only">Size for Joggers</legend>
+          <legend class="sr-only">Size for Courts Joggers</legend>
           <input type="radio" name="size-joggers" id="size-joggers-xs" value="XS"><label for="size-joggers-xs">XS</label>
           <input type="radio" name="size-joggers" id="size-joggers-s" value="S"><label for="size-joggers-s">S</label>
           <input type="radio" name="size-joggers" id="size-joggers-m" value="M"><label for="size-joggers-m">M</label>
@@ -411,7 +475,7 @@
           <input type="radio" name="size-joggers" id="size-joggers-xl" value="XL"><label for="size-joggers-xl">XL</label>
         </fieldset>
         <div class="tile-add-row">
-          <button type="button" class="tile-add shop-add" data-name="Joggers" data-price="46" data-image="joggers" data-variant-group="size-joggers">Add to Bag <span class="arrow">→</span></button>
+          <button type="button" class="tile-add shop-add" data-name="Courts Joggers" data-price="46" data-image="joggers" data-variant-group="size-joggers">Add to Bag <span class="arrow">→</span></button>
         </div>
         <span class="tile-rule" aria-hidden="true"></span>
       </div>
@@ -423,7 +487,7 @@
   <div class="container shop-callout-inner">
     <span class="shop-callout-rule" aria-hidden="true"></span>
     <h2 class="shop-callout-title">Your Kid&rsquo;s Not the Only One Who Wants One.</h2>
-    <p class="shop-callout-sub">We noticed.</p>
+    <p class="courts-commentary" style="margin:16px auto 0;">We noticed.</p>
   </div>
 </section>
 
@@ -435,34 +499,75 @@
     </div>
     <div class="acc-strip">
       <div class="acc-item" data-category="accessories">
-        <div class="acc-media ratio-square"><div class="photo" role="img" aria-label="Courts Snapback hat, photo coming soon"></div></div>
-        <h3 class="acc-name">Snapback</h3>
+        <div class="acc-media ratio-square">
+          <div class="shop-placeholder shop-placeholder--light" role="img" aria-label="Courts Trucker Hat, photo coming soon">
+            <img class="shop-placeholder-mark" src="images/brand/icon-mark.png" alt="" aria-hidden="true">
+            <span class="shop-placeholder-cat">Trucker Hat</span>
+            <p class="shop-placeholder-primary">Looks Good. Promise.</p>
+            <p class="shop-placeholder-secondary">Photos coming soon.</p>
+            <span class="shop-placeholder-accent" aria-hidden="true"></span>
+          </div>
+        </div>
+        <h3 class="acc-name">Courts Trucker Hat</h3>
         <span class="acc-price">$26</span>
-        <button type="button" class="tile-add shop-add" data-name="Snapback" data-price="26" data-image="snapback">Add to Bag <span class="arrow">→</span></button>
+        <button type="button" class="tile-add shop-add" data-name="Courts Trucker Hat" data-price="26" data-image="trucker-hat">Add to Bag <span class="arrow">→</span></button>
       </div>
       <div class="acc-item" data-category="accessories">
-        <div class="acc-media ratio-square"><div class="photo" role="img" aria-label="Courts Beanie, photo coming soon"></div></div>
-        <h3 class="acc-name">Beanie</h3>
-        <span class="acc-price">$22</span>
-        <button type="button" class="tile-add shop-add" data-name="Beanie" data-price="22" data-image="beanie">Add to Bag <span class="arrow">→</span></button>
+        <div class="acc-media ratio-square">
+          <div class="shop-placeholder shop-placeholder--dark" role="img" aria-label="Courts Crew Socks, photo coming soon">
+            <img class="shop-placeholder-mark" src="images/brand/icon-mark.png" alt="" aria-hidden="true">
+            <span class="shop-placeholder-cat">Crew Socks</span>
+            <p class="shop-placeholder-primary">Looks Good. Promise.</p>
+            <p class="shop-placeholder-secondary">Photos coming soon.</p>
+            <span class="shop-placeholder-accent" aria-hidden="true"></span>
+          </div>
+        </div>
+        <h3 class="acc-name">Courts Crew Socks</h3>
+        <span class="acc-price">Price TBD</span>
+        <span class="tile-status" style="padding:8px 0; display:inline-block;">Coming Soon</span>
       </div>
       <div class="acc-item" data-category="accessories">
-        <div class="acc-media ratio-landscape"><div class="photo" role="img" aria-label="Courts sweat towel, photo coming soon"></div></div>
-        <h3 class="acc-name">Sweat Towel</h3>
+        <div class="acc-media ratio-landscape">
+          <div class="shop-placeholder shop-placeholder--light" role="img" aria-label="Court Towel, photo coming soon">
+            <img class="shop-placeholder-mark" src="images/brand/icon-mark.png" alt="" aria-hidden="true">
+            <span class="shop-placeholder-cat">Towel</span>
+            <p class="shop-placeholder-primary">Looks Good. Promise.</p>
+            <p class="shop-placeholder-secondary">Photos coming soon.</p>
+            <span class="shop-placeholder-accent" aria-hidden="true"></span>
+          </div>
+        </div>
+        <h3 class="acc-name">Court Towel</h3>
         <span class="acc-price">$16</span>
-        <button type="button" class="tile-add shop-add" data-name="Sweat Towel" data-price="16" data-image="towel">Add to Bag <span class="arrow">→</span></button>
+        <button type="button" class="tile-add shop-add" data-name="Court Towel" data-price="16" data-image="towel">Add to Bag <span class="arrow">→</span></button>
       </div>
       <div class="acc-item" data-category="accessories">
-        <div class="acc-media ratio-square"><div class="photo" role="img" aria-label="Courts water bottle, photo coming soon"></div></div>
-        <h3 class="acc-name">Water Bottle</h3>
+        <div class="acc-media ratio-square">
+          <div class="shop-placeholder shop-placeholder--dark" role="img" aria-label="Courts Bottle, photo coming soon">
+            <img class="shop-placeholder-mark" src="images/brand/icon-mark.png" alt="" aria-hidden="true">
+            <span class="shop-placeholder-cat">Bottle</span>
+            <p class="shop-placeholder-primary">Looks Good. Promise.</p>
+            <p class="shop-placeholder-secondary">Photos coming soon.</p>
+            <span class="shop-placeholder-accent" aria-hidden="true"></span>
+          </div>
+        </div>
+        <h3 class="acc-name">Courts Bottle</h3>
         <span class="acc-price">$18</span>
-        <button type="button" class="tile-add shop-add" data-name="Water Bottle" data-price="18" data-image="bottle">Add to Bag <span class="arrow">→</span></button>
+        <button type="button" class="tile-add shop-add" data-name="Courts Bottle" data-price="18" data-image="bottle">Add to Bag <span class="arrow">→</span></button>
       </div>
       <div class="acc-item" data-category="accessories">
-        <div class="acc-media ratio-tall"><div class="photo" role="img" aria-label="Courts backpack, photo coming soon"></div></div>
-        <h3 class="acc-name">Backpack</h3>
+        <div class="acc-media ratio-tall">
+          <div class="shop-placeholder shop-placeholder--light" role="img" aria-label="Courts Backpack, photo coming soon">
+            <img class="shop-placeholder-mark" src="images/brand/icon-mark.png" alt="" aria-hidden="true">
+            <span class="shop-placeholder-cat">Backpack</span>
+            <p class="shop-placeholder-primary">Looks Good. Promise.</p>
+            <p class="shop-placeholder-secondary">Photos coming soon.</p>
+            <span class="shop-placeholder-accent" aria-hidden="true"></span>
+          </div>
+          <span class="tile-badge">In the Rotation</span>
+        </div>
+        <h3 class="acc-name">Courts Backpack</h3>
         <span class="acc-price">$48</span>
-        <button type="button" class="tile-add shop-add" data-name="Backpack" data-price="48" data-image="backpack">Add to Bag <span class="arrow">→</span></button>
+        <button type="button" class="tile-add shop-add" data-name="Courts Backpack" data-price="48" data-image="backpack">Add to Bag <span class="arrow">→</span></button>
       </div>
     </div>
   </div>
