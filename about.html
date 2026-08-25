@@ -271,19 +271,23 @@
         <span class="ts-sb-sparkle ts-sb-sparkle--3" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" fill="#D5601F"/></svg></span>
         <span class="ts-sb-sparkle ts-sb-sparkle--4" aria-hidden="true"><svg width="6" height="6" viewBox="0 0 24 24" fill="none"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" fill="#D5601F"/></svg></span>
         <span class="ts-sb-label">Monthly Recognition</span>
+        <p class="ts-sb-headline">The Stuff That Doesn&rsquo;t Show Up in the Box Score.</p>
         <div class="ts-sb-ticks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-        <p class="ts-sb-body">Each month, we'll recognize<br>one basketball or volleyball athlete<br>who shows what The Courts is really about.</p>
-        <p class="ts-sb-body">Not who scored the most &mdash;<br>the effort, character, encouragement,<br>and resilience<br>it took to get there.</p>
+        <p class="ts-sb-body">Each month, we&rsquo;ll recognize one basketball or volleyball athlete who shows what The Courts is really about.</p>
+        <p class="ts-sb-body">Not the most points.<br>Not the biggest play.</p>
+        <p class="ts-sb-body">The effort. The character. The teammate. The keep-going.</p>
         <div class="ts-sb-prizes">
           <div class="ts-sb-prizes-list">
-            <span>Courts t-shirt.</span>
-            <span>Free pass for a friend.</span>
+            <span class="ts-sb-prizes-lead">The winner gets:</span>
+            <span>A Courts tee.</span>
+            <span>A free pass for a friend.</span>
+            <span>And, yes, bragging rights.</span>
           </div>
         </div>
-        <p class="ts-sb-note">We'll announce our first winner<br>at the Opening Party.</p>
+        <p class="ts-sb-note">Our first athlete will be announced<br>at the Grand Opening Celebration.</p>
         <div class="ts-sb-winners">
           <span class="ts-sb-winners-label">Past Winners</span>
-          <p class="ts-sb-winners-empty">This spot's empty.<br>For now.</p>
+          <p class="ts-sb-winners-empty">Awfully quiet in here.<br>Give us a minute.</p>
         </div>
         <a href="contact?interest=Something%20Else#contact-form" class="ts-sb-cta" data-preset="Something Else">Nominate an Athlete →</a>
       </div>
@@ -299,8 +303,13 @@
   .ts-lines { list-style: none; margin: 0 0 30px; padding: 0; display: flex; flex-direction: column; gap: 10px; }
   .ts-lines li { font-family: var(--font-heading); font-weight: 600; font-size: 16px; color: var(--gray-dark); padding-left: 18px; position: relative; }
   .ts-lines li::before { content: ''; position: absolute; left: 0; top: 9px; width: 8px; height: 2px; background: var(--orange); }
-  .ts-payoff { font-family: var(--font-heading); font-weight: 700; font-size: 17px; color: var(--gray-dark); margin: 0; }
+  .ts-payoff { font-family: var(--font-heading); font-weight: 700; font-size: 17px; color: var(--gray-dark); margin: 0; display: inline-block; position: relative; padding-bottom: 13px; }
   .ts-payoff .accent { color: var(--black); font-weight: 800; }
+  .ts-payoff::after {
+    content: ''; position: absolute; left: -1%; right: -1%; bottom: 0; height: 11px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 20' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23D5601F'/%3E%3Cstop offset='1' stop-color='%23F2A65A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M4,12 C60,8 150,11 220,10 C250,10 272,8 288,7' stroke='url(%23g)' stroke-width='7' fill='none' stroke-linecap='round'/%3E%3Cpath d='M6,9 C80,7 180,12 282,9' stroke='url(%23g)' stroke-width='3' fill='none' stroke-linecap='round' opacity='0.45'/%3E%3Ccircle cx='292' cy='6' r='1.3' fill='%23F2A65A' opacity='0.7'/%3E%3Ccircle cx='296' cy='9' r='0.9' fill='%23F2A65A' opacity='0.6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-size: 100% 100%; pointer-events: none;
+  }
 
   .ts-scoreboard {
     position: relative; background: var(--gray-light); border: 1px solid var(--gray-mid); border-radius: var(--radius-md); overflow: hidden;
@@ -319,13 +328,15 @@
   .ts-sb-sparkle--4 { bottom: 14px; left: 14px; animation-delay: 0.5s; }
   @media (prefers-reduced-motion: reduce) { .ts-sb-sparkle { animation: none; } }
   .ts-sb-label { display: block; text-align: center; font-family: var(--font-sport); font-weight: 800; font-size: 17px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+  .ts-sb-headline { font-family: var(--font-display); font-weight: 900; font-size: 19px; line-height: 1.25; color: var(--black); text-align: center; margin: 0 0 18px; }
   .ts-sb-ticks { display: flex; justify-content: center; gap: 7px; margin-bottom: 20px; }
   .ts-sb-ticks span { width: 5px; height: 5px; background: var(--gray-mid); }
   .ts-sb-body { font-size: 13.5px; line-height: 1.6; color: var(--gray-dark); margin: 0 0 12px; text-align: center; }
   .ts-sb-prizes { display: flex; justify-content: center; margin: 18px 0 14px; padding: 16px 0; border-top: 1px solid var(--gray-mid); border-bottom: 1px solid var(--gray-mid); }
   .ts-sb-prizes-list { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
-  .ts-sb-prizes span { display: flex; align-items: center; gap: 9px; font-family: var(--font-display); font-weight: 800; font-size: 14.5px; color: var(--black); text-transform: uppercase; letter-spacing: 0.01em; }
-  .ts-sb-prizes span::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+  .ts-sb-prizes-lead { display: block; font-family: var(--font-sport); font-weight: 700; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); opacity: 0.65; margin-bottom: 2px; }
+  .ts-sb-prizes span:not(.ts-sb-prizes-lead) { display: flex; align-items: center; gap: 9px; font-family: var(--font-display); font-weight: 800; font-size: 14.5px; color: var(--black); text-transform: uppercase; letter-spacing: 0.01em; }
+  .ts-sb-prizes span:not(.ts-sb-prizes-lead)::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
   .ts-sb-note { font-size: 12px; font-style: italic; text-align: center; color: var(--gray-dark); margin: 0 0 20px; }
   .ts-sb-winners { text-align: center; padding: 16px 0; margin: 0 0 20px; border-top: 1px solid var(--gray-mid); }
   .ts-sb-winners-label { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
@@ -492,7 +503,7 @@
         <p>Being part of a community means more than opening the doors. <strong>It means showing up.</strong></p>
         <p>We want The Courts to give back to the schools, organizations, families, and causes that make Nolensville such a great place to raise kids.</p>
         <p>And we want our athletes to have opportunities to<br>be part of that, too. <strong>Because being a great teammate shouldn't stop at the gym door.</strong></p>
-        <p>School partnerships. Volunteer projects. Community service. <strong class="marker-underline">A chance to show up for the place that shows up for us.</strong></p>
+        <p>School partnerships. Volunteer projects. Community service. <strong>A chance to show up for the place that shows up for us.</strong></p>
       </div>
     </div>
 
@@ -519,7 +530,6 @@
   .community-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(36px, 5.2vw, 56px); line-height: 1.03; color: var(--black); margin: 10px 0 26px; max-width: 11ch; }
   .community-body p { font-size: 17px; line-height: 1.8; color: var(--gray-dark); margin-bottom: 20px; max-width: 46ch; }
   .community-body strong { color: var(--black); }
-  .marker-underline { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 20' preserveAspectRatio='none'%3E%3Cpath d='M4,17 C90,0 210,0 296,17' fill='none' stroke='%23D5601F' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: left bottom -1px; background-size: 100% 11px; padding: 0 1px 5px; }
 
   .community-giveback { position: relative; margin: 72px 0 0; max-width: 420px; padding: 0 32px 32px; background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-md); box-shadow: 0 26px 60px rgba(213,96,31,0.14); }
   .community-giveback-photo { aspect-ratio: 16/9; margin: 0 -32px 24px; border-radius: var(--radius-md) var(--radius-md) 0 0; }
