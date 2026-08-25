@@ -126,7 +126,7 @@
   .rail-party-card .rail-party-glance-item .label { color:rgba(255,255,255,0.7); }
   .rail-party-card .btn-primary { background:var(--white); color:var(--orange); }
   .rail-party-card .btn-primary:hover { background:var(--black); color:var(--white); }
-  .rail-party-card .rail-secondary { color:rgba(255,255,255,0.75); font-size:15px; }
+  .rail-party-card .rail-secondary { color:rgba(255,255,255,0.75); font-size:15px; white-space:nowrap; }
   .rail-party-card .rail-secondary a { color:var(--white); text-decoration:underline; }
 
   .ev-halloween-preview { display:flex; gap:28px; justify-content:center; margin:20px 0 24px; flex-wrap:wrap; }
@@ -299,19 +299,17 @@
       <h2 class="section-title">A Few Worth <span class="marker-circle">Circling</span>.</h2>
     </div>
 
-    <a href="#opening-celebration" class="ev-poster ev-poster--grand reveal">
-      <div class="photo"><img src="images/team-listening.jpg" alt="Athletes and coaches gathered together at The Courts."></div>
-      <div class="ev-poster-body">
-        <span class="ev-poster-status">Oct 24 &middot; Grand Opening</span>
-        <h3>First Season.<br>First Party.<br>You're Invited.</h3>
-        <p>Meet the coaches. Try everything. Stay longer than you planned.</p>
-        <div class="ev-poster-words">
-          <span>Basketball</span><span>Volleyball</span><span>Dr. Dish</span><span>Meet the Coaches</span><span>Challenges</span><span>Merch</span><span>Family Stuff</span>
-        </div>
-        <span class="ev-poster-tag">Free + Open to Everyone</span>
-        <span class="ev-poster-link">RSVP →</span>
+    <div class="ev-poster ev-poster--quiet reveal">
+      <span class="ev-poster-status">Oct 12&ndash;16 &middot; Fall Break</span>
+      <h3>Four Days of Camp. Friday's Your Call.</h3>
+      <p class="ev-fallbreak-lines">Oct 12&ndash;15: Basketball 8&ndash;12 &middot; Volleyball 1&ndash;5<br>Oct 16: Optional Competition Day</p>
+      <p>Like the &rsquo;90s summer your parents keep talking about.<br>Just with better supervision.</p>
+      <!-- [PINK — INSERT APPROVED MEMBER / NON-MEMBER PRICE FOR THE 4-DAY CAMP AND THE FRIDAY COMPETITION DAY ADD-ON] Staging only. Do not publish a placeholder price; use the approved registration price once set. -->
+      <div class="ev-poster--quiet-ctas">
+        <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="btn btn-primary" data-preset="Programs + Membership">Register for Fall Break →</a>
+        <a href="camps" class="ev-poster-link">View Camps →</a>
       </div>
-    </a>
+    </div>
 
     <div class="ev-poster ev-poster--halloween reveal" id="halloween-weekend">
       <svg class="ev-halloween-web ev-halloween-web--tl" aria-hidden="true" width="180" height="180" viewBox="0 0 90 90" fill="none"><g stroke="rgba(255,255,255,0.32)" stroke-width="1"><path d="M0,0 L90,0"/><path d="M0,0 L0,90"/><path d="M0,0 L90,90"/><path d="M0,0 L64,22"/><path d="M0,0 L22,64"/><path d="M12,0 Q12,12 0,12"/><path d="M28,0 Q28,28 0,28"/><path d="M50,0 Q50,50 0,50"/><path d="M72,0 Q72,72 0,72"/></g></svg>
@@ -400,18 +398,6 @@
         </div>
       </div>
     </div>
-
-    <div class="ev-poster ev-poster--quiet reveal">
-      <span class="ev-poster-status">Oct 12&ndash;16 &middot; Fall Break</span>
-      <h3>Four Days of Camp. Friday's Your Call.</h3>
-      <p class="ev-fallbreak-lines">Oct 12&ndash;15: Basketball 8&ndash;12 &middot; Volleyball 1&ndash;5<br>Oct 16: Optional Competition Day</p>
-      <p>Like the &rsquo;90s summer your parents keep talking about.<br>Just with better supervision.</p>
-      <!-- [PINK — INSERT APPROVED MEMBER / NON-MEMBER PRICE FOR THE 4-DAY CAMP AND THE FRIDAY COMPETITION DAY ADD-ON] Staging only. Do not publish a placeholder price; use the approved registration price once set. -->
-      <div class="ev-poster--quiet-ctas">
-        <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="btn btn-primary" data-preset="Programs + Membership">Register for Fall Break →</a>
-        <a href="camps" class="ev-poster-link">View Camps →</a>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -437,7 +423,7 @@
         <div class="cal-body">
           <span class="cal-tag">Opening Day</span>
           <h4>Doors Open.</h4>
-          <p>We're officially open. Come in. Meet the crew. Look around for approximately thirty seconds. <strong>Then get on the court.</strong></p>
+          <p>We're officially open. Come in. Meet the crew. Look around for approximately thirty seconds.<br><strong>Then get on the court.</strong></p>
           <a href="schedule" class="cal-link">Schedule a Class →</a>
         </div>
       </div>
