@@ -147,8 +147,7 @@
 
 <section id="main" style="padding:164px 0 56px; background:var(--gray-light);">
   <div class="container" style="max-width:760px;">
-    <span class="ab-opening-pill"><span class="ab-opening-dot"></span>Opening October 1</span>
-    <h1 class="ab-intro-headline">Hello, <span class="accent">Nolensville.</span></h1>
+    <h1 class="ab-intro-headline">Hello, <span class="accent ab-nolensville-wrap"><span class="ab-opening-pill"><span class="ab-opening-dot"></span>Opening October 1</span>Nolensville.</span></h1>
 
     <div class="founder-note-wrap">
     <div class="founder-note">
@@ -175,8 +174,9 @@
 
 <style>
   .ab-intro-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(40px, 6vw, 72px); line-height: 1.03; letter-spacing: -0.01em; color: var(--black); margin: 14px 0 20px; }
-  .ab-opening-pill { display: inline-flex; align-items: center; gap: 12px; font-family: var(--font-sport); font-weight: 700; font-size: 21px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
-  .ab-opening-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--orange); flex-shrink: 0; animation: featStatusPulse 1.6s ease-in-out infinite; }
+  .ab-nolensville-wrap { position: relative; display: inline-block; }
+  .ab-opening-pill { position: absolute; bottom: 100%; right: 0; margin-bottom: 16px; display: inline-flex; align-items: center; gap: 8px; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 22px; border-radius: 999px; white-space: nowrap; }
+  .ab-opening-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--white); flex-shrink: 0; animation: featStatusPulse 1.6s ease-in-out infinite; }
   @media (prefers-reduced-motion: reduce) { .ab-opening-dot { animation: none; } }
 
   .founder-note-wrap { margin-top: 48px; }
@@ -193,8 +193,8 @@
 
   @media (max-width: 640px) {
     .ab-intro-headline { font-size: clamp(32px, 10vw, 44px); }
-    .ab-opening-pill { font-size: 17px; gap: 10px; }
-    .ab-opening-dot { width: 10px; height: 10px; }
+    .ab-opening-pill { font-size: 11px; padding: 7px 14px; gap: 6px; margin-bottom: 10px; }
+    .ab-opening-dot { width: 7px; height: 7px; }
     .founder-note p { font-size: 16px; }
     .founder-note p strong { font-size: 17px; }
   }
