@@ -28,7 +28,7 @@
   .cal-tag { font-size: 13.5px; padding: 5px 12px; }
   .ev-poster--grand h3 { font-family:var(--font-display); font-weight:900; font-size:clamp(28px,4vw,46px); line-height:1.05; color:var(--white); margin:0 0 16px; max-width:16ch; }
   .ev-poster--grand p { font-size:16px; line-height:1.6; color:rgba(255,255,255,0.75); max-width:52ch; margin:0 0 22px; }
-  .ev-poster-words { display:flex; flex-wrap:nowrap; align-items:baseline; margin:0 0 22px; overflow-x:auto; }
+  .ev-poster-words { display:flex; flex-wrap:wrap; align-items:baseline; row-gap:6px; margin:0 0 22px; }
   .ev-poster-words span { font-family:var(--font-display); font-weight:800; font-size:clamp(11px,1.6vw,18px); text-transform:uppercase; color:var(--white); white-space:nowrap; }
   .ev-poster-words span:not(:last-child)::after { content:'\00b7'; color:var(--orange); margin:0 10px; font-weight:900; }
   .ev-poster-tag { display:inline-block; font-family:var(--font-sport); font-weight:800; font-size:15px; letter-spacing:0.05em; text-transform:uppercase; color:var(--white); background:var(--orange); border-radius:999px; padding:10px 20px; margin-bottom:22px; width:fit-content; }
@@ -256,7 +256,7 @@
       <div class="ev-poster-body">
         <span class="ev-poster-status">Oct 30&ndash;31 &middot; Courts Tradition</span>
         <h3>Halloween Weekend at The Courts</h3>
-        <p class="ev-poster-sub">Two sports. Two days. One very good excuse to wear a costume.</p>
+        <p class="ev-poster-sub">Two sports. Two days.<br>One very good excuse to wear a costume.</p>
         <span class="courts-commentary courts-commentary--on-dark ev-halloween-intro-note">Costumes encouraged. Competition expected.</span>
       </div>
       <div class="ev-halloween-split">
