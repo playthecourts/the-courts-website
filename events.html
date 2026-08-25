@@ -13,6 +13,14 @@
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="css/styles.css">
 <style>
+  /* ---------- Hand-circled marker (messy, newspaper-style) ---------- */
+  .marker-circle { position:relative; display:inline-block; padding:0.06em 0.22em 0.16em; }
+  .marker-circle::after {
+    content:''; position:absolute; top:-0.28em; left:-0.16em; right:-0.16em; bottom:-0.3em;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 110' preserveAspectRatio='none'%3E%3Cpath d='M22,58 C14,26 66,4 114,5 C165,6 208,22 210,54 C212,82 166,98 110,97 C57,96 16,80 21,52 C23,42 30,38 37,43' fill='none' stroke='%23D5601F' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M30,50 C26,24 74,10 116,12 C156,14 195,28 196,52' fill='none' stroke='%23D5601F' stroke-width='2.5' stroke-linecap='round' opacity='0.6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-size:100% 100%; pointer-events:none;
+  }
+
   /* ---------- Hero: quiet opening/location line ---------- */
   .ev-hero-quiet { font-family:var(--font-sport); font-weight:700; font-size:18px; letter-spacing:0.06em; text-transform:uppercase; color:rgba(255,255,255,0.85); line-height:1.7; margin:22px 0 0; }
 
@@ -63,6 +71,7 @@
   .ev-halloween-day--sat p:not(.ev-halloween-tagline) { color:rgba(23,23,23,0.65); }
 
   .ev-poster--grand .ev-poster-status { font-size:19px; }
+  .ev-poster--halloween .ev-poster-status { font-size:19px; }
 
   .ev-poster--quiet { background:var(--charcoal); position:relative; padding:36px clamp(24px,4vw,44px); }
   .ev-poster--quiet::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg, var(--orange), #F2A65A 50%, var(--orange)); }
@@ -266,20 +275,20 @@
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">Mark These Down</span>
-      <h2 class="section-title">A Few Worth Circling.</h2>
+      <h2 class="section-title">A Few Worth <span class="marker-circle">Circling</span>.</h2>
     </div>
 
     <a href="#opening-celebration" class="ev-poster ev-poster--grand reveal">
       <div class="photo"><img src="images/team-listening.jpg" alt="Athletes and coaches gathered together at The Courts."></div>
       <div class="ev-poster-body">
         <span class="ev-poster-status">Oct 24 &middot; Grand Opening</span>
-        <h3>First Season. First Party.<br>You're Invited.</h3>
+        <h3>First Season.<br>First Party.<br>You're Invited.</h3>
         <p>Meet the coaches. Try everything. Stay longer than you planned.</p>
         <div class="ev-poster-words">
           <span>Basketball</span><span>Volleyball</span><span>Dr. Dish</span><span>Meet the Coaches</span><span>Challenges</span><span>Merch</span><span>Family Stuff</span>
         </div>
         <span class="ev-poster-tag">Free + Open to Everyone</span>
-        <span class="ev-poster-link">See Details →</span>
+        <span class="ev-poster-link">RSVP →</span>
       </div>
     </a>
 
