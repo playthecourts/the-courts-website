@@ -12,6 +12,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="images/brand/favicon-16.png">
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="css/styles.css">
+<style>.nav-item > a[href="contact"] { color: var(--orange); position: relative; }</style>
 </head>
 <body class="has-announce">
 <a href="#main" class="skip-link">Skip to main content</a>
@@ -145,11 +146,11 @@
   <a href="membership" class="btn btn-primary btn-block">Become a Member</a>
 </div>
 
-<section style="padding:180px 0 140px; background:var(--black); overflow:hidden;" id="main">
-  <div class="container" style="max-width:1180px;">
+<section style="padding:168px 0 76px; background:var(--gray-light);" id="main">
+  <div class="container" style="max-width:900px;">
     <span class="eyebrow">Contact</span>
-    <h1 class="contact-hero-title" style="font-family:var(--font-display); color:var(--white); font-size:clamp(44px, 7.6vw, 108px); letter-spacing:-0.02em; line-height:0.96; margin:14px 0 26px;">Let's Get You on the Court.</h1>
-    <style>@media (max-width: 1100px) { .contact-hero-sub { white-space: normal; } }</style>
+    <h1 style="font-family:var(--font-display); color:var(--black); font-size:clamp(38px, 5.6vw, 64px); letter-spacing:-0.01em; line-height:1.05; margin:14px 0 18px;">Say Hello.</h1>
+    <p style="font-size:17px; line-height:1.6; color:var(--gray-dark); max-width:56ch; margin:0;">Questions about programs, memberships, rentals, partnerships, or something else? Start here.</p>
   </div>
 </section>
 
@@ -157,8 +158,8 @@
   <div class="container" style="max-width:680px; position:relative; z-index:1;">
     <div class="contact-form-wrap">
       <span class="eyebrow">Get in Touch</span>
-      <h2 class="section-title" style="margin-bottom:14px; font-size:clamp(32px, 4.6vw, 48px);">Tell Us What You're Looking For.</h2>
-      <p style="font-size:16.5px; line-height:1.6; color:var(--gray-dark); max-width:520px; margin:0 0 38px;">Give us the basics and we'll get you to the right person, program, or next step.</p>
+      <h2 class="section-title" style="margin-bottom:14px; font-size:clamp(32px, 4.6vw, 48px);">What Can We Help With?</h2>
+      <p style="font-size:16.5px; line-height:1.6; color:var(--gray-dark); max-width:520px; margin:0 0 38px;">Give us the basics. We'll get it to the right person.</p>
 
       <div id="contactFormSuccess" class="form-success" style="display:none;">
         <h3>Got It.</h3>
@@ -189,11 +190,11 @@
             <option value="Programs + Membership">Programs + Membership</option>
             <option value="Private Training">Private Training</option>
             <option value="Basketball Leagues">Basketball Leagues</option>
-            <option value="Court Rental / Party / Event">Court Rental / Party / Event</option>
+            <option value="Court Rentals + Parties">Court Rentals + Parties</option>
             <option value="The Coach Collective">The Coach Collective</option>
             <option value="Current Member Support">Current Member Support</option>
-            <option value="Coaching at The Courts">Coaching at The Courts</option>
-            <option value="Community / Partnerships">Community / Partnerships</option>
+            <option value="Coaching Opportunities">Coaching Opportunities</option>
+            <option value="Community + Partnerships">Community + Partnerships</option>
             <option value="Something Else">Something Else</option>
           </select>
         </div>
@@ -389,7 +390,7 @@
           <div class="form-row"><label for="lg-extra">Anything else? <span class="form-optional-tag">Optional</span></label><textarea id="lg-extra"></textarea></div>
         </div>
 
-        <div class="cf-group" data-cat="Court Rental / Party / Event" hidden>
+        <div class="cf-group" data-cat="Court Rentals + Parties" hidden>
           <div class="form-row">
             <label for="ev-planning">What are you planning?*</label>
             <select id="ev-planning" required><option value="">Select one</option><option>Just need the court</option><option>Birthday party</option><option>Team celebration</option><option>Private / group event</option><option>Recurring group or activity</option><option>Something else</option></select>
@@ -476,7 +477,7 @@
           <div class="form-row"><label for="sup-contact">Best way to reach you <span class="form-optional-tag">Optional</span></label><select id="sup-contact"><option value="">Select one</option><option>Email</option><option>Phone</option><option>Either</option></select></div>
         </div>
 
-        <div class="cf-group" data-cat="Coaching at The Courts" hidden>
+        <div class="cf-group" data-cat="Coaching Opportunities" hidden>
           <div class="form-row"><label for="coach-area">Sport / area*</label><select id="coach-area" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option><option>Strength / performance</option><option>Other</option></select></div>
           <div class="form-row"><label>What are you interested in? <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="coach-interest">
           <label class="chip"><input type="checkbox" id="coach-interest-coaching" name="coach-interest"><span>Coaching</span></label>
@@ -495,7 +496,7 @@
         </div></div>
         </div>
 
-        <div class="cf-group" data-cat="Community / Partnerships" hidden>
+        <div class="cf-group" data-cat="Community + Partnerships" hidden>
           <div class="form-row"><label>What do you have in mind?* <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="comm-interest" data-chip-required="true">
           <label class="chip"><input type="checkbox" id="comm-interest-school-partnership" name="comm-interest"><span>School partnership</span></label>
           <label class="chip"><input type="checkbox" id="comm-interest-community-organization" name="comm-interest"><span>Community organization</span></label>
