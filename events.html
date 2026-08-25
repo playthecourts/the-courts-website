@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fall 2026 Calendar | The Courts — Nolensville, TN</title>
-<meta name="description" content="The Courts Fall 2026 program calendar — Opening Day, Fall League, camps, the Halloween Shootout, the Holiday Classic, and everything happening in Nolensville, TN this season.">
+<title>Events | The Courts — Nolensville, TN</title>
+<meta name="description" content="Grand Opening, Fall Break Camp, Halloween Weekend, basketball culture nights, and everything else happening at The Courts in Nolensville, TN this season.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
@@ -12,6 +12,74 @@
 <link rel="icon" type="image/png" sizes="16x16" href="images/brand/favicon-16.png">
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="css/styles.css">
+<style>
+  /* ---------- Hero: quiet opening/location line ---------- */
+  .ev-hero-quiet { font-family:var(--font-sport); font-weight:700; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.55); line-height:1.8; margin:22px 0 0; }
+
+  /* ---------- Featured posters ---------- */
+  .ev-poster { display:block; position:relative; text-decoration:none; border-radius:var(--radius-md); overflow:hidden; margin-bottom:20px; }
+  .ev-poster--grand { background:var(--black); min-height:420px; }
+  .ev-poster--grand .photo { position:absolute; inset:0; }
+  .ev-poster--grand .photo img { width:100%; height:100%; object-fit:cover; display:block; opacity:0.55; }
+  .ev-poster--grand::after { content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(23,23,23,0.95) 10%, rgba(23,23,23,0.35) 65%, rgba(23,23,23,0.15) 100%); }
+  .ev-poster-body { position:relative; z-index:1; padding:44px clamp(24px,4vw,56px); }
+  .ev-poster--grand .ev-poster-body { display:flex; flex-direction:column; justify-content:flex-end; min-height:420px; padding-top:200px; }
+  .ev-poster-status { display:block; font-family:var(--font-sport); font-weight:800; font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--orange); margin-bottom:14px; }
+  .ev-poster--grand h3 { font-family:var(--font-display); font-weight:900; font-size:clamp(28px,4vw,46px); line-height:1.05; color:var(--white); margin:0 0 16px; max-width:16ch; }
+  .ev-poster--grand p { font-size:16px; line-height:1.6; color:rgba(255,255,255,0.75); max-width:52ch; margin:0 0 22px; }
+  .ev-poster-words { display:flex; flex-wrap:wrap; gap:10px 18px; margin:0 0 22px; }
+  .ev-poster-words span { font-family:var(--font-display); font-weight:800; font-size:clamp(14px,1.6vw,18px); text-transform:uppercase; color:var(--white); }
+  .ev-poster-tag { display:inline-block; font-family:var(--font-sport); font-weight:700; font-size:12.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--orange); border:1px solid rgba(213,96,31,0.5); border-radius:999px; padding:8px 16px; margin-bottom:20px; width:fit-content; }
+  .ev-poster-link { display:inline-flex; align-items:center; gap:6px; font-family:var(--font-heading); font-weight:800; font-size:15px; color:var(--white); }
+  .ev-poster--grand:hover .ev-poster-link, .ev-poster--halloween:hover .ev-poster-link { color:var(--orange); }
+
+  .ev-poster--halloween { background:var(--charcoal); padding:0; }
+  .ev-poster--halloween .ev-poster-body { padding-bottom:8px; text-align:center; }
+  .ev-poster--halloween h3 { font-family:var(--font-display); font-weight:900; font-size:clamp(26px,3.6vw,40px); line-height:1.05; color:var(--white); margin:0 0 10px; }
+  .ev-poster-sub { font-family:var(--font-heading); font-weight:600; font-size:16px; color:rgba(255,255,255,0.7); margin:0 auto; max-width:44ch; }
+  .ev-halloween-bat { position:absolute; z-index:2; pointer-events:none; }
+  .ev-halloween-bat--1 { top:24px; left:36px; }
+  .ev-halloween-bat--2 { top:52px; right:52px; }
+
+  .ev-halloween-split { display:grid; grid-template-columns:1fr 1fr; }
+  .ev-halloween-day { position:relative; padding:36px clamp(20px,3vw,40px) 40px; }
+  .ev-halloween-day--fri { background:var(--black); border-right:1px solid rgba(255,255,255,0.1); }
+  .ev-halloween-day--sat { background:#241F1A; }
+  .ev-halloween-decor { display:block; margin-bottom:16px; }
+  .ev-halloween-date { display:block; font-family:var(--font-sport); font-weight:700; font-size:12.5px; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.55); margin-bottom:8px; }
+  .ev-halloween-sport { display:block; font-family:var(--font-sport); font-weight:800; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--orange); margin-bottom:10px; }
+  .ev-halloween-day h4 { font-family:var(--font-display); font-weight:900; font-size:clamp(22px,2.8vw,30px); color:var(--white); margin:0 0 10px; }
+  .ev-halloween-tagline { font-family:var(--font-heading); font-weight:700; font-size:15px; color:rgba(255,255,255,0.85); margin:0 0 12px; }
+  .ev-halloween-day p:not(.ev-halloween-tagline) { font-size:14.5px; line-height:1.6; color:rgba(255,255,255,0.65); margin:0 0 20px; }
+  .ev-halloween-day .courts-commentary { margin-top:16px; }
+
+  .ev-poster--quiet { background:var(--white); border:1px solid var(--gray-mid); padding:26px 28px; display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 18px; }
+  .ev-poster--quiet .ev-poster-status { margin:0; }
+  .ev-poster--quiet h4 { font-family:var(--font-heading); font-weight:800; font-size:17px; color:var(--black); margin:0; flex:1 1 auto; min-width:220px; }
+  .ev-poster--quiet p { font-size:14px; color:var(--gray-dark); margin:0; flex-basis:100%; }
+  .ev-poster--quiet .ev-poster-link { color:var(--orange); font-size:14px; }
+
+  .ev-halloween-preview { display:flex; gap:28px; justify-content:center; margin:20px 0 24px; flex-wrap:wrap; }
+  .ev-halloween-preview-day { display:block; font-family:var(--font-sport); font-weight:700; font-size:11.5px; letter-spacing:0.06em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:4px; }
+  .ev-halloween-preview-name { display:block; font-family:var(--font-display); font-weight:800; font-size:17px; color:var(--white); }
+
+  /* ---------- Compact lineup entries: culture moments ---------- */
+  .cal-item[data-category="culture"] .cal-tag { color:var(--orange); }
+  .cal-halloween-mini { display:flex; gap:24px; flex-wrap:wrap; margin:10px 0 14px; }
+  .cal-halloween-mini span { display:block; font-family:var(--font-sport); font-weight:700; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--gray-dark); margin-bottom:2px; }
+  .cal-halloween-mini strong { font-family:var(--font-heading); font-weight:700; font-size:15px; color:var(--black); }
+
+  /* ---------- Friday Night rail card additions ---------- */
+  .fnl-card-name { display:block; font-family:var(--font-sport); font-weight:700; font-size:12.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--orange); margin-top:12px; }
+  .fnl-card-content .courts-commentary { margin-top:10px; }
+
+  @media (max-width:760px) {
+    .ev-poster--grand .ev-poster-body { min-height:0; padding-top:32px; }
+    .ev-poster--grand { min-height:0; }
+    .ev-halloween-split { grid-template-columns:1fr; }
+    .ev-halloween-day--fri { border-right:none; border-bottom:1px solid rgba(255,255,255,0.1); }
+  }
+</style>
 </head>
 <body class="has-announce">
 <a href="#main" class="skip-link">Skip to main content</a>
@@ -149,16 +217,11 @@
   <div class="photo" role="img" aria-label="Athletes and families at The Courts"></div>
   <div class="container page-hero-inner">
     <span class="eyebrow eyebrow--light">Events</span>
-    <h1 class="page-hero-title">Fall at The Courts.</h1>
-    <p class="page-hero-sub" style="font-weight:700; margin-bottom:16px;">Our first season. Let's make it a good one.</p>
-    <p class="page-hero-sub">We're packing our first few months with basketball, volleyball, camps, league play, and a few Courts traditions we hope stick around for a long time.</p>
-    <div class="page-hero-meta">
-      <div><span>Season</span><strong>Fall 2026</strong></div>
-      <div><span>Opens</span><strong>October 1</strong></div>
-      <div><span>Location</span><strong>Nolensville, TN</strong></div>
-    </div>
-    <div class="hero-ctas" style="margin-top:32px;">
-      <a href="schedule" class="btn btn-primary">View The Schedule →</a>
+    <h1 class="page-hero-title">Okay, This Is Going to Be Fun.</h1>
+    <p class="page-hero-sub">Camps. League play. Costumes. Open gym. Watch nights. A grand opening. And a few Courts traditions we're making up as we go.</p>
+    <p class="ev-hero-quiet">Opening October 1<br>Nolensville, TN</p>
+    <div class="hero-ctas" style="margin-top:28px;">
+      <a href="#rhythm" class="btn btn-primary">See What's Coming ↓</a>
     </div>
   </div>
 </section>
@@ -166,46 +229,72 @@
 <section class="feat-section">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">Happening at The Courts</span>
-      <h2 class="section-title">A Few Things Worth Putting on the Calendar.</h2>
+      <span class="eyebrow">Don't Miss These</span>
+      <h2 class="section-title">Start With the Big Ones.</h2>
     </div>
-    <div class="feat-grid">
-      <a href="#opening-celebration" class="feat-card feat-card--large reveal">
-        <div class="photo"><img src="images/team-listening.jpg" alt="Athletes and coaches gathered together at The Courts."></div>
-        <span class="feat-status">Oct 24 &middot; Signature Event</span>
-        <div class="feat-body">
-          <h3>Grand Opening Celebration</h3>
-          <p>Nolensville, come celebrate with us. Meet the coaches, try the court, check out Dr. Dish, jump into games and skills stations, and see what we've been building.</p>
-          <span class="feat-link">See Details →</span>
+
+    <a href="#opening-celebration" class="ev-poster ev-poster--grand reveal">
+      <div class="photo"><img src="images/team-listening.jpg" alt="Athletes and coaches gathered together at The Courts."></div>
+      <div class="ev-poster-body">
+        <span class="ev-poster-status">Oct 24 &middot; Grand Opening</span>
+        <h3>We Built the Place.<br>Now Let's Make Some Noise.</h3>
+        <p>Nolensville, come celebrate the start of The Courts. Meet the coaches. Try the courts. Take on Dr. Dish. Jump into games, skills challenges, and whatever else we decide looks fun that day.</p>
+        <div class="ev-poster-words">
+          <span>Basketball</span><span>Volleyball</span><span>Dr. Dish</span><span>Meet the Coaches</span><span>Skills Challenges</span><span>Open Gym</span><span>Merch</span><span>Family Stuff</span>
         </div>
-      </a>
-      <div class="feat-col-side">
-        <a href="#halloween-shootout" class="feat-card feat-card--small reveal">
-          <span class="feat-status">Oct 31 &middot; Registration Open</span>
-          <div class="feat-body">
-            <h4>Halloween Shootout</h4>
-            <p>Costumes. Hoops. Bragging rights. A Halloween 3-on-3 tournament.</p>
-            <span class="feat-link">Register →</span>
-          </div>
-        </a>
-        <a href="#fall-break-camp" class="feat-card feat-card--small reveal">
-          <span class="feat-status">Oct 12&ndash;16 &middot; Camp</span>
-          <div class="feat-body">
-            <h4>Fall Break Camp</h4>
-            <p>School's out. We're in the gym. A full week of basketball and volleyball camps.</p>
-            <span class="feat-link">View Camps →</span>
-          </div>
-        </a>
+        <span class="ev-poster-tag">Free + Open to the Community</span>
+        <span class="ev-poster-link">I'm In →</span>
+      </div>
+    </a>
+
+    <div class="ev-poster ev-poster--halloween reveal" id="halloween-weekend">
+      <span class="ev-halloween-bat ev-halloween-bat--1" aria-hidden="true"><svg width="26" height="14" viewBox="0 0 24 13" fill="#FFFFFF"><path d="M12 3c-2-2-6-3-9-1 2 1 4 1.5 5 2-2 0.5-4 1.5-5 3 2 0.5 4 0.5 6 0-1 1-1 2 0 3 1-1 2-2 3-2s2 1 3 2c1-1 1-2 0-3 2 0.5 4 0.5 6 0-1-1.5-3-2.5-5-3 1-0.5 3-1 5-2-3-2-7-1-9 1z"/></svg></span>
+      <span class="ev-halloween-bat ev-halloween-bat--2" aria-hidden="true"><svg width="18" height="10" viewBox="0 0 24 13" fill="#D5601F"><path d="M12 3c-2-2-6-3-9-1 2 1 4 1.5 5 2-2 0.5-4 1.5-5 3 2 0.5 4 0.5 6 0-1 1-1 2 0 3 1-1 2-2 3-2s2 1 3 2c1-1 1-2 0-3 2 0.5 4 0.5 6 0-1-1.5-3-2.5-5-3 1-0.5 3-1 5-2-3-2-7-1-9 1z"/></svg></span>
+      <div class="ev-poster-body">
+        <span class="ev-poster-status">Oct 30&ndash;31 &middot; Courts Tradition</span>
+        <h3>Halloween Weekend at The Courts</h3>
+        <p class="ev-poster-sub">Two sports. Two days. One very good excuse to wear a costume.</p>
+      </div>
+      <div class="ev-halloween-split">
+        <div class="ev-halloween-day ev-halloween-day--fri">
+          <span class="ev-halloween-decor" aria-hidden="true"><svg width="60" height="60" viewBox="0 0 66 66" fill="none"><circle cx="33" cy="35" r="25" fill="#D5601F"/><path d="M8 35h50" stroke="#171717" stroke-width="2.2"/><path d="M33 10v50" stroke="#171717" stroke-width="2.2"/><path d="M14 17c-5 8-5 27 0 35" stroke="#171717" stroke-width="2.2" fill="none"/><path d="M52 17c5 8 5 27 0 35" stroke="#171717" stroke-width="2.2" fill="none"/></svg></span>
+          <span class="ev-halloween-date">Friday, October 30</span>
+          <span class="ev-halloween-sport">Basketball</span>
+          <h4>Halloween Shootout</h4>
+          <p class="ev-halloween-tagline">Wear a costume. Bring a jumper.</p>
+          <p>3-on-3 basketball, shooting challenges, music, prizes, and a completely reasonable amount of Halloween chaos.</p>
+          <!-- [PINK — UPPER HAND HALLOWEEN SHOOTOUT REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
+          <a href="#" class="btn btn-primary">Register →</a>
+          <span class="courts-commentary courts-commentary--on-dark">Costumes encouraged. Competition expected.</span>
+        </div>
+        <div class="ev-halloween-day ev-halloween-day--sat">
+          <span class="ev-halloween-decor" aria-hidden="true"><svg width="52" height="52" viewBox="0 0 62 62" fill="none"><circle cx="31" cy="33" r="23" fill="#FCEBD8"/><path d="M31 10c-8 6-8 40 0 46" stroke="#171717" stroke-width="2" fill="none"/><path d="M31 10c8 6 8 40 0 46" stroke="#171717" stroke-width="2" fill="none"/><path d="M9 24c10-6 34-6 44 0" stroke="#171717" stroke-width="2" fill="none"/><path d="M9 42c10 6 34 6 44 0" stroke="#171717" stroke-width="2" fill="none"/></svg></span>
+          <span class="ev-halloween-date">Saturday, October 31 &middot; 1&ndash;3 PM</span>
+          <span class="ev-halloween-sport">Volleyball</span>
+          <h4>Volleyween</h4>
+          <p class="ev-halloween-tagline">Wear a costume. Bring your kneepads.</p>
+          <p>Volleyball games, serving challenges, hitting competitions, music, prizes, and two hours of Halloween on the court.</p>
+          <!-- [PINK — UPPER HAND VOLLEYWEEN REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
+          <a href="#" class="btn btn-secondary">Register →</a>
+          <span class="courts-commentary">Bump. Set. Boo.</span>
+        </div>
       </div>
     </div>
+
+    <a href="#fall-break-camp" class="ev-poster ev-poster--quiet reveal">
+      <span class="ev-poster-status">Oct 12&ndash;16 &middot; Fall Break Camp</span>
+      <h4>Five Days. Two Sports. Zero School.</h4>
+      <p>Basketball. Volleyball. Games. Competition. And considerably less sitting around the house asking what there is to do.</p>
+      <span class="ev-poster-link">View Camps →</span>
+    </a>
   </div>
 </section>
 
 <section style="padding:64px 0 0;" id="rhythm">
   <div class="container">
     <div class="section-head" style="margin-bottom:34px;">
-      <span class="eyebrow">The Calendar</span>
-      <h2 class="section-title">Everything Coming Up.</h2>
+      <span class="eyebrow">The Lineup</span>
+      <h2 class="section-title">Save the Date. Or All of Them.</h2>
     </div>
 
     <div class="events-layout">
@@ -216,214 +305,117 @@
           <button class="events-month-tab" data-month="december">December</button>
         </div>
 
-        <div class="cal-month-head" id="october"><span class="eyebrow">October</span><h2 class="section-title">Doors open. Games on.</h2></div>
+        <div class="cal-month-head" id="october"><span class="eyebrow">October</span><h2 class="section-title">October Came in Hot.</h2></div>
         <div class="cal-list" data-month-group="october">
-      <div class="cal-item cal-item--both reveal" data-category="community">
+      <div class="cal-item cal-item--compact cal-item--both reveal" data-category="community">
         <div class="cal-date"><span class="cal-weekday">Thu</span><span class="cal-month">Oct</span><span class="cal-day">1</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Basketball + Volleyball · Opening Day</span>
-          <h4>We're Open.</h4>
-          <p>The Courts officially opens its doors. Come in. Meet the team. See what we've been building. And, obviously, get on the court.</p>
-          <p class="cal-note">Welcome to The Courts.</p>
+          <span class="cal-tag">Opening Day</span>
+          <h4>Doors Open.</h4>
+          <p>We're officially open. Come in. Meet the crew. Look around for approximately thirty seconds. <strong>Then get on the court.</strong></p>
         </div>
       </div>
 
       <div class="cal-item cal-item--both reveal" data-category="opengym">
         <div class="cal-date"><span class="cal-weekday">Sat</span><span class="cal-month">Oct</span><span class="cal-day">10</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Basketball + Volleyball · Open Gym</span>
-          <h4>Saturday Open Gym Starts</h4>
-          <p>No practice plan. No drills. Just play. Coach-supervised, unstructured court time to get extra reps and find a game.</p>
-          <a href="schedule?type=opengym" class="cal-link">View Open Gym →</a>
+          <span class="cal-tag">Open Gym</span>
+          <h4>Saturday Plans: Handled.</h4>
+          <p>No practice plan. No drills. No standing in line. Just basketball, volleyball, and room to play.</p>
+          <a href="schedule?type=opengym" class="cal-link">Find Open Gym →</a>
         </div>
       </div>
 
       <div class="cal-item cal-item--both reveal" data-category="camps" id="fall-break-camp">
         <div class="cal-date"><span class="cal-weekday">Mon–Fri</span><span class="cal-month">Oct</span><span class="cal-day">12–16</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Basketball + Volleyball · Camp</span>
-          <h4>Fall Break Camp</h4>
-          <span class="cal-sub">School's out. We're in the gym.</span>
-          <p>A full week of basketball and volleyball camps, competitions, and plenty of time on the court.</p>
+          <span class="cal-tag">Fall Break Camp</span>
+          <h4>School's Out. We Have Plans.</h4>
+          <p>Five days of basketball, volleyball, competition, and plenty of reasons to come home tired.</p>
           <a href="camps" class="cal-link">View Camps →</a>
+        </div>
+      </div>
+
+      <div class="cal-item cal-item--compact reveal" data-category="culture">
+        <div class="cal-date"><span class="cal-weekday">October</span><span class="cal-month">Date</span><span class="cal-day">TBA</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">Basketball Culture</span>
+          <h4>WNBA Finals Night</h4>
+          <span class="cal-sub">The W is still playing.</span>
+          <p>When the Finals matchup is set, we'll pick a night and watch the best in the game finish the season.</p>
+          <p class="cal-note">Date coming soon.</p>
         </div>
       </div>
 
       <div class="cal-item cal-item--basketball reveal" data-category="basketball">
         <div class="cal-date"><span class="cal-weekday">Week of</span><span class="cal-month">Oct</span><span class="cal-day">19</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Basketball · Fall League</span>
+          <span class="cal-tag">Fall League</span>
           <h4>Teams Set. Season On.</h4>
-          <p>Practices start. Teams are set. Schedules go out.</p>
+          <p>Rosters are set. Practices start. Schedules go out. Time to play.</p>
           <a href="leagues#fall-league" class="cal-link">View Fall League →</a>
+        </div>
+      </div>
+
+      <div class="cal-item cal-item--compact reveal" data-category="culture">
+        <div class="cal-date"><span class="cal-weekday">Tue</span><span class="cal-month">Oct</span><span class="cal-day">20</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">Basketball Culture</span>
+          <h4>NBA Tip-Off Night</h4>
+          <span class="cal-sub">Wear your jersey. Bring your game.</span>
+          <p>Favorite team. Favorite player. Questionable throwback jersey. We're not judging.</p>
+          <span class="courts-commentary">Yes, throwbacks count.</span>
         </div>
       </div>
 
       <div class="cal-item cal-item--compact cal-item--basketball reveal" data-category="basketball">
         <div class="cal-date"><span class="cal-weekday">Sat</span><span class="cal-month">Oct</span><span class="cal-day">24</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Basketball · Fall League</span>
-          <h4>Opening Tip</h4>
-          <p>The first games of The Courts Fall Basketball League. Games continue Saturdays through December 12.</p>
+          <span class="cal-tag">Fall League</span>
+          <h4>Somebody's Keeping Score Now.</h4>
+          <p>The first games of The Courts Fall Basketball League.</p>
+          <span class="courts-commentary">Okay, now it counts.</span>
         </div>
       </div>
 
       <div class="cal-item cal-item--signature cal-item--both reveal" data-category="community" id="opening-celebration">
         <div class="cal-date"><span class="cal-weekday">Sat</span><span class="cal-month">Oct</span><span class="cal-day">24</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Community · Special Event</span>
-          <h4>Grand Opening Celebration<span class="cal-badge">Signature Event</span></h4>
-          <span class="cal-sub">Nolensville, come celebrate with us.</span>
-          <p>We're officially throwing the doors open and celebrating our first season with the whole community.</p>
-          <ul class="cal-bullets">
-            <li>Basketball + volleyball skills stations</li>
-            <li>Meet the coaches</li>
-            <li>Dr. Dish demos</li>
-            <li>Shooting + serving competitions</li>
-            <li>Open gym</li>
-            <li>Merch</li>
-            <li>Family activities</li>
-          </ul>
+          <span class="cal-tag">Signature Event</span>
+          <h4>We Made a Gym.<br>Let's Throw a Party.<span class="cal-badge">Signature Event</span></h4>
+          <span class="cal-sub">Nolensville, this one's for you.</span>
+          <p>Basketball. Volleyball. Dr. Dish. Competitions. Music. Merch. Coaches. Games. Families. A whole lot of court time.</p>
           <p class="cal-note">Free + open to the community.</p>
         </div>
       </div>
 
-      <div class="cal-item cal-item--signature-xl cal-item--basketball cal-item--halloween reveal" data-category="special" id="halloween-shootout">
-        <svg class="cal-web" viewBox="0 0 130 130" fill="none" aria-hidden="true">
-          <g stroke="rgba(255,255,255,0.4)" stroke-width="1">
-            <line x1="130" y1="0" x2="30" y2="0"/>
-            <line x1="130" y1="0" x2="130" y2="100"/>
-            <line x1="130" y1="0" x2="45" y2="35"/>
-            <line x1="130" y1="0" x2="65" y2="8"/>
-            <line x1="130" y1="0" x2="20" y2="70"/>
-            <line x1="130" y1="0" x2="80" y2="130"/>
-            <line x1="130" y1="0" x2="110" y2="25"/>
-            <path d="M105,0 Q98,8 98,20" fill="none"/>
-            <path d="M120,18 Q100,22 88,40" fill="none"/>
-            <path d="M112,42 Q86,46 62,68" fill="none"/>
-            <path d="M96,66 Q72,70 48,88" fill="none"/>
-          </g>
-        </svg>
-        <svg class="cal-lights-drawn cal-lights-drawn--top" viewBox="0 0 410 85" preserveAspectRatio="none" aria-hidden="true">
-          <defs>
-            <g id="batLightHalloween">
-              <rect x="-2.5" y="0" width="5" height="4" rx="1.5" fill="#171717"/>
-              <path d="M0,4 v4" stroke="#171717" stroke-width="1.6"/>
-              <g transform="translate(0,9)">
-                <path d="M0,-2 C-6,-8 -14,-6 -15,0 C-10,-3 -6,-2 -3,0 C-7,2 -11,5 -9,9 C-5,4 -1,1 0,1 C1,1 5,4 9,9 C11,5 7,2 3,0 C6,-2 10,-3 15,0 C14,-6 6,-8 0,-2Z" fill="#171717"/>
-                <path d="M-3,-3l-1,-3 2,1z M3,-3l1,-3 -2,1z" fill="#171717"/>
-                <ellipse class="bulb" cx="0" cy="1" rx="4.2" ry="5.2" fill="currentColor"/>
-              </g>
-            </g>
-          </defs>
-          <path d="M8,40 Q60,64 110,44 Q160,24 200,46 Q250,68 300,38 Q340,14 394,28" stroke="#171717" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-          <use href="#batLightHalloween" x="16" y="42" class="light-orange"/>
-          <use href="#batLightHalloween" x="55" y="58" class="light-purple"/>
-          <use href="#batLightHalloween" x="95" y="50" class="light-orange"/>
-          <use href="#batLightHalloween" x="135" y="34" class="light-purple"/>
-          <use href="#batLightHalloween" x="170" y="38" class="light-orange"/>
-          <use href="#batLightHalloween" x="205" y="52" class="light-purple"/>
-          <use href="#batLightHalloween" x="245" y="60" class="light-orange"/>
-          <use href="#batLightHalloween" x="280" y="44" class="light-purple"/>
-          <use href="#batLightHalloween" x="312" y="26" class="light-orange"/>
-          <use href="#batLightHalloween" x="342" y="16" class="light-purple"/>
-          <use href="#batLightHalloween" x="368" y="20" class="light-orange"/>
-          <use href="#batLightHalloween" x="388" y="30" class="light-purple"/>
-          <use href="#batLightHalloween" x="404" y="42" class="light-orange"/>
-        </svg>
-        <div class="cal-date"><span class="cal-weekday">Sat</span><span class="cal-month">Oct</span><span class="cal-day">31</span></div>
+      <div class="cal-item cal-item--compact reveal" data-category="special">
+        <div class="cal-date"><span class="cal-weekday">Fri&ndash;Sat</span><span class="cal-month">Oct</span><span class="cal-day">30&ndash;31</span></div>
         <div class="cal-body">
-          <span class="cal-spider cal-spider-drop cal-spider--1" aria-hidden="true">
-            <svg width="24" height="38" viewBox="0 0 30 44" fill="none">
-              <line x1="15" y1="0" x2="15" y2="20" stroke="#D9D9D9" stroke-width="1"/>
-              <g transform="translate(0,10)">
-                <circle cx="15" cy="10" r="4" fill="#D9D9D9"/>
-                <circle cx="13" cy="9" r="1" fill="#E5682A"/>
-                <circle cx="17" cy="9" r="1" fill="#E5682A"/>
-                <ellipse cx="15" cy="18" rx="6" ry="7" fill="#D9D9D9"/>
-                <path d="M9,14 Q2,10 1,4 M9,17 Q1,17 -1,12 M9,20 Q2,24 0,29 M21,14 Q28,10 29,4 M21,17 Q29,17 31,12 M21,20 Q28,24 30,29" stroke="#D9D9D9" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-              </g>
-            </svg>
-          </span>
-          <span class="cal-spider cal-spider-drop cal-spider--2" aria-hidden="true">
-            <svg width="18" height="24" viewBox="0 0 30 34" fill="none">
-              <line x1="15" y1="0" x2="15" y2="6" stroke="#D9D9D9" stroke-width="1"/>
-              <g transform="translate(0,-4)">
-                <circle cx="15" cy="10" r="4" fill="#D9D9D9"/>
-                <circle cx="13" cy="9" r="1" fill="#E5682A"/>
-                <circle cx="17" cy="9" r="1" fill="#E5682A"/>
-                <ellipse cx="15" cy="18" rx="6" ry="7" fill="#D9D9D9"/>
-                <path d="M9,14 Q2,10 1,4 M9,17 Q1,17 -1,12 M9,20 Q2,24 0,29 M21,14 Q28,10 29,4 M21,17 Q29,17 31,12 M21,20 Q28,24 30,29" stroke="#D9D9D9" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-              </g>
-            </svg>
-          </span>
-          <span class="cal-spider cal-spider-drop cal-spider--3" aria-hidden="true">
-            <svg width="22" height="46" viewBox="0 0 30 54" fill="none">
-              <line x1="15" y1="0" x2="15" y2="26" stroke="#D9D9D9" stroke-width="1"/>
-              <g transform="translate(0,16)">
-                <circle cx="15" cy="10" r="4" fill="#D9D9D9"/>
-                <circle cx="13" cy="9" r="1" fill="#E5682A"/>
-                <circle cx="17" cy="9" r="1" fill="#E5682A"/>
-                <ellipse cx="15" cy="18" rx="6" ry="7" fill="#D9D9D9"/>
-                <path d="M9,14 Q2,10 1,4 M9,17 Q1,17 -1,12 M9,20 Q2,24 0,29 M21,14 Q28,10 29,4 M21,17 Q29,17 31,12 M21,20 Q28,24 30,29" stroke="#D9D9D9" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-              </g>
-            </svg>
-          </span>
-          <span class="cal-decor" aria-hidden="true">
-            <svg width="92" height="92" viewBox="0 0 66 66" fill="none">
-              <circle cx="33" cy="35" r="25" fill="#E5682A"/>
-              <path d="M8 35h50" stroke="#171717" stroke-width="2.2"/>
-              <path d="M33 10v50" stroke="#171717" stroke-width="2.2"/>
-              <path d="M14 17c-5 8-5 27 0 35" stroke="#171717" stroke-width="2.2" fill="none"/>
-              <path d="M52 17c5 8 5 27 0 35" stroke="#171717" stroke-width="2.2" fill="none"/>
-              <path d="M29 7c0-4 2-6 5-7" stroke="#5C3A1E" stroke-width="4" stroke-linecap="round" fill="none"/>
-              <polygon points="19,27 27,27 23,36" fill="#171717"/>
-              <polygon points="39,27 47,27 43,36" fill="#171717"/>
-              <path d="M17 45l3 5 4-5 4 5 4-5 4 5 4-5 4 5 4-5v-2H17z" fill="#171717"/>
-            </svg>
-          </span>
-          <span class="cal-decor-volleyball" aria-hidden="true">
-            <svg width="68" height="68" viewBox="0 0 62 62" fill="none">
-              <circle cx="31" cy="33" r="23" fill="#FCEBD8"/>
-              <path d="M31 10c-8 6-8 40 0 46" stroke="#171717" stroke-width="2" fill="none"/>
-              <path d="M31 10c8 6 8 40 0 46" stroke="#171717" stroke-width="2" fill="none"/>
-              <path d="M9 24c10-6 34-6 44 0" stroke="#171717" stroke-width="2" fill="none"/>
-              <path d="M9 42c10 6 34 6 44 0" stroke="#171717" stroke-width="2" fill="none"/>
-              <polygon points="17,25 25,25 21,34" fill="#171717"/>
-              <polygon points="37,25 45,25 41,34" fill="#171717"/>
-              <path d="M15 43l3 5 4-5 4 5 4-5 4 5 4-5 4 5 4-5v-2H15z" fill="#171717"/>
-            </svg>
-          </span>
-          <span class="cal-bat cal-bat--1" aria-hidden="true">
-            <svg width="24" height="13" viewBox="0 0 24 13" fill="#FFFFFF"><path d="M12 3c-2-2-6-3-9-1 2 1 4 1.5 5 2-2 0.5-4 1.5-5 3 2 0.5 4 0.5 6 0-1 1-1 2 0 3 1-1 2-2 3-2s2 1 3 2c1-1 1-2 0-3 2 0.5 4 0.5 6 0-1-1.5-3-2.5-5-3 1-0.5 3-1 5-2-3-2-7-1-9 1z"/></svg>
-          </span>
-          <span class="cal-bat cal-bat--2" aria-hidden="true">
-            <svg width="18" height="10" viewBox="0 0 24 13" fill="#E5682A"><path d="M12 3c-2-2-6-3-9-1 2 1 4 1.5 5 2-2 0.5-4 1.5-5 3 2 0.5 4 0.5 6 0-1 1-1 2 0 3 1-1 2-2 3-2s2 1 3 2c1-1 1-2 0-3 2 0.5 4 0.5 6 0-1-1.5-3-2.5-5-3 1-0.5 3-1 5-2-3-2-7-1-9 1z"/></svg>
-          </span>
-          <span class="cal-bat cal-bat--3" aria-hidden="true">
-            <svg width="15" height="9" viewBox="0 0 24 13" fill="#FFFFFF"><path d="M12 3c-2-2-6-3-9-1 2 1 4 1.5 5 2-2 0.5-4 1.5-5 3 2 0.5 4 0.5 6 0-1 1-1 2 0 3 1-1 2-2 3-2s2 1 3 2c1-1 1-2 0-3 2 0.5 4 0.5 6 0-1-1.5-3-2.5-5-3 1-0.5 3-1 5-2-3-2-7-1-9 1z"/></svg>
-          </span>
-          <span class="cal-tag">Basketball · Signature Event</span>
-          <h4>Halloween Shootout</h4>
-          <span class="cal-sub">Costumes. Hoops. Bragging rights.</span>
-          <p>Grab your crew and come play in our Halloween 3-on-3 tournament.</p>
-          <ul class="cal-bullets">
-            <li>3-on-3 basketball</li>
-            <li>Skills competitions</li>
-            <li>Music</li>
-            <li>Costumes</li>
-            <li>Prizes</li>
-            <li>Plenty of Halloween chaos</li>
-          </ul>
-          <p class="cal-note">Costumes encouraged. Competition expected.</p>
-          <!-- [PINK — UPPER HAND HALLOWEEN SHOOTOUT REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
-          <a href="#" class="btn btn-primary" style="margin-top:16px;">Register →</a>
+          <span class="cal-tag">Courts Tradition</span>
+          <h4>Halloween Weekend at The Courts.</h4>
+          <div class="cal-halloween-mini">
+            <div><span>Friday Night</span><strong>Halloween Shootout</strong></div>
+            <div><span>Saturday &middot; 1&ndash;3 PM</span><strong>Volleyween</strong></div>
+          </div>
+          <a href="#halloween-weekend" class="cal-link">See Halloween Weekend →</a>
         </div>
       </div>
     </div>
 
-    <div class="cal-month-head" id="november"><span class="eyebrow">November</span><h2 class="section-title">Play hard. Give thanks. Keep going.</h2></div>
+    <div class="cal-month-head" id="november"><span class="eyebrow">November</span><h2 class="section-title">Nobody Said We Were Slowing Down.</h2></div>
         <div class="cal-list" data-month-group="november">
+      <div class="cal-item cal-item--compact reveal" data-category="culture">
+        <div class="cal-date"><span class="cal-weekday">Fri</span><span class="cal-month">Nov</span><span class="cal-day">6</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">Basketball Culture</span>
+          <h4>Basketball Day at The Courts</h4>
+          <span class="cal-sub">Wear the jersey.</span>
+          <p>Favorite player. Favorite team. NBA. WNBA. College. Your own team. Your call.</p>
+          <span class="courts-commentary">Yes, throwbacks count.</span>
+        </div>
+      </div>
+
       <div class="cal-item cal-item--both reveal" data-category="community">
         <div class="cal-date"><span class="cal-weekday">Sat</span><span class="cal-month">Nov</span><span class="cal-day">14</span></div>
         <div class="cal-body">
@@ -446,8 +438,28 @@
       </div>
     </div>
 
-    <div class="cal-month-head" id="december"><span class="eyebrow">December</span><h2 class="section-title">Close the season. Open the holidays.</h2></div>
+    <div class="cal-month-head" id="december"><span class="eyebrow">December</span><h2 class="section-title">Finish Strong.</h2></div>
         <div class="cal-list" data-month-group="december">
+      <div class="cal-item cal-item--signature cal-item--basketball reveal" data-category="basketball">
+        <div class="cal-date"><span class="cal-weekday">Thu&ndash;Sat</span><span class="cal-month">Dec</span><span class="cal-day">11&ndash;13</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">Fall League Tournament</span>
+          <h4>One More Weekend.<span class="cal-badge">Fall League Tournament</span></h4>
+          <span class="cal-sub">The regular season got us here.</span>
+          <p>Now let's see how it ends.</p>
+        </div>
+      </div>
+
+      <div class="cal-item cal-item--compact reveal" data-category="culture">
+        <div class="cal-date"><span class="cal-weekday">Mon</span><span class="cal-month">Dec</span><span class="cal-day">21</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">Basketball Culture</span>
+          <h4>World Basketball Day</h4>
+          <span class="cal-sub">The game is bigger than this court.</span>
+          <p>One game. Played everywhere. We're celebrating with more basketball, more people on the court, and a reason to bring somebody with you.</p>
+        </div>
+      </div>
+
       <div class="cal-item cal-item--both reveal" data-category="camps">
         <div class="cal-date"><span class="cal-weekday">Mon–Fri</span><span class="cal-month">Dec</span><span class="cal-day">21–24</span></div>
         <div class="cal-body">
@@ -455,112 +467,6 @@
           <h4>Winter Break Camp</h4>
           <p>Camp for the first half of winter break — details on ages and times coming soon.</p>
           <a href="camps" class="cal-link">View Camps →</a>
-        </div>
-      </div>
-
-      <div class="cal-item cal-item--signature-xl cal-item--both cal-item--holiday reveal" data-category="special">
-        <svg class="cal-lights-drawn cal-lights-drawn--holiday" viewBox="0 0 410 85" preserveAspectRatio="none" aria-hidden="true">
-          <defs>
-            <symbol id="bulbHoliday">
-              <rect x="-2" y="0" width="4" height="3" rx="1" fill="#171717"/>
-              <path d="M0,3 v3" stroke="#171717" stroke-width="1.4"/>
-              <ellipse class="bulb" cx="0" cy="12" rx="4.2" ry="6" fill="currentColor"/>
-            </symbol>
-          </defs>
-          <path d="M8,40 Q60,64 110,44 Q160,24 200,46 Q250,68 300,38 Q340,14 394,28" stroke="#171717" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-          <use href="#bulbHoliday" x="16" y="40" class="light-red"/>
-          <use href="#bulbHoliday" x="55" y="56" class="light-green"/>
-          <use href="#bulbHoliday" x="95" y="48" class="light-white"/>
-          <use href="#bulbHoliday" x="135" y="32" class="light-red"/>
-          <use href="#bulbHoliday" x="170" y="36" class="light-green"/>
-          <use href="#bulbHoliday" x="205" y="50" class="light-white"/>
-          <use href="#bulbHoliday" x="245" y="58" class="light-red"/>
-          <use href="#bulbHoliday" x="280" y="42" class="light-green"/>
-          <use href="#bulbHoliday" x="312" y="24" class="light-white"/>
-          <use href="#bulbHoliday" x="342" y="14" class="light-red"/>
-          <use href="#bulbHoliday" x="368" y="18" class="light-green"/>
-          <use href="#bulbHoliday" x="388" y="28" class="light-white"/>
-          <use href="#bulbHoliday" x="404" y="40" class="light-red"/>
-        </svg>
-        <div class="cal-date"><span class="cal-weekday">Sat</span><span class="cal-month">Dec</span><span class="cal-day">19</span></div>
-        <div class="cal-body">
-          <span class="cal-sparkle cal-sparkle--1" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" fill="#FFFFFF"/></svg>
-          </span>
-          <span class="cal-sparkle cal-sparkle--2" aria-hidden="true">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" fill="#FCEBD8"/></svg>
-          </span>
-          <span class="cal-tree cal-tree--1" aria-hidden="true">
-            <svg viewBox="0 0 64 64" fill="none">
-              <path d="M32 6l11 17H21z" fill="#2F6B4C"/>
-              <path d="M32 17l14 19H18z" fill="#2F6B4C"/>
-              <path d="M32 30l16 21H16z" fill="#2F6B4C"/>
-              <rect x="28" y="51" width="8" height="9" rx="1.5" fill="#171717"/>
-              <circle cx="32" cy="10" r="2.6" fill="#C23B3B"/>
-              <circle cx="26" cy="23" r="2.2" fill="#FCEBD8"/>
-              <circle cx="39" cy="27" r="2.2" fill="#C23B3B"/>
-              <circle cx="23" cy="38" r="2.2" fill="#FCEBD8"/>
-              <circle cx="42" cy="40" r="2.2" fill="#C23B3B"/>
-              <circle cx="32" cy="45" r="2.2" fill="#FCEBD8"/>
-            </svg>
-          </span>
-          <span class="cal-tree cal-tree--2" aria-hidden="true">
-            <svg viewBox="0 0 50 58" fill="none">
-              <path d="M25 5l8 13H17z" fill="#24503A"/>
-              <path d="M25 13l10 15H15z" fill="#24503A"/>
-              <path d="M25 24l12 19H13z" fill="#24503A"/>
-              <rect x="21" y="42" width="6" height="8" rx="1.2" fill="#171717"/>
-              <circle cx="25" cy="9" r="2" fill="#FCEBD8"/>
-              <circle cx="20" cy="19" r="1.8" fill="#C23B3B"/>
-              <circle cx="30" cy="22" r="1.8" fill="#FCEBD8"/>
-              <circle cx="18" cy="31" r="1.8" fill="#C23B3B"/>
-              <circle cx="33" cy="33" r="1.8" fill="#FCEBD8"/>
-            </svg>
-          </span>
-          <span class="cal-cocoa" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none">
-              <path d="M15 12c0-3 3-3 3-6M22 10c0-3 3-3 3-6M28 12c0-3 3-3 3-6" stroke="#D9D9D9" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-              <path d="M10 20h22v14a6 6 0 0 1-6 6H16a6 6 0 0 1-6-6z" fill="#FCEBD8"/>
-              <path d="M32 24h4a5 5 0 0 1 0 10h-4" fill="none" stroke="#FCEBD8" stroke-width="3"/>
-              <ellipse cx="21" cy="20" rx="11" ry="3" fill="#7A4B2E"/>
-              <circle cx="17" cy="19" r="2.2" fill="#FFFFFF"/>
-              <circle cx="24" cy="18.5" r="2.6" fill="#FFFFFF"/>
-              <circle cx="27" cy="20" r="1.8" fill="#FFFFFF"/>
-            </svg>
-          </span>
-          <span class="cal-snowman" aria-hidden="true">
-            <svg viewBox="0 0 70 100" fill="none">
-              <path d="M14 52L2 42M14 52L4 56" stroke="#5C3A1E" stroke-width="2" stroke-linecap="round"/>
-              <path d="M52 52L64 44M52 52L64 52" stroke="#5C3A1E" stroke-width="2" stroke-linecap="round"/>
-              <circle cx="33" cy="78" r="21" fill="#FFFFFF"/>
-              <circle cx="33" cy="50" r="15.5" fill="#FFFFFF"/>
-              <circle cx="33" cy="27" r="10.5" fill="#FFFFFF"/>
-              <path d="M18 40Q33 48 48 40L45 54L40 51.5L40 60L26 60L26 51.5L21 54Z" fill="#C23B3B"/>
-              <rect x="21" y="14" width="24" height="4.5" rx="1" fill="#171717"/>
-              <rect x="24" y="1" width="18" height="14" fill="#171717"/>
-              <rect x="24" y="11" width="18" height="3" fill="#E5682A"/>
-              <circle cx="29" cy="25" r="1.4" fill="#171717"/>
-              <circle cx="37" cy="25" r="1.4" fill="#171717"/>
-              <path d="M33 28l8 2-8 2z" fill="#E5682A"/>
-              <circle cx="33" cy="46" r="1.4" fill="#171717"/>
-              <circle cx="33" cy="56" r="1.4" fill="#171717"/>
-              <circle cx="33" cy="66" r="1.4" fill="#171717"/>
-              <circle cx="33" cy="76" r="1.4" fill="#171717"/>
-              <circle cx="33" cy="86" r="1.4" fill="#171717"/>
-            </svg>
-          </span>
-          <span class="cal-tag">Basketball + Volleyball · Signature Event</span>
-          <h4>The Holiday Classic</h4>
-          <span class="cal-sub">Close out the season in style.</span>
-          <p>Our season-ending tournament and celebration for basketball and volleyball athletes and families.</p>
-          <ul class="cal-bullets">
-            <li>Tournament play</li>
-            <li>Awards</li>
-            <li>Family celebration</li>
-          </ul>
-          <p class="cal-note">The last game day of the fall season.</p>
-          <!-- [PINK — UPPER HAND HOLIDAY CLASSIC REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
-          <a href="#" class="btn btn-primary" style="margin-top:16px;">Register →</a>
         </div>
       </div>
     </div>
@@ -577,22 +483,24 @@
             <span class="stadium-grain"></span>
           </div>
           <div class="fnl-card-content">
-            <span class="fnl-card-marker">Coming in January</span>
-            <h4>Friday Night Lights.</h4>
-            <p>A first-Friday-of-the-month tradition we're kicking off this winter &mdash; lights, music, and open gym for the whole community. More details soon.</p>
+            <span class="fnl-card-marker">Coming This Winter</span>
+            <h4>Friday Nights Just Got Better.</h4>
+            <p>Lights down. Music up. Courts open. We're turning the first Friday of the month into something worth leaving the house for.</p>
+            <span class="fnl-card-name">Friday Night at The Courts</span>
+            <span class="courts-commentary courts-commentary--on-dark">More soon. You'll want in.</span>
           </div>
         </div>
         <div class="rail-party-card" id="parties">
           <span class="eyebrow">Parties + Events</span>
           <h4>Your Party. Our Court.</h4>
-          <p>Birthday. Team celebration. Something worth getting everybody out of the house for.</p>
+          <p>Birthday. Team celebration. Just because everybody needs to get out of the house.</p>
           <div class="rail-party-glance">
             <div class="rail-party-glance-item"><span class="num">90</span><span class="label">Minutes</span></div>
             <div class="rail-party-glance-item"><span class="num">Your</span><span class="label">Court</span></div>
             <div class="rail-party-glance-item"><span class="num">Zero</span><span class="label">Cleanup at<br>Your House</span></div>
           </div>
-          <span class="rail-party-strip">Birthdays &middot; Team Parties &middot; Group Events</span>
-          <a href="contact?interest=Birthday%20Party%20%2F%20Event#contact-form" class="btn btn-primary" data-preset="Birthday Party / Event">Ask About a Party →</a>
+          <span class="rail-party-strip">Basketball &middot; Volleyball &middot; Games &middot; Music</span>
+          <a href="contact?interest=Birthday%20Party%20%2F%20Event#contact-form" class="btn btn-primary" data-preset="Birthday Party / Event">Throw a Party →</a>
           <span class="rail-secondary">Just need the space? <a href="court-rentals">View Court Rentals →</a></span>
         </div>
       </aside>
