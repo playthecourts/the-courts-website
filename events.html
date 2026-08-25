@@ -108,6 +108,13 @@
   .ev-poster--quiet .ev-poster-link:hover { color:var(--orange); }
   .ev-fallbreak-lines { font-family:var(--font-heading); font-weight:700; font-size:15px; line-height:1.7; color:var(--white); margin:0 0 16px; }
 
+  /* ---------- Bigger calendar date blocks (events page only) ---------- */
+  .cal-date { padding:14px 10px; }
+  .cal-weekday { font-size:13px; }
+  .cal-month { font-size:17px; }
+  .cal-day { font-size:32px; }
+  .cal-item--compact .cal-day { font-size:24px; }
+
   /* ---------- Compact camp/school-break lineup rows ---------- */
   .cal-camp-note { font-size:13px; line-height:1.5; color:var(--gray-dark); background:var(--gray-light); border-left:2px solid var(--orange); padding:10px 14px; margin:0 0 20px; }
   .cal-schedule { font-family:var(--font-heading); font-weight:700; font-size:14.5px; color:var(--black); line-height:1.7; margin:6px 0 10px; }
@@ -130,7 +137,7 @@
   .rail-party-card .rail-party-glance-item .label { color:rgba(255,255,255,0.7); }
   .rail-party-card .btn-primary { background:var(--white); color:var(--orange); }
   .rail-party-card .btn-primary:hover { background:var(--black); color:var(--white); }
-  .rail-party-card .rail-secondary { color:rgba(255,255,255,0.75); font-size:15px; white-space:nowrap; }
+  .rail-party-card .rail-secondary { color:rgba(255,255,255,0.75); font-size:15px; }
   .rail-party-card .rail-secondary a { color:var(--white); text-decoration:underline; }
 
   .ev-halloween-preview { display:flex; gap:28px; justify-content:center; margin:20px 0 24px; flex-wrap:wrap; }
@@ -674,7 +681,7 @@
           </div>
           <span class="rail-party-strip">Basketball &middot; Volleyball &middot; Games &middot; Music</span>
           <a href="contact?interest=Birthday%20Party%20%2F%20Event#contact-form" class="btn btn-primary" data-preset="Birthday Party / Event">Throw a Party →</a>
-          <span class="rail-secondary">Just need the space? <a href="court-rentals">View Court Rentals →</a></span>
+          <span class="rail-secondary">Just need the space?<br><a href="court-rentals">View Court Rentals →</a></span>
         </div>
       </aside>
     </div>
