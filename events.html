@@ -72,6 +72,18 @@
   .ev-poster--quiet-ctas { display:flex; align-items:center; gap:22px; flex-wrap:wrap; }
   .ev-poster--quiet .ev-poster-link { font-size:15px; }
   .ev-poster--quiet .ev-poster-link:hover { color:var(--orange); }
+  .ev-fallbreak-grid { display:flex; gap:32px; flex-wrap:wrap; margin:18px 0 16px; padding:18px 0; border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); }
+  .ev-fallbreak-label { display:block; font-family:var(--font-sport); font-weight:700; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:8px; }
+  .ev-fallbreak-sport { display:block; font-family:var(--font-heading); font-weight:700; font-size:15px; color:var(--white); margin-bottom:3px; }
+  .ev-fallbreak-comp { display:block; font-family:var(--font-heading); font-weight:700; font-size:15px; color:var(--orange); }
+  .ev-fallbreak-sport em, .ev-fallbreak-comp em { font-style:normal; font-weight:500; color:rgba(255,255,255,0.55); margin-left:6px; font-size:13px; }
+
+  .ev-halloween-access { display:block; font-family:var(--font-sport); font-weight:700; font-size:11.5px; letter-spacing:0.05em; text-transform:uppercase; color:var(--orange); margin-bottom:14px; }
+
+  /* ---------- Themed Open Gym access rates (normal Open Gym pricing) ---------- */
+  .cal-access { display:flex; flex-wrap:wrap; gap:14px 24px; margin:10px 0 14px; }
+  .cal-access span { display:block; font-size:12.5px; color:var(--gray-dark); }
+  .cal-access span b { display:block; font-family:var(--font-sport); font-weight:700; font-size:9.5px; letter-spacing:0.05em; text-transform:uppercase; color:var(--gray-dark); opacity:0.55; margin-bottom:2px; }
 
   /* ---------- Parties card: make it pop against the light rail ---------- */
   .rail-party-card { background:var(--orange); position:relative; overflow:hidden; }
@@ -241,8 +253,8 @@
   <div class="photo" role="img" aria-label="Athletes and families at The Courts"></div>
   <div class="container page-hero-inner">
     <span class="eyebrow eyebrow--light">Events</span>
-    <h1 class="page-hero-title">Okay, This Is Going to Be Fun.</h1>
-    <p class="page-hero-sub">Camps. League play. Costumes. Open gym. Watch nights. A grand opening.<br>And a few Courts traditions we're making up as we go.</p>
+    <h1 class="page-hero-title">Turns Out, We're Not Very Good at Sitting Still.</h1>
+    <p class="page-hero-sub">Camps. Games. Open gym. Watch nights. Costumes. Big weekends. Repeat.</p>
     <p class="ev-hero-quiet">Opening October 1<br>Nolensville, TN</p>
     <div class="hero-ctas" style="margin-top:28px;">
       <a href="#rhythm" class="btn btn-primary">See What's Coming ↓</a>
@@ -261,12 +273,13 @@
       <div class="photo"><img src="images/team-listening.jpg" alt="Athletes and coaches gathered together at The Courts."></div>
       <div class="ev-poster-body">
         <span class="ev-poster-status">Oct 24 &middot; Grand Opening</span>
-        <h3>We Built the Place.<br>Now Let's Make Some Noise.</h3>
+        <h3>First Season. First Party.<br>You're Invited.</h3>
         <p>Nolensville, come celebrate the start of The Courts. Meet the coaches. Try the courts. Take on Dr. Dish. Jump into games, skills challenges, and whatever else we decide looks fun that day.</p>
         <div class="ev-poster-words">
           <span>Basketball</span><span>Volleyball</span><span>Dr. Dish</span><span>Meet the Coaches</span><span>Challenges</span><span>Merch</span><span>Family Stuff</span>
         </div>
-        <span class="ev-poster-tag">Free + Open to the Community</span>
+        <span class="ev-poster-tag">Free + Open to Everyone</span>
+        <span class="ev-poster-link">See Details →</span>
       </div>
     </a>
 
@@ -311,6 +324,8 @@
           <h4>Halloween Shootout</h4>
           <p class="ev-halloween-tagline">Wear a costume. Bring a jumper.</p>
           <p>3-on-3 basketball, shooting challenges, music, prizes, and<br>a completely reasonable amount of Halloween chaos.</p>
+          <span class="ev-halloween-access">Member Pricing &middot; Non-Members Welcome</span>
+          <!-- [PINK — INSERT APPROVED MEMBER / NON-MEMBER PRICE FOR HALLOWEEN SHOOTOUT] Staging only. Do not publish a placeholder price; use the approved registration price once set. -->
           <!-- [PINK — UPPER HAND HALLOWEEN SHOOTOUT REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
           <a href="#" class="btn btn-primary">Register →</a>
           <span class="courts-commentary courts-commentary--on-dark">Dribble. Shoot. Boo.</span>
@@ -333,6 +348,8 @@
           <h4>Volleyween</h4>
           <p class="ev-halloween-tagline">Wear a costume. Bring your kneepads.</p>
           <p>Volleyball games, serving challenges, hitting competitions, music,<br>prizes, and two hours of Halloween on the court.</p>
+          <span class="ev-halloween-access">Member Pricing &middot; Non-Members Welcome</span>
+          <!-- [PINK — INSERT APPROVED MEMBER / NON-MEMBER PRICE FOR VOLLEYWEEN] Staging only. Do not publish a placeholder price; use the approved registration price once set. -->
           <!-- [PINK — UPPER HAND VOLLEYWEEN REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
           <a href="#" class="btn btn-secondary">Register →</a>
           <span class="courts-commentary">Bump. Set. Boo.</span>
@@ -341,11 +358,23 @@
     </div>
 
     <div class="ev-poster ev-poster--quiet reveal">
-      <span class="ev-poster-status">Oct 12&ndash;16 &middot; Fall Break Camp</span>
-      <h3>Five Days. Two Sports. Zero School.</h3>
-      <p>Basketball. Volleyball. Games. Competition. And considerably less sitting around the house asking what there is to do.</p>
+      <span class="ev-poster-status">Oct 12&ndash;16 &middot; Fall Break</span>
+      <h3>Four Days of Camp. Friday's Your Call.</h3>
+      <p>Basketball. Volleyball. Games. Competition.<br>Like a &rsquo;90s summer. Just with better supervision.</p>
+      <div class="ev-fallbreak-grid">
+        <div class="ev-fallbreak-core">
+          <span class="ev-fallbreak-label">Monday&ndash;Thursday &middot; Oct 12&ndash;15</span>
+          <span class="ev-fallbreak-sport">Basketball <em>8 AM&ndash;12 PM</em></span>
+          <span class="ev-fallbreak-sport">Volleyball <em>1&ndash;5 PM</em></span>
+        </div>
+        <div class="ev-fallbreak-add">
+          <span class="ev-fallbreak-label">Friday &middot; Oct 16</span>
+          <span class="ev-fallbreak-comp">Competition Day <em>Optional add-on</em></span>
+        </div>
+      </div>
+      <!-- [PINK — INSERT APPROVED MEMBER / NON-MEMBER PRICE FOR THE 4-DAY CAMP AND THE FRIDAY COMPETITION DAY ADD-ON] Staging only. Do not publish a placeholder price; use the approved registration price once set. -->
       <div class="ev-poster--quiet-ctas">
-        <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="btn btn-primary" data-preset="Programs + Membership">Register →</a>
+        <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="btn btn-primary" data-preset="Programs + Membership">Register for Fall Break →</a>
         <a href="camps" class="ev-poster-link">View Camps →</a>
       </div>
     </div>
@@ -375,6 +404,7 @@
           <span class="cal-tag">Opening Day</span>
           <h4>Doors Open.</h4>
           <p>We're officially open. Come in. Meet the crew. Look around for approximately thirty seconds. <strong>Then get on the court.</strong></p>
+          <p class="cal-note">No registration required to visit.</p>
         </div>
       </div>
 
@@ -389,12 +419,26 @@
       </div>
 
       <div class="cal-item cal-item--both reveal" data-category="camps" id="fall-break-camp">
-        <div class="cal-date"><span class="cal-weekday">Mon–Fri</span><span class="cal-month">Oct</span><span class="cal-day">12–16</span></div>
+        <div class="cal-date"><span class="cal-weekday">Mon–Thu</span><span class="cal-month">Oct</span><span class="cal-day">12–15</span></div>
         <div class="cal-body">
           <span class="cal-tag">Fall Break Camp</span>
           <h4>School's Out. We Have Plans.</h4>
-          <p>Five days of basketball, volleyball, competition, and plenty of reasons to come home tired.</p>
-          <a href="camps" class="cal-link">View Camps →</a>
+          <p>Four days of basketball and volleyball programming. Basketball 8 AM&ndash;12 PM. Volleyball 1&ndash;5 PM.</p>
+          <p class="cal-note">Separate camp registration. Members receive preferred pricing.</p>
+          <!-- [PINK — INSERT APPROVED MEMBER / NON-MEMBER PRICE FOR THE 4-DAY FALL BREAK CAMP] -->
+          <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-link" data-preset="Programs + Membership">Register →</a>
+        </div>
+      </div>
+
+      <div class="cal-item cal-item--compact reveal" data-category="camps">
+        <div class="cal-date"><span class="cal-weekday">Fri</span><span class="cal-month">Oct</span><span class="cal-day">16</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">Fall Break &middot; Optional Add-On</span>
+          <h4>Competition Day.</h4>
+          <p>Camp week ends with the part everybody's been waiting for.</p>
+          <p class="cal-note">Separate camp registration. Members receive preferred pricing.</p>
+          <!-- [PINK — INSERT APPROVED MEMBER / NON-MEMBER PRICE FOR FRIDAY COMPETITION DAY] -->
+          <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-link" data-preset="Programs + Membership">Add Competition Day →</a>
         </div>
       </div>
 
@@ -405,7 +449,7 @@
           <h4>WNBA Finals Night</h4>
           <span class="cal-sub">The W is still playing.</span>
           <p>When the Finals matchup is set, we'll pick a night and watch the best in the game finish the season.</p>
-          <p class="cal-note">Date coming soon.</p>
+          <p class="cal-note">RSVP opens when the date is set.</p>
         </div>
       </div>
 
@@ -426,7 +470,13 @@
           <h4>NBA Tip-Off Night</h4>
           <span class="cal-sub">Wear your jersey. Bring your game.</span>
           <p>Favorite team. Favorite player. Questionable throwback jersey. We're not judging.</p>
+          <div class="cal-access">
+            <span><b>Unlimited + Full Court + Family</b>Included</span>
+            <span><b>Weekly</b>$10</span>
+            <span><b>Non-Member</b>$20</span>
+          </div>
           <span class="courts-commentary">Yes, throwbacks count.</span>
+          <a href="schedule?type=opengym" class="cal-link">Book Your Spot →</a>
         </div>
       </div>
 
@@ -447,7 +497,19 @@
           <h4>We Made a Gym.<br>Let's Throw a Party.<span class="cal-badge">Signature Event</span></h4>
           <span class="cal-sub">Nolensville, this one's for you.</span>
           <p>Basketball. Volleyball. Dr. Dish. Competitions. Music. Merch. Coaches. Games. Families. A whole lot of court time.</p>
-          <p class="cal-note">Free + open to the community.</p>
+          <p class="cal-note">Free + open to everyone.</p>
+        </div>
+      </div>
+
+      <div class="cal-item cal-item--compact reveal" data-category="special">
+        <div class="cal-date"><span class="cal-weekday">Wed</span><span class="cal-month">Oct</span><span class="cal-day">28</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">Early Release</span>
+          <h4>School's Out Early. We Have Plans.</h4>
+          <p>Extra court time for the part of the day nobody quite knows what to do with.</p>
+          <p class="cal-note">Early Release at The Courts. Separate registration &mdash; not automatically included in Unlimited.</p>
+          <!-- [PINK — INSERT APPROVED SCHEDULE + MEMBER / NON-MEMBER PRICE FOR OCT 28 EARLY RELEASE] Staging only. Do not invent times or prices. -->
+          <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-link" data-preset="Programs + Membership">Register →</a>
         </div>
       </div>
 
@@ -467,6 +529,18 @@
 
     <div class="cal-month-head" id="november"><span class="eyebrow">November</span><h2 class="section-title">Nobody Said We Were Slowing Down.</h2></div>
         <div class="cal-list" data-month-group="november">
+      <div class="cal-item cal-item--compact reveal" data-category="special">
+        <div class="cal-date"><span class="cal-weekday">Tue</span><span class="cal-month">Nov</span><span class="cal-day">3</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">No School</span>
+          <h4>Day Off. Court On.</h4>
+          <p>No school? That sounds like a scheduling problem we can solve.</p>
+          <p class="cal-note">Separate registration. Bring your own lunch.</p>
+          <!-- [PINK — INSERT APPROVED SCHEDULE + MEMBER / NON-MEMBER PRICE FOR NOV 3 SCHOOL DAY OFF PROGRAMMING] Staging only. Do not invent times or prices. -->
+          <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-link" data-preset="Programs + Membership">Register →</a>
+        </div>
+      </div>
+
       <div class="cal-item cal-item--compact reveal" data-category="culture">
         <div class="cal-date"><span class="cal-weekday">Fri</span><span class="cal-month">Nov</span><span class="cal-day">6</span></div>
         <div class="cal-body">
@@ -474,7 +548,13 @@
           <h4>Basketball Day at The Courts</h4>
           <span class="cal-sub">Wear the jersey.</span>
           <p>Favorite player. Favorite team. NBA. WNBA. College. Your own team. Your call.</p>
+          <div class="cal-access">
+            <span><b>Unlimited + Full Court + Family</b>Included</span>
+            <span><b>Weekly</b>$10</span>
+            <span><b>Non-Member</b>$20</span>
+          </div>
           <span class="courts-commentary">Yes, throwbacks count.</span>
+          <a href="schedule?type=opengym" class="cal-link">Book Your Spot →</a>
         </div>
       </div>
 
@@ -484,7 +564,19 @@
           <span class="cal-tag">Player Development</span>
           <h4>What Makes a Great Player?</h4>
           <p>Courts coaches talk directly with athletes about the things that matter beyond the drill: effort, attitude, confidence, decision-making, being coachable, and showing up for your team.</p>
-          <p class="cal-note">The stuff that makes a player better, on and off the court.</p>
+          <p class="cal-note">Member benefit. Included with membership.</p>
+        </div>
+      </div>
+
+      <div class="cal-item cal-item--compact reveal" data-category="special">
+        <div class="cal-date"><span class="cal-weekday">Wed</span><span class="cal-month">Nov</span><span class="cal-day">18</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">Early Release</span>
+          <h4>School's Out Early. Again.</h4>
+          <p>Good thing the court is still here.</p>
+          <p class="cal-note">Early Release at The Courts. Separate registration &mdash; not automatically included in Unlimited.</p>
+          <!-- [PINK — INSERT APPROVED SCHEDULE + MEMBER / NON-MEMBER PRICE FOR NOV 18 EARLY RELEASE] Staging only. Do not invent times or prices. -->
+          <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-link" data-preset="Programs + Membership">Register →</a>
         </div>
       </div>
 
@@ -495,13 +587,37 @@
           <h4>Parents vs. Players<span class="cal-badge">Signature Event</span></h4>
           <span class="cal-sub">Families. Bragging rights. No mercy.</span>
           <p>Athletes and parents face off in a night of basketball and volleyball games built for laughs, not standings.</p>
-          <p class="cal-note">Everyone plays. Everyone loses to their kid at least once.</p>
+          <p class="cal-note">Everyone plays. Everyone loses to their kid at least once. Free + open to Courts families.</p>
+        </div>
+      </div>
+
+      <div class="cal-item cal-item--both reveal" data-category="camps">
+        <div class="cal-date"><span class="cal-weekday">Mon&ndash;Wed</span><span class="cal-month">Nov</span><span class="cal-day">23&ndash;25</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">Thanksgiving Break Camp</span>
+          <h4>Before the Turkey, There Are Reps.</h4>
+          <p>Basketball 8 AM&ndash;12 PM. Volleyball 1&ndash;5 PM. No camp on Thanksgiving Day.</p>
+          <p class="cal-note">Separate camp registration. Members receive preferred pricing.</p>
+          <!-- [PINK — INSERT APPROVED MEMBER / NON-MEMBER PRICE FOR THANKSGIVING BREAK CAMP] -->
+          <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-link" data-preset="Programs + Membership">Register →</a>
         </div>
       </div>
     </div>
 
     <div class="cal-month-head" id="december"><span class="eyebrow">December</span><h2 class="section-title">Finish Strong.</h2></div>
         <div class="cal-list" data-month-group="december">
+      <div class="cal-item cal-item--compact reveal" data-category="special">
+        <div class="cal-date"><span class="cal-weekday">Wed</span><span class="cal-month">Dec</span><span class="cal-day">9</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">Early Release</span>
+          <h4>One More Early Exit.</h4>
+          <p>We know where you can go.</p>
+          <p class="cal-note">Early Release at The Courts. Separate registration &mdash; not automatically included in Unlimited.</p>
+          <!-- [PINK — INSERT APPROVED SCHEDULE + MEMBER / NON-MEMBER PRICE FOR DEC 9 EARLY RELEASE] Staging only. Do not invent times or prices. -->
+          <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-link" data-preset="Programs + Membership">Register →</a>
+        </div>
+      </div>
+
       <div class="cal-item cal-item--signature cal-item--basketball reveal" data-category="basketball">
         <div class="cal-date"><span class="cal-weekday">Thu&ndash;Sat</span><span class="cal-month">Dec</span><span class="cal-day">11&ndash;13</span></div>
         <div class="cal-body">
@@ -509,6 +625,18 @@
           <h4>One More Weekend.<span class="cal-badge">Fall League Tournament</span></h4>
           <span class="cal-sub">The regular season got us here.</span>
           <p>Now let's see how it ends.</p>
+          <a href="leagues#fall-league" class="cal-link">View Tournament →</a>
+        </div>
+      </div>
+
+      <div class="cal-item cal-item--compact reveal" data-category="special">
+        <div class="cal-date"><span class="cal-weekday">Fri</span><span class="cal-month">Dec</span><span class="cal-day">18</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">Winter Classic</span>
+          <h4>School's Almost Out. We're Getting Started.</h4>
+          <p>Details on this one are still coming together &mdash; check back as we get closer.</p>
+          <!-- [PINK — INSERT APPROVED WINTER CLASSIC FORMAT (SKILLS EVENT / COMPETITION / CLINIC / CAMP-STYLE SESSION), SCHEDULE, AND MEMBER / NON-MEMBER PRICE] Staging only. Do not invent programming details, times, or prices. -->
+          <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-link" data-preset="Programs + Membership">Register →</a>
         </div>
       </div>
 
@@ -519,16 +647,64 @@
           <h4>World Basketball Day</h4>
           <span class="cal-sub">The game is bigger than this court.</span>
           <p>One game. Played everywhere. We're celebrating with more basketball, more people on the court, and a reason to bring somebody with you.</p>
+          <!-- [PINK — CONFIRM WHETHER WORLD BASKETBALL DAY IS THEMED OPEN GYM (NORMAL OPEN GYM RATES) OR A SEPARATE EVENT STRUCTURE ONCE FINALIZED] -->
+          <a href="schedule?type=opengym" class="cal-link">Book Your Spot →</a>
         </div>
       </div>
 
       <div class="cal-item cal-item--both reveal" data-category="camps">
-        <div class="cal-date"><span class="cal-weekday">Mon–Fri</span><span class="cal-month">Dec</span><span class="cal-day">21–24</span></div>
+        <div class="cal-date"><span class="cal-weekday">Mon&ndash;Wed</span><span class="cal-month">Dec</span><span class="cal-day">21&ndash;23</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Basketball + Volleyball · Camp</span>
-          <h4>Winter Break Camp</h4>
-          <p>Camp for the first half of winter break — details on ages and times coming soon.</p>
-          <a href="camps" class="cal-link">View Camps →</a>
+          <span class="cal-tag">Holiday Camp</span>
+          <h4>School's Out. We're Still Moving.</h4>
+          <p>Three days of basketball and volleyball programming before the holiday. Basketball 8 AM&ndash;12 PM. Volleyball 1&ndash;5 PM.</p>
+          <p class="cal-note">Separate camp registration. Members receive preferred pricing.</p>
+          <!-- [PINK — INSERT APPROVED MEMBER / NON-MEMBER PRICE FOR HOLIDAY CAMP] -->
+          <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-link" data-preset="Programs + Membership">Register →</a>
+        </div>
+      </div>
+
+      <div class="cal-item cal-item--both reveal" data-category="camps">
+        <div class="cal-date"><span class="cal-weekday">Mon&ndash;Wed</span><span class="cal-month">Dec</span><span class="cal-day">28&ndash;30</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">New Year Camp</span>
+          <h4>One More Run Before the Year's Over.</h4>
+          <p>Three days of basketball and volleyball. Basketball 8 AM&ndash;12 PM. Volleyball 1&ndash;5 PM.</p>
+          <p class="cal-note">Separate camp registration. Members receive preferred pricing.</p>
+          <!-- [PINK — INSERT APPROVED MEMBER / NON-MEMBER PRICE FOR NEW YEAR CAMP] -->
+          <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-link" data-preset="Programs + Membership">Register →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cal-month-head"><span class="eyebrow">Next Up</span><h2 class="section-title">2027 Is Already Getting Ideas.</h2></div>
+        <div class="cal-list">
+      <div class="cal-item cal-item--compact reveal" data-category="teaser">
+        <div class="cal-date"><span class="cal-weekday">Jan</span><span class="cal-month">2027</span><span class="cal-day">1</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">Coming Soon</span>
+          <h4>New Year Tip-Off</h4>
+          <p class="cal-note">Coming soon.</p>
+        </div>
+      </div>
+
+      <div class="cal-item cal-item--compact reveal" data-category="teaser">
+        <div class="cal-date"><span class="cal-weekday">First Friday</span><span class="cal-month">Every</span><span class="cal-day">Month</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">Coming This Winter</span>
+          <h4>Friday Night at The Courts</h4>
+          <p>Lights down. Music up. Courts open. We're turning the first Friday of the month into something worth leaving the house for.</p>
+          <span class="courts-commentary">You'll want in.</span>
+          <p class="cal-note">Coming soon.</p>
+        </div>
+      </div>
+
+      <div class="cal-item cal-item--compact reveal" data-category="teaser">
+        <div class="cal-date"><span class="cal-weekday">Spring</span><span class="cal-month">2027</span><span class="cal-day">&middot;</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">Coming Soon</span>
+          <h4>All-Star Weekend &middot; March Madness &middot; Spring Break &middot; WNBA Tip-Off</h4>
+          <p class="cal-note">Coming soon.</p>
         </div>
       </div>
     </div>
