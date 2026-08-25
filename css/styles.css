@@ -437,8 +437,8 @@ body.has-announce .nav { top: 64px; }
 .footer-newsletter-success.show { display: block; }
 .footer-social-handle { display: block; font-family: var(--font-sport); font-weight: 700; font-size: 13.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--black); margin: 0 0 10px; }
 .footer-social-links { display: flex; gap: 20px; flex-wrap: wrap; }
-.footer-social-links a { font-size: 14.5px; font-weight: 500; color: var(--gray-dark); }
-.footer-social-links a:hover { color: var(--orange); }
+.footer-social-links a { font-size: 14.5px; font-weight: 500; color: var(--orange); }
+.footer-social-links a:hover { color: var(--orange-hover); }
 
 .footer-divider { height: 1px; background: var(--gray-mid); }
 
@@ -1171,7 +1171,7 @@ body.has-announce .nav { top: 64px; }
 /* ---------- Events: month tabs + 70/30 layout ---------- */
 .events-month-tabs { display: flex; gap: 8px; margin-bottom: 26px; border-bottom: 1px solid var(--gray-mid); }
 .events-month-tab {
-  font-family: var(--font-sport); font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;
+  font-family: var(--font-sport); font-weight: 700; font-size: 18px; text-transform: uppercase; letter-spacing: 0.05em;
   color: var(--gray-dark); padding: 10px 4px 14px; border-bottom: 2px solid transparent; margin-bottom: -1px;
 }
 .events-month-tab:hover { color: var(--black); }
