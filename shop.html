@@ -41,10 +41,11 @@
   }
 
   /* ---------- Orange callout band ---------- */
-  .shop-callout { background:var(--orange); padding:64px 0; }
+  .shop-callout { background:var(--white); padding:70px 0; text-align:center; }
   .shop-callout-inner { text-align:center; }
+  .shop-callout-rule { display:block; width:60px; height:4px; background:var(--orange); margin:0 auto 24px; }
   .shop-callout-title { font-family:var(--font-display); font-weight:900; color:var(--black); font-size:clamp(28px,4.4vw,52px); line-height:1.08; margin:0 0 14px; max-width:16ch; margin-left:auto; margin-right:auto; }
-  .shop-callout-sub { font-family:var(--font-heading); font-weight:800; color:var(--black); font-size:clamp(17px,2vw,22px); margin:0; }
+  .shop-callout-sub { font-family:var(--font-heading); font-weight:800; color:var(--orange); font-size:clamp(17px,2vw,22px); margin:0; }
 
   /* ---------- Gift card feature ---------- */
   .shop-gift { background:var(--black); padding:46px 0; position:relative; overflow:hidden; }
@@ -416,6 +417,7 @@
 
 <section class="shop-callout">
   <div class="container shop-callout-inner">
+    <span class="shop-callout-rule" aria-hidden="true"></span>
     <h2 class="shop-callout-title">Your Kid&rsquo;s Not the Only One Who Wants One.</h2>
     <p class="shop-callout-sub">We noticed.</p>
   </div>

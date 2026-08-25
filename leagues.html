@@ -111,6 +111,13 @@
   .season-board-item span { display: block; font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 10px; }
   .season-board-item strong { display: block; font-family: var(--font-display); font-size: clamp(14px, 1.5vw, 18px); color: var(--black); line-height: 1.25; }
   .season-board-item--accent strong { color: var(--orange); font-size: clamp(16px, 1.7vw, 20px); }
+  .lg-fall-league-dark .lg-glance-headline { color: var(--white); }
+  .lg-fall-league-dark .lg-rhythm-sub, .lg-fall-league-dark .section-sub { color: rgba(255,255,255,0.75); }
+  .lg-fall-league-dark .season-board { border-top-color: rgba(255,255,255,0.16); border-left-color: rgba(255,255,255,0.16); }
+  .lg-fall-league-dark .season-board-item { border-right-color: rgba(255,255,255,0.16); border-bottom-color: rgba(255,255,255,0.16); }
+  .lg-fall-league-dark .season-board-item span { color: rgba(255,255,255,0.55); }
+  .lg-fall-league-dark .season-board-item strong { color: var(--white); }
+  .lg-fall-league-dark .season-board-item--accent strong { color: var(--orange); }
   @media (max-width: 900px) { .season-board { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 560px) { .season-board { grid-template-columns: repeat(2, 1fr); } }
 
@@ -416,7 +423,7 @@
   </div>
 </section>
 
-<section style="padding:72px 0 100px;" id="fall-league">
+<section style="padding:72px 0 100px; background:var(--black);" id="fall-league" class="lg-fall-league-dark">
   <div class="container">
     <div class="section-head">
       <span class="eyebrow lg-rhythm-eyebrow">Fall 2026</span>

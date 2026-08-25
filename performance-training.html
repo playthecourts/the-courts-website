@@ -12,6 +12,25 @@
 <link rel="icon" type="image/png" sizes="16x16" href="images/brand/favicon-16.png">
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="css/styles.css">
+<style>
+  .pricing-strip { background: var(--black); padding: 100px 0; }
+  .pricing-strip .eyebrow { color: var(--orange); }
+  .pricing-strip .section-title { color: var(--white); }
+  .pricing-strip .section-sub { color: rgba(255,255,255,0.75); }
+  .pricing-strip-row { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 44px 0 40px; }
+  .pricing-mini { text-align: center; padding: 28px 30px; border: 1px solid rgba(255,255,255,0.16); border-radius: var(--radius-md); min-width: 140px; }
+  .pricing-mini.popular { border-color: var(--orange); background: rgba(213,96,31,0.12); }
+  .pricing-mini .name { font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 10px; }
+  .pricing-mini.popular .name { color: var(--orange); }
+  .pricing-mini .price { font-family: var(--font-display); font-weight: 900; font-size: 26px; color: var(--white); }
+  .pricing-mini .price span { font-family: var(--font-body); font-weight: 500; font-size: 13px; color: rgba(255,255,255,0.55); }
+  .pricing-strip .btn-secondary { border-color: rgba(255,255,255,0.5); color: var(--white); }
+  .pricing-strip .btn-secondary:hover { background: var(--white); color: var(--black); }
+  @media (max-width: 560px) {
+    .pricing-strip-row { gap: 12px; }
+    .pricing-mini { min-width: 0; flex: 1 1 40%; padding: 20px 16px; }
+  }
+</style>
 </head>
 <body class="has-announce">
 <a href="#main" class="skip-link">Skip to main content</a>
@@ -174,12 +193,11 @@
       <p>Pairs naturally with basketball or volleyball membership, or stands alone for athletes focused purely on athletic development.</p>
     </div>
   </div>
-</section>
 
-<section class="benefits">
-  <div class="container">
-    <div class="section-head"><span class="eyebrow">Benefits</span><h2 class="section-title">What athletes actually gain.</h2></div>
-    <div class="benefits-grid">
+  <div class="benefits" style="padding-top:70px;">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Benefits</span><h2 class="section-title">What athletes actually gain.</h2></div>
+      <div class="benefits-grid">
       <div class="benefit-card reveal">
         <div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="10" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.6"/><rect x="18" y="10" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.6"/><path d="M6 12h12" stroke="currentColor" stroke-width="1.6"/></svg></div>
         <h4>Strength & Power</h4><p>Age-appropriate strength training that builds real, functional athletic power.</p>
@@ -195,6 +213,7 @@
       <div class="benefit-card reveal">
         <div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 12h4l2-5 4 10 2-5h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <h4>Athletic Longevity</h4><p>A foundation that carries into every sport an athlete plays, for years to come.</p>
+      </div>
       </div>
     </div>
   </div>

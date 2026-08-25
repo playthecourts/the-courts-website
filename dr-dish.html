@@ -123,8 +123,8 @@
   .dd-dashboard-img { width: 100%; height: auto; display: block; border-radius: var(--radius-md); box-shadow: 0 24px 60px rgba(0,0,0,0.25); }
   .dd-dashboard-caption { text-align: center; font-family: var(--font-sport); font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin: 16px 0 0; }
 
-  /* ---------- Leaderboard ---------- */
-  .dd-leaderboard { background: var(--gray-light); padding: 108px 0; }
+  /* ---------- Leaderboard (merged into .dd-feedback, same section) ---------- */
+  .dd-leaderboard-inner { margin-top: 88px; padding-top: 88px; border-top: 1px solid var(--gray-mid); }
   .dd-leaderboard-bold { font-family: var(--font-heading); font-weight: 800; font-size: clamp(19px, 2.2vw, 23px); color: var(--black); margin: 14px auto 0; max-width: 46ch; }
   .dd-board-label { display: block; text-align: center; font-family: var(--font-sport); font-weight: 800; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange); margin: 44px 0 14px; }
   .dd-board { max-width: 640px; margin: 0 auto 0; background: var(--black); border-radius: var(--radius-md); padding: clamp(28px,4vw,44px); }
@@ -138,7 +138,7 @@
   .dd-board-cta-line { text-align: center; font-family: var(--font-heading); font-weight: 700; font-size: 14.5px; font-style: italic; color: rgba(255,255,255,0.65); margin: 22px 0 0; }
   .dd-cta-center { text-align: center; margin-top: 40px; }
   @media (max-width: 820px) {
-    .dd-leaderboard { padding: 76px 0; }
+    .dd-leaderboard-inner { margin-top: 64px; padding-top: 64px; }
   }
 
   /* ---------- Pricing + Availability ---------- */
@@ -427,32 +427,30 @@
       <img class="dd-dashboard-img" src="images/dr-dish-shot-arc-results.png" alt="The real Dr. Dish Shot Arc Results dashboard, showing shot-by-shot arc, average arc, consistency grade, optimal arc, arc streak, and make percentage.">
       <p class="dd-dashboard-caption">The actual Dr. Dish Shot Arc Results screen</p>
     </div>
-  </div>
-</section>
 
-<!-- ================= 5. WEEKLY LEADERBOARD ================= -->
-<section class="dd-leaderboard">
-  <div class="container">
-    <div class="dd-head">
-      <span class="eyebrow">This Week at The Courts</span>
-      <h2>Well, Now It's <span class="accent">Personal.</span></h2>
-      <p>Every week, there's something new to chase. Makes. Shooting percentage. Streaks. Challenges. Whatever we put on the board.</p>
-      <p class="dd-leaderboard-bold">Put up a number. Come back later. See if it's still yours.</p>
-    </div>
-    <span class="dd-board-label">The Courts Leaderboard</span>
-    <div class="dd-board reveal">
-      <div class="dd-board-top">
-        <span class="dd-board-challenge">This Week's Challenge</span>
-        <span class="dd-board-name">3-Point 50</span>
+    <!-- ================= WEEKLY LEADERBOARD ================= -->
+    <div class="dd-leaderboard-inner">
+      <div class="dd-head">
+        <span class="eyebrow">This Week at The Courts</span>
+        <h2>Well, Now It's <span class="accent">Personal.</span></h2>
+        <p>Every week, there's something new to chase. Makes. Shooting percentage. Streaks. Challenges. Whatever we put on the board.</p>
+        <p class="dd-leaderboard-bold">Put up a number. Come back later. See if it's still yours.</p>
       </div>
-      <div class="dd-board-filters">
-        <span class="dd-board-filter dd-board-filter--active">All</span>
-        <span class="dd-board-filter">Ages 8–10</span>
-        <span class="dd-board-filter">Ages 11–13</span>
-        <span class="dd-board-filter">Ages 14+</span>
+      <span class="dd-board-label">The Courts Leaderboard</span>
+      <div class="dd-board reveal">
+        <div class="dd-board-top">
+          <span class="dd-board-challenge">This Week's Challenge</span>
+          <span class="dd-board-name">3-Point 50</span>
+        </div>
+        <div class="dd-board-filters">
+          <span class="dd-board-filter dd-board-filter--active">All</span>
+          <span class="dd-board-filter">Ages 8–10</span>
+          <span class="dd-board-filter">Ages 11–13</span>
+          <span class="dd-board-filter">Ages 14+</span>
+        </div>
+        <p class="dd-board-status">Leaderboard launching soon.</p>
+        <p class="dd-board-cta-line">Your name could look good up here.</p>
       </div>
-      <p class="dd-board-status">Leaderboard launching soon.</p>
-      <p class="dd-board-cta-line">Your name could look good up here.</p>
     </div>
   </div>
 </section>

@@ -325,7 +325,7 @@ body.has-announce .nav { top: 64px; }
 .membership-endcap .eyebrow { color: var(--orange); }
 .membership-endcap h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 4.6vw, 48px); margin: 14px 0 16px; color: var(--white); }
 .membership-endcap p { color: rgba(255,255,255,0.72); font-size: 16px; margin: 0 0 32px; }
-.membership-endcap-names { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-bottom: 36px; font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+.membership-endcap-names { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-bottom: 36px; font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.82); }
 @media (max-width: 560px) { .membership-endcap-names { gap: 16px; font-size: 11.5px; } }
 
 /* ---------- Homepage: Pick Your Game (50/50 split) ---------- */
