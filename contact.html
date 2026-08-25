@@ -325,6 +325,7 @@
           <div class="form-row"><label for="pt-experience">Experience <span class="form-optional-tag">Optional</span></label><select id="pt-experience"><option value="">Select one</option><option>New to the sport</option><option>Recreational</option><option>Competitive</option><option>Club / school team</option></select></div>
           <div class="form-row">
             <label>What do you want to work on? <span class="form-optional-tag">Choose all that apply</span></label>
+            <p class="cf-hint" data-show-if="pt-sport:" hidden>Pick a sport above to see skill options.</p>
             <div class="cf-subgroup" data-show-if="pt-sport:Basketball" hidden><div class="chip-group" data-group="pt-skills-bb">
           <label class="chip"><input type="checkbox" id="pt-skills-bb-shooting" name="pt-skills-bb"><span>Shooting</span></label>
           <label class="chip"><input type="checkbox" id="pt-skills-bb-ball-handling" name="pt-skills-bb"><span>Ball handling</span></label>
@@ -561,6 +562,7 @@
   .cf-subgroup { padding-left: 18px; border-left: 2px solid var(--gray-mid); margin: -6px 0 30px; }
   .cf-subgroup .form-row:last-child { margin-bottom: 6px; }
   .cf-minor-note { font-size: 13px; color: var(--gray-dark); margin: -12px 0 28px; }
+  .cf-hint { font-size: 13.5px; font-style: italic; color: var(--gray-dark); margin: 4px 0 0; }
   .chip-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 2px; }
   .chip { position: relative; cursor: pointer; }
   .chip input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
