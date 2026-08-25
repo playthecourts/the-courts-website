@@ -111,10 +111,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 body.has-announce { padding-top: 64px; }
 body.has-announce .nav { top: 64px; }
+[id] { scroll-margin-top: 180px; }
 @media (max-width: 640px) {
   .site-announce { min-height: 0; padding: 16px 18px; }
   .site-announce-inner { font-size: 15px; }
   body.has-announce { padding-top: 112px; }
+  [id] { scroll-margin-top: 210px; }
   body.has-announce .nav { top: 112px; }
 }
 
@@ -808,7 +810,7 @@ body.has-announce .nav { top: 64px; }
 .filter-group select { padding: 12px 16px; border-radius: var(--radius-sm); border: 1.5px solid var(--gray-mid); font-family: var(--font-body); font-size: 14px; background: var(--white); }
 
 /* ---------- Calendar ---------- */
-.cal-month-head { margin: 60px 0 26px; scroll-margin-top: 110px; }
+.cal-month-head { margin: 60px 0 26px; scroll-margin-top: 180px; }
 .cal-month-head:first-of-type { margin-top: 0; }
 .cal-list { display: flex; flex-direction: column; gap: 16px; }
 .cal-item {
@@ -944,7 +946,7 @@ body.has-announce .nav { top: 64px; }
 .legal-toc a { color: var(--gray-dark); }
 .legal-toc a:hover { color: var(--orange); }
 .legal-note { background: var(--gray-light); border-left: 3px solid var(--orange); padding: 16px 20px; font-size: 13.5px; line-height: 1.7; color: var(--gray-dark); margin: 22px 0; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
-.legal-body:not(:has(.legal-shell)) h2 { font-family: var(--font-heading); font-weight: 800; font-size: 21px; margin: 44px 0 14px; scroll-margin-top: 100px; }
+.legal-body:not(:has(.legal-shell)) h2 { font-family: var(--font-heading); font-weight: 800; font-size: 21px; margin: 44px 0 14px; scroll-margin-top: 180px; }
 .legal-body:not(:has(.legal-shell)) section:first-of-type h2 { margin-top: 0; }
 .legal-body:not(:has(.legal-shell)) p { font-size: 15.5px; line-height: 1.8; color: var(--gray-dark); margin-bottom: 16px; }
 .legal-body:not(:has(.legal-shell)) ul { margin: 0 0 16px; padding-left: 22px; }
@@ -987,7 +989,7 @@ body.has-announce .nav { top: 64px; }
   .legal-toc-mobile a { font-size: 14px; color: var(--gray-dark); }
 }
 
-.legal-content h2 { font-family: var(--font-heading); font-weight: 800; font-size: 21px; margin: 44px 0 14px; scroll-margin-top: 110px; }
+.legal-content h2 { font-family: var(--font-heading); font-weight: 800; font-size: 21px; margin: 44px 0 14px; scroll-margin-top: 180px; }
 .legal-content section:first-of-type h2 { margin-top: 0; }
 .legal-content p { font-size: 15.5px; line-height: 1.8; color: var(--gray-dark); margin-bottom: 16px; }
 .legal-content ul { margin: 0 0 16px; padding-left: 22px; }
