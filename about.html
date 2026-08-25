@@ -261,7 +261,7 @@
           <li>Lift people up.</li>
           <li>Compete the right way.</li>
         </ul>
-        <p class="ts-payoff">Character spreads. <span class="accent">Bring yours to The Courts.</span></p>
+        <p class="ts-payoff"><span class="ts-marker-word">Character</span> spreads. <span class="accent">Bring yours to The Courts.</span></p>
       </div>
       <div class="ts-scoreboard">
         <span class="ts-sb-corner ts-sb-corner--tl"></span>
@@ -303,11 +303,12 @@
   .ts-lines { list-style: none; margin: 0 0 30px; padding: 0; display: flex; flex-direction: column; gap: 10px; }
   .ts-lines li { font-family: var(--font-heading); font-weight: 600; font-size: 16px; color: var(--gray-dark); padding-left: 18px; position: relative; }
   .ts-lines li::before { content: ''; position: absolute; left: 0; top: 9px; width: 8px; height: 2px; background: var(--orange); }
-  .ts-payoff { font-family: var(--font-heading); font-weight: 700; font-size: 17px; color: var(--gray-dark); margin: 0; display: inline-block; position: relative; padding-bottom: 13px; }
+  .ts-payoff { font-family: var(--font-heading); font-weight: 700; font-size: 17px; color: var(--gray-dark); margin: 0; }
   .ts-payoff .accent { color: var(--black); font-weight: 800; }
-  .ts-payoff::after {
-    content: ''; position: absolute; left: -1%; right: -1%; bottom: 0; height: 11px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 20' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23D5601F'/%3E%3Cstop offset='1' stop-color='%23F2A65A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M4,12 C60,8 150,11 220,10 C250,10 272,8 288,7' stroke='url(%23g)' stroke-width='7' fill='none' stroke-linecap='round'/%3E%3Cpath d='M6,9 C80,7 180,12 282,9' stroke='url(%23g)' stroke-width='3' fill='none' stroke-linecap='round' opacity='0.45'/%3E%3Ccircle cx='292' cy='6' r='1.3' fill='%23F2A65A' opacity='0.7'/%3E%3Ccircle cx='296' cy='9' r='0.9' fill='%23F2A65A' opacity='0.6'/%3E%3C/svg%3E");
+  .ts-marker-word { position: relative; display: inline-block; padding-bottom: 24px; }
+  .ts-marker-word::after {
+    content: ''; position: absolute; left: -10%; right: -10%; bottom: -2px; height: 30px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60' preserveAspectRatio='none'%3E%3Cpath d='M4,22 C36,40 76,44 112,36 C142,29 168,16 194,4' stroke='%23D5601F' stroke-width='8' fill='none' stroke-linecap='round'/%3E%3Cpath d='M8,17 C42,33 80,38 116,30 C148,23 172,13 190,7' stroke='%23D5601F' stroke-width='3.5' fill='none' stroke-linecap='round' opacity='0.5'/%3E%3Ccircle cx='197' cy='3' r='1.8' fill='%23D5601F' opacity='0.7'/%3E%3Ccircle cx='191' cy='1' r='1.2' fill='%23D5601F' opacity='0.55'/%3E%3C/svg%3E");
     background-repeat: no-repeat; background-size: 100% 100%; pointer-events: none;
   }
 
@@ -334,14 +335,14 @@
   .ts-sb-body { font-size: 13.5px; line-height: 1.6; color: var(--gray-dark); margin: 0 0 12px; text-align: center; }
   .ts-sb-prizes { display: flex; justify-content: center; margin: 18px 0 14px; padding: 16px 0; border-top: 1px solid var(--gray-mid); border-bottom: 1px solid var(--gray-mid); }
   .ts-sb-prizes-list { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
-  .ts-sb-prizes-lead { display: block; font-family: var(--font-sport); font-weight: 700; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); opacity: 0.65; margin-bottom: 2px; }
+  .ts-sb-prizes-lead { display: block; font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); opacity: 0.75; margin-bottom: 2px; }
   .ts-sb-prizes span:not(.ts-sb-prizes-lead) { display: flex; align-items: center; gap: 9px; font-family: var(--font-display); font-weight: 800; font-size: 14.5px; color: var(--black); text-transform: uppercase; letter-spacing: 0.01em; }
   .ts-sb-prizes span:not(.ts-sb-prizes-lead)::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
   .ts-sb-note { font-size: 12px; font-style: italic; text-align: center; color: var(--gray-dark); margin: 0 0 20px; }
   .ts-sb-winners { text-align: center; padding: 16px 0; margin: 0 0 20px; border-top: 1px solid var(--gray-mid); }
-  .ts-sb-winners-label { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+  .ts-sb-winners-label { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 17px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
   .ts-sb-winners-empty { font-size: 12.5px; font-style: italic; line-height: 1.5; color: var(--gray-dark); margin: 0; }
-  .ts-sb-cta { display: block; text-align: center; font-family: var(--font-heading); font-weight: 800; font-size: 14px; color: var(--orange); }
+  .ts-sb-cta { display: block; text-align: center; font-family: var(--font-heading); font-weight: 800; font-size: 17px; color: var(--orange); }
   .ts-sb-cta:hover { color: var(--orange-hover); }
   @media (max-width: 860px) {
     .ts-grid { grid-template-columns: 1fr; gap: 40px; }
