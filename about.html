@@ -145,7 +145,7 @@
   <a href="membership" class="btn btn-primary btn-block">Become a Member</a>
 </div>
 
-<section id="main" style="padding:164px 0 56px; background:var(--gray-light);">
+<section id="main" style="padding:164px 0 28px; background:var(--gray-light);">
   <div class="container" style="max-width:760px;">
     <h1 class="ab-intro-headline">Hello, <span class="accent ab-nolensville-wrap"><span class="ab-opening-pill"><span class="ab-opening-dot"></span>Opening October 1</span>Nolensville.</span></h1>
 
@@ -184,7 +184,7 @@
   .founder-note p { font-size: 16.5px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 18px; }
   .founder-note p strong { color: var(--black); font-weight: 800; font-size: 18px; }
   .founder-note-signoff { margin-top: 30px !important; }
-  .founder-note-title { color: var(--gray-dark); font-size: 16px; }
+  .founder-note-title { color: var(--gray-dark); font-size: 19px; }
   .founder-note-toggle { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--black); background: none; border: none; border-bottom: 1px solid var(--gray-mid); padding: 0 0 3px; cursor: pointer; margin: 4px 0 6px; }
   .founder-note-toggle-icon { display: inline-block; font-family: var(--font-heading); font-weight: 900; color: var(--orange); font-size: 17px; line-height: 1; transition: transform 0.2s var(--ease); }
   .founder-note-toggle[aria-expanded="true"] .founder-note-toggle-icon { transform: rotate(45deg); }
@@ -200,7 +200,7 @@
   }
 </style>
 
-<section id="how-we-play" style="padding:64px 0; background:var(--gray-light);">
+<section id="how-we-play" style="padding:32px 0 64px; background:var(--gray-light);">
   <div class="container" style="max-width:920px;">
     <div class="section-head">
       <span class="eyebrow">How We Play</span>
@@ -268,6 +268,8 @@
         <span class="ts-sb-corner ts-sb-corner--br"></span>
         <span class="ts-sb-sparkle ts-sb-sparkle--1" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" fill="#D5601F"/></svg></span>
         <span class="ts-sb-sparkle ts-sb-sparkle--2" aria-hidden="true"><svg width="9" height="9" viewBox="0 0 24 24" fill="none"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" fill="#D5601F"/></svg></span>
+        <span class="ts-sb-sparkle ts-sb-sparkle--3" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" fill="#D5601F"/></svg></span>
+        <span class="ts-sb-sparkle ts-sb-sparkle--4" aria-hidden="true"><svg width="6" height="6" viewBox="0 0 24 24" fill="none"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" fill="#D5601F"/></svg></span>
         <span class="ts-sb-label">Monthly Recognition</span>
         <div class="ts-sb-ticks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
         <p class="ts-sb-body">Each month, we'll recognize one basketball or volleyball athlete who shows what The Courts is really about.</p>
@@ -287,7 +289,7 @@
   .ts-grid { display: grid; grid-template-columns: 1.55fr 0.45fr; gap: 12px; align-items: start; }
   .ts-eyebrow { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 17px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
   .ts-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(32px, 4.2vw, 46px); line-height: 1.05; color: var(--black); margin: 0 0 20px; padding-bottom: 20px; border-bottom: 3px solid var(--orange); width: fit-content; }
-  .ts-intro { font-family: var(--font-heading); font-weight: 700; font-size: clamp(15px, 1.7vw, 17px); line-height: 1.5; color: var(--black); max-width: 30ch; margin: 0 0 26px; }
+  .ts-intro { font-family: var(--font-heading); font-weight: 700; font-size: 17px; line-height: 1.5; color: var(--black); max-width: 30ch; margin: 0 0 26px; }
   .ts-lines { list-style: none; margin: 0 0 30px; padding: 0; display: flex; flex-direction: column; gap: 10px; }
   .ts-lines li { font-family: var(--font-heading); font-weight: 600; font-size: 16px; color: var(--gray-dark); padding-left: 18px; position: relative; }
   .ts-lines li::before { content: ''; position: absolute; left: 0; top: 9px; width: 8px; height: 2px; background: var(--orange); }
@@ -307,6 +309,8 @@
   .ts-sb-sparkle { position: absolute; z-index: 1; pointer-events: none; animation: cal-sparkle-pulse 3s ease-in-out infinite; }
   .ts-sb-sparkle--1 { top: 10px; right: 34px; animation-delay: 0s; }
   .ts-sb-sparkle--2 { top: 26px; right: 20px; animation-delay: 1s; }
+  .ts-sb-sparkle--3 { bottom: 74px; left: 22px; animation-delay: 1.6s; }
+  .ts-sb-sparkle--4 { top: 44px; left: 46px; animation-delay: 0.5s; }
   @media (prefers-reduced-motion: reduce) { .ts-sb-sparkle { animation: none; } }
   .ts-sb-label { display: block; text-align: center; font-family: var(--font-sport); font-weight: 800; font-size: 17px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
   .ts-sb-ticks { display: flex; justify-content: center; gap: 7px; margin-bottom: 20px; }
@@ -483,6 +487,9 @@
 
     <div class="community-giveback">
       <div class="community-giveback-photo photo placeholder" role="img" aria-label="Photo coming soon"></div>
+      <span class="cg-heart cg-heart--1" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="#D5601F"><path d="M12 21s-8-4.6-8-11a4.8 4.8 0 0 1 8-3.5A4.8 4.8 0 0 1 20 10c0 6.4-8 11-8 11z"/></svg></span>
+      <span class="cg-heart cg-heart--2" aria-hidden="true"><svg width="9" height="9" viewBox="0 0 24 24" fill="#D5601F"><path d="M12 21s-8-4.6-8-11a4.8 4.8 0 0 1 8-3.5A4.8 4.8 0 0 1 20 10c0 6.4-8 11-8 11z"/></svg></span>
+      <span class="cg-heart cg-heart--3" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="#D5601F"><path d="M12 21s-8-4.6-8-11a4.8 4.8 0 0 1 8-3.5A4.8 4.8 0 0 1 20 10c0 6.4-8 11-8 11z"/></svg></span>
       <span class="community-giveback-label">Our First Chance to Give Back</span>
       <h3>Coming This December.</h3>
       <p>We'll organize a Courts community give-back opportunity once a quarter, giving athletes and families a chance to show up together for Nolensville.</p>
@@ -502,6 +509,11 @@
 
   .community-giveback { position: relative; margin: 72px 0 0; max-width: 420px; padding: 0 32px 32px; background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-md); box-shadow: 0 26px 60px rgba(213,96,31,0.14); overflow: hidden; }
   .community-giveback-photo { aspect-ratio: 16/9; margin: 0 -32px 24px; border-radius: var(--radius-md) var(--radius-md) 0 0; }
+  .cg-heart { position: absolute; z-index: 2; pointer-events: none; animation: cal-sparkle-pulse 3s ease-in-out infinite; }
+  .cg-heart--1 { top: 14px; right: 34px; animation-delay: 0.3s; }
+  .cg-heart--2 { top: 34px; right: 20px; animation-delay: 1.3s; }
+  .cg-heart--3 { top: 4px; right: 56px; animation-delay: 0.9s; }
+  @media (prefers-reduced-motion: reduce) { .cg-heart { animation: none; } }
   .community-giveback-label { position: absolute; top: -18px; left: 28px; display: inline-block; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-weight: 800; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; padding: 9px 20px; border-radius: 999px; box-shadow: 0 10px 22px rgba(213,96,31,0.4); z-index: 2; }
   .community-giveback h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(21px, 2.6vw, 27px); color: var(--black); margin: 0 0 12px; line-height: 1.2; }
   .community-giveback p { font-size: 15px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 16px; }
@@ -529,15 +541,16 @@
           <span class="partner-scoreboard-corner partner-scoreboard-corner--br"></span>
           <span class="partner-scoreboard-label">Ways to Partner</span>
           <div class="scoreboard-window" aria-hidden="true">
-            <span class="scoreboard-word sw-1">Team</span>
-            <span class="scoreboard-word sw-2">Equipment</span>
-            <span class="scoreboard-word sw-3">Events</span>
-            <span class="scoreboard-word sw-4">In-Gym</span>
-            <span class="scoreboard-word sw-5">+ Your Idea</span>
+            <span class="scoreboard-word sw-1">Teams.</span>
+            <span class="scoreboard-word sw-2">Gear.</span>
+            <span class="scoreboard-word sw-3">Events.</span>
+            <span class="scoreboard-word sw-4">Court-Side.</span>
+            <span class="scoreboard-word sw-5">Community-Wide.</span>
+            <span class="scoreboard-word sw-6">+ Your Call.</span>
           </div>
-          <span class="partner-sr-only">Ways to partner: Team, Equipment, Events, In-Gym, and your own idea.</span>
+          <span class="partner-sr-only">Ways to partner: Teams, Gear, Events, Court-Side, Community-Wide, and your own call.</span>
           <div class="partner-scoreboard-ticks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-          <p class="partner-scoreboard-note"><span class="partner-scoreboard-note-dot" aria-hidden="true"></span>We're listening.</p>
+          <p class="partner-scoreboard-note"><span class="partner-scoreboard-note-dot" aria-hidden="true"></span>You've got our attention.</p>
         </div>
       </div>
     </div>
@@ -578,7 +591,7 @@
     font-family:var(--font-display); font-weight:900; letter-spacing:0.01em; text-transform:uppercase;
     color:var(--black); font-size:clamp(19px, 2.6vw, 26px); text-align:center;
   }
-  .scoreboard-word.sw-5 { color:var(--orange); }
+  .scoreboard-word.sw-6 { color:var(--orange); }
   .partner-scoreboard-ticks { display:flex; justify-content:center; gap:8px; margin-top:22px; }
   .partner-scoreboard-ticks span { width:6px; height:6px; background:var(--gray-mid); }
   .partner-scoreboard-note {
@@ -594,41 +607,48 @@
     .scoreboard-window { flex-direction:row; height:clamp(64px, 9vw, 96px); padding:0; gap:0; perspective:600px; }
     .scoreboard-word {
       position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-      opacity:0; font-size:clamp(30px, 4vw, 50px);
-      animation-duration:4s; animation-iteration-count:infinite; animation-timing-function:ease-in-out;
+      opacity:0; font-size:clamp(24px, 3.2vw, 38px);
+      animation-duration:4.8s; animation-iteration-count:infinite; animation-timing-function:ease-in-out;
     }
     .sw-1 { animation-name:sb-word-1; }
     .sw-2 { animation-name:sb-word-2; }
     .sw-3 { animation-name:sb-word-3; }
     .sw-4 { animation-name:sb-word-4; }
     .sw-5 { animation-name:sb-word-5; }
+    .sw-6 { animation-name:sb-word-6; }
     @keyframes sb-word-1 {
       0%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
       2% { opacity:1; transform:none; }
-      15% { opacity:1; transform:none; }
-      17% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
+      12% { opacity:1; transform:none; }
+      14% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
     }
     @keyframes sb-word-2 {
-      0%, 19%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
-      21% { opacity:1; transform:none; }
-      33% { opacity:1; transform:none; }
-      35% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
+      0%, 16%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
+      18% { opacity:1; transform:none; }
+      28% { opacity:1; transform:none; }
+      30% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
     }
     @keyframes sb-word-3 {
-      0%, 37%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
-      39% { opacity:1; transform:none; }
-      51% { opacity:1; transform:none; }
-      53% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
+      0%, 33%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
+      35% { opacity:1; transform:none; }
+      45% { opacity:1; transform:none; }
+      47% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
     }
     @keyframes sb-word-4 {
-      0%, 55%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
-      57% { opacity:1; transform:none; }
-      69% { opacity:1; transform:none; }
-      71% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
+      0%, 49%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
+      51% { opacity:1; transform:none; }
+      61% { opacity:1; transform:none; }
+      63% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
     }
     @keyframes sb-word-5 {
-      0%, 73%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
-      75% { opacity:1; transform:none; }
+      0%, 66%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
+      68% { opacity:1; transform:none; }
+      78% { opacity:1; transform:none; }
+      80% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
+    }
+    @keyframes sb-word-6 {
+      0%, 83%, 100% { opacity:0; transform:rotateX(55deg) translateY(-6px); }
+      85% { opacity:1; transform:none; }
       97% { opacity:1; transform:none; }
       99% { opacity:0; transform:rotateX(-55deg) translateY(6px); }
     }
