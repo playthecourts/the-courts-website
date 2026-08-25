@@ -35,11 +35,13 @@
   .ev-poster-link { display:inline-flex; align-items:center; gap:8px; font-family:var(--font-heading); font-weight:800; font-size:19px; color:var(--white); }
   .ev-poster--grand:hover .ev-poster-link, .ev-poster--halloween:hover .ev-poster-link { color:var(--orange); }
 
-  .ev-poster--halloween { background:var(--charcoal); padding:0; }
-  .ev-poster--halloween .ev-poster-body { padding-bottom:8px; text-align:center; }
+  .ev-poster--halloween { background:#241A12; padding:0; position:relative; }
+  .ev-poster--halloween::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg, var(--orange), #F2A65A 50%, var(--orange)); z-index:3; }
+  .ev-halloween-lights { display:block; width:100%; height:44px; position:relative; z-index:2; margin-top:4px; }
+  .ev-halloween-lights svg { display:block; width:100%; height:100%; }
+  .ev-poster--halloween .ev-poster-body { padding-top:20px; padding-bottom:8px; text-align:center; }
   .ev-poster--halloween h3 { font-family:var(--font-display); font-weight:900; font-size:clamp(26px,3.6vw,40px); line-height:1.05; color:var(--white); margin:0 0 10px; }
   .ev-poster-sub { font-family:var(--font-heading); font-weight:600; font-size:16px; color:rgba(255,255,255,0.7); margin:0 auto; max-width:44ch; }
-  .ev-halloween-intro-note { display:block; margin:10px auto 0; }
   .ev-halloween-bat { position:absolute; z-index:2; pointer-events:none; }
   .ev-halloween-bat--1 { top:24px; left:36px; }
   .ev-halloween-bat--2 { top:52px; right:52px; }
@@ -72,10 +74,6 @@
   .cal-halloween-mini { display:flex; gap:24px; flex-wrap:wrap; margin:10px 0 14px; }
   .cal-halloween-mini span { display:block; font-family:var(--font-sport); font-weight:700; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--gray-dark); margin-bottom:2px; }
   .cal-halloween-mini strong { font-family:var(--font-heading); font-weight:700; font-size:15px; color:var(--black); }
-
-  /* ---------- Friday Night rail card additions ---------- */
-  .fnl-card-name { display:block; font-family:var(--font-sport); font-weight:700; font-size:12.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--orange); margin-top:12px; }
-  .fnl-card-content .courts-commentary { margin-top:10px; }
 
   @media (max-width:760px) {
     .ev-poster--grand .ev-poster-body { min-height:0; padding-top:32px; }
@@ -253,15 +251,39 @@
     <div class="ev-poster ev-poster--halloween reveal" id="halloween-weekend">
       <span class="ev-halloween-bat ev-halloween-bat--1" aria-hidden="true"><svg width="26" height="14" viewBox="0 0 24 13" fill="#FFFFFF"><path d="M12 3c-2-2-6-3-9-1 2 1 4 1.5 5 2-2 0.5-4 1.5-5 3 2 0.5 4 0.5 6 0-1 1-1 2 0 3 1-1 2-2 3-2s2 1 3 2c1-1 1-2 0-3 2 0.5 4 0.5 6 0-1-1.5-3-2.5-5-3 1-0.5 3-1 5-2-3-2-7-1-9 1z"/></svg></span>
       <span class="ev-halloween-bat ev-halloween-bat--2" aria-hidden="true"><svg width="18" height="10" viewBox="0 0 24 13" fill="#D5601F"><path d="M12 3c-2-2-6-3-9-1 2 1 4 1.5 5 2-2 0.5-4 1.5-5 3 2 0.5 4 0.5 6 0-1 1-1 2 0 3 1-1 2-2 3-2s2 1 3 2c1-1 1-2 0-3 2 0.5 4 0.5 6 0-1-1.5-3-2.5-5-3 1-0.5 3-1 5-2-3-2-7-1-9 1z"/></svg></span>
+      <span class="ev-halloween-lights" aria-hidden="true"><svg viewBox="0 0 700 44" preserveAspectRatio="none"><path d="M0,6 Q116,42 233,8 Q350,42 467,8 Q583,42 700,6" fill="none" stroke="#000000" stroke-opacity="0.35" stroke-width="1.5"/><g>
+        <circle cx="30" cy="13" r="8" fill="#D5601F" opacity="0.3"/><circle cx="30" cy="13" r="4.5" fill="#F2A65A"/>
+        <circle cx="90" cy="30" r="8" fill="#FFF3E0" opacity="0.3"/><circle cx="90" cy="30" r="4.5" fill="#FFF3E0"/>
+        <circle cx="150" cy="38" r="8" fill="#D5601F" opacity="0.3"/><circle cx="150" cy="38" r="4.5" fill="#F2A65A"/>
+        <circle cx="210" cy="26" r="8" fill="#FFF3E0" opacity="0.3"/><circle cx="210" cy="26" r="4.5" fill="#FFF3E0"/>
+        <circle cx="270" cy="10" r="8" fill="#D5601F" opacity="0.3"/><circle cx="270" cy="10" r="4.5" fill="#F2A65A"/>
+        <circle cx="330" cy="26" r="8" fill="#FFF3E0" opacity="0.3"/><circle cx="330" cy="26" r="4.5" fill="#FFF3E0"/>
+        <circle cx="390" cy="38" r="8" fill="#D5601F" opacity="0.3"/><circle cx="390" cy="38" r="4.5" fill="#F2A65A"/>
+        <circle cx="450" cy="26" r="8" fill="#FFF3E0" opacity="0.3"/><circle cx="450" cy="26" r="4.5" fill="#FFF3E0"/>
+        <circle cx="510" cy="10" r="8" fill="#D5601F" opacity="0.3"/><circle cx="510" cy="10" r="4.5" fill="#F2A65A"/>
+        <circle cx="570" cy="26" r="8" fill="#FFF3E0" opacity="0.3"/><circle cx="570" cy="26" r="4.5" fill="#FFF3E0"/>
+        <circle cx="630" cy="38" r="8" fill="#D5601F" opacity="0.3"/><circle cx="630" cy="38" r="4.5" fill="#F2A65A"/>
+        <circle cx="680" cy="16" r="8" fill="#FFF3E0" opacity="0.3"/><circle cx="680" cy="16" r="4.5" fill="#FFF3E0"/>
+        </g></svg></span>
       <div class="ev-poster-body">
         <span class="ev-poster-status">Oct 30&ndash;31 &middot; Courts Tradition</span>
         <h3>Halloween Weekend at The Courts</h3>
         <p class="ev-poster-sub">Two sports. Two days.<br>One very good excuse to wear a costume.</p>
-        <span class="courts-commentary courts-commentary--on-dark ev-halloween-intro-note">Costumes encouraged. Competition expected.</span>
       </div>
       <div class="ev-halloween-split">
         <div class="ev-halloween-day ev-halloween-day--fri">
-          <span class="ev-halloween-decor" aria-hidden="true"><svg width="60" height="60" viewBox="0 0 70 70" fill="none"><path d="M35 6c-16 0-27 12-27 27 0 13 8 22 15 25-1-3-1-6 1-8 1-2 4-3 6-2-3-3-3-8 0-11 2-2 5-2 7 0-2-4-1-9 3-12 3-2 7-2 10 0 2 2 3 5 2 8 3-1 6 0 7 3 1 2 0 5-2 7 2 1 4 3 4 6 0 2-1 4-3 5 8-3 17-12 17-26 0-15-11-27-27-27z" fill="#D5601F"/><path d="M35 6c-16 0-27 12-27 27 0 13 8 22 15 25" stroke="#171717" stroke-width="1.4" fill="none"/><path d="M20 14c6 6 6 15 0 21M50 14c-6 6-6 15 0 21M14 33c8-3 16-3 24 0M14 46c8 3 18 3 26 0" stroke="#171717" stroke-width="1.4" fill="none"/><path d="M27 26c1.5 2.5 1.5 5.5 0 8s-4 3-5.5 0-1.5-5.5 0-8 4-3 5.5 0z" fill="#171717"/><path d="M48 26c1.5 2.5 1.5 5.5 0 8s-4 3-5.5 0-1.5-5.5 0-8 4-3 5.5 0z" fill="#171717"/><path d="M23 44c4 4 15 4 19 0-2 5-6 8-9.5 8s-7.5-3-9.5-8z" fill="#171717"/><path d="M35 3c2 0 5 1 5 3s-3 4-5 4-5-2-5-4 3-3 5-3z" fill="#171717"/></svg></span>
+          <span class="ev-halloween-decor" aria-hidden="true"><svg width="60" height="60" viewBox="0 0 70 70" fill="none">
+            <path d="M32,20 Q31,9 40,10 Q42,17 35,21 Z" fill="#6B4226"/>
+            <ellipse cx="35" cy="41" rx="26" ry="22" fill="#D5601F"/>
+            <path d="M17,21 C14,30 14,52 17,60" stroke="#B34E15" stroke-width="1.6" fill="none"/>
+            <path d="M26,19 C23,30 23,53 26,62" stroke="#B34E15" stroke-width="1.6" fill="none"/>
+            <path d="M44,19 C47,30 47,53 44,62" stroke="#B34E15" stroke-width="1.6" fill="none"/>
+            <path d="M53,21 C56,30 56,52 53,60" stroke="#B34E15" stroke-width="1.6" fill="none"/>
+            <path d="M22,32 L30,32 L26,41 Z" fill="#171717"/>
+            <path d="M40,32 L48,32 L44,41 Z" fill="#171717"/>
+            <path d="M32,42 L38,42 L35,48 Z" fill="#171717"/>
+            <path d="M20,51 L25,57 L29,51 L34,57 L38,51 L42,57 L47,51 L47,55 L42,61 L38,55 L34,61 L29,55 L25,61 L20,55 Z" fill="#171717"/>
+          </svg></span>
           <span class="ev-halloween-date">Friday, October 30 &middot; 5&ndash;8 PM</span>
           <span class="ev-halloween-sport">Basketball</span>
           <h4>Halloween Shootout</h4>
@@ -269,9 +291,21 @@
           <p>3-on-3 basketball, shooting challenges, music, prizes, and<br>a completely reasonable amount of Halloween chaos.</p>
           <!-- [PINK — UPPER HAND HALLOWEEN SHOOTOUT REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
           <a href="#" class="btn btn-primary">Register →</a>
+          <span class="courts-commentary courts-commentary--on-dark">Dribble. Shoot. Boo.</span>
         </div>
         <div class="ev-halloween-day ev-halloween-day--sat">
-          <span class="ev-halloween-decor" aria-hidden="true"><svg width="52" height="52" viewBox="0 0 70 70" fill="none"><path d="M35 6c-16 0-27 12-27 27 0 13 8 22 15 25-1-3-1-6 1-8 1-2 4-3 6-2-3-3-3-8 0-11 2-2 5-2 7 0-2-4-1-9 3-12 3-2 7-2 10 0 2 2 3 5 2 8 3-1 6 0 7 3 1 2 0 5-2 7 2 1 4 3 4 6 0 2-1 4-3 5 8-3 17-12 17-26 0-15-11-27-27-27z" fill="#FCEBD8"/><path d="M35 6c-16 0-27 12-27 27 0 13 8 22 15 25" stroke="#171717" stroke-width="1.4" fill="none"/><path d="M14 24c9-4 18-4 27 0M11 37c9 4 20 4 29 0M22 15c4 5 4 10 0 15" stroke="#171717" stroke-width="1.4" fill="none"/><path d="M25 27c2 3 2 6 0 9s-5 3-7 0-2-6 0-9 5-3 7 0z" fill="#171717"/><path d="M46 27c2 3 2 6 0 9s-5 3-7 0-2-6 0-9 5-3 7 0z" fill="#171717"/><path d="M20 46c5 5 18 5 23 0-2 6-7 9-11.5 9s-9.5-3-11.5-9z" fill="#171717"/><path d="M35 3c2 0 5 1 5 3s-3 4-5 4-5-2-5-4 3-3 5-3z" fill="#171717"/></svg></span>
+          <span class="ev-halloween-decor" aria-hidden="true"><svg width="52" height="52" viewBox="0 0 70 70" fill="none">
+            <path d="M32,20 Q31,9 40,10 Q42,17 35,21 Z" fill="#6B4226"/>
+            <ellipse cx="35" cy="41" rx="26" ry="22" fill="#F2C89B"/>
+            <path d="M17,21 C14,30 14,52 17,60" stroke="#C9A276" stroke-width="1.6" fill="none"/>
+            <path d="M26,19 C23,30 23,53 26,62" stroke="#C9A276" stroke-width="1.6" fill="none"/>
+            <path d="M44,19 C47,30 47,53 44,62" stroke="#C9A276" stroke-width="1.6" fill="none"/>
+            <path d="M53,21 C56,30 56,52 53,60" stroke="#C9A276" stroke-width="1.6" fill="none"/>
+            <path d="M22,32 L30,32 L26,41 Z" fill="#171717"/>
+            <path d="M40,32 L48,32 L44,41 Z" fill="#171717"/>
+            <path d="M32,42 L38,42 L35,48 Z" fill="#171717"/>
+            <path d="M20,51 L25,57 L29,51 L34,57 L38,51 L42,57 L47,51 L47,55 L42,61 L38,55 L34,61 L29,55 L25,61 L20,55 Z" fill="#171717"/>
+          </svg></span>
           <span class="ev-halloween-date">Saturday, October 31 &middot; 1&ndash;3 PM</span>
           <span class="ev-halloween-sport">Volleyball</span>
           <h4>Volleyween</h4>
@@ -477,22 +511,6 @@
       </div>
 
       <aside class="events-rail">
-        <div class="fnl-card">
-          <div class="stadium-lights" aria-hidden="true">
-            <div class="stadium-glow-bar"></div>
-            <span class="stadium-glow stadium-glow--1"></span>
-            <span class="stadium-glow stadium-glow--2"></span>
-            <span class="stadium-glow stadium-glow--3"></span>
-            <span class="stadium-grain"></span>
-          </div>
-          <div class="fnl-card-content">
-            <span class="fnl-card-marker">Coming This Winter</span>
-            <h4>Friday Nights Just Got Better.</h4>
-            <p>Lights down. Music up. Courts open. We're turning the first Friday of the month into something worth leaving the house for.</p>
-            <span class="fnl-card-name">Friday Night at The Courts</span>
-            <span class="courts-commentary courts-commentary--on-dark">More soon. You'll want in.</span>
-          </div>
-        </div>
         <div class="rail-party-card" id="parties">
           <span class="eyebrow">Parties + Events</span>
           <h4>Your Party. Our Court.</h4>
