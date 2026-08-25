@@ -24,7 +24,7 @@
   </span>
 </a>
 
-<header class="nav" id="nav">
+<header class="nav nav-solid" id="nav">
   <div class="container nav-inner">
     <a href="/" class="brand" aria-label="The Courts — Home">
       <img class="brand-mark brand-mark--wordmark brand-mark--dark" src="images/brand/logo-horizontal-full.png" alt="The Courts">
@@ -147,8 +147,8 @@
 
 <section id="main" style="padding:164px 0 120px; background:var(--gray-light);">
   <div class="container" style="max-width:760px;">
-    <h1 class="ab-intro-headline">Hello, Nolensville.</h1>
     <span class="ab-opening-pill"><span class="ab-opening-dot"></span>Opening October 1</span>
+    <h1 class="ab-intro-headline">Hello, Nolensville.</h1>
   </div>
 
   <div class="container founder-note-wrap">
@@ -168,15 +168,15 @@
         <p><strong>I'm grateful for the opportunity to carry that forward, and really excited about what we get to build together from here.</strong></p>
         <p>And I promise I'll work just as hard on this place as I'm asking your kid to work when they walk through the orange door.</p>
       </div>
-      <p class="founder-note-signoff"><em>See you on the court.</em><br><strong>Melissa Carle</strong><br><span class="founder-note-title">Founder, The Courts</span></p>
+      <p class="founder-note-signoff"><em style="display:block; margin-bottom:14px;">See you on the court.</em><strong>Melissa Carle</strong><br><span class="founder-note-title">Founder, The Courts</span></p>
     </div>
   </div>
 </section>
 
 <style>
   .ab-intro-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(40px, 6vw, 72px); line-height: 1.03; letter-spacing: -0.01em; color: var(--black); margin: 14px 0 20px; }
-  .ab-opening-pill { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); }
-  .ab-opening-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); flex-shrink: 0; animation: featStatusPulse 1.6s ease-in-out infinite; }
+  .ab-opening-pill { display: inline-flex; align-items: center; gap: 14px; font-family: var(--font-sport); font-weight: 700; font-size: 26px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+  .ab-opening-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--orange); flex-shrink: 0; animation: featStatusPulse 1.6s ease-in-out infinite; }
   @media (prefers-reduced-motion: reduce) { .ab-opening-dot { animation: none; } }
 
   .founder-note-wrap { max-width: 640px; margin-top: 48px; }
@@ -192,6 +192,8 @@
 
   @media (max-width: 640px) {
     .ab-intro-headline { font-size: clamp(32px, 10vw, 44px); }
+    .ab-opening-pill { font-size: 17px; gap: 10px; }
+    .ab-opening-dot { width: 10px; height: 10px; }
     .founder-note p { font-size: 16px; }
     .founder-note p strong { font-size: 17px; }
   }
@@ -396,13 +398,16 @@
 
   <style>
     .coaches-cc-banner { display: block; margin-top: 64px; background: var(--white); text-decoration: none; }
-    .coaches-cc-banner-inner { padding: 44px 0; max-width: 620px; }
+    .coaches-cc-banner-inner { padding: 44px 0; max-width: 700px; }
     .coaches-cc-banner-eyebrow { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 3.4vw, 40px); letter-spacing: 0; text-transform: none; color: var(--orange); margin-bottom: 10px; line-height: 1.05; }
-    .coaches-cc-banner-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 4.2vw, 50px); line-height: 1.02; color: var(--black); margin: 0 0 14px; }
+    .coaches-cc-banner-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 3.4vw, 40px); line-height: 1.05; color: var(--black); margin: 0 0 14px; white-space: nowrap; }
     .coaches-cc-banner-body { font-size: 15px; color: var(--gray-dark); margin: 0 0 18px; max-width: 40ch; }
     .coaches-cc-banner-cta { font-family: var(--font-heading); font-weight: 800; font-size: 17px; color: var(--black); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; border-bottom: 2px solid var(--orange); padding-bottom: 3px; }
     .coaches-cc-banner-cta .arrow { color: var(--orange); transition: transform 0.2s var(--ease); }
     .coaches-cc-banner:hover .coaches-cc-banner-cta .arrow { transform: translateX(4px); }
+    @media (max-width: 640px) {
+      .coaches-cc-banner-title { white-space: normal; font-size: clamp(26px, 7vw, 32px); }
+    }
   </style>
 
   <style>
