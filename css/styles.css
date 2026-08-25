@@ -134,7 +134,7 @@ body.has-announce .nav { top: 64px; }
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand-mark--wordmark { height: 40px; width: auto; }
 @media (max-width: 640px) { .brand-mark--wordmark { height: 32px; } }
-.brand-mark--light { display: block; }
+.brand-mark--light { display: block; filter: brightness(0) invert(1); }
 .brand-mark--dark { display: none; }
 .nav.scrolled .brand-mark--light { display: none; }
 .nav.scrolled .brand-mark--dark { display: block; }
