@@ -260,16 +260,19 @@
         </ul>
         <p class="ts-payoff">Character spreads. <span class="accent">Bring yours to The Courts.</span></p>
       </div>
-      <div class="ts-panel">
-        <span class="ts-panel-tag">Monthly Recognition</span>
-        <p class="ts-panel-body" style="margin-top:6px;">Each month, we'll recognize one basketball or volleyball athlete who shows what The Courts is really about.</p>
-        <p class="ts-panel-body">Not who scored the most &mdash; the effort, character, encouragement, and resilience it took to get there.</p>
-        <div class="ts-prizes">
+      <div class="ts-scoreboard">
+        <span class="ts-sb-corner ts-sb-corner--tl"></span>
+        <span class="ts-sb-corner ts-sb-corner--br"></span>
+        <span class="ts-sb-label">Monthly Recognition</span>
+        <div class="ts-sb-ticks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+        <p class="ts-sb-body">Each month, we'll recognize one basketball or volleyball athlete who shows what The Courts is really about.</p>
+        <p class="ts-sb-body">Not who scored the most &mdash; the effort, character, encouragement, and resilience it took to get there.</p>
+        <div class="ts-sb-prizes">
           <span>A Courts t-shirt.</span>
           <span>A free pass for a friend.</span>
         </div>
-        <p class="ts-panel-note">We'll announce our first winner at the Opening Party.</p>
-        <a href="contact?interest=Something%20Else#contact-form" class="ts-nominate" data-preset="Something Else">Nominate an Athlete →</a>
+        <p class="ts-sb-note">We'll announce our first winner at the Opening Party.</p>
+        <a href="contact?interest=Something%20Else#contact-form" class="ts-sb-cta" data-preset="Something Else">Nominate an Athlete →</a>
       </div>
     </div>
   </div>
@@ -286,14 +289,25 @@
   .ts-payoff { font-family: var(--font-heading); font-weight: 700; font-size: 17px; color: var(--gray-dark); margin: 0; }
   .ts-payoff .accent { color: var(--black); font-weight: 800; }
 
-  .ts-panel { position: relative; background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-md); padding: 44px clamp(24px,3vw,40px) 36px; box-shadow: 0 26px 60px rgba(213,96,31,0.14); }
-  .ts-panel-tag { position: absolute; top: -18px; left: 32px; display: inline-block; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-weight: 800; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; padding: 9px 20px; border-radius: 999px; box-shadow: 0 10px 22px rgba(213,96,31,0.4); }
-  .ts-panel-body { font-size: 15px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 14px; }
-  .ts-prizes { display: flex; flex-direction: column; gap: 8px; margin: 20px 0 16px; padding-top: 18px; border-top: 1px solid var(--gray-mid); }
-  .ts-prizes span { display: flex; align-items: center; gap: 9px; font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--black); }
-  .ts-prizes span::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
-  .ts-panel-note { font-size: 13.5px; font-style: italic; color: var(--gray-dark); margin: 0 0 20px; }
-  .ts-nominate { display: inline-block; font-family: var(--font-heading); font-weight: 800; font-size: 15px; color: var(--orange); }
+  .ts-scoreboard {
+    position: relative; background: var(--black); border-radius: var(--radius-md); overflow: hidden;
+    background-image: repeating-linear-gradient(180deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 34px);
+    padding: 44px clamp(24px,3vw,40px) 36px;
+    box-shadow: 0 26px 60px rgba(0,0,0,0.25);
+  }
+  .ts-sb-corner { position: absolute; width: 20px; height: 20px; border: 2px solid var(--orange); z-index: 2; }
+  .ts-sb-corner--tl { top: 14px; left: 14px; border-right: none; border-bottom: none; }
+  .ts-sb-corner--br { bottom: 14px; right: 14px; border-left: none; border-top: none; }
+  .ts-sb-label { display: block; text-align: center; font-family: var(--font-sport); font-weight: 800; font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; }
+  .ts-sb-ticks { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; }
+  .ts-sb-ticks span { width: 6px; height: 6px; background: rgba(255,255,255,0.18); }
+  .ts-sb-body { font-size: 15px; line-height: 1.65; color: rgba(255,255,255,0.75); margin: 0 0 14px; text-align: center; }
+  .ts-sb-prizes { display: flex; flex-direction: column; gap: 10px; margin: 22px 0 18px; padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.14); border-bottom: 1px solid rgba(255,255,255,0.14); }
+  .ts-sb-prizes span { display: flex; align-items: center; justify-content: center; gap: 9px; font-family: var(--font-display); font-weight: 800; font-size: 17px; color: var(--white); text-transform: uppercase; letter-spacing: 0.01em; }
+  .ts-sb-prizes span::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+  .ts-sb-note { font-size: 13px; font-style: italic; text-align: center; color: rgba(255,255,255,0.55); margin: 0 0 24px; }
+  .ts-sb-cta { display: block; text-align: center; font-family: var(--font-heading); font-weight: 800; font-size: 15px; color: var(--orange); }
+  .ts-sb-cta:hover { color: var(--orange-hover); }
   @media (max-width: 860px) {
     .ts-grid { grid-template-columns: 1fr; gap: 40px; }
   }
@@ -367,7 +381,7 @@
   <a href="coach-collective" class="coaches-cc-banner reveal">
     <div class="container coaches-cc-banner-inner">
       <span class="coaches-cc-banner-eyebrow">Are You the Coach?</span>
-      <h3 class="coaches-cc-banner-title">There's Room for You<br>Here.</h3>
+      <h3 class="coaches-cc-banner-title">There's Room for You Here.</h3>
       <p class="coaches-cc-banner-body">Your Athletes. Your Program. Our Court.</p>
       <span class="coaches-cc-banner-cta">Meet The Coach Collective <span class="arrow">→</span></span>
     </div>
