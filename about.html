@@ -264,7 +264,7 @@
       <div class="ts-copy">
         <span class="ts-eyebrow">The Courts Standard</span>
         <h2 class="ts-headline">More Than the<br>Scoreboard.</h2>
-        <p class="ts-intro">This isn't about the points. It's about who you are when no one's keeping score.</p>
+        <p class="ts-intro">This isn't about the points.<br>It's about who you are when no one's keeping score.</p>
         <ul class="ts-lines">
           <li>Show up.</li>
           <li>Lift people up.</li>
@@ -274,7 +274,7 @@
       </div>
       <div class="ts-panel">
         <span class="ts-panel-tag">Monthly Recognition</span>
-        <p class="ts-panel-body">Each month, we'll recognize one basketball or volleyball athlete who shows what The Courts is really about.</p>
+        <p class="ts-panel-body" style="margin-top:6px;">Each month, we'll recognize one basketball or volleyball athlete who shows what The Courts is really about.</p>
         <p class="ts-panel-body">Not who scored the most &mdash; the effort, character, encouragement, and resilience it took to get there.</p>
         <div class="ts-prizes">
           <span>A Courts t-shirt.</span>
@@ -289,7 +289,7 @@
 
 <style>
   .ts-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: start; }
-  .ts-eyebrow { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 14px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
+  .ts-eyebrow { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 17px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
   .ts-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(32px, 4.2vw, 46px); line-height: 1.05; color: var(--black); margin: 0 0 20px; padding-bottom: 20px; border-bottom: 3px solid var(--orange); width: fit-content; }
   .ts-intro { font-family: var(--font-heading); font-weight: 700; font-size: clamp(18px, 2vw, 21px); line-height: 1.5; color: var(--black); max-width: 30ch; margin: 0 0 26px; }
   .ts-lines { list-style: none; margin: 0 0 30px; padding: 0; display: flex; flex-direction: column; gap: 10px; }
@@ -298,11 +298,12 @@
   .ts-payoff { font-family: var(--font-heading); font-weight: 700; font-size: 17px; color: var(--gray-dark); margin: 0; }
   .ts-payoff .accent { color: var(--black); font-weight: 800; }
 
-  .ts-panel { background: var(--gray-light); border-left: 3px solid var(--orange); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 36px clamp(24px,3vw,40px); }
-  .ts-panel-tag { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
+  .ts-panel { position: relative; background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-md); padding: 44px clamp(24px,3vw,40px) 36px; box-shadow: 0 26px 60px rgba(213,96,31,0.14); }
+  .ts-panel-tag { position: absolute; top: -18px; left: 32px; display: inline-block; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-weight: 800; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; padding: 9px 20px; border-radius: 999px; box-shadow: 0 10px 22px rgba(213,96,31,0.4); }
   .ts-panel-body { font-size: 15px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 14px; }
-  .ts-prizes { display: flex; flex-direction: column; gap: 4px; margin: 20px 0 16px; padding-top: 18px; border-top: 1px solid var(--gray-mid); }
-  .ts-prizes span { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--black); }
+  .ts-prizes { display: flex; flex-direction: column; gap: 8px; margin: 20px 0 16px; padding-top: 18px; border-top: 1px solid var(--gray-mid); }
+  .ts-prizes span { display: flex; align-items: center; gap: 9px; font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--black); }
+  .ts-prizes span::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
   .ts-panel-note { font-size: 13.5px; font-style: italic; color: var(--gray-dark); margin: 0 0 20px; }
   .ts-nominate { display: inline-block; font-family: var(--font-heading); font-weight: 800; font-size: 15px; color: var(--orange); }
   @media (max-width: 860px) {
