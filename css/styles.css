@@ -103,8 +103,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .site-announce-cta { font-weight: 800; letter-spacing: 0; text-transform: none; color: var(--white); white-space: nowrap; text-decoration: underline; text-underline-offset: 3px; }
 .site-announce-cta .arrow { display: inline-block; color: var(--white); transition: transform 0.2s var(--ease); animation: announceCtaNudge 7s ease-in-out infinite; }
 @keyframes announceCtaNudge { 0%, 85%, 100% { transform: translateX(0); } 90% { transform: translateX(4px); } 95% { transform: translateX(0); } }
-.site-announce:hover .site-announce-cta .arrow { transform: translateX(3px); }
-.site-announce:hover { background: var(--orange-hover); }
+.site-announce-cta:hover .arrow { transform: translateX(3px); }
+.site-announce:has(.site-announce-cta:hover) { background: var(--orange-hover); }
 @media (prefers-reduced-motion: reduce) {
   .site-announce { animation: none; }
   .site-announce-cta .arrow { animation: none; }
