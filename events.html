@@ -269,6 +269,54 @@
   .cal-thanksgiving-decor--leaf { bottom:10px; right:60px; }
   .cal-item--thanksgiving .cal-body, .cal-item--thanksgiving .cal-date { position:relative; z-index:1; }
   @media (max-width:640px) { .cal-thanksgiving-decor { display:none; } }
+
+  /* Jersey Day — vintage-ticket / varsity-poster energy, same compact card footprint */
+  .cal-item--jerseyday {
+    position:relative; overflow:hidden; background:#141414; border-left:none;
+    box-shadow: inset 6px 0 0 0 var(--orange), inset 10px 0 0 0 #1B4FA0, inset 14px 0 0 0 #B32133, inset 18px 0 0 0 #F2C230;
+  }
+  .cal-item--jerseyday::before {
+    content:''; position:absolute; top:0; left:22px; right:0; height:4px; z-index:2;
+    background:repeating-linear-gradient(90deg, var(--orange) 0 14px, #1B4FA0 14px 28px, #B32133 28px 42px, #F2C230 42px 56px);
+  }
+  .cal-item--jerseyday-num { position:absolute; right:-10px; bottom:-28px; z-index:0; font-family:var(--font-display); font-weight:900; font-size:150px; line-height:1; color:rgba(255,255,255,0.05); pointer-events:none; user-select:none; }
+  .cal-item--jerseyday .cal-date { background:rgba(255,255,255,0.08); }
+  .cal-item--jerseyday .cal-weekday { color:rgba(255,255,255,0.55); }
+  .cal-item--jerseyday .cal-month { color:var(--orange); }
+  .cal-item--jerseyday .cal-day { color:var(--white); }
+  .cal-item--jerseyday .cal-body, .cal-item--jerseyday .cal-date { position:relative; z-index:1; }
+  .cal-item--jerseyday .cal-tag { background:rgba(255,255,255,0.1); color:#F2C230; margin-bottom:6px; }
+  .cal-item--jerseyday .cal-sub { margin-bottom:4px; }
+  .cal-item--jerseyday .cal-body p { margin-bottom:4px; }
+  .cal-item--jerseyday-stamp {
+    position:absolute; top:14px; right:16px; z-index:2; display:flex; align-items:center; justify-content:center;
+    width:64px; height:64px; border-radius:50%; border:1.5px dashed rgba(255,255,255,0.45);
+    transform:rotate(10deg); text-align:center; font-family:var(--font-sport); font-weight:800;
+    font-size:9.5px; letter-spacing:0.05em; text-transform:uppercase; color:rgba(255,255,255,0.85); line-height:1.25; padding:6px;
+  }
+  .cal-item--jerseyday .cal-body h4 { color:var(--white); font-family:var(--font-display); font-weight:900; letter-spacing:0.01em; max-width:65%; }
+  .cal-item--jerseyday .cal-sub { color:#F2C230; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; font-size:12.5px; }
+  .cal-item--jerseyday .cal-body p { color:rgba(255,255,255,0.72); }
+  .cal-item--jerseyday .cal-access { gap:6px 12px; margin:8px 0 10px; }
+  .cal-item--jerseyday .cal-access span {
+    display:flex; flex-direction:column; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15);
+    border-radius:5px; padding:3px 8px; position:relative;
+  }
+  .cal-item--jerseyday .cal-access span:nth-child(1) { border-left:3px solid #1B4FA0; }
+  .cal-item--jerseyday .cal-access span:nth-child(2) { border-left:3px solid var(--orange); }
+  .cal-item--jerseyday .cal-access span:nth-child(3) { border-left:3px solid #B32133; }
+  .cal-item--jerseyday .cal-access span b { color:rgba(255,255,255,0.55); }
+  .cal-item--jerseyday .cal-access span { color:var(--white); font-weight:800; }
+  .cal-item--jerseyday .courts-commentary {
+    display:inline-block; color:#F2C230; font-family:var(--font-heading); font-style:italic; font-weight:700;
+    transform:rotate(-2deg); border-bottom:1.5px dashed rgba(242,194,48,0.6); margin-top:4px;
+  }
+  .cal-item--jerseyday .cal-link { color:var(--white); font-weight:800; background:var(--orange); padding:6px 14px; border-radius:999px; display:inline-block; margin-top:2px; }
+  .cal-item--jerseyday .cal-link:hover { background:var(--orange-hover); }
+  @media (max-width:640px) {
+    .cal-item--jerseyday-num { font-size:100px; }
+    .cal-item--jerseyday-stamp { width:52px; height:52px; font-size:8.5px; top:10px; right:10px; }
+  }
 </style>
 </head>
 <body class="has-announce">
@@ -576,7 +624,9 @@
         </div>
       </div>
 
-      <div class="cal-item cal-item--compact reveal" data-category="culture">
+      <div class="cal-item cal-item--compact cal-item--jerseyday reveal" data-category="culture">
+        <span class="cal-item--jerseyday-num" aria-hidden="true">23</span>
+        <span class="cal-item--jerseyday-stamp" aria-hidden="true">Jersey<br>Day</span>
         <div class="cal-date"><span class="cal-weekday">Fri</span><span class="cal-month">Nov</span><span class="cal-day">6</span></div>
         <div class="cal-body">
           <span class="cal-tag">Basketball Community</span>
