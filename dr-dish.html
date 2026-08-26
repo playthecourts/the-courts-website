@@ -85,6 +85,13 @@
   .dd-session-copy p { font-size: 16.5px; line-height: 1.7; color: rgba(255,255,255,0.68); max-width: 44ch; margin: 0 0 8px; }
   .dd-session-bold { font-family: var(--font-heading); font-weight: 800; font-size: 19px; color: var(--white) !important; margin: 6px 0 26px !important; }
   .dd-session-share { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-weight: 700; font-size: 12px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); border: 1px solid rgba(213,96,31,0.4); border-radius: 999px; padding: 8px 16px; margin-bottom: 30px; }
+  .dd-rate-snapshot { display: flex; flex-wrap: wrap; gap: 28px; padding: 24px 0; margin-bottom: 22px; border-top: 1px solid rgba(255,255,255,0.14); border-bottom: 1px solid rgba(255,255,255,0.14); }
+  .dd-rate-snap-item { display: flex; flex-direction: column; gap: 4px; }
+  .dd-rate-snap-label { font-family: var(--font-sport); font-weight: 700; font-size: 11.5px; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+  .dd-rate-snap-value { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2.6vw, 28px); color: var(--white); }
+  .dd-rate-snap-value small { font-family: var(--font-heading); font-weight: 600; font-size: 12.5px; color: rgba(255,255,255,0.5); margin-left: 3px; }
+  .dd-rate-snap-item--included .dd-rate-snap-value { color: var(--orange); }
+  .dd-session .dd-pricing-note { color: rgba(255,255,255,0.55); margin: 0 0 26px; }
   .dd-session-clock { position: relative; display: flex; align-items: center; justify-content: center; min-height: 340px; }
   .dd-clock-board { position: relative; background: var(--charcoal); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-md); padding: 44px clamp(32px,6vw,72px); box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4), 0 24px 60px rgba(0,0,0,0.4); }
   .dd-clock-board::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--orange); border-radius: var(--radius-md) var(--radius-md) 0 0; }
@@ -284,13 +291,11 @@
       <h1 class="dd-hero-title">More Shots.<br>Less Chasing<br><span class="accent">Rebounds.</span></h1>
       <p class="dd-hero-sub">Thirty minutes. A ball that keeps coming back.</p>
       <p class="dd-hero-sub-strong">And a whole lot of chances to get it right.</p>
-      <p class="dd-hero-sub">Dr. Dish feeds the ball, tracks the work, and gives athletes immediate feedback while they shoot.</p>
       <p class="dd-hero-bold">You shoot. It feeds. Repeat.</p>
       <div class="dd-hero-ctas">
         <a href="schedule" class="btn btn-primary">Book 30 Minutes →</a>
         <a href="#dd-how" class="dd-hero-link">See How It Works ↓</a>
       </div>
-      <p class="dd-hero-micro">Basketball only. For obvious reasons.</p>
     </div>
     <div class="dd-hero-media">
       <div class="dd-hero-photo">
@@ -300,7 +305,39 @@
   </div>
 </section>
 
-<!-- ================= 2. HOW IT WORKS ================= -->
+<!-- ================= 2. SESSION + PRICING SNAPSHOT ================= -->
+<section class="dd-session">
+  <div class="container dd-session-grid">
+    <div class="dd-session-copy">
+      <span class="eyebrow">Your Session</span>
+      <h2>30 Minutes. Go.</h2>
+      <p>No chasing rebounds. No waiting for the ball to come back.</p>
+      <p class="dd-session-bold">It's 30 minutes built for shooting.</p>
+      <span class="dd-session-share">One or Two Athletes &middot; Same 30 Minutes</span>
+      <div class="dd-rate-snapshot">
+        <div class="dd-rate-snap-item"><span class="dd-rate-snap-label">Members</span><span class="dd-rate-snap-value">$20<small>/30 min</small></span></div>
+        <div class="dd-rate-snap-item"><span class="dd-rate-snap-label">Non-Members</span><span class="dd-rate-snap-value">$30<small>/30 min</small></span></div>
+        <div class="dd-rate-snap-item dd-rate-snap-item--included"><span class="dd-rate-snap-label">Full Court Members</span><span class="dd-rate-snap-value">2<small>/month included</small></span></div>
+      </div>
+      <p class="dd-pricing-note">Basketball only. 1&ndash;2 athletes can share a reservation.</p>
+      <a href="schedule" class="btn btn-primary">Book 30 Minutes →</a>
+    </div>
+    <div class="dd-session-clock reveal">
+      <div class="dd-clock-board" id="ddClockBoard">
+        <span class="dd-clock-time" id="ddClockTime">30:00</span>
+      </div>
+      <div class="dd-clock-tags" aria-hidden="true">
+        <span class="dd-clock-tag dd-clock-tag--1">Shots</span>
+        <span class="dd-clock-tag dd-clock-tag--2">Makes</span>
+        <span class="dd-clock-tag dd-clock-tag--3">Arc %</span>
+        <span class="dd-clock-tag dd-clock-tag--4">Consistency</span>
+        <span class="dd-clock-tag dd-clock-tag--5">Personal Best</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 3. HOW IT WORKS ================= -->
 <section class="dd-how" id="dd-how">
   <div class="container">
     <div class="dd-head">
@@ -344,31 +381,6 @@
         </div>
       </div>
       <p class="dd-how-utility"><strong>Never used one?</strong><a href="https://www.youtube.com/watch?v=2ur42dLnH_Y" target="_blank" rel="noopener">Watch Dr. Dish in action ↗</a></p>
-    </div>
-  </div>
-</section>
-
-<!-- ================= 3. THE 30-MINUTE SESSION ================= -->
-<section class="dd-session">
-  <div class="container dd-session-grid">
-    <div class="dd-session-copy">
-      <span class="eyebrow">Your Session</span>
-      <h2>30 Minutes. Go.</h2>
-      <p>No chasing rebounds. No waiting for the ball to come back.</p>
-      <p class="dd-session-bold">It's 30 minutes built for shooting.</p>
-      <span class="dd-session-share">One or Two Athletes &middot; Same 30 Minutes</span>
-    </div>
-    <div class="dd-session-clock reveal">
-      <div class="dd-clock-board" id="ddClockBoard">
-        <span class="dd-clock-time" id="ddClockTime">30:00</span>
-      </div>
-      <div class="dd-clock-tags" aria-hidden="true">
-        <span class="dd-clock-tag dd-clock-tag--1">Shots</span>
-        <span class="dd-clock-tag dd-clock-tag--2">Makes</span>
-        <span class="dd-clock-tag dd-clock-tag--3">Arc %</span>
-        <span class="dd-clock-tag dd-clock-tag--4">Consistency</span>
-        <span class="dd-clock-tag dd-clock-tag--5">Personal Best</span>
-      </div>
     </div>
   </div>
 </section>
@@ -501,7 +513,7 @@
       </div>
       <div class="footer-loop-col">
         <span class="eyebrow footer-loop-eyebrow">Stay in the Loop</span>
-        <p class="footer-loop-sub">News, camps, leagues, events, and whatever's next.</p>
+        <p class="footer-loop-sub">News, camps, leagues, and whatever's next.</p>
         <form class="footer-newsletter-form">
           <input type="email" placeholder="Email Address" required>
           <button type="submit">Join the List →</button>
