@@ -248,6 +248,21 @@
   }
   @media (prefers-reduced-motion:reduce) { .cal-openingday-stamp { animation:none; } }
 
+  /* Basketball Jersey Day — playful jersey accents, same compact card family */
+  .cal-item--jerseyday { position:relative; overflow:hidden; padding:24px 30px; }
+  .cal-jerseyday-badge {
+    position:absolute; top:14px; right:16px; z-index:2; background:var(--black); color:var(--white);
+    font-family:var(--font-sport); font-weight:800; font-size:9.5px; letter-spacing:0.06em; text-transform:uppercase;
+    padding:5px 10px; border-radius:999px; transform:rotate(-3deg);
+  }
+  .cal-jerseyday-sub-line { display:block; font-size:14px; font-weight:700; color:var(--black); margin-bottom:0; }
+  .cal-jerseyday-underline { display:block; margin:0 0 8px; }
+  .cal-jerseyday-jersey { position:absolute; z-index:1; pointer-events:none; }
+  @media (max-width:640px) {
+    .cal-jerseyday-jersey { display:none; }
+    .cal-jerseyday-badge { top:10px; right:10px; font-size:8.5px; padding:4px 8px; }
+  }
+
   /* ---------- Compact camp/school-break lineup rows ---------- */
   .cal-camp-note { font-size:16px; line-height:1.5; color:var(--gray-dark); background:var(--gray-light); border-left:2px solid var(--orange); padding:12px 16px; margin:0 0 20px; }
   .cal-schedule { font-family:var(--font-heading); font-weight:700; font-size:14.5px; color:var(--black); line-height:1.7; margin:6px 0 10px; }
@@ -604,13 +619,33 @@
         </div>
       </div>
 
-      <div class="cal-item cal-item--compact reveal" data-category="culture">
+      <div class="cal-item cal-item--compact cal-item--jerseyday reveal" data-category="culture">
+        <span class="cal-jerseyday-badge" aria-hidden="true">Wear Your Jersey</span>
+        <svg class="cal-jerseyday-jersey" style="top:42px; right:64px;" width="32" height="37" viewBox="0 0 40 46" aria-hidden="true">
+          <path fill-rule="evenodd" d="M6,10 L1,5 L9,0 L14,5 L20,5 L26,0 L34,5 L29,10 L29,44 L6,44 Z M14,5 L20,5 L17,11 Z" fill="#C8262C"/>
+          <path d="M6,10 L1,5 L9,0" stroke="#0F2350" stroke-width="1.5" fill="none"/>
+          <path d="M34,5 L26,0 L20,5" stroke="#0F2350" stroke-width="1.5" fill="none"/>
+          <text x="17.5" y="28" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="11" fill="#F5EDE1">8</text>
+        </svg>
+        <svg class="cal-jerseyday-jersey" style="bottom:14px; left:14px;" width="28" height="33" viewBox="0 0 40 46" aria-hidden="true">
+          <path fill-rule="evenodd" d="M6,10 L1,5 L9,0 L14,5 L20,5 L26,0 L34,5 L29,10 L29,44 L6,44 Z M14,5 L20,5 L17,11 Z" fill="#161616"/>
+          <path d="M6,10 L1,5 L9,0" stroke="#C9A227" stroke-width="1.5" fill="none"/>
+          <path d="M34,5 L26,0 L20,5" stroke="#C9A227" stroke-width="1.5" fill="none"/>
+          <text x="17.5" y="28" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="11" fill="#C9A227">3</text>
+        </svg>
+        <svg class="cal-jerseyday-jersey" style="bottom:-6px; right:22px;" width="30" height="35" viewBox="0 0 40 46" aria-hidden="true" opacity="0.92">
+          <path fill-rule="evenodd" d="M6,10 L1,5 L9,0 L14,5 L20,5 L26,0 L34,5 L29,10 L29,44 L6,44 Z M14,5 L20,5 L17,11 Z" fill="#12294B"/>
+          <path d="M6,10 L1,5 L9,0" stroke="#6DC8E8" stroke-width="1.5" fill="none"/>
+          <path d="M34,5 L26,0 L20,5" stroke="#6DC8E8" stroke-width="1.5" fill="none"/>
+          <text x="17.5" y="28" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="9" fill="#6DC8E8">27</text>
+        </svg>
         <div class="cal-date"><span class="cal-weekday">Fri</span><span class="cal-month">Nov</span><span class="cal-day">6</span></div>
         <div class="cal-body">
           <span class="cal-tag">Basketball Community</span>
-          <h4>Basketball Day at The Courts</h4>
-          <span class="cal-sub">Wear the jersey.</span>
-          <p>Favorite player. Favorite team. NBA. WNBA. College. Your own team. Your call.</p>
+          <h4>Basketball Jersey Day</h4>
+          <span class="cal-jerseyday-sub-line">Wear your jersey. Bring your game.</span>
+          <svg class="cal-jerseyday-underline" width="112" height="8" viewBox="0 0 112 8" fill="none" aria-hidden="true"><path d="M2,5 Q18,1 34,5 T66,4 T98,5" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"/></svg>
+          <p>Favorite team. Favorite player. Questionable throwback. We&rsquo;re not judging.</p>
           <div class="cal-access">
             <span><b>Unlimited + Full Court + Family</b>Included</span>
             <span><b>Weekly</b>$10</span>
