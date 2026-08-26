@@ -249,6 +249,26 @@
     .ev-halloween-split { grid-template-columns:1fr; }
     .ev-halloween-day--fri { border-right:none; border-bottom:1px solid rgba(255,255,255,0.1); }
   }
+
+  /* Thanksgiving Break — same compact cal-item size, warmer/more festive treatment */
+  .cal-item--thanksgiving {
+    position:relative; overflow:hidden; border-left-color:#C97A2B;
+    background:linear-gradient(115deg, #5C2A1E 0%, #7A3B1D 45%, #8C5A1E 100%);
+  }
+  .cal-item--thanksgiving .cal-date { background:rgba(0,0,0,0.22); }
+  .cal-item--thanksgiving .cal-weekday { color:rgba(255,255,255,0.7); }
+  .cal-item--thanksgiving .cal-month { color:#F2C572; }
+  .cal-item--thanksgiving .cal-day { color:var(--white); }
+  .cal-item--thanksgiving .cal-tag { background:rgba(0,0,0,0.25); color:#F2C572; }
+  .cal-item--thanksgiving .cal-body h4 { color:var(--white); }
+  .cal-item--thanksgiving .cal-schedule { color:rgba(255,255,255,0.85); }
+  .cal-item--thanksgiving .courts-commentary { color:#F2C572; }
+  .cal-item--thanksgiving .cal-link { color:var(--white); text-decoration:underline; text-underline-offset:3px; }
+  .cal-thanksgiving-decor { position:absolute; z-index:0; pointer-events:none; opacity:0.5; }
+  .cal-thanksgiving-decor--wheat { top:10px; right:14px; }
+  .cal-thanksgiving-decor--leaf { bottom:10px; right:60px; }
+  .cal-item--thanksgiving .cal-body, .cal-item--thanksgiving .cal-date { position:relative; z-index:1; }
+  @media (max-width:640px) { .cal-thanksgiving-decor { display:none; } }
 </style>
 </head>
 <body class="has-announce">
@@ -595,7 +615,9 @@
         </div>
       </div>
 
-      <div class="cal-item cal-item--camp reveal" data-category="camps">
+      <div class="cal-item cal-item--camp cal-item--thanksgiving reveal" data-category="camps">
+        <svg class="cal-thanksgiving-decor cal-thanksgiving-decor--wheat" width="34" height="52" viewBox="0 0 34 52" fill="none" aria-hidden="true"><g stroke="#F2C572" stroke-width="1.3" stroke-linecap="round"><line x1="17" y1="4" x2="17" y2="48"/><path d="M17,10 Q10,8 8,2 M17,10 Q24,8 26,2"/><path d="M17,18 Q10,16 8,10 M17,18 Q24,16 26,10"/><path d="M17,26 Q10,24 8,18 M17,26 Q24,24 26,18"/><path d="M17,34 Q10,32 8,26 M17,34 Q24,32 26,26"/></g></svg>
+        <svg class="cal-thanksgiving-decor cal-thanksgiving-decor--leaf" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M15,3 C20,8 27,10 26,16 C25,21 19,20 15,27 C11,20 5,21 4,16 C3,10 10,8 15,3 Z" stroke="#F2C572" stroke-width="1.3" stroke-linejoin="round"/><line x1="15" y1="10" x2="15" y2="24" stroke="#F2C572" stroke-width="1.1"/></svg>
         <div class="cal-date"><span class="cal-weekday">Mon&ndash;Wed</span><span class="cal-month">Nov</span><span class="cal-day">23&ndash;25</span></div>
         <div class="cal-body">
           <span class="cal-tag">Camps</span>
