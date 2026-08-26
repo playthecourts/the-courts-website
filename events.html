@@ -125,17 +125,19 @@
 
   /* Holiday Classic */
   .ev-poster--holiday { background:var(--charcoal); padding:0; position:relative; text-align:center; }
-  .ev-poster--holiday::before { content:''; position:absolute; top:0; left:0; right:0; height:5px; z-index:2; background:repeating-linear-gradient(90deg, var(--orange) 0 16px, #8C1F2E 16px 32px, #2E6B4A 32px 48px); }
+  .ev-poster--holiday::before { content:''; position:absolute; top:0; left:0; right:0; height:5px; z-index:2; background:repeating-linear-gradient(90deg, #B32133 0 16px, #FFFFFF 16px 32px); }
   .ev-poster--holiday .ev-poster-body { position:relative; z-index:1; padding:38px clamp(24px,4vw,44px) 34px; }
   .ev-holiday-datebadge { display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,0.08); border:1px dashed rgba(255,255,255,0.35); border-radius:999px; padding:6px 16px; margin-bottom:16px; }
-  .ev-holiday-datebadge-dot { width:7px; height:7px; border-radius:50%; background:#D5601F; box-shadow:0 0 0 3px rgba(213,96,31,0.25); flex-shrink:0; }
-  .ev-poster--holiday .ev-poster-status { display:inline; color:#F2C572; margin-bottom:0; }
+  .ev-holiday-datebadge-dot { width:7px; height:7px; border-radius:50%; background:#B32133; box-shadow:0 0 0 3px rgba(179,33,51,0.25); flex-shrink:0; }
+  .ev-poster--holiday .ev-poster-status { display:inline; color:#4CAF6D; margin-bottom:0; }
   .ev-poster--holiday h3 { font-family:var(--font-display); font-weight:900; font-size:clamp(30px,4vw,44px); letter-spacing:0.01em; color:var(--white); margin:0 0 6px; position:relative; }
-  .ev-holiday-underline { display:block; width:120px; height:4px; margin:0 auto 16px; background:repeating-linear-gradient(90deg, #2E6B4A 0 10px, #8C1F2E 10px 20px); border-radius:2px; }
+  .ev-holiday-underline { display:block; width:120px; height:4px; margin:0 auto 16px; background:repeating-linear-gradient(90deg, #B32133 0 10px, #FFFFFF 10px 20px); border-radius:2px; }
   .ev-poster--holiday .ev-poster-words { justify-content:center; margin:18px 0 22px; }
   .ev-poster--holiday .ev-poster-words span:not(:last-child)::after { color:#2E6B4A; }
-  .ev-poster--holiday .ev-halloween-access { margin:0 auto 14px; }
+  .ev-poster--holiday .ev-halloween-access { margin:0 auto 14px; color:#D0334A; }
   .ev-poster--holiday .courts-commentary { margin:16px auto 0; }
+  .ev-poster--holiday .btn-primary { background:#B32133; }
+  .ev-poster--holiday .btn-primary:hover { background:#8C1F2E; }
   .ev-holiday-decor { position:absolute; z-index:0; pointer-events:none; }
   .ev-holiday-decor--tl { top:14px; left:14px; }
   .ev-holiday-decor--tree { top:10%; right:6%; }
@@ -352,7 +354,7 @@
 </div>
 
 <section class="page-hero" style="padding-bottom:60px;" id="main">
-  <div class="photo"><img src="images/events-hero-scoreboard-drive.png" alt="A player drives past a defender during a game at The Courts, with the scoreboard and 'The Courts' wall signage in the background." style="width:100%; height:100%; object-fit:cover;"></div>
+  <div class="photo"><img src="images/events-hero-scoreboard-drive-v2.png" alt="A player drives past a defender during a game at The Courts, with the scoreboard and 'The Courts' wall signage in the background." style="width:100%; height:100%; object-fit:cover;"></div>
   <div class="container page-hero-inner">
     <span class="eyebrow eyebrow--light">Events</span>
     <h1 class="page-hero-title">We're Not Big on Sitting Still.</h1>
@@ -727,14 +729,6 @@
       </div>
 
       <div class="ev-poster ev-poster--holiday reveal">
-        <svg class="ev-holiday-decor ev-holiday-decor--tl" width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
-          <g fill="#FFFFFF">
-            <path d="M32,2 L37,26 L32,32 L27,26 Z"/><path d="M32,62 L37,38 L32,32 L27,38 Z"/>
-            <path d="M2,32 L26,27 L32,32 L26,37 Z"/><path d="M62,32 L38,27 L32,32 L38,37 Z"/>
-            <path d="M10,10 L29,23 L32,32 L23,29 Z"/><path d="M54,54 L35,41 L32,32 L41,35 Z"/>
-            <path d="M54,10 L41,29 L32,32 L35,23 Z"/><path d="M10,54 L23,35 L32,32 L29,41 Z"/>
-          </g>
-        </svg>
         <svg class="ev-holiday-decor ev-holiday-decor--tree" width="40" height="56" viewBox="0 0 40 56" aria-hidden="true">
           <path d="M20,2 L30,20 L10,20 Z" fill="#2E6B4A"/>
           <path d="M20,13 L33,32 L7,32 Z" fill="#357A52"/>
