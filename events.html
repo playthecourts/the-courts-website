@@ -221,25 +221,34 @@
 
   .cal-nextup-wrap { margin-top:64px; padding:40px clamp(20px,4vw,44px) 44px; background:var(--gray-light); border-radius:var(--radius-md); }
 
-  /* Opening Day — small celebratory treatment, same compact card family */
-  .cal-item--openingday { position:relative; overflow:hidden; padding:26px 30px; box-shadow:inset 3px 0 0 0 var(--orange), inset 0 0 34px rgba(213,96,31,0.12); border-left:none; }
-  .cal-item--openingday .cal-date { background:rgba(213,96,31,0.12); }
-  .cal-item--openingday .cal-day { color:var(--orange-ink); font-weight:900; }
-  .cal-openingday-stamp {
-    position:absolute; top:14px; right:16px; z-index:2; background:var(--white); border:1.5px dashed var(--orange);
-    color:var(--orange-ink); font-family:var(--font-sport); font-weight:800; font-size:10px; letter-spacing:0.08em;
-    text-transform:uppercase; padding:5px 11px; border-radius:999px; transform:rotate(4deg); animation:cal-sparkle-pulse 3.4s ease-in-out infinite;
+  /* Opening Day — bold branded feature treatment, still lives in the compact card list */
+  .cal-item--openingday {
+    position:relative; overflow:hidden; background:#0D0D0D; border:3px solid var(--orange);
+    padding:32px 34px; box-shadow:0 20px 44px rgba(213,96,31,0.2);
   }
-  .cal-openingday-underline { display:block; margin:2px 0 10px; }
-  .cal-openingday-star, .cal-openingday-confetti { position:absolute; z-index:1; pointer-events:none; }
-  .cal-openingday-ctas { display:flex; flex-wrap:wrap; gap:8px 20px; align-items:center; margin-top:2px; }
-  .cal-openingday-ctas .cal-link--strong { color:var(--white); background:var(--orange); padding:8px 16px; border-radius:999px; font-weight:800; }
+  .cal-item--openingday .cal-date { background:rgba(255,255,255,0.08); }
+  .cal-item--openingday .cal-weekday { color:rgba(255,255,255,0.5); }
+  .cal-item--openingday .cal-month { color:var(--orange); }
+  .cal-item--openingday .cal-day { color:var(--white); font-weight:900; }
+  .cal-item--openingday .cal-body, .cal-item--openingday .cal-date { position:relative; z-index:2; }
+  .cal-openingday-pill {
+    display:inline-flex; align-items:center; background:var(--orange); color:#1B1000;
+    font-family:var(--font-display); font-weight:900; font-size:clamp(19px,2.4vw,26px); letter-spacing:0.01em;
+    text-transform:uppercase; padding:8px 22px; border-radius:999px; transform:rotate(-2deg); margin-bottom:16px;
+  }
+  .cal-item--openingday h4 { color:var(--white); font-family:var(--font-display); font-weight:900; font-size:clamp(24px,3.2vw,36px); margin:0 0 4px; }
+  .cal-openingday-underline { display:block; margin:2px 0 12px; }
+  .cal-openingday-copy { color:rgba(255,255,255,0.72); font-size:15px; line-height:1.6; max-width:44ch; margin:0 0 10px; }
+  .cal-openingday-support { display:block; color:rgba(255,255,255,0.48); font-family:var(--font-sport); font-weight:700; font-size:11.5px; letter-spacing:0.06em; text-transform:uppercase; margin:0 0 20px; }
+  .cal-openingday-decor { position:absolute; z-index:1; pointer-events:none; }
+  .cal-openingday-ctas { display:flex; flex-wrap:wrap; gap:10px 22px; align-items:center; position:relative; z-index:2; }
+  .cal-openingday-ctas .cal-link { color:rgba(255,255,255,0.8); border-bottom:1.5px solid rgba(255,255,255,0.3); padding-bottom:2px; }
+  .cal-openingday-ctas .cal-link--strong { color:#1B1000; background:var(--orange); padding:9px 18px; border-radius:999px; font-weight:800; border-bottom:none; }
   .cal-openingday-ctas .cal-link--strong:hover { background:var(--orange-hover); }
   @media (max-width:640px) {
-    .cal-openingday-star, .cal-openingday-confetti { display:none; }
-    .cal-openingday-stamp { top:10px; right:10px; font-size:9px; padding:4px 9px; animation:none; }
+    .cal-item--openingday { padding:26px 24px; }
+    .cal-openingday-decor { display:none; }
   }
-  @media (prefers-reduced-motion:reduce) { .cal-openingday-stamp { animation:none; } }
 
   /* Basketball Jersey Day — playful jersey accents, same compact card family */
   .cal-item--jerseyday { position:relative; overflow:hidden; padding:24px 30px; }
@@ -468,18 +477,19 @@
 
         <div class="cal-month-head" id="october"><span class="eyebrow">October</span><h2 class="section-title">October Came in Hot.</h2></div>
         <div class="cal-list" data-month-group="october">
-      <div class="cal-item cal-item--compact cal-item--openingday reveal" data-category="community">
-        <span class="cal-openingday-stamp" aria-hidden="true">Day One</span>
-        <svg class="cal-openingday-star" style="top:46px; right:58px;" width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M12,2 L14,10 L22,12 L14,14 L12,22 L10,14 L2,12 L10,10 Z" fill="var(--orange)"/></svg>
-        <svg class="cal-openingday-star" style="bottom:16px; right:80px;" width="9" height="9" viewBox="0 0 24 24" aria-hidden="true"><path d="M12,2 L14,10 L22,12 L14,14 L12,22 L10,14 L2,12 L10,10 Z" fill="var(--orange)" opacity="0.55"/></svg>
-        <svg class="cal-openingday-confetti" style="top:22px; right:120px;" width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><rect x="0" y="0" width="10" height="5" rx="1.5" fill="var(--orange)" opacity="0.65" transform="rotate(18 5 2.5)"/></svg>
+      <div class="cal-item cal-item--openingday reveal" data-category="community">
+        <svg class="cal-openingday-decor" style="bottom:8px; right:64px;" width="34" height="24" viewBox="0 0 36 24" aria-hidden="true"><line x1="0" y1="6" x2="24" y2="6" stroke="var(--orange)" stroke-width="2" opacity="0.4" stroke-linecap="round"/><line x1="0" y1="14" x2="18" y2="14" stroke="var(--orange)" stroke-width="2" opacity="0.3" stroke-linecap="round"/><line x1="0" y1="22" x2="12" y2="22" stroke="var(--orange)" stroke-width="2" opacity="0.2" stroke-linecap="round"/></svg>
+        <svg class="cal-openingday-decor" style="bottom:-26px; right:-22px;" width="110" height="110" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="var(--orange)"/><path d="M4,50 h92 M50,4 v92 M14,14 C28,28 28,72 14,86 M86,14 C72,28 72,72 86,86" stroke="#1B1000" stroke-width="2" fill="none" opacity="0.55"/></svg>
+        <svg class="cal-openingday-decor" style="top:22px; right:30px;" width="46" height="46" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="19" fill="#F5EDE1"/><path d="M22,3 C15,10 15,34 22,41 M22,3 C29,10 29,34 22,41 M3,22 h38" stroke="var(--orange)" stroke-width="1.6" fill="none" opacity="0.7"/></svg>
+        <svg class="cal-openingday-decor" style="bottom:20px; left:22px;" width="50" height="22" viewBox="0 0 46 20" aria-hidden="true"><rect x="16" y="8" width="14" height="4" rx="1" fill="rgba(255,255,255,0.3)"/><rect x="4" y="3" width="8" height="14" rx="2" fill="rgba(255,255,255,0.3)"/><rect x="34" y="3" width="8" height="14" rx="2" fill="rgba(255,255,255,0.3)"/><rect x="2" y="6" width="4" height="8" rx="1" fill="rgba(255,255,255,0.3)"/><rect x="40" y="6" width="4" height="8" rx="1" fill="rgba(255,255,255,0.3)"/></svg>
+        <svg class="cal-openingday-decor" style="top:24px; right:130px;" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12,2 L14,10 L22,12 L14,14 L12,22 L10,14 L2,12 L10,10 Z" fill="var(--orange)"/></svg>
         <div class="cal-date"><span class="cal-weekday">Thu</span><span class="cal-month">Oct</span><span class="cal-day">1</span></div>
         <div class="cal-body">
-          <span class="cal-tag cal-tag--opening">Opening Day</span>
-          <h4>The Doors Are Open.</h4>
-          <svg class="cal-openingday-underline" width="150" height="8" viewBox="0 0 150 8" fill="none" aria-hidden="true"><path d="M2,5 Q22,1 42,5 T82,4 T122,5 T148,3" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"/></svg>
-          <p>The Courts is officially up and running.</p>
-          <p>Come train, play, check out the space, and be part of day one.</p>
+          <span class="cal-openingday-pill">Opening Day</span>
+          <h4>Doors Open.</h4>
+          <svg class="cal-openingday-underline" width="130" height="8" viewBox="0 0 130 8" fill="none" aria-hidden="true"><path d="M2,5 Q20,1 38,5 T74,4 T110,5 T128,3" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"/></svg>
+          <p class="cal-openingday-copy">We&rsquo;re officially open. Come in. Meet the crew. Look around for approximately thirty seconds. Then get on the court.</p>
+          <span class="cal-openingday-support">No registration required to visit.</span>
           <div class="cal-openingday-ctas">
             <a href="schedule" class="cal-link">View Schedule →</a>
             <a href="schedule" class="cal-link cal-link--strong">Book a Class →</a>
