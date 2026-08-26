@@ -89,13 +89,35 @@
   <a href="membership" class="btn btn-primary btn-block">Become a Member</a>
 </div>
 
-<section style="padding:168px 0 40px; background:var(--gray-light);" id="main">
-  <div class="container" style="max-width:900px;">
-    <span class="eyebrow">Contact</span>
-    <h1 style="font-family:var(--font-display); color:var(--black); font-size:clamp(38px, 5.6vw, 64px); letter-spacing:-0.01em; line-height:1.05; margin:14px 0 18px;">Say Hello.</h1>
-    <p style="font-size:17px; line-height:1.6; color:var(--gray-dark); max-width:56ch; margin:0;">Questions about programs, memberships, rentals, partnerships, or something else? Start here.</p>
+<section class="contact-hero" id="main">
+  <div class="contact-hero-grid">
+    <div class="contact-hero-copy">
+      <span class="eyebrow">Contact</span>
+      <h1>Say Hello.</h1>
+      <p>Questions about programs, memberships, rentals, partnerships, or something else? Start here.</p>
+    </div>
+    <div class="contact-hero-media">
+      <img src="images/03_walking_into_practice_backpack.png" alt="An athlete with a Courts-branded backpack pausing at the gym door.">
+    </div>
   </div>
 </section>
+
+<style>
+  .contact-hero { padding:150px 0 0; background:var(--gray-light); overflow:hidden; }
+  .contact-hero-grid { display:grid; grid-template-columns:1.05fr 0.95fr; align-items:end; gap:0 48px; max-width:1240px; margin:0 auto; padding:0 24px; }
+  .contact-hero-copy { padding-bottom:56px; }
+  .contact-hero-copy .eyebrow { display:block; margin-bottom:14px; }
+  .contact-hero-copy h1 { font-family:var(--font-display); color:var(--black); font-weight:900; font-size:clamp(38px, 5.6vw, 64px); letter-spacing:-0.01em; line-height:1.05; margin:0 0 18px; }
+  .contact-hero-copy p { font-size:17px; line-height:1.6; color:var(--gray-dark); max-width:48ch; margin:0; }
+  .contact-hero-media { position:relative; aspect-ratio:4/3.4; max-width:420px; border-radius:var(--radius-md) var(--radius-md) 0 0; overflow:hidden; justify-self:end; box-shadow:0 30px 60px rgba(0,0,0,0.16); }
+  .contact-hero-media img { width:100%; height:100%; object-fit:cover; display:block; object-position:50% 20%; }
+  @media (max-width:860px) {
+    .contact-hero { padding:130px 0 0; }
+    .contact-hero-grid { grid-template-columns:1fr; gap:32px 0; padding:0 24px; }
+    .contact-hero-copy { padding-bottom:0; }
+    .contact-hero-media { max-width:none; justify-self:stretch; aspect-ratio:16/10; border-radius:var(--radius-md); }
+  }
+</style>
 
 <section class="contact-form-section" style="padding:36px 0 80px;" id="contact-form">
   <div class="container" style="max-width:680px; position:relative; z-index:1;">
