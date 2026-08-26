@@ -323,7 +323,7 @@ body.has-announce .nav { top: 64px; }
 .final-cta p { color: rgba(255,255,255,0.75); font-size: 17px; max-width: 56ch; margin: 0 auto 34px; line-height: 1.6; }
 .final-cta .ctas { justify-content: center; }
 
-.membership-endcap { background: var(--black); color: var(--white); padding: 100px 0; text-align: center; }
+.membership-endcap { position: relative; background: linear-gradient(rgba(0,0,0,0.82), rgba(0,0,0,0.88)), url('../images/court-floor-detail-02.png') center 60%/cover no-repeat; color: var(--white); padding: 100px 0; text-align: center; }
 .membership-endcap .eyebrow { color: var(--orange); }
 .membership-endcap h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 4.6vw, 48px); margin: 14px 0 16px; color: var(--white); }
 .membership-endcap p { color: rgba(255,255,255,0.72); font-size: 16px; margin: 0 0 32px; }
