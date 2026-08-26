@@ -212,7 +212,7 @@
   .cal-feature-ctas { display:flex; align-items:center; gap:22px; margin-top:16px; }
   .cal-feature-ctas .cal-link { color:var(--orange); }
   .cal-feature-addon { margin-top:24px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.15); }
-  .cal-feature-addon-label { display:block; font-family:var(--font-sport); font-weight:700; font-size:15px; letter-spacing:0.05em; text-transform:uppercase; color:rgba(255,255,255,0.65); margin-bottom:8px; }
+  .cal-feature-addon-label { display:inline-block; font-family:var(--font-sport); font-weight:800; font-size:15px; letter-spacing:0.06em; text-transform:uppercase; color:var(--orange); margin-bottom:10px; padding-bottom:4px; border-bottom:2px solid var(--orange); }
   .cal-feature-addon h5 { font-family:var(--font-heading); font-weight:800; font-size:17px; color:var(--white); margin:0 0 4px; }
   .cal-feature-addon p { font-size:14px; color:rgba(255,255,255,0.7); margin:0 0 10px; }
   .cal-feature-addon .cal-link { color:var(--orange); }
@@ -223,6 +223,8 @@
 
   .rail-party-glance { justify-content:center; text-align:center; }
   .cal-item .courts-commentary { margin-bottom:12px; }
+
+  .cal-nextup-wrap { margin-top:64px; padding:40px clamp(20px,4vw,44px) 44px; background:var(--gray-light); border-radius:var(--radius-md); }
 
   /* ---------- Compact camp/school-break lineup rows ---------- */
   .cal-camp-note { font-size:16px; line-height:1.5; color:var(--gray-dark); background:var(--gray-light); border-left:2px solid var(--orange); padding:12px 16px; margin:0 0 20px; }
@@ -432,8 +434,8 @@
               <a href="camps" class="cal-link">View Camps →</a>
             </div>
             <div class="cal-feature-addon">
-              <span class="cal-feature-addon-label">Fri, Oct 16 &middot; Optional Add-On</span>
-              <h5>Okay, Now We're Keeping Score.</h5>
+              <span class="cal-feature-addon-label">Optional Add-On</span>
+              <h5>Fri, Oct 16 &mdash; Okay, Now We're Keeping Score.</h5>
               <p>Games. Challenges. Bragging rights.</p>
               <!-- [PINK — INSERT APPROVED MEMBER / NON-MEMBER PRICE FOR FRIDAY COMPETITION DAY] -->
               <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-link" data-preset="Programs + Membership">Add Friday →</a>
@@ -812,16 +814,18 @@
       </div>
     </div>
 
-    <div class="cal-month-head"><span class="eyebrow">Next Up</span><h2 class="section-title">2027 Is Already Getting Ideas.</h2></div>
-        <div class="cal-list">
-      <div class="cal-item cal-item--compact reveal" data-category="teaser">
-        <div class="cal-date"><span class="cal-weekday">First Friday</span><span class="cal-month">Every</span><span class="cal-day">Month</span></div>
-        <div class="cal-body">
-          <span class="cal-tag">Coming This January</span>
-          <h4>Friday Night at The Courts</h4>
-          <p>Lights down. Music up. Courts open.<br>We're turning the first Friday of the month into something worth leaving the house for.</p>
-          <span class="courts-commentary">You'll want in.</span>
-          <a href="contact?interest=Something%20Else#contact-form" class="cal-link" data-preset="Something Else">Get First Dibs →</a>
+    <div class="cal-nextup-wrap">
+      <div class="cal-month-head" style="margin-top:0;"><span class="eyebrow">Next Up</span><h2 class="section-title">2027 Is Already Getting Ideas.</h2></div>
+      <div class="cal-list">
+        <div class="cal-item cal-item--compact reveal" data-category="teaser">
+          <div class="cal-date"><span class="cal-weekday">First Friday</span><span class="cal-month">Every</span><span class="cal-day">Month</span></div>
+          <div class="cal-body">
+            <span class="cal-tag">Coming This January</span>
+            <h4>Friday Night at The Courts</h4>
+            <p>Lights down. Music up. Courts open.<br>We're turning the first Friday of the month into something worth leaving the house for.</p>
+            <span class="courts-commentary">You'll want in.</span>
+            <a href="contact?interest=Something%20Else#contact-form" class="cal-link" data-preset="Something Else">Get First Dibs →</a>
+          </div>
         </div>
       </div>
     </div>
