@@ -99,14 +99,36 @@
   .ev-poster--grand .ev-poster-status { font-size:19px; }
   .ev-poster--halloween .ev-poster-status { font-size:19px; }
 
-  .ev-poster--winter { background:var(--charcoal); padding:0; position:relative; text-align:center; }
-  .ev-poster--winter::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg, var(--orange), #F2A65A 50%, var(--orange)); }
-  .ev-poster--winter .ev-poster-body { padding:38px clamp(24px,4vw,44px) 34px; }
-  .ev-poster--winter h3 { font-family:var(--font-display); font-weight:900; font-size:clamp(26px,3.4vw,38px); color:var(--white); margin:0 0 12px; }
-  .ev-poster--winter .ev-poster-words { justify-content:center; margin:18px 0 22px; }
-  .ev-winter-copy { font-size:15px; line-height:1.6; color:rgba(255,255,255,0.7); max-width:52ch; margin:16px auto 0; }
-  .ev-poster--winter .ev-halloween-access { margin:0 auto 14px; }
-  .ev-poster--winter .courts-commentary { margin:16px auto 0; }
+  /* GOAT Movie Night — cinematic, colorful, cozy */
+  .ev-poster--goat { background:radial-gradient(ellipse 700px 420px at 50% -10%, rgba(242,166,90,0.32), transparent 62%), linear-gradient(165deg, #2B2049 0%, #1B1430 55%, #120D22 100%); position:relative; text-align:center; }
+  .ev-poster--goat::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; z-index:2; background:repeating-linear-gradient(90deg, rgba(255,255,255,0.4) 0 10px, transparent 10px 22px); }
+  .ev-poster--goat .ev-poster-body { position:relative; z-index:1; padding:40px clamp(24px,4vw,48px) 36px; }
+  .ev-poster--goat .ev-poster-status { color:#F2A65A; }
+  .ev-poster--goat h3 { font-family:var(--font-display); font-weight:900; font-size:clamp(30px,4.2vw,44px); color:var(--white); margin:0 0 10px; }
+  .ev-poster--goat .ev-poster-sub { color:rgba(255,255,255,0.75); }
+  .ev-goat-copy { font-size:15px; line-height:1.65; color:rgba(255,255,255,0.65); max-width:54ch; margin:14px auto 0; }
+  .ev-goat-bold { font-family:var(--font-heading); font-weight:800; font-size:15.5px; color:var(--white); max-width:50ch; margin:20px auto 0; }
+  .ev-goat-cozy { font-size:13.5px; color:rgba(255,255,255,0.5); margin:8px auto 0; max-width:50ch; }
+  .ev-goat-meta { display:flex; flex-wrap:wrap; justify-content:center; gap:8px 18px; margin:24px 0 10px; font-family:var(--font-sport); font-weight:700; font-size:13px; letter-spacing:0.05em; text-transform:uppercase; color:rgba(255,255,255,0.85); }
+  .ev-goat-price { font-family:var(--font-sport); font-weight:800; font-size:15px; letter-spacing:0.04em; text-transform:uppercase; color:#F2A65A; margin:0 0 22px; }
+  .ev-goat-stars { position:absolute; inset:0; z-index:0; pointer-events:none; }
+  .ev-goat-star { position:absolute; width:4px; height:4px; border-radius:50%; background:rgba(255,255,255,0.65); box-shadow:0 0 6px 1px rgba(255,255,255,0.45); }
+
+  /* Holiday Classic */
+  .ev-poster--holiday { background:var(--charcoal); padding:0; position:relative; text-align:center; }
+  .ev-poster--holiday::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; z-index:2; background:linear-gradient(90deg, var(--orange), #3E7A5C 50%, var(--orange)); }
+  .ev-poster--holiday .ev-poster-body { position:relative; z-index:1; padding:38px clamp(24px,4vw,44px) 34px; }
+  .ev-poster--holiday h3 { font-family:var(--font-display); font-weight:900; font-size:clamp(26px,3.4vw,38px); color:var(--white); margin:0 0 12px; }
+  .ev-poster--holiday .ev-poster-words { justify-content:center; margin:18px 0 22px; }
+  .ev-poster--holiday .ev-poster-words span:not(:last-child)::after { color:#3E7A5C; }
+  .ev-holiday-copy { font-size:15px; line-height:1.6; color:rgba(255,255,255,0.7); max-width:52ch; margin:16px auto 0; }
+  .ev-poster--holiday .ev-halloween-access { margin:0 auto 14px; }
+  .ev-poster--holiday .courts-commentary { margin:16px auto 0; }
+  .ev-holiday-decor { position:absolute; z-index:0; pointer-events:none; }
+  .ev-holiday-decor--tl { top:14px; left:14px; }
+  .ev-holiday-decor--br { bottom:14px; right:14px; transform:rotate(20deg); }
+  .ev-holiday-snow { position:absolute; inset:0; z-index:0; pointer-events:none; }
+  .ev-holiday-snow span { position:absolute; width:3px; height:3px; border-radius:50%; background:rgba(255,255,255,0.5); }
 
   .ev-poster--quiet { background:var(--charcoal); position:relative; padding:36px clamp(24px,4vw,44px); }
   .ev-poster--quiet::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg, var(--orange), #F2A65A 50%, var(--orange)); }
@@ -578,17 +600,63 @@
         </div>
       </div>
 
-      <div class="ev-poster ev-poster--winter reveal">
+      <div class="cal-item cal-item--compact reveal" data-category="basketball">
+        <div class="cal-date"><span class="cal-weekday">Fri&ndash;Sun</span><span class="cal-month">Dec</span><span class="cal-day">11&ndash;13</span></div>
+        <div class="cal-body">
+          <span class="cal-tag">Fall Basketball League</span>
+          <h4>Tournament Weekend.</h4>
+          <p>The Fall Basketball League closes out with tournament games all weekend.</p>
+          <a href="leagues#fall-league" class="cal-link">View League →</a>
+        </div>
+      </div>
+
+      <div class="ev-poster ev-poster--goat reveal">
+        <div class="ev-goat-stars" aria-hidden="true">
+          <span class="ev-goat-star" style="top:18%; left:12%;"></span>
+          <span class="ev-goat-star" style="top:30%; left:82%;"></span>
+          <span class="ev-goat-star" style="top:14%; left:68%;"></span>
+          <span class="ev-goat-star" style="top:60%; left:6%;"></span>
+          <span class="ev-goat-star" style="top:70%; left:90%;"></span>
+          <span class="ev-goat-star" style="top:22%; left:45%;"></span>
+        </div>
         <div class="ev-poster-body">
-          <span class="ev-poster-status">Dec 18 &middot; Winter Classic</span>
-          <h3>Winter Classic</h3>
+          <span class="ev-poster-status">Sat, Dec 12 &middot; 6&ndash;9 PM</span>
+          <h3>GOAT Movie Night</h3>
+          <p class="ev-poster-sub">Bring a sleeping bag. We&rsquo;ve got the pizza.</p>
+          <p class="ev-goat-copy">We&rsquo;re putting GOAT on the big screen and settling in for a night at The Courts.</p>
+          <p class="ev-goat-copy">A little goat gets a once-in-a-lifetime shot at the pros in a sport where everybody thinks he&rsquo;s too small to belong. Naturally, we&rsquo;re into it.</p>
+          <p class="ev-goat-bold">Movie. Pizza. Basketball energy. Something cozy strongly encouraged.</p>
+          <p class="ev-goat-cozy">Bring a sleeping bag, blanket, lawn chair, beanbag &mdash; whatever keeps you cozy.</p>
+          <div class="ev-goat-meta">
+            <span>6&ndash;9 PM</span><span>Pizza Included</span>
+          </div>
+          <!-- [PINK — CONFIRM FINAL GOAT MOVIE NIGHT PRICE. Current recommendation: Member $25 / Non-Member $35, pizza included. Do not overwrite with a different confirmed price if one already exists.] -->
+          <p class="ev-goat-price">Member $25 &middot; Non-Member $35</p>
+          <!-- INTERNAL ONLY — DO NOT PUBLISH: Confirm public performance / screening rights for this film before this event is promoted publicly. -->
+          <!-- [PINK — UPPER HAND GOAT MOVIE NIGHT REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
+          <a href="contact?interest=Something%20Else#contact-form" class="btn btn-primary" data-preset="Something Else">Save Your Spot →</a>
+          <span class="courts-commentary courts-commentary--on-dark">Come for the movie. Stay for the GOAT debate.</span>
+        </div>
+      </div>
+
+      <div class="ev-poster ev-poster--holiday reveal">
+        <svg class="ev-holiday-decor ev-holiday-decor--tl" width="86" height="86" viewBox="0 0 90 90" fill="none" aria-hidden="true"><g stroke="rgba(255,255,255,0.4)" stroke-width="1.4" stroke-linecap="round"><line x1="45" y1="8" x2="45" y2="82"/><line x1="8" y1="45" x2="82" y2="45"/><line x1="18" y1="18" x2="72" y2="72"/><line x1="72" y1="18" x2="18" y2="72"/><line x1="45" y1="8" x2="38" y2="18"/><line x1="45" y1="8" x2="52" y2="18"/><line x1="45" y1="82" x2="38" y2="72"/><line x1="45" y1="82" x2="52" y2="72"/></g></svg>
+        <svg class="ev-holiday-decor ev-holiday-decor--br" width="70" height="70" viewBox="0 0 90 90" fill="none" aria-hidden="true"><g stroke="rgba(213,96,31,0.45)" stroke-width="1.4" stroke-linecap="round"><line x1="45" y1="8" x2="45" y2="82"/><line x1="8" y1="45" x2="82" y2="45"/><line x1="18" y1="18" x2="72" y2="72"/><line x1="72" y1="18" x2="18" y2="72"/></g></svg>
+        <div class="ev-holiday-snow" aria-hidden="true">
+          <span style="top:10%; left:20%;"></span><span style="top:22%; left:55%;"></span><span style="top:8%; left:78%;"></span>
+          <span style="top:34%; left:8%;"></span><span style="top:16%; left:38%;"></span>
+        </div>
+        <div class="ev-poster-body">
+          <span class="ev-poster-status">Fri, Dec 18 &middot; Courts Tradition</span>
+          <h3>Holiday Classic</h3>
           <p class="ev-poster-sub">One last big night before winter break.<br>Seems like a good reason to make it count.</p>
-          <p class="ev-winter-copy">Games, challenges, music, prizes, and a whole lot of court time. Basketball and volleyball both get in on this one.</p>
+          <p class="ev-holiday-copy">Basketball. Volleyball. Games. Challenges. Music. Prizes. A whole lot of court time before everybody completely loses track of what day it is.</p>
           <div class="ev-poster-words">
             <span>Basketball</span><span>Volleyball</span><span>Games</span><span>Challenges</span><span>Music</span><span>Prizes</span>
           </div>
           <span class="ev-halloween-access">Member Pricing &middot; Non-Members Welcome</span>
-          <!-- [PINK — INSERT APPROVED WINTER CLASSIC FORMAT (SKILLS EVENT / COMPETITION / CLINIC / CAMP-STYLE SESSION), SCHEDULE, AND MEMBER / NON-MEMBER PRICE] Staging only. Do not invent programming details, times, or prices. -->
+          <!-- [PINK — INSERT APPROVED HOLIDAY CLASSIC FORMAT (SKILLS EVENT / COMPETITION / CLINIC / CAMP-STYLE SESSION), SCHEDULE, AND MEMBER / NON-MEMBER PRICE] Staging only. Do not invent programming details, times, or prices. -->
+          <!-- [PINK — UPPER HAND HOLIDAY CLASSIC REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
           <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="btn btn-primary" data-preset="Programs + Membership">Register →</a>
           <span class="courts-commentary courts-commentary--on-dark">Holiday spirit. Competitive spirit. We&rsquo;ll take both.</span>
         </div>
