@@ -225,7 +225,6 @@
   .cal-item--openingday { position:relative; overflow:hidden; padding:26px 30px; box-shadow:inset 3px 0 0 0 var(--orange), inset 0 0 34px rgba(213,96,31,0.12); border-left:none; }
   .cal-item--openingday .cal-date { background:rgba(213,96,31,0.12); }
   .cal-item--openingday .cal-day { color:var(--orange-ink); font-weight:900; }
-  .cal-item--openingday .cal-tag { background:rgba(213,96,31,0.14); color:var(--orange-ink); }
   .cal-openingday-stamp {
     position:absolute; top:14px; right:16px; z-index:2; background:var(--white); border:1.5px dashed var(--orange);
     color:var(--orange-ink); font-family:var(--font-sport); font-weight:800; font-size:10px; letter-spacing:0.08em;
@@ -246,8 +245,8 @@
   .cal-item--jerseyday { position:relative; overflow:hidden; padding:24px 30px; }
   .cal-jerseyday-badge {
     position:absolute; top:14px; right:16px; z-index:2; background:var(--black); color:var(--white);
-    font-family:var(--font-sport); font-weight:800; font-size:9.5px; letter-spacing:0.06em; text-transform:uppercase;
-    padding:5px 10px; border-radius:999px; transform:rotate(-3deg);
+    font-family:var(--font-sport); font-weight:800; font-size:13px; letter-spacing:0.06em; text-transform:uppercase;
+    padding:7px 14px; border-radius:999px; transform:rotate(-3deg);
   }
   .cal-jerseyday-sub-line { display:block; font-size:14px; font-weight:700; color:var(--black); margin-bottom:0; }
   .cal-jerseyday-underline { display:block; margin:0 0 8px; }
@@ -259,6 +258,27 @@
 
   /* ---------- Compact camp/school-break lineup rows ---------- */
   .cal-camp-note { font-size:16px; line-height:1.5; color:var(--gray-dark); background:var(--gray-light); border-left:2px solid var(--orange); padding:12px 16px; margin:0 0 20px; }
+
+  /* Category color key */
+  .cal-tag--league { background:rgba(213,96,31,0.14); color:var(--orange-ink); }
+  .cal-tag--camps { background:rgba(46,107,74,0.14); color:#2E6B4A; }
+  .cal-tag--early { background:rgba(27,79,160,0.13); color:#1B4FA0; }
+  .cal-tag--culture { background:rgba(179,33,51,0.13); color:#B32133; }
+  .cal-tag--development { background:rgba(107,66,153,0.13); color:#6B4299; }
+  .cal-tag--opening { background:rgba(201,146,46,0.16); color:#8A6118; }
+  .cal-tag--teaser { background:rgba(23,23,23,0.08); color:var(--gray-dark); }
+
+  .cal-legend { display:flex; flex-wrap:wrap; gap:10px 18px; margin:0 0 40px; padding:16px 20px; background:var(--gray-light); border-radius:var(--radius-md); }
+  .cal-legend-item { display:flex; align-items:center; gap:7px; font-size:12.5px; font-weight:700; color:var(--gray-dark); }
+  .cal-legend-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+  .cal-legend-dot--league { background:var(--orange-ink); }
+  .cal-legend-dot--camps { background:#2E6B4A; }
+  .cal-legend-dot--early { background:#1B4FA0; }
+  .cal-legend-dot--culture { background:#B32133; }
+  .cal-legend-dot--development { background:#6B4299; }
+  .cal-legend-dot--opening { background:#8A6118; }
+  .cal-legend-dot--teaser { background:var(--gray-dark); }
+  @media (max-width:640px) { .cal-legend { gap:8px 14px; padding:14px 16px; } .cal-legend-item { font-size:11.5px; } }
   .cal-schedule { font-family:var(--font-heading); font-weight:700; font-size:14.5px; color:var(--black); line-height:1.7; margin:6px 0 10px; }
 
   .ev-halloween-access { display:block; font-family:var(--font-sport); font-weight:700; font-size:17px; letter-spacing:0.05em; text-transform:uppercase; color:var(--orange); margin-bottom:14px; }
@@ -407,6 +427,16 @@
       <a href="#december">December</a>
     </nav>
 
+    <div class="cal-legend" aria-label="Event category key">
+      <span class="cal-legend-item"><span class="cal-legend-dot cal-legend-dot--league" aria-hidden="true"></span>Fall Basketball League</span>
+      <span class="cal-legend-item"><span class="cal-legend-dot cal-legend-dot--camps" aria-hidden="true"></span>Camps</span>
+      <span class="cal-legend-item"><span class="cal-legend-dot cal-legend-dot--early" aria-hidden="true"></span>Early Release</span>
+      <span class="cal-legend-item"><span class="cal-legend-dot cal-legend-dot--culture" aria-hidden="true"></span>Basketball Community</span>
+      <span class="cal-legend-item"><span class="cal-legend-dot cal-legend-dot--development" aria-hidden="true"></span>Player Development</span>
+      <span class="cal-legend-item"><span class="cal-legend-dot cal-legend-dot--opening" aria-hidden="true"></span>Opening Day</span>
+      <span class="cal-legend-item"><span class="cal-legend-dot cal-legend-dot--teaser" aria-hidden="true"></span>Coming Up</span>
+    </div>
+
     <div class="events-layout">
       <div class="events-main">
         <div class="ev-early">
@@ -426,7 +456,7 @@
             </div>
             <div class="ev-eval-body">
               <span class="ev-eval-date">Sat &middot; Sep 12</span>
-              <span class="cal-tag">Fall Basketball League</span>
+              <span class="cal-tag cal-tag--league">Fall Basketball League</span>
               <h4>Come Show Us Your Game.</h4>
               <p class="ev-eval-status">Evaluations <span class="ev-eval-tbc">Time TBC</span></p>
               <p class="ev-eval-copy">A few drills. A little play. A chance for the coaches to see everybody before teams are set.</p>
@@ -445,7 +475,7 @@
         <svg class="cal-openingday-confetti" style="top:22px; right:120px;" width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><rect x="0" y="0" width="10" height="5" rx="1.5" fill="var(--orange)" opacity="0.65" transform="rotate(18 5 2.5)"/></svg>
         <div class="cal-date"><span class="cal-weekday">Thu</span><span class="cal-month">Oct</span><span class="cal-day">1</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Opening Day</span>
+          <span class="cal-tag cal-tag--opening">Opening Day</span>
           <h4>The Doors Are Open.</h4>
           <svg class="cal-openingday-underline" width="150" height="8" viewBox="0 0 150 8" fill="none" aria-hidden="true"><path d="M2,5 Q22,1 42,5 T82,4 T122,5 T148,3" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"/></svg>
           <p>The Courts is officially up and running.</p>
@@ -464,7 +494,7 @@
         <div class="cal-feature-body">
           <div class="cal-date"><span class="cal-weekday">Mon–Thu</span><span class="cal-month">Oct</span><span class="cal-day">12–15</span></div>
           <div class="cal-body">
-            <span class="cal-tag">Camps</span>
+            <span class="cal-tag cal-tag--camps">Camps</span>
             <h4>School's Out. <br class="br-desktop">We Have Plans.</h4>
             <p class="cal-schedule">Basketball &middot; 8 AM&ndash;12 PM<br>Volleyball &middot; 1&ndash;5 PM</p>
             <span class="courts-commentary">Like the &rsquo;90s summer your parents keep talking about. Just with better supervision.</span>
@@ -487,7 +517,7 @@
       <div class="cal-item cal-item--compact reveal" data-category="basketball">
         <div class="cal-date"><span class="cal-weekday">Week of</span><span class="cal-month">Oct</span><span class="cal-day">19</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Fall Basketball League</span>
+          <span class="cal-tag cal-tag--league">Fall Basketball League</span>
           <h4>Teams Set. Season On.</h4>
           <p>Practices start. Schedules go out. Time to play.</p>
           <a href="leagues#fall-league" class="cal-link">View League →</a>
@@ -497,7 +527,7 @@
       <div class="cal-item cal-item--compact cal-item--camp reveal" data-category="basketball">
         <div class="cal-date"><span class="cal-weekday">Sat</span><span class="cal-month">Oct</span><span class="cal-day">24</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Fall Basketball League</span>
+          <span class="cal-tag cal-tag--league">Fall Basketball League</span>
           <h4>Somebody's Keeping Score Now.</h4>
           <p>The first games of The Courts Fall Basketball League.</p>
           <span class="courts-commentary">Okay, now it counts.</span>
@@ -508,7 +538,7 @@
       <div class="cal-item cal-item--compact reveal" data-category="special">
         <div class="cal-date"><span class="cal-weekday">Wed</span><span class="cal-month">Oct</span><span class="cal-day">28</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Early Release</span>
+          <span class="cal-tag cal-tag--early">Early Release</span>
           <h4>School's Out Early. We Have Plans.</h4>
           <p>Drop the backpack. Grab the shoes.</p>
           <!-- [PINK — INSERT APPROVED SCHEDULE + MEMBER / NON-MEMBER PRICE FOR OCT 28 EARLY RELEASE] Staging only. Do not invent times or prices. -->
@@ -604,7 +634,7 @@
       <div class="cal-item cal-item--compact cal-item--camp reveal" data-category="camps">
         <div class="cal-date"><span class="cal-weekday">Tue</span><span class="cal-month">Nov</span><span class="cal-day">3</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Camps</span>
+          <span class="cal-tag cal-tag--camps">Camps</span>
           <h4>Day Off. Game On.</h4>
           <p class="cal-schedule">Basketball &middot; 8 AM&ndash;12 PM<br>Volleyball &middot; 1&ndash;5 PM</p>
           <span class="courts-commentary">No elaborate explanation necessary.</span>
@@ -615,19 +645,19 @@
 
       <div class="cal-item cal-item--compact cal-item--jerseyday reveal" data-category="culture">
         <span class="cal-jerseyday-badge" aria-hidden="true">Wear Your Jersey</span>
-        <svg class="cal-jerseyday-jersey" style="top:42px; right:64px;" width="32" height="37" viewBox="0 0 40 46" aria-hidden="true">
+        <svg class="cal-jerseyday-jersey" style="top:60px; right:60px;" width="58" height="67" viewBox="0 0 40 46" aria-hidden="true">
           <path fill-rule="evenodd" d="M6,10 L1,5 L9,0 L14,5 L20,5 L26,0 L34,5 L29,10 L29,44 L6,44 Z M14,5 L20,5 L17,11 Z" fill="#C8262C"/>
           <path d="M6,10 L1,5 L9,0" stroke="#0F2350" stroke-width="1.5" fill="none"/>
           <path d="M34,5 L26,0 L20,5" stroke="#0F2350" stroke-width="1.5" fill="none"/>
           <text x="17.5" y="28" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="11" fill="#F5EDE1">8</text>
         </svg>
-        <svg class="cal-jerseyday-jersey" style="bottom:14px; left:14px;" width="28" height="33" viewBox="0 0 40 46" aria-hidden="true">
+        <svg class="cal-jerseyday-jersey" style="bottom:4px; left:8px;" width="54" height="62" viewBox="0 0 40 46" aria-hidden="true">
           <path fill-rule="evenodd" d="M6,10 L1,5 L9,0 L14,5 L20,5 L26,0 L34,5 L29,10 L29,44 L6,44 Z M14,5 L20,5 L17,11 Z" fill="#161616"/>
           <path d="M6,10 L1,5 L9,0" stroke="#C9A227" stroke-width="1.5" fill="none"/>
           <path d="M34,5 L26,0 L20,5" stroke="#C9A227" stroke-width="1.5" fill="none"/>
           <text x="17.5" y="28" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="11" fill="#C9A227">3</text>
         </svg>
-        <svg class="cal-jerseyday-jersey" style="bottom:-6px; right:22px;" width="30" height="35" viewBox="0 0 40 46" aria-hidden="true" opacity="0.92">
+        <svg class="cal-jerseyday-jersey" style="bottom:-10px; right:14px;" width="56" height="64" viewBox="0 0 40 46" aria-hidden="true" opacity="0.92">
           <path fill-rule="evenodd" d="M6,10 L1,5 L9,0 L14,5 L20,5 L26,0 L34,5 L29,10 L29,44 L6,44 Z M14,5 L20,5 L17,11 Z" fill="#12294B"/>
           <path d="M6,10 L1,5 L9,0" stroke="#6DC8E8" stroke-width="1.5" fill="none"/>
           <path d="M34,5 L26,0 L20,5" stroke="#6DC8E8" stroke-width="1.5" fill="none"/>
@@ -635,7 +665,7 @@
         </svg>
         <div class="cal-date"><span class="cal-weekday">Fri</span><span class="cal-month">Nov</span><span class="cal-day">6</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Basketball Community</span>
+          <span class="cal-tag cal-tag--culture">Basketball Community</span>
           <h4>Basketball Jersey Day</h4>
           <span class="cal-jerseyday-sub-line">Wear your jersey. Bring your game.</span>
           <svg class="cal-jerseyday-underline" width="112" height="8" viewBox="0 0 112 8" fill="none" aria-hidden="true"><path d="M2,5 Q18,1 34,5 T66,4 T98,5" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"/></svg>
@@ -653,7 +683,7 @@
       <div class="cal-item reveal" data-category="community">
         <div class="cal-date"><span class="cal-weekday">Sat</span><span class="cal-month">Nov</span><span class="cal-day">14</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Player Development</span>
+          <span class="cal-tag cal-tag--development">Player Development</span>
           <h4>What Makes a Great Player?</h4>
           <p>Courts coaches talk directly with athletes about the things that matter beyond the drill: effort, attitude, confidence, decision-making, being coachable, and showing up for your team.</p>
           <p class="cal-note">Member benefit. Included with membership.</p>
@@ -664,7 +694,7 @@
       <div class="cal-item cal-item--compact reveal" data-category="special">
         <div class="cal-date"><span class="cal-weekday">Wed</span><span class="cal-month">Nov</span><span class="cal-day">18</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Early Release</span>
+          <span class="cal-tag cal-tag--early">Early Release</span>
           <h4>Oh Look. Another Early Release.</h4>
           <p>Good thing we planned ahead.</p>
           <!-- [PINK — INSERT APPROVED SCHEDULE + MEMBER / NON-MEMBER PRICE FOR NOV 18 EARLY RELEASE] Staging only. Do not invent times or prices. -->
@@ -675,7 +705,7 @@
       <div class="cal-item cal-item--camp reveal" data-category="camps">
         <div class="cal-date"><span class="cal-weekday">Mon&ndash;Wed</span><span class="cal-month">Nov</span><span class="cal-day">23&ndash;25</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Camps</span>
+          <span class="cal-tag cal-tag--camps">Camps</span>
           <h4>Three Days. Then Turkey.</h4>
           <p class="cal-schedule">Basketball &middot; 8 AM&ndash;12 PM<br>Volleyball &middot; 1&ndash;5 PM</p>
           <span class="courts-commentary">Earn the pie.</span>
@@ -690,7 +720,7 @@
       <div class="cal-item cal-item--compact reveal" data-category="special">
         <div class="cal-date"><span class="cal-weekday">Wed</span><span class="cal-month">Dec</span><span class="cal-day">9</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Early Release</span>
+          <span class="cal-tag cal-tag--early">Early Release</span>
           <h4>They're Letting Them Out Early Again.</h4>
           <p>We know. <strong>Send them over.</strong></p>
           <!-- [PINK — INSERT APPROVED SCHEDULE + MEMBER / NON-MEMBER PRICE FOR DEC 9 EARLY RELEASE] Staging only. Do not invent times or prices. -->
@@ -701,7 +731,7 @@
       <div class="cal-item cal-item--compact reveal" data-category="basketball">
         <div class="cal-date"><span class="cal-weekday">Fri&ndash;Sun</span><span class="cal-month">Dec</span><span class="cal-day">11&ndash;13</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Fall Basketball League</span>
+          <span class="cal-tag cal-tag--league">Fall Basketball League</span>
           <h4>Tournament Weekend.</h4>
           <p>The Fall Basketball League closes out with tournament games all weekend.</p>
           <a href="leagues#fall-league" class="cal-link">View League →</a>
@@ -817,7 +847,7 @@
       <div class="cal-item cal-item--camp reveal" data-category="camps">
         <div class="cal-date"><span class="cal-weekday">Mon&ndash;Wed</span><span class="cal-month">Dec</span><span class="cal-day">21&ndash;23</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Camps</span>
+          <span class="cal-tag cal-tag--camps">Camps</span>
           <h4>The Break Is Long. We Can Help.</h4>
           <p class="cal-schedule">Basketball &middot; 8 AM&ndash;12 PM<br>Volleyball &middot; 1&ndash;5 PM</p>
           <!-- [PINK — INSERT APPROVED MEMBER / NON-MEMBER PRICE FOR HOLIDAY CAMP] -->
@@ -828,7 +858,7 @@
       <div class="cal-item cal-item--camp reveal" data-category="camps">
         <div class="cal-date"><span class="cal-weekday">Mon&ndash;Wed</span><span class="cal-month">Dec</span><span class="cal-day">28&ndash;30</span></div>
         <div class="cal-body">
-          <span class="cal-tag">Camps</span>
+          <span class="cal-tag cal-tag--camps">Camps</span>
           <h4>One More Run Before We Call It a Year.</h4>
           <p class="cal-schedule">Basketball &middot; 8 AM&ndash;12 PM<br>Volleyball &middot; 1&ndash;5 PM</p>
           <span class="courts-commentary">Resolution can wait.</span>
@@ -844,7 +874,7 @@
         <div class="cal-item cal-item--compact reveal" data-category="teaser">
           <div class="cal-date"><span class="cal-weekday">First Friday</span><span class="cal-month">Every</span><span class="cal-day">Month</span></div>
           <div class="cal-body">
-            <span class="cal-tag">Coming This January</span>
+            <span class="cal-tag cal-tag--teaser">Coming This January</span>
             <h4>Friday Night at The Courts</h4>
             <p>Lights down. Music up. Courts open.<br>We're turning the first Friday of the month into something worth leaving the house for.</p>
             <span class="courts-commentary">You'll want in.</span>
