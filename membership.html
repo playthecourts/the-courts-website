@@ -22,7 +22,7 @@
   .mem-hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; align-items: stretch; min-height: 600px; }
   .mem-hero-copy { display: flex; flex-direction: column; justify-content: center; padding: 168px 24px 64px clamp(24px,6vw,88px); position: relative; z-index: 2; }
   .mem-hero-copy .eyebrow { font-size: 16px; }
-  .mem-hero-title { font-family: var(--font-display); line-height: 1.04; font-size: clamp(38px, 5vw, 68px); letter-spacing: -0.01em; color: var(--black); margin: 16px 0 30px; max-width: 13ch; }
+  .mem-hero-title { font-family: var(--font-display); line-height: 1.04; font-size: clamp(36px, 5.5vw, 60px); letter-spacing: -0.01em; color: var(--black); margin: 16px 0 30px; max-width: 13ch; }
   .mem-hero-media { position: relative; overflow: hidden; background: var(--charcoal); }
   .mem-hero-media img { position: absolute; top: 50%; left: -8%; width: 116%; height: 116%; object-fit: cover; transform: translateY(-50%) scale(1.02); }
   .mem-hero-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(23,23,23,0.5) 0%, rgba(23,23,23,0.05) 30%, rgba(23,23,23,0) 55%); }
@@ -32,7 +32,7 @@
     .mem-hero-copy { padding: 136px 24px 40px; }
     .mem-hero-media { aspect-ratio: 4/3; }
     .mem-hero-lines { display: none; }
-    .mem-hero-title { font-size: clamp(34px, 9vw, 48px); max-width: none; }
+    .mem-hero-title { max-width: none; }
   }
 
   /* ---------- Shared section rhythm ---------- */

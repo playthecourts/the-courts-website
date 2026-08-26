@@ -124,7 +124,7 @@
 </section>
 
 <style>
-  .ab-intro-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(40px, 6vw, 72px); line-height: 1.03; letter-spacing: -0.01em; color: var(--black); margin: 14px 0 20px; }
+  .ab-intro-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(36px, 5.5vw, 60px); line-height: 1.03; letter-spacing: -0.01em; color: var(--black); margin: 14px 0 20px; }
   .ab-nolensville-wrap { position: relative; display: inline-block; }
   .ab-opening-pill { position: absolute; bottom: 100%; right: 0; margin-bottom: 26px; display: inline-flex; align-items: center; gap: 8px; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 22px; border-radius: 999px; white-space: nowrap; }
   .ab-opening-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--white); flex-shrink: 0; animation: featStatusPulse 1.6s ease-in-out infinite; }
@@ -143,7 +143,6 @@
   .founder-note-more { margin-top: 6px; }
 
   @media (max-width: 640px) {
-    .ab-intro-headline { font-size: clamp(32px, 10vw, 44px); }
     .ab-opening-pill { font-size: 11px; padding: 7px 14px; gap: 6px; margin-bottom: 10px; }
     .ab-opening-dot { width: 7px; height: 7px; }
     .founder-note p { font-size: 16px; }
@@ -447,10 +446,7 @@
     </div>
 
     <div class="community-giveback">
-      <div class="community-giveback-photo photo placeholder" role="img" aria-label="Photo coming soon"></div>
-      <span class="cg-heart cg-heart--1" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="#D5601F"><path d="M12 21s-8-4.6-8-11a4.8 4.8 0 0 1 8-3.5A4.8 4.8 0 0 1 20 10c0 6.4-8 11-8 11z"/></svg></span>
-      <span class="cg-heart cg-heart--2" aria-hidden="true"><svg width="9" height="9" viewBox="0 0 24 24" fill="#D5601F"><path d="M12 21s-8-4.6-8-11a4.8 4.8 0 0 1 8-3.5A4.8 4.8 0 0 1 20 10c0 6.4-8 11-8 11z"/></svg></span>
-      <span class="cg-heart cg-heart--3" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="#D5601F"><path d="M12 21s-8-4.6-8-11a4.8 4.8 0 0 1 8-3.5A4.8 4.8 0 0 1 20 10c0 6.4-8 11-8 11z"/></svg></span>
+      <div class="community-giveback-photo photo"><img src="images/community-giveback-box.png" alt="A box of Courts branded gear -- hoodie, water bottle, basketball, volleyball, beanie, socks, and a teddy bear -- ready for a community give-back." style="object-fit:contain; background:var(--white);"></div>
       <span class="community-giveback-label">Our First Chance to Give Back</span>
       <h3>Coming This December.</h3>
       <p>We'll organize a Courts community give-back opportunity once a quarter, giving athletes<br>and families a chance to show up together for Nolensville.</p>
@@ -472,11 +468,7 @@
 
   .community-giveback { position: relative; margin: 72px 0 0; max-width: 420px; padding: 0 32px 32px; background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-md); box-shadow: 0 26px 60px rgba(213,96,31,0.14); }
   .community-giveback-photo { aspect-ratio: 16/9; margin: 0 -32px 24px; border-radius: var(--radius-md) var(--radius-md) 0 0; }
-  .cg-heart { position: absolute; z-index: 2; pointer-events: none; animation: cal-sparkle-pulse 3s ease-in-out infinite; }
-  .cg-heart--1 { top: 14px; right: 34px; animation-delay: 0.3s; }
-  .cg-heart--2 { top: 34px; right: 20px; animation-delay: 1.3s; }
-  .cg-heart--3 { top: 4px; right: 56px; animation-delay: 0.9s; }
-  @media (prefers-reduced-motion: reduce) { .cg-heart { animation: none; } }
+  .community-giveback-photo img { width: 100%; height: 100%; }
   .community-giveback-label { position: absolute; top: -18px; left: 28px; display: inline-block; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-weight: 800; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; padding: 9px 20px; border-radius: 999px; box-shadow: 0 10px 22px rgba(213,96,31,0.4); z-index: 2; }
   .community-giveback h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(21px, 2.6vw, 27px); color: var(--black); margin: 0 0 12px; line-height: 1.2; }
   .community-giveback p { font-size: 15px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 16px; }
