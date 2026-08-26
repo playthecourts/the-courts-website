@@ -76,8 +76,8 @@
   @keyframes ev-spider-bob { 0%,100% { transform:translateY(0); } 50% { transform:translateY(11px); } }
   @media (prefers-reduced-motion:reduce) { .ev-spider { animation:none; } }
 
-  .ev-halloween-split { display:grid; grid-template-columns:1fr 1fr; }
-  .ev-halloween-day { position:relative; padding:36px clamp(20px,3vw,40px) 40px; overflow:hidden; }
+  .ev-halloween-split { display:grid; grid-template-columns:1fr 1fr; align-items:stretch; }
+  .ev-halloween-day { position:relative; display:flex; flex-direction:column; padding:36px clamp(20px,3vw,40px) 40px; overflow:hidden; }
   .ev-halloween-day--fri { background:#F2E9DC; border-right:1px solid rgba(23,23,23,0.12); }
   .ev-halloween-day--sat { background:#F2E9DC; }
   .ev-halloween-decor { display:block; margin-bottom:16px; }
@@ -87,8 +87,8 @@
   .ev-halloween-day h4 { font-family:var(--font-display); font-weight:900; font-size:clamp(22px,2.8vw,30px); color:var(--white); margin:0 0 10px; }
   .ev-halloween-tagline { font-family:var(--font-heading); font-weight:700; font-size:15px; color:rgba(255,255,255,0.85); margin:0 0 12px; }
   .ev-halloween-day p:not(.ev-halloween-tagline) { font-size:14.5px; line-height:1.6; color:rgba(255,255,255,0.65); margin:0 0 20px; }
-  .ev-halloween-day .courts-commentary { margin-top:16px; }
-  .ev-halloween-day .btn { margin-top:22px; }
+  .ev-halloween-day .courts-commentary { margin-top:auto; padding-top:16px; }
+  .ev-halloween-day .btn { margin-top:22px; align-self:flex-start; }
   .ev-halloween-day--fri .ev-halloween-date, .ev-halloween-day--sat .ev-halloween-date { color:rgba(23,23,23,0.85); }
   .ev-halloween-day--fri h4, .ev-halloween-day--sat h4 { color:var(--black); }
   .ev-halloween-day--fri .ev-halloween-tagline, .ev-halloween-day--sat .ev-halloween-tagline { color:rgba(23,23,23,0.85); }
