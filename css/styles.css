@@ -1015,13 +1015,6 @@ body.has-announce .nav { top: 64px; }
 .legal-contact-block a:hover { color: var(--orange-hover); }
 
 /* Counsel review notice — pink, staging-only, never shown once resolved */
-.legal-counsel { background: #FCEEF6; border-left: 4px solid #C33590; padding: 18px 22px; margin: 24px 0; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
-.legal-counsel-label { display: flex; align-items: center; gap: 7px; font-family: var(--font-sport); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #A32979; margin-bottom: 8px; }
-.legal-counsel-label::before { content: '●'; font-size: 8px; }
-.legal-counsel p { color: var(--black); font-size: 14px; line-height: 1.65; margin: 0 0 8px; }
-.legal-counsel p:last-child { margin-bottom: 0; }
-.legal-counsel ul { margin: 8px 0; padding-left: 20px; }
-.legal-counsel li { font-size: 13.5px; line-height: 1.6; color: var(--black); margin-bottom: 4px; }
 
 .legal-contact-block { font-size: 15.5px; line-height: 1.8; color: var(--gray-dark); }
 .legal-contact-block strong { display: block; color: var(--black); margin-bottom: 2px; }
