@@ -122,9 +122,10 @@
   .ab-opening-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--white); flex-shrink: 0; animation: featStatusPulse 1.6s ease-in-out infinite; }
   @media (prefers-reduced-motion: reduce) { .ab-opening-dot { animation: none; } }
 
-  .founder-note-wrap { margin-top: 48px; background: var(--white); border-radius: var(--radius-md); padding: 48px clamp(28px,5vw,64px); box-shadow: 0 20px 50px rgba(23,23,23,0.08); border: 1px solid var(--gray-mid); }
+  .founder-note-wrap { margin-top: 22px; background: #FBF8F1; border-radius: 3px; padding: 48px clamp(28px,5vw,64px); box-shadow: 0 24px 54px rgba(23,23,23,0.1); border: 1px solid var(--gray-mid); transform: rotate(-0.4deg); position: relative; }
+  .founder-note-wrap::before { content: '\201C'; position: absolute; top: 6px; left: 24px; font-family: Georgia, 'Times New Roman', serif; font-size: 90px; line-height: 1; color: rgba(213,96,31,0.14); pointer-events: none; }
   .founder-note { max-width: 640px; }
-  .founder-note p { font-size: 16.5px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 18px; }
+  .founder-note p { font-size: 16.5px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 18px; font-style: italic; }
   .founder-note p strong { color: var(--black); font-weight: 800; font-size: 18px; }
   .founder-note-signoff { margin-top: 30px !important; }
   .founder-note-title { color: var(--gray-dark); font-size: 15px; }
