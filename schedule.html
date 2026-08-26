@@ -39,49 +39,27 @@
   /* ================= More Ways to Play — editorial modules (mwp-*) ================= */
   .mwp-head { max-width: 620px; margin: 0 0 32px; }
   .mwp-sub { font-size: 16px; color: var(--gray-dark); margin: 10px 0 0; max-width: 48ch; }
-  .mwp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .mwp-mod { position: relative; border-radius: var(--radius-md); overflow: hidden; text-decoration: none; color: inherit; display: block; min-height: 420px; }
-  .mwp-num { position: absolute; top: 22px; z-index: 2; font-family: var(--font-display); font-weight: 900; font-size: 15px; letter-spacing: 0.04em; }
-  .mwp-body { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; }
-  .mwp-cat { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 12px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
-  .mwp-mod h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2.4vw, 28px); line-height: 1.1; margin: 0 0 12px; }
-  .mwp-mod p { font-size: 14.5px; line-height: 1.6; margin: 0 0 20px; }
-  .mwp-cta { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-heading); font-weight: 800; font-size: 14.5px; margin-top: auto; transition: gap 0.2s var(--ease); }
-  .mwp-mod:hover .mwp-cta { gap: 10px; }
+  .mwp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .mwp-mod { position: relative; border-radius: var(--radius-md); overflow: hidden; text-decoration: none; color: inherit; display: block; min-height: 460px; }
+  .mwp-num { position: absolute; top: 20px; left: 20px; z-index: 2; font-family: var(--font-display); font-weight: 900; font-size: 14px; letter-spacing: 0.04em; color: rgba(255,255,255,0.55); }
+  .mwp-body { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding: 22px 22px 26px; }
+  .mwp-cat { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+  .mwp-mod h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(19px, 1.8vw, 22px); line-height: 1.14; margin: 0 0 10px; color: var(--white); }
+  .mwp-mod p { font-size: 13.5px; line-height: 1.55; margin: 0 0 16px; color: rgba(255,255,255,0.8); }
+  .mwp-cta { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-heading); font-weight: 800; font-size: 13.5px; color: var(--white); transition: gap 0.2s var(--ease), color 0.2s var(--ease); }
+  .mwp-mod:hover .mwp-cta { gap: 10px; color: var(--orange); }
 
-  /* Split layout (image one side, copy the other, light ground) */
-  .mwp-mod--split { display: grid; grid-template-columns: 1fr 1fr; background: var(--gray-light); border: 1px solid var(--gray-mid); }
-  .mwp-mod--split .mwp-photo { position: relative; overflow: hidden; }
-  .mwp-mod--split .mwp-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .mwp-mod--split .mwp-body { padding: 30px 30px 30px 0; justify-content: center; }
-  .mwp-mod--split.mwp-mod--reverse { grid-template-columns: 1fr 1fr; }
-  .mwp-mod--split.mwp-mod--reverse .mwp-photo { order: 2; }
-  .mwp-mod--split.mwp-mod--reverse .mwp-body { order: 1; padding: 30px 0 30px 30px; }
-  .mwp-mod--split .mwp-num { color: var(--gray-mid); left: 24px; }
-  .mwp-mod--split.mwp-mod--reverse .mwp-num { left: auto; right: 24px; }
-  .mwp-mod--split .mwp-mod h3, .mwp-mod--split h3 { color: var(--black); }
-  .mwp-mod--split p { color: var(--gray-dark); }
-  .mwp-mod--split .mwp-cta { color: var(--orange); }
-  .mwp-mod--split .mwp-body { padding-top: 56px; }
-
-  /* Overlay layout (full-bleed photo, gradient, copy on top) */
+  /* Full-bleed photo + gradient overlay, same treatment for all four */
   .mwp-mod--overlay .mwp-photo { position: absolute; inset: 0; }
   .mwp-mod--overlay .mwp-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .mwp-mod--overlay .mwp-body { padding: 24px 30px 30px; justify-content: flex-end; }
-  .mwp-mod--overlay .mwp-num { color: rgba(255,255,255,0.55); left: 24px; }
-  .mwp-mod--overlay h3 { color: var(--white); }
-  .mwp-mod--overlay p { color: rgba(255,255,255,0.8); }
-  .mwp-mod--overlay .mwp-cta { color: var(--white); }
-  .mwp-mod--overlay:hover .mwp-cta { color: var(--orange); }
-  .mwp-mod--camps::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(0deg, rgba(23,23,23,0.9) 5%, rgba(23,23,23,0.15) 55%, rgba(23,23,23,0.05) 100%); }
-  .mwp-mod--leagues::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(0deg, rgba(0,0,0,0.94) 15%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.35) 100%); }
+  .mwp-mod--overlay::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(0deg, rgba(0,0,0,0.92) 8%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.1) 100%); }
 
-  @media (max-width: 860px) {
+  @media (max-width: 980px) {
+    .mwp-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
     .mwp-grid { grid-template-columns: 1fr; }
-    .mwp-mod { min-height: 360px; }
-    .mwp-mod--split, .mwp-mod--split.mwp-mod--reverse { grid-template-columns: 1fr; }
-    .mwp-mod--split .mwp-photo, .mwp-mod--split.mwp-mod--reverse .mwp-photo { order: 1; min-height: 220px; }
-    .mwp-mod--split .mwp-body, .mwp-mod--split.mwp-mod--reverse .mwp-body { order: 2; padding: 24px !important; }
+    .mwp-mod { min-height: 320px; }
   }
 </style>
 </head>
@@ -246,7 +224,7 @@
       <p class="mwp-sub">Some things need their own time, team, coach, or court.</p>
     </div>
     <div class="mwp-grid">
-      <a href="private-coaching" class="mwp-mod mwp-mod--split">
+      <a href="private-coaching" class="mwp-mod mwp-mod--overlay">
         <span class="mwp-num">01</span>
         <div class="mwp-photo"><img src="images/private-training-dribble.jpg" alt="An athlete working through a dribbling drill one-on-one with a coach."></div>
         <div class="mwp-body">
@@ -257,7 +235,7 @@
         </div>
       </a>
 
-      <a href="camps" class="mwp-mod mwp-mod--overlay mwp-mod--camps">
+      <a href="camps" class="mwp-mod mwp-mod--overlay">
         <span class="mwp-num">02</span>
         <div class="mwp-photo"><img src="images/team-listening.jpg" alt="A group of young athletes gathered courtside at camp."></div>
         <div class="mwp-body">
@@ -268,7 +246,7 @@
         </div>
       </a>
 
-      <a href="leagues" class="mwp-mod mwp-mod--overlay mwp-mod--leagues">
+      <a href="leagues" class="mwp-mod mwp-mod--overlay">
         <span class="mwp-num">03</span>
         <div class="mwp-photo"><img src="images/leagues-huddle.jpg" alt="A coach and team fist-bumping in a huddle."></div>
         <div class="mwp-body">
@@ -279,7 +257,7 @@
         </div>
       </a>
 
-      <a href="court-rentals" class="mwp-mod mwp-mod--split mwp-mod--reverse">
+      <a href="court-rentals" class="mwp-mod mwp-mod--overlay">
         <span class="mwp-num">04</span>
         <div class="mwp-photo"><img src="images/court-floor-detail.jpg" alt="Detail of an empty basketball court's painted lines."></div>
         <div class="mwp-body">
