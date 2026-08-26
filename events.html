@@ -105,7 +105,7 @@
   .ev-poster--goat .ev-poster-body { position:relative; z-index:1; padding:28px clamp(24px,4vw,48px) 26px; }
   .ev-poster--goat .ev-poster-status { color:#F2A65A; }
   .ev-poster--goat h3 { font-family:var(--font-display); font-weight:900; font-size:clamp(30px,4.2vw,44px); color:var(--white); margin:0 0 10px; }
-  .ev-goat-copy { font-size:15px; line-height:1.65; color:rgba(255,255,255,0.65); max-width:54ch; margin:14px auto 0; }
+  .ev-goat-copy { font-size:15px; line-height:1.65; color:rgba(255,255,255,0.65); max-width:54ch; margin:14px auto 0; text-wrap:balance; }
   .ev-goat-bold { font-family:var(--font-heading); font-weight:800; font-size:15.5px; color:var(--white); max-width:50ch; margin:18px auto 0; }
   .ev-goat-meta { display:flex; flex-wrap:wrap; justify-content:center; gap:10px 20px; margin:16px 0 10px; font-family:var(--font-sport); font-weight:800; font-size:18px; letter-spacing:0.04em; text-transform:uppercase; color:var(--white); }
   .ev-goat-price { font-family:var(--font-sport); font-weight:800; font-size:15px; letter-spacing:0.04em; text-transform:uppercase; color:#F2A65A; margin:0 0 22px; }
@@ -113,6 +113,7 @@
   .ev-goat-star { position:absolute; width:4px; height:4px; border-radius:50%; background:rgba(255,255,255,0.65); box-shadow:0 0 6px 1px rgba(255,255,255,0.45); }
   .ev-goat-decor { position:absolute; z-index:0; pointer-events:none; }
   .ev-goat-decor--pizza { bottom:7%; left:5%; }
+  .ev-goat-decor--popcorn { bottom:6%; right:5%; }
   .ev-goat-mark { top:7%; right:5%; opacity:0.9; }
   @media (max-width:760px) { .ev-goat-decor { display:none; } }
 
@@ -760,7 +761,7 @@
           <span class="ev-goat-star" style="top:70%; left:90%;"></span>
           <span class="ev-goat-star" style="top:22%; left:45%;"></span>
         </div>
-        <svg class="ev-goat-decor ev-goat-mark" width="76" height="61" viewBox="0 0 150 120" aria-hidden="true">
+        <svg class="ev-goat-decor ev-goat-mark" width="152" height="122" viewBox="0 0 150 120" aria-hidden="true">
           <g fill="#3E5FA8">
             <rect x="42" y="85" width="8" height="23" rx="3"/>
             <rect x="55" y="88" width="8" height="22" rx="3"/>
@@ -777,10 +778,23 @@
           </g>
           <text x="76" y="79" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="24" fill="#F2C230">30</text>
         </svg>
-        <svg class="ev-goat-decor ev-goat-decor--pizza" width="40" height="36" viewBox="0 0 44 40" aria-hidden="true">
-          <path d="M22,2 L42,36 a2,2 0 0 1 -2,3 L4,39 a2,2 0 0 1 -2,-3 Z" fill="#F2C572"/>
-          <path d="M2,36 a2,2 0 0 0 2,3 L40,39 a2,2 0 0 0 2,-3 L38,33 L6,33 Z" fill="#E0A15C"/>
-          <g fill="#B32133"><circle cx="16" cy="26" r="3"/><circle cx="26" cy="22" r="3"/><circle cx="21" cy="31" r="3"/></g>
+        <svg class="ev-goat-decor ev-goat-decor--pizza" width="76" height="50" viewBox="0 0 90 60" aria-hidden="true">
+          <path d="M15,28 L45,6 L75,28 Z" fill="#F5EDE1" stroke="#B32133" stroke-width="1.3"/>
+          <rect x="15" y="28" width="60" height="22" rx="2" fill="#F5EDE1" stroke="#B32133" stroke-width="1.3"/>
+          <circle cx="45" cy="39" r="10" fill="#F2C572"/>
+          <g fill="#B32133"><circle cx="41" cy="36" r="1.8"/><circle cx="49" cy="37" r="1.8"/><circle cx="45" cy="43" r="1.8"/></g>
+          <path d="M0,50 L7,30 L14,50 Z" fill="#F2C572" stroke="#E0A15C" stroke-width="0.8"/>
+          <circle cx="7" cy="42" r="1.5" fill="#B32133"/>
+          <path d="M76,50 L83,30 L90,50 Z" fill="#F2C572" stroke="#E0A15C" stroke-width="0.8"/>
+          <circle cx="83" cy="42" r="1.5" fill="#B32133"/>
+        </svg>
+        <svg class="ev-goat-decor ev-goat-decor--popcorn" width="38" height="47" viewBox="0 0 42 52" aria-hidden="true">
+          <path d="M8,20 L5,48 a4,4 0 0 0 4,4 h16 a4,4 0 0 0 4,-4 L32,20 Z" fill="#8C1F2E"/>
+          <path d="M12,20 L14,52 h4 L18,20 Z" fill="#F5EDE1"/>
+          <path d="M24,20 L22,52 h4 L28,20 Z" fill="#F5EDE1"/>
+          <g fill="#F2C572">
+            <circle cx="12" cy="14" r="7"/><circle cx="20" cy="9" r="8"/><circle cx="29" cy="14" r="7"/><circle cx="16" cy="18" r="6"/><circle cx="25" cy="18" r="6"/>
+          </g>
         </svg>
         <div class="ev-poster-body">
           <span class="ev-poster-status">Sat, Dec 12 &middot; 6&ndash;9 PM</span>
@@ -829,6 +843,24 @@
           <circle cx="14" cy="3" r="2.5" fill="#7A4A2B"/>
           <circle cx="14" cy="21" r="12" fill="#8C1F2E"/>
           <ellipse cx="10" cy="16" rx="3.5" ry="4.5" fill="#FFFFFF" opacity="0.3"/>
+        </svg>
+        <svg class="ev-holiday-decor" style="top:0; left:14%;" width="26" height="58" viewBox="0 0 26 58" aria-hidden="true">
+          <line x1="13" y1="0" x2="13" y2="10" stroke="#F5EDE1" stroke-width="2" opacity="0.55"/>
+          <circle cx="13" cy="0" r="2.6" fill="none" stroke="#F5EDE1" stroke-width="1.6" opacity="0.55"/>
+          <circle cx="13" cy="26" r="14" fill="var(--orange)"/>
+          <path d="M0,26 h26 M13,12 v28 M4,16 C10,20 10,32 4,36 M22,16 C16,20 16,32 22,36" stroke="#1B1000" stroke-width="1.2" fill="none" opacity="0.6"/>
+        </svg>
+        <svg class="ev-holiday-decor" style="top:0; left:32%;" width="26" height="66" viewBox="0 0 26 66" aria-hidden="true">
+          <line x1="13" y1="0" x2="13" y2="14" stroke="#F5EDE1" stroke-width="2" opacity="0.55"/>
+          <circle cx="13" cy="0" r="2.6" fill="none" stroke="#F5EDE1" stroke-width="1.6" opacity="0.55"/>
+          <circle cx="13" cy="32" r="14" fill="#F5EDE1"/>
+          <path d="M13,18 C7,24 7,40 13,46 M13,18 C19,24 19,40 13,46 M-1,32 h28" stroke="#B32133" stroke-width="1.2" fill="none" opacity="0.65"/>
+        </svg>
+        <svg class="ev-holiday-decor" style="top:0; right:20%;" width="24" height="52" viewBox="0 0 24 52" aria-hidden="true">
+          <line x1="12" y1="0" x2="12" y2="9" stroke="#F5EDE1" stroke-width="2" opacity="0.55"/>
+          <circle cx="12" cy="0" r="2.4" fill="none" stroke="#F5EDE1" stroke-width="1.5" opacity="0.55"/>
+          <circle cx="12" cy="24" r="12" fill="#D9C93E"/>
+          <g fill="#8C7A1E" opacity="0.6"><circle cx="8" cy="18" r="1.3"/><circle cx="16" cy="18" r="1.3"/><circle cx="6" cy="24" r="1.3"/><circle cx="18" cy="24" r="1.3"/><circle cx="8" cy="30" r="1.3"/><circle cx="16" cy="30" r="1.3"/><circle cx="12" cy="34" r="1.3"/><circle cx="12" cy="14" r="1.3"/></g>
         </svg>
         <svg class="ev-holiday-decor" style="bottom:14px; left:16px;" width="66" height="34" viewBox="0 0 46 24" aria-hidden="true">
           <circle cx="11" cy="12" r="10" fill="var(--orange)"/>
@@ -889,7 +921,7 @@
           <div class="cal-body">
             <span class="cal-tag cal-tag--teaser">Coming This January</span>
             <h4>Friday Night at The Courts</h4>
-            <p>Lights down. Music up. Courts open.<br>We're turning the first Friday of the month into something worth leaving the house for.</p>
+            <p style="text-wrap:balance;">Lights down. Music up. Courts open.<br>We're turning the first Friday of the month into something worth leaving the house for.</p>
             <span class="courts-commentary">You'll want in.</span>
             <a href="contact?interest=Something%20Else#contact-form" class="cal-link" data-preset="Something Else">Get First Dibs →</a>
           </div>
