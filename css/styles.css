@@ -424,7 +424,7 @@ body.has-announce .nav { top: 64px; }
 .footer-brand-inner { position: relative; z-index: 1; }
 .footer-brand-logo { height: 38px; width: auto; display: block; margin-bottom: 16px; }
 .footer-brand-statement { font-family: var(--font-display); font-weight: 900; font-size: clamp(21px, 2.2vw, 27px); line-height: 1.18; letter-spacing: -0.005em; text-transform: uppercase; color: var(--black); margin: 0 0 10px; }
-.footer-brand-sub { font-size: 15.5px; line-height: 1.6; color: var(--gray-dark); margin: 0; max-width: 32ch; }
+.footer-brand-sub { font-size: 15.5px; line-height: 1.6; color: var(--gray-dark); margin: 0 0 18px; max-width: 32ch; }
 .footer-address { font-size: 14.5px; line-height: 1.55; color: var(--black); margin: 14px 0 8px; }
 .footer-address-link { display: inline-block; font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--orange); }
 .footer-address-link:hover { color: var(--orange-hover); }
