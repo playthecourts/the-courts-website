@@ -187,9 +187,51 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const success = document.getElementById('contactFormSuccess');
-      contactForm.reset();
-      contactForm.style.display = 'none';
-      if (success) success.style.display = 'block';
+      const submitBtn = contactForm.querySelector('button[type="submit"], input[type="submit"]');
+      const submitLabel = submitBtn ? submitBtn.textContent : '';
+
+      const fieldLabel = field => {
+        const explicit = field.id && contactForm.querySelector(`label[for="${field.id}"]`);
+        const text = (explicit ? explicit.textContent : field.closest('.form-row')?.querySelector('label')?.textContent) || field.id;
+        return text.replace('*', '').replace(/Optional$/, '').trim();
+      };
+
+      const payload = {};
+      contactForm.querySelectorAll('.chip-group[data-group]').forEach(group => {
+        if (!isVisible(group)) return;
+        const checked = [...group.querySelectorAll('input[type="checkbox"]:checked')].map(c => c.nextElementSibling.textContent.trim());
+        if (!checked.length) return;
+        const groupLabelEl = group.closest('.form-row')?.querySelector('label');
+        const label = groupLabelEl ? groupLabelEl.textContent.replace(/Choose all that apply/i, '').trim() : group.dataset.group;
+        payload[label] = checked.join(', ');
+      });
+      contactForm.querySelectorAll('input, select, textarea').forEach(field => {
+        if (field.type === 'checkbox' || field.closest('.chip-group')) return;
+        if (!isVisible(field)) return;
+        const val = field.value.trim();
+        if (val) payload[fieldLabel(field)] = val;
+      });
+      payload._subject = 'New Contact Form Submission — The Courts';
+      const emailField = document.getElementById('cEmail');
+      if (emailField && emailField.value.trim()) payload._replyto = emailField.value.trim();
+
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
+
+      fetch('https://formspree.io/f/xeaqjjzn', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(res => {
+          if (!res.ok) throw new Error('Submission failed');
+          contactForm.reset();
+          contactForm.style.display = 'none';
+          if (success) success.style.display = 'block';
+        })
+        .catch(() => {
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = submitLabel; }
+          alert("Something went wrong sending your message. Please email us directly at hello@playthecourts.com.");
+        });
     });
   }
 
