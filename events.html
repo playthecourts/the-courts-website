@@ -156,8 +156,29 @@
   .ev-month-nav a:active, .ev-month-nav a:focus-visible { color:var(--black); border-bottom-color:var(--orange); }
   .ev-early { margin:0 0 40px; padding:0 0 28px; border-bottom:1px solid var(--gray-mid); }
   .ev-early-label { display:block; font-family:var(--font-sport); font-weight:800; font-size:18px; letter-spacing:0.07em; text-transform:uppercase; color:var(--orange); margin-bottom:14px; }
-  .ev-early-row { display:grid; grid-template-columns:112px 1fr; gap:24px; }
-  @media (max-width:640px) { .ev-early-row { grid-template-columns:1fr; } }
+
+  .ev-eval-card { position:relative; overflow:hidden; background:var(--black); border-radius:var(--radius-md); padding:40px clamp(24px,4vw,48px); }
+  .ev-eval-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; z-index:3; background:linear-gradient(90deg, var(--orange), #F2A65A 50%, var(--orange)); }
+  .ev-eval-num { position:absolute; top:-8%; right:1%; font-family:var(--font-display); font-weight:900; font-size:clamp(180px,24vw,300px); line-height:1; color:rgba(213,96,31,0.14); z-index:0; pointer-events:none; user-select:none; }
+  .ev-eval-court { position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+  .ev-eval-notes { position:absolute; inset:0; z-index:0; pointer-events:none; }
+  .ev-eval-notes span { position:absolute; font-family:var(--font-sport); font-weight:700; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.16); }
+  .ev-eval-body { position:relative; z-index:2; max-width:52ch; }
+  .ev-eval-date { display:block; font-family:var(--font-sport); font-weight:800; font-size:16px; letter-spacing:0.06em; text-transform:uppercase; color:var(--orange); margin-bottom:10px; }
+  .ev-eval-body .cal-tag { background:rgba(255,255,255,0.1); color:var(--white); }
+  .ev-eval-body h4 { font-family:var(--font-display); font-weight:900; font-size:clamp(28px,3.6vw,40px); line-height:1.08; color:var(--white); margin:12px 0 12px; }
+  .ev-eval-status { font-family:var(--font-sport); font-weight:700; font-size:14px; letter-spacing:0.05em; text-transform:uppercase; color:rgba(255,255,255,0.65); margin:0 0 16px; }
+  .ev-eval-tbc { color:var(--orange); }
+  .ev-eval-copy { font-size:15.5px; line-height:1.6; color:rgba(255,255,255,0.68); margin:0 0 22px; max-width:48ch; }
+  .ev-eval-stamp { display:inline-block; font-family:var(--font-heading); font-weight:800; font-size:16.5px; color:var(--white); border:1.5px solid var(--orange); border-radius:999px; padding:8px 20px; margin-bottom:26px; }
+  .ev-eval-stamp .accent { color:var(--orange); }
+  .ev-eval-body .btn { display:block; width:fit-content; }
+  @media (max-width:640px) {
+    .ev-eval-card { padding:32px 22px; }
+    .ev-eval-num { font-size:150px; top:-4%; }
+    .ev-eval-notes { display:none; }
+    .ev-eval-court { opacity:0.55; }
+  }
 
   /* ---------- Feature calendar rows (Fall Break) ---------- */
   .cal-item--feature { display:grid; grid-template-columns:38% 1fr; gap:0; padding:0; overflow:hidden; border-left:none; background:var(--charcoal); }
@@ -206,8 +227,6 @@
   .rail-party-card .rail-party-strip { color:rgba(255,255,255,0.75); font-size:13px; }
   .rail-party-card .rail-party-glance-item .num { color:var(--white); }
   .rail-party-card .rail-party-glance-item .label { color:rgba(255,255,255,0.7); }
-  .rail-party-card .btn-primary { background:var(--white); color:var(--orange); }
-  .rail-party-card .btn-primary:hover { background:var(--black); color:var(--white); }
   .rail-party-card .rail-secondary { color:rgba(255,255,255,0.75); font-size:15px; margin-top:36px; }
   .rail-party-card .rail-secondary a { color:var(--white); text-decoration:underline; }
 
@@ -340,15 +359,28 @@
       <div class="events-main">
         <div class="ev-early">
           <span class="ev-early-label">Starting Early</span>
-          <div class="ev-early-row">
-            <div class="cal-date"><span class="cal-weekday">Sat</span><span class="cal-month">Sep</span><span class="cal-day">12</span></div>
-            <div class="cal-body">
+          <div class="ev-eval-card reveal">
+            <span class="ev-eval-num" aria-hidden="true">12</span>
+            <svg class="ev-eval-court" viewBox="0 0 600 280" fill="none" aria-hidden="true" preserveAspectRatio="xMaxYMid slice">
+              <path d="M 60,260 L 60,20 L 540,20 L 540,260" stroke="rgba(242,233,220,0.12)" stroke-width="1.5"/>
+              <circle cx="300" cy="260" r="82" stroke="rgba(242,233,220,0.14)" stroke-width="1.5" fill="none"/>
+              <path d="M 218,20 A 82,82 0 0 0 382,20" stroke="rgba(242,233,220,0.16)" stroke-width="1.5" fill="none"/>
+              <line x1="60" y1="20" x2="60" y2="260" stroke="rgba(242,233,220,0.1)" stroke-width="1"/>
+            </svg>
+            <div class="ev-eval-notes" aria-hidden="true">
+              <span style="top:14%; left:6%;">Handle</span>
+              <span style="top:78%; left:9%;">Decisions</span>
+              <span style="top:20%; left:88%;">Shoot</span>
+              <span style="top:70%; left:85%;">Teamwork</span>
+            </div>
+            <div class="ev-eval-body">
+              <span class="ev-eval-date">Sat &middot; Sep 12</span>
               <span class="cal-tag">Fall Basketball League</span>
               <h4>Come Show Us Your Game.</h4>
-              <p class="cal-sub">Evaluations &middot; Time to Be Confirmed</p>
-              <p>A few drills. A little play. A chance for the coaches to see everybody before teams are set.</p>
-              <p class="cal-note">Placement, not cuts.</p>
-              <a href="contact?interest=Basketball%20Leagues#contact-form" class="cal-link" data-preset="Basketball Leagues">Save Your Evaluation Spot →</a>
+              <p class="ev-eval-status">Evaluations <span class="ev-eval-tbc">Time TBC</span></p>
+              <p class="ev-eval-copy">A few drills. A little play. A chance for the coaches to see everybody before teams are set.</p>
+              <span class="ev-eval-stamp">Placement, <span class="accent">Not Cuts.</span></span>
+              <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-primary" data-preset="Basketball Leagues">Save Your Evaluation Spot →</a>
             </div>
           </div>
         </div>
