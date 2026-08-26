@@ -105,7 +105,6 @@
   .ev-poster--goat .ev-poster-body { position:relative; z-index:1; padding:40px clamp(24px,4vw,48px) 36px; }
   .ev-poster--goat .ev-poster-status { color:#F2A65A; }
   .ev-poster--goat h3 { font-family:var(--font-display); font-weight:900; font-size:clamp(30px,4.2vw,44px); color:var(--white); margin:0 0 10px; }
-  .ev-poster--goat .ev-poster-sub { color:rgba(255,255,255,0.75); }
   .ev-goat-copy { font-size:15px; line-height:1.65; color:rgba(255,255,255,0.65); max-width:54ch; margin:14px auto 0; }
   .ev-goat-bold { font-family:var(--font-heading); font-weight:800; font-size:15.5px; color:var(--white); max-width:50ch; margin:20px auto 0; }
   .ev-goat-cozy { font-size:13.5px; color:rgba(255,255,255,0.5); margin:8px auto 0; max-width:50ch; }
@@ -113,6 +112,16 @@
   .ev-goat-price { font-family:var(--font-sport); font-weight:800; font-size:15px; letter-spacing:0.04em; text-transform:uppercase; color:#F2A65A; margin:0 0 22px; }
   .ev-goat-stars { position:absolute; inset:0; z-index:0; pointer-events:none; }
   .ev-goat-star { position:absolute; width:4px; height:4px; border-radius:50%; background:rgba(255,255,255,0.65); box-shadow:0 0 6px 1px rgba(255,255,255,0.45); }
+  .ev-goat-decor { position:absolute; z-index:0; pointer-events:none; }
+  .ev-goat-decor--ticket { top:9%; left:5%; }
+  .ev-goat-decor--film { top:7%; right:5%; }
+  .ev-goat-decor--popcorn { bottom:6%; left:4%; }
+  .ev-goat-decor--pizza { bottom:7%; right:4%; }
+  .ev-goat-mark { top:50%; left:50%; transform:translate(-50%,-50%); opacity:0.13; }
+  @media (max-width:760px) { .ev-goat-decor { display:none; } }
+  .ev-goat-callout { position:relative; margin:16px auto 0; max-width:46ch; padding:13px 20px; border-radius:12px; border:1.5px solid rgba(242,166,90,0.4); background:rgba(242,166,90,0.08); box-shadow:0 0 20px rgba(242,166,90,0.14); }
+  .ev-goat-callout p { margin:0; font-family:var(--font-heading); font-weight:700; font-size:14.5px; line-height:1.5; color:var(--white); }
+  .ev-goat-callout p + p { margin-top:2px; color:#F2A65A; font-style:italic; font-weight:600; }
 
   /* Holiday Classic */
   .ev-poster--holiday { background:var(--charcoal); padding:0; position:relative; text-align:center; }
@@ -129,14 +138,14 @@
   .ev-poster--holiday .courts-commentary { margin:16px auto 0; }
   .ev-holiday-decor { position:absolute; z-index:0; pointer-events:none; }
   .ev-holiday-decor--tl { top:14px; left:14px; }
-  .ev-holiday-decor--deer { top:10%; right:6%; }
-  .ev-holiday-decor--cocoa { top:8%; left:5%; }
-  .ev-holiday-decor--gift { bottom:6%; left:4%; }
-  .ev-holiday-decor--cookies { bottom:8%; right:3%; }
+  .ev-holiday-decor--tree { top:10%; right:6%; }
+  .ev-holiday-decor--snow2 { top:8%; left:5%; }
+  .ev-holiday-decor--holly { bottom:6%; left:4%; }
+  .ev-holiday-decor--star2 { bottom:10%; right:4%; }
   .ev-holiday-snow { position:absolute; inset:0; z-index:0; pointer-events:none; }
   .ev-holiday-snow span { position:absolute; width:3px; height:3px; border-radius:50%; background:rgba(255,255,255,0.5); }
   @media (max-width:760px) {
-    .ev-holiday-decor--deer, .ev-holiday-decor--cocoa, .ev-holiday-decor--gift, .ev-holiday-decor--cookies { display:none; }
+    .ev-holiday-decor--tree, .ev-holiday-decor--snow2, .ev-holiday-decor--holly, .ev-holiday-decor--star2 { display:none; }
   }
 
   .ev-poster--quiet { background:var(--charcoal); position:relative; padding:36px clamp(24px,4vw,44px); }
@@ -254,73 +263,7 @@
     .ev-halloween-day--fri { border-right:none; border-bottom:1px solid rgba(255,255,255,0.1); }
   }
 
-  /* Thanksgiving Break — same compact cal-item size, warmer/more festive treatment */
-  .cal-item--thanksgiving {
-    position:relative; overflow:hidden; border-left-color:#C97A2B;
-    background:linear-gradient(115deg, #5C2A1E 0%, #7A3B1D 45%, #8C5A1E 100%);
-  }
-  .cal-item--thanksgiving .cal-date { background:rgba(0,0,0,0.22); }
-  .cal-item--thanksgiving .cal-weekday { color:rgba(255,255,255,0.7); }
-  .cal-item--thanksgiving .cal-month { color:#F2C572; }
-  .cal-item--thanksgiving .cal-day { color:var(--white); }
-  .cal-item--thanksgiving .cal-tag { background:rgba(0,0,0,0.25); color:#F2C572; }
-  .cal-item--thanksgiving .cal-body h4 { color:var(--white); }
-  .cal-item--thanksgiving .cal-schedule { color:rgba(255,255,255,0.85); }
-  .cal-item--thanksgiving .courts-commentary { color:#F2C572; }
-  .cal-item--thanksgiving .cal-link { color:var(--white); text-decoration:underline; text-underline-offset:3px; }
-  .cal-thanksgiving-decor { position:absolute; z-index:0; pointer-events:none; opacity:0.5; }
-  .cal-thanksgiving-decor--wheat { top:10px; right:14px; }
-  .cal-thanksgiving-decor--leaf { bottom:10px; right:60px; }
-  .cal-item--thanksgiving .cal-body, .cal-item--thanksgiving .cal-date { position:relative; z-index:1; }
-  @media (max-width:640px) { .cal-thanksgiving-decor { display:none; } }
 
-  /* Jersey Day — vintage-ticket / varsity-poster energy, same compact card footprint */
-  .cal-item--jerseyday {
-    position:relative; overflow:hidden; background:#141414; border-left:none;
-    box-shadow: inset 6px 0 0 0 var(--orange), inset 10px 0 0 0 #1B4FA0, inset 14px 0 0 0 #B32133, inset 18px 0 0 0 #F2C230;
-  }
-  .cal-item--jerseyday::before {
-    content:''; position:absolute; top:0; left:22px; right:0; height:4px; z-index:2;
-    background:repeating-linear-gradient(90deg, var(--orange) 0 14px, #1B4FA0 14px 28px, #B32133 28px 42px, #F2C230 42px 56px);
-  }
-  .cal-item--jerseyday-num { position:absolute; right:-10px; bottom:-28px; z-index:0; font-family:var(--font-display); font-weight:900; font-size:150px; line-height:1; color:rgba(255,255,255,0.05); pointer-events:none; user-select:none; }
-  .cal-item--jerseyday .cal-date { background:rgba(255,255,255,0.08); }
-  .cal-item--jerseyday .cal-weekday { color:rgba(255,255,255,0.55); }
-  .cal-item--jerseyday .cal-month { color:var(--orange); }
-  .cal-item--jerseyday .cal-day { color:var(--white); }
-  .cal-item--jerseyday .cal-body, .cal-item--jerseyday .cal-date { position:relative; z-index:1; }
-  .cal-item--jerseyday .cal-tag { background:rgba(255,255,255,0.1); color:#F2C230; margin-bottom:6px; }
-  .cal-item--jerseyday .cal-sub { margin-bottom:4px; }
-  .cal-item--jerseyday .cal-body p { margin-bottom:4px; }
-  .cal-item--jerseyday-stamp {
-    position:absolute; top:14px; right:16px; z-index:2; display:flex; align-items:center; justify-content:center;
-    width:64px; height:64px; border-radius:50%; border:1.5px dashed rgba(255,255,255,0.45);
-    transform:rotate(10deg); text-align:center; font-family:var(--font-sport); font-weight:800;
-    font-size:9.5px; letter-spacing:0.05em; text-transform:uppercase; color:rgba(255,255,255,0.85); line-height:1.25; padding:6px;
-  }
-  .cal-item--jerseyday .cal-body h4 { color:var(--white); font-family:var(--font-display); font-weight:900; letter-spacing:0.01em; max-width:65%; }
-  .cal-item--jerseyday .cal-sub { color:#F2C230; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; font-size:12.5px; }
-  .cal-item--jerseyday .cal-body p { color:rgba(255,255,255,0.72); }
-  .cal-item--jerseyday .cal-access { gap:6px 12px; margin:8px 0 10px; }
-  .cal-item--jerseyday .cal-access span {
-    display:flex; flex-direction:column; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15);
-    border-radius:5px; padding:3px 8px; position:relative;
-  }
-  .cal-item--jerseyday .cal-access span:nth-child(1) { border-left:3px solid #1B4FA0; }
-  .cal-item--jerseyday .cal-access span:nth-child(2) { border-left:3px solid var(--orange); }
-  .cal-item--jerseyday .cal-access span:nth-child(3) { border-left:3px solid #B32133; }
-  .cal-item--jerseyday .cal-access span b { color:rgba(255,255,255,0.55); }
-  .cal-item--jerseyday .cal-access span { color:var(--white); font-weight:800; }
-  .cal-item--jerseyday .courts-commentary {
-    display:inline-block; color:#F2C230; font-family:var(--font-heading); font-style:italic; font-weight:700;
-    transform:rotate(-2deg); border-bottom:1.5px dashed rgba(242,194,48,0.6); margin-top:4px;
-  }
-  .cal-item--jerseyday .cal-link { color:var(--white); font-weight:800; background:var(--orange); padding:6px 14px; border-radius:999px; display:inline-block; margin-top:2px; }
-  .cal-item--jerseyday .cal-link:hover { background:var(--orange-hover); }
-  @media (max-width:640px) {
-    .cal-item--jerseyday-num { font-size:100px; }
-    .cal-item--jerseyday-stamp { width:52px; height:52px; font-size:8.5px; top:10px; right:10px; }
-  }
 </style>
 </head>
 <body class="has-announce">
@@ -407,7 +350,7 @@
 </div>
 
 <section class="page-hero" style="padding-bottom:60px;" id="main">
-  <div class="photo"><img src="images/13_parents_watching_sideline.png" alt="Parents and coaches sitting courtside, watching a game." style="width:100%; height:100%; object-fit:cover;"></div>
+  <div class="photo"><img src="images/events-hero-scoreboard-drive.png" alt="A player drives past a defender during a game at The Courts, with the scoreboard and 'The Courts' wall signage in the background." style="width:100%; height:100%; object-fit:cover;"></div>
   <div class="container page-hero-inner">
     <span class="eyebrow eyebrow--light">Events</span>
     <h1 class="page-hero-title">We're Not Big on Sitting Still.</h1>
@@ -628,9 +571,7 @@
         </div>
       </div>
 
-      <div class="cal-item cal-item--compact cal-item--jerseyday reveal" data-category="culture">
-        <span class="cal-item--jerseyday-num" aria-hidden="true">23</span>
-        <span class="cal-item--jerseyday-stamp" aria-hidden="true">Jersey<br>Day</span>
+      <div class="cal-item cal-item--compact reveal" data-category="culture">
         <div class="cal-date"><span class="cal-weekday">Fri</span><span class="cal-month">Nov</span><span class="cal-day">6</span></div>
         <div class="cal-body">
           <span class="cal-tag">Basketball Community</span>
@@ -669,9 +610,7 @@
         </div>
       </div>
 
-      <div class="cal-item cal-item--camp cal-item--thanksgiving reveal" data-category="camps">
-        <svg class="cal-thanksgiving-decor cal-thanksgiving-decor--wheat" width="34" height="52" viewBox="0 0 34 52" fill="none" aria-hidden="true"><g stroke="#F2C572" stroke-width="1.3" stroke-linecap="round"><line x1="17" y1="4" x2="17" y2="48"/><path d="M17,10 Q10,8 8,2 M17,10 Q24,8 26,2"/><path d="M17,18 Q10,16 8,10 M17,18 Q24,16 26,10"/><path d="M17,26 Q10,24 8,18 M17,26 Q24,24 26,18"/><path d="M17,34 Q10,32 8,26 M17,34 Q24,32 26,26"/></g></svg>
-        <svg class="cal-thanksgiving-decor cal-thanksgiving-decor--leaf" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M15,3 C20,8 27,10 26,16 C25,21 19,20 15,27 C11,20 5,21 4,16 C3,10 10,8 15,3 Z" stroke="#F2C572" stroke-width="1.3" stroke-linejoin="round"/><line x1="15" y1="10" x2="15" y2="24" stroke="#F2C572" stroke-width="1.1"/></svg>
+      <div class="cal-item cal-item--camp reveal" data-category="camps">
         <div class="cal-date"><span class="cal-weekday">Mon&ndash;Wed</span><span class="cal-month">Nov</span><span class="cal-day">23&ndash;25</span></div>
         <div class="cal-body">
           <span class="cal-tag">Camps</span>
@@ -716,13 +655,29 @@
           <span class="ev-goat-star" style="top:70%; left:90%;"></span>
           <span class="ev-goat-star" style="top:22%; left:45%;"></span>
         </div>
+        <svg class="ev-goat-decor ev-goat-mark" width="150" height="120" viewBox="0 0 150 120" aria-hidden="true">
+          <g stroke="#5B7FC4" stroke-width="4" stroke-linecap="round"><line x1="45" y1="85" x2="45" y2="108"/><line x1="58" y1="88" x2="58" y2="110"/><line x1="95" y1="88" x2="95" y2="110"/><line x1="108" y1="85" x2="108" y2="108"/></g>
+          <ellipse cx="76" cy="72" rx="38" ry="20" fill="#3E5FA8" stroke="#5B7FC4" stroke-width="2"/>
+          <path d="M104,60 C112,48 112,34 104,26 C114,22 126,26 130,36 C134,44 130,52 122,54 L118,62 C114,66 108,64 104,60 Z" fill="#3E5FA8" stroke="#5B7FC4" stroke-width="2"/>
+          <path d="M112,28 C116,16 126,8 136,10 C128,16 122,22 120,30 Z" fill="#F2C230"/>
+          <path d="M118,24 C124,12 136,6 146,10 C136,14 128,20 124,28 Z" fill="#F2C230"/>
+          <path d="M102,32 L92,26 L98,40 Z" fill="#3E5FA8"/>
+          <path d="M116,58 L120,68 L112,64 Z" fill="#F2C230"/>
+          <text x="76" y="79" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="24" fill="#F2C230">30</text>
+        </svg>
+        <svg class="ev-goat-decor ev-goat-decor--ticket" width="56" height="34" viewBox="0 0 56 34" fill="none" aria-hidden="true" style="filter:drop-shadow(0 0 5px rgba(242,197,114,0.6));"><rect x="2" y="2" width="52" height="30" rx="4" stroke="#F2C572" stroke-width="1.5"/><line x1="38" y1="2" x2="38" y2="32" stroke="#F2C572" stroke-width="1.3" stroke-dasharray="3 3"/><circle cx="38" cy="2" r="2.5" fill="#2B2049" stroke="#F2C572" stroke-width="1"/><circle cx="38" cy="32" r="2.5" fill="#2B2049" stroke="#F2C572" stroke-width="1"/><path d="M46,17 L47.2,20 L50.5,20.3 L48,22.6 L48.7,26 L46,24.2 L43.3,26 L44,22.6 L41.5,20.3 L44.8,20 Z" fill="#F2C572"/></svg>
+        <svg class="ev-goat-decor ev-goat-decor--film" width="28" height="70" viewBox="0 0 28 70" fill="none" aria-hidden="true" style="filter:drop-shadow(0 0 5px rgba(255,255,255,0.45));"><rect x="2" y="2" width="24" height="66" rx="2" stroke="rgba(255,255,255,0.55)" stroke-width="1.4"/><rect x="6" y="8" width="6" height="6" stroke="rgba(255,255,255,0.55)" stroke-width="1.1"/><rect x="6" y="20" width="6" height="6" stroke="rgba(255,255,255,0.55)" stroke-width="1.1"/><rect x="6" y="32" width="6" height="6" stroke="rgba(255,255,255,0.55)" stroke-width="1.1"/><rect x="6" y="44" width="6" height="6" stroke="rgba(255,255,255,0.55)" stroke-width="1.1"/><rect x="6" y="56" width="6" height="6" stroke="rgba(255,255,255,0.55)" stroke-width="1.1"/><line x1="18" y1="6" x2="24" y2="6" stroke="rgba(255,255,255,0.35)" stroke-width="1"/><line x1="18" y1="18" x2="24" y2="18" stroke="rgba(255,255,255,0.35)" stroke-width="1"/><line x1="18" y1="30" x2="24" y2="30" stroke="rgba(255,255,255,0.35)" stroke-width="1"/><line x1="18" y1="42" x2="24" y2="42" stroke="rgba(255,255,255,0.35)" stroke-width="1"/><line x1="18" y1="54" x2="24" y2="54" stroke="rgba(255,255,255,0.35)" stroke-width="1"/></svg>
+        <svg class="ev-goat-decor ev-goat-decor--popcorn" width="44" height="54" viewBox="0 0 44 54" fill="none" aria-hidden="true" style="filter:drop-shadow(0 0 5px rgba(242,166,90,0.6));"><path d="M10,20 L6,50 a4,4 0 0 0 4,4 h16 a4,4 0 0 0 4,-4 L34,20 Z" stroke="#F2A65A" stroke-width="1.6" stroke-linejoin="round"/><path d="M14,20 L16,54 M22,20 L22,54 M30,20 L28,54" stroke="#F2A65A" stroke-width="1.2" opacity="0.6"/><path d="M8,20 C8,13 14,9 22,9 C30,9 36,13 36,20 C32,17 28,20 24,17 C20,20 16,17 12,20 C10,19 9,19.5 8,20 Z" stroke="#F2A65A" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <svg class="ev-goat-decor ev-goat-decor--pizza" width="46" height="42" viewBox="0 0 46 42" fill="none" aria-hidden="true" style="filter:drop-shadow(0 0 5px rgba(213,96,31,0.6));"><path d="M23,4 L43,38 a2,2 0 0 1 -2,3 L5,41 a2,2 0 0 1 -2,-3 Z" stroke="var(--orange)" stroke-width="1.6" stroke-linejoin="round"/><path d="M8,34 C10,28 14,22 23,22 C32,22 36,28 38,34" stroke="var(--orange)" stroke-width="1.2" opacity="0.6"/><circle cx="18" cy="30" r="2.2" stroke="#8C1F2E" stroke-width="1.2"/><circle cx="27" cy="27" r="2.2" stroke="#8C1F2E" stroke-width="1.2"/><circle cx="23" cy="35" r="2.2" stroke="#8C1F2E" stroke-width="1.2"/></svg>
         <div class="ev-poster-body">
           <span class="ev-poster-status">Sat, Dec 12 &middot; 6&ndash;9 PM</span>
           <h3>GOAT Movie Night</h3>
-          <p class="ev-poster-sub">Bring something cozy. We&rsquo;ve got the pizza.</p>
           <p class="ev-goat-copy">We&rsquo;re putting GOAT on the big screen and settling in for a night at The Courts.</p>
-          <p class="ev-goat-copy">Will is a small goat with a very big goal: make it in the pros at roarball, a fast, full-contact sport where just about everybody is bigger than he is.</p>
           <p class="ev-goat-copy">An underdog sports movie produced by Stephen Curry? Yeah, this felt like a Courts movie night.</p>
+          <div class="ev-goat-callout">
+            <p>Drop them off or bring the whole family.</p>
+            <p>It&rsquo;s a Courts community night.</p>
+          </div>
           <p class="ev-goat-bold">Pizza. Movie. Basketball energy. Cozy setup strongly encouraged.</p>
           <p class="ev-goat-cozy">Bring a sleeping bag, blanket, lawn chair, beanbag, or whatever keeps you comfortable.</p>
           <div class="ev-goat-meta">
@@ -741,10 +696,10 @@
 
       <div class="ev-poster ev-poster--holiday reveal">
         <svg class="ev-holiday-decor ev-holiday-decor--tl" width="86" height="86" viewBox="0 0 90 90" fill="none" aria-hidden="true"><g stroke="rgba(255,255,255,0.4)" stroke-width="1.4" stroke-linecap="round"><line x1="45" y1="8" x2="45" y2="82"/><line x1="8" y1="45" x2="82" y2="45"/><line x1="18" y1="18" x2="72" y2="72"/><line x1="72" y1="18" x2="18" y2="72"/><line x1="45" y1="8" x2="38" y2="18"/><line x1="45" y1="8" x2="52" y2="18"/><line x1="45" y1="82" x2="38" y2="72"/><line x1="45" y1="82" x2="52" y2="72"/></g></svg>
-        <svg class="ev-holiday-decor ev-holiday-decor--deer" width="56" height="54" viewBox="0 0 56 54" fill="none" aria-hidden="true"><circle cx="28" cy="36" r="9" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/><path d="M28,27 L28,10 M28,16 L19,6 M28,16 L37,6 M28,10 L21,2 M28,10 L35,2" stroke="rgba(255,255,255,0.35)" stroke-width="1.3" stroke-linecap="round" fill="none"/><circle cx="25" cy="35" r="1" fill="rgba(213,96,31,0.6)"/></svg>
-        <svg class="ev-holiday-decor ev-holiday-decor--cocoa" width="46" height="52" viewBox="0 0 46 52" fill="none" aria-hidden="true"><path d="M8,20 h22 v16 a11,11 0 0 1 -11,11 h0 a11,11 0 0 1 -11,-11 Z" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/><path d="M30,24 h6 a5,5 0 0 1 0,10 h-6" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" fill="none"/><path d="M13,16 C11,12 15,10 13,6" stroke="rgba(213,96,31,0.5)" stroke-width="1.4" stroke-linecap="round" fill="none"/><path d="M19,16 C17,12 21,10 19,6" stroke="rgba(213,96,31,0.5)" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>
-        <svg class="ev-holiday-decor ev-holiday-decor--gift" width="58" height="58" viewBox="0 0 60 60" fill="none" aria-hidden="true"><rect x="8" y="22" width="44" height="32" rx="2" stroke="rgba(213,96,31,0.5)" stroke-width="1.6"/><line x1="30" y1="22" x2="30" y2="54" stroke="rgba(255,255,255,0.45)" stroke-width="1.6"/><line x1="8" y1="36" x2="52" y2="36" stroke="rgba(255,255,255,0.45)" stroke-width="1.6"/><path d="M30,22 C22,8 14,10 18,18 C22,24 30,22 30,22 Z" stroke="rgba(213,96,31,0.5)" stroke-width="1.4" stroke-linejoin="round" fill="none"/><path d="M30,22 C38,8 46,10 42,18 C38,24 30,22 30,22 Z" stroke="rgba(213,96,31,0.5)" stroke-width="1.4" stroke-linejoin="round" fill="none"/></svg>
-        <svg class="ev-holiday-decor ev-holiday-decor--cookies" width="60" height="34" viewBox="0 0 60 34" fill="none" aria-hidden="true"><ellipse cx="30" cy="27" rx="26" ry="6" stroke="rgba(255,255,255,0.35)" stroke-width="1.4"/><circle cx="20" cy="16" r="9" stroke="rgba(213,96,31,0.5)" stroke-width="1.4"/><circle cx="17" cy="13" r="1" fill="rgba(213,96,31,0.5)"/><circle cx="23" cy="18" r="1" fill="rgba(213,96,31,0.5)"/><circle cx="38" cy="14" r="9" stroke="rgba(255,255,255,0.35)" stroke-width="1.4"/><circle cx="35" cy="12" r="1" fill="rgba(255,255,255,0.35)"/><circle cx="41" cy="16" r="1" fill="rgba(255,255,255,0.35)"/></svg>
+        <svg class="ev-holiday-decor ev-holiday-decor--tree" width="40" height="56" viewBox="0 0 40 56" fill="none" aria-hidden="true"><g stroke="rgba(255,255,255,0.4)" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><path d="M20,4 L30,20 L10,20 Z"/><path d="M20,14 L32,32 L8,32 Z"/><path d="M20,24 L34,46 L6,46 Z"/></g><line x1="20" y1="46" x2="20" y2="54" stroke="#2E6B4A" stroke-width="2"/></svg>
+        <svg class="ev-holiday-decor ev-holiday-decor--snow2" width="50" height="50" viewBox="0 0 50 50" fill="none" aria-hidden="true"><g stroke="rgba(255,255,255,0.4)" stroke-width="1.3" stroke-linecap="round"><line x1="25" y1="4" x2="25" y2="46"/><line x1="6" y1="14.5" x2="44" y2="35.5"/><line x1="6" y1="35.5" x2="44" y2="14.5"/><line x1="25" y1="4" x2="19" y2="12"/><line x1="25" y1="4" x2="31" y2="12"/><line x1="25" y1="46" x2="19" y2="38"/><line x1="25" y1="46" x2="31" y2="38"/></g></svg>
+        <svg class="ev-holiday-decor ev-holiday-decor--holly" width="54" height="40" viewBox="0 0 54 40" fill="none" aria-hidden="true"><g stroke="#2E6B4A" stroke-width="1.5" stroke-linejoin="round"><path d="M27,20 C20,14 14,16 12,22 C10,28 16,30 20,26 C16,32 20,36 25,32 C24,26 27,24 27,20 Z"/><path d="M27,20 C34,14 40,16 42,22 C44,28 38,30 34,26 C38,32 34,36 29,32 C30,26 27,24 27,20 Z"/></g><g fill="#8C1F2E"><circle cx="24" cy="12" r="3"/><circle cx="30" cy="10" r="3"/><circle cx="27" cy="16" r="3"/></g></svg>
+        <svg class="ev-holiday-decor ev-holiday-decor--star2" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12,2 L14,10 L22,12 L14,14 L12,22 L10,14 L2,12 L10,10 Z" fill="#F2C572" opacity="0.85"/></svg>
         <svg class="ev-holiday-decor" style="top:16px; right:100px;" width="26" height="34" viewBox="0 0 26 34" fill="none" aria-hidden="true"><path d="M13,3 v5" stroke="#8C1F2E" stroke-width="1.4"/><circle cx="13" cy="3" r="2" stroke="#8C1F2E" stroke-width="1.3"/><circle cx="13" cy="19" r="11" stroke="#8C1F2E" stroke-width="1.4"/><path d="M4,19 h18 M13,8 v22" stroke="rgba(255,255,255,0.3)" stroke-width="1"/></svg>
         <svg class="ev-holiday-decor" style="bottom:14px; left:16px;" width="46" height="24" viewBox="0 0 46 24" fill="none" aria-hidden="true"><circle cx="11" cy="12" r="9" stroke="var(--orange)" stroke-width="1.4"/><path d="M2,12 h18 M11,3 v18 M4.5,5.5 C9,10 13,14 17.5,18.5 M17.5,5.5 C13,10 9,14 4.5,18.5" stroke="var(--orange)" stroke-width="1"/><circle cx="35" cy="12" r="9" stroke="rgba(255,255,255,0.4)" stroke-width="1.4"/><path d="M35,3 C29,7 29,17 35,21 M35,3 C41,7 41,17 35,21 M26,12 h18" stroke="rgba(255,255,255,0.4)" stroke-width="1"/></svg>
         <div class="ev-holiday-snow" aria-hidden="true">
