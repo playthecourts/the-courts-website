@@ -17,7 +17,6 @@
 
   @keyframes lgPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
 
-  .lg-hero-bold { font-family: var(--font-heading); font-weight: 800; font-size: 17px; color: var(--white); margin: 18px 0 30px; }
   .lg-hero-deadline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; margin: 22px 0 26px; }
   .lg-hero-deadline-label, .lg-hero-deadline-date { font-family: var(--font-sport); font-size: clamp(16px, 1.9vw, 20px); letter-spacing: 0.05em; text-transform: uppercase; }
   .lg-hero-deadline-label { font-weight: 800; color: rgba(255,255,255,0.92); }
@@ -33,8 +32,6 @@
   .roster-grade-wrap { display: flex; flex-direction: column; gap: 10px; max-width: 60ch; }
   .roster-grade { font-family: var(--font-display); font-weight: 900; font-size: clamp(20px, 2.4vw, 27px); line-height: 1.1; color: var(--white); }
   .roster-note { font-size: 16px; font-weight: 400; color: rgba(255,255,255,0.68); line-height: 1.6; }
-  .roster-deadline { font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-top: 4px; }
-  .roster-deadline strong { color: var(--orange); font-weight: 700; }
   .roster-status-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; flex-shrink: 0; }
   .roster-status { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-sport); font-weight: 700; font-size: 15px; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; padding: 9px 18px; border-radius: 999px; }
   .roster-status .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
@@ -63,83 +60,45 @@
     .lg-roster-head .section-sub { white-space: nowrap; }
   }
 
-  .season-board--six { grid-template-columns: repeat(3, 1fr); }
-  @media (max-width: 900px) { .season-board--six { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 560px) { .season-board--six { grid-template-columns: 1fr; } }
+  .lg-glance-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 4.6vw, 52px); line-height: 1.02; margin: 12px 0 0; color: var(--white); }
+  .lg-rhythm-eyebrow { font-family: var(--font-sport); font-weight: 800; font-size: clamp(18px, 2vw, 20px); letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); display: block; margin-bottom: 8px; }
+  .lg-rhythm-sub { font-size: 15.5px; color: rgba(255,255,255,0.75); max-width: 56ch; margin: 8px auto 0; }
 
-  .lg-training-callout { text-align: center; font-family: var(--font-heading); font-weight: 800; font-size: clamp(18px, 2.2vw, 22px); margin: 40px 0 0; }
-  .lg-training-callout .accent { color: var(--orange); }
-  .lg-equation { display: flex; align-items: flex-start; justify-content: center; gap: 0; flex-wrap: wrap; margin-top: 40px; }
-  .lg-equation-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 6px 26px; }
-  .lg-equation-word { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 4.2vw, 50px); color: var(--black); line-height: 1; }
-  .lg-equation-label { font-family: var(--font-sport); font-weight: 700; font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); }
-  .lg-equation-plus { color: var(--orange); font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 3vw, 32px); margin-top: 8px; }
+  .lg-timeline { display: flex; align-items: flex-start; justify-content: center; gap: 0; margin-top: 48px; flex-wrap: wrap; }
+  .lg-timeline-step { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 0 22px; min-width: 140px; }
+  .lg-timeline-date { font-family: var(--font-sport); font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); }
+  .lg-timeline-label { font-family: var(--font-display); font-weight: 900; font-size: clamp(17px, 1.7vw, 20px); color: var(--white); line-height: 1.2; }
+  .lg-timeline-arrow { color: var(--orange); font-family: var(--font-display); font-weight: 900; font-size: 22px; align-self: center; padding-top: 22px; flex-shrink: 0; }
   @media (max-width: 760px) {
-    .lg-equation { flex-direction: column; gap: 18px; }
-    .lg-equation-plus { transform: none; }
+    .lg-timeline { flex-direction: column; align-items: stretch; gap: 22px; max-width: 320px; margin-left: auto; margin-right: auto; }
+    .lg-timeline-step { flex-direction: row; text-align: left; gap: 16px; padding: 0; }
+    .lg-timeline-arrow { display: none; }
   }
-  .lg-training-note { text-align: center; font-weight: 700; font-size: 15px; margin: 32px 0 6px; }
-  .lg-training-policy { text-align: center; font-size: 14px; color: var(--gray-dark); max-width: 56ch; margin: 0 auto 22px; }
-  .lg-training-link { display: block; text-align: center; font-family: var(--font-heading); font-weight: 700; font-size: 14.5px; color: var(--orange); }
 
   .lg-eval-detail { font-size: clamp(17px, 1.9vw, 19px); font-weight: 500; line-height: 1.6; color: var(--gray-dark); margin-top: 14px; max-width: 62ch; }
   .lg-eval-reassure { font-family: var(--font-heading); font-weight: 800; font-size: 17px; margin: 0 0 6px; }
   .lg-eval-reassure .accent { color: var(--orange); }
-  .lg-eval-reassure--sub { font-weight: 700; font-size: 15.5px; color: var(--gray-dark); margin-bottom: 20px; }
-  .lg-eval-row { display: flex; align-items: baseline; gap: 32px; flex-wrap: wrap; }
   .lg-eval-date { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 2.8vw, 30px); color: var(--black) !important; margin: 0 !important; }
-  .eval-callout .fee { margin-bottom: 0 !important; }
-  .lg-eval-footnote { font-size: 13px !important; color: var(--gray-dark); margin-top: 12px !important; }
-
-  .lg-winter { background: var(--gray-light); padding: 80px 0; }
-  .lg-winter-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 48px; align-items: center; }
-  .lg-winter-eyebrow { font-size: 18px; }
-  .lg-winter-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 4vw, 44px); margin: 10px 0 8px; }
-  .lg-winter-sub { font-size: 16px; color: var(--gray-dark); margin: 0; }
-  .lg-winter-dates { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3.4vw, 40px); color: var(--black); margin: 0 0 10px; line-height: 1.1; }
-  .lg-winter-detail { font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); margin: 0 0 22px; }
-  .lg-winter-tag { font-weight: 700; font-size: 15.5px; margin: 0 0 20px; }
-  @media (max-width: 760px) {
-    .lg-winter { padding: 60px 0; }
-    .lg-winter-grid { grid-template-columns: 1fr; gap: 28px; }
-  }
-
-  .lg-glance-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 4.6vw, 52px); line-height: 1.02; margin: 12px 0 0; }
-
-  .season-board { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin-top: 36px; border-top: 1px solid var(--gray-mid); border-left: 1px solid var(--gray-mid); }
-  .season-board-item { border-right: 1px solid var(--gray-mid); border-bottom: 1px solid var(--gray-mid); padding: 26px 18px; text-align: center; }
-  .season-board-item span { display: block; font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 10px; }
-  .season-board-item strong { display: block; font-family: var(--font-display); font-size: clamp(14px, 1.5vw, 18px); color: var(--black); line-height: 1.25; }
-  .season-board-item--accent strong { color: var(--orange); font-size: clamp(16px, 1.7vw, 20px); }
-  .lg-fall-league-dark .lg-glance-headline { color: var(--white); }
-  .lg-fall-league-dark .lg-rhythm-sub, .lg-fall-league-dark .section-sub { color: rgba(255,255,255,0.75); }
-  .lg-fall-league-dark .season-board { border-top-color: rgba(255,255,255,0.16); border-left-color: rgba(255,255,255,0.16); }
-  .lg-fall-league-dark .season-board-item { border-right-color: rgba(255,255,255,0.16); border-bottom-color: rgba(255,255,255,0.16); }
-  .lg-fall-league-dark .season-board-item span { color: rgba(255,255,255,0.55); }
-  .lg-fall-league-dark .season-board-item strong { color: var(--white); }
-  .lg-fall-league-dark .season-board-item--accent strong { color: var(--orange); }
-  @media (max-width: 900px) { .season-board { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 560px) { .season-board { grid-template-columns: repeat(2, 1fr); } }
-
-  .lg-rhythm-head { margin-top: 76px; text-align: center; }
-  .lg-rhythm-eyebrow { font-family: var(--font-sport); font-weight: 800; font-size: clamp(18px, 2vw, 20px); letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); display: block; margin-bottom: 8px; }
-  .lg-rhythm-sub { font-size: 15.5px; color: var(--gray-dark); max-width: 56ch; margin: 8px 0 0; }
 
   .why-league { padding: 100px 0; }
   .why-league-big { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 4vw, 44px); line-height: 1.15; color: var(--black); margin: 28px 0 0; }
   .why-league-mid { font-size: 17px; line-height: 1.65; color: var(--gray-dark); max-width: 66ch; margin: 24px 0 0; }
   .why-league-big--close { margin-top: 24px; }
-  .why-league-strip { display: flex; align-items: center; justify-content: center; margin-top: 60px; border-top: 3px solid var(--orange); padding-top: 40px; gap: 8px; }
-  .why-league-item { flex: 1; text-align: center; max-width: 260px; }
-  .why-league-item h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3.6vw, 42px); margin: 0 0 10px; color: var(--black); }
-  .why-league-item p { font-size: 14.5px; color: var(--gray-dark); line-height: 1.6; }
-  .why-league-arrow { color: var(--orange); font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 3vw, 34px); flex-shrink: 0; align-self: center; }
-  @media (max-width: 760px) {
-    .why-league-strip { flex-direction: column; gap: 24px; }
-    .why-league-arrow { transform: rotate(90deg); }
-    .why-league-item { max-width: none; }
-  }
+  .why-league-payoff { text-align: center; font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 3.4vw, 34px); color: var(--black); line-height: 1.3; margin-top: 60px; border-top: 3px solid var(--orange); padding-top: 40px; }
+  .why-league-photo { margin-top: 48px; border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 21/7; }
+  .why-league-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @media (max-width: 760px) { .why-league-photo { aspect-ratio: 4/3.4; } }
 
+  .lg-know-list { max-width: 720px; margin: 44px auto 0; border-top: 1px solid var(--gray-mid); }
+  .lg-know-row { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 22px 0; border-bottom: 1px solid var(--gray-mid); }
+  .lg-know-row span:first-child { font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); flex-shrink: 0; }
+  .lg-know-row span:last-child { font-size: 16px; color: var(--black); text-align: right; }
+  .lg-know-links { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin-top: 32px; }
+  .lg-know-links a { font-family: var(--font-heading); font-weight: 700; font-size: 14.5px; color: var(--orange); }
+  @media (max-width: 600px) {
+    .lg-know-row { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .lg-know-row span:last-child { text-align: left; }
+  }
 
   .lg-register-reminder { font-size: 14.5px; font-weight: 700; color: var(--gray-dark); max-width: 56ch; margin: 14px auto 0; }
 </style>
@@ -383,38 +342,28 @@
   </div>
 </section>
 
-<section class="lg-winter">
-  <div class="container lg-winter-grid">
-    <div>
-      <span class="eyebrow lg-winter-eyebrow">Next Up</span>
-      <h2 class="lg-winter-title">Winter Basketball.</h2>
-      <p class="lg-winter-sub">Miss fall? We go again in January.</p>
-    </div>
-    <div class="lg-winter-info">
-      <p class="lg-winter-dates">January 9&ndash;February 27, 2027</p>
-      <p class="lg-winter-detail">Saturday Games &middot; One Practice Each Week</p>
-      <p class="lg-winter-tag">Save the Saturdays. We'll handle the basketball.</p>
-      <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-primary" data-preset="Basketball Leagues">Get Winter Updates →</a>
-    </div>
-  </div>
-</section>
-
-<section class="sgi" id="still-got-it">
+<section class="lg-nextup" id="still-got-it">
   <div class="container">
-    <span class="sgi-label">Gauging Interest &middot; Tuesday Nights</span>
-    <div class="sgi-grid">
-      <div class="sgi-copy">
-        <span class="sgi-eyebrow">The Kids Have Heard the Stories.</span>
-        <h2 class="sgi-mark">STILL<br>GOT<br>IT<span class="accent">?</span></h2>
-        <p class="sgi-headline">You've Been Coaching From the Sidelines Long Enough.</p>
+    <div class="lg-nextup-head">
+      <span class="eyebrow lg-nextup-eyebrow">Next On the Court</span>
+      <h2 class="lg-nextup-title">Fall Isn&rsquo;t the Only Season.</h2>
+    </div>
+    <div class="lg-nextup-grid">
+      <div class="lg-nextup-col">
+        <span class="lg-nextup-tag">Winter Basketball</span>
+        <p class="lg-nextup-dates">January 9&ndash;February 27, 2027</p>
+        <p class="lg-nextup-detail">Saturday games. One team practice each week.</p>
+        <p class="lg-nextup-stat">Miss fall? We go again.</p>
+        <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-primary" data-preset="Basketball Leagues">Get Winter Updates →</a>
       </div>
-      <div class="sgi-side">
-        <p class="sgi-body"><strong>Time to see what you've still got.</strong><br>Tuesday-night basketball for dads who know the game, miss the game, or have spent enough years explaining how it should be played.</p>
-        <p class="sgi-stat-lines">Real Games.<br>Real Score.<br>Questionable Pace.<br>Elite Confidence.</p>
+      <div class="lg-nextup-col">
+        <span class="lg-nextup-tag">Tuesday Night Basketball</span>
+        <span class="sgi-label">Gauging Interest</span>
+        <p class="lg-nextup-name">Still Got It?</p>
+        <p class="lg-nextup-body">Tuesday-night basketball for dads who know the game, miss the game, or have spent enough years explaining how it should be played.</p>
+        <p class="sgi-stat-lines">Real games. Real score. Questionable pace. Elite confidence.</p>
         <button type="button" class="btn btn-primary sgi-cta" id="sgiToggle" aria-expanded="false" aria-controls="sgi-form">I Still Got It →</button>
-        <p class="sgi-seeing">We're Building the Group Now.</p>
-        <p class="sgi-seeing-note">Once we've got enough guys for a good run, we'll take it from there.</p>
-        <p class="sgi-disclaimer">Your hamstrings,<br>however, are on notice.</p>
+        <p class="lg-nextup-foot">Your hamstrings are on notice.</p>
       </div>
     </div>
     <div class="sgi-formwrap-outer" id="sgi-form" hidden>
@@ -475,31 +424,32 @@
 </section>
 
 <style>
-  .sgi { background: var(--black); color: var(--white); padding: 130px 0 100px; overflow: hidden; position: relative; }
-  .sgi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--orange); }
-  .sgi::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--orange); }
-  .sgi-label { display: inline-flex; align-items: center; gap: 11px; font-family: var(--font-sport); font-weight: 800; font-size: clamp(15px, 1.5vw, 18px); letter-spacing: 0.09em; text-transform: uppercase; color: var(--white); background: var(--orange); border-radius: 999px; padding: 13px 28px; margin-bottom: 44px; box-shadow: 0 10px 28px rgba(213,96,31,0.45); }
-  .sgi-label::before { content: ''; width: 11px; height: 11px; border-radius: 50%; background: var(--white); flex-shrink: 0; animation: sgiPulse 1.6s ease-in-out infinite; }
+  .lg-nextup { background: var(--black); color: var(--white); padding: 100px 0; overflow: hidden; position: relative; }
+  .lg-nextup::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--orange); }
+  .lg-nextup-head { text-align: center; margin-bottom: 56px; }
+  .lg-nextup-eyebrow { font-size: 18px; }
+  .lg-nextup-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 4vw, 40px); margin: 10px 0 0; color: var(--white); }
+  .lg-nextup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; max-width: 940px; margin: 0 auto; }
+  .lg-nextup-col { padding: 0 44px; border-left: 1px solid rgba(255,255,255,0.16); }
+  .lg-nextup-col:first-child { border-left: none; }
+  .lg-nextup-tag { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; }
+  .lg-nextup-name { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 2.8vw, 30px); color: var(--white); margin: 0 0 14px; }
+  .lg-nextup-dates { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2.6vw, 28px); color: var(--white); margin: 0 0 10px; line-height: 1.15; }
+  .lg-nextup-detail { font-size: 15.5px; color: rgba(255,255,255,0.68); line-height: 1.5; margin: 0 0 18px; }
+  .lg-nextup-body { font-size: 15.5px; color: rgba(255,255,255,0.68); line-height: 1.6; margin: 0 0 18px; }
+  .lg-nextup-stat { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--white); margin: 0 0 24px; }
+  .lg-nextup-foot { font-size: 13px; font-style: italic; color: rgba(255,255,255,0.5); margin: 16px 0 0; }
+
+  .sgi-label { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-weight: 800; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); background: var(--orange); border-radius: 999px; padding: 7px 14px; margin-bottom: 16px; }
+  .sgi-label::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--white); flex-shrink: 0; animation: sgiPulse 1.6s ease-in-out infinite; }
   @keyframes sgiPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
   @media (prefers-reduced-motion: reduce) { .sgi-label::before { animation: none; } }
 
-  .sgi-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: center; }
-  .sgi-eyebrow { display: block; font-family: var(--font-sport); font-weight: 700; font-size: clamp(20px, 2.2vw, 27px); letter-spacing: 0.04em; text-transform: uppercase; color: var(--orange); margin-bottom: 20px; }
-  .sgi-mark { font-family: var(--font-display); font-weight: 800; font-size: clamp(40px, 6.8vw, 100px); line-height: 0.88; color: var(--white); margin: 0; letter-spacing: -0.01em; }
-  .sgi-mark .accent { color: var(--orange); }
-  .sgi-headline { font-family: var(--font-heading); font-weight: 800; font-size: clamp(22px, 2.6vw, 30px); color: rgba(255,255,255,0.9); margin: 24px 0 0; }
+  .sgi-stat-lines { font-size: 14.5px; font-weight: 700; color: var(--white); line-height: 1.5; margin: 0 0 24px; }
+  .sgi-cta { font-size: 15px; padding: 14px 28px; }
 
-  .sgi-side { border-left: 3px solid var(--orange); padding-left: 36px; }
-  .sgi-body { font-size: 19px; line-height: 1.7; color: rgba(255,255,255,0.85); margin: 0 0 30px; }
-  .sgi-body strong { color: var(--white); }
-  .sgi-stat-lines { font-family: var(--font-display); font-weight: 900; font-size: clamp(18px, 1.9vw, 23px); color: var(--white); line-height: 1.5; margin: 0 0 34px; }
-  .sgi-cta { font-size: 17px; padding: 16px 34px; }
-  .sgi-seeing { font-size: clamp(15px, 1.6vw, 18px); color: rgba(255,255,255,0.75); margin: 26px 0 4px; text-transform: uppercase; letter-spacing: 0.04em; font-family: var(--font-sport); font-weight: 700; }
-  .sgi-seeing-note { font-size: 14px; color: rgba(255,255,255,0.55); margin: 0 0 20px; font-family: var(--font-body); font-weight: 400; }
-  .sgi-disclaimer { font-family: var(--font-display); font-weight: 900; font-size: clamp(18px, 2vw, 23px); font-style: italic; color: var(--orange); margin: 0; line-height: 1.25; }
-
-  .sgi-formwrap-outer { margin-top: 64px; }
-  .sgi-formwrap { background: var(--gray-light); border-radius: var(--radius-md); padding: 40px; scroll-margin-top: 180px; max-width: 780px; margin: 0 auto; }
+  .sgi-formwrap-outer { margin-top: 56px; }
+  .sgi-formwrap { background: var(--gray-light); border-radius: var(--radius-md); padding: 40px; scroll-margin-top: 180px; max-width: 780px; margin: 0 auto; color: var(--black); }
   .sgi-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   .sgi-form-grid .full { grid-column: 1 / -1; }
   .sgi-form-grid label { display: block; font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 8px; }
@@ -519,9 +469,10 @@
   .sgi-success p { color: var(--gray-dark); font-size: 15px; margin: 0 0 8px; }
   .sgi-success-wink { font-style: italic; }
   @media (max-width: 900px) {
-    .sgi { padding: 90px 0 70px; }
-    .sgi-grid { grid-template-columns: 1fr; gap: 40px; }
-    .sgi-side { border-left: none; border-top: 3px solid var(--orange); padding-left: 0; padding-top: 28px; }
+    .lg-nextup { padding: 72px 0; }
+    .lg-nextup-grid { grid-template-columns: 1fr; gap: 40px; max-width: 420px; }
+    .lg-nextup-col { border-left: none; border-top: 1px solid rgba(255,255,255,0.16); padding: 32px 0 0; }
+    .lg-nextup-col:first-child { border-top: none; padding-top: 0; }
     .sgi-formwrap { padding: 28px 22px; }
     .sgi-form-grid { grid-template-columns: 1fr; }
   }
