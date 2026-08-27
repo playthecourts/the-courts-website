@@ -113,18 +113,18 @@
   }
 
   /* ---------- Countdown ---------- */
-  .dd-countdown-time { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(64px, 9vw, 108px); color: var(--white); letter-spacing: 0.01em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .dd-countdown-time { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(46px, 5.6vw, 72px); color: var(--white); letter-spacing: 0.01em; line-height: 1; font-variant-numeric: tabular-nums; }
   .dd-countdown-line { display: block; width: 56px; height: 3px; background: var(--orange); margin: 24px auto 20px; border-radius: 2px; }
   .dd-countdown-caption { display: block; font-family: var(--font-sport); font-weight: 700; font-size: clamp(14px, 1.4vw, 18px); letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
   .dd-countdown-wink { display: block; font-family: var(--font-heading); font-weight: 500; font-style: italic; font-size: 15px; color: rgba(255,255,255,0.6); margin-top: 16px; }
 
   /* ---------- Availability ---------- */
   .dd-pricing { background: var(--white); padding: 80px 0; }
-  .dd-avail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
-  .dd-avail-col--countdown { background: var(--black); border-radius: var(--radius-md); padding: 56px 32px; }
-  .dd-avail-card { background: var(--charcoal); border-radius: var(--radius-md); padding: clamp(28px,3.4vw,40px); color: var(--white); text-align: left; margin-top: 24px; }
-  .dd-avail-day { font-family: var(--font-sport); font-weight: 700; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin: 0 0 10px; }
-  .dd-avail-hours { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3.4vw, 40px); color: var(--white); margin: 0 0 20px; }
+  .dd-avail-grid { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 56px; align-items: center; }
+  .dd-avail-col--countdown { background: var(--charcoal); border-radius: var(--radius-md); padding: 44px 28px; border-top: 3px solid var(--orange); }
+  .dd-avail-card { background: var(--charcoal); border-left: 3px solid var(--orange); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: clamp(30px,3.6vw,44px); color: var(--white); text-align: left; margin-top: 28px; }
+  .dd-avail-day { font-family: var(--font-sport); font-weight: 700; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 10px; }
+  .dd-avail-hours { font-family: var(--font-display); font-weight: 900; font-size: clamp(38px, 4.4vw, 54px); color: var(--white); margin: 0 0 22px; }
   .dd-avail-note { font-size: 15.5px; line-height: 1.6; color: rgba(255,255,255,0.7); margin: 0 0 10px; }
   .dd-avail-note:last-child { margin-bottom: 0; }
   .dd-cta-center { text-align: center; margin-top: 40px; }
@@ -290,7 +290,8 @@
       </div>
       <div class="dd-session-notes">
         <p>1&ndash;2 athletes can share a reservation.</p>
-        <p>Basketball only. For obvious reasons.<br>Advance reservation required.</p>
+        <p>Advance reservation required.</p>
+        <p style="margin-top:10px;">Basketball only. For obvious reasons.</p>
       </div>
       <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206308-dr-dot-dish" class="btn btn-primary" data-booking-type="dr-dish">Book 30 Minutes →</a>
     </div>
@@ -346,7 +347,7 @@
       <div class="dd-avail-col">
         <div class="dd-head" style="text-align:left; margin:0 0 8px;">
           <span class="eyebrow">Availability</span>
-          <h2>Sundays Are for Shots.</h2>
+          <h2 style="font-size:clamp(34px, 4.6vw, 54px);">Sundays Are for Shots.</h2>
         </div>
         <!-- [PINK — CONFIRM DR. DISH AVAILABILITY. Currently showing Sundays 10 AM–6 PM as the recommended window; do not treat as final until confirmed against the actual facility schedule.] -->
         <div class="dd-avail-card reveal">
