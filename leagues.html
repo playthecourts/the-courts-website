@@ -47,13 +47,19 @@
     .roster-status-wrap { align-items: flex-start; }
   }
 
-  .lg-heard-tag { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3vw, 36px); color: var(--black); line-height: 1.05; border-bottom: 4px solid var(--orange); padding-bottom: 14px; margin-bottom: 18px; width: fit-content; }
-  .lg-heard-commitments { display: flex; flex-direction: column; gap: 28px; margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--gray-mid); }
-  .lg-heard-item h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(18px, 2vw, 22px); margin: 0 0 8px; color: var(--black); }
-  .lg-heard-item p { font-size: 14.5px; line-height: 1.6; color: var(--gray-dark); margin: 0; max-width: 32ch; }
+  .lg-heard-commitments { display: flex; flex-direction: column; gap: 18px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--gray-mid); }
+  .lg-heard-item h3 { font-family: var(--font-display); font-weight: 900; font-size: 16px; margin: 0 0 6px; color: var(--black); }
+  .lg-heard-item p { font-size: 13px; line-height: 1.55; color: var(--gray-dark); margin: 0; max-width: 32ch; }
 
-  .lg-roster-heard-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: start; }
-  @media (max-width: 900px) { .lg-roster-heard-grid { grid-template-columns: 1fr; gap: 56px; } }
+  .lg-roster-heard-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; align-items: start; }
+  @media (max-width: 900px) { .lg-roster-heard-grid { grid-template-columns: 1fr; gap: 48px; } }
+  .lg-roster-heard-grid .section-title { font-size: clamp(21px, 2.4vw, 26px); }
+  .lg-roster-heard-grid .roster-board { padding: 4px 22px; }
+  .lg-roster-heard-grid .roster-row { padding: 20px 0; }
+  .lg-roster-heard-grid .roster-grade { font-size: clamp(15px, 1.6vw, 18px); }
+  .lg-roster-heard-grid .roster-note { font-size: 13px; }
+  .lg-roster-heard-grid .roster-status { font-size: 12px; padding: 6px 13px; }
+  .lg-roster-heard-grid .roster-cta { font-size: 13px; }
 
   .lg-families-line { text-align: center; font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 3vw, 30px); color: var(--black); line-height: 1.3; margin: 64px 0 0; border-top: 3px solid var(--orange); padding-top: 40px; }
   .lg-families-line-sub { display: block; font-family: var(--font-heading); font-weight: 500; font-size: 15px; color: var(--gray-dark); margin-top: 10px; }
@@ -70,7 +76,7 @@
 
   .lg-timeline { display: flex; align-items: flex-start; justify-content: center; gap: 0; margin-top: 48px; flex-wrap: wrap; }
   .lg-timeline-step { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 0 22px; min-width: 140px; }
-  .lg-timeline-date { font-family: var(--font-sport); font-weight: 800; font-size: 16px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); }
+  .lg-timeline-date { font-family: var(--font-sport); font-weight: 800; font-size: clamp(18px, 2.1vw, 22px); letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); }
   .lg-timeline-label { font-family: var(--font-display); font-weight: 900; font-size: clamp(17px, 1.7vw, 20px); color: var(--white); line-height: 1.2; }
   .lg-timeline-arrow { color: var(--orange); font-family: var(--font-display); font-weight: 900; font-size: 22px; align-self: center; padding-top: 22px; flex-shrink: 0; }
   @media (max-width: 760px) {
@@ -92,7 +98,6 @@
     .lg-know-row span:last-child { text-align: left; }
   }
 
-  .lg-register-reminder { font-size: 14.5px; font-weight: 700; color: var(--gray-dark); max-width: 56ch; margin: 14px auto 0; }
 </style>
 </head>
 <body class="has-announce">
@@ -229,16 +234,58 @@
       <div class="lg-timeline-step"><span class="lg-timeline-date">Dec 11&ndash;13</span><span class="lg-timeline-label">Tournament</span></div>
     </div>
     <p class="lg-rhythm-sub" style="text-align:center; margin:40px auto 0;">One team practice each week. Saturday games.<span style="display:block; margin-top:10px;">Group Training through your Courts membership.</span></p>
-    <div style="text-align:center; margin-top:32px;">
+    <div class="hero-ctas ctas" style="justify-content:center; margin-top:32px;">
+      <!-- [PINK — UPPER HAND EVALUATION REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
+      <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-on-dark" data-preset="Basketball Leagues">Save Your Evaluation Spot →</a>
       <a href="#register" class="btn btn-primary">Get in the League →</a>
+    </div>
+    <p style="text-align:center; margin-top:20px; font-size:14px; color:rgba(255,255,255,0.55); font-style:italic;">Evaluations help us build balanced teams. Nobody&rsquo;s getting cut, and nobody&rsquo;s auditioning for the NBA.</p>
+  </div>
+</section>
+
+<section style="padding:88px 0 96px;" id="cost">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Good to Know</span>
+      <h2 class="section-title">Before Game Day.</h2>
+    </div>
+    <div class="lg-know-grid">
+      <div class="lg-know-cell"><span class="lg-know-label">Courts Membership</span><p>Weekly membership or higher is required for league participation.</p></div>
+      <div class="lg-know-cell"><span class="lg-know-label">Team Practice</span><p>One coach-led practice each week at The Courts.</p></div>
+      <div class="lg-know-cell"><span class="lg-know-label">Saturday Games</span><p>League games are played through WNSL.</p></div>
+      <div class="lg-know-cell"><span class="lg-know-label">Tournament</span><p>Fall concludes with the December 11&ndash;13 tournament.</p></div>
+    </div>
+    <div class="lg-know-links">
+      <a href="membership#plan-selector">See Memberships →</a>
+      <a href="https://www.wnsl.org/default.aspx?tabid=212773" target="_blank" rel="noopener">Learn About WNSL ↗</a>
     </div>
   </div>
 </section>
 
-
-<section style="padding:0 0 100px;" id="roster">
+<section style="padding:88px 0 100px;" id="roster">
   <div class="container">
     <div class="lg-roster-heard-grid">
+      <div class="lg-heard-col" id="heard-you">
+        <div class="section-head lg-roster-head">
+          <span class="eyebrow">Built With Your Feedback</span>
+          <h2 class="section-title">The League, With a Few Smart Upgrades.</h2>
+        </div>
+        <div class="lg-heard-commitments">
+          <div class="lg-heard-item">
+            <h3>Smaller Rosters.</h3>
+            <p>More touches. More playing time. More chances to be in the game.</p>
+          </div>
+          <div class="lg-heard-item">
+            <h3>Earlier Communication.</h3>
+            <p>Teams, schedules, and season details shared sooner, so families have more time to plan.</p>
+          </div>
+          <div class="lg-heard-item">
+            <h3>Keep Talking.</h3>
+            <p>Tell us what&rsquo;s working, what could be better, and what you&rsquo;d like to see next.</p>
+          </div>
+        </div>
+      </div>
+
       <div class="lg-roster-col">
         <div class="section-head lg-roster-head">
           <span class="eyebrow">Roster Watch</span>
@@ -277,70 +324,13 @@
           </div>
         </div>
       </div>
-
-      <div class="lg-heard-col" id="heard-you">
-        <div class="section-head">
-          <span class="lg-heard-tag">Built With Your Feedback</span>
-          <h2 class="section-title">The League, With a Few Smart Upgrades.</h2>
-        </div>
-        <div class="lg-heard-commitments">
-          <div class="lg-heard-item">
-            <h3>Smaller Rosters.</h3>
-            <p>More touches. More playing time. More chances to be in the game.</p>
-          </div>
-          <div class="lg-heard-item">
-            <h3>Earlier Communication.</h3>
-            <p>Teams, schedules, and season details shared sooner, so families have more time to plan.</p>
-          </div>
-          <div class="lg-heard-item">
-            <h3>Keep Talking.</h3>
-            <p>Tell us what&rsquo;s working, what could be better, and what you&rsquo;d like to see next.</p>
-          </div>
-        </div>
-      </div>
     </div>
     <p class="lg-families-line">Families shared what works. We took it to heart.<span class="lg-families-line-sub">The best leagues get better together.</span></p>
   </div>
 </section>
 
 
-<section style="padding:88px 0 100px;" id="cost">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">Good to Know</span>
-      <h2 class="section-title">Before Game Day.</h2>
-    </div>
-    <div class="lg-know-list">
-      <div class="lg-know-row"><span>Courts Membership</span><span>Weekly membership or higher is required for league participation.</span></div>
-      <div class="lg-know-row"><span>Team Practice</span><span>One coach-led practice each week at The Courts.</span></div>
-      <div class="lg-know-row"><span>Saturday Games</span><span>League games are played through WNSL.</span></div>
-      <div class="lg-know-row"><span>Tournament</span><span>Fall concludes with the December 11&ndash;13 tournament.</span></div>
-    </div>
-    <div class="lg-know-links">
-      <a href="membership#plan-selector">See Memberships →</a>
-      <a href="https://www.wnsl.org/default.aspx?tabid=212773" target="_blank" rel="noopener">Learn About WNSL ↗</a>
-    </div>
-  </div>
-</section>
-
-<section style="padding:100px 0 96px;" id="register">
-  <div class="container" style="max-width:640px;">
-    <div class="section-head center">
-      <span class="eyebrow">Fall 2026</span>
-      <h2 class="section-title">You In?</h2>
-      <p class="section-sub" style="margin-left:auto; margin-right:auto;">Registration closes September 20 at 5 PM.</p>
-    </div>
-    <div class="hero-ctas ctas" style="justify-content:center;">
-      <!-- [PINK — UPPER HAND EVALUATION REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
-      <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-secondary" data-preset="Basketball Leagues">Save Your Evaluation Spot →</a>
-      <!-- [PINK — UPPER HAND FALL LEAGUE REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
-      <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-primary" data-preset="Basketball Leagues">Get in the League →</a>
-    </div>
-    <p class="lg-register-reminder" style="text-align:center; margin-left:auto; margin-right:auto;">Weekly membership or higher required for league participation.</p>
-  </div>
-</section>
-
-<section class="lg-nextup" id="still-got-it">
+<section class="lg-nextup" id="register">
   <div class="container">
     <div class="lg-nextup-head">
       <span class="eyebrow lg-nextup-eyebrow">Next On the Court</span>
@@ -348,9 +338,16 @@
     </div>
     <div class="lg-nextup-grid">
       <div class="lg-nextup-col">
-        <span class="lg-nextup-tag">Ready to Play Fall Ball?</span>
-        <p class="lg-nextup-name">Get on the Roster.</p>
-        <a href="#register" class="btn btn-primary">Register Your Athlete →</a>
+        <span class="lg-nextup-tag">Fall 2026</span>
+        <p class="lg-nextup-name">You In?</p>
+        <p class="lg-nextup-detail">Registration closes September 20 at 5 PM.</p>
+        <div class="ctas" style="display:flex; gap:14px; flex-wrap:wrap; margin:4px 0 16px;">
+          <!-- [PINK — UPPER HAND EVALUATION REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
+          <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-on-dark" data-preset="Basketball Leagues">Save Your Evaluation Spot →</a>
+          <!-- [PINK — UPPER HAND FALL LEAGUE REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
+          <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-primary" data-preset="Basketball Leagues">Get in the League →</a>
+        </div>
+        <p class="lg-nextup-foot">Weekly membership or higher required for league participation.</p>
       </div>
       <div class="lg-nextup-col">
         <span class="lg-nextup-tag">Winter Basketball</span>
@@ -444,21 +441,6 @@
   }
 })();
 </script>
-
-<section class="pre-footer">
-  <div class="container pre-footer-inner">
-    <div class="pre-footer-col">
-      <span class="pre-footer-eyebrow">Ready to Play?</span>
-      <h3 class="pre-footer-title">Get on the Roster.</h3>
-      <a href="#register" class="pre-footer-link">Register Your Athlete <span class="arrow">→</span></a>
-    </div>
-    <div class="pre-footer-col">
-      <span class="pre-footer-eyebrow">Have a Question?</span>
-      <h3 class="pre-footer-title">Let's Talk League Ball.</h3>
-      <a href="contact?interest=Basketball%20Leagues#contact-form" class="pre-footer-link" data-preset="Basketball Leagues">Ask Us About Leagues <span class="arrow">→</span></a>
-    </div>
-  </div>
-</section>
 
 <footer class="site-footer">
   <div class="container">
