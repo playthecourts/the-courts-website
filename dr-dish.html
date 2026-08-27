@@ -27,7 +27,7 @@
   /* ---------- Hero ---------- */
   .dd-hero { background: var(--black); overflow: hidden; position: relative; }
   .dd-hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; align-items: stretch; min-height: 640px; }
-  .dd-hero-copy { display: flex; flex-direction: column; justify-content: center; padding: 176px 24px 72px clamp(24px,6vw,88px); position: relative; z-index: 2; }
+  .dd-hero-copy { display: flex; flex-direction: column; justify-content: center; padding: 148px 24px 56px clamp(24px,6vw,88px); position: relative; z-index: 2; }
   .dd-hero-badge-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
   .dd-hero-badge { display: inline-flex; align-items: center; gap: 9px; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-weight: 800; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 16px; border-radius: 999px; }
   .dd-hero-badge .divider { opacity: 0.55; }
@@ -52,14 +52,14 @@
   .dd-hero-line--4 { top: 4%; left: 24%; width: 3px; height: 10%; opacity: 0.7; }
   @media (max-width: 980px) {
     .dd-hero-grid { grid-template-columns: 1fr; min-height: 0; }
-    .dd-hero-copy { padding: 140px 24px 28px; }
+    .dd-hero-copy { padding: 124px 24px 24px; }
     .dd-hero-media { aspect-ratio: 4/3.1; max-width: 420px; margin: 0 auto 56px; }
     .dd-hero-media .dd-hero-photo { top: 6%; right: 6%; left: 6%; bottom: 6%; }
     .dd-hero-line { display: none; }
   }
 
   /* ---------- How It Works sequence ---------- */
-  .dd-how { background: var(--white); padding: 108px 0 104px; }
+  .dd-how { background: var(--white); padding: 80px 0 78px; }
   .dd-seq { position: relative; margin-top: 56px; }
   .dd-seq-trail { display: block; width: 100%; height: 40px; margin-bottom: -8px; }
   .dd-seq-trail path { fill: none; stroke: var(--gray-mid); stroke-width: 2; stroke-dasharray: 2 10; stroke-linecap: round; }
@@ -78,13 +78,13 @@
   .dd-how-utility strong { font-family: var(--font-heading); font-weight: 800; color: var(--orange); }
   .dd-how-utility a { color: var(--black); font-weight: 700; text-decoration: underline; margin-left: 6px; }
   @media (max-width: 900px) {
-    .dd-how { padding: 76px 0; }
+    .dd-how { padding: 60px 0; }
     .dd-seq-trail { display: none; }
     .dd-seq-grid { grid-template-columns: 1fr; gap: 44px; }
   }
 
   /* ---------- 30-Minute Session + Pricing ---------- */
-  .dd-session { background: var(--black); padding: 108px 0 96px; }
+  .dd-session { background: var(--black); padding: 80px 0 72px; }
   .dd-session-copy { max-width: 640px; margin: 0 auto; text-align: center; }
   .dd-session-copy .eyebrow { font-size: 19px; }
   .dd-session-copy h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(32px, 4.4vw, 52px); line-height: 1.05; color: var(--white); margin: 12px 0 16px; }
@@ -100,32 +100,32 @@
   .dd-session-notes { margin: 40px 0 34px; }
   .dd-session-notes p { font-size: 14.5px; color: rgba(255,255,255,0.62); margin: 0 auto 4px; }
   @media (max-width: 700px) {
-    .dd-session { padding: 76px 0; }
+    .dd-session { padding: 60px 0; }
     .dd-price-grid { grid-template-columns: 1fr; max-width: 320px; gap: 26px; }
     .dd-price-col { border-left: none; border-top: 1px solid rgba(255,255,255,0.16); padding: 22px 0 0; }
     .dd-price-col:first-child { border-top: none; padding-top: 0; }
   }
 
   /* ---------- Countdown ---------- */
-  .dd-countdown { background: var(--black); padding: 140px 0 150px; text-align: center; overflow: hidden; }
+  .dd-countdown { background: var(--black); padding: 104px 0 112px; text-align: center; overflow: hidden; }
   .dd-countdown-time { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(96px, 17vw, 220px); color: var(--white); letter-spacing: 0.01em; line-height: 1; font-variant-numeric: tabular-nums; }
   .dd-countdown-line { display: block; width: 64px; height: 3px; background: var(--orange); margin: 30px auto 26px; border-radius: 2px; }
   .dd-countdown-caption { display: block; font-family: var(--font-sport); font-weight: 700; font-size: clamp(16px, 1.8vw, 22px); letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
   .dd-countdown-wink { display: block; font-family: var(--font-heading); font-weight: 500; font-style: italic; font-size: 14.5px; color: rgba(255,255,255,0.6); margin-top: 18px; }
   @media (max-width: 700px) {
-    .dd-countdown { padding: 92px 0 100px; }
+    .dd-countdown { padding: 72px 0 78px; }
     .dd-countdown-line { margin: 22px auto 18px; }
   }
 
   /* ---------- Availability ---------- */
-  .dd-pricing { background: var(--white); padding: 108px 0; }
-  .dd-avail-card { background: var(--charcoal); border-radius: var(--radius-md); padding: clamp(28px,3.4vw,40px); color: var(--white); text-align: center; }
-  .dd-avail-day { font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin: 0 0 8px; }
-  .dd-avail-hours { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3.6vw, 40px); color: var(--white); margin: 0 0 18px; }
-  .dd-avail-note { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.65); margin: 0; }
+  .dd-pricing { background: var(--white); padding: 80px 0; }
+  .dd-avail-card { background: var(--charcoal); border-radius: var(--radius-md); padding: clamp(36px,4.4vw,52px); color: var(--white); text-align: center; }
+  .dd-avail-day { font-family: var(--font-sport); font-weight: 700; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin: 0 0 10px; }
+  .dd-avail-hours { font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 4vw, 46px); color: var(--white); margin: 0 0 22px; }
+  .dd-avail-note { font-size: 17px; line-height: 1.6; color: rgba(255,255,255,0.7); margin: 0; }
   .dd-cta-center { text-align: center; margin-top: 40px; }
   @media (max-width: 700px) {
-    .dd-pricing { padding: 76px 0; }
+    .dd-pricing { padding: 60px 0; }
   }
 
 </style>
@@ -220,6 +220,7 @@
       <span class="dd-hero-line dd-hero-line--4" aria-hidden="true"></span>
       <div class="dd-hero-photo">
         <img src="images/Arc1-Background.webp" alt="The Dr. Dish shooting machine, showing its ball feed and real-time shot arc display." style="object-position:50% 40%;">
+        <span class="dd-seq-again-bg" aria-hidden="true">Rebounds:<br><span class="accent">Handled.</span></span>
       </div>
     </div>
   </div>
@@ -272,10 +273,7 @@
       <div class="dd-seq-grid">
         <div class="dd-seq-step reveal">
           <span class="dd-seq-num">01</span>
-          <div class="dd-seq-media">
-            <img src="images/13_dr_dish_female_ready.png" alt="An athlete squared up, ball in hand, ready to start a Dr. Dish workout.">
-            <span class="dd-seq-again-bg" aria-hidden="true">Rebounds:<br><span class="accent">Handled.</span></span>
-          </div>
+          <div class="dd-seq-media"><img src="images/13_dr_dish_female_ready.png" alt="An athlete squared up, ball in hand, ready to start a Dr. Dish workout."></div>
           <h3>Pick Your Work.</h3>
           <p>Corners. Wings. Elbows. Catch-and-shoot. Game-speed reps.</p>
           <p class="dd-seq-zinger">Your shot. Your plan.</p>
@@ -312,7 +310,7 @@
       <h2>Sundays Are for Shots.</h2>
     </div>
     <!-- [PINK — CONFIRM DR. DISH AVAILABILITY. Currently showing Sundays 10 AM–6 PM as the recommended window; do not treat as final until confirmed against the actual facility schedule.] -->
-    <div class="dd-avail-card reveal" style="max-width:460px; margin:44px auto 0;">
+    <div class="dd-avail-card reveal" style="max-width:560px; margin:44px auto 0;">
       <p class="dd-avail-day">Sundays</p>
       <p class="dd-avail-hours">10 AM&ndash;6 PM</p>
       <p class="dd-avail-note">Select additional times may be available when the court is open. Advance reservation required.</p>
