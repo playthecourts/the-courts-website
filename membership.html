@@ -139,17 +139,25 @@
   .dropin-list { border-top: 1px solid rgba(255,255,255,0.14); max-width: 980px; margin: 0 auto; }
   .dropin-row { display: grid; grid-template-columns: 1fr 1.5fr 1fr; align-items: center; gap: 24px; padding: 32px 0; border-bottom: 1px solid rgba(255,255,255,0.14); }
   .dropin-name { font-family: var(--font-display); font-size: clamp(20px, 2.2vw, 27px); color: var(--white); margin: 0; }
+  .dropin-name-sub { display: block; font-family: var(--font-body); font-weight: 500; font-size: 13px; letter-spacing: 0; text-transform: none; color: rgba(255,255,255,0.55); margin-top: 4px; }
   .dropin-rates { display: flex; flex-direction: column; gap: 6px; }
   .dropin-rate { display: flex; align-items: baseline; gap: 8px; }
   .dropin-rate-label { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.65); min-width: 108px; }
   .dropin-rate-value { font-family: var(--font-display); font-weight: 900; font-size: 20px; color: var(--white); }
   .dropin-rate--member .dropin-rate-value { color: var(--orange); }
-  .dropin-info { font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.5; margin-top: 4px; }
-  .dropin-cta { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--white); text-align: right; white-space: nowrap; }
+  .dropin-rate--included { align-items: center; }
+  .dropin-rate--included .dropin-rate-value {
+    font-family: var(--font-sport); font-weight: 700; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--orange); background: rgba(213,96,31,0.15); border: 1px solid rgba(213,96,31,0.4);
+    padding: 4px 12px; border-radius: 999px;
+  }
+  .dropin-info { font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.5; grid-column: 2; grid-row: 2; margin: -6px 0 0; }
+  .dropin-cta { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--white); text-align: right; white-space: nowrap; grid-column: 3; grid-row: 1; }
   .dropin-cta .arrow { color: var(--orange); display: inline-block; transition: transform 0.2s var(--ease); }
   .dropin-row:hover .dropin-cta .arrow { transform: translateX(4px); }
   @media (max-width: 760px) {
     .dropin-row { grid-template-columns: 1fr; gap: 10px; padding: 26px 0; }
+    .dropin-info, .dropin-cta { grid-column: auto; grid-row: auto; }
     .dropin-cta { text-align: left; margin-top: 6px; }
   }
 
@@ -470,12 +478,12 @@
         <div class="dropin-rates">
           <div class="dropin-rate dropin-rate--member"><span class="dropin-rate-label">Non-Member</span><span class="dropin-rate-value">$20 / session</span></div>
           <div class="dropin-rate"><span class="dropin-rate-label">Weekly</span><span class="dropin-rate-value" style="color:rgba(255,255,255,0.9);">$10 / session</span></div>
-          <div class="dropin-rate"><span class="dropin-rate-label">Unlimited · Full Court · Family</span><span class="dropin-rate-value" style="color:rgba(255,255,255,0.9);">Included</span></div>
+          <div class="dropin-rate dropin-rate--included"><span class="dropin-rate-label">Unlimited · Full Court · Family</span><span class="dropin-rate-value">Included</span></div>
         </div>
         <a href="schedule?type=opengym" class="dropin-cta">Find Open Gym <span class="arrow">→</span></a>
       </div>
       <div class="dropin-row">
-        <h3 class="dropin-name">Dr. Dish <span style="font-weight:500; color:rgba(255,255,255,0.65); text-transform:none; letter-spacing:0; font-family:var(--font-body); font-size:13px;">Basketball Only</span></h3>
+        <h3 class="dropin-name">Dr. Dish<span class="dropin-name-sub">Basketball Only</span></h3>
         <div class="dropin-rates">
           <div class="dropin-rate"><span class="dropin-rate-label">Members</span><span class="dropin-rate-value" style="color:rgba(255,255,255,0.9);">$20 / 30 min</span></div>
           <div class="dropin-rate dropin-rate--member"><span class="dropin-rate-label">Non-Members</span><span class="dropin-rate-value">$30 / 30 min</span></div>
