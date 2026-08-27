@@ -21,7 +21,7 @@
   .shop-hero-title { font-family:var(--font-display); font-weight:900; font-size:clamp(36px, 5.5vw, 60px); line-height:1.0; margin:16px 0 22px; max-width:12ch; }
   .shop-hero-title .accent { color:var(--orange); }
   .shop-hero-sub { font-size:17px; line-height:1.6; color:var(--gray-dark); max-width:36ch; margin-bottom:32px; }
-  .shop-hero-media { position:relative; overflow:hidden; background:var(--charcoal); }
+  .shop-hero-media { position:relative; overflow:hidden; background:var(--charcoal); border-radius:var(--radius-lg) 0 0 var(--radius-lg); }
   .shop-hero-media .photo { position:absolute; inset:0; }
   .shop-hero-micro {
     position:absolute; top:36px; right:26px; writing-mode:vertical-rl; text-orientation:mixed;
@@ -36,7 +36,7 @@
   @media (max-width:900px) {
     .shop-hero { grid-template-columns:1fr; min-height:0; }
     .shop-hero-copy { padding:84px 24px 28px; }
-    .shop-hero-media { aspect-ratio:4/3; }
+    .shop-hero-media { aspect-ratio:4/3; border-radius:var(--radius-lg); }
     .shop-hero-micro { display:none; }
   }
 
@@ -61,7 +61,7 @@
   .shop-gift-amounts input:checked + label { background:var(--orange); border-color:var(--orange); color:var(--white); }
   .shop-gift-amounts input:focus-visible + label { outline:2px solid var(--orange); outline-offset:2px; }
   .shop-gift-media { position:relative; display:flex; justify-content:center; }
-  .shop-gift-lines { width:100%; max-width:255px; height:auto; filter:drop-shadow(0 20px 44px rgba(0,0,0,0.45)); }
+  .shop-gift-lines { width:100%; max-width:340px; height:auto; filter:drop-shadow(0 20px 44px rgba(0,0,0,0.45)); }
   .shop-gift-lines rect, .shop-gift-lines line { opacity:0.55; }
   @media (max-width:900px) {
     .shop-gift-grid { grid-template-columns:1fr; gap:40px; }
@@ -523,13 +523,13 @@
         <line x1="4" y1="180" x2="296" y2="180" stroke="#E5682A" stroke-width="1.5"/>
         <defs>
           <clipPath id="giftCircleClip">
-            <circle cx="150" cy="180" r="115"/>
+            <circle cx="150" cy="180" r="144"/>
           </clipPath>
         </defs>
         <g clip-path="url(#giftCircleClip)">
-          <image href="images/gift-card.jpg" x="35" y="65" width="230" height="230" preserveAspectRatio="xMidYMid slice"/>
+          <image href="images/gift-card.jpg" x="6" y="36" width="288" height="288" preserveAspectRatio="xMidYMid slice"/>
         </g>
-        <circle cx="150" cy="180" r="115" stroke="#E5682A" stroke-width="2.5"/>
+        <circle cx="150" cy="180" r="144" stroke="#E5682A" stroke-width="2.5"/>
       </svg>
     </div>
     <div class="shop-gift-copy">
