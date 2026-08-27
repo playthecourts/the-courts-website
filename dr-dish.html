@@ -48,6 +48,8 @@
   .dd-hero-line { position: absolute; background: var(--orange); z-index: 1; }
   .dd-hero-line--1 { top: 9%; left: 6%; width: 3px; height: 22%; }
   .dd-hero-line--2 { bottom: 11%; right: 3%; width: 16%; height: 3px; }
+  .dd-hero-line--3 { top: 4%; right: 12%; width: 11%; height: 3px; opacity: 0.7; }
+  .dd-hero-line--4 { top: 4%; left: 24%; width: 3px; height: 10%; opacity: 0.7; }
   @media (max-width: 980px) {
     .dd-hero-grid { grid-template-columns: 1fr; min-height: 0; }
     .dd-hero-copy { padding: 140px 24px 28px; }
@@ -109,7 +111,7 @@
   .dd-countdown-time { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(96px, 17vw, 220px); color: var(--white); letter-spacing: 0.01em; line-height: 1; font-variant-numeric: tabular-nums; }
   .dd-countdown-line { display: block; width: 64px; height: 3px; background: var(--orange); margin: 30px auto 26px; border-radius: 2px; }
   .dd-countdown-caption { display: block; font-family: var(--font-sport); font-weight: 700; font-size: clamp(16px, 1.8vw, 22px); letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
-  .dd-countdown-wink { display: block; font-family: var(--font-heading); font-weight: 500; font-style: italic; font-size: 14.5px; color: var(--white); margin-top: 18px; }
+  .dd-countdown-wink { display: block; font-family: var(--font-heading); font-weight: 500; font-style: italic; font-size: 14.5px; color: rgba(255,255,255,0.6); margin-top: 18px; }
   @media (max-width: 700px) {
     .dd-countdown { padding: 92px 0 100px; }
     .dd-countdown-line { margin: 22px auto 18px; }
@@ -214,6 +216,8 @@
     <div class="dd-hero-media">
       <span class="dd-hero-line dd-hero-line--1" aria-hidden="true"></span>
       <span class="dd-hero-line dd-hero-line--2" aria-hidden="true"></span>
+      <span class="dd-hero-line dd-hero-line--3" aria-hidden="true"></span>
+      <span class="dd-hero-line dd-hero-line--4" aria-hidden="true"></span>
       <div class="dd-hero-photo">
         <img src="images/Arc1-Background.webp" alt="The Dr. Dish shooting machine, showing its ball feed and real-time shot arc display." style="object-position:50% 40%;">
       </div>
@@ -268,7 +272,10 @@
       <div class="dd-seq-grid">
         <div class="dd-seq-step reveal">
           <span class="dd-seq-num">01</span>
-          <div class="dd-seq-media"><img src="images/13_dr_dish_female_ready.png" alt="An athlete squared up, ball in hand, ready to start a Dr. Dish workout."></div>
+          <div class="dd-seq-media">
+            <img src="images/13_dr_dish_female_ready.png" alt="An athlete squared up, ball in hand, ready to start a Dr. Dish workout.">
+            <span class="dd-seq-again-bg" aria-hidden="true">Rebounds:<br><span class="accent">Handled.</span></span>
+          </div>
           <h3>Pick Your Work.</h3>
           <p>Corners. Wings. Elbows. Catch-and-shoot. Game-speed reps.</p>
           <p class="dd-seq-zinger">Your shot. Your plan.</p>
@@ -285,7 +292,7 @@
         </div>
         <div class="dd-seq-step reveal">
           <span class="dd-seq-num">03</span>
-          <div class="dd-seq-media"><img src="images/12_dr_dish_training.png" alt="An athlete checking real-time shot arc and make percentage on the Dr. Dish display."></div>
+          <div class="dd-seq-media"><img src="images/Dr.Dish-PlayerAppScreens.webp" alt="The Dr. Dish app, showing drill setup, shooting modes, and live shot-arc activity tracking." style="object-fit:contain; background:var(--white);"></div>
           <h3>See What's Working.</h3>
           <p>Use the feedback during your workout to make adjustments and find what&rsquo;s clicking.</p>
           <p class="dd-seq-zinger">Some days it's you vs. the machine. Some days it's you vs. last Tuesday.</p>
