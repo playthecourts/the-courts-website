@@ -192,7 +192,7 @@ body.has-announce .nav { top: 64px; }
 .mobile-nav-group.open .mobile-nav-sub { max-height: 400px; padding-bottom: 12px; }
 .mobile-nav-sub a { padding: 10px 0 10px 14px; font-size: 14.5px; color: var(--gray-dark); }
 .mobile-menu > a { display: block; padding: 16px 0; font-family: var(--font-nav); font-weight: 700; font-size: 16px; border-bottom: 1px solid var(--gray-mid); }
-.mobile-menu > .btn { margin-top: 20px; }
+.mobile-menu > .btn { display: inline-flex; margin-top: 20px; border-bottom: none; padding: 15px 28px; }
 .mobile-menu-close { position: absolute; top: 26px; right: 24px; width: 26px; height: 26px; }
 
 @media (max-width: 1180px) {
