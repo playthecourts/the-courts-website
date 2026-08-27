@@ -87,15 +87,15 @@
 
 
 
-  .lg-know-list { max-width: 720px; margin: 44px auto 0; border-top: 1px solid var(--gray-mid); }
-  .lg-know-row { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 22px 0; border-bottom: 1px solid var(--gray-mid); }
-  .lg-know-row span:first-child { font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); flex-shrink: 0; }
-  .lg-know-row span:last-child { font-size: 16px; color: var(--black); text-align: right; }
+  .lg-know-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; max-width: 780px; margin: 44px auto 0; border-top: 1px solid var(--gray-mid); border-left: 1px solid var(--gray-mid); }
+  .lg-know-cell { padding: 26px 30px; border-right: 1px solid var(--gray-mid); border-bottom: 1px solid var(--gray-mid); }
+  .lg-know-label { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
+  .lg-know-cell p { font-size: 16px; color: var(--black); line-height: 1.5; margin: 0; }
   .lg-know-links { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin-top: 32px; }
   .lg-know-links a { font-family: var(--font-heading); font-weight: 700; font-size: 14.5px; color: var(--orange); }
   @media (max-width: 600px) {
-    .lg-know-row { flex-direction: column; align-items: flex-start; gap: 6px; }
-    .lg-know-row span:last-child { text-align: left; }
+    .lg-know-grid { grid-template-columns: 1fr; }
+    .lg-know-cell { border-right: none; }
   }
 
 </style>
@@ -142,7 +142,14 @@
           <a href="events#parties">Parties + Events</a>
         </div>
       </div>
-      <div class="nav-item"><a href="shop">Shop</a></div>
+      <div class="nav-item">
+        <a href="shop">Shop <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav-dropdown">
+          <a href="shop#shop-drop">Apparel</a>
+          <a href="shop#shop-accessories">Gear</a>
+          <a href="shop#gift-cards">Gift Cards</a>
+        </div>
+      </div>
       <div class="nav-item">
         <a href="about">About <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="nav-dropdown">
@@ -188,7 +195,14 @@
       <a href="events#parties">Parties + Events</a>
     </div>
   </div>
-  <a href="shop">Shop</a>
+  <div class="mobile-nav-group">
+    <button class="mobile-nav-toggle" type="button">Shop<span class="mobile-nav-chevron">+</span></button>
+    <div class="mobile-nav-sub">
+      <a href="shop#shop-drop">Apparel</a>
+      <a href="shop#shop-accessories">Gear</a>
+      <a href="shop#gift-cards">Gift Cards</a>
+    </div>
+  </div>
   <div class="mobile-nav-group">
     <button class="mobile-nav-toggle" type="button">About<span class="mobile-nav-chevron">+</span></button>
     <div class="mobile-nav-sub">
@@ -208,7 +222,7 @@
   <div class="container page-hero-inner">
     <span class="eyebrow eyebrow--light">Basketball Leagues</span>
     <h1 class="page-hero-title">Practice Is Great. Let&rsquo;s Keep Score.</h1>
-    <p class="page-hero-sub">Weekly practice. Saturday games. Real teammates. Real competition.<br><strong style="display:inline-block; margin-top:10px;">Fall teams are forming now.</strong></p>
+    <p class="page-hero-sub">Weekly practice. Saturday games. Real teammates. Real competition.<br><strong style="display:inline-block; margin-top:10px; font-size:1.3em;">Fall teams are forming now.</strong></p>
     <p class="lg-hero-deadline"><span class="lg-hero-deadline-label">Registration Closes</span><span class="lg-hero-deadline-date">September 20 · 5 PM</span></p>
     <div class="hero-ctas ctas">
       <a href="#register" class="btn btn-primary">Get in the League →</a>

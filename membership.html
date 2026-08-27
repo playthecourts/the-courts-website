@@ -61,7 +61,7 @@
   .plan-card { display: flex; flex-direction: column; padding: 40px 26px 36px; border-left: 1px solid var(--gray-mid); position: relative; }
   .plan-card:first-child { border-left: none; }
   .plan-card--popular { background: var(--orange-soft); }
-  .plan-card-badge { display: inline-block; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 4px 11px; border-radius: 999px; margin: 0 0 16px; width: fit-content; }
+  .plan-card-badge { display: inline-block; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; margin: 0 0 16px; width: fit-content; }
   .plan-card-num { font-family: var(--font-sport); font-size: 18px; font-weight: 700; letter-spacing: 0.08em; color: var(--gray-dark); opacity: 0.55; margin: 0 0 6px; }
   .plan-card-name { font-family: var(--font-display); font-size: clamp(21px, 1.9vw, 25px); color: var(--black); margin: 0 0 10px; }
   .plan-card-price { font-family: var(--font-display); font-size: clamp(26px, 2.4vw, 32px); color: var(--black); margin: 0 0 6px; }
@@ -224,7 +224,14 @@
           <a href="events#parties">Parties + Events</a>
         </div>
       </div>
-      <div class="nav-item"><a href="shop">Shop</a></div>
+      <div class="nav-item">
+        <a href="shop">Shop <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav-dropdown">
+          <a href="shop#shop-drop">Apparel</a>
+          <a href="shop#shop-accessories">Gear</a>
+          <a href="shop#gift-cards">Gift Cards</a>
+        </div>
+      </div>
       <div class="nav-item">
         <a href="about">About <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="nav-dropdown">
@@ -270,7 +277,14 @@
       <a href="events#parties">Parties + Events</a>
     </div>
   </div>
-  <a href="shop">Shop</a>
+  <div class="mobile-nav-group">
+    <button class="mobile-nav-toggle" type="button">Shop<span class="mobile-nav-chevron">+</span></button>
+    <div class="mobile-nav-sub">
+      <a href="shop#shop-drop">Apparel</a>
+      <a href="shop#shop-accessories">Gear</a>
+      <a href="shop#gift-cards">Gift Cards</a>
+    </div>
+  </div>
   <div class="mobile-nav-group">
     <button class="mobile-nav-toggle" type="button">About<span class="mobile-nav-chevron">+</span></button>
     <div class="mobile-nav-sub">

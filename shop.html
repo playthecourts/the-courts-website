@@ -47,11 +47,11 @@
   .shop-callout-title { font-family:var(--font-display); font-weight:900; color:var(--black); font-size:clamp(28px,4.4vw,52px); line-height:1.08; margin:0 0 14px; max-width:16ch; margin-left:auto; margin-right:auto; }
 
   /* ---------- Gift card feature ---------- */
-  .shop-gift { background:var(--black); padding:34px 0; position:relative; overflow:hidden; }
-  .shop-gift-grid { display:grid; grid-template-columns:0.85fr 1.15fr; gap:64px; align-items:center; }
-  .shop-gift-title { font-family:var(--font-display); font-weight:900; color:var(--white); font-size:clamp(30px,4.2vw,48px); line-height:1.04; margin:14px 0 20px; }
-  .shop-gift-body { color:rgba(255,255,255,0.72); font-size:16px; line-height:1.6; margin:0 0 8px; }
-  .shop-gift-amounts { display:flex; flex-wrap:wrap; gap:10px; margin:26px 0 30px; border:none; padding:0; }
+  .shop-gift { background:var(--black); padding:26px 0; position:relative; overflow:hidden; }
+  .shop-gift-grid { display:grid; grid-template-columns:0.7fr 1.3fr; gap:48px; align-items:center; }
+  .shop-gift-title { font-family:var(--font-display); font-weight:900; color:var(--white); font-size:clamp(26px,3.6vw,40px); line-height:1.04; margin:10px 0 14px; }
+  .shop-gift-body { color:rgba(255,255,255,0.72); font-size:15px; line-height:1.5; margin:0 0 6px; }
+  .shop-gift-amounts { display:flex; flex-wrap:wrap; gap:10px; margin:16px 0 18px; border:none; padding:0; }
   .shop-gift-amounts input { position:absolute; opacity:0; width:1px; height:1px; }
   .shop-gift-amounts label {
     cursor:pointer; padding:12px 22px; border-radius:999px; border:1.5px solid rgba(255,255,255,0.3);
@@ -61,7 +61,7 @@
   .shop-gift-amounts input:checked + label { background:var(--orange); border-color:var(--orange); color:var(--white); }
   .shop-gift-amounts input:focus-visible + label { outline:2px solid var(--orange); outline-offset:2px; }
   .shop-gift-media { position:relative; display:flex; justify-content:center; }
-  .shop-gift-lines { width:100%; max-width:340px; height:auto; filter:drop-shadow(0 20px 44px rgba(0,0,0,0.45)); }
+  .shop-gift-lines { width:100%; max-width:230px; height:auto; filter:drop-shadow(0 20px 44px rgba(0,0,0,0.45)); }
   .shop-gift-lines rect, .shop-gift-lines line { opacity:0.55; }
   @media (max-width:900px) {
     .shop-gift-grid { grid-template-columns:1fr; gap:40px; }
@@ -255,7 +255,14 @@
           <a href="events#parties">Parties + Events</a>
         </div>
       </div>
-      <div class="nav-item"><a href="shop">Shop</a></div>
+      <div class="nav-item">
+        <a href="shop">Shop <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav-dropdown">
+          <a href="shop#shop-drop">Apparel</a>
+          <a href="shop#shop-accessories">Gear</a>
+          <a href="shop#gift-cards">Gift Cards</a>
+        </div>
+      </div>
       <div class="nav-item">
         <a href="about">About <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="nav-dropdown">
@@ -301,7 +308,14 @@
       <a href="events#parties">Parties + Events</a>
     </div>
   </div>
-  <a href="shop">Shop</a>
+  <div class="mobile-nav-group">
+    <button class="mobile-nav-toggle" type="button">Shop<span class="mobile-nav-chevron">+</span></button>
+    <div class="mobile-nav-sub">
+      <a href="shop#shop-drop">Apparel</a>
+      <a href="shop#shop-accessories">Gear</a>
+      <a href="shop#gift-cards">Gift Cards</a>
+    </div>
+  </div>
   <div class="mobile-nav-group">
     <button class="mobile-nav-toggle" type="button">About<span class="mobile-nav-chevron">+</span></button>
     <div class="mobile-nav-sub">
