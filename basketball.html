@@ -60,7 +60,8 @@
   .seq-row:first-child { border-top: none; padding-top: 0; }
   .seq-row--reverse { flex-direction: row-reverse; }
   .seq-row--reverse .seq-copy { text-align: right; }
-  .seq-media { flex: 0.8; max-width: 340px; aspect-ratio: 4/3; border-radius: var(--radius-md); overflow: hidden; }
+  .seq-media { flex: 0.8; max-width: 340px; aspect-ratio: 4/3; border-radius: var(--radius-md); overflow: hidden; position: relative; }
+  .seq-media--dark::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.45) 100%); }
   .seq-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .seq-copy { flex: 1.2; }
   .seq-row--wide .seq-media { flex: 1.1; max-width: 460px; }
@@ -91,7 +92,8 @@
   .bb-dev-grid::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gray-mid); }
   .bb-dev-item { position: relative; padding-top: 26px; }
   .bb-dev-item::before { content: ''; position: absolute; top: -2px; left: 0; width: 46px; height: 2px; background: var(--orange); }
-  .bb-dev-photo { border-radius: var(--radius-md); overflow: hidden; margin-bottom: 24px; aspect-ratio: 4/3.3; }
+  .bb-dev-photo { border-radius: var(--radius-md); overflow: hidden; margin-bottom: 24px; aspect-ratio: 4/3.3; position: relative; }
+  .bb-dev-photo--dark::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.45) 100%); }
   .bb-dev-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .bb-dev-range { font-family: var(--font-sport); font-size: clamp(19px, 1.9vw, 22px); font-weight: 800; letter-spacing: 0.01em; text-transform: uppercase; color: var(--orange); margin: 0 0 12px; line-height: 1; display: block; }
   .bb-dev-item h3 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(19px, 1.9vw, 22px); line-height: 1.2; margin: 0 0 10px; }
@@ -273,7 +275,7 @@
       </div>
 
       <div class="seq-row seq-row--wide reveal">
-        <div class="seq-media"><img src="images/basketball-drive-wide-02-crop.png" alt="An athlete driving hard down the court with the ball."></div>
+        <div class="seq-media seq-media--dark"><img src="images/basketball-drive-wide-02-crop.png" alt="An athlete driving hard down the court with the ball."></div>
         <div class="seq-copy">
           <span class="seq-num">03 — Read</span>
           <h3>See It. Decide. Go.</h3>
@@ -319,14 +321,14 @@
         <p class="bb-dev-closing">Learn the game. Love it.<br>Ask for one more shot.</p>
       </div>
       <div class="bb-dev-item reveal">
-        <div class="bb-dev-photo"><img src="images/14_defensive_stance_crop.jpg" alt="Close crop of an athlete in a low defensive stance." style="object-position:50% 30%;"></div>
+        <div class="bb-dev-photo bb-dev-photo--dark"><img src="images/14_defensive_stance_crop.jpg" alt="Close crop of an athlete in a low defensive stance." style="object-position:50% 30%;"></div>
         <span class="bb-dev-range">Ages 10–13</span>
         <h3>Add Speed. Add Decisions.</h3>
         <p>Stronger fundamentals. Faster reads.<br>More competition.</p>
         <p class="bb-dev-closing">Less thinking. More playing.</p>
       </div>
       <div class="bb-dev-item reveal">
-        <div class="bb-dev-photo"><img src="images/athlete-defensive-dribble-stance.jpg" alt="An athlete in a low defensive dribble stance, teammates working in the background."></div>
+        <div class="bb-dev-photo bb-dev-photo--dark"><img src="images/athlete-defensive-dribble-stance.jpg" alt="An athlete in a low defensive dribble stance, teammates working in the background."></div>
         <span class="bb-dev-range">Ages 14+</span>
         <h3>Make It Game Ready.</h3>
         <p>Sharper reps. Smarter decisions. More pressure.</p>

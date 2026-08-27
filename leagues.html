@@ -47,12 +47,16 @@
     .roster-status-wrap { align-items: flex-start; }
   }
 
-  .lg-heard-tag { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 5vw, 56px); color: var(--black); line-height: 1.02; border-bottom: 4px solid var(--orange); padding-bottom: 14px; margin-bottom: 18px; width: fit-content; }
-  .lg-heard-commitments { display: flex; gap: 48px; flex-wrap: wrap; margin-top: 52px; padding-top: 40px; border-top: 1px solid var(--gray-mid); }
-  .lg-heard-item { flex: 1; min-width: 220px; }
+  .lg-heard-tag { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3vw, 36px); color: var(--black); line-height: 1.05; border-bottom: 4px solid var(--orange); padding-bottom: 14px; margin-bottom: 18px; width: fit-content; }
+  .lg-heard-commitments { display: flex; flex-direction: column; gap: 28px; margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--gray-mid); }
   .lg-heard-item h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(18px, 2vw, 22px); margin: 0 0 8px; color: var(--black); }
   .lg-heard-item p { font-size: 14.5px; line-height: 1.6; color: var(--gray-dark); margin: 0; max-width: 32ch; }
-  @media (max-width: 760px) { .lg-heard-commitments { flex-direction: column; gap: 24px; } }
+
+  .lg-roster-heard-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: start; }
+  @media (max-width: 900px) { .lg-roster-heard-grid { grid-template-columns: 1fr; gap: 56px; } }
+
+  .lg-families-line { text-align: center; font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 3vw, 30px); color: var(--black); line-height: 1.3; margin: 64px 0 0; border-top: 3px solid var(--orange); padding-top: 40px; }
+  .lg-families-line-sub { display: block; font-family: var(--font-heading); font-weight: 500; font-size: 15px; color: var(--gray-dark); margin-top: 10px; }
 
   .lg-roster-head { margin-bottom: 32px; }
   .lg-roster-head .section-sub { font-size: clamp(19px, 2.1vw, 22px); font-weight: 500; line-height: 1.5; max-width: 90ch; color: var(--gray-dark); }
@@ -66,7 +70,7 @@
 
   .lg-timeline { display: flex; align-items: flex-start; justify-content: center; gap: 0; margin-top: 48px; flex-wrap: wrap; }
   .lg-timeline-step { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 0 22px; min-width: 140px; }
-  .lg-timeline-date { font-family: var(--font-sport); font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); }
+  .lg-timeline-date { font-family: var(--font-sport); font-weight: 800; font-size: 16px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); }
   .lg-timeline-label { font-family: var(--font-display); font-weight: 900; font-size: clamp(17px, 1.7vw, 20px); color: var(--white); line-height: 1.2; }
   .lg-timeline-arrow { color: var(--orange); font-family: var(--font-display); font-weight: 900; font-size: 22px; align-self: center; padding-top: 22px; flex-shrink: 0; }
   @media (max-width: 760px) {
@@ -75,19 +79,7 @@
     .lg-timeline-arrow { display: none; }
   }
 
-  .lg-eval-detail { font-size: clamp(17px, 1.9vw, 19px); font-weight: 500; line-height: 1.6; color: var(--gray-dark); margin-top: 14px; max-width: 62ch; }
-  .lg-eval-reassure { font-family: var(--font-heading); font-weight: 800; font-size: 17px; margin: 0 0 6px; }
-  .lg-eval-reassure .accent { color: var(--orange); }
-  .lg-eval-date { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 2.8vw, 30px); color: var(--black) !important; margin: 0 !important; }
 
-  .why-league { padding: 100px 0; }
-  .why-league-big { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 4vw, 44px); line-height: 1.15; color: var(--black); margin: 28px 0 0; }
-  .why-league-mid { font-size: 17px; line-height: 1.65; color: var(--gray-dark); max-width: 66ch; margin: 24px 0 0; }
-  .why-league-big--close { margin-top: 24px; }
-  .why-league-payoff { text-align: center; font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 3.4vw, 34px); color: var(--black); line-height: 1.3; margin-top: 60px; border-top: 3px solid var(--orange); padding-top: 40px; }
-  .why-league-photo { margin-top: 48px; border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 21/7; }
-  .why-league-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  @media (max-width: 760px) { .why-league-photo { aspect-ratio: 4/3.4; } }
 
   .lg-know-list { max-width: 720px; margin: 44px auto 0; border-top: 1px solid var(--gray-mid); }
   .lg-know-row { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 22px 0; border-bottom: 1px solid var(--gray-mid); }
@@ -236,111 +228,81 @@
       <span class="lg-timeline-arrow">→</span>
       <div class="lg-timeline-step"><span class="lg-timeline-date">Dec 11&ndash;13</span><span class="lg-timeline-label">Tournament</span></div>
     </div>
-    <p class="lg-rhythm-sub" style="text-align:center; margin:40px auto 0;">One team practice each week. Saturday games. Group Training through your Courts membership.</p>
+    <p class="lg-rhythm-sub" style="text-align:center; margin:40px auto 0;">One team practice each week. Saturday games.<br>Group Training through your Courts membership.</p>
     <div style="text-align:center; margin-top:32px;">
       <a href="#register" class="btn btn-primary">Get in the League →</a>
     </div>
   </div>
 </section>
 
-<section style="padding:88px 0 100px;" id="evaluation">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">Fall League Evaluation</span>
-      <h2 class="section-title">Come Show Us Your Game.</h2>
-    </div>
-    <p class="lg-eval-detail" style="margin-top:0;">A few drills. A little play. A chance for coaches to see everybody before teams are set.</p>
-    <p class="lg-eval-reassure" style="margin-top:22px;">Placement, <span class="accent">not cuts.</span></p>
-    <p class="lg-eval-detail" style="margin-top:6px;">We're looking at how athletes move, make decisions, compete, and fit into a team.</p>
-    <div class="eval-callout">
-      <span class="eyebrow">Player Evaluation</span>
-      <p class="lg-eval-date">September 12 &middot; Time TBC</p>
-      <!-- [PINK — UPPER HAND EVALUATION REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
-      <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-primary" data-preset="Basketball Leagues" style="margin-top:22px;">Save Your Evaluation Spot →</a>
-    </div>
-  </div>
-</section>
 
 <section style="padding:0 0 100px;" id="roster">
   <div class="container">
-    <div class="section-head lg-roster-head">
-      <span class="eyebrow">Roster Watch</span>
-      <h2 class="section-title">Who&rsquo;s In?</h2>
-    </div>
+    <div class="lg-roster-heard-grid">
+      <div class="lg-roster-col">
+        <div class="section-head lg-roster-head">
+          <span class="eyebrow">Roster Watch</span>
+          <h2 class="section-title">Who&rsquo;s In?</h2>
+        </div>
 
-    <div class="roster-board">
-      <div class="roster-head"><span>Fall 2026</span><span>Status</span></div>
-      <div class="roster-row">
-        <div class="roster-grade-wrap">
-          <span class="roster-grade">3rd&ndash;4th Grade Boys</span>
-        </div>
-        <div class="roster-status-wrap">
-          <span class="roster-status roster-status--forming"><span class="dot"></span>Forming Now</span>
-          <a href="#register" class="roster-cta">Get In →</a>
+        <div class="roster-board">
+          <div class="roster-head"><span>Fall 2026</span><span>Status</span></div>
+          <div class="roster-row">
+            <div class="roster-grade-wrap">
+              <span class="roster-grade">3rd&ndash;4th Grade Boys</span>
+            </div>
+            <div class="roster-status-wrap">
+              <span class="roster-status roster-status--forming"><span class="dot"></span>Forming Now</span>
+              <a href="#register" class="roster-cta">Get In →</a>
+            </div>
+          </div>
+          <div class="roster-row">
+            <div class="roster-grade-wrap">
+              <span class="roster-grade">6th&ndash;7th Grade Boys</span>
+            </div>
+            <div class="roster-status-wrap">
+              <span class="roster-status roster-status--forming"><span class="dot"></span>Forming Now</span>
+              <a href="#register" class="roster-cta">Get In →</a>
+            </div>
+          </div>
+          <div class="roster-row">
+            <div class="roster-grade-wrap">
+              <span class="roster-grade">Girls Basketball</span>
+              <span class="roster-note">Tell us your athlete&rsquo;s grade. We&rsquo;re building teams around interest.</span>
+            </div>
+            <div class="roster-status-wrap">
+              <span class="roster-status roster-status--whosin">Building Now</span>
+              <a href="#register" class="roster-cta">Raise a Hand →</a>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="roster-row">
-        <div class="roster-grade-wrap">
-          <span class="roster-grade">6th&ndash;7th Grade Boys</span>
+
+      <div class="lg-heard-col" id="heard-you">
+        <div class="section-head">
+          <span class="lg-heard-tag">Built With Your Feedback</span>
+          <h2 class="section-title">The League, With a Few Smart Upgrades.</h2>
         </div>
-        <div class="roster-status-wrap">
-          <span class="roster-status roster-status--forming"><span class="dot"></span>Forming Now</span>
-          <a href="#register" class="roster-cta">Get In →</a>
-        </div>
-      </div>
-      <div class="roster-row">
-        <div class="roster-grade-wrap">
-          <span class="roster-grade">Girls Basketball</span>
-          <span class="roster-note">Tell us your athlete&rsquo;s grade. We&rsquo;re building teams around interest.</span>
-        </div>
-        <div class="roster-status-wrap">
-          <span class="roster-status roster-status--whosin">Building Now</span>
-          <a href="#register" class="roster-cta">Raise a Hand →</a>
+        <div class="lg-heard-commitments">
+          <div class="lg-heard-item">
+            <h3>Smaller Rosters.</h3>
+            <p>More touches. More playing time. More chances to be in the game.</p>
+          </div>
+          <div class="lg-heard-item">
+            <h3>Earlier Communication.</h3>
+            <p>Teams, schedules, and season details shared sooner, so families have more time to plan.</p>
+          </div>
+          <div class="lg-heard-item">
+            <h3>Keep Talking.</h3>
+            <p>Tell us what&rsquo;s working, what could be better, and what you&rsquo;d like to see next.</p>
+          </div>
         </div>
       </div>
     </div>
+    <p class="lg-families-line">Families shared what works. We took it to heart.<span class="lg-families-line-sub">The best leagues get better together.</span></p>
   </div>
 </section>
 
-<section style="padding:0 0 100px; background:var(--white);" id="heard-you">
-  <div class="container">
-    <div class="section-head">
-      <span class="lg-heard-tag">You Spoke. We Listened.</span>
-      <h2 class="section-title">More Basketball. Less Guessing.</h2>
-    </div>
-    <div class="lg-heard-commitments">
-      <div class="lg-heard-item">
-        <h3>Smaller Rosters.</h3>
-        <p>More touches. More opportunities to play.</p>
-      </div>
-      <div class="lg-heard-item">
-        <h3>Earlier Communication.</h3>
-        <p>Schedules and season details sooner.</p>
-      </div>
-      <div class="lg-heard-item">
-        <h3>Keep Talking.</h3>
-        <p>If something isn't working, tell us.</p>
-      </div>
-    </div>
-    <span class="courts-commentary">Turns out parents have opinions. Helpful ones.</span>
-  </div>
-</section>
-
-<section class="why-league" style="background:var(--gray-light);">
-  <div class="container">
-    <div class="section-head" style="max-width:640px;">
-      <span class="eyebrow">Why League Ball?</span>
-      <h2 class="section-title">Because Eventually, Somebody Has to Take the Shot.</h2>
-    </div>
-    <p class="why-league-big">Training gives athletes the reps.<br>Games give them the decisions.</p>
-    <p class="why-league-mid">Teammates. Pressure. Mistakes. Big plays. Weird plays. Possessions where absolutely nothing goes according to plan.</p>
-    <p class="why-league-big why-league-big--close">That's basketball, too.</p>
-    <p class="why-league-payoff">Play Together. Make Decisions. Compete.</p>
-    <div class="why-league-photo">
-      <img src="images/14_compete_basketball_game.png" alt="Athletes competing hard during a game at The Courts.">
-    </div>
-  </div>
-</section>
 
 <section style="padding:88px 0 100px;" id="cost">
   <div class="container">
@@ -369,10 +331,10 @@
       <p class="section-sub" style="margin-left:auto; margin-right:auto;">Registration closes September 20 at 5 PM.</p>
     </div>
     <div class="hero-ctas ctas" style="justify-content:center;">
-      <!-- [PINK — UPPER HAND FALL LEAGUE REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
-      <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-primary" data-preset="Basketball Leagues">Get in the League →</a>
       <!-- [PINK — UPPER HAND EVALUATION REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
       <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-secondary" data-preset="Basketball Leagues">Save Your Evaluation Spot →</a>
+      <!-- [PINK — UPPER HAND FALL LEAGUE REGISTRATION URL] Staging only. Replace href with the live Upper Hand registration link. -->
+      <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-primary" data-preset="Basketball Leagues">Get in the League →</a>
     </div>
     <p class="lg-register-reminder" style="text-align:center; margin-left:auto; margin-right:auto;">Weekly membership or higher required for league participation.</p>
   </div>
@@ -391,69 +353,6 @@
         <p class="lg-nextup-detail">Saturday games. One team practice each week.</p>
         <p class="lg-nextup-stat">Miss fall? We go again.</p>
         <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-primary" data-preset="Basketball Leagues">Get Winter Updates →</a>
-      </div>
-      <div class="lg-nextup-col">
-        <span class="lg-nextup-tag">Tuesday Night Basketball</span>
-        <span class="sgi-label">Gauging Interest</span>
-        <p class="lg-nextup-name">Still Got It?</p>
-        <p class="lg-nextup-body">Tuesday-night basketball for dads who know the game, miss the game, or have spent enough years explaining how it should be played.</p>
-        <p class="sgi-stat-lines">Real games. Real score. Questionable pace. Elite confidence.</p>
-        <button type="button" class="btn btn-primary sgi-cta" id="sgiToggle" aria-expanded="false" aria-controls="sgi-form">I Still Got It →</button>
-        <p class="lg-nextup-foot">Your hamstrings are on notice.</p>
-      </div>
-    </div>
-    <div class="sgi-formwrap-outer" id="sgi-form" hidden>
-      <div class="sgi-formwrap">
-        <form id="sgiForm">
-          <div class="sgi-form-grid">
-            <div><label for="sgiName">Name*</label><input type="text" id="sgiName" required></div>
-            <div><label for="sgiEmail">Email*</label><input type="email" id="sgiEmail" required></div>
-            <div><label for="sgiPhone">Phone <span class="sgi-optional">Optional</span></label><input type="tel" id="sgiPhone"></div>
-            <div>
-              <label for="sgiAge">Age Range <span class="sgi-optional">Optional</span></label>
-              <select id="sgiAge">
-                <option value="">Prefer not to say</option>
-                <option>Under 35</option>
-                <option>35–39</option>
-                <option>40–44</option>
-                <option>45–49</option>
-                <option>50+</option>
-              </select>
-            </div>
-            <div class="full">
-              <label>How Long Has It Been?</label>
-              <div class="sgi-radios">
-                <label><input type="radio" name="sgiExperience" value="Still play regularly"> Still play regularly</label>
-                <label><input type="radio" name="sgiExperience" value="Every now and then"> Every now and then</label>
-                <label><input type="radio" name="sgiExperience" value="It's been a minute"> It's been a minute</label>
-                <label><input type="radio" name="sgiExperience" value="Let's not talk about it"> Let's not talk about it</label>
-              </div>
-            </div>
-            <div class="full">
-              <label>Got a Few Guys?</label>
-              <div class="sgi-radios">
-                <label><input type="radio" name="sgiGroup" value="Just me"> Just me</label>
-                <label><input type="radio" name="sgiGroup" value="I could bring 1-2"> I could bring 1&ndash;2</label>
-                <label><input type="radio" name="sgiGroup" value="I could probably bring a team"> I could probably bring a team</label>
-              </div>
-            </div>
-            <div class="full">
-              <label>Does Tuesday Work?</label>
-              <div class="sgi-radios">
-                <label><input type="radio" name="sgiNight" value="Tuesday works"> Tuesday works</label>
-                <label><input type="radio" name="sgiNight" value="Another weeknight would be better"> Another weeknight would be better</label>
-                <label><input type="radio" name="sgiNight" value="Flexible"> Flexible</label>
-              </div>
-            </div>
-            <div class="full"><label for="sgiNotes">Anything else we should know? <span class="sgi-optional">Optional</span></label><textarea id="sgiNotes" rows="2"></textarea></div>
-          </div>
-          <button type="submit" class="btn btn-primary sgi-submit">I Still Got It →</button>
-        </form>
-        <div class="sgi-success" id="sgiSuccess">
-          <h3>You're on the List.</h3>
-          <p>We're seeing if Tuesday Night Dad Ball has legs.</p>
-          <p class="sgi-success-wink">Speaking of legs, maybe start stretching.</p>
-        </div>
       </div>
     </div>
   </div>
