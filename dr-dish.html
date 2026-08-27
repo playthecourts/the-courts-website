@@ -120,11 +120,19 @@
 
   /* ---------- Availability ---------- */
   .dd-pricing { background: var(--white); padding: 80px 0; }
-  .dd-avail-card { background: var(--charcoal); border-radius: var(--radius-md); padding: clamp(36px,4.4vw,52px); color: var(--white); text-align: center; }
+  .dd-avail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .dd-avail-col--countdown { background: var(--black); border-radius: var(--radius-md); padding: 56px 32px; }
+  .dd-avail-card { background: var(--charcoal); border-radius: var(--radius-md); padding: clamp(28px,3.4vw,40px); color: var(--white); text-align: left; margin-top: 24px; }
   .dd-avail-day { font-family: var(--font-sport); font-weight: 700; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin: 0 0 10px; }
-  .dd-avail-hours { font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 4vw, 46px); color: var(--white); margin: 0 0 22px; }
-  .dd-avail-note { font-size: 17px; line-height: 1.6; color: rgba(255,255,255,0.7); margin: 0; }
+  .dd-avail-hours { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3.4vw, 40px); color: var(--white); margin: 0 0 20px; }
+  .dd-avail-note { font-size: 15.5px; line-height: 1.6; color: rgba(255,255,255,0.7); margin: 0 0 10px; }
+  .dd-avail-note:last-child { margin-bottom: 0; }
   .dd-cta-center { text-align: center; margin-top: 40px; }
+  .dd-cta-left { margin-top: 28px; }
+  @media (max-width: 900px) {
+    .dd-avail-grid { grid-template-columns: 1fr; gap: 40px; }
+    .dd-avail-col--countdown { padding: 44px 24px; }
+  }
   @media (max-width: 700px) {
     .dd-pricing { padding: 60px 0; }
   }
@@ -369,14 +377,14 @@
     <div class="pre-footer-col">
       <span class="pre-footer-eyebrow">Ready?</span>
       <h3 class="pre-footer-title">Put Some Shots Up.</h3>
-      <p style="font-size:15px; color:var(--gray-dark); margin:-8px 0 18px;">Thirty minutes goes fast when nobody&rsquo;s chasing rebounds.</p>
+      <p style="font-size:15px; color:rgba(255,255,255,0.62); margin:-8px 0 18px;">Thirty minutes. A lot of reps. Nobody chasing rebounds.</p>
       <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206308-dr-dot-dish" class="pre-footer-link" data-booking-type="dr-dish">Book Dr. Dish <span class="arrow">→</span></a>
     </div>
     <div class="pre-footer-col">
-      <span class="pre-footer-eyebrow">Want Someone Watching, Too?</span>
-      <h3 class="pre-footer-title">Bring in a Coach.</h3>
-      <p style="font-size:15px; color:var(--gray-dark); margin:-8px 0 18px;">Private training adds real-time coaching, correction, and feedback to the reps.</p>
-      <a href="private-coaching" class="pre-footer-link">View Private Training <span class="arrow">→</span></a>
+      <span class="pre-footer-eyebrow">Want a Little Feedback With Those Reps?</span>
+      <h3 class="pre-footer-title">Add a Coach.</h3>
+      <p style="font-size:15px; color:rgba(255,255,255,0.62); margin:-8px 0 18px;">Get real-time coaching, corrections, and the kind of feedback that makes the next rep better.</p>
+      <a href="private-coaching" class="pre-footer-link">Explore Private Training <span class="arrow">→</span></a>
     </div>
   </div>
 </section>
