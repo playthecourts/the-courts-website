@@ -208,7 +208,7 @@
     </div>
     <div class="dd-hero-media">
       <div class="dd-hero-photo">
-        <img src="images/03_dr_dish_female_player.png" alt="An athlete shooting off the Dr. Dish rebounding machine." style="object-position:60% 30%;">
+        <img src="images/Arc1-Background.webp" alt="The Dr. Dish shooting machine, showing its ball feed and real-time shot arc display." style="object-position:50% 40%;">
       </div>
     </div>
   </div>
@@ -260,7 +260,7 @@
       <div class="dd-seq-grid">
         <div class="dd-seq-step reveal">
           <span class="dd-seq-num">01</span>
-          <div class="dd-seq-media"><img src="images/12_dr_dish_set_shot.png" alt="An athlete squared up, ball in hand, ready to start a Dr. Dish workout."></div>
+          <div class="dd-seq-media"><img src="images/03_dr_dish_female_player.png" alt="An athlete squared up, ball in hand, ready to start a Dr. Dish workout."></div>
           <h3>Pick Your Work.</h3>
           <p>Choose what you want to work on. Catch-and-shoot. Different spots. Shooting volume. Game-speed reps.</p>
           <p class="dd-seq-zinger">There are worse ways to spend 30 minutes.</p>
@@ -405,17 +405,31 @@
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion || !('IntersectionObserver' in window)) return;
 
-    var played = false;
-    function runDemo() {
-      if (played) return;
-      played = true;
-      timeEl.textContent = '30:01';
-      setTimeout(function () { timeEl.textContent = '30:00'; }, 400);
+    function formatTime(totalSeconds) {
+      var m = Math.floor(totalSeconds / 60);
+      var s = totalSeconds % 60;
+      return m + ':' + String(s).padStart(2, '0');
+    }
+
+    var started = false;
+    var timerId = null;
+    function runTimer() {
+      if (started) return;
+      started = true;
+      var seconds = 30 * 60;
+      timerId = setInterval(function () {
+        seconds--;
+        if (seconds < 0) {
+          clearInterval(timerId);
+          return;
+        }
+        timeEl.textContent = formatTime(seconds);
+      }, 1000);
     }
 
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) runDemo();
+        if (entry.isIntersecting) runTimer();
       });
     }, { threshold: 0.6 });
     io.observe(boardEl);
