@@ -112,7 +112,6 @@
 
   /* ---------- Availability ---------- */
   .dd-pricing { background: var(--white); padding: 108px 0; }
-  .dd-pricing-note { font-size: 13px; color: var(--gray-dark); max-width: 46ch; margin: 16px 0 0; }
   .dd-avail-card { background: var(--charcoal); border-radius: var(--radius-md); padding: clamp(28px,3.4vw,40px); color: var(--white); text-align: center; }
   .dd-avail-day { font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin: 0 0 8px; }
   .dd-avail-hours { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3.6vw, 40px); color: var(--white); margin: 0 0 18px; }
@@ -215,52 +214,53 @@
   </div>
 </section>
 
-<!-- ================= 2. SESSION + PRICING SNAPSHOT ================= -->
+<!-- ================= 2. SESSION + PRICING ================= -->
 <section class="dd-session">
-  <div class="container dd-session-grid">
+  <div class="container">
     <div class="dd-session-copy">
       <span class="eyebrow">Your Session</span>
       <h2>30 Minutes. Go.</h2>
-      <p>No chasing rebounds. No waiting for the ball to come back.</p>
-      <p class="dd-session-bold">It's 30 minutes built for shooting.</p>
-      <span class="dd-session-share">One or Two Athletes &middot; Same 30 Minutes</span>
-      <div class="dd-rate-snapshot">
-        <div class="dd-rate-snap-item"><span class="dd-rate-snap-label">Members</span><span class="dd-rate-snap-value">$20<small>/30 min</small></span></div>
-        <div class="dd-rate-snap-item"><span class="dd-rate-snap-label">Non-Members</span><span class="dd-rate-snap-value">$30<small>/30 min</small></span></div>
-        <div class="dd-rate-snap-item dd-rate-snap-item--included"><span class="dd-rate-snap-label">Full Court Members</span><span class="dd-rate-snap-value">2<small>/month included</small></span></div>
+      <p>No chasing rebounds. No waiting around.</p>
+      <p class="dd-session-bold">Just 30 minutes built for shooting.</p>
+      <div class="dd-price-grid">
+        <div class="dd-price-col"><span class="dd-price-label">Members</span><span class="dd-price-value">$20<small>/30 min</small></span></div>
+        <div class="dd-price-col"><span class="dd-price-label">Non-Members</span><span class="dd-price-value">$30<small>/30 min</small></span></div>
+        <div class="dd-price-col dd-price-col--included"><span class="dd-price-label">Full Court Members</span><span class="dd-price-value">2<small>included / month</small></span></div>
       </div>
-      <p class="dd-pricing-note">Basketball only. 1&ndash;2 athletes can share a reservation.</p>
+      <div class="dd-session-notes">
+        <p>1&ndash;2 athletes can share a reservation.</p>
+        <p>Basketball only. Advance reservation required.</p>
+      </div>
       <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206308-dr-dot-dish" class="btn btn-primary" data-booking-type="dr-dish">Book 30 Minutes →</a>
-    </div>
-    <div class="dd-session-clock reveal">
-      <div class="dd-clock-board" id="ddClockBoard">
-        <span class="dd-clock-time" id="ddClockTime">30:00</span>
-      </div>
-      <div class="dd-clock-tags" aria-hidden="true">
-        <span class="dd-clock-tag dd-clock-tag--1">Shots</span>
-        <span class="dd-clock-tag dd-clock-tag--2">Makes</span>
-        <span class="dd-clock-tag dd-clock-tag--3">Arc %</span>
-        <span class="dd-clock-tag dd-clock-tag--4">Consistency</span>
-        <span class="dd-clock-tag dd-clock-tag--5">Personal Best</span>
-      </div>
     </div>
   </div>
 </section>
 
-<!-- ================= 3. HOW IT WORKS ================= -->
+<!-- ================= 3. COUNTDOWN ================= -->
+<section class="dd-countdown">
+  <div class="container">
+    <div class="reveal" id="ddClockBoard">
+      <span class="dd-countdown-time" id="ddClockTime">30:00</span>
+      <span class="dd-countdown-line" aria-hidden="true"></span>
+      <span class="dd-countdown-caption">Ready. Set. Shoot.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4. HOW IT WORKS ================= -->
 <section class="dd-how" id="dd-how">
   <div class="container">
     <div class="dd-head">
       <span class="eyebrow">How It Works</span>
       <h2>Shoot. It&rsquo;ll Get the Ball.</h2>
-      <p style="font-size:18px;">Pick your spots. Start the workout. Shoot.<br>Dr. Dish sends the ball back, keeps the reps moving, and gives athletes feedback while they work.</p>
+      <p style="font-size:18px;">Pick your spots. Start the workout. Shoot.<br>Dr. Dish sends the ball back so the reps keep moving.</p>
     </div>
     <div class="dd-seq">
       <svg class="dd-seq-trail" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M20,32 Q 300,4 600,20 T 1180,10"/></svg>
       <div class="dd-seq-grid">
         <div class="dd-seq-step reveal">
           <span class="dd-seq-num">01</span>
-          <div class="dd-seq-media"><img src="images/08_volleyball_ball_cart.png" alt="A rack of basketballs and volleyballs at The Courts."></div>
+          <div class="dd-seq-media"><img src="images/12_dr_dish_set_shot.png" alt="An athlete squared up, ball in hand, ready to start a Dr. Dish workout."></div>
           <h3>Pick Your Work.</h3>
           <p>Choose what you want to work on. Catch-and-shoot. Different spots. Shooting volume. Game-speed reps.</p>
           <p class="dd-seq-zinger">There are worse ways to spend 30 minutes.</p>
@@ -278,8 +278,8 @@
         <div class="dd-seq-step reveal">
           <span class="dd-seq-num">03</span>
           <div class="dd-seq-media"><img src="images/04_dr_dish_older_player.png" alt="An athlete checking real-time shot arc and make percentage on the Dr. Dish display."></div>
-          <h3>Get the Feedback.</h3>
-          <p>Makes and misses are only part of the story. Dr. Dish can track shot arc in real time, so athletes can adjust while they work. Saved performance data helps them see patterns and progress the next time they come back.</p>
+          <h3>See What's Working.</h3>
+          <p>Use the feedback available during your workout to make adjustments and keep building consistency.</p>
           <p class="dd-seq-zinger">Some days it's you vs. the machine. Some days it's you vs. last Tuesday.</p>
         </div>
       </div>
@@ -288,47 +288,19 @@
   </div>
 </section>
 
-<!-- ================= 4. FEEDBACK + PROGRESS ================= -->
-<section class="dd-feedback">
-  <div class="container">
-    <div class="dd-head">
-      <span class="eyebrow">Feedback + Progress</span>
-      <h2>Your Shot Has <span class="accent">Stats</span> Now.</h2>
-      <p>Dr. Dish goes beyond makes and misses.<br>Its Arc Tracking measures shot arc in real time, giving athletes another way to understand what their shot is doing while they work.</p>
-    </div>
-    <div class="dd-framework reveal">
-      <div class="dd-framework-step"><span class="dd-framework-label">Shot Arc</span><span class="dd-framework-verb">See it.</span></div>
-      <div class="dd-framework-arrow">→</div>
-      <div class="dd-framework-step"><span class="dd-framework-label">Results</span><span class="dd-framework-verb">Track it.</span></div>
-      <div class="dd-framework-arrow">→</div>
-      <div class="dd-framework-step"><span class="dd-framework-label">Consistency</span><span class="dd-framework-verb">Build it.</span></div>
-      <div class="dd-framework-arrow">→</div>
-      <div class="dd-framework-step"><span class="dd-framework-label">Progress</span><span class="dd-framework-verb">Come back<br>and prove it.</span></div>
-    </div>
-    <div class="dd-dashboard-wrap reveal">
-      <!-- [PLACEHOLDER — REAL DR. DISH SHOT ARC RESULTS DASHBOARD SCREENSHOT] Staging only. Replace src with the actual product screenshot once the image file is added to images/. -->
-      <img class="dd-dashboard-img" src="images/dr-dish-shot-arc-results.png" alt="The real Dr. Dish Shot Arc Results dashboard, showing shot-by-shot arc, average arc, consistency grade, optimal arc, arc streak, and make percentage.">
-      <p class="dd-dashboard-caption">The actual Dr. Dish Shot Arc Results screen</p>
-    </div>
-  </div>
-</section>
 
-<!-- ================= 6. PRICING + AVAILABILITY ================= -->
+<!-- ================= 5. AVAILABILITY ================= -->
 <section class="dd-pricing">
   <div class="container">
     <div class="dd-head">
       <span class="eyebrow">Availability</span>
-      <h2>Pick a Time. <br class="br-desktop">Bring Your Shot.</h2>
-      <p>We'll handle the rebounds.</p>
+      <h2>Sundays Are for Shots.</h2>
     </div>
     <!-- [PINK — CONFIRM DR. DISH AVAILABILITY. Currently showing Sundays 10 AM–6 PM as the recommended window; do not treat as final until confirmed against the actual facility schedule.] -->
     <div class="dd-avail-card reveal" style="max-width:460px; margin:44px auto 0;">
-      <span class="dd-avail-eyebrow">Availability</span>
-      <p class="dd-avail-title">Sundays Are for Shots.</p>
       <p class="dd-avail-day">Sundays</p>
       <p class="dd-avail-hours">10 AM&ndash;6 PM</p>
       <p class="dd-avail-note">Select additional times may be available when the court is open. Advance reservation required.</p>
-      <p class="dd-avail-wink">Sunday plans: handled.</p>
     </div>
     <div class="dd-cta-center">
       <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206308-dr-dot-dish" class="btn btn-primary" data-booking-type="dr-dish">Book Dr. Dish →</a>
@@ -336,6 +308,7 @@
   </div>
 </section>
 
+<!-- ================= 6. FINAL CTA ================= -->
 <section class="pre-footer">
   <div class="container pre-footer-inner">
     <div class="pre-footer-col">
@@ -432,28 +405,12 @@
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion || !('IntersectionObserver' in window)) return;
 
-    function formatTime(totalSeconds) {
-      var m = Math.floor(totalSeconds / 60);
-      var s = totalSeconds % 60;
-      return m + ':' + String(s).padStart(2, '0');
-    }
-
     var played = false;
     function runDemo() {
       if (played) return;
       played = true;
-      var seconds = 30 * 60;
-      var ticks = 6;
-      var i = 0;
-      var interval = setInterval(function () {
-        i++;
-        seconds--;
-        timeEl.textContent = formatTime(seconds);
-        if (i >= ticks) {
-          clearInterval(interval);
-          setTimeout(function () { timeEl.textContent = '30:00'; }, 900);
-        }
-      }, 700);
+      timeEl.textContent = '30:01';
+      setTimeout(function () { timeEl.textContent = '30:00'; }, 400);
     }
 
     var io = new IntersectionObserver(function (entries) {
