@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dr. Dish | The Courts — Nolensville, TN</title>
-<meta name="description" content="Thirty minutes. A ball that keeps coming back. Dr. Dish shooting-machine sessions at The Courts in Nolensville, TN — reps, real-time feedback, and a little competition.">
+<meta name="description" content="Book Dr. Dish shooting-machine sessions at The Courts in Nolensville, TN — solo, with a teammate, in a 10-session package, through Full Court membership, or for your whole team.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
@@ -87,35 +87,61 @@
   .dd-chant-row { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: clamp(16px, 4vw, 44px); }
   .dd-chant-word { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 6.2vw, 84px); line-height: 1; letter-spacing: -0.01em; text-transform: uppercase; color: var(--white); }
   .dd-chant-word--accent { color: var(--orange); }
+
+  /* ---------- Workouts ---------- */
+  .dd-workouts { background: var(--white); padding: 90px 0; }
+  .dd-workout-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; max-width: 780px; margin: 44px auto 0; }
+  .dd-workout-tags span { font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--black); border: 1.5px solid var(--gray-mid); border-radius: 999px; padding: 10px 20px; }
+  .dd-workouts-note { text-align: center; font-size: 14px; font-style: italic; color: var(--gray-dark); margin: 32px 0 0; }
+
+  /* ---------- Keep Going ladder ---------- */
+  .dd-consistency { background: var(--black); padding: 90px 0; }
+  .dd-ladder { display: flex; align-items: stretch; gap: 0; margin-top: 56px; flex-wrap: wrap; justify-content: center; }
+  .dd-ladder-step { flex: 1; min-width: 190px; text-align: center; padding: 0 20px; }
+  .dd-ladder-num { display: block; font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; color: var(--orange); margin-bottom: 10px; }
+  .dd-ladder-step h3 { font-family: var(--font-display); font-weight: 900; font-size: 21px; color: var(--white); margin: 0 0 8px; }
+  .dd-ladder-step p { font-size: 13.5px; line-height: 1.5; color: rgba(255,255,255,0.65); margin: 0 0 14px; }
+  .dd-ladder-price { font-family: var(--font-display); font-weight: 900; font-size: 20px; color: var(--white); }
+  .dd-ladder-price small { display: block; font-family: var(--font-heading); font-weight: 600; font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+  .dd-ladder-step--full { background: rgba(213,96,31,0.1); border-radius: var(--radius-md); padding: 24px 20px; }
+  .dd-ladder-link { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--orange); }
+  .dd-ladder-arrow { color: var(--orange); font-family: var(--font-display); font-weight: 900; font-size: 20px; align-self: center; flex-shrink: 0; }
+  @media (max-width: 900px) {
+    .dd-ladder { flex-direction: column; align-items: stretch; max-width: 320px; margin-left: auto; margin-right: auto; }
+    .dd-ladder-step { text-align: left; padding: 0; }
+    .dd-ladder-arrow { display: none; }
+  }
   @media (max-width: 900px) {
     .dd-how { padding: 60px 0; }
     .dd-seq-trail { display: none; }
     .dd-seq-grid { grid-template-columns: 1fr; gap: 44px; }
   }
 
-  /* ---------- 30-Minute Session + Pricing ---------- */
-  .dd-session { background: var(--black); padding: 80px 0 72px; }
+  /* ---------- Quick Booking Options ---------- */
+  .dd-quick { background: var(--black); padding: 80px 0 72px; }
   .dd-session-copy { max-width: 640px; margin: 0 auto; text-align: center; }
   .dd-session-copy .eyebrow { font-size: 19px; }
   .dd-session-copy h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3.6vw, 52px); line-height: 1.05; color: var(--white); margin: 12px 0 16px; white-space: nowrap; }
   @media (max-width: 480px) { .dd-session-copy h2 { white-space: normal; } }
   .dd-session-copy p { font-size: 16.5px; line-height: 1.7; color: rgba(255,255,255,0.7); max-width: 44ch; margin: 0 auto 8px; }
   .dd-session-bold { font-family: var(--font-heading); font-weight: 800; font-size: 19px; color: var(--white) !important; margin: 6px auto 0 !important; }
-  .dd-price-grid { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 780px; margin: 52px auto 0; }
-  .dd-price-col { padding: 4px 28px; border-left: 1px solid rgba(255,255,255,0.16); }
-  .dd-price-col:first-child { border-left: none; }
-  .dd-price-label { display: block; font-family: var(--font-sport); font-weight: 700; font-size: 14px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
-  .dd-price-value { font-family: var(--font-display); font-weight: 900; font-size: clamp(36px, 4.4vw, 52px); color: var(--white); line-height: 1; }
-  .dd-price-value small { display: block; font-family: var(--font-heading); font-weight: 600; font-size: 15px; color: rgba(255,255,255,0.55); margin-top: 10px; }
-  .dd-price-col--included .dd-price-value { color: var(--orange); }
-  .dd-session-notes { margin: 40px 0 34px; }
-  .dd-session-notes p { font-size: 14.5px; font-style: italic; color: rgba(255,255,255,0.62); line-height: 1.3; margin: 0 auto 2px; }
-  @media (max-width: 700px) {
-    .dd-session { padding: 60px 0; }
-    .dd-price-grid { grid-template-columns: 1fr; max-width: 320px; gap: 26px; }
-    .dd-price-col { border-left: none; border-top: 1px solid rgba(255,255,255,0.16); padding: 22px 0 0; }
-    .dd-price-col:first-child { border-top: none; padding-top: 0; }
-  }
+
+  .dd-quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1040px; margin: 56px auto 0; }
+  .dd-quick-card { background: var(--charcoal); border-top: 3px solid var(--orange); border-radius: var(--radius-md); padding: 32px 28px; display: flex; flex-direction: column; }
+  .dd-quick-label { font-family: var(--font-display); font-weight: 900; font-size: 21px; color: var(--white); margin-bottom: 6px; }
+  .dd-quick-meta { font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin: 0 0 18px; }
+  .dd-quick-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3vw, 36px); color: var(--white); margin: 0 0 14px; }
+  .dd-quick-member { display: block; font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--orange); margin-top: 4px; }
+  .dd-quick-body { font-size: 14.5px; line-height: 1.6; color: rgba(255,255,255,0.68); margin: 0 0 24px; flex-grow: 1; }
+  .dd-quick-card .btn { align-self: flex-start; }
+  .dd-quick-footnote { font-size: 12.5px; font-style: italic; color: rgba(255,255,255,0.45); margin: 12px 0 0; }
+  @media (max-width: 860px) { .dd-quick-grid { grid-template-columns: 1fr; max-width: 420px; } }
+
+  .dd-fullcourt-callout { max-width: 720px; margin: 48px auto 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.14); padding-top: 32px; }
+  .dd-fullcourt-callout p { font-size: 15.5px; line-height: 1.6; color: rgba(255,255,255,0.72); margin: 0 0 12px; }
+  .dd-fullcourt-callout strong { color: var(--white); }
+  .dd-fullcourt-callout a { font-family: var(--font-heading); font-weight: 700; font-size: 14.5px; color: var(--orange); }
+  @media (max-width: 700px) { .dd-quick { padding: 60px 0; } }
 
   /* ---------- Countdown ---------- */
   .dd-countdown-time { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(46px, 5.6vw, 72px); color: var(--gray-light); letter-spacing: 0.01em; line-height: 1; font-variant-numeric: tabular-nums; }
@@ -141,6 +167,66 @@
   @media (max-width: 700px) {
     .dd-pricing { padding: 60px 0; }
   }
+
+  /* ---------- Know Your Numbers (future stats) ---------- */
+  .dd-stats-teaser { background: var(--charcoal); padding: 90px 0; text-align: center; }
+  .dd-stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: rgba(255,255,255,0.1); max-width: 860px; margin: 48px auto 0; border-radius: var(--radius-md); overflow: hidden; }
+  .dd-stats-tile { background: var(--black); padding: 28px 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .dd-stats-value { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3vw, 34px); color: rgba(255,255,255,0.3); }
+  .dd-stats-label { font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+  .dd-coming-soon { display: inline-block; margin-top: 32px; font-family: var(--font-sport); font-weight: 800; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); background: var(--orange); padding: 8px 18px; border-radius: 999px; }
+  .dd-coming-soon--dark { color: var(--white); background: var(--black); }
+  @media (max-width: 760px) { .dd-stats-grid { grid-template-columns: repeat(2, 1fr); max-width: 340px; } }
+
+  /* ---------- Leaderboards ---------- */
+  .dd-leaderboard { background: var(--white); padding: 90px 0; text-align: center; }
+  .dd-lb-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; max-width: 780px; margin: 44px auto 0; }
+  .dd-lb-tile { font-family: var(--font-display); font-weight: 900; font-size: 15px; color: var(--white); padding: 16px 22px; border-radius: var(--radius-md); }
+  .dd-lb-tile--1 { background: var(--orange); }
+  .dd-lb-tile--2 { background: #2E9E7C; }
+  .dd-lb-tile--3 { background: #8B5FA8; }
+  .dd-lb-tile--4 { background: var(--black); }
+  .dd-lb-payoff { font-family: var(--font-heading); font-weight: 700; font-size: 17px; color: var(--black); margin: 36px 0 0; }
+
+  /* ---------- Teams + Programs ---------- */
+  .dd-teams { background: var(--black); padding: 100px 0; }
+  .dd-teams-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 860px; margin: 40px auto 0; }
+  .dd-teams-tags span { font-family: var(--font-sport); font-weight: 700; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(255,255,255,0.75); border: 1.5px solid rgba(255,255,255,0.25); border-radius: 999px; padding: 8px 16px; }
+  .dd-team-price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; max-width: 900px; margin: 56px auto 0; }
+  .dd-team-price-card { background: var(--charcoal); border-radius: var(--radius-md); padding: 36px 32px; }
+  .dd-team-price-card h3 { font-family: var(--font-display); font-weight: 900; font-size: 24px; color: var(--white); margin: 0 0 14px; }
+  .dd-team-price-card p { font-size: 14.5px; line-height: 1.6; color: rgba(255,255,255,0.68); margin: 0 0 14px; }
+  .dd-team-price-card strong { color: var(--white); }
+  .dd-team-price { font-family: var(--font-display); font-weight: 900; font-size: 40px; color: var(--white); margin: 0 0 16px; }
+  .dd-team-price small { font-family: var(--font-heading); font-weight: 600; font-size: 15px; color: rgba(255,255,255,0.55); }
+  .dd-team-price-card--founding { border: 1.5px solid var(--orange); }
+  .dd-founding-badge { display: inline-block; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-weight: 800; font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; margin-bottom: 14px; }
+  @media (max-width: 760px) { .dd-team-price-grid { grid-template-columns: 1fr; } }
+
+  .dd-intro-banner { max-width: 640px; margin: 56px auto 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.14); padding-top: 44px; }
+  .dd-intro-banner h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 2.8vw, 32px); color: var(--white); margin: 0 0 14px; }
+  .dd-intro-banner p { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.68); margin: 0 0 10px; }
+  .dd-limited-note { display: block; font-size: 13px; font-style: italic; color: rgba(255,255,255,0.45); margin: 14px 0 20px; }
+  .dd-intro-link { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--orange); }
+
+  .dd-team-example { max-width: 480px; margin: 64px auto 0; text-align: center; }
+  .dd-team-example .eyebrow { display: block; margin-bottom: 20px; }
+  .dd-team-example-card { background: var(--charcoal); border-left: 3px solid var(--orange); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 26px 30px; text-align: left; }
+  .dd-team-example-card h4 { font-family: var(--font-display); font-weight: 900; font-size: 19px; color: var(--white); margin: 0 0 8px; }
+  .dd-team-example-card p { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.68); margin: 0 0 8px; }
+  .dd-team-example-price { font-family: var(--font-heading); font-weight: 700; color: var(--orange) !important; }
+  .dd-team-example-note { font-size: 12.5px; font-style: italic; color: rgba(255,255,255,0.45); margin: 16px 0 0; }
+
+  /* ---------- Membership connection ---------- */
+  .dd-membership-link { background: var(--white); padding: 96px 0; }
+  .dd-fc-highlight { max-width: 480px; margin: 48px auto 0; background: var(--gray-light); border-radius: var(--radius-md); padding: 36px 40px; text-align: left; }
+  .dd-fc-highlight h3 { font-family: var(--font-display); font-weight: 900; font-size: 21px; margin: 0 0 18px; }
+  .dd-fc-highlight ul { margin: 0 0 26px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .dd-fc-highlight li { font-size: 15px; color: var(--gray-dark); padding-left: 16px; position: relative; }
+  .dd-fc-highlight li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); }
+
+  /* ---------- Good to Know ---------- */
+  .dd-faq { background: var(--gray-light); padding: 96px 0; }
 
 </style>
 </head>
@@ -285,12 +371,12 @@
         <span class="dd-hero-badge">Dr. Dish</span>
         <span class="dd-hero-badge-sub">Basketball Only</span>
       </div>
-      <h1 class="dd-hero-title">More Shots. <br class="br-desktop">Less Chasing <br class="br-desktop"><span class="accent">Rebounds.</span></h1>
-      <p class="dd-hero-sub">Thirty minutes. One ball that keeps coming back.</p>
-      <p class="dd-hero-bold">You shoot. It feeds. You shoot again.</p>
+      <h1 class="dd-hero-title">More Shots. <br class="br-desktop">Better <span class="accent">Reps.</span></h1>
+      <p class="dd-hero-sub">Hundreds of purposeful reps without chasing a ball across the gym.</p>
+      <p class="dd-hero-bold">Work on your shot, track your progress, and get more out of the time you already spend in the gym.</p>
       <div class="dd-hero-ctas">
-        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206308-dr-dot-dish" class="btn btn-primary" data-booking-type="dr-dish">Book 30 Minutes →</a>
-        <a href="#dd-how" class="dd-hero-link">See How It Works ↓</a>
+        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206308-dr-dot-dish" class="btn btn-primary" data-booking-type="dr-dish">Book Dr. Dish →</a>
+        <a href="membership" class="dd-hero-link">See Membership Options →</a>
       </div>
     </div>
     <div class="dd-hero-media">
@@ -310,25 +396,44 @@
   </div>
 </section>
 
-<!-- ================= 2. SESSION + PRICING ================= -->
-<section class="dd-session">
+<!-- ================= 2. QUICK BOOKING OPTIONS ================= -->
+<section class="dd-quick">
   <div class="container">
-    <div class="dd-session-copy">
+    <div class="dd-session-copy" style="margin-bottom:0;">
       <span class="eyebrow">Your Session</span>
       <h2>30 Minutes. Don&rsquo;t Waste Them.</h2>
       <p>No rebounding. No standing around. No waiting for somebody to pass it back.</p>
       <p class="dd-session-bold">Just you, the ball, and a very persistent machine.</p>
-      <div class="dd-price-grid">
-        <div class="dd-price-col"><span class="dd-price-label">Members</span><span class="dd-price-value">$20<small>/30 min</small></span></div>
-        <div class="dd-price-col"><span class="dd-price-label">Non-Members</span><span class="dd-price-value">$30<small>/30 min</small></span></div>
-        <div class="dd-price-col dd-price-col--included"><span class="dd-price-label">Full Court Members</span><span class="dd-price-value">2<small>included / month</small></span></div>
+    </div>
+    <div class="dd-quick-grid">
+      <div class="dd-quick-card reveal">
+        <span class="dd-quick-label">Go Solo</span>
+        <p class="dd-quick-meta">1 Athlete &middot; 30 Minutes</p>
+        <p class="dd-quick-price">$30 <span class="dd-quick-member">Members $20</span></p>
+        <p class="dd-quick-body">Focused shooting work with the machine to yourself.</p>
+        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206308-dr-dot-dish" class="btn btn-primary" data-booking-type="dr-dish">Book a Solo Session →</a>
       </div>
-      <div class="dd-session-notes">
-        <p>1&ndash;2 athletes can share a reservation.</p>
-        <p>Advance reservation required.</p>
-        <p style="margin-top:10px;">Basketball only. For obvious reasons.</p>
+      <div class="dd-quick-card reveal">
+        <span class="dd-quick-label">Bring a Teammate</span>
+        <p class="dd-quick-meta">2 Athletes &middot; 30 Minutes</p>
+        <p class="dd-quick-price">$50 <span class="dd-quick-member">total</span></p>
+        <p class="dd-quick-body">More reps. A little competition. Someone to blame when you lose the shooting challenge.</p>
+        <!-- [PINK — UPPER HAND DR. DISH DUO BOOKING URL] Staging only. Replace href once the separate two-athlete Upper Hand event is live. -->
+        <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="btn btn-primary" data-preset="Programs + Membership">Book for Two →</a>
+        <p class="dd-quick-footnote">Both athletes share the 30-minute session.</p>
       </div>
-      <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206308-dr-dot-dish" class="btn btn-primary" data-booking-type="dr-dish">Book 30 Minutes →</a>
+      <div class="dd-quick-card reveal">
+        <span class="dd-quick-label">Get 10</span>
+        <p class="dd-quick-meta">10 Individual Sessions</p>
+        <p class="dd-quick-price">$250</p>
+        <p class="dd-quick-body">For athletes who want Dr. Dish to become part of their regular routine.</p>
+        <!-- [PINK — UPPER HAND DR. DISH 10-SESSION PACKAGE URL] Staging only. Replace href once the Upper Hand purchase link is live. -->
+        <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="btn btn-primary" data-preset="Programs + Membership">Buy 10 Sessions →</a>
+      </div>
+    </div>
+    <div class="dd-fullcourt-callout reveal">
+      <p>Full Court Basketball members get <strong>two individual Dr. Dish sessions every month</strong>, with additional sessions at the <strong>$20 member rate</strong>.</p>
+      <a href="membership#plan-selector">See Full Court →</a>
     </div>
   </div>
 </section>
@@ -382,6 +487,67 @@
   </div>
 </section>
 
+<!-- ================= WORKOUTS ================= -->
+<section class="dd-workouts">
+  <div class="container">
+    <div class="dd-head">
+      <span class="eyebrow">Not Just Shots</span>
+      <h2>Come In With a Plan.</h2>
+      <p>Choose a workout, chase a personal best, or use a Courts-created session built around the same skills our coaches are working on in training.</p>
+    </div>
+    <div class="dd-workout-tags">
+      <span>Catch + Shoot</span>
+      <span>Game-Speed Shooting</span>
+      <span>Free Throws</span>
+      <span>Midrange</span>
+      <span>Shot-Making Challenges</span>
+      <span>Position-Specific Work</span>
+      <span>Courts Coach Workouts</span>
+    </div>
+    <p class="dd-workouts-note">More Courts workouts are coming as we build the training library.</p>
+  </div>
+</section>
+
+<!-- ================= KEEP GOING ================= -->
+<section class="dd-consistency">
+  <div class="container">
+    <div class="dd-head dd-head--light">
+      <span class="eyebrow">Keep Going</span>
+      <h2>One Session Is Good. <br class="br-desktop">Consistency Is Better.</h2>
+      <p>Dr. Dish works best when athletes come back, get more reps, and build on what they did last time.</p>
+    </div>
+    <div class="dd-ladder">
+      <div class="dd-ladder-step reveal">
+        <span class="dd-ladder-num">01</span>
+        <h3>Try It</h3>
+        <p>One individual 30-minute session.</p>
+        <span class="dd-ladder-price">$30 <small>Members $20</small></span>
+      </div>
+      <span class="dd-ladder-arrow" aria-hidden="true">→</span>
+      <div class="dd-ladder-step reveal">
+        <span class="dd-ladder-num">02</span>
+        <h3>Bring Someone</h3>
+        <p>Two athletes share one 30-minute session.</p>
+        <span class="dd-ladder-price">$50 <small>total</small></span>
+      </div>
+      <span class="dd-ladder-arrow" aria-hidden="true">→</span>
+      <div class="dd-ladder-step reveal">
+        <span class="dd-ladder-num">03</span>
+        <h3>Get 10</h3>
+        <p>Ten individual sessions.</p>
+        <span class="dd-ladder-price">$250</span>
+      </div>
+      <span class="dd-ladder-arrow" aria-hidden="true">→</span>
+      <div class="dd-ladder-step dd-ladder-step--full reveal">
+        <span class="dd-ladder-num">04</span>
+        <h3>Go Full Court</h3>
+        <p>Unlimited basketball group training, Open Gym, private training, and two Dr. Dish sessions every month.</p>
+        <a href="membership#plan-selector" class="dd-ladder-link">See Full Court →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ================= 5. AVAILABILITY ================= -->
 <section class="dd-pricing">
   <div class="container">
@@ -410,6 +576,173 @@
           <span class="dd-countdown-wink">The ball comes back. Like it has manners.</span>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= KNOW YOUR NUMBERS ================= -->
+<section class="dd-stats-teaser">
+  <div class="container">
+    <div class="dd-head dd-head--light">
+      <span class="eyebrow">Know Your Numbers</span>
+      <h2>More Than Makes.</h2>
+      <p>We&rsquo;re building ways for athletes to use their Dr. Dish data to understand their shooting, set goals, and see progress over time.</p>
+    </div>
+    <div class="dd-stats-grid">
+      <div class="dd-stats-tile"><span class="dd-stats-value">&mdash;</span><span class="dd-stats-label">Shooting %</span></div>
+      <div class="dd-stats-tile"><span class="dd-stats-value">&mdash;</span><span class="dd-stats-label">Makes</span></div>
+      <div class="dd-stats-tile"><span class="dd-stats-value">&mdash;</span><span class="dd-stats-label">Attempts</span></div>
+      <div class="dd-stats-tile"><span class="dd-stats-value">&mdash;</span><span class="dd-stats-label">Personal Best</span></div>
+      <div class="dd-stats-tile"><span class="dd-stats-value">&mdash;</span><span class="dd-stats-label">Workout History</span></div>
+    </div>
+    <span class="dd-coming-soon">Coming Soon</span>
+  </div>
+</section>
+
+<!-- ================= LEADERBOARDS ================= -->
+<section class="dd-leaderboard">
+  <div class="container">
+    <div class="dd-head">
+      <span class="eyebrow">Think You Can Shoot?</span>
+      <h2>Prove It.</h2>
+      <p>Monthly Dr. Dish challenges are coming to The Courts.</p>
+    </div>
+    <div class="dd-lb-grid">
+      <span class="dd-lb-tile dd-lb-tile--1">Most Makes</span>
+      <span class="dd-lb-tile dd-lb-tile--2">Best Shooting Percentage</span>
+      <span class="dd-lb-tile dd-lb-tile--3">Free Throw Challenge</span>
+      <span class="dd-lb-tile dd-lb-tile--4">Personal Best</span>
+      <span class="dd-lb-tile dd-lb-tile--1">Age-Group Leaderboards</span>
+    </div>
+    <p class="dd-lb-payoff">Come back. Beat your number. See where you land.</p>
+    <span class="dd-coming-soon dd-coming-soon--dark">Coming Soon</span>
+  </div>
+</section>
+
+<!-- ================= TEAMS + PROGRAMS ================= -->
+<section class="dd-teams" id="teams">
+  <div class="container">
+    <div class="dd-head dd-head--light">
+      <span class="eyebrow">Teams + Programs</span>
+      <h2>Put the Whole Team to Work.</h2>
+      <p>Dr. Dish isn&rsquo;t just for individual workouts.</p>
+      <p>Youth teams, travel programs, AAU programs, coaches, and training groups can reserve dedicated Dr. Dish time for their athletes.</p>
+      <p>More reps. Less standing around. A way to get multiple athletes meaningful shooting work while coaches stay focused on coaching.</p>
+    </div>
+    <div class="dd-teams-tags">
+      <span>Team Shooting Sessions</span>
+      <span>Recurring Weekly Blocks</span>
+      <span>Boys + Girls Programs</span>
+      <span>Travel / AAU Programs</span>
+      <span>Grades 4&ndash;8</span>
+      <span>Small-Group Shooting Work</span>
+      <span>Courts Workout Library</span>
+      <span>Seasonal Arrangements</span>
+    </div>
+
+    <div class="dd-team-price-grid">
+      <div class="dd-team-price-card">
+        <h3>Team Dr. Dish Block</h3>
+        <p class="dd-team-price">$100<small>/hour</small></p>
+        <p>Dedicated Dr. Dish and court access for your team or program.</p>
+        <!-- [PINK — TEAM DR. DISH BOOKING/INQUIRY URL] Staging only. Replace href once a real booking flow exists. -->
+        <a href="contact?interest=Community%20%2B%20Partnerships#contact-form" class="btn btn-on-dark" data-preset="Community + Partnerships">Reserve Team Time →</a>
+      </div>
+      <div class="dd-team-price-card dd-team-price-card--founding">
+        <span class="dd-founding-badge">Founding Program Rate</span>
+        <h3>Local Program? Let&rsquo;s Talk.</h3>
+        <p>Select local youth and travel programs can lock in recurring Dr. Dish time at a <strong>$75/hour Founding Program Rate</strong> during launch.</p>
+        <p>Give your team a consistent weekly shooting block, get more athletes meaningful reps, and know the time is already yours.</p>
+        <!-- [PINK — TEAM DR. DISH BOOKING/INQUIRY URL] Staging only. Replace href once a real booking flow exists. -->
+        <a href="contact?interest=Community%20%2B%20Partnerships#contact-form" class="btn btn-primary" data-preset="Community + Partnerships">Ask About a Recurring Block →</a>
+      </div>
+    </div>
+
+    <div class="dd-intro-banner">
+      <h3>Want to Try It First?</h3>
+      <p>We&rsquo;re opening a limited number of introductory Dr. Dish sessions for local youth programs.</p>
+      <p>Bring your athletes in and we&rsquo;ll put them through a Courts shooting workout so coaches and families can see how it works.</p>
+      <span class="dd-limited-note">Limited introductory sessions available for select local youth programs.</span>
+      <!-- [PINK — TEAM DR. DISH BOOKING/INQUIRY URL] Staging only. Replace href once a real booking flow exists. -->
+      <a href="contact?interest=Community%20%2B%20Partnerships#contact-form" class="dd-intro-link" data-preset="Community + Partnerships">Ask About an Intro Session →</a>
+    </div>
+
+    <div class="dd-team-example">
+      <span class="eyebrow">Your Team. Your Time. Every Week.</span>
+      <div class="dd-team-example-card">
+        <h4>5th Grade Boys</h4>
+        <p>Tuesdays &middot; 5&ndash;6 PM<br>10-Week Block</p>
+        <p class="dd-team-example-price">Founding Program Rate &middot; $750</p>
+      </div>
+      <p class="dd-team-example-note">Example based on a 10-week recurring block at the Founding Program Rate. Contact us to build a schedule for your team.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MEMBERSHIP CONNECTION ================= -->
+<section class="dd-membership-link">
+  <div class="container">
+    <div class="dd-head">
+      <span class="eyebrow">Already Putting In the Reps?</span>
+      <h2>There Might Be a Better Way to Train.</h2>
+      <p>If your athlete is regularly booking training and individual Dr. Dish sessions, Full Court Basketball may be the better value.</p>
+    </div>
+    <div class="dd-fc-highlight">
+      <h3>Full Court Basketball</h3>
+      <ul>
+        <li>Unlimited basketball group training</li>
+        <li>Unlimited Open Gym</li>
+        <li>1 private basketball training session / month</li>
+        <li>2 individual Dr. Dish sessions / month</li>
+        <li>$20 additional individual Dr. Dish sessions</li>
+      </ul>
+      <a href="membership#plan-selector" class="btn btn-primary">See Full Court →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GOOD TO KNOW ================= -->
+<section class="dd-faq">
+  <div class="container" style="max-width:760px;">
+    <div class="dd-head">
+      <span class="eyebrow">Good to Know</span>
+      <h2>Questions? We&rsquo;ve Got Answers.</h2>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How long is a session? <span class="faq-q-icon">+</span></button>
+      <div class="faq-a"><p>30 minutes for individual and two-athlete bookings.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How much is an individual session? <span class="faq-q-icon">+</span></button>
+      <div class="faq-a"><p>$30 for nonmembers. $20 for members.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Can two athletes use Dr. Dish together? <span class="faq-q-icon">+</span></button>
+      <div class="faq-a"><p>Yep. Book a Bring a Teammate session for $50 total.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Do I need to be a member? <span class="faq-q-icon">+</span></button>
+      <div class="faq-a"><p>Nope. Anyone can book Dr. Dish. Members receive preferred individual pricing.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Can I buy multiple sessions? <span class="faq-q-icon">+</span></button>
+      <div class="faq-a"><p>Yep. A 10-session individual package is $250.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Does Full Court include Dr. Dish? <span class="faq-q-icon">+</span></button>
+      <div class="faq-a"><p>Yep. Full Court Basketball includes two individual sessions every month, with additional individual sessions at the $20 member rate.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Can my team use Dr. Dish? <span class="faq-q-icon">+</span></button>
+      <div class="faq-a"><p>Yep. Team blocks are $100/hour, with limited Founding Program pricing available for qualifying recurring youth programs.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Do I need to know how to use the machine? <span class="faq-q-icon">+</span></button>
+      <div class="faq-a"><p>No. We&rsquo;ll make sure you know how to get started.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Are leaderboards and stat tracking available? <span class="faq-q-icon">+</span></button>
+      <div class="faq-a"><p>We&rsquo;re building more ways to use Dr. Dish data, workouts, and challenges. More coming soon.</p></div>
     </div>
   </div>
 </section>
