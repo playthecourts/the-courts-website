@@ -140,16 +140,6 @@
     .tile-grid { grid-template-columns:1fr; }
   }
 
-  /* ---------- Section nav ---------- */
-  .shop-section-nav { display: flex; align-items: center; justify-content: center; gap: 22px; padding: 26px 24px; background: var(--white); border-bottom: 1px solid var(--gray-mid); position: relative; z-index: 2; }
-  .shop-section-nav a { display: inline-block; padding: 6px 0; font-family: var(--font-sport); font-weight: 700; font-size: 14px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--black); transition: color 0.2s var(--ease); }
-  .shop-section-nav a:hover { color: var(--orange); }
-  .shop-section-nav-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gray-mid); flex-shrink: 0; }
-  @media (max-width: 560px) {
-    .shop-section-nav { gap: 14px; padding: 18px 16px; }
-    .shop-section-nav a { font-size: 12px; padding: 8px 0; }
-  }
-
   /* ---------- Accessory moment ---------- */
   .shop-accessories { padding:20px 0 56px; background:var(--gray-light); }
   .shop-accessories .section-head { margin-bottom: 24px; }
@@ -255,7 +245,14 @@
           <a href="events#parties">Parties + Events</a>
         </div>
       </div>
-      <div class="nav-item"><a href="shop">Shop</a></div>
+      <div class="nav-item">
+        <a href="shop">Shop <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav-dropdown">
+          <a href="shop#shop-drop">Apparel</a>
+          <a href="shop#shop-accessories">Gear</a>
+          <a href="shop#gift-cards">Gift Cards</a>
+        </div>
+      </div>
       <div class="nav-item">
         <a href="about">About <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="nav-dropdown">
@@ -301,7 +298,14 @@
       <a href="events#parties">Parties + Events</a>
     </div>
   </div>
-  <a href="shop">Shop</a>
+  <div class="mobile-nav-group">
+    <button class="mobile-nav-toggle" type="button">Shop<span class="mobile-nav-chevron">+</span></button>
+    <div class="mobile-nav-sub">
+      <a href="shop#shop-drop">Apparel</a>
+      <a href="shop#shop-accessories">Gear</a>
+      <a href="shop#gift-cards">Gift Cards</a>
+    </div>
+  </div>
   <div class="mobile-nav-group">
     <button class="mobile-nav-toggle" type="button">About<span class="mobile-nav-chevron">+</span></button>
     <div class="mobile-nav-sub">
@@ -328,14 +332,6 @@
     <span class="shop-hero-micro" aria-hidden="true">The Courts Shop</span>
   </div>
 </section>
-
-<nav class="shop-section-nav" aria-label="Shop sections">
-  <a href="#shop-drop">Apparel</a>
-  <span class="shop-section-nav-dot" aria-hidden="true"></span>
-  <a href="#shop-accessories">Gear</a>
-  <span class="shop-section-nav-dot" aria-hidden="true"></span>
-  <a href="#gift-cards">Gift Cards</a>
-</nav>
 
 <section class="shop-drop" id="shop-drop">
   <div class="container">

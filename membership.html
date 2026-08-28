@@ -47,14 +47,6 @@
   .mem-section-head p { font-size: 17px; line-height: 1.6; color: var(--gray-dark); margin: 0; }
 
   /* ---------- Plan module: merged selector + full details ---------- */
-  .mem-section-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 22px; padding: 26px 24px; background: var(--white); border-bottom: 1px solid var(--gray-mid); position: relative; z-index: 2; }
-  .mem-section-nav a { display: inline-block; padding: 6px 0; font-family: var(--font-sport); font-weight: 700; font-size: 14px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--black); transition: color 0.2s var(--ease); }
-  .mem-section-nav a:hover { color: var(--orange); }
-  .mem-section-nav-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gray-mid); flex-shrink: 0; }
-  @media (max-width: 600px) {
-    .mem-section-nav { gap: 12px 16px; padding: 18px 16px; }
-    .mem-section-nav a { font-size: 12px; padding: 8px 0; }
-  }
 
   .mem-selector-zone { background: var(--white); padding: 72px 0 0; }
   .plan-module { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--gray-mid); border-bottom: 1px solid var(--gray-mid); margin-top: 8px; }
@@ -224,7 +216,14 @@
           <a href="events#parties">Parties + Events</a>
         </div>
       </div>
-      <div class="nav-item"><a href="shop">Shop</a></div>
+      <div class="nav-item">
+        <a href="shop">Shop <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav-dropdown">
+          <a href="shop#shop-drop">Apparel</a>
+          <a href="shop#shop-accessories">Gear</a>
+          <a href="shop#gift-cards">Gift Cards</a>
+        </div>
+      </div>
       <div class="nav-item">
         <a href="about">About <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="nav-dropdown">
@@ -270,7 +269,14 @@
       <a href="events#parties">Parties + Events</a>
     </div>
   </div>
-  <a href="shop">Shop</a>
+  <div class="mobile-nav-group">
+    <button class="mobile-nav-toggle" type="button">Shop<span class="mobile-nav-chevron">+</span></button>
+    <div class="mobile-nav-sub">
+      <a href="shop#shop-drop">Apparel</a>
+      <a href="shop#shop-accessories">Gear</a>
+      <a href="shop#gift-cards">Gift Cards</a>
+    </div>
+  </div>
   <div class="mobile-nav-group">
     <button class="mobile-nav-toggle" type="button">About<span class="mobile-nav-chevron">+</span></button>
     <div class="mobile-nav-sub">
@@ -293,7 +299,7 @@
       <div class="hero-ctas" style="margin-top:8px;"><a href="#plan-selector" class="btn btn-primary">See the Plans ↓</a></div>
     </div>
     <div class="mem-hero-media">
-      <img src="images/sweat-detail.jpg" alt="Close, warmly lit shot of an athlete's sweaty upper back and shoulder after training." style="top:0; left:0; width:100%; height:100%; transform:none; object-position:50% 40%;">
+      <img src="images/sweaty_shoulder_detail_crop.jpg" alt="Close, warmly lit shot of an athlete's sweaty upper back and shoulder after training." style="top:0; left:0; width:100%; height:100%; transform:none; object-position:50% 55%;">
       <span class="mem-hero-wink" aria-hidden="true">
         <span class="mem-hero-wink-dot"></span>
         <span class="mem-hero-wink-dot mem-hero-wink-dot--sm"></span>
@@ -308,16 +314,6 @@
     </div>
   </div>
 </section>
-
-<nav class="mem-section-nav" aria-label="Membership sections">
-  <a href="#plan-selector">Plans</a>
-  <span class="mem-section-nav-dot" aria-hidden="true"></span>
-  <a href="#compare-plans">Compare</a>
-  <span class="mem-section-nav-dot" aria-hidden="true"></span>
-  <a href="#non-member-pricing">Drop-In Options</a>
-  <span class="mem-section-nav-dot" aria-hidden="true"></span>
-  <a href="#membership-faqs">FAQs</a>
-</nav>
 
 <section class="mem-selector-zone" id="plan-selector">
   <div class="container">
