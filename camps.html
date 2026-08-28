@@ -20,15 +20,6 @@
   .img-placeholder-id { font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); }
   .img-placeholder-ratio { font-size: 10px; color: var(--gray-dark); opacity: 0.65; }
 
-  /* ---------- Three ways to spend a day off ---------- */
-  .ways-day { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 52px; }
-  .ways-day-item { border-top: 3px solid var(--black); padding-top: 22px; }
-  .ways-day-num { font-family: var(--font-display); font-weight: 900; font-size: 52px; line-height: 1; color: var(--orange); display: block; margin-bottom: 4px; }
-  .ways-day-type { display: block; font-family: var(--font-sport); font-weight: 700; font-size: 12.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-dark); margin-bottom: 14px; }
-  .ways-day-item h3 { font-family: var(--font-heading); font-weight: 800; font-size: 21px; margin: 0 0 10px; }
-  .ways-day-item p { font-size: 15px; line-height: 1.65; color: var(--gray-dark); margin: 0; }
-  @media (max-width: 900px) { .ways-day { grid-template-columns: 1fr; gap: 36px; } }
-
   /* ---------- Camp feature (editorial media + copy row) ---------- */
   .camp-feature { padding: 76px 0; }
   .camp-feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
@@ -39,6 +30,8 @@
   .camp-feature-copy p { font-size: 16.5px; line-height: 1.75; color: var(--gray-dark); max-width: 44ch; margin: 0 0 16px; }
   .camp-feature-detail { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--black); margin: 20px 0 24px; }
   .camp-feature-detail .sep { color: var(--gray-mid); margin: 0 10px; }
+  .camp-feature-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2.4vw, 28px); color: var(--black); margin: 12px 0 22px; }
+  .camp-feature-price .member-price { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--orange); }
   @media (max-width: 900px) { .camp-feature-grid { grid-template-columns: 1fr; gap: 32px; } }
 
   /* ---------- Compact month-grouped calendar ---------- */
@@ -60,19 +53,12 @@
   .cal-pill--vb { color: #8FD3C7; background: rgba(64,163,143,0.16); }
   .cal-pill--vb::before { background: #40A38F; }
   .cal-action { font-size: 13px; font-weight: 700; color: var(--orange); text-align: right; white-space: nowrap; }
+  .cal-action--soon { color: rgba(255,255,255,0.4); font-style: italic; font-weight: 600; }
   @media (max-width: 640px) {
     .cal-board { padding: 4px 18px; }
     .cal-row { grid-template-columns: 1fr; gap: 4px; padding: 16px 12px; margin: 0 -12px; }
     .cal-action { text-align: left; }
   }
-
-  /* ---------- What a day looks like ---------- */
-  .day-flow { display: flex; align-items: flex-start; margin-top: 52px; }
-  .day-flow-item { flex: 1; position: relative; padding-top: 20px; border-top: 2px solid var(--black); }
-  .day-flow-item h4 { font-family: var(--font-display); font-weight: 900; font-size: 19px; margin: 0 0 8px; }
-  .day-flow-item p { font-size: 14px; color: var(--gray-dark); line-height: 1.6; margin: 0; }
-  .day-flow-arrow { flex: 0 0 auto; color: var(--orange); font-size: 22px; padding: 20px 16px 0; }
-  @media (max-width: 900px) { .day-flow { flex-direction: column; gap: 28px; } .day-flow-arrow { display: none; } }
 
   /* ---------- Good to Know ---------- */
   .basics-board { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--gray-mid); border-radius: var(--radius-md); overflow: hidden; }
@@ -232,35 +218,6 @@
   </div>
 </section>
 
-<section style="padding:100px 0 60px; background:var(--white);">
-  <div class="container">
-    <div class="section-head center">
-      <span class="eyebrow">When School's Out</span>
-      <h2 class="section-title">We've Got Plans.</h2>
-    </div>
-    <div class="ways-day">
-      <div class="ways-day-item reveal">
-        <span class="ways-day-num">01</span>
-        <span class="ways-day-type">Early Release</span>
-        <h3>Two Hours Early? <br class="br-desktop">We Can Work With That.</h3>
-        <p>Drop the backpack. Grab the shoes.</p>
-      </div>
-      <div class="ways-day-item reveal">
-        <span class="ways-day-num">02</span>
-        <span class="ways-day-type">No School Day</span>
-        <h3>Day Off. Game On.</h3>
-        <p>Basketball in the morning.<br>Volleyball in the afternoon.</p>
-      </div>
-      <div class="ways-day-item reveal">
-        <span class="ways-day-num">03</span>
-        <span class="ways-day-type">School Break</span>
-        <h3>A Few Days Off? Even Better.</h3>
-        <p>Train. Compete. Play. Repeat.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section class="camp-feature" id="fall-break">
   <div class="container">
     <div class="section-head center" style="margin-bottom:56px;">
@@ -277,13 +234,14 @@
         <p>Four afternoons of basketball, competition, and a whole lot of reps.</p>
         <p>Athletes will work on dribbling, shooting, passing, defense, footwork, and game play with Courts coaches who keep them moving, challenged, and having fun.</p>
         <p class="camp-feature-detail">Mon&ndash;Thu, Oct 12&ndash;15</p>
-        <p class="camp-feature-schedule">1&ndash;5 PM</p>
-        <p class="camp-feature-detail" style="margin-top:8px;">$225 for all four days<span class="sep">&middot;</span>Open to members and nonmembers</p>
-        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206640-fall-break-basketball-camp" class="btn btn-primary" data-booking-type="fall-break-basketball-camp">Register for Basketball Camp →</a>
+        <p class="camp-feature-schedule">8 AM&ndash;12 PM</p>
+        <p class="camp-feature-price">$225 <span class="member-price">&middot; Members $195</span></p>
+        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206640-fall-break-basketball-camp" class="btn btn-primary" data-booking-type="fall-break-basketball-camp">Register for Basketball →</a>
         <div style="margin:28px 0 0; padding-top:24px; border-top:1px solid var(--gray-mid);">
           <p class="camp-feature-detail" style="margin:0 0 8px;">Fri, Oct 16<span class="sep">&middot;</span>Basketball Competition Day<span class="sep">&middot;</span><strong>Optional Add-On</strong></p>
-          <p style="margin:0 0 14px;">Okay, now we&rsquo;re keeping score. Games. Challenges. Bragging rights.</p>
-          <span class="courts-commentary" style="margin:0 0 14px; display:block;">You know. The important stuff.</span>
+          <p style="margin:0 0 10px;">Okay, now we&rsquo;re keeping score. Games. Challenges. Bragging rights.</p>
+          <span class="courts-commentary" style="margin:0 0 10px; display:block;">You know. The important stuff.</span>
+          <p class="camp-feature-price" style="margin-bottom:10px;">$65 <span class="member-price">&middot; Members $55</span></p>
           <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206644-fall-break-basketball-competition-day" class="dropin-cta" data-booking-type="fall-break-basketball-competition" style="color:var(--orange); font-weight:700;">Add Friday →</a>
         </div>
       </div>
@@ -296,12 +254,13 @@
         <p>Athletes will work on serving, passing, setting, hitting, movement, and game play with Courts coaches who keep them moving, challenged, and having fun.</p>
         <p class="camp-feature-detail">Mon&ndash;Thu, Oct 12&ndash;15</p>
         <p class="camp-feature-schedule">1&ndash;5 PM</p>
-        <p class="camp-feature-detail" style="margin-top:8px;">$225 for all four days<span class="sep">&middot;</span>Open to members and nonmembers</p>
-        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206641-fall-break-volleyball-camp" class="btn btn-primary" data-booking-type="fall-break-volleyball-camp">Register for Volleyball Camp →</a>
+        <p class="camp-feature-price">$225 <span class="member-price">&middot; Members $195</span></p>
+        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206641-fall-break-volleyball-camp" class="btn btn-primary" data-booking-type="fall-break-volleyball-camp">Register for Volleyball →</a>
         <div style="margin:28px 0 0; padding-top:24px; border-top:1px solid var(--gray-mid);">
           <p class="camp-feature-detail" style="margin:0 0 8px;">Fri, Oct 16<span class="sep">&middot;</span>Volleyball Competition Day<span class="sep">&middot;</span><strong>Optional Add-On</strong></p>
-          <p style="margin:0 0 14px;">Okay, now we&rsquo;re keeping score. Games. Challenges. Bragging rights.</p>
-          <span class="courts-commentary" style="margin:0 0 14px; display:block;">You know. The important stuff.</span>
+          <p style="margin:0 0 10px;">Okay, now we&rsquo;re keeping score. Games. Challenges. Bragging rights.</p>
+          <span class="courts-commentary" style="margin:0 0 10px; display:block;">You know. The important stuff.</span>
+          <p class="camp-feature-price" style="margin-bottom:10px;">$65 <span class="member-price">&middot; Members $55</span></p>
           <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206645-fall-break-volleyball-competition-day" class="dropin-cta" data-booking-type="fall-break-volleyball-competition" style="color:var(--orange); font-weight:700;">Add Friday →</a>
         </div>
       </div>
@@ -324,28 +283,28 @@
           <div class="cal-month-label">October</div>
           <div class="cal-row reveal">
             <span class="cal-date">Oct 12&ndash;15</span>
-            <div class="cal-info"><h4>Fall Break Basketball Camp</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 1&ndash;5</span></div></div>
+            <div class="cal-info"><h4>Fall Break Basketball Camp</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span></div><p>$225 &middot; Members $195</p></div>
             <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206640-fall-break-basketball-camp" class="cal-action" data-booking-type="fall-break-basketball-camp">Register →</a>
           </div>
           <div class="cal-row reveal">
             <span class="cal-date">Oct 12&ndash;15</span>
-            <div class="cal-info"><h4>Fall Break Volleyball Camp</h4><div class="cal-pills"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span></div></div>
+            <div class="cal-info"><h4>Fall Break Volleyball Camp</h4><div class="cal-pills"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span></div><p>$225 &middot; Members $195</p></div>
             <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206641-fall-break-volleyball-camp" class="cal-action" data-booking-type="fall-break-volleyball-camp">Register →</a>
           </div>
           <div class="cal-row reveal">
             <span class="cal-date">Oct 16</span>
-            <div class="cal-info"><h4>Basketball Competition Day<span class="cal-tag">Optional Add-On</span></h4></div>
+            <div class="cal-info"><h4>Basketball Competition Day<span class="cal-tag">Optional Add-On</span></h4><p>$65 &middot; Members $55</p></div>
             <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206644-fall-break-basketball-competition-day" class="cal-action" data-booking-type="fall-break-basketball-competition">Add Friday →</a>
           </div>
           <div class="cal-row reveal">
             <span class="cal-date">Oct 16</span>
-            <div class="cal-info"><h4>Volleyball Competition Day<span class="cal-tag">Optional Add-On</span></h4></div>
+            <div class="cal-info"><h4>Volleyball Competition Day<span class="cal-tag">Optional Add-On</span></h4><p>$65 &middot; Members $55</p></div>
             <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206645-fall-break-volleyball-competition-day" class="cal-action" data-booking-type="fall-break-volleyball-competition">Add Friday →</a>
           </div>
           <div class="cal-row reveal">
             <span class="cal-date">Oct 28</span>
-            <div class="cal-info"><h4>Early Release</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 3&ndash;5 PM</span></div></div>
-            <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
+            <div class="cal-info"><h4>Early Release</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 3&ndash;5 PM</span></div><p>$40 &middot; Members $35</p></div>
+            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
           </div>
         </div>
 
@@ -353,18 +312,28 @@
           <div class="cal-month-label">November</div>
           <div class="cal-row reveal">
             <span class="cal-date">Nov 3</span>
-            <div class="cal-info"><h4>No School Day</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span></div></div>
-            <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
+            <div class="cal-info"><h4>No School Day &mdash; Basketball</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span></div><p>$65 &middot; Members $55</p></div>
+            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
+          </div>
+          <div class="cal-row reveal">
+            <span class="cal-date">Nov 3</span>
+            <div class="cal-info"><h4>No School Day &mdash; Volleyball</h4><div class="cal-pills"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span></div><p>$65 &middot; Members $55</p></div>
+            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
           </div>
           <div class="cal-row reveal">
             <span class="cal-date">Nov 18</span>
-            <div class="cal-info"><h4>Early Release</h4><div class="cal-pills"><span class="cal-pill cal-pill--vb">Volleyball 3&ndash;5 PM</span></div></div>
-            <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
+            <div class="cal-info"><h4>Early Release</h4><div class="cal-pills"><span class="cal-pill cal-pill--vb">Volleyball 3&ndash;5 PM</span></div><p>$40 &middot; Members $35</p></div>
+            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
           </div>
           <div class="cal-row reveal">
             <span class="cal-date">Nov 23&ndash;25</span>
-            <div class="cal-info"><h4>Thanksgiving Break</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span></div></div>
-            <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
+            <div class="cal-info"><h4>Thanksgiving Break &mdash; Basketball</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span></div><p>$175 &middot; Members $150</p></div>
+            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
+          </div>
+          <div class="cal-row reveal">
+            <span class="cal-date">Nov 23&ndash;25</span>
+            <div class="cal-info"><h4>Thanksgiving Break &mdash; Volleyball</h4><div class="cal-pills"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span></div><p>$175 &middot; Members $150</p></div>
+            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
           </div>
         </div>
 
@@ -372,18 +341,28 @@
           <div class="cal-month-label">December</div>
           <div class="cal-row reveal">
             <span class="cal-date">Dec 9</span>
-            <div class="cal-info"><h4>Early Release</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 3&ndash;5 PM</span></div></div>
-            <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
+            <div class="cal-info"><h4>Early Release</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 3&ndash;5 PM</span></div><p>$40 &middot; Members $35</p></div>
+            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
           </div>
           <div class="cal-row reveal">
             <span class="cal-date">Dec 21&ndash;23</span>
-            <div class="cal-info"><h4>Holiday Camp</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span></div></div>
-            <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
+            <div class="cal-info"><h4>Holiday Camp &mdash; Basketball</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span></div><p>$175 &middot; Members $150</p></div>
+            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
+          </div>
+          <div class="cal-row reveal">
+            <span class="cal-date">Dec 21&ndash;23</span>
+            <div class="cal-info"><h4>Holiday Camp &mdash; Volleyball</h4><div class="cal-pills"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span></div><p>$175 &middot; Members $150</p></div>
+            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
           </div>
           <div class="cal-row reveal">
             <span class="cal-date">Dec 28&ndash;30</span>
-            <div class="cal-info"><h4>New Year Camp</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span></div></div>
-            <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="cal-action" data-preset="Programs + Membership">Register →</a>
+            <div class="cal-info"><h4>New Year Camp &mdash; Basketball</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span></div><p>$175 &middot; Members $150</p></div>
+            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
+          </div>
+          <div class="cal-row reveal">
+            <span class="cal-date">Dec 28&ndash;30</span>
+            <div class="cal-info"><h4>New Year Camp &mdash; Volleyball</h4><div class="cal-pills"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span></div><p>$175 &middot; Members $150</p></div>
+            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
           </div>
         </div>
       </div>
@@ -400,34 +379,14 @@
 <section style="padding:96px 0; background:var(--white);">
   <div class="container">
     <div class="section-head center">
-      <span class="eyebrow">What a Day Looks Like</span>
-      <h2 class="section-title">A Lot of Moving. <br class="br-desktop">Very Little Standing Around.</h2>
-    </div>
-    <div class="day-flow">
-      <div class="day-flow-item reveal"><h4>Get Moving.</h4></div>
-      <span class="day-flow-arrow" aria-hidden="true">→</span>
-      <div class="day-flow-item reveal"><h4>Get Better.</h4></div>
-      <span class="day-flow-arrow" aria-hidden="true">→</span>
-      <div class="day-flow-item reveal"><h4>Compete.</h4></div>
-      <span class="day-flow-arrow" aria-hidden="true">→</span>
-      <div class="day-flow-item reveal"><h4>Just Play.</h4></div>
-    </div>
-  </div>
-</section>
-
-<section style="padding:96px 0; background:var(--white);">
-  <div class="container">
-    <div class="section-head center">
       <span class="eyebrow">Good to Know</span>
       <h2 class="section-title">What to Know Before You Drop Them Off.</h2>
     </div>
     <div class="basics-board">
-      <div class="basics-item"><h4>What Are We Doing?</h4><p>Training. Games. Competition.</p></div>
-      <div class="basics-item"><h4>What Should They Bring?</h4><p>Court shoes. Water bottle. Snack.</p></div>
-      <div class="basics-item"><h4>Doing Both Sessions?</h4><p>Bring lunch too.</p></div>
+      <div class="basics-item"><h4>What Should They Bring?</h4><p>Court shoes. Water bottle. Snack. Bring lunch if staying for both basketball and volleyball.</p></div>
       <div class="basics-item"><h4>What Time?</h4><p>Basketball &middot; 8 AM&ndash;12 PM<br>Volleyball &middot; 1&ndash;5 PM<br>Early Release times vary by date.</p></div>
-      <div class="basics-item"><h4>Do I Need a Membership?</h4><p>Nope. Members get preferred pricing.</p></div>
-      <div class="basics-item"><h4>Do I Need to Register?</h4><p>Yep. Space is limited.</p></div>
+      <div class="basics-item"><h4>Do I Need a Membership?</h4><p>Nope. Members receive preferred camp pricing.</p></div>
+      <div class="basics-item"><h4>Do I Need to Register?</h4><p>Yep. Space is limited and advance registration is required.</p></div>
     </div>
     <div style="text-align:center; margin-top:20px;"><a href="faq" style="font-weight:700; color:var(--orange);">View Camp FAQs →</a></div>
   </div>
