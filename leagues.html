@@ -48,11 +48,13 @@
   }
 
   .lg-heard-commitments { display: flex; flex-direction: column; gap: 18px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--gray-mid); }
-  .lg-heard-item h3 { font-family: var(--font-display); font-weight: 900; font-size: 16px; margin: 0 0 6px; color: var(--black); }
-  .lg-heard-item p { font-size: 13px; line-height: 1.55; color: var(--gray-dark); margin: 0; max-width: 32ch; }
+  .lg-heard-item h3 { font-family: var(--font-display); font-weight: 900; font-size: 19px; margin: 0 0 7px; color: var(--black); }
+  .lg-heard-item p { font-size: 14.5px; line-height: 1.6; color: var(--gray-dark); margin: 0; max-width: 36ch; }
+  .lg-heard-link { display: inline-block; font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--orange); margin-top: 10px; }
 
-  .lg-roster-heard-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; align-items: start; }
-  @media (max-width: 900px) { .lg-roster-heard-grid { grid-template-columns: 1fr; gap: 48px; } }
+  .lg-roster-heard-grid { display: grid; grid-template-columns: 1.05fr 1px 0.85fr; gap: 42px; align-items: stretch; }
+  .lg-roster-divider { background: var(--gray-mid); width: 1px; }
+  @media (max-width: 900px) { .lg-roster-heard-grid { grid-template-columns: 1fr; gap: 48px; } .lg-roster-divider { display: none; } }
   .lg-roster-heard-grid .section-title { font-size: clamp(21px, 2.4vw, 26px); }
   .lg-roster-heard-grid .roster-board { padding: 4px 22px; }
   .lg-roster-heard-grid .roster-row { padding: 20px 0; }
@@ -87,16 +89,14 @@
 
 
 
-  .lg-know-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; max-width: 780px; margin: 44px auto 0; border-top: 1px solid var(--gray-mid); border-left: 1px solid var(--gray-mid); }
-  .lg-know-cell { padding: 26px 30px; border-right: 1px solid var(--gray-mid); border-bottom: 1px solid var(--gray-mid); }
-  .lg-know-label { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
-  .lg-know-cell p { font-size: 16px; color: var(--black); line-height: 1.5; margin: 0; }
-  .lg-know-links { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin-top: 32px; }
+  .lg-know-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; max-width: 920px; margin: 36px auto 0; }
+  .lg-know-item { border-top: 3px solid var(--orange); padding-top: 14px; }
+  .lg-know-item h3 { font-family: var(--font-sport); font-weight: 800; font-size: 12.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--black); margin: 0 0 6px; }
+  .lg-know-item p { font-size: 13.5px; line-height: 1.5; color: var(--gray-dark); margin: 0; }
+  .lg-know-links { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin-top: 30px; }
   .lg-know-links a { font-family: var(--font-heading); font-weight: 700; font-size: 14.5px; color: var(--orange); }
-  @media (max-width: 600px) {
-    .lg-know-grid { grid-template-columns: 1fr; }
-    .lg-know-cell { border-right: none; }
-  }
+  @media (max-width: 760px) { .lg-know-strip { grid-template-columns: 1fr 1fr; gap: 24px 20px; } }
+  @media (max-width: 480px) { .lg-know-strip { grid-template-columns: 1fr; } }
 
 </style>
 </head>
@@ -142,14 +142,7 @@
           <a href="events#parties">Parties + Events</a>
         </div>
       </div>
-      <div class="nav-item">
-        <a href="shop">Shop <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        <div class="nav-dropdown">
-          <a href="shop#shop-drop">Apparel</a>
-          <a href="shop#shop-accessories">Gear</a>
-          <a href="shop#gift-cards">Gift Cards</a>
-        </div>
-      </div>
+      <div class="nav-item"><a href="shop">Shop</a></div>
       <div class="nav-item">
         <a href="about">About <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="nav-dropdown">
@@ -195,14 +188,7 @@
       <a href="events#parties">Parties + Events</a>
     </div>
   </div>
-  <div class="mobile-nav-group">
-    <button class="mobile-nav-toggle" type="button">Shop<span class="mobile-nav-chevron">+</span></button>
-    <div class="mobile-nav-sub">
-      <a href="shop#shop-drop">Apparel</a>
-      <a href="shop#shop-accessories">Gear</a>
-      <a href="shop#gift-cards">Gift Cards</a>
-    </div>
-  </div>
+  <a href="shop">Shop</a>
   <div class="mobile-nav-group">
     <button class="mobile-nav-toggle" type="button">About<span class="mobile-nav-chevron">+</span></button>
     <div class="mobile-nav-sub">
@@ -253,21 +239,21 @@
       <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-on-dark" data-preset="Basketball Leagues">Save Your Evaluation Spot →</a>
       <a href="#register" class="btn btn-primary">Get in the League →</a>
     </div>
-    <p style="text-align:center; margin-top:20px; font-size:14px; color:rgba(255,255,255,0.55); font-style:italic;">Evaluations help us build balanced teams. Nobody&rsquo;s getting cut, and nobody&rsquo;s auditioning for the NBA.</p>
+    <p style="text-align:center; margin-top:20px; font-size:14px; color:rgba(255,255,255,0.42); font-style:italic;">Evaluations help us build balanced teams. Nobody&rsquo;s getting cut, and nobody&rsquo;s auditioning for the NBA.</p>
   </div>
 </section>
 
-<section style="padding:88px 0 96px;" id="cost">
+<section style="padding:56px 0 64px;" id="cost">
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">Good to Know</span>
       <h2 class="section-title">Before Game Day.</h2>
     </div>
-    <div class="lg-know-grid">
-      <div class="lg-know-cell"><span class="lg-know-label">Courts Membership</span><p>Weekly membership or higher is required for league participation.</p></div>
-      <div class="lg-know-cell"><span class="lg-know-label">Team Practice</span><p>One coach-led practice each week at The Courts.</p></div>
-      <div class="lg-know-cell"><span class="lg-know-label">Saturday Games</span><p>League games are played through WNSL.</p></div>
-      <div class="lg-know-cell"><span class="lg-know-label">Tournament</span><p>Fall concludes with the December 11&ndash;13 tournament.</p></div>
+    <div class="lg-know-strip">
+      <div class="lg-know-item"><h3>Courts Membership</h3><p>Weekly membership or higher is required for league participation.</p></div>
+      <div class="lg-know-item"><h3>Team Practice</h3><p>One coach-led practice each week at The Courts.</p></div>
+      <div class="lg-know-item"><h3>Saturday Games</h3><p>League games are played through WNSL.</p></div>
+      <div class="lg-know-item"><h3>Tournament</h3><p>Fall concludes with the December 11&ndash;13 tournament.</p></div>
     </div>
     <div class="lg-know-links">
       <a href="membership#plan-selector">See Memberships →</a>
@@ -276,7 +262,7 @@
   </div>
 </section>
 
-<section style="padding:88px 0 100px;" id="roster">
+<section style="padding:88px 0 64px;" id="roster">
   <div class="container">
     <div class="lg-roster-heard-grid">
       <div class="lg-heard-col" id="heard-you">
@@ -296,9 +282,12 @@
           <div class="lg-heard-item">
             <h3>Keep Talking.</h3>
             <p>Tell us what&rsquo;s working, what could be better, and what you&rsquo;d like to see next.</p>
+            <a href="contact?interest=Basketball%20Leagues#contact-form" class="lg-heard-link" data-preset="Basketball Leagues">Share Feedback →</a>
           </div>
         </div>
       </div>
+
+      <div class="lg-roster-divider" aria-hidden="true"></div>
 
       <div class="lg-roster-col">
         <div class="section-head lg-roster-head">

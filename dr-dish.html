@@ -85,7 +85,7 @@
 
   .dd-chant { background: var(--black); padding: clamp(28px, 4vw, 40px) 0; overflow: hidden; border-top: 1px solid var(--orange); border-bottom: 1px solid var(--orange); }
   .dd-chant-row { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: clamp(16px, 4vw, 44px); }
-  .dd-chant-word { font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 7.4vw, 100px); line-height: 1; letter-spacing: -0.01em; text-transform: uppercase; color: var(--white); }
+  .dd-chant-word { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 6.2vw, 84px); line-height: 1; letter-spacing: -0.01em; text-transform: uppercase; color: var(--white); }
   .dd-chant-word--accent { color: var(--orange); }
   @media (max-width: 900px) {
     .dd-how { padding: 60px 0; }
@@ -118,7 +118,7 @@
   }
 
   /* ---------- Countdown ---------- */
-  .dd-countdown-time { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(46px, 5.6vw, 72px); color: var(--white); letter-spacing: 0.01em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .dd-countdown-time { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(46px, 5.6vw, 72px); color: var(--gray-light); letter-spacing: 0.01em; line-height: 1; font-variant-numeric: tabular-nums; }
   .dd-countdown-line { display: block; width: 56px; height: 3px; background: var(--orange); margin: 24px auto 20px; border-radius: 2px; }
   .dd-countdown-caption { display: block; font-family: var(--font-sport); font-weight: 700; font-size: clamp(14px, 1.4vw, 18px); letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
   .dd-countdown-wink { display: block; font-family: var(--font-heading); font-weight: 500; font-style: italic; font-size: 15px; color: rgba(255,255,255,0.6); margin-top: 16px; }
@@ -130,7 +130,7 @@
   .dd-avail-card { background: var(--charcoal); border-left: 3px solid var(--orange); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: clamp(30px,3.6vw,44px); color: var(--white); text-align: left; margin-top: 28px; }
   .dd-avail-day { font-family: var(--font-sport); font-weight: 700; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 10px; }
   .dd-avail-hours { font-family: var(--font-display); font-weight: 900; font-size: clamp(38px, 4.4vw, 54px); color: var(--white); margin: 0 0 22px; }
-  .dd-avail-note { font-size: 15.5px; line-height: 1.6; color: rgba(255,255,255,0.7); margin: 0 0 10px; }
+  .dd-avail-note { font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,0.7); margin: 0 0 10px; }
   .dd-avail-note:last-child { margin-bottom: 0; }
   .dd-cta-center { text-align: center; margin-top: 40px; }
   .dd-cta-left { margin-top: 28px; }
@@ -186,14 +186,7 @@
           <a href="events#parties">Parties + Events</a>
         </div>
       </div>
-      <div class="nav-item">
-        <a href="shop">Shop <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        <div class="nav-dropdown">
-          <a href="shop#shop-drop">Apparel</a>
-          <a href="shop#shop-accessories">Gear</a>
-          <a href="shop#gift-cards">Gift Cards</a>
-        </div>
-      </div>
+      <div class="nav-item"><a href="shop">Shop</a></div>
       <div class="nav-item">
         <a href="about">About <svg class="nav-caret" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="nav-dropdown">
@@ -239,14 +232,7 @@
       <a href="events#parties">Parties + Events</a>
     </div>
   </div>
-  <div class="mobile-nav-group">
-    <button class="mobile-nav-toggle" type="button">Shop<span class="mobile-nav-chevron">+</span></button>
-    <div class="mobile-nav-sub">
-      <a href="shop#shop-drop">Apparel</a>
-      <a href="shop#shop-accessories">Gear</a>
-      <a href="shop#gift-cards">Gift Cards</a>
-    </div>
-  </div>
+  <a href="shop">Shop</a>
   <div class="mobile-nav-group">
     <button class="mobile-nav-toggle" type="button">About<span class="mobile-nav-chevron">+</span></button>
     <div class="mobile-nav-sub">
