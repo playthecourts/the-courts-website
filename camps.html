@@ -57,15 +57,13 @@
   .camp-filter-btn.active { background: var(--black); border-color: var(--black); color: var(--white); }
   .cal-wrap { margin-top: 32px; max-width: 720px; margin-left: auto; margin-right: auto; }
   .cal-board { background: var(--white); border-radius: var(--radius-md); padding: 8px 24px; border: 1px solid var(--gray-mid); }
-  .cal-month-label { font-family: var(--font-sport); font-size: 22px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); padding: 22px 0 10px; text-align: center; }
-  .cal-month-group:first-child .cal-month-label { padding-top: 24px; }
+  .cal-month-label { display: flex; align-items: center; justify-content: center; font-family: var(--font-sport); font-size: 22px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); line-height: 1; padding: 18px 0; text-align: center; }
+  .cal-month-group:first-child .cal-month-label { padding-top: 20px; }
   .cal-row { display: grid; grid-template-columns: 108px 1fr 130px; align-items: center; gap: 16px; padding: 15px 20px; margin: 0 -20px; border-top: 1px solid var(--gray-mid); border-radius: 8px; }
   .cal-row:nth-child(even) { background: var(--gray-light); }
-  .cal-date { display: inline-block; font-family: var(--font-display); font-weight: 900; color: var(--white); background: var(--orange); font-size: 12.5px; letter-spacing: 0.01em; padding: 7px 10px; border-radius: 8px; text-align: center; line-height: 1.2; white-space: nowrap; }
-  .cal-date--bb { background: var(--orange); color: var(--white); }
-  .cal-date--vb { background: var(--white); color: var(--black); border: 1.5px solid var(--gray-mid); padding: 5.5px 8.5px; }
+  .cal-date { display: inline-block; align-self: start; font-family: var(--font-display); font-weight: 900; color: var(--white); background: var(--orange); font-size: 12.5px; letter-spacing: 0.01em; padding: 7px 10px; border-radius: 8px; text-align: center; line-height: 1.2; white-space: nowrap; }
   .cal-info h4 { font-family: var(--font-heading); font-weight: 800; color: var(--black); font-size: 16px; margin: 0 0 2px; display: inline; }
-  .cal-tag { display: inline-block; margin-left: 8px; font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); background: var(--gray-light); padding: 5px 12px; border-radius: 999px; vertical-align: middle; }
+  .cal-tag { display: inline-block; margin-left: 8px; font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); background: var(--white); padding: 5px 12px; border-radius: 999px; vertical-align: middle; }
   .cal-info p { font-family: var(--font-heading); font-size: 13px; font-weight: 700; color: var(--gray-dark); margin: 4px 0 0; }
   .cal-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
   .cal-pill { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 11px; border-radius: 999px; }
@@ -76,11 +74,21 @@
   .cal-pill--vb::before { background: #40A38F; }
   .cal-action { font-size: 13px; font-weight: 700; color: var(--orange); text-align: right; white-space: nowrap; }
   .cal-action--soon { color: var(--gray-dark); opacity: 0.55; font-style: italic; font-weight: 600; font-size: 11.5px; white-space: normal; line-height: 1.3; }
+
+  .cal-row--combo { align-items: start; padding-top: 20px; padding-bottom: 20px; }
+  .cal-combo-info { display: flex; flex-direction: column; gap: 12px; }
+  .cal-combo-line { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .cal-combo-price { font-family: var(--font-heading); font-size: 12.5px; font-weight: 700; color: var(--gray-dark); }
+  .cal-combo-actions { display: flex; flex-direction: column; gap: 15px; align-items: flex-end; padding-top: 2px; }
+  .cal-combo-actions .cal-action { text-align: right; }
+  .cal-combo-actions .cal-action--soon { text-align: right; }
   @media (max-width: 640px) {
     .cal-board { padding: 4px 18px; }
     .cal-row { grid-template-columns: 1fr; gap: 8px; padding: 18px 12px; margin: 0 -12px; }
     .cal-date { width: fit-content; }
     .cal-action { text-align: left; }
+    .cal-combo-actions { align-items: flex-start; }
+    .cal-combo-actions .cal-action, .cal-combo-actions .cal-action--soon { text-align: left; }
   }
 
 </style>
@@ -304,38 +312,45 @@
       <h2 class="section-title">So Many Days Off. So Little Time.</h2>
       <p class="section-sub">Every early release, break, and holiday &mdash; mapped out and ready to book.<br>Space is limited and advance registration is required.</p>
     </div>
-    <div class="camp-filter" id="campFilter">
+    <div class="camp-filter" id="campFilterMonth">
       <button type="button" class="camp-filter-btn active" data-filter="all">All</button>
       <button type="button" class="camp-filter-btn" data-filter="oct">October</button>
       <button type="button" class="camp-filter-btn" data-filter="nov">November</button>
       <button type="button" class="camp-filter-btn" data-filter="dec">December</button>
     </div>
+    <div class="camp-filter" id="campFilterSport" style="margin-top:12px;">
+      <button type="button" class="camp-filter-btn active" data-sport-filter="all">Both Sports</button>
+      <button type="button" class="camp-filter-btn" data-sport-filter="bb">Basketball</button>
+      <button type="button" class="camp-filter-btn" data-sport-filter="vb">Volleyball</button>
+    </div>
     <div class="cal-wrap">
       <div class="cal-board">
         <div class="cal-month-group" data-filter="oct">
           <div class="cal-month-label">October</div>
-          <div class="cal-row reveal">
-            <span class="cal-date cal-date--bb">Oct 12&ndash;15</span>
-            <div class="cal-info"><h4>Fall Break Basketball Camp</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span></div><p>$225 &middot; Members $195</p></div>
-            <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206640-fall-break-basketball-camp" class="cal-action" data-booking-type="fall-break-basketball-camp">Register →</a>
+          <div class="cal-row cal-row--combo reveal">
+            <span class="cal-date">Oct 12&ndash;15</span>
+            <div class="cal-combo-info">
+              <div class="cal-combo-line" data-sport="bb"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span><span class="cal-combo-price">$225 &middot; Members $195</span></div>
+              <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span><span class="cal-combo-price">$225 &middot; Members $195</span></div>
+            </div>
+            <div class="cal-combo-actions">
+              <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206640-fall-break-basketball-camp" class="cal-action" data-sport="bb" data-booking-type="fall-break-basketball-camp">Basketball →</a>
+              <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206641-fall-break-volleyball-camp" class="cal-action" data-sport="vb" data-booking-type="fall-break-volleyball-camp">Volleyball →</a>
+            </div>
           </div>
-          <div class="cal-row reveal">
-            <span class="cal-date cal-date--vb">Oct 12&ndash;15</span>
-            <div class="cal-info"><h4>Fall Break Volleyball Camp</h4><div class="cal-pills"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span></div><p>$225 &middot; Members $195</p></div>
-            <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206641-fall-break-volleyball-camp" class="cal-action" data-booking-type="fall-break-volleyball-camp">Register →</a>
+          <div class="cal-row cal-row--combo reveal">
+            <span class="cal-date">Oct 16</span>
+            <div class="cal-combo-info">
+              <div class="cal-combo-line" data-sport="bb"><span class="cal-pill cal-pill--bb">Basketball</span><span class="cal-combo-price">$65 &middot; Members $55</span><span class="cal-tag">Optional Add-On</span></div>
+              <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball</span><span class="cal-combo-price">$65 &middot; Members $55</span><span class="cal-tag">Optional Add-On</span></div>
+            </div>
+            <div class="cal-combo-actions">
+              <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206644-fall-break-basketball-competition-day" class="cal-action" data-sport="bb" data-booking-type="fall-break-basketball-competition">Basketball →</a>
+              <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206645-fall-break-volleyball-competition-day" class="cal-action" data-sport="vb" data-booking-type="fall-break-volleyball-competition">Volleyball →</a>
+            </div>
           </div>
-          <div class="cal-row reveal">
-            <span class="cal-date cal-date--bb">Oct 16</span>
-            <div class="cal-info"><h4>Basketball Competition Day<span class="cal-tag">Optional Add-On</span></h4><p>$65 &middot; Members $55</p></div>
-            <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206644-fall-break-basketball-competition-day" class="cal-action" data-booking-type="fall-break-basketball-competition">Add Friday →</a>
-          </div>
-          <div class="cal-row reveal">
-            <span class="cal-date cal-date--vb">Oct 16</span>
-            <div class="cal-info"><h4>Volleyball Competition Day<span class="cal-tag">Optional Add-On</span></h4><p>$65 &middot; Members $55</p></div>
-            <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206645-fall-break-volleyball-competition-day" class="cal-action" data-booking-type="fall-break-volleyball-competition">Add Friday →</a>
-          </div>
-          <div class="cal-row reveal">
-            <span class="cal-date cal-date--bb">Oct 28</span>
+          <div class="cal-row reveal" data-sport="bb">
+            <span class="cal-date">Oct 28</span>
             <div class="cal-info"><h4>Early Release</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 3&ndash;5 PM</span></div><p>$40 &middot; Members $35</p></div>
             <span class="cal-action cal-action--soon">Registration Opens Soon</span>
           </div>
@@ -343,59 +358,63 @@
 
         <div class="cal-month-group cal-month-group--nov" data-filter="nov">
           <div class="cal-month-label">November</div>
-          <div class="cal-row reveal">
-            <span class="cal-date cal-date--bb">Nov 3</span>
-            <div class="cal-info"><h4>No School Day &mdash; Basketball</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span></div><p>$65 &middot; Members $55</p></div>
-            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
+          <div class="cal-row cal-row--combo reveal">
+            <span class="cal-date">Nov 3</span>
+            <div class="cal-combo-info">
+              <div class="cal-combo-line" data-sport="bb"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span><span class="cal-combo-price">$65 &middot; Members $55</span></div>
+              <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span><span class="cal-combo-price">$65 &middot; Members $55</span></div>
+            </div>
+            <div class="cal-combo-actions">
+              <span class="cal-action cal-action--soon" data-sport="bb">Basketball &middot; Soon</span>
+              <span class="cal-action cal-action--soon" data-sport="vb">Volleyball &middot; Soon</span>
+            </div>
           </div>
-          <div class="cal-row reveal">
-            <span class="cal-date cal-date--vb">Nov 3</span>
-            <div class="cal-info"><h4>No School Day &mdash; Volleyball</h4><div class="cal-pills"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span></div><p>$65 &middot; Members $55</p></div>
-            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
-          </div>
-          <div class="cal-row reveal">
-            <span class="cal-date cal-date--vb">Nov 18</span>
+          <div class="cal-row reveal" data-sport="vb">
+            <span class="cal-date">Nov 18</span>
             <div class="cal-info"><h4>Early Release</h4><div class="cal-pills"><span class="cal-pill cal-pill--vb">Volleyball 3&ndash;5 PM</span></div><p>$40 &middot; Members $35</p></div>
             <span class="cal-action cal-action--soon">Registration Opens Soon</span>
           </div>
-          <div class="cal-row reveal">
-            <span class="cal-date cal-date--bb">Nov 23&ndash;25</span>
-            <div class="cal-info"><h4>Thanksgiving Break &mdash; Basketball</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span></div><p>$175 &middot; Members $150</p></div>
-            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
-          </div>
-          <div class="cal-row reveal">
-            <span class="cal-date cal-date--vb">Nov 23&ndash;25</span>
-            <div class="cal-info"><h4>Thanksgiving Break &mdash; Volleyball</h4><div class="cal-pills"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span></div><p>$175 &middot; Members $150</p></div>
-            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
+          <div class="cal-row cal-row--combo reveal">
+            <span class="cal-date">Nov 23&ndash;25</span>
+            <div class="cal-combo-info">
+              <div class="cal-combo-line" data-sport="bb"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
+              <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
+            </div>
+            <div class="cal-combo-actions">
+              <span class="cal-action cal-action--soon" data-sport="bb">Basketball &middot; Soon</span>
+              <span class="cal-action cal-action--soon" data-sport="vb">Volleyball &middot; Soon</span>
+            </div>
           </div>
         </div>
 
         <div class="cal-month-group cal-month-group--dec" data-filter="dec">
           <div class="cal-month-label">December</div>
-          <div class="cal-row reveal">
-            <span class="cal-date cal-date--bb">Dec 9</span>
+          <div class="cal-row reveal" data-sport="bb">
+            <span class="cal-date">Dec 9</span>
             <div class="cal-info"><h4>Early Release</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 3&ndash;5 PM</span></div><p>$40 &middot; Members $35</p></div>
             <span class="cal-action cal-action--soon">Registration Opens Soon</span>
           </div>
-          <div class="cal-row reveal">
-            <span class="cal-date cal-date--bb">Dec 21&ndash;23</span>
-            <div class="cal-info"><h4>Holiday Camp &mdash; Basketball</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span></div><p>$175 &middot; Members $150</p></div>
-            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
+          <div class="cal-row cal-row--combo reveal">
+            <span class="cal-date">Dec 21&ndash;23</span>
+            <div class="cal-combo-info">
+              <div class="cal-combo-line" data-sport="bb"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
+              <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
+            </div>
+            <div class="cal-combo-actions">
+              <span class="cal-action cal-action--soon" data-sport="bb">Basketball &middot; Soon</span>
+              <span class="cal-action cal-action--soon" data-sport="vb">Volleyball &middot; Soon</span>
+            </div>
           </div>
-          <div class="cal-row reveal">
-            <span class="cal-date cal-date--vb">Dec 21&ndash;23</span>
-            <div class="cal-info"><h4>Holiday Camp &mdash; Volleyball</h4><div class="cal-pills"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span></div><p>$175 &middot; Members $150</p></div>
-            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
-          </div>
-          <div class="cal-row reveal">
-            <span class="cal-date cal-date--bb">Dec 28&ndash;30</span>
-            <div class="cal-info"><h4>New Year Camp &mdash; Basketball</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span></div><p>$175 &middot; Members $150</p></div>
-            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
-          </div>
-          <div class="cal-row reveal">
-            <span class="cal-date cal-date--vb">Dec 28&ndash;30</span>
-            <div class="cal-info"><h4>New Year Camp &mdash; Volleyball</h4><div class="cal-pills"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span></div><p>$175 &middot; Members $150</p></div>
-            <span class="cal-action cal-action--soon">Registration Opens Soon</span>
+          <div class="cal-row cal-row--combo reveal">
+            <span class="cal-date">Dec 28&ndash;30</span>
+            <div class="cal-combo-info">
+              <div class="cal-combo-line" data-sport="bb"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
+              <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
+            </div>
+            <div class="cal-combo-actions">
+              <span class="cal-action cal-action--soon" data-sport="bb">Basketball &middot; Soon</span>
+              <span class="cal-action cal-action--soon" data-sport="vb">Volleyball &middot; Soon</span>
+            </div>
           </div>
         </div>
       </div>
@@ -497,19 +516,58 @@
 <script src="js/script.js"></script>
 <script>
   (function () {
-    var filterBar = document.getElementById('campFilter');
-    if (!filterBar) return;
-    var buttons = [].slice.call(filterBar.querySelectorAll('.camp-filter-btn'));
+    var monthBar = document.getElementById('campFilterMonth');
+    var sportBar = document.getElementById('campFilterSport');
+    if (!monthBar || !sportBar) return;
+
+    var monthButtons = [].slice.call(monthBar.querySelectorAll('.camp-filter-btn'));
+    var sportButtons = [].slice.call(sportBar.querySelectorAll('.camp-filter-btn'));
     var groups = [].slice.call(document.querySelectorAll('.cal-month-group'));
-    filterBar.addEventListener('click', function (e) {
+    var rows = [].slice.call(document.querySelectorAll('.cal-row'));
+    var comboLines = [].slice.call(document.querySelectorAll('.cal-combo-line'));
+    var comboActions = [].slice.call(document.querySelectorAll('.cal-combo-actions [data-sport]'));
+
+    var currentMonth = 'all';
+    var currentSport = 'all';
+
+    function applyFilters() {
+      groups.forEach(function (g) {
+        var showMonth = currentMonth === 'all' || g.getAttribute('data-filter') === currentMonth;
+        g.style.display = showMonth ? '' : 'none';
+      });
+      rows.forEach(function (row) {
+        var rowSport = row.getAttribute('data-sport');
+        if (rowSport) {
+          var show = currentSport === 'all' || rowSport === currentSport;
+          row.style.display = show ? '' : 'none';
+        } else {
+          row.style.display = '';
+        }
+      });
+      comboLines.forEach(function (line) {
+        var show = currentSport === 'all' || line.getAttribute('data-sport') === currentSport;
+        line.style.display = show ? '' : 'none';
+      });
+      comboActions.forEach(function (action) {
+        var show = currentSport === 'all' || action.getAttribute('data-sport') === currentSport;
+        action.style.display = show ? '' : 'none';
+      });
+    }
+
+    monthBar.addEventListener('click', function (e) {
       var btn = e.target.closest('.camp-filter-btn');
       if (!btn) return;
-      var filter = btn.getAttribute('data-filter');
-      buttons.forEach(function (b) { b.classList.toggle('active', b === btn); });
-      groups.forEach(function (g) {
-        var show = filter === 'all' || g.getAttribute('data-filter') === filter;
-        g.style.display = show ? '' : 'none';
-      });
+      currentMonth = btn.getAttribute('data-filter');
+      monthButtons.forEach(function (b) { b.classList.toggle('active', b === btn); });
+      applyFilters();
+    });
+
+    sportBar.addEventListener('click', function (e) {
+      var btn = e.target.closest('.camp-filter-btn');
+      if (!btn) return;
+      currentSport = btn.getAttribute('data-sport-filter');
+      sportButtons.forEach(function (b) { b.classList.toggle('active', b === btn); });
+      applyFilters();
     });
   })();
 </script>
