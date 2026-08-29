@@ -56,12 +56,14 @@
   @media (max-width: 760px) { .camp-comp-banner { grid-template-columns: 1fr; } .camp-comp-cta strong { margin: 0 10px 0 0; } }
 
   /* ---------- Compact month-grouped calendar ---------- */
-  .cal-wrap { margin-top: 48px; max-width: 720px; margin-left: auto; margin-right: auto; }
+  .camp-filter { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 40px auto 0; max-width: 720px; }
+  .camp-filter-btn { font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 999px; padding: 9px 20px; cursor: pointer; transition: all 0.15s var(--ease); }
+  .camp-filter-btn:hover { border-color: var(--orange); color: var(--black); }
+  .camp-filter-btn.active { background: var(--black); border-color: var(--black); color: var(--white); }
+  .cal-wrap { margin-top: 32px; max-width: 720px; margin-left: auto; margin-right: auto; }
   .cal-board { background: var(--white); border-radius: var(--radius-md); padding: 8px 24px; border: 1px solid var(--gray-mid); }
-  .cal-month-label { font-family: var(--font-sport); font-size: 22px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--month-accent, var(--orange)); padding: 22px 0 10px; text-align: center; }
+  .cal-month-label { font-family: var(--font-sport); font-size: 22px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); padding: 22px 0 10px; text-align: center; }
   .cal-month-group:first-child .cal-month-label { padding-top: 24px; }
-  .cal-month-group--nov { --month-accent: #2E9E7C; }
-  .cal-month-group--dec { --month-accent: #8B5FA8; }
   .cal-row { display: grid; grid-template-columns: 108px 1fr 130px; align-items: center; gap: 16px; padding: 15px 20px; margin: 0 -20px; border-top: 1px solid var(--gray-mid); border-radius: 8px; }
   .cal-row:nth-child(even) { background: var(--gray-light); }
   .cal-date { display: inline-block; font-family: var(--font-display); font-weight: 900; color: var(--white); background: var(--orange); font-size: 12.5px; letter-spacing: 0.01em; padding: 7px 10px; border-radius: 8px; text-align: center; line-height: 1.2; white-space: nowrap; }
@@ -69,7 +71,7 @@
   .cal-date--vb { background: var(--white); color: var(--black); border: 1.5px solid var(--gray-mid); padding: 5.5px 8.5px; }
   .cal-info h4 { font-family: var(--font-heading); font-weight: 800; color: var(--black); font-size: 16px; margin: 0 0 2px; display: inline; }
   .cal-tag { display: inline-block; margin-left: 8px; font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); background: var(--gray-light); padding: 5px 12px; border-radius: 999px; vertical-align: middle; }
-  .cal-info p { font-family: var(--font-heading); font-size: 13px; font-weight: 700; color: var(--month-accent, var(--orange)); margin: 4px 0 0; }
+  .cal-info p { font-family: var(--font-heading); font-size: 13px; font-weight: 700; color: var(--gray-dark); margin: 4px 0 0; }
   .cal-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
   .cal-pill { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 11px; border-radius: 999px; }
   .cal-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
@@ -77,7 +79,7 @@
   .cal-pill--bb::before { background: var(--orange); }
   .cal-pill--vb { color: #1E7A61; background: rgba(64,163,143,0.16); }
   .cal-pill--vb::before { background: #40A38F; }
-  .cal-action { font-size: 13px; font-weight: 700; color: var(--month-accent, var(--orange)); text-align: right; white-space: nowrap; }
+  .cal-action { font-size: 13px; font-weight: 700; color: var(--orange); text-align: right; white-space: nowrap; }
   .cal-action--soon { color: var(--gray-dark); opacity: 0.55; font-style: italic; font-weight: 600; font-size: 11.5px; white-space: normal; line-height: 1.3; }
   @media (max-width: 640px) {
     .cal-board { padding: 4px 18px; }
@@ -305,16 +307,22 @@
   </div>
 </section>
 
-<section id="board" style="padding:56px 0 90px; background:var(--gray-light); scroll-margin-top:180px;">
+<section id="board" style="padding:0 0 90px; background:var(--gray-light); scroll-margin-top:180px;">
   <div class="container">
     <div class="section-head center">
       <span class="eyebrow" style="font-size:22px;">Coming Up</span>
       <h2 class="section-title">So Many Days Off. So Little Time.</h2>
       <p class="section-sub">Every early release, break, and holiday &mdash; mapped out and ready to book.<br>Space is limited and advance registration is required.</p>
     </div>
+    <div class="camp-filter" id="campFilter">
+      <button type="button" class="camp-filter-btn active" data-filter="all">All</button>
+      <button type="button" class="camp-filter-btn" data-filter="oct">October</button>
+      <button type="button" class="camp-filter-btn" data-filter="nov">November</button>
+      <button type="button" class="camp-filter-btn" data-filter="dec">December</button>
+    </div>
     <div class="cal-wrap">
       <div class="cal-board">
-        <div class="cal-month-group">
+        <div class="cal-month-group" data-filter="oct">
           <div class="cal-month-label">October</div>
           <div class="cal-row reveal">
             <span class="cal-date cal-date--bb">Oct 12&ndash;15</span>
@@ -343,7 +351,7 @@
           </div>
         </div>
 
-        <div class="cal-month-group cal-month-group--nov">
+        <div class="cal-month-group cal-month-group--nov" data-filter="nov">
           <div class="cal-month-label">November</div>
           <div class="cal-row reveal">
             <span class="cal-date cal-date--bb">Nov 3</span>
@@ -372,7 +380,7 @@
           </div>
         </div>
 
-        <div class="cal-month-group cal-month-group--dec">
+        <div class="cal-month-group cal-month-group--dec" data-filter="dec">
           <div class="cal-month-label">December</div>
           <div class="cal-row reveal">
             <span class="cal-date cal-date--bb">Dec 9</span>
@@ -497,5 +505,23 @@
 </footer>
 
 <script src="js/script.js"></script>
+<script>
+  (function () {
+    var filterBar = document.getElementById('campFilter');
+    if (!filterBar) return;
+    var buttons = [].slice.call(filterBar.querySelectorAll('.camp-filter-btn'));
+    var groups = [].slice.call(document.querySelectorAll('.cal-month-group'));
+    filterBar.addEventListener('click', function (e) {
+      var btn = e.target.closest('.camp-filter-btn');
+      if (!btn) return;
+      var filter = btn.getAttribute('data-filter');
+      buttons.forEach(function (b) { b.classList.toggle('active', b === btn); });
+      groups.forEach(function (g) {
+        var show = filter === 'all' || g.getAttribute('data-filter') === filter;
+        g.style.display = show ? '' : 'none';
+      });
+    });
+  })();
+</script>
 </body>
 </html>
