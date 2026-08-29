@@ -16,6 +16,8 @@
   /* ================= Leagues page — editorial system (lg-*) ================= */
 
   @keyframes lgPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+  .lg-forming-flash { animation: lgPulse 2s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .lg-forming-flash { animation: none; } }
 
   .lg-hero-deadline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; margin: 22px 0 26px; }
   .lg-hero-deadline-label, .lg-hero-deadline-date { font-family: var(--font-sport); font-size: clamp(16px, 1.9vw, 20px); letter-spacing: 0.05em; text-transform: uppercase; }
@@ -231,7 +233,7 @@
   <div class="container page-hero-inner">
     <span class="eyebrow eyebrow--light">Basketball Leagues</span>
     <h1 class="page-hero-title">Practice Is Great. Let&rsquo;s Keep Score.</h1>
-    <p class="page-hero-sub">Weekly practice. Saturday games. Real teammates. Real competition.<br><strong style="display:inline-block; margin-top:10px; font-size:1.3em;">Fall teams are forming now.</strong></p>
+    <p class="page-hero-sub">Weekly practice. Saturday games. Real teammates. Real competition.<br><strong class="lg-forming-flash" style="display:inline-block; margin-top:10px; font-size:1.3em;">Fall teams are forming now.</strong></p>
     <p class="lg-hero-deadline"><span class="lg-hero-deadline-label">Registration Closes</span><span class="lg-hero-deadline-date">September 20 · 5 PM</span></p>
     <div class="hero-ctas ctas">
       <a href="#register" class="btn btn-primary">Get in the League →</a>
