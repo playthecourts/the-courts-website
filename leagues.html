@@ -16,6 +16,7 @@
   /* ================= Leagues page — editorial system (lg-*) ================= */
 
   @keyframes lgPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+  .lg-hero-gradient { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 45%, rgba(0,0,0,0.6) 100%); pointer-events: none; }
   .lg-forming-flash { animation: lgPulse 2s ease-in-out infinite; }
   @media (prefers-reduced-motion: reduce) { .lg-forming-flash { animation: none; } }
 
@@ -229,7 +230,7 @@
 </div>
 
 <section class="page-hero" id="main">
-  <div class="photo"><img src="images/courts_athlete_sweat.png" alt="A close, intense profile shot of an athlete mid-game." style="width:100%; height:100%; object-fit:cover;"></div>
+  <div class="photo" style="opacity:1;"><img src="images/leagues-hero-pass-crop.png" alt="Two young athletes passing a basketball to each other on the court." style="width:100%; height:100%; object-fit:cover; object-position:50% 45%;"><span class="lg-hero-gradient" aria-hidden="true"></span></div>
   <div class="container page-hero-inner">
     <span class="eyebrow eyebrow--light">Basketball Leagues</span>
     <h1 class="page-hero-title">Practice Is Great. Let&rsquo;s Keep Score.</h1>
