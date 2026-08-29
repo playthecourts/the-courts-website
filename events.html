@@ -101,7 +101,7 @@
 
   /* GOAT Movie Night — cinematic, colorful, cozy */
   .ev-poster--goat { background:radial-gradient(ellipse 700px 360px at 50% -10%, rgba(242,166,90,0.16), transparent 62%), #0D0D0D; position:relative; text-align:center; }
-  .ev-poster--goat::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; z-index:2; background:repeating-linear-gradient(90deg, rgba(255,255,255,0.4) 0 10px, transparent 10px 22px); }
+  .ev-poster--goat::before { content:''; position:absolute; top:0; left:0; right:0; height:10px; z-index:2; background:repeating-linear-gradient(90deg, rgba(255,255,255,0.4) 0 13px, transparent 13px 28px); }
   .ev-poster--goat .ev-poster-body { position:relative; z-index:1; padding:28px clamp(24px,4vw,48px) 26px; }
   .ev-poster--goat .ev-poster-status { color:#F2A65A; }
   .ev-poster--goat h3 { font-family:var(--font-display); font-weight:900; font-size:clamp(30px,4.2vw,44px); color:var(--white); margin:0 0 10px; }
@@ -784,9 +784,16 @@
       </div>
 
       <div class="cal-item cal-item--compact reveal" style="position:relative; overflow:hidden;" data-category="basketball" data-filter="league">
-        <svg style="position:absolute; top:12px; right:16px; z-index:1; pointer-events:none;" width="52" height="62" viewBox="0 0 30 36" aria-hidden="true"><path d="M9,4 h12 v10 a6,6 0 0 1 -12,0 Z" fill="#D9A441"/><path d="M9,6 h-5 a3,3 0 0 0 3,7 h2" stroke="#D9A441" stroke-width="1.6" fill="none"/><path d="M21,6 h5 a3,3 0 0 1 -3,7 h-2" stroke="#D9A441" stroke-width="1.6" fill="none"/><rect x="13" y="20" width="4" height="6" fill="#D9A441"/><rect x="8" y="26" width="14" height="4" rx="1" fill="#D9A441"/></svg>
+        <svg style="position:absolute; top:12px; right:16px; z-index:1; pointer-events:none;" width="52" height="62" viewBox="0 0 30 36" aria-hidden="true"><path d="M9,4 h12 v10 a6,6 0 0 1 -12,0 Z" fill="#D9A441"/><path d="M9,6 h-5 a3,3 0 0 0 3,7 h2" stroke="#D9A441" stroke-width="1.6" fill="none"/><path d="M21,6 h5 a3,3 0 0 1 -3,7 h-2" stroke="#D9A441" stroke-width="1.6" fill="none"/><rect x="13" y="20" width="4" height="6" fill="#D9A441"/><rect x="8" y="26" width="14" height="4" rx="1" fill="#D9A441"/><text x="15" y="12" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="7" fill="#1B1000">1</text></svg>
         <svg style="position:absolute; bottom:14px; right:100px; z-index:1; pointer-events:none;" width="42" height="36" viewBox="0 0 40 34" aria-hidden="true"><ellipse cx="20" cy="6" rx="16" ry="4" fill="none" stroke="var(--orange)" stroke-width="2.5"/><path d="M6,7 L10,27 M34,7 L30,27 M12.5,7.5 L16,26 M27.5,7.5 L24,26 M18,8 L20,27 M22,8 L20,27" stroke="rgba(23,23,23,0.3)" stroke-width="1" fill="none"/></svg>
         <svg style="position:absolute; bottom:32px; right:110px; z-index:2; pointer-events:none;" width="22" height="22" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="var(--orange)"/><path d="M2,15 h26 M15,2 v26 M5,5 C10,10 10,20 5,25 M25,5 C20,10 20,20 25,25" stroke="#1B1000" stroke-width="1" opacity="0.5" fill="none"/></svg>
+        <svg style="position:absolute; bottom:16px; left:16px; z-index:1; pointer-events:none;" width="58" height="34" viewBox="0 0 58 34" aria-hidden="true">
+          <rect x="1" y="1" width="56" height="32" rx="4" fill="#1B1000" stroke="var(--orange)" stroke-width="2"/>
+          <line x1="29" y1="6" x2="29" y2="28" stroke="var(--orange)" stroke-width="1" opacity="0.5"/>
+          <text x="14" y="23" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="14" fill="var(--orange)">84</text>
+          <text x="44" y="23" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="14" fill="var(--orange)">79</text>
+          <g fill="var(--orange)" opacity="0.6"><circle cx="8" cy="6" r="1.3"/><circle cx="14" cy="6" r="1.3"/><circle cx="20" cy="6" r="1.3"/><circle cx="38" cy="6" r="1.3"/><circle cx="44" cy="6" r="1.3"/><circle cx="50" cy="6" r="1.3"/></g>
+        </svg>
         <div class="cal-date"><span class="cal-weekday">Fri&ndash;Sun</span><span class="cal-month">Dec</span><span class="cal-day">11&ndash;13</span></div>
         <div class="cal-body" style="position:relative; z-index:2;">
           <span class="cal-tag cal-tag--league">Fall Basketball League</span>

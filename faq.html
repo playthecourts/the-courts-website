@@ -12,6 +12,12 @@
 <link rel="icon" type="image/png" sizes="16x16" href="images/brand/favicon-16.png">
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="css/styles.css">
+<style>
+  .faq-filter { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 22px auto 0; max-width: 720px; }
+  .faq-filter-btn { font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 999px; padding: 9px 20px; cursor: pointer; transition: all 0.15s var(--ease); }
+  .faq-filter-btn:hover { border-color: var(--orange); color: var(--black); }
+  .faq-filter-btn.active { background: var(--black); border-color: var(--black); color: var(--white); }
+</style>
 </head>
 <body class="has-announce">
 <a href="#main" class="skip-link">Skip to main content</a>
@@ -161,7 +167,18 @@
       <input type="text" id="faqSearch" class="faq-search" placeholder='Search FAQs — try &quot;membership,&quot; &quot;camp,&quot; or &quot;rental&quot;'>
     </div>
 
-    <div class="faq-category">
+    <div class="faq-filter" id="faqFilter">
+      <button type="button" class="faq-filter-btn active" data-category-filter="all">All</button>
+      <button type="button" class="faq-filter-btn" data-category-filter="getting-started">Getting Started</button>
+      <button type="button" class="faq-filter-btn" data-category-filter="membership">Membership</button>
+      <button type="button" class="faq-filter-btn" data-category-filter="billing">Billing</button>
+      <button type="button" class="faq-filter-btn" data-category-filter="training">Private Training</button>
+      <button type="button" class="faq-filter-btn" data-category-filter="camps">Camps + Leagues</button>
+      <button type="button" class="faq-filter-btn" data-category-filter="scheduling">Scheduling</button>
+      <button type="button" class="faq-filter-btn" data-category-filter="nextgen">NextGen</button>
+    </div>
+
+    <div class="faq-category" data-category="getting-started">
       <h3>Getting Started</h3>
       <div class="faq-item">
         <button class="faq-q">What ages do you work with? <span class="faq-q-icon">+</span></button>
@@ -191,7 +208,7 @@
       <div class="faq-category-cta"><a href="programs">Explore Programs <span class="arrow">→</span></a></div>
     </div>
 
-    <div class="faq-category">
+    <div class="faq-category" data-category="membership">
       <h3>Membership</h3>
       <div class="faq-item">
         <button class="faq-q">What does a membership include? <span class="faq-q-icon">+</span></button>
@@ -213,7 +230,7 @@
       <div class="faq-category-cta"><a href="membership">View Membership Plans <span class="arrow">→</span></a></div>
     </div>
 
-    <div class="faq-category">
+    <div class="faq-category" data-category="billing">
       <h3>Billing + Cancellations</h3>
       <div class="faq-item">
         <button class="faq-q">When am I billed? <span class="faq-q-icon">+</span></button>
@@ -233,7 +250,7 @@
       <div class="faq-category-cta"><a href="contact">Contact Us <span class="arrow">→</span></a></div>
     </div>
 
-    <div class="faq-category">
+    <div class="faq-category" data-category="training">
       <h3>Private Training</h3>
       <div class="faq-item">
         <button class="faq-q">How do I book a private session? <span class="faq-q-icon">+</span></button>
@@ -242,7 +259,7 @@
       <div class="faq-category-cta"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206307-basketball-private-training" target="_blank" rel="noopener">Book Private Training <span class="arrow">→</span></a></div>
     </div>
 
-    <div class="faq-category">
+    <div class="faq-category" data-category="camps">
       <h3>Camps + Leagues</h3>
       <div class="faq-item">
         <button class="faq-q">When do camps run? <span class="faq-q-icon">+</span></button>
@@ -272,7 +289,7 @@
       <div class="faq-category-cta"><a href="leagues">Explore Basketball Leagues <span class="arrow">→</span></a></div>
     </div>
 
-    <div class="faq-category">
+    <div class="faq-category" data-category="scheduling">
       <h3>Scheduling + Court Time</h3>
       <div class="faq-item">
         <button class="faq-q">How do I see class times? <span class="faq-q-icon">+</span></button>
@@ -293,7 +310,7 @@
       <div class="faq-category-cta"><a href="court-rentals">Explore Court Rentals <span class="arrow">→</span></a></div>
     </div>
 
-    <div class="faq-category">
+    <div class="faq-category" data-category="nextgen">
       <h3>NextGen → The Courts</h3>
       <div class="faq-item">
         <button class="faq-q">What&rsquo;s happening with NextGen Court Academy? <span class="faq-q-icon">+</span></button>
@@ -389,5 +406,48 @@
 </footer>
 
 <script src="js/script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  var filterBar = document.getElementById('faqFilter');
+  var searchInput = document.getElementById('faqSearch');
+  if (!filterBar) return;
+  var buttons = [].slice.call(filterBar.querySelectorAll('.faq-filter-btn'));
+  var categories = [].slice.call(document.querySelectorAll('.faq-category[data-category]'));
+  var currentCategory = 'all';
+
+  function applyFilters() {
+    var q = searchInput ? searchInput.value.trim().toLowerCase() : '';
+    categories.forEach(function (cat) {
+      var categoryMatch = currentCategory === 'all' || cat.getAttribute('data-category') === currentCategory;
+      if (!categoryMatch) {
+        cat.style.display = 'none';
+        return;
+      }
+      var items = [].slice.call(cat.querySelectorAll('.faq-item'));
+      var anyVisible = false;
+      items.forEach(function (item) {
+        var text = item.textContent.toLowerCase();
+        var show = !q || text.indexOf(q) !== -1;
+        item.style.display = show ? '' : 'none';
+        if (show) anyVisible = true;
+      });
+      cat.style.display = anyVisible ? '' : 'none';
+    });
+  }
+
+  filterBar.addEventListener('click', function (e) {
+    var btn = e.target.closest('.faq-filter-btn');
+    if (!btn) return;
+    buttons.forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    currentCategory = btn.getAttribute('data-category-filter');
+    applyFilters();
+  });
+
+  if (searchInput) {
+    searchInput.addEventListener('input', applyFilters);
+  }
+});
+</script>
 </body>
 </html>
