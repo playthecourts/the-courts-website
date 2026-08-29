@@ -27,8 +27,15 @@
   .camp-split-media { position: relative; aspect-ratio: 4/3; border-radius: var(--radius-md); overflow: hidden; margin-bottom: 26px; }
   .camp-split-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .camp-feature-subhead { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 3vw, 32px); line-height: 1.05; margin: 12px 0 16px; }
+  .cp-underline { position: relative; display: inline-block; }
+  .cp-underline-mark { position: absolute; left: -2%; bottom: -10px; width: 104%; height: 14px; pointer-events: none; }
   .camp-split-col p { font-size: 16px; line-height: 1.7; color: var(--gray-dark); max-width: 40ch; margin: 0 0 14px; }
   .camp-feature-detail { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--black); margin: 18px 0 16px; }
+  .camp-split-foot { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-top: 20px; flex-wrap: wrap; }
+  .camp-split-schedule { display: flex; flex-direction: column; gap: 5px; font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); }
+  .camp-split-schedule span:nth-child(2) { color: var(--black); font-size: 14px; }
+  .camp-split-action { text-align: right; }
+  @media (max-width: 460px) { .camp-split-foot { flex-direction: column; align-items: flex-start; } .camp-split-action { text-align: left; } }
   .camp-feature-detail .sep { color: var(--gray-mid); margin: 0 10px; }
   .camp-feature-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3.4vw, 40px); color: var(--black); margin: 0 0 24px; }
   .camp-feature-price .member-price { font-family: var(--font-heading); font-weight: 700; font-size: 16px; color: var(--orange); }
@@ -36,31 +43,30 @@
 
   /* ---------- Competition Day banner ---------- */
   .camp-comp-banner { margin-top: 64px; background: var(--black); border-radius: var(--radius-lg); padding: clamp(32px,4vw,48px); display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; color: var(--white); }
-  .camp-comp-banner-tag { display: inline-block; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 13px; border-radius: 999px; margin-bottom: 14px; }
+  .camp-comp-banner-tag { display: inline-block; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 7px 16px; border-radius: 999px; margin-bottom: 14px; }
   .camp-comp-banner-head h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 3.6vw, 42px); margin: 0 0 12px; line-height: 1.02; }
   .camp-comp-banner-head p { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.72); margin: 0 0 10px; }
-  .camp-comp-note { font-size: 13.5px; font-style: italic; color: rgba(255,255,255,0.5); }
   .camp-comp-banner-ctas { display: flex; flex-direction: column; gap: 18px; }
   .camp-comp-cta { display: flex; align-items: center; justify-content: space-between; gap: 16px; border-top: 1px solid rgba(255,255,255,0.14); padding-top: 18px; }
   .camp-comp-cta:first-child { border-top: none; padding-top: 0; }
-  .camp-comp-cta span { font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+  .camp-comp-cta span { font-family: var(--font-sport); font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
   .camp-comp-cta strong { font-family: var(--font-display); font-weight: 900; font-size: 22px; color: var(--white); margin: 0 14px; }
   .camp-comp-cta strong .member-price { font-family: var(--font-heading); font-weight: 700; font-size: 13px; color: var(--orange); }
   .camp-comp-cta a { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--orange); white-space: nowrap; }
   @media (max-width: 760px) { .camp-comp-banner { grid-template-columns: 1fr; } .camp-comp-cta strong { margin: 0 10px 0 0; } }
 
   /* ---------- Compact month-grouped calendar ---------- */
-  .cal-wrap { margin-top: 48px; }
+  .cal-wrap { margin-top: 48px; max-width: 720px; margin-left: auto; margin-right: auto; }
   .cal-board { background: var(--white); border-radius: var(--radius-md); padding: 8px 24px; border: 1px solid var(--gray-mid); }
-  .cal-month-label { font-family: var(--font-sport); font-size: 16px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--month-accent, var(--orange)); padding: 22px 0 10px; }
+  .cal-month-label { font-family: var(--font-sport); font-size: 22px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--month-accent, var(--orange)); padding: 22px 0 10px; text-align: center; }
   .cal-month-group:first-child .cal-month-label { padding-top: 24px; }
   .cal-month-group--nov { --month-accent: #2E9E7C; }
   .cal-month-group--dec { --month-accent: #8B5FA8; }
-  .cal-row { display: grid; grid-template-columns: 84px 1fr 130px; align-items: center; gap: 16px; padding: 15px 20px; margin: 0 -20px; border-top: 1px solid var(--gray-mid); border-radius: 8px; }
+  .cal-row { display: grid; grid-template-columns: 108px 1fr 130px; align-items: center; gap: 16px; padding: 15px 20px; margin: 0 -20px; border-top: 1px solid var(--gray-mid); border-radius: 8px; }
   .cal-row:nth-child(even) { background: var(--gray-light); }
-  .cal-date { display: inline-block; font-family: var(--font-display); font-weight: 900; color: var(--white); background: var(--month-accent, var(--orange)); font-size: 12.5px; letter-spacing: 0.01em; padding: 7px 10px; border-radius: 8px; text-align: center; line-height: 1.2; }
+  .cal-date { display: inline-block; font-family: var(--font-display); font-weight: 900; color: var(--white); background: var(--month-accent, var(--orange)); font-size: 12.5px; letter-spacing: 0.01em; padding: 7px 10px; border-radius: 8px; text-align: center; line-height: 1.2; white-space: nowrap; }
   .cal-info h4 { font-family: var(--font-heading); font-weight: 800; color: var(--black); font-size: 16px; margin: 0 0 2px; display: inline; }
-  .cal-tag { display: inline-block; margin-left: 8px; font-family: var(--font-sport); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); background: var(--gray-light); padding: 3px 9px; border-radius: 999px; vertical-align: middle; }
+  .cal-tag { display: inline-block; margin-left: 8px; font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); background: var(--gray-light); padding: 5px 12px; border-radius: 999px; vertical-align: middle; }
   .cal-info p { font-family: var(--font-heading); font-size: 13px; font-weight: 700; color: var(--month-accent, var(--orange)); margin: 4px 0 0; }
   .cal-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
   .cal-pill { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 11px; border-radius: 999px; }
@@ -70,7 +76,7 @@
   .cal-pill--vb { color: #1E7A61; background: rgba(64,163,143,0.16); }
   .cal-pill--vb::before { background: #40A38F; }
   .cal-action { font-size: 13px; font-weight: 700; color: var(--month-accent, var(--orange)); text-align: right; white-space: nowrap; }
-  .cal-action--soon { color: var(--gray-dark); opacity: 0.55; font-style: italic; font-weight: 600; }
+  .cal-action--soon { color: var(--gray-dark); opacity: 0.55; font-style: italic; font-weight: 600; font-size: 11.5px; white-space: normal; line-height: 1.3; }
   @media (max-width: 640px) {
     .cal-board { padding: 4px 18px; }
     .cal-row { grid-template-columns: 1fr; gap: 8px; padding: 18px 12px; margin: 0 -12px; }
@@ -78,13 +84,6 @@
     .cal-action { text-align: left; }
   }
 
-  /* ---------- Good to Know ---------- */
-  .basics-board { margin-top: 48px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--gray-mid); border-radius: var(--radius-md); overflow: hidden; }
-  .basics-item { background: var(--white); padding: 30px 28px; }
-  .basics-item .ac-icon { margin-bottom: 16px; }
-  .basics-item h4 { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 10px; }
-  .basics-item p { font-size: 14.5px; font-weight: 600; line-height: 1.6; color: var(--black); margin: 0; }
-  @media (max-width: 560px) { .basics-board { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body class="has-announce">
@@ -245,21 +244,37 @@
       <div class="camp-split-col reveal">
         <div class="camp-split-media"><img src="images/basketball-camp-defensive-stance.png" alt="A young athlete in a defensive stance during camp, hoop in the background." style="object-position:50% 25%;"></div>
         <span class="eyebrow">Basketball</span>
-        <h3 class="camp-feature-subhead">Fall Break Basketball Camp.</h3>
+        <h3 class="camp-feature-subhead">Fall Break <span class="cp-underline">Basketball<svg class="cp-underline-mark" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C28,11.5 58,5 90,8 C122,10.8 156,5.8 198,8.8" stroke="#D5601F" stroke-width="5.5" stroke-linecap="round" fill="none" opacity="0.88"/><path d="M3,7.8 C40,10 82,6.4 122,8.2 C152,9.4 178,7 197,7.8" stroke="#E5772F" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.6"/></svg></span> Camp.</h3>
         <p>Four mornings of basketball training, competition, games, and plenty of reps.</p>
-        <p class="camp-feature-detail">Mon&ndash;Thu, Oct 12&ndash;15<span class="sep">&middot;</span>8 AM&ndash;12 PM</p>
-        <p class="camp-feature-price">$225 <span class="member-price">&middot; Members $195</span></p>
-        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206640-fall-break-basketball-camp" class="btn btn-primary" data-booking-type="fall-break-basketball-camp">Register for Basketball →</a>
+        <div class="camp-split-foot">
+          <div class="camp-split-schedule">
+            <span>Mon&ndash;Thu</span>
+            <span>Oct 12&ndash;15</span>
+            <span>8 AM&ndash;12 PM</span>
+          </div>
+          <div class="camp-split-action">
+            <p class="camp-feature-price">$225 <span class="member-price">&middot; Members $195</span></p>
+            <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206640-fall-break-basketball-camp" class="btn btn-primary" data-booking-type="fall-break-basketball-camp">Register for Basketball →</a>
+          </div>
+        </div>
       </div>
       <div class="camp-split-divider" aria-hidden="true"></div>
       <div class="camp-split-col reveal">
         <div class="camp-split-media"><img src="images/volleyball-net-compete-hires.png" alt="A volleyball player attacking at the net during camp." style="object-position:50% 35%;"></div>
         <span class="eyebrow">Volleyball</span>
-        <h3 class="camp-feature-subhead">Fall Break Volleyball Camp.</h3>
+        <h3 class="camp-feature-subhead">Fall Break <span class="cp-underline">Volleyball<svg class="cp-underline-mark" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C28,11.5 58,5 90,8 C122,10.8 156,5.8 198,8.8" stroke="#D5601F" stroke-width="5.5" stroke-linecap="round" fill="none" opacity="0.88"/><path d="M3,7.8 C40,10 82,6.4 122,8.2 C152,9.4 178,7 197,7.8" stroke="#E5772F" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.6"/></svg></span> Camp.</h3>
         <p>Four afternoons of volleyball training, competition, games, and plenty of touches.</p>
-        <p class="camp-feature-detail">Mon&ndash;Thu, Oct 12&ndash;15<span class="sep">&middot;</span>1&ndash;5 PM</p>
-        <p class="camp-feature-price">$225 <span class="member-price">&middot; Members $195</span></p>
-        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206641-fall-break-volleyball-camp" class="btn btn-primary" data-booking-type="fall-break-volleyball-camp">Register for Volleyball →</a>
+        <div class="camp-split-foot">
+          <div class="camp-split-schedule">
+            <span>Mon&ndash;Thu</span>
+            <span>Oct 12&ndash;15</span>
+            <span>1&ndash;5 PM</span>
+          </div>
+          <div class="camp-split-action">
+            <p class="camp-feature-price">$225 <span class="member-price">&middot; Members $195</span></p>
+            <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206641-fall-break-volleyball-camp" class="btn btn-primary" data-booking-type="fall-break-volleyball-camp">Register for Volleyball →</a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -267,8 +282,7 @@
       <div class="camp-comp-banner-head">
         <span class="camp-comp-banner-tag">Optional Add-On</span>
         <h3>Competition Day</h3>
-        <p>Fri, Oct 16 &middot; Games. Challenges. Bragging rights. <span class="courts-commentary">You know. The important stuff.</span></p>
-        <p class="camp-comp-note">Single-day options are also available for both camps &mdash; just ask when you register.</p>
+        <p><strong style="color:var(--orange);">Fri, Oct 16</strong> &middot; Games. Challenges. Bragging rights. <span class="courts-commentary courts-commentary--on-dark">You know. The important stuff.</span></p>
       </div>
       <div class="camp-comp-banner-ctas">
         <div class="camp-comp-cta">
@@ -291,7 +305,7 @@
     <div class="section-head center">
       <span class="eyebrow">Coming Up</span>
       <h2 class="section-title">So Many Days Off. So Little Time.</h2>
-      <p class="section-sub">Every early release, break, and holiday &mdash; mapped out and ready to book.</p>
+      <p class="section-sub">Every early release, break, and holiday &mdash; mapped out and ready to book.<br>Space is limited and advance registration is required.</p>
     </div>
     <div class="cal-wrap">
       <div class="cal-board">
@@ -387,24 +401,8 @@
       <span class="eyebrow">2027</span>
       <h3 style="font-family:var(--font-display); font-weight:900; font-size:clamp(20px,2.4vw,28px); margin:6px 0 8px;">We&rsquo;re Already Making Plans.</h3>
       <p style="color:var(--gray-dark); font-size:14.5px; margin:0 0 10px;">Spring break. Summer. More school days off.</p>
-      <span class="cal-tag" style="background:var(--gray-mid); color:var(--gray-dark); font-size:13px; padding:6px 14px;">Coming Soon</span>
+      <span class="cal-tag" style="background:var(--gray-mid); color:var(--gray-dark); font-size:15px; padding:8px 18px;">Coming Soon</span>
     </div>
-  </div>
-</section>
-
-<section style="padding:96px 0; background:var(--white);">
-  <div class="container">
-    <div class="section-head center">
-      <span class="eyebrow">Good to Know</span>
-      <h2 class="section-title">What to Know Before You Drop Them Off.</h2>
-    </div>
-    <div class="basics-board">
-      <div class="basics-item"><h4>What Should They Bring?</h4><p>Court shoes. Water bottle. Snack. Bring lunch if staying for both basketball and volleyball.</p></div>
-      <div class="basics-item"><h4>What Time?</h4><p>Basketball &middot; 8 AM&ndash;12 PM<br>Volleyball &middot; 1&ndash;5 PM<br>Early Release times vary by date.</p></div>
-      <div class="basics-item"><h4>Do I Need a Membership?</h4><p>Nope. Members receive preferred camp pricing.</p></div>
-      <div class="basics-item"><h4>Do I Need to Register?</h4><p>Yep. Space is limited and advance registration is required.</p></div>
-    </div>
-    <div style="text-align:center; margin-top:20px;"><a href="faq" style="font-weight:700; color:var(--orange);">View Camp FAQs →</a></div>
   </div>
 </section>
 
