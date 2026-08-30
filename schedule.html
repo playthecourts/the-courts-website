@@ -13,28 +13,72 @@
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="css/styles.css?v=2">
 <style>
-  /* ================= Schedule page — Upper Hand gateway (sched-*) ================= */
-  .sched-gate { padding: 12px 0 90px; }
-  .sched-gate-head { max-width: 620px; margin: 0 auto 40px; text-align: center; }
-  .sched-gate-head .eyebrow { color: var(--orange); }
-  .sched-gate-note { font-size: 14.5px; color: var(--gray-dark); margin: 10px auto 0; max-width: 52ch; }
-  .sched-gate-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-  .sched-gate-card { display: flex; flex-direction: column; text-decoration: none; color: var(--black); background: var(--gray-light); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-md); padding: 30px 26px 26px; transition: transform 0.2s var(--ease), border-color 0.2s var(--ease), box-shadow 0.2s var(--ease); }
-  .sched-gate-card:hover { transform: translateY(-4px); border-color: var(--orange); box-shadow: 0 12px 28px rgba(23,23,23,0.08); }
-  .sched-gate-icon { color: var(--orange); margin-bottom: 16px; }
-  .sched-gate-name { font-family: var(--font-display); font-weight: 900; font-size: 21px; margin: 0 0 8px; }
-  .sched-gate-desc { font-size: 14px; line-height: 1.55; color: var(--gray-dark); margin: 0 0 20px; flex-grow: 1; }
-  .sched-gate-link { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--black); display: inline-flex; align-items: center; gap: 4px; transition: color 0.2s var(--ease); }
-  .sched-gate-card:hover .sched-gate-link { color: var(--orange); }
-  .sched-gate-powered { text-align: center; font-family: var(--font-sport); font-weight: 700; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); margin: 36px 0 0; }
-  @media (prefers-reduced-motion: reduce) { .sched-gate-card { transition: none !important; } .sched-gate-card:hover { transform: none; } }
-  @media (max-width: 900px) { .sched-gate-grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 560px) { .sched-gate-grid { grid-template-columns: 1fr; } }
-  .sched-gate-card.is-hidden { display: none; }
-  .sched-filter { display: flex; gap: 28px; justify-content: center; margin: 0 0 32px; border-bottom: 1px solid var(--gray-mid); }
-  .sched-filter-tab { font-family: var(--font-sport); font-weight: 700; font-size: 15px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-dark); padding: 10px 4px 14px; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px; background: none; cursor: pointer; }
-  .sched-filter-tab:hover { color: var(--black); }
-  .sched-filter-tab.active { color: var(--black); border-bottom-color: var(--orange); }
+  /* ================= Weekly Programs (wp-*) ================= */
+  .wp-section { padding: 12px 0 60px; }
+  .wp-head { max-width: 640px; margin: 0 auto 40px; text-align: center; }
+  .wp-head .eyebrow { color: var(--orange); }
+  .wp-note { font-size: 14.5px; color: var(--gray-dark); margin: 10px auto 0; max-width: 52ch; }
+  .wp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px; }
+  .wp-card { background: var(--gray-light); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-md); padding: 30px 28px; }
+  .wp-card-head { display: flex; align-items: center; gap: 11px; margin-bottom: 22px; }
+  .wp-sport-dot { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; }
+  .wp-sport-dot--bb { background: var(--orange); }
+  .wp-sport-dot--vb { background: var(--black); }
+  .wp-card h3 { font-family: var(--font-display); font-weight: 900; font-size: 23px; margin: 0; }
+  .wp-tier { padding: 18px 0; border-top: 1px solid var(--gray-mid); display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .wp-tier:first-of-type { border-top: none; padding-top: 0; }
+  .wp-tier-name { font-family: var(--font-heading); font-weight: 800; font-size: 15.5px; margin: 0 0 6px; }
+  .wp-tier-times { font-size: 14px; color: var(--gray-dark); line-height: 1.6; margin: 0; }
+  .wp-tier-cta { font-family: var(--font-heading); font-weight: 700; font-size: 13.5px; color: var(--orange); white-space: nowrap; flex-shrink: 0; }
+  .wp-tier-cta:hover { color: var(--orange-hover); }
+  .wp-opengym { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; background: var(--gray-light); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-md); padding: 24px 28px; }
+  .wp-opengym h3 { font-family: var(--font-display); font-weight: 900; font-size: 19px; margin: 0 0 4px; }
+  .wp-opengym p { font-size: 14px; color: var(--gray-dark); margin: 0; }
+  .wp-opengym-cta { font-family: var(--font-heading); font-weight: 700; font-size: 13.5px; color: var(--orange); white-space: nowrap; }
+  @media (max-width: 760px) { .wp-grid { grid-template-columns: 1fr; } .wp-tier { flex-direction: column; gap: 6px; } }
+
+  /* ================= Calendar (cal2-*) ================= */
+  .cal2-section { padding: 12px 0 90px; background: var(--gray-light); }
+  .cal2-head { max-width: 620px; margin: 0 auto; text-align: center; }
+  .cal2-head .eyebrow { color: var(--orange); }
+  .cal2-legend { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin: 26px 0 40px; }
+  .cal2-legend-item { display: flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-dark); }
+  .cal2-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .cal2-legend-dot--bb { background: var(--orange); }
+  .cal2-legend-dot--vb { background: var(--black); }
+  .cal2-legend-dot--general { background: var(--white); border: 1.5px solid var(--gray-dark); }
+  .cal2-months { display: flex; flex-direction: column; gap: 60px; }
+  .cal2-month-name { text-align: center; font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2.8vw, 30px); margin: 0 0 22px; }
+  .cal2-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 7px; max-width: 760px; margin: 0 auto; }
+  .cal2-dow { text-align: center; font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); padding-bottom: 8px; }
+  .cal2-day { aspect-ratio: 1; background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; font-family: var(--font-heading); font-size: 14px; font-weight: 600; color: var(--black); position: relative; padding: 0; }
+  .cal2-day--empty { background: none; border: none; }
+  button.cal2-day--active { cursor: pointer; border-color: var(--gray-dark); transition: border-color 0.15s var(--ease), transform 0.15s var(--ease); }
+  button.cal2-day--active:hover { border-color: var(--orange); transform: translateY(-2px); }
+  .cal2-day--selected { background: var(--black) !important; color: var(--white); border-color: var(--black) !important; }
+  .cal2-day-dots { display: flex; gap: 3px; }
+  .cal2-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .cal2-dot--bb { background: var(--orange); }
+  .cal2-dot--vb { background: var(--black); }
+  .cal2-dot--general { background: var(--gray-dark); }
+  .cal2-day--selected .cal2-dot--vb { background: var(--white); }
+  .cal2-day--selected .cal2-dot--general { background: rgba(255,255,255,0.65); }
+  .cal2-panel { display: none; max-width: 640px; margin: 32px auto 0; background: var(--black); color: var(--white); border-radius: var(--radius-md); padding: 30px 32px; scroll-margin-top: 140px; }
+  .cal2-panel.show { display: block; }
+  .cal2-panel-date { font-family: var(--font-sport); font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); margin: 0 0 16px; }
+  .cal2-panel-item { padding: 18px 0; border-top: 1px solid rgba(255,255,255,0.14); }
+  .cal2-panel-item:first-of-type { border-top: none; padding-top: 0; }
+  .cal2-panel-item h4 { font-family: var(--font-display); font-weight: 900; font-size: 19px; margin: 0 0 6px; }
+  .cal2-panel-item p { font-size: 14px; color: rgba(255,255,255,0.68); margin: 0 0 14px; line-height: 1.5; }
+  .cal2-panel-item a { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--white); background: var(--orange); padding: 10px 20px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; }
+  .cal2-panel-item a:hover { background: var(--orange-hover); }
+  @media (max-width: 620px) {
+    .cal2-grid { gap: 4px; }
+    .cal2-day { font-size: 12px; }
+    .cal2-dow { font-size: 9px; }
+    .cal2-panel { padding: 26px 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) { button.cal2-day--active { transition: none; } button.cal2-day--active:hover { transform: none; } }
 
   /* ================= More Ways to Play — editorial modules (mwp-*) ================= */
   .mwp-head { max-width: 620px; margin: 0 0 32px; }
@@ -212,45 +256,72 @@
   </div>
 </section>
 
-<section class="sched-gate">
+<section class="wp-section" id="weekly-programs">
   <div class="container">
-    <div class="sched-gate-head">
-      <span class="eyebrow">Live Schedule</span>
-      <p class="sched-gate-note">Advance registration is required.<br>Sessions are subject to capacity and availability.</p>
+    <div class="wp-head">
+      <span class="eyebrow">Weekly Programs</span>
+      <p class="wp-note">Advance registration is required. Sessions are subject to capacity and availability.</p>
     </div>
-    <div class="sched-filter" role="tablist" aria-label="Filter by sport">
-      <button type="button" class="sched-filter-tab" data-sport="all">All</button>
-      <button type="button" class="sched-filter-tab" data-sport="basketball">Basketball</button>
-      <button type="button" class="sched-filter-tab" data-sport="volleyball">Volleyball</button>
+    <div class="wp-grid">
+      <div class="wp-card">
+        <div class="wp-card-head"><span class="wp-sport-dot wp-sport-dot--bb"></span><h3>Basketball</h3></div>
+        <div class="wp-tier">
+          <div><p class="wp-tier-name">Fundamentals · Grades K&ndash;2</p><p class="wp-tier-times">Wed &middot; 5:00&ndash;5:50 PM</p></div>
+          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206739-basketball-fundamentals-grades-k-2" target="_blank" rel="noopener" class="wp-tier-cta" data-booking-type="basketball-fundamentals-k2">Book →</a>
+        </div>
+        <div class="wp-tier">
+          <div><p class="wp-tier-name">Grades 3&ndash;5</p><p class="wp-tier-times">Thu &middot; 5:00&ndash;5:50 PM<br>Fri &middot; 5:00&ndash;5:50 PM<br>Sat &middot; 9:00&ndash;9:50 AM</p></div>
+          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206747-basketball-training-grades-3-5" target="_blank" rel="noopener" class="wp-tier-cta" data-booking-type="basketball-training-3-5">Book →</a>
+        </div>
+        <div class="wp-tier">
+          <div><p class="wp-tier-name">Grades 6&ndash;8</p><p class="wp-tier-times">Thu &middot; 6:00&ndash;6:50 PM<br>Fri &middot; 6:00&ndash;6:50 PM<br>Sat &middot; 10:00&ndash;10:50 AM</p></div>
+          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206749-basketball-training-grades-6-8" target="_blank" rel="noopener" class="wp-tier-cta" data-booking-type="basketball-training-6-8">Book →</a>
+        </div>
+        <div class="wp-tier">
+          <div><p class="wp-tier-name">High School</p><p class="wp-tier-times">Thu &middot; 7:00&ndash;7:50 PM<br>Fri &middot; 7:00&ndash;7:50 PM<br>Sat &middot; 11:00&ndash;11:50 AM</p></div>
+          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206750-basketball-training-high-school" target="_blank" rel="noopener" class="wp-tier-cta" data-booking-type="basketball-training-hs">Book →</a>
+        </div>
+      </div>
+      <div class="wp-card">
+        <div class="wp-card-head"><span class="wp-sport-dot wp-sport-dot--vb"></span><h3>Volleyball</h3></div>
+        <div class="wp-tier">
+          <div><p class="wp-tier-name">Grades 4&ndash;8</p><p class="wp-tier-times">Mon &middot; 5:00&ndash;5:50 PM<br>Wed &middot; 5:00&ndash;5:50 PM<br>Sat &middot; 1:00&ndash;1:50 PM</p></div>
+          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206752-volleyball-training-grades-4-8" target="_blank" rel="noopener" class="wp-tier-cta" data-booking-type="volleyball-training-4-8">Book →</a>
+        </div>
+        <div class="wp-tier">
+          <div><p class="wp-tier-name">High School</p><p class="wp-tier-times">Mon &middot; 6:00&ndash;6:50 PM<br>Wed &middot; 6:00&ndash;6:50 PM<br>Sat &middot; 2:00&ndash;2:50 PM</p></div>
+          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206753-volleyball-training-high-school" target="_blank" rel="noopener" class="wp-tier-cta" data-booking-type="volleyball-training-hs">Book →</a>
+        </div>
+      </div>
     </div>
-    <div class="sched-gate-grid">
-      <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206304-basketball-group-training" target="_blank" rel="noopener" class="sched-gate-card" data-sport="basketball" data-booking-type="basketball-group-training">
-        <span class="sched-gate-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3v18M5.5 5.5c3 3 3 10 0 13M18.5 5.5c-3 3-3 10 0 13" stroke="currentColor" stroke-width="1.6"/></svg></span>
-        <h3 class="sched-gate-name">Basketball</h3>
-        <p class="sched-gate-desc">Group training for athletes across age groups.</p>
-        <span class="sched-gate-link">Book Basketball →</span>
-      </a>
-      <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206306-volleyball-group-training" target="_blank" rel="noopener" class="sched-gate-card" data-sport="volleyball" data-booking-type="volleyball-group-training">
-        <span class="sched-gate-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3c-5 4-5 14 0 18M4 9c5-3 11-3 16 0M4 15c5 3 11 3 16 0" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></span>
-        <h3 class="sched-gate-name">Volleyball</h3>
-        <p class="sched-gate-desc">Group training for athletes across age groups.</p>
-        <span class="sched-gate-link">Book Volleyball →</span>
-      </a>
-      <!-- [PINK — UPPER HAND OPEN GYM URL] Staging only. No confirmed Open Gym Upper Hand event link yet -- do not invent one. Replace href once provided. -->
-      <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="sched-gate-card" data-sport="both" data-preset="Programs + Membership">
-        <span class="sched-gate-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9h17M9 9v11" stroke="currentColor" stroke-width="1.6"/></svg></span>
-        <h3 class="sched-gate-name">Open Gym</h3>
-        <p class="sched-gate-desc">Scheduled, coach-supervised court time.</p>
-        <span class="sched-gate-link">View Open Gym →</span>
-      </a>
-      <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206726-dr-dot-dish-individual" target="_blank" rel="noopener" class="sched-gate-card" data-sport="basketball" data-booking-type="dr-dish">
-        <span class="sched-gate-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-        <h3 class="sched-gate-name">Dr. Dish</h3>
-        <p class="sched-gate-desc">Basketball-only shooting reservations.</p>
-        <span class="sched-gate-link">Book Dr. Dish →</span>
-      </a>
+    <div class="wp-opengym">
+      <div>
+        <h3>Open Gym</h3>
+        <p>Scheduled, coach-supervised court time. Days, times, and booking by sport and age group coming soon.</p>
+      </div>
+      <!-- [PINK — OPEN GYM SCHEDULE + UPPER HAND URLS] Staging only. No confirmed days, times, or booking links yet — do not invent them. -->
+      <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="wp-opengym-cta" data-preset="Programs + Membership">Ask About Open Gym →</a>
     </div>
-    <p class="sched-gate-powered">Live booking powered by Upper Hand</p>
+    <div class="wp-tier" style="border-top:1px solid var(--gray-mid); margin-top:20px; padding-top:20px;">
+      <div><p class="wp-tier-name">Dr. Dish</p><p class="wp-tier-times">Book anytime, based on availability.</p></div>
+      <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206726-dr-dot-dish-individual" target="_blank" rel="noopener" class="wp-tier-cta" data-booking-type="dr-dish">Book Dr. Dish →</a>
+    </div>
+  </div>
+</section>
+
+<section class="cal2-section">
+  <div class="container">
+    <div class="cal2-head">
+      <span class="eyebrow">On the Calendar</span>
+      <h2 class="section-title">Camps, Games, and Everything Else.</h2>
+    </div>
+    <div class="cal2-legend">
+      <span class="cal2-legend-item"><span class="cal2-legend-dot cal2-legend-dot--bb"></span>Basketball</span>
+      <span class="cal2-legend-item"><span class="cal2-legend-dot cal2-legend-dot--vb"></span>Volleyball</span>
+      <span class="cal2-legend-item"><span class="cal2-legend-dot cal2-legend-dot--general"></span>Courts-Wide</span>
+    </div>
+    <div class="cal2-months" id="cal2Months"></div>
+    <div class="cal2-panel" id="cal2Panel"></div>
   </div>
 </section>
 
@@ -434,5 +505,104 @@
 </footer>
 
 <script src="js/script.js"></script>
+<script>
+(function () {
+  var EVENTS = [
+    { start: '2026-09-12', sport: 'bb', title: 'Fall League Evaluations', meta: 'Saturday &middot; 3 PM &middot; $25', body: 'Come show us your game &mdash; placement, not cuts.', cta: 'Save Your Evaluation Spot →', href: 'https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations', external: true },
+    { start: '2026-10-01', sport: 'general', title: 'Doors Open', meta: 'Opening Day', body: 'The Courts opens in Nolensville.', cta: 'Explore Programs →', href: 'programs' },
+    { start: '2026-10-12', end: '2026-10-15', sport: 'both', title: 'Fall Break Camp', meta: 'Mon&ndash;Thu', body: 'Basketball mornings, volleyball afternoons.', cta: 'View Camps + Register →', href: 'camps#fall-break' },
+    { start: '2026-10-16', sport: 'both', title: 'Fall Break Competition Day', meta: 'Friday', body: 'Single-day games for both sports.', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-10-19', sport: 'bb', title: 'Fall League Practices Begin', meta: 'Week of Oct 19', body: 'Teams are set. Weekly practices start.', cta: 'View League →', href: 'leagues#fall-league' },
+    { start: '2026-10-24', sport: 'bb', title: 'First Fall League Games', meta: 'Saturday', body: 'Somebody&rsquo;s keeping score now.', cta: 'View League →', href: 'leagues#fall-league' },
+    { start: '2026-10-28', sport: 'both', title: 'Early Release Camp', meta: 'Wednesday', body: 'School lets out early. We&rsquo;ve got the day covered.', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-10-30', sport: 'bb', title: 'Halloween Shootout', meta: 'Friday', body: 'A costume-optional night of basketball.', cta: 'Register for Basketball →', href: 'contact?interest=Basketball#contact-form', preset: 'Basketball' },
+    { start: '2026-10-31', sport: 'vb', title: 'Volleyween', meta: 'Saturday', body: 'A costume-optional night of volleyball.', cta: 'Register for Volleyball →', href: 'contact?interest=Volleyball#contact-form', preset: 'Volleyball' },
+    { start: '2026-11-03', sport: 'both', title: 'No School Day Camp', meta: 'Tuesday', body: 'No school? No problem.', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-11-06', sport: 'bb', title: 'Basketball Jersey Day', meta: 'Friday &middot; Open Gym', body: 'Wear your favorite jersey to Open Gym.', cta: 'See Weekly Programs →', href: '#weekly-programs' },
+    { start: '2026-11-14', sport: 'general', title: 'What Makes a Great Player?', meta: 'Saturday &middot; Parent Talk', body: 'A conversation for Courts parents.', cta: 'RSVP →', href: 'contact?interest=Something%20Else#contact-form', preset: 'Something Else' },
+    { start: '2026-11-18', sport: 'both', title: 'Early Release Camp', meta: 'Wednesday', body: 'Another early release. Send them over.', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-11-23', end: '2026-11-25', sport: 'both', title: 'Thanksgiving Break Camp', meta: 'Mon&ndash;Wed', body: 'Three days of camp before turkey.', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-12-05', sport: 'general', title: 'GOAT Movie Night', meta: 'Saturday &middot; 6&ndash;9 PM', body: 'Pizza, a movie, and basketball energy.', cta: 'Save Your Spot →', href: 'contact?interest=Something%20Else#contact-form', preset: 'Something Else' },
+    { start: '2026-12-09', sport: 'both', title: 'Early Release Camp', meta: 'Wednesday', body: 'They&rsquo;re letting them out early again.', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-12-11', end: '2026-12-13', sport: 'bb', title: 'Fall League Tournament', meta: 'Fri&ndash;Sun', body: 'The season closes out with tournament games.', cta: 'View League →', href: 'leagues#fall-league' },
+    { start: '2026-12-21', end: '2026-12-23', sport: 'both', title: 'Holiday Break Camp', meta: 'Mon&ndash;Wed', body: 'The break is long. We can help.', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-12-28', end: '2026-12-30', sport: 'both', title: 'New Year Camp', meta: 'Mon&ndash;Wed', body: 'One more run before the year ends.', cta: 'View Camps →', href: 'camps#board' }
+  ];
+
+  var MONTHS = [
+    { year: 2026, month: 9, name: 'September 2026' },
+    { year: 2026, month: 10, name: 'October 2026' },
+    { year: 2026, month: 11, name: 'November 2026' },
+    { year: 2026, month: 12, name: 'December 2026' }
+  ];
+  var DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function dateStr(y, m, d) { return y + '-' + pad(m) + '-' + pad(d); }
+  function eventsOnDate(ds) {
+    return EVENTS.filter(function (e) {
+      var end = e.end || e.start;
+      return ds >= e.start && ds <= end;
+    });
+  }
+  function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
+  function firstWeekday(y, m) { return new Date(y, m - 1, 1).getDay(); }
+  function dotsFor(sport) {
+    if (sport === 'both') return '<span class="cal2-dot cal2-dot--bb"></span><span class="cal2-dot cal2-dot--vb"></span>';
+    if (sport === 'bb') return '<span class="cal2-dot cal2-dot--bb"></span>';
+    if (sport === 'vb') return '<span class="cal2-dot cal2-dot--vb"></span>';
+    return '<span class="cal2-dot cal2-dot--general"></span>';
+  }
+
+  var wrap = document.getElementById('cal2Months');
+  var panel = document.getElementById('cal2Panel');
+  if (!wrap || !panel) return;
+
+  var html = '';
+  MONTHS.forEach(function (mo) {
+    html += '<div class="cal2-month"><h3 class="cal2-month-name">' + mo.name + '</h3><div class="cal2-grid">';
+    DOW.forEach(function (d) { html += '<div class="cal2-dow">' + d + '</div>'; });
+    var lead = firstWeekday(mo.year, mo.month);
+    var total = daysInMonth(mo.year, mo.month);
+    for (var i = 0; i < lead; i++) html += '<div class="cal2-day cal2-day--empty"></div>';
+    for (var d = 1; d <= total; d++) {
+      var ds = dateStr(mo.year, mo.month, d);
+      var evs = eventsOnDate(ds);
+      if (evs.length) {
+        var dots = evs.map(function (e) { return dotsFor(e.sport); }).join('');
+        html += '<button type="button" class="cal2-day cal2-day--active cal2-day--has-event" data-date="' + ds + '"><span>' + d + '</span><span class="cal2-day-dots">' + dots + '</span></button>';
+      } else {
+        html += '<div class="cal2-day">' + d + '</div>';
+      }
+    }
+    html += '</div></div>';
+  });
+  wrap.innerHTML = html;
+
+  function fmtDate(ds) {
+    var parts = ds.split('-');
+    var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+    return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  }
+
+  wrap.addEventListener('click', function (e) {
+    var btn = e.target.closest('.cal2-day--active');
+    if (!btn) return;
+    wrap.querySelectorAll('.cal2-day--selected').forEach(function (b) { b.classList.remove('cal2-day--selected'); });
+    btn.classList.add('cal2-day--selected');
+    var ds = btn.getAttribute('data-date');
+    var evs = eventsOnDate(ds);
+    var body = '<p class="cal2-panel-date">' + fmtDate(ds) + '</p>';
+    evs.forEach(function (ev) {
+      var attrs = ev.external ? ' target="_blank" rel="noopener"' : '';
+      var preset = ev.preset ? ' data-preset="' + ev.preset + '"' : '';
+      body += '<div class="cal2-panel-item"><h4>' + ev.title + '</h4><p>' + ev.meta + (ev.body ? ' &mdash; ' + ev.body : '') + '</p><a href="' + ev.href + '"' + attrs + preset + '>' + ev.cta + '</a></div>';
+    });
+    panel.innerHTML = body;
+    panel.classList.add('show');
+    panel.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
+  });
+})();
+</script>
 </body>
 </html>

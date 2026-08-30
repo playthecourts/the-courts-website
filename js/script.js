@@ -235,27 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ---------- Schedule page: sport filter (All / Basketball / Volleyball) ---------- */
-  const schedFilterTabs = document.querySelectorAll('.sched-filter-tab');
-  if (schedFilterTabs.length) {
-    const schedCards = document.querySelectorAll('.sched-gate-card');
-    const showSport = sport => {
-      schedFilterTabs.forEach(t => {
-        const active = t.dataset.sport === sport;
-        t.classList.toggle('active', active);
-        t.setAttribute('aria-current', active ? 'true' : 'false');
-      });
-      schedCards.forEach(c => {
-        const match = sport === 'all' || c.dataset.sport === sport || c.dataset.sport === 'both';
-        c.classList.toggle('is-hidden', !match);
-      });
-    };
-    schedFilterTabs.forEach(t => t.addEventListener('click', () => showSport(t.dataset.sport)));
-    const typeParam = new URLSearchParams(window.location.search).get('type');
-    const initialSport = [...schedFilterTabs].some(t => t.dataset.sport === typeParam) ? typeParam : 'all';
-    showSport(initialSport);
-  }
-
   /* ---------- Filter pills (events / shop / programs) — supports multiple independent filter rows (e.g. category + month) that combine with AND logic ---------- */
   (() => {
     const filterGroups = document.querySelectorAll('.filter-pills');
