@@ -62,10 +62,10 @@
   .cal2-dot--vb { background: var(--black); }
   .cal2-dot--general { background: var(--gray-dark); }
   .cal2-day--expanded {
-    grid-column: 1 / -1; aspect-ratio: auto; background: var(--black); border-color: var(--black);
+    grid-column: 1 / -1; aspect-ratio: auto; background: var(--black); border-color: var(--black); overflow: visible;
   }
   .cal2-day--expanded .cal2-day-toggle {
-    flex-direction: row; justify-content: flex-start; align-items: center; gap: 14px; padding: 16px 20px; color: var(--white); cursor: pointer;
+    flex-direction: row; justify-content: flex-start; align-items: center; gap: 14px; padding: 16px 20px; height: auto; color: var(--white); cursor: pointer;
   }
   .cal2-expand-date { font-family: var(--font-sport); font-weight: 800; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); flex-shrink: 0; }
   .cal2-expand-body { display: flex; flex-direction: column; gap: 2px; text-align: left; }
