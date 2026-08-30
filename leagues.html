@@ -91,9 +91,21 @@
     .lg-timeline-arrow { display: none; }
   }
 
+  .lg-hero-eval-note { font-family: var(--font-heading); font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.85); margin-top: 20px; }
+  .lg-hero-eval-note span { display: block; font-weight: 400; font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 4px; }
 
+  .lg-divisions-note { max-width: 640px; margin: 44px auto 0; text-align: center; }
+  .lg-divisions-note h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(18px, 2vw, 22px); margin: 0 0 10px; color: var(--black); }
+  .lg-divisions-note p { font-size: 14.5px; line-height: 1.6; color: var(--gray-dark); margin: 0; }
 
-
+  .lg-eval-card { background: var(--black); border-radius: var(--radius-lg); padding: clamp(36px,5vw,60px); max-width: 780px; margin: 0 auto; text-align: center; }
+  .lg-eval-card .section-title { color: var(--white); }
+  .lg-eval-when { font-family: var(--font-sport); font-weight: 800; font-size: 16px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); margin: 14px 0 20px; }
+  .lg-eval-body { font-size: 15.5px; line-height: 1.65; color: rgba(255,255,255,0.72); max-width: 52ch; margin: 0 auto 22px; }
+  .lg-eval-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px,2.6vw,28px); color: var(--white); margin: 0 0 28px; }
+  .lg-eval-price span { display: block; font-family: var(--font-heading); font-weight: 500; font-size: 14px; color: rgba(255,255,255,0.6); margin-top: 8px; }
+  .lg-eval-foot { font-size: 13.5px; color: rgba(255,255,255,0.5); max-width: 48ch; margin: 24px auto 0; line-height: 1.6; }
+  .lg-eval-foot a { color: var(--orange); font-weight: 700; }
 </style>
 </head>
 <body class="has-announce">
@@ -102,8 +114,9 @@
 <div class="site-announce">
   <span class="site-announce-inner">
     <span class="site-announce-headline">Fall League. Let's Go.</span>
-    <span class="site-announce-detail">Basketball registration closes <strong>September 20 at 5 PM</strong>.</span>
-    <a href="leagues" class="site-announce-cta">Save Your Spot <span class="arrow">→</span></a>
+    <span class="site-announce-detail">Evaluations are <strong>September 12 at 3 PM</strong>. Registration closes September 20.</span>
+    <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH AFTER SEPT 12 -->
+    <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations" class="site-announce-cta" data-booking-type="basketball-evaluation">Save Your Evaluation Spot <span class="arrow">→</span></a>
   </span>
 </div>
 
@@ -236,10 +249,13 @@
     <h1 class="page-hero-title">Practice Is Great. Let&rsquo;s Keep Score.</h1>
     <p class="page-hero-sub">Weekly practice. Saturday games. Real teammates. Real competition.<br><strong class="lg-forming-flash" style="display:inline-block; margin-top:10px; font-size:1.3em;">Fall teams are forming now.</strong></p>
     <p class="lg-hero-deadline"><span class="lg-hero-deadline-label">Registration Closes</span><span class="lg-hero-deadline-date">September 20 · 5 PM</span></p>
+    <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH TO "Complete Fall League Registration →"
+         (https://app.upperhand.io/customers/2876-the-courts-llc/events/206630-fall-2026-basketball-league) AFTER SEPT 12 -->
     <div class="hero-ctas ctas">
-      <a href="#register" class="btn btn-primary">Get in the League →</a>
+      <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations" class="btn btn-primary" data-booking-type="basketball-evaluation">Save Your Evaluation Spot →</a>
       <a href="#fall-league" class="btn btn-on-dark">See How Fall Works ↓</a>
     </div>
+    <p class="lg-hero-eval-note">Evaluations · Sept. 12 at 3 PM · $25<span>Your $25 evaluation fee goes toward league registration if you join.</span></p>
     <p class="lg-hero-micro">First games October 24. Tournament December 11&ndash;13.</p>
   </div>
 </section>
@@ -253,6 +269,8 @@
     <div class="lg-timeline">
       <div class="lg-timeline-step"><span class="lg-timeline-date">Sept 12</span><span class="lg-timeline-label">Evaluation</span></div>
       <span class="lg-timeline-arrow">→</span>
+      <div class="lg-timeline-step"><span class="lg-timeline-date">By Sept 20</span><span class="lg-timeline-label">Complete Registration</span></div>
+      <span class="lg-timeline-arrow">→</span>
       <div class="lg-timeline-step"><span class="lg-timeline-date">Week of Oct 19</span><span class="lg-timeline-label">Team Practices Begin</span></div>
       <span class="lg-timeline-arrow">→</span>
       <div class="lg-timeline-step"><span class="lg-timeline-date">Oct 24</span><span class="lg-timeline-label">First Games</span></div>
@@ -260,11 +278,14 @@
       <div class="lg-timeline-step"><span class="lg-timeline-date">Dec 11&ndash;13</span><span class="lg-timeline-label">Tournament</span></div>
     </div>
     <p class="lg-rhythm-sub" style="text-align:center; margin:40px auto 0;">One team practice each week. One Saturday game.<span style="display:block; margin-top:10px;">Group Training through your Courts membership.</span></p>
-    <div class="hero-ctas ctas" style="justify-content:center; margin-top:32px;">
-      <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations" class="btn btn-on-dark" data-booking-type="basketball-evaluation">Save Your Evaluation Spot →</a>
-      <a href="#register" class="btn btn-primary">Get in the League →</a>
+    <p style="text-align:center; margin-top:20px; font-family:var(--font-sport); font-size:13px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:rgba(255,255,255,0.55);">Evaluation · $25 &nbsp;&middot;&nbsp; League Registration · $125 Total</p>
+    <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH TO "Complete Fall League Registration →"
+         (https://app.upperhand.io/customers/2876-the-courts-llc/events/206630-fall-2026-basketball-league) AFTER SEPT 12 -->
+    <div class="hero-ctas ctas" style="justify-content:center; margin-top:28px;">
+      <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations" class="btn btn-primary" data-booking-type="basketball-evaluation">Save Your Evaluation Spot →</a>
     </div>
-    <p style="text-align:center; margin-top:20px; font-size:14px; color:rgba(255,255,255,0.3); font-style:italic; font-weight:400;">Evaluations help us build balanced teams. Nobody&rsquo;s getting cut, and nobody&rsquo;s auditioning for the NBA.</p>
+    <p style="text-align:center; margin-top:18px; font-size:13.5px; color:rgba(255,255,255,0.5);">League registration is completed after evaluations and closes September 20 at 5 PM. The full $25 evaluation fee is applied toward registration if your athlete joins.</p>
+    <p style="text-align:center; margin-top:20px; font-size:14px; color:rgba(255,255,255,0.2); font-style:italic; font-weight:400;">Evaluations help us build balanced teams. Nobody&rsquo;s getting cut, and nobody&rsquo;s auditioning for the NBA.</p>
   </div>
 </section>
 
@@ -307,31 +328,48 @@
           <div class="roster-row">
             <div class="roster-grade-wrap">
               <span class="roster-grade">3rd&ndash;4th Grade Boys</span>
+              <span class="roster-note">We have enough interest to move this group forward and are continuing to add players.</span>
             </div>
             <div class="roster-status-wrap">
-              <span class="roster-status roster-status--forming"><span class="dot"></span>Forming Now</span>
-              <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206630-fall-2026-basketball-league" class="roster-cta" data-booking-type="basketball-league">Get In →</a>
+              <span class="roster-status roster-status--forming"><span class="dot"></span>Teams Forming Now</span>
+              <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations" class="roster-cta" data-booking-type="basketball-evaluation">Start With Evaluations →</a>
+            </div>
+          </div>
+          <div class="roster-row">
+            <div class="roster-grade-wrap">
+              <span class="roster-grade">4th&ndash;5th Grade Girls</span>
+              <span class="roster-note">This group is taking shape and we&rsquo;re continuing to add players.</span>
+            </div>
+            <div class="roster-status-wrap">
+              <span class="roster-status roster-status--forming"><span class="dot"></span>Team Forming Now</span>
+              <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations" class="roster-cta" data-booking-type="basketball-evaluation">Start With Evaluations →</a>
             </div>
           </div>
           <div class="roster-row">
             <div class="roster-grade-wrap">
               <span class="roster-grade">6th&ndash;7th Grade Boys</span>
+              <span class="roster-note">We have enough interest to move this group forward and are continuing to add players.</span>
             </div>
             <div class="roster-status-wrap">
-              <span class="roster-status roster-status--forming"><span class="dot"></span>Forming Now</span>
-              <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206630-fall-2026-basketball-league" class="roster-cta" data-booking-type="basketball-league">Get In →</a>
+              <span class="roster-status roster-status--forming"><span class="dot"></span>Team Forming Now</span>
+              <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations" class="roster-cta" data-booking-type="basketball-evaluation">Start With Evaluations →</a>
             </div>
           </div>
           <div class="roster-row">
             <div class="roster-grade-wrap">
-              <span class="roster-grade">Girls Basketball</span>
-              <span class="roster-note">Tell us your athlete&rsquo;s grade. We&rsquo;re building teams around interest.</span>
+              <span class="roster-grade">Don&rsquo;t See Your Group?</span>
+              <span class="roster-note">We&rsquo;re collecting interest for additional boys and girls divisions based on registrations and evaluations.</span>
             </div>
             <div class="roster-status-wrap">
-              <span class="roster-status roster-status--whosin">Building Now</span>
-              <a href="contact?interest=Basketball%20Leagues#contact-form" class="roster-cta" data-preset="Basketball Leagues">Raise a Hand →</a>
+              <span class="roster-status roster-status--whosin">Still Building</span>
+              <a href="https://app.upperhand.io/customers/2876-the-courts-llc/teams/206713-fall-basketball-league-interest-list" class="roster-cta" data-booking-type="basketball-league-interest">Join the Interest List →</a>
             </div>
           </div>
+        </div>
+
+        <div class="lg-divisions-note">
+          <h3>How Do We Build the Divisions?</h3>
+          <p>We start with grade and gender, then use registrations and evaluations to create groupings that make sense for the athletes who actually show up. The goal isn&rsquo;t the biggest possible roster &mdash; it&rsquo;s balanced teams, smaller groups, meaningful playing time, and a good competitive fit. Final divisions may combine adjacent grades depending on registration.</p>
         </div>
       </div>
     </div>
@@ -340,6 +378,21 @@
   </div>
 </section>
 
+<section style="padding:24px 0 96px;" id="evaluations">
+  <div class="container">
+    <div class="lg-eval-card">
+      <span class="eyebrow">Fall League Evaluations</span>
+      <h2 class="section-title">Come Show Us Your Game.</h2>
+      <p class="lg-eval-when">Saturday, September 12 · 3 PM</p>
+      <p class="lg-eval-body">Evaluations help us understand skill level, build balanced teams, and determine the best team and division structure based on the athletes who want to play.</p>
+      <p class="lg-eval-price">$25 per athlete<span>The full $25 is applied toward Fall League registration if your athlete joins.</span></p>
+      <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH TO "Complete Fall League Registration →"
+           (https://app.upperhand.io/customers/2876-the-courts-llc/events/206630-fall-2026-basketball-league) AFTER SEPT 12 -->
+      <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations" class="btn btn-primary" data-booking-type="basketball-evaluation">Save Your Evaluation Spot →</a>
+      <p class="lg-eval-foot">Don&rsquo;t see your athlete&rsquo;s division above? You can still register for evaluations and join the <a href="https://app.upperhand.io/customers/2876-the-courts-llc/teams/206713-fall-basketball-league-interest-list">Interest List</a> so we know you&rsquo;re interested.</p>
+    </div>
+  </div>
+</section>
 
 <section class="lg-nextup" id="register">
   <div class="container">
@@ -350,11 +403,13 @@
     <div class="lg-nextup-grid">
       <div class="lg-nextup-col">
         <span class="lg-nextup-tag">Fall 2026</span>
-        <p class="lg-nextup-name">You In?</p>
-        <p class="lg-nextup-detail">Registration closes September 20 at 5 PM.</p>
+        <p class="lg-nextup-name">You In? Start Here.</p>
+        <p class="lg-nextup-detail">Evaluations · September 12 at 3 PM<br>Registration closes September 20 at 5 PM.</p>
+        <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH TO "Complete Fall League Registration →"
+             (https://app.upperhand.io/customers/2876-the-courts-llc/events/206630-fall-2026-basketball-league) AFTER SEPT 12 -->
         <div class="ctas" style="display:flex; gap:14px; flex-wrap:wrap; margin:4px 0 16px;">
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations" class="btn btn-on-dark" data-booking-type="basketball-evaluation">Save Your Evaluation Spot →</a>
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206630-fall-2026-basketball-league" class="btn btn-primary" data-booking-type="basketball-league">Get in the League →</a>
+          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations" class="btn btn-primary" data-booking-type="basketball-evaluation">Save Your Evaluation Spot →</a>
+          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/teams/206713-fall-basketball-league-interest-list" class="btn btn-on-dark" data-booking-type="basketball-league-interest">Don&rsquo;t See Your Division? Join the Interest List →</a>
         </div>
         <p class="lg-nextup-foot">Weekly membership or higher required for league participation.</p>
       </div>
@@ -467,11 +522,34 @@
       <div class="footer-loop-col">
         <span class="eyebrow footer-loop-eyebrow">Stay in the Loop</span>
         <p class="footer-loop-sub">News, camps, leagues, and whatever's next.</p>
-        <form class="footer-newsletter-form">
-          <input type="email" placeholder="Email Address" required>
-          <button type="submit">Join the List →</button>
+        <form class="footer-newsletter-form" action="https://formspree.io/f/xeaqejqz" method="POST">
+          <div class="fnl-row">
+            <label class="fnl-field"><span class="fnl-label-text">First Name</span><input type="text" name="first_name" placeholder="First Name" autocomplete="given-name" required></label>
+            <label class="fnl-field"><span class="fnl-label-text">Last Name</span><input type="text" name="last_name" placeholder="Last Name" autocomplete="family-name" required></label>
+          </div>
+          <label class="fnl-field"><span class="fnl-label-text">Email</span><input type="email" name="email" placeholder="Email Address" autocomplete="email" required></label>
+          <div class="fnl-interests">
+            <span class="fnl-label-text">What are you interested in? <span class="fnl-optional">Optional</span></span>
+            <div class="chip-group">
+              <label class="chip"><input type="checkbox" name="interests" value="Basketball"><span>Basketball</span></label>
+              <label class="chip"><input type="checkbox" name="interests" value="Volleyball"><span>Volleyball</span></label>
+              <label class="chip"><input type="checkbox" name="interests" value="Camps"><span>Camps</span></label>
+              <label class="chip"><input type="checkbox" name="interests" value="Leagues"><span>Leagues</span></label>
+              <label class="chip"><input type="checkbox" name="interests" value="Membership"><span>Membership</span></label>
+              <label class="chip"><input type="checkbox" name="interests" value="Events"><span>Events</span></label>
+              <label class="chip"><input type="checkbox" name="interests" value="Everything"><span>Everything</span></label>
+            </div>
+          </div>
+          <input type="hidden" name="source" value="Website - Stay in the Loop">
+          <input type="hidden" name="signup_page" class="fnl-signup-page" value="">
+          <button type="submit" class="fnl-submit">Join the List →</button>
+          <p class="fnl-privacy">Occasional Courts updates. No spam.</p>
+          <p class="fnl-error" role="alert">That didn&rsquo;t go through. Give it another try.</p>
         </form>
-        <span class="footer-newsletter-success">You're in.</span>
+        <div class="footer-newsletter-success">
+          <h4>You&rsquo;re In.</h4>
+          <p>We&rsquo;ll keep you posted on what&rsquo;s happening at The Courts.</p>
+        </div>
         <span class="footer-social-handle">@playthecourts</span>
         <div class="footer-social-links">
           <a href="https://www.instagram.com/thecourtstn/" target="_blank" rel="noopener">Instagram ↗</a>

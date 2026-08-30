@@ -73,8 +73,9 @@
 <div class="site-announce">
   <span class="site-announce-inner">
     <span class="site-announce-headline">Fall League. Let's Go.</span>
-    <span class="site-announce-detail">Basketball registration closes <strong>September 20 at 5 PM</strong>.</span>
-    <a href="leagues" class="site-announce-cta">Save Your Spot <span class="arrow">→</span></a>
+    <span class="site-announce-detail">Evaluations are <strong>September 12 at 3 PM</strong>. Registration closes September 20.</span>
+    <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH AFTER SEPT 12 -->
+    <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations" class="site-announce-cta" data-booking-type="basketball-evaluation">Save Your Evaluation Spot <span class="arrow">→</span></a>
   </span>
 </div>
 
@@ -286,13 +287,14 @@
 
       <a href="leagues" class="mwp-mod mwp-mod--overlay">
         <span class="mwp-num">03</span>
-        <span class="mwp-deadline">Reg Closes Sept 20</span>
+        <span class="mwp-deadline">Evaluations Sept 12</span>
         <div class="mwp-photo"><img src="images/24_programs_hero_coach_huddle.png" alt="A coach crouching to talk with his team courtside, with THE COURTS lettering on the wall behind them."></div>
         <div class="mwp-body">
           <span class="mwp-cat">Basketball Leagues</span>
           <h3>Practice All Week. Keep Score Saturday.</h3>
           <p>Teams. Coaches. Real games. Because eventually, somebody has to keep score.</p>
-          <span class="mwp-cta">Get in the League →</span>
+          <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH AFTER SEPT 12 -->
+          <span class="mwp-cta">Register for Evaluations →</span>
         </div>
       </a>
 
@@ -341,11 +343,34 @@
       <div class="footer-loop-col">
         <span class="eyebrow footer-loop-eyebrow">Stay in the Loop</span>
         <p class="footer-loop-sub">News, camps, leagues, and whatever's next.</p>
-        <form class="footer-newsletter-form">
-          <input type="email" placeholder="Email Address" required>
-          <button type="submit">Join the List →</button>
+        <form class="footer-newsletter-form" action="https://formspree.io/f/xeaqejqz" method="POST">
+          <div class="fnl-row">
+            <label class="fnl-field"><span class="fnl-label-text">First Name</span><input type="text" name="first_name" placeholder="First Name" autocomplete="given-name" required></label>
+            <label class="fnl-field"><span class="fnl-label-text">Last Name</span><input type="text" name="last_name" placeholder="Last Name" autocomplete="family-name" required></label>
+          </div>
+          <label class="fnl-field"><span class="fnl-label-text">Email</span><input type="email" name="email" placeholder="Email Address" autocomplete="email" required></label>
+          <div class="fnl-interests">
+            <span class="fnl-label-text">What are you interested in? <span class="fnl-optional">Optional</span></span>
+            <div class="chip-group">
+              <label class="chip"><input type="checkbox" name="interests" value="Basketball"><span>Basketball</span></label>
+              <label class="chip"><input type="checkbox" name="interests" value="Volleyball"><span>Volleyball</span></label>
+              <label class="chip"><input type="checkbox" name="interests" value="Camps"><span>Camps</span></label>
+              <label class="chip"><input type="checkbox" name="interests" value="Leagues"><span>Leagues</span></label>
+              <label class="chip"><input type="checkbox" name="interests" value="Membership"><span>Membership</span></label>
+              <label class="chip"><input type="checkbox" name="interests" value="Events"><span>Events</span></label>
+              <label class="chip"><input type="checkbox" name="interests" value="Everything"><span>Everything</span></label>
+            </div>
+          </div>
+          <input type="hidden" name="source" value="Website - Stay in the Loop">
+          <input type="hidden" name="signup_page" class="fnl-signup-page" value="">
+          <button type="submit" class="fnl-submit">Join the List →</button>
+          <p class="fnl-privacy">Occasional Courts updates. No spam.</p>
+          <p class="fnl-error" role="alert">That didn&rsquo;t go through. Give it another try.</p>
         </form>
-        <span class="footer-newsletter-success">You're in.</span>
+        <div class="footer-newsletter-success">
+          <h4>You&rsquo;re In.</h4>
+          <p>We&rsquo;ll keep you posted on what&rsquo;s happening at The Courts.</p>
+        </div>
         <span class="footer-social-handle">@playthecourts</span>
         <div class="footer-social-links">
           <a href="https://www.instagram.com/thecourtstn/" target="_blank" rel="noopener">Instagram ↗</a>

@@ -332,13 +332,36 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ---------- Footer: newsletter signup ---------- */
+  /* ---------- Footer: newsletter signup (Formspree) ---------- */
   document.querySelectorAll('.footer-newsletter-form').forEach(form => {
+    const signupPageField = form.querySelector('.fnl-signup-page');
+    if (signupPageField) signupPageField.value = window.location.pathname;
+
+    const submitBtn = form.querySelector('.fnl-submit');
+    const errorEl = form.querySelector('.fnl-error');
+    const successEl = form.parentElement.querySelector('.footer-newsletter-success');
+    const defaultLabel = submitBtn ? submitBtn.textContent : 'Join the List →';
+
     form.addEventListener('submit', e => {
       e.preventDefault();
-      const success = form.nextElementSibling;
-      form.style.display = 'none';
-      if (success && success.classList.contains('footer-newsletter-success')) success.classList.add('show');
+      if (!submitBtn || submitBtn.disabled) return;
+      if (errorEl) errorEl.classList.remove('show');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Joining...';
+
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(response => {
+        if (!response.ok) throw new Error('Submission failed');
+        form.style.display = 'none';
+        if (successEl) successEl.classList.add('show');
+      }).catch(() => {
+        if (errorEl) errorEl.classList.add('show');
+        submitBtn.disabled = false;
+        submitBtn.textContent = defaultLabel;
+      });
     });
   });
 
