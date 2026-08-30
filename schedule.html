@@ -51,34 +51,36 @@
   .cal2-month-name { text-align: center; font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2.8vw, 30px); margin: 0 0 22px; }
   .cal2-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 7px; max-width: 760px; margin: 0 auto; }
   .cal2-dow { text-align: center; font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); padding-bottom: 8px; }
-  .cal2-day { aspect-ratio: 1; background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; font-family: var(--font-heading); font-size: 14px; font-weight: 600; color: var(--black); position: relative; padding: 0; }
-  .cal2-day--empty { background: none; border: none; }
-  button.cal2-day--active { cursor: pointer; border-color: var(--gray-dark); transition: border-color 0.15s var(--ease), transform 0.15s var(--ease); }
-  button.cal2-day--active:hover { border-color: var(--orange); transform: translateY(-2px); }
-  .cal2-day--selected { background: var(--black) !important; color: var(--white); border-color: var(--black) !important; }
+  .cal2-day { aspect-ratio: 1; background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 8px; position: relative; padding: 0; overflow: hidden; }
+  .cal2-day--empty { background: none; border: none; aspect-ratio: 1; }
+  .cal2-day-toggle { width: 100%; height: 100%; background: none; border: none; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; font-family: var(--font-heading); font-size: 14px; font-weight: 600; color: inherit; }
+  .cal2-day--has-event .cal2-day-toggle { cursor: pointer; }
+  .cal2-day--has-event:hover { border-color: var(--orange); }
   .cal2-day-dots { display: flex; gap: 3px; }
   .cal2-dot { width: 6px; height: 6px; border-radius: 50%; }
   .cal2-dot--bb { background: var(--orange); }
   .cal2-dot--vb { background: var(--black); }
   .cal2-dot--general { background: var(--gray-dark); }
-  .cal2-day--selected .cal2-dot--vb { background: var(--white); }
-  .cal2-day--selected .cal2-dot--general { background: rgba(255,255,255,0.65); }
-  .cal2-panel { display: none; max-width: 640px; margin: 32px auto 0; background: var(--black); color: var(--white); border-radius: var(--radius-md); padding: 30px 32px; scroll-margin-top: 140px; }
-  .cal2-panel.show { display: block; }
-  .cal2-panel-date { font-family: var(--font-sport); font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); margin: 0 0 16px; }
-  .cal2-panel-item { padding: 18px 0; border-top: 1px solid rgba(255,255,255,0.14); }
-  .cal2-panel-item:first-of-type { border-top: none; padding-top: 0; }
-  .cal2-panel-item h4 { font-family: var(--font-display); font-weight: 900; font-size: 19px; margin: 0 0 6px; }
-  .cal2-panel-item p { font-size: 14px; color: rgba(255,255,255,0.68); margin: 0 0 14px; line-height: 1.5; }
-  .cal2-panel-item a { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--white); background: var(--orange); padding: 10px 20px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; }
-  .cal2-panel-item a:hover { background: var(--orange-hover); }
+  .cal2-day--expanded {
+    grid-column: 1 / -1; aspect-ratio: auto; background: var(--black); border-color: var(--black);
+  }
+  .cal2-day--expanded .cal2-day-toggle {
+    flex-direction: row; justify-content: flex-start; align-items: center; gap: 14px; padding: 16px 20px; color: var(--white); cursor: pointer;
+  }
+  .cal2-expand-date { font-family: var(--font-sport); font-weight: 800; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); flex-shrink: 0; }
+  .cal2-expand-body { display: flex; flex-direction: column; gap: 2px; text-align: left; }
+  .cal2-expand-title { font-family: var(--font-display); font-weight: 900; font-size: 17px; line-height: 1.2; }
+  .cal2-expand-meta { font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 500; }
+  .cal2-expand-link { font-family: var(--font-heading); font-weight: 700; font-size: 13.5px; color: var(--white); background: var(--orange); padding: 9px 18px; border-radius: 999px; white-space: nowrap; flex-shrink: 0; margin: 0 20px 16px auto; display: inline-block; }
+  .cal2-expand-link:hover { background: var(--orange-hover); }
   @media (max-width: 620px) {
     .cal2-grid { gap: 4px; }
-    .cal2-day { font-size: 12px; }
+    .cal2-day-toggle { font-size: 12px; }
     .cal2-dow { font-size: 9px; }
-    .cal2-panel { padding: 26px 22px; }
+    .cal2-day--expanded .cal2-day-toggle { flex-direction: column; align-items: flex-start; gap: 6px; padding: 16px 16px 12px; }
+    .cal2-expand-link { margin: 0 16px 16px; }
   }
-  @media (prefers-reduced-motion: reduce) { button.cal2-day--active { transition: none; } button.cal2-day--active:hover { transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .cal2-day--has-event { transition: none; } }
 
   /* ================= More Ways to Play — editorial modules (mwp-*) ================= */
   .mwp-head { max-width: 620px; margin: 0 0 32px; }
@@ -321,7 +323,6 @@
       <span class="cal2-legend-item"><span class="cal2-legend-dot cal2-legend-dot--general"></span>Courts-Wide</span>
     </div>
     <div class="cal2-months" id="cal2Months"></div>
-    <div class="cal2-panel" id="cal2Panel"></div>
   </div>
 </section>
 
@@ -555,8 +556,32 @@
   }
 
   var wrap = document.getElementById('cal2Months');
-  var panel = document.getElementById('cal2Panel');
-  if (!wrap || !panel) return;
+  if (!wrap) return;
+
+  function shortDate(ds) {
+    var parts = ds.split('-');
+    var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+    return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  }
+
+  function collapsedInner(d, evs) {
+    var dots = evs.length ? '<span class="cal2-day-dots">' + evs.map(function (e) { return dotsFor(e.sport); }).join('') + '</span>' : '';
+    return '<button type="button" class="cal2-day-toggle"><span>' + d + '</span>' + dots + '</button>';
+  }
+
+  function expandedInner(ds, evs) {
+    var out = '<button type="button" class="cal2-day-toggle"><span class="cal2-expand-date">' + shortDate(ds) + '</span><span class="cal2-expand-body">';
+    evs.forEach(function (ev) {
+      out += '<span class="cal2-expand-title">' + ev.title + '</span><span class="cal2-expand-meta">' + ev.meta + '</span>';
+    });
+    out += '</span></button>';
+    evs.forEach(function (ev) {
+      var attrs = ev.external ? ' target="_blank" rel="noopener"' : '';
+      var preset = ev.preset ? ' data-preset="' + ev.preset + '"' : '';
+      out += '<a class="cal2-expand-link" href="' + ev.href + '"' + attrs + preset + '>' + ev.cta + '</a>';
+    });
+    return out;
+  }
 
   var html = '';
   MONTHS.forEach(function (mo) {
@@ -569,38 +594,32 @@
       var ds = dateStr(mo.year, mo.month, d);
       var evs = eventsOnDate(ds);
       if (evs.length) {
-        var dots = evs.map(function (e) { return dotsFor(e.sport); }).join('');
-        html += '<button type="button" class="cal2-day cal2-day--active cal2-day--has-event" data-date="' + ds + '"><span>' + d + '</span><span class="cal2-day-dots">' + dots + '</span></button>';
+        html += '<div class="cal2-day cal2-day--has-event" data-date="' + ds + '">' + collapsedInner(d, evs) + '</div>';
       } else {
-        html += '<div class="cal2-day">' + d + '</div>';
+        html += '<div class="cal2-day">' + collapsedInner(d, []) + '</div>';
       }
     }
     html += '</div></div>';
   });
   wrap.innerHTML = html;
 
-  function fmtDate(ds) {
-    var parts = ds.split('-');
-    var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
-    return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-  }
-
   wrap.addEventListener('click', function (e) {
-    var btn = e.target.closest('.cal2-day--active');
-    if (!btn) return;
-    wrap.querySelectorAll('.cal2-day--selected').forEach(function (b) { b.classList.remove('cal2-day--selected'); });
-    btn.classList.add('cal2-day--selected');
-    var ds = btn.getAttribute('data-date');
-    var evs = eventsOnDate(ds);
-    var body = '<p class="cal2-panel-date">' + fmtDate(ds) + '</p>';
-    evs.forEach(function (ev) {
-      var attrs = ev.external ? ' target="_blank" rel="noopener"' : '';
-      var preset = ev.preset ? ' data-preset="' + ev.preset + '"' : '';
-      body += '<div class="cal2-panel-item"><h4>' + ev.title + '</h4><p>' + ev.meta + (ev.body ? ' &mdash; ' + ev.body : '') + '</p><a href="' + ev.href + '"' + attrs + preset + '>' + ev.cta + '</a></div>';
+    var toggle = e.target.closest('.cal2-day-toggle');
+    if (!toggle) return;
+    var day = toggle.closest('.cal2-day--has-event');
+    if (!day) return;
+    var wasExpanded = day.classList.contains('cal2-day--expanded');
+    wrap.querySelectorAll('.cal2-day--expanded').forEach(function (d) {
+      var ds = d.getAttribute('data-date');
+      var num = parseInt(ds.split('-')[2], 10);
+      d.classList.remove('cal2-day--expanded');
+      d.innerHTML = collapsedInner(num, eventsOnDate(ds));
     });
-    panel.innerHTML = body;
-    panel.classList.add('show');
-    panel.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
+    if (!wasExpanded) {
+      var ds = day.getAttribute('data-date');
+      day.classList.add('cal2-day--expanded');
+      day.innerHTML = expandedInner(ds, eventsOnDate(ds));
+    }
   });
 })();
 </script>
