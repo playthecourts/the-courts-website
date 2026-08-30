@@ -332,6 +332,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /* ---------- Footer: nav accordion (mobile only) ---------- */
+  document.querySelectorAll('.footer-nav-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => btn.closest('.footer-nav-col').classList.toggle('open'));
+  });
+
   /* ---------- Footer: newsletter signup (Formspree) ---------- */
   document.querySelectorAll('.fnl-trigger').forEach(trigger => {
     const form = trigger.nextElementSibling;
