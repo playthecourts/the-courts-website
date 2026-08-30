@@ -333,6 +333,17 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ---------- Footer: newsletter signup (Formspree) ---------- */
+  document.querySelectorAll('.fnl-trigger').forEach(trigger => {
+    const form = trigger.nextElementSibling;
+    if (!form || !form.classList.contains('footer-newsletter-form')) return;
+    trigger.addEventListener('click', () => {
+      trigger.hidden = true;
+      form.hidden = false;
+      const firstField = form.querySelector('input');
+      if (firstField) firstField.focus();
+    });
+  });
+
   document.querySelectorAll('.footer-newsletter-form').forEach(form => {
     const signupPageField = form.querySelector('.fnl-signup-page');
     if (signupPageField) signupPageField.value = window.location.pathname;

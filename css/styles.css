@@ -410,7 +410,10 @@ body.has-announce .nav { top: 64px; }
 .footer-loop-eyebrow { font-size: 13.5px; }
 .footer-loop-sub { font-size: 15px; line-height: 1.6; color: var(--gray-dark); margin: 6px 0 14px; max-width: 36ch; }
 
+.fnl-trigger { background: none; border: none; padding: 0; font-family: var(--font-heading); font-weight: 700; color: var(--orange); font-size: 14.5px; cursor: pointer; margin-bottom: 20px; }
+.fnl-trigger:hover { color: var(--orange-hover); }
 .footer-newsletter-form { display: flex; flex-direction: column; gap: 14px; max-width: 400px; margin-bottom: 10px; }
+.footer-newsletter-form[hidden] { display: none; }
 .fnl-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .fnl-field { display: flex; flex-direction: column; gap: 6px; }
 .fnl-label-text { font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); }
