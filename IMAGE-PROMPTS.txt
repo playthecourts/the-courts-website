@@ -1,0 +1,730 @@
+================================================================================
+THE COURTS — IMAGE GENERATION PROMPTS
+Audited from the live site files, 25 Aug 2026
+Ordered by leverage: batch 1 unblocks the most pages per image.
+
+HOW TO USE
+  1. Paste the HOUSE STYLE block below into your image tool as a standing
+     instruction. Every prompt here already ends with it, so a single copy
+     also works on its own.
+  2. Generate at the size listed on the entry, not the tool's default.
+  3. Save as JPG, quality 80, using the exact filename listed. Drop it in
+     images/ and the slot fills itself — the markup already points there.
+
+DO NOT GENERATE (needs a real camera)
+  - The four named coach portraits on about.html (Johnny, Spencer, Justin,
+    Sarah). A generated face beside a real name is a problem, not a placeholder.
+  - All eleven shop product shots. They carry the real Courts mark.
+  - The orange door / any facility exterior. You already have the real one.
+  - gift-card.jpg. Re-photograph the real card; AI will mangle the logo.
+
+================================================================================
+HOUSE STYLE — paste once, as a standing instruction
+================================================================================
+
+Style: candid documentary youth-sports photography. 35mm full-frame look,
+natural shallow depth of field, a little real motion blur where there is
+movement. Warm indoor gym light from overhead fixtures, light maple hardwood
+bouncing soft amber onto skin and walls. Muted filmic color with deep true
+blacks — not bright, not saturated, not HDR. A single warm orange accent may
+appear in apparel, cones, or equipment; nothing else is colorful.
+
+Setting: a clean, modern, private training facility. Light maple hardwood,
+matte black walls and structure, adjustable hoops, a volleyball net system.
+Lived-in but tidy. Completely blank walls — no signage, no banners, no
+scoreboards, no championship boards.
+
+People: youth athletes, roughly ages 8 to 16, mixed genders and mixed builds,
+in plain unbranded athletic wear. Nobody looks at the camera. Nobody poses or
+smiles for the lens. Expressions are working expressions — focus, effort, a
+real laugh between reps.
+
+Framing: imperfect and observed, as if the photographer was already in the gym.
+Slightly off-center, occasional foreground blur, natural crops.
+
+Rendering: photorealistic, sharp, high detail.
+
+Do not include: logos, brand marks, wordmarks, text, numbers, signage,
+watermarks, jersey names, school names, spectators or bleacher crowds,
+trophies, confetti, adults playing, distorted hands or fingers, extra limbs,
+fused or duplicated balls, illustration or CGI look, heavy vignette, lens
+flare, glossy over-processing.
+
+
+################################################################################
+BATCH 1 — DO THESE FIRST (4 images, biggest visible impact)
+################################################################################
+
+--------------------------------------------------------------------------------
+[01] PHOTO-HOME-HERO-01
+     Page:      index.html — full-bleed hero
+     Ratio:     16:9        Generate: 2560 x 1440
+     Save as:   images/home-hero.jpg          JPG q80, under 400KB
+     Note:      Sits behind white type. Keep the upper-left third dark and empty.
+--------------------------------------------------------------------------------
+A single youth basketball player mid-workout on an empty hardwood court, shot
+wide from a low angle. She is a few strides into a drive, ball low and
+controlled, one shoe just leaving the floor. The gym around her is mostly empty
+and mostly dark — matte black walls, overhead lights pooling warm on the maple.
+The upper-left of the frame is open, shadowed negative space with nothing in it.
+Late-evening session, dust in the light.
+
+Style: candid documentary youth-sports photography. 35mm full-frame look,
+natural shallow depth of field, a little real motion blur where there is
+movement. Warm indoor gym light from overhead fixtures, light maple hardwood
+bouncing soft amber. Muted filmic color with deep true blacks — not bright, not
+saturated, not HDR. Photorealistic, sharp, high detail. Wide 16:9 cinematic crop.
+
+Do not include: logos, brand marks, text, signage, scoreboards, watermarks,
+jersey names, spectators, adults playing, distorted hands, illustration or CGI
+look, lens flare.
+
+
+--------------------------------------------------------------------------------
+[02] sweat-detail.jpg  — REPLACE, currently 277 x 218
+     Used on:   Basketball, Volleyball, Private Coaching, Dr. Dish, Programs
+     Ratio:     5:4         Generate: 2000 x 1570
+     Save as:   images/sweat-detail.jpg       overwrite in place
+     Note:      Five pages. The single highest-leverage file on the site.
+--------------------------------------------------------------------------------
+An extremely close, cropped detail of a young athlete between reps: a forearm
+and the edge of a jaw, skin damp with sweat, a bead running down. The face is
+cropped so no full identity reads. Everything behind is warm blur. Hard, honest,
+unglamorous — this is effort, not a beauty shot.
+
+Style: candid documentary sports photography, 35mm full-frame macro look,
+extremely shallow depth of field, warm indoor gym light, muted filmic color,
+deep true blacks. Photorealistic, very high detail, visible skin texture.
+Horizontal 5:4 crop.
+
+Do not include: logos, brand marks, text, signage, watermarks, full face, eye
+contact with camera, oiled or glossy skin, distorted anatomy, illustration or
+CGI look.
+
+
+--------------------------------------------------------------------------------
+[03] leagues-huddle.jpg — REPLACE, currently 429 x 324
+     Used on:   Home, Basketball, Coach Collective (x2), Programs
+     Ratio:     4:3         Generate: 2200 x 1660
+     Save as:   images/leagues-huddle.jpg     overwrite in place
+     Note:      Four pages including the home page grid, at 429px.
+--------------------------------------------------------------------------------
+A tight huddle of six or seven young basketball teammates with a coach crouched
+in the middle of them, arms in, heads down, right before a game. Shot from just
+outside the circle at shoulder height so the ring of backs frames the coach.
+Warm overhead light on the tops of shoulders, the gym behind falling dark. Real
+intensity, no smiling for a camera.
+
+Style: candid documentary youth-sports photography, 35mm full-frame look,
+natural shallow depth of field, warm indoor gym light, light maple hardwood,
+matte black blank walls, muted filmic color, deep true blacks. Photorealistic,
+high detail. Horizontal 4:3 crop.
+
+Do not include: logos, brand marks, text, jersey numbers or names, signage,
+watermarks, spectators, referees, trophies, distorted hands, illustration or
+CGI look.
+
+
+--------------------------------------------------------------------------------
+[04] PHOTO-ABOUT-HERO-01
+     Page:      about.html — hero, rendered at 32% opacity behind the headline
+     Ratio:     16:9        Generate: 2560 x 1440
+     Save as:   images/about-hero.jpg         JPG q80, under 400KB
+     Note:      Reads as texture at 32%. Favor an even mid-tone frame — a dark
+                or high-contrast one disappears entirely.
+--------------------------------------------------------------------------------
+A wide, warm scene of youth athletes and two coaches spread across a hardwood
+court between drills. Some are walking, one is retying a shoe, two are talking,
+a ball is rolling loose in the foreground. Nobody is doing anything dramatic —
+it is the ordinary middle of a session. Even mid-tone brightness across the
+whole frame, no deep shadows, no blown highlights.
+
+Style: candid documentary youth-sports photography. 35mm full-frame look, warm
+indoor gym light, light maple hardwood, matte black walls, completely blank
+walls with no signage. Muted filmic color. Nobody looks at the camera.
+Photorealistic, high detail. Wide 16:9 crop.
+
+Do not include: logos, brand marks, text, signage, watermarks, jersey names,
+spectators, trophies, distorted hands, illustration or CGI look.
+
+
+################################################################################
+BATCH 2 — PAGES WITH ZERO PHOTOGRAPHY (4 images)
+################################################################################
+
+--------------------------------------------------------------------------------
+[05] PHOTO-LEAGUES-HERO-01
+     Page:      leagues.html — hero. Whole page has no photography at all.
+     Ratio:     16:9        Generate: 2560 x 1440
+     Save as:   images/leagues-hero.jpg
+     Note:      Must read as live game play, not training.
+--------------------------------------------------------------------------------
+A youth basketball player bringing the ball up the court in live play, head up,
+a defender crouched low in front of her in a real defensive stance. Two
+teammates blurred in the background filling lanes. Shot from courtside at knee
+height, slight motion blur on the ball. Plain unbranded pinnies in contrasting
+solid colors, one warm orange. No spectators, no scoreboard.
+
+Style: candid documentary youth-sports photography, 35mm full-frame look,
+natural shallow depth of field, warm indoor gym light, light maple hardwood,
+matte black blank walls, muted filmic color, deep true blacks. Nobody looks at
+the camera. Photorealistic, high detail. Wide 16:9 crop.
+
+Do not include: logos, brand marks, text, numbers on jerseys, signage,
+scoreboards, watermarks, spectators or bleacher crowds, referees, trophies,
+distorted hands, illustration or CGI look.
+
+
+--------------------------------------------------------------------------------
+[06] PHOTO-PERF-HERO-01
+     Page:      performance-training.html — hero. Page has no photography.
+     Ratio:     16:9        Generate: 2560 x 1440
+     Save as:   images/performance-hero.jpg
+--------------------------------------------------------------------------------
+A young athlete mid-rep in a strength and speed session on the edge of a
+hardwood court: braced in a split-stance lunge with a light dumbbell, a coach's
+hand and forearm entering frame to cue hip position. Agility ladder and low
+hurdles laid out behind, slightly blurred. Sweat visible, jaw set, full effort.
+Shot low and close with a wide lens.
+
+Style: candid documentary sports-performance photography, 35mm full-frame look,
+natural shallow depth of field, warm indoor gym light, light maple hardwood,
+matte black blank walls, muted filmic color, deep true blacks. Nobody looks at
+the camera. Photorealistic, high detail. Wide 16:9 crop.
+
+Do not include: logos, brand marks, text, signage, weight-plate branding,
+watermarks, mirrors, commercial gym equipment walls, spectators, distorted
+hands, illustration or CGI look.
+
+
+--------------------------------------------------------------------------------
+[07] PHOTO-PERF-OVERVIEW-01
+     Page:      performance-training.html — vertical art block beside overview
+     Ratio:     4:5         Generate: 1600 x 2000
+     Save as:   images/performance-overview.jpg
+--------------------------------------------------------------------------------
+A vertical portrait-orientation frame of a teenage athlete driving through an
+agility ladder, caught in the instant one foot is down and the other is high.
+Shot from the front and slightly below so the body fills the tall frame. Warm
+rim light along the shoulder from an overhead fixture, background falling to
+dark. Real strain in the posture.
+
+Style: candid documentary sports-performance photography, 35mm full-frame look,
+shallow depth of field, warm indoor gym light, light maple hardwood, matte black
+blank walls, muted filmic color, deep true blacks. No eye contact with camera.
+Photorealistic, high detail. Vertical 4:5 crop.
+
+Do not include: logos, brand marks, text, signage, watermarks, spectators,
+distorted hands or feet, extra limbs, illustration or CGI look, lens flare.
+
+
+--------------------------------------------------------------------------------
+[08] PHOTO-STARTHERE-HERO-01
+     Page:      start-here.html — hero. Page has no photography.
+     Ratio:     16:9        Generate: 2560 x 1440
+     Save as:   images/start-here-hero.jpg
+     Note:      Should look like arriving, not competing.
+--------------------------------------------------------------------------------
+A parent and a child of about nine walking into a training facility together for
+the first time, seen from behind and slightly to the side. The child is a step
+ahead, ball under one arm, looking out at the court opening up in front of them.
+The parent hangs back half a stride. Warm light ahead of them, the entry area
+dimmer. The court is visible but not the subject.
+
+Style: candid documentary photography, 35mm full-frame look, natural shallow
+depth of field, warm indoor gym light, light maple hardwood, matte black blank
+walls, muted filmic color, deep true blacks. Faces not visible, no eye contact
+with camera. Photorealistic, high detail. Wide 16:9 crop.
+
+Do not include: logos, brand marks, text, signage, reception desks with
+branding, watermarks, crowds, distorted hands, illustration or CGI look.
+
+
+################################################################################
+BATCH 3 — COMMUNITY PAGE (4 images, all four slots empty)
+################################################################################
+
+--------------------------------------------------------------------------------
+[09] PHOTO-COMMUNITY-HERO-01
+     Page:      community.html — hero
+     Ratio:     16:9        Generate: 2560 x 1440
+     Save as:   images/community-hero.jpg
+     Note:      The one image on the site allowed to be joyful rather than intense.
+--------------------------------------------------------------------------------
+Three or four teenage teammates sitting along the edge of a hardwood court after
+practice, sweaty, shoes off, genuinely laughing at something one of them said.
+Water bottles and a ball on the floor beside them. Warm side light. Shot from a
+few feet away at their eye level, slightly wide, not centered. It reads as
+friendship, not athletics.
+
+Style: candid documentary youth-sports photography. 35mm full-frame look,
+natural shallow depth of field, warm indoor gym light, light maple hardwood,
+matte black blank walls. Muted filmic color, deep true blacks. Nobody looks at
+the camera, no posed smiles. Photorealistic, high detail. Wide 16:9 crop.
+
+Do not include: logos, brand marks, text, signage, watermarks, spectators,
+adults, distorted hands, illustration or CGI look.
+
+
+--------------------------------------------------------------------------------
+[10] PHOTO-COMMUNITY-STRIP-01
+     Page:      community.html — letterbox strip in the manifesto section
+     Ratio:     16:6        Generate: 2400 x 900
+     Save as:   images/community-strip-hands.jpg
+     Note:      Extremely wide. Build the subject small and centered so the crop
+                survives.
+--------------------------------------------------------------------------------
+Tight on a pair of young hands holding a worn basketball at waist height,
+fingers spread across the pebbling, forearms and a sliver of shirt visible.
+Everything else — the court, the gym behind — falls into soft warm blur. The
+hands sit small and centered in a very wide panoramic frame with generous
+blurred space either side.
+
+Style: candid documentary sports photography, 35mm full-frame look, shallow
+depth of field, warm indoor gym light, muted filmic color, deep true blacks.
+Photorealistic, high detail. Ultra-wide letterbox panoramic crop, roughly 16:6.
+
+Do not include: logos, brand marks, text on the ball, signage, watermarks,
+faces, distorted or extra fingers, illustration or CGI look.
+
+
+--------------------------------------------------------------------------------
+[11] PHOTO-COMMUNITY-STRIP-02
+     Page:      community.html — second manifesto strip
+     Ratio:     16:6        Generate: 2400 x 900
+     Save as:   images/community-strip-bench.jpg
+     Note:      Pairs with [10]. Keep the same light so they read as one shoot.
+--------------------------------------------------------------------------------
+A row of young teammates sitting shoulder to shoulder on a bench along a black
+gym wall, seen from a distance and slightly to the side. Some slumped, one
+leaning forward with elbows on knees, one drinking water. Warm overhead light,
+long shadows on the maple in the foreground. The row of figures sits low in a
+very wide panoramic frame with empty hardwood above and below.
+
+Style: candid documentary youth-sports photography, 35mm full-frame look, warm
+indoor gym light, matte black blank walls, muted filmic color, deep true blacks.
+Nobody looks at the camera. Photorealistic, high detail. Ultra-wide letterbox
+panoramic crop, roughly 16:6.
+
+Do not include: logos, brand marks, text, signage, banners, watermarks, jersey
+names, spectators, distorted hands, illustration or CGI look.
+
+
+--------------------------------------------------------------------------------
+[12] PHOTO-COMMUNITY-CTA-01
+     Page:      community.html — closing band, behind reversed type
+     Ratio:     16:9        Generate: 2560 x 1440
+     Save as:   images/community-cta.jpg
+     Note:      Needs to go dark at the edges.
+--------------------------------------------------------------------------------
+A wide, dim view of a full court at the end of the night, twelve or so kids and
+two coaches scattered across it in ones and twos, packing up. Half the overhead
+lights are already off, so the frame darkens toward the edges and holds one warm
+pool of light in the middle. Long shadows, quiet energy.
+
+Style: candid documentary youth-sports photography, 35mm full-frame look, warm
+indoor gym light falling off to darkness, light maple hardwood, matte black
+blank walls, muted filmic color, deep true blacks. Nobody looks at the camera.
+Photorealistic, high detail. Wide 16:9 crop.
+
+Do not include: logos, brand marks, text, signage, scoreboards, watermarks,
+spectators, trophies, distorted hands, illustration or CGI look, lens flare.
+
+
+################################################################################
+BATCH 4 — REMAINING EMPTY HEROES (7 images)
+################################################################################
+
+--------------------------------------------------------------------------------
+[13] PHOTO-CAMPS-HERO-01
+     Page:      camps.html — hero (already spec'd in the markup)
+     Ratio:     16:9        Generate: 2560 x 1440
+     Save as:   images/camps-hero.jpg
+--------------------------------------------------------------------------------
+Youth athletes roughly ages 9 to 14 arriving at an indoor sports facility after
+school, backpacks still on shoulders, court shoes in hand or half-laced.
+Basketballs and volleyballs mixed naturally into the scene. Some walking in, one
+sitting on the floor changing shoes, two talking. Warm afternoon light coming in
+low from one side across the maple. Imperfect framing, real movement, nobody
+posing.
+
+Style: candid documentary youth-sports photography, 35mm full-frame look,
+natural shallow depth of field, warm gym light, matte black blank walls, muted
+filmic color, deep true blacks. Photorealistic, high detail. Wide 16:9 crop.
+
+Do not include: logos, brand marks, text, signage, watermarks, school names on
+bags, spectators, distorted hands, illustration or CGI look.
+
+
+--------------------------------------------------------------------------------
+[14] PHOTO-CAMPS-VOLLEYBALL-01
+     Page:      camps.html — volleyball card (already spec'd in the markup)
+     Ratio:     3:2         Generate: 2400 x 1600
+     Save as:   images/camps-volleyball.jpg
+--------------------------------------------------------------------------------
+Youth volleyball players roughly ages 10 to 14 mid-drill with the net clearly in
+frame. One player is passing a ball off the forearms, another is moving into
+position behind her, a third is calling for it. Real practice energy, teammates
+reacting to each other. Warm gym lighting, plain unbranded practice shirts and
+knee pads. Slight motion blur on the ball.
+
+Style: candid documentary youth-sports photography, 35mm full-frame look,
+natural shallow depth of field, warm indoor gym light, light maple hardwood,
+matte black blank walls, muted filmic color. Nobody looks at the camera, no
+commercial posing. Photorealistic, high detail. 3:2 crop.
+
+Do not include: logos, brand marks, text, jersey numbers, signage, watermarks,
+spectators, adults playing, distorted hands, fused or duplicated balls,
+illustration or CGI look.
+
+
+--------------------------------------------------------------------------------
+[15] PHOTO-RENTALS-HERO-01
+     Page:      court-rentals.html — hero (already spec'd in the markup)
+     Ratio:     16:9        Generate: 2560 x 1440
+     Save as:   images/rentals-hero.jpg
+     Note:      The job here is scale — a renter needs to understand how much
+                floor they get.
+--------------------------------------------------------------------------------
+A wide, empty indoor court photographed from one corner at standing height to
+show the full run of the floor. Light maple hardwood with crisp painted lines,
+adjustable basketball hoops at both ends, a volleyball net system partially
+visible to one side, matte black walls and exposed black ceiling structure.
+Clean, modern, lived-in, nobody in the frame. Warm even overhead lighting, a
+soft sheen on the wood.
+
+Style: architectural-documentary photography, 35mm full-frame look, natural
+perspective with straight verticals, warm indoor gym light, muted filmic color,
+deep true blacks. Photorealistic, sharp, high detail. Wide 16:9 crop.
+
+Do not include: logos, brand marks, text, signage, banners, scoreboards,
+watermarks, people, bleachers, fisheye distortion, illustration or CGI look,
+HDR over-processing.
+
+
+--------------------------------------------------------------------------------
+[16] PHOTO-EVENTS-HERO-01
+     Page:      events.html — hero
+     Ratio:     16:9        Generate: 2560 x 1440
+     Save as:   images/events-hero.jpg
+     Note:      Birthday parties and team events. The one place families should
+                read as the subject.
+--------------------------------------------------------------------------------
+A wide view of a group of about ten kids and a few adults using a court for a
+private event rather than a practice — a loose, unstructured game happening at
+one end, a couple of parents standing and talking at the other, gym bags and
+jackets piled along the wall. Relaxed and social, mid-afternoon warm light. Not
+a competition, not a drill.
+
+Style: candid documentary photography, 35mm full-frame look, warm indoor gym
+light, light maple hardwood, matte black blank walls, muted filmic color, deep
+true blacks. Nobody looks at the camera. Photorealistic, high detail. Wide 16:9
+crop.
+
+Do not include: logos, brand marks, text, signage, banners, balloons with
+printing, watermarks, distorted hands, illustration or CGI look.
+
+
+--------------------------------------------------------------------------------
+[17] PHOTO-FAQ-HERO-01
+     Page:      faq.html — hero
+     Ratio:     16:9        Generate: 2560 x 1440
+     Save as:   images/faq-hero.jpg
+     Note:      Low stakes — sits under a lot of type. Quiet empty gym is right.
+--------------------------------------------------------------------------------
+An empty hardwood court seen from the sideline in warm low light, with a ball
+rack, a few loose basketballs and volleyballs, and two gym bags left along the
+wall. Nobody in frame. The floor is freshly swept and catching a soft sheen.
+Quiet, still, end of the day.
+
+Style: candid documentary photography, 35mm full-frame look, shallow depth of
+field, warm indoor gym light, light maple hardwood, matte black blank walls,
+muted filmic color, deep true blacks. Photorealistic, high detail. Wide 16:9
+crop.
+
+Do not include: logos, brand marks, text, signage, ball-brand printing,
+watermarks, people, illustration or CGI look, HDR over-processing.
+
+
+--------------------------------------------------------------------------------
+[18] PHOTO-RESOURCES-HERO-01
+     Page:      resources.html — hero (markup calls it "court line detail")
+     Ratio:     16:9        Generate: 2560 x 1440
+     Save as:   images/resources-hero.jpg
+--------------------------------------------------------------------------------
+An extreme close, low-angle detail of painted court lines on light maple
+hardwood — a black three-point arc crossing a thinner line, wood grain sharp, a
+scuff of shoe rubber across one edge. Very shallow depth of field so the far end
+of the line dissolves. Warm overhead light raking across the floor, one soft
+highlight.
+
+Style: macro documentary detail photography, 35mm full-frame look, extremely
+shallow depth of field, warm indoor gym light, muted filmic color, deep true
+blacks. Photorealistic, very high detail, visible wood grain. Wide 16:9 crop.
+
+Do not include: logos, brand marks, text, lettering painted on the floor,
+signage, watermarks, people, illustration or CGI look.
+
+
+--------------------------------------------------------------------------------
+[19] PHOTO-SCHEDULE-HERO-01
+     Page:      schedule.html — hero (markup calls it "detail shot of a basketball")
+     Ratio:     16:9        Generate: 2560 x 1440
+     Save as:   images/schedule-hero.jpg
+     Note:      Must not repeat basketball-texture.jpg, which already appears
+                lower on the same page.
+--------------------------------------------------------------------------------
+A single basketball at rest on hardwood, shot from floor level with the camera
+almost touching the wood, so the ball sits large on the left and the empty court
+runs away to blur on the right. Late warm light from one side, a long soft
+shadow. The leather is worn and slightly dusty.
+
+Style: documentary detail photography, 35mm full-frame look, extremely shallow
+depth of field, warm indoor gym light, muted filmic color, deep true blacks.
+Photorealistic, very high detail, visible pebbling and wood grain. Wide 16:9
+crop.
+
+Do not include: logos, brand marks, text or lettering on the ball, signage,
+watermarks, people, hands, illustration or CGI look, lens flare.
+
+
+################################################################################
+BATCH 5 — REMAINING LOW-RES REPLACEMENTS (4 images)
+################################################################################
+
+--------------------------------------------------------------------------------
+[20] coach-shooting-form.jpg — REPLACE, currently 362 x 475
+     Used on:   Basketball, Private Coaching, Dr. Dish
+     Ratio:     3:4         Generate: 1600 x 2100
+     Save as:   images/coach-shooting-form.jpg    overwrite in place
+--------------------------------------------------------------------------------
+A coach standing close beside a young player, one hand lightly adjusting the
+player's shooting elbow, the other pointing up toward the rim. The player is
+holding the ball at set position, listening, eyes downrange. Vertical frame,
+shot from the side at their height. Warm overhead light, dark gym behind.
+Instruction happening, not demonstrated for a camera.
+
+Style: candid documentary youth-sports photography, 35mm full-frame look,
+natural shallow depth of field, warm indoor gym light, matte black blank walls,
+muted filmic color, deep true blacks. No eye contact with camera.
+Photorealistic, high detail. Vertical 3:4 crop.
+
+Do not include: logos, brand marks, text, signage, watermarks, whistles,
+clipboards, distorted hands or fingers, illustration or CGI look.
+
+
+--------------------------------------------------------------------------------
+[21] team-listening.jpg — REPLACE, currently 344 x 461
+     Used on:   Basketball, Events, Programs
+     Ratio:     3:4         Generate: 1600 x 2140
+     Save as:   images/team-listening.jpg         overwrite in place
+--------------------------------------------------------------------------------
+A small group of young athletes sitting and kneeling on the hardwood, looking up
+and to one side at a coach who is out of frame or only partly visible at the
+edge. Various postures — one with a ball in their lap, one leaning back on their
+hands, one fully locked in. Vertical frame shot from slightly above and behind
+the group's shoulder. Warm overhead light.
+
+Style: candid documentary youth-sports photography, 35mm full-frame look,
+natural shallow depth of field, warm indoor gym light, light maple hardwood,
+matte black blank walls, muted filmic color, deep true blacks. No eye contact
+with camera. Photorealistic, high detail. Vertical 3:4 crop.
+
+Do not include: logos, brand marks, text, signage, whiteboards with writing,
+watermarks, spectators, distorted hands, illustration or CGI look.
+
+
+--------------------------------------------------------------------------------
+[22] ball-rack-sign.jpg — REPLACE, currently 298 x 316
+     Used on:   Dr. Dish
+     Ratio:     1:1         Generate: 1600 x 1700
+     Save as:   images/ball-rack-sign.jpg         overwrite in place
+--------------------------------------------------------------------------------
+A loaded ball rack against a matte black gym wall, basketballs on the lower
+shelves and volleyballs on top, all plain and unbranded, several visibly worn.
+Shot from a few feet away at a slight angle so the rack recedes. Warm side light
+picking out the pebbling and the metal frame. Nobody in frame.
+
+Style: documentary still-life photography, 35mm full-frame look, shallow depth
+of field, warm indoor gym light, muted filmic color, deep true blacks.
+Photorealistic, very high detail. Near-square 1:1 crop.
+
+Do not include: logos, brand marks, text or lettering on the balls, signage,
+printed labels, watermarks, people, illustration or CGI look.
+
+
+--------------------------------------------------------------------------------
+[23] gift-card.jpg — DO NOT GENERATE, currently 429 x 536
+     Used on:   Shop
+     Ratio:     4:5         Target: 1600 x 2000
+     Action:    Re-photograph or re-render the real card artwork at full size.
+                Keep the composition: black card tucked into basketball netting,
+                warm side light. AI will mangle the wordmark.
+--------------------------------------------------------------------------------
+
+
+################################################################################
+BATCH 6 — BREAK THE REPEATS (variants, run each prompt more than once)
+################################################################################
+
+--------------------------------------------------------------------------------
+[24] volleyball-hero alternates  — 3 images
+     Problem:   volleyball-hero.jpg appears FOUR separate times on volleyball.html
+     Ratio:     5:4         Generate: 2000 x 1600 each
+     Save as:   images/volleyball-hero-02.jpg
+                images/volleyball-hero-03.jpg
+                images/volleyball-hero-04.jpg
+     Action:    Swap these into the lower three slots on volleyball.html.
+--------------------------------------------------------------------------------
+Youth volleyball action on an indoor court, net in frame, plain unbranded
+practice kit and knee pads. Warm overhead gym light, matte black blank walls,
+light maple floor. Real practice energy, slight motion blur on the ball, nobody
+looking at the camera.
+
+  VARY PER IMAGE:
+  02 — a setter's hands just releasing the ball overhead, shot from below and
+       behind.
+  03 — a hitter at the peak of an approach jump, arm cocked, blocker's hands
+       rising on the far side of the net.
+  04 — two players low in serve-receive, forearms platformed, ball arriving fast
+       from the left.
+
+Style: candid documentary youth-sports photography, 35mm full-frame look,
+natural shallow depth of field, muted filmic color, deep true blacks.
+Photorealistic, high detail. Horizontal 5:4 crop.
+
+Do not include: logos, brand marks, text, jersey numbers or names, signage,
+scoreboards, watermarks, spectators, referees, adults playing, distorted hands,
+fused or duplicated balls, illustration or CGI look.
+
+
+--------------------------------------------------------------------------------
+[25] basketball-dribble-cones alternates — 2 images
+     Problem:   Appears on Home, twice on Basketball, and on Camps — including
+                once captioned as game play, which it isn't.
+     Ratio:     4:5         Generate: 1600 x 2000 each
+     Save as:   images/basketball-dribble-cones-02.jpg
+                images/basketball-dribble-cones-03.jpg
+--------------------------------------------------------------------------------
+A youth basketball player working a ball-handling drill on an indoor court, low
+and controlled, cones or markers on the floor around them. Vertical frame, shot
+from low and close so the body fills the height. Warm overhead gym light, matte
+black blank walls, light maple floor, background falling dark. Real effort, no
+eye contact with camera.
+
+  VARY PER IMAGE:
+  02 — a hard crossover between two cones, ball blurred at the low point, weight
+       fully committed to one side.
+  03 — a hesitation move at the top of the key, head up, defender's shadow only.
+
+Style: candid documentary youth-sports photography, 35mm full-frame look,
+natural shallow depth of field, muted filmic color, deep true blacks, slight
+motion blur on the ball. Photorealistic, high detail. Vertical 4:5 crop.
+
+Do not include: logos, brand marks, text, jersey numbers, signage, watermarks,
+spectators, distorted hands or fingers, extra limbs, illustration or CGI look.
+
+
+--------------------------------------------------------------------------------
+[26] volleyball-huddle-02
+     Problem:   volleyball-huddle.jpg carries FIVE slots — Home, Coach
+                Collective, Private Coaching, and two on Volleyball. On Private
+                Coaching it is captioned as a one-on-one at the net, which the
+                current huddle image does not show.
+     Ratio:     4:5         Generate: 1600 x 2000
+     Save as:   images/volleyball-huddle-02.jpg
+--------------------------------------------------------------------------------
+A volleyball coach standing close to a single young player at the net, talking
+quietly and low, one hand indicating the player's shoulder line. The player is
+holding a ball against her hip, listening, eyes down. Just the two of them — no
+group, no huddle. Vertical frame, warm overhead gym light, net cord crossing the
+upper third, background falling dark.
+
+Style: candid documentary youth-sports photography, 35mm full-frame look,
+natural shallow depth of field, muted filmic color, deep true blacks. No eye
+contact with camera. Photorealistic, high detail. Vertical 4:5 crop.
+
+Do not include: logos, brand marks, text, jersey numbers, signage, watermarks,
+other players, spectators, distorted hands, illustration or CGI look.
+
+
+--------------------------------------------------------------------------------
+[27] court-floor-detail-02
+     Why:       The site leans hard on texture blocks. A second floor detail
+                gives Membership, Schedule and Resources something other than
+                ball leather to rotate through.
+     Ratio:     4:5         Generate: 1600 x 2000
+     Save as:   images/court-floor-detail-02.jpg
+--------------------------------------------------------------------------------
+A vertical detail of the intersection of painted court lines on light maple
+hardwood — a black sideline meeting an orange volleyball boundary line, wood
+grain and shoe scuffs sharp in the foreground, the floor receding to warm blur
+at the top of the frame. Raking side light picking up the sheen.
+
+Style: macro documentary detail photography, 35mm full-frame look, extremely
+shallow depth of field, warm indoor gym light, muted filmic color, deep true
+blacks. Photorealistic, very high detail, visible wood grain and paint edge.
+Vertical 4:5 crop.
+
+Do not include: logos, brand marks, text or painted lettering, signage,
+watermarks, people, illustration or CGI look, HDR over-processing.
+
+
+--------------------------------------------------------------------------------
+[28] PHOTO-PERF-COACH-01 / -02 / -03  — 3 images
+     Page:      performance-training.html — three unnamed staff cards
+     Ratio:     4:5         Generate: 1200 x 1500 each
+     Save as:   images/performance-coach-1.jpg
+                images/performance-coach-2.jpg
+                images/performance-coach-3.jpg
+     Note:      No real person is named on these cards, so generated images are
+                defensible here. This is NOT true of the four named coaches on
+                about.html.
+--------------------------------------------------------------------------------
+A working portrait of a youth sports performance coach in a training gym, shot
+in profile or three-quarter from a short distance while they are actually
+coaching — crouched at an athlete's level, hand out demonstrating a movement,
+mid-sentence. The athlete is out of focus in the foreground. Plain unbranded
+coaching polo or tee. Warm overhead gym light, matte black wall behind, light
+maple floor.
+
+  VARY PER CARD:
+  01 (Strength & Conditioning) — cueing a squat, hands framing the athlete's knees.
+  02 (Speed & Agility) — crouched at the start of an agility ladder, arm extended
+     down the lane.
+  03 (Injury Prevention) — kneeling beside a seated athlete demonstrating an
+     ankle mobility drill.
+
+Style: candid documentary photography, 35mm full-frame look, shallow depth of
+field, warm indoor gym light, muted filmic color, deep true blacks. No eye
+contact with camera, no posed headshot. Photorealistic, high detail. Vertical
+4:5 crop.
+
+Do not include: logos, brand marks, text, signage, watermarks, clipboards with
+writing, whistles on camera, distorted hands, illustration or CGI look.
+
+
+################################################################################
+EXPORT SPECS — applies to every file
+################################################################################
+
+  Where it's used                          Ratio    Generate      Ship at
+  ---------------------------------------  -------  ------------  ------------------
+  Page hero, full-bleed                     16:9    2560 x 1440   2000px w, <=400KB
+  Manifesto strip (Community)               16:6    2400 x  900   2000px w, <=300KB
+  Program card / overview art / coach card   4:5    1600 x 2000   1200px w, <=250KB
+  Upcoming / event tile                      3:4    1500 x 2000   1200px w, <=250KB
+  Texture block                              1:1    1600 x 1600   1200px w, <=200KB
+  Inline editorial photo                3:2 / 5:4   2400 x 1600   1600px w, <=300KB
+
+  Format JPG at quality 80. Filenames lowercase with hyphens, matching what is
+  already in images/. Every new file also needs alt text in the same voice as
+  the existing ones — descriptive of the action, never "image of".
+
+  Hand the raw generations back and I will crop to ratio, resize, compress,
+  rename, drop them into images/, and wire the empty placeholders to point at
+  them.
+
+================================================================================
+END
+================================================================================
