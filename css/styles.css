@@ -109,15 +109,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .site-announce { animation: none; }
   .site-announce-cta .arrow { animation: none; }
 }
-body.has-announce { padding-top: 88px; }
-body.has-announce .nav { top: 88px; }
+body.has-announce { padding-top: var(--announce-h, 88px); }
+body.has-announce .nav { top: var(--announce-h, 88px); }
 [id] { scroll-margin-top: 180px; }
 @media (max-width: 640px) {
   .site-announce { min-height: 0; padding: 16px 18px; }
   .site-announce-inner { font-size: 15px; }
-  body.has-announce { padding-top: 112px; }
   [id] { scroll-margin-top: 210px; }
-  body.has-announce .nav { top: 112px; }
 }
 
 /* ---------- Nav ---------- */

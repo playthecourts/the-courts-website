@@ -1,4 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
+  /* ---------- Announce bar: keep nav offset in sync with its real (possibly wrapped) height ---------- */
+  const announce = document.querySelector('.site-announce');
+  if (announce && document.body.classList.contains('has-announce')) {
+    const syncAnnounceHeight = () => {
+      document.documentElement.style.setProperty('--announce-h', announce.offsetHeight + 'px');
+    };
+    syncAnnounceHeight();
+    window.addEventListener('resize', syncAnnounceHeight);
+    window.addEventListener('load', syncAnnounceHeight);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncAnnounceHeight);
+  }
+
   /* ---------- Sticky nav ---------- */
   const nav = document.getElementById('nav');
   if (nav) {
