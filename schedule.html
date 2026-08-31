@@ -35,14 +35,34 @@
   .mcal-tab:hover { border-color: var(--orange); color: var(--black); }
   .mcal-tab.active { background: var(--black); border-color: var(--black); color: var(--white); }
 
-  .mcal-early { max-width: 1160px; margin: 0 auto 24px; }
-  .mcal-early-inner { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; background: var(--black); border-radius: 10px; padding: 14px 22px; position: relative; overflow: hidden; }
-  .mcal-early-inner::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--orange), #F2A65A 50%, var(--orange)); }
-  .mcal-early-label { font-family: var(--font-sport); font-weight: 800; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); flex-shrink: 0; }
-  .mcal-early-text { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--white); margin: 0; flex: 1; min-width: 200px; }
-  .mcal-early-text strong { color: var(--orange); }
-  .mcal-early-inner a { font-family: var(--font-heading); font-weight: 700; font-size: 13px; color: var(--white); background: var(--orange); padding: 8px 16px; border-radius: 999px; white-space: nowrap; flex-shrink: 0; }
-  .mcal-early-inner a:hover { background: var(--orange-hover); }
+  .mcal-early { max-width: 1160px; margin: 0 auto 16px; display: flex; flex-direction: column; gap: 14px; }
+  .mcal-banner { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; border-radius: 16px; padding: 22px 30px; position: relative; overflow: hidden; }
+  .mcal-banner-icon { flex-shrink: 0; }
+  .mcal-banner-body { flex: 1; min-width: 220px; }
+  .mcal-banner-label { font-family: var(--font-sport); font-weight: 800; font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase; display: block; margin-bottom: 5px; }
+  .mcal-banner-text { font-family: var(--font-display); font-weight: 900; font-size: clamp(19px, 2.4vw, 25px); margin: 0; line-height: 1.2; }
+  .mcal-banner a { font-family: var(--font-heading); font-weight: 800; font-size: 14.5px; padding: 13px 24px; border-radius: 999px; white-space: nowrap; flex-shrink: 0; transition: transform 0.15s var(--ease); }
+  .mcal-banner a:hover { transform: translateY(-1px); }
+
+  .mcal-banner--orange { background: var(--orange); }
+  .mcal-banner--orange .mcal-banner-label { color: rgba(23,17,10,0.62); }
+  .mcal-banner--orange .mcal-banner-text { color: var(--white); }
+  .mcal-banner--orange .mcal-banner-text strong { color: var(--black); }
+  .mcal-banner--orange a { background: var(--black); color: var(--white); }
+  .mcal-banner--orange a:hover { background: #000; }
+
+  .mcal-banner--dark { background: var(--black); }
+  .mcal-banner--dark::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--orange), #F2A65A 50%, var(--orange)); }
+  .mcal-banner--dark .mcal-banner-label { color: var(--orange); }
+  .mcal-banner--dark .mcal-banner-text { color: var(--white); }
+  .mcal-banner--dark .mcal-banner-text strong { color: var(--orange); }
+  .mcal-banner--dark a { background: var(--orange); color: var(--white); }
+  .mcal-banner--dark a:hover { background: var(--orange-hover); }
+
+  @media (max-width: 620px) {
+    .mcal-banner { padding: 18px 20px; gap: 14px; }
+    .mcal-banner-icon svg { width: 40px; height: 40px; }
+  }
 
   .mcal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; max-width: 1160px; margin: 0 auto; }
   .mcal-dow { text-align: center; font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); padding-bottom: 10px; }
@@ -483,48 +503,47 @@
   /* Weekly classes don't start until The Courts opens. */
   var RECURRING_START = '2026-10-01';
 
-  /* Recurring weekly classes. dow: 0=Sun...6=Sat. sortMin = minutes since midnight, for ordering within a day. short = compact in-cell label. */
+  /* Recurring weekly classes. dow: 0=Sun...6=Sat. sortMin = minutes since midnight, for ordering within a day. short = compact in-cell label. label = full "SPORT (Tier): time" display format. */
   var RECURRING = [
     { dow: 0, sortMin: 0, time: 'Various Times', sport: 'bb', title: 'Dr. Dish', meta: 'Solo Sessions', short: 'Dr. Dish', cta: 'Book Dr. Dish →', href: DRDISH, external: true },
-    { dow: 3, sortMin: 300, time: '5:00 PM', sport: 'bb', title: 'Basketball Fundamentals', meta: 'Grades K&ndash;2', short: 'BB Fundamentals', cta: 'Book →', href: UH + 'events/206739-basketball-fundamentals-grades-k-2', external: true },
-    { dow: 4, sortMin: 300, time: '5:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 3&ndash;5', short: 'BB 3&ndash;5', cta: 'Book →', href: BB35, external: true },
-    { dow: 5, sortMin: 300, time: '5:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 3&ndash;5', short: 'BB 3&ndash;5', cta: 'Book →', href: BB35, external: true },
-    { dow: 6, sortMin: 540, time: '9:00 AM', sport: 'bb', title: 'Basketball', meta: 'Grades 3&ndash;5', short: 'BB 3&ndash;5', cta: 'Book →', href: BB35, external: true },
-    { dow: 4, sortMin: 360, time: '6:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 6&ndash;8', short: 'BB 6&ndash;8', cta: 'Book →', href: BB68, external: true },
-    { dow: 5, sortMin: 360, time: '6:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 6&ndash;8', short: 'BB 6&ndash;8', cta: 'Book →', href: BB68, external: true },
-    { dow: 6, sortMin: 600, time: '10:00 AM', sport: 'bb', title: 'Basketball', meta: 'Grades 6&ndash;8', short: 'BB 6&ndash;8', cta: 'Book →', href: BB68, external: true },
-    { dow: 4, sortMin: 420, time: '7:00 PM', sport: 'bb', title: 'Basketball', meta: 'High School', short: 'BB HS', cta: 'Book →', href: BBHS, external: true },
-    { dow: 5, sortMin: 420, time: '7:00 PM', sport: 'bb', title: 'Basketball', meta: 'High School', short: 'BB HS', cta: 'Book →', href: BBHS, external: true },
-    { dow: 6, sortMin: 660, time: '11:00 AM', sport: 'bb', title: 'Basketball', meta: 'High School', short: 'BB HS', cta: 'Book →', href: BBHS, external: true },
-    { dow: 1, sortMin: 300, time: '5:00 PM', sport: 'vb', title: 'Volleyball', meta: 'Grades 4&ndash;8', short: 'VB 4&ndash;8', cta: 'Book →', href: VB48, external: true },
-    { dow: 2, sortMin: 300, time: '5:00 PM', sport: 'vb', title: 'Volleyball', meta: 'Grades 4&ndash;8', short: 'VB 4&ndash;8', cta: 'Book →', href: VB48, external: true },
-    { dow: 6, sortMin: 780, time: '1:00 PM', sport: 'vb', title: 'Volleyball', meta: 'Grades 4&ndash;8', short: 'VB 4&ndash;8', cta: 'Book →', href: VB48, external: true },
-    { dow: 1, sortMin: 360, time: '6:00 PM', sport: 'vb', title: 'Volleyball', meta: 'High School', short: 'VB HS', cta: 'Book →', href: VBHS, external: true },
-    { dow: 2, sortMin: 360, time: '6:00 PM', sport: 'vb', title: 'Volleyball', meta: 'High School', short: 'VB HS', cta: 'Book →', href: VBHS, external: true },
-    { dow: 6, sortMin: 840, time: '2:00 PM', sport: 'vb', title: 'Volleyball', meta: 'High School', short: 'VB HS', cta: 'Book →', href: VBHS, external: true }
+    { dow: 3, sortMin: 300, sport: 'bb', label: 'BB Fundamentals (K&ndash;2): 5&ndash;5:50 PM', short: 'BB Fundamentals', cta: 'Book →', href: UH + 'events/206739-basketball-fundamentals-grades-k-2', external: true },
+    { dow: 4, sortMin: 300, sport: 'bb', label: 'BB (Grades 3&ndash;5): 5&ndash;5:50 PM', short: 'BB 3&ndash;5', cta: 'Book →', href: BB35, external: true },
+    { dow: 5, sortMin: 300, sport: 'bb', label: 'BB (Grades 3&ndash;5): 5&ndash;5:50 PM', short: 'BB 3&ndash;5', cta: 'Book →', href: BB35, external: true, except: ['2026-10-30'] },
+    { dow: 6, sortMin: 540, sport: 'bb', label: 'BB (Grades 3&ndash;5): 9&ndash;9:50 AM', short: 'BB 3&ndash;5', cta: 'Book →', href: BB35, external: true },
+    { dow: 4, sortMin: 360, sport: 'bb', label: 'BB (Grades 6&ndash;8): 6&ndash;6:50 PM', short: 'BB 6&ndash;8', cta: 'Book →', href: BB68, external: true },
+    { dow: 5, sortMin: 360, sport: 'bb', label: 'BB (Grades 6&ndash;8): 6&ndash;6:50 PM', short: 'BB 6&ndash;8', cta: 'Book →', href: BB68, external: true, except: ['2026-10-30'] },
+    { dow: 6, sortMin: 600, sport: 'bb', label: 'BB (Grades 6&ndash;8): 10&ndash;10:50 AM', short: 'BB 6&ndash;8', cta: 'Book →', href: BB68, external: true },
+    { dow: 4, sortMin: 420, sport: 'bb', label: 'BB (High School): 7&ndash;7:50 PM', short: 'BB HS', cta: 'Book →', href: BBHS, external: true },
+    { dow: 5, sortMin: 420, sport: 'bb', label: 'BB (High School): 7&ndash;7:50 PM', short: 'BB HS', cta: 'Book →', href: BBHS, external: true, except: ['2026-10-30'] },
+    { dow: 6, sortMin: 660, sport: 'bb', label: 'BB (High School): 11&ndash;11:50 AM', short: 'BB HS', cta: 'Book →', href: BBHS, external: true },
+    { dow: 1, sortMin: 300, sport: 'vb', label: 'VB (Grades 4&ndash;8): 5&ndash;5:50 PM', short: 'VB 4&ndash;8', cta: 'Book →', href: VB48, external: true },
+    { dow: 2, sortMin: 300, sport: 'vb', label: 'VB (Grades 4&ndash;8): 5&ndash;5:50 PM', short: 'VB 4&ndash;8', cta: 'Book →', href: VB48, external: true },
+    { dow: 6, sortMin: 780, sport: 'vb', label: 'VB (Grades 4&ndash;8): 1&ndash;1:50 PM', short: 'VB 4&ndash;8', cta: 'Book →', href: VB48, external: true, except: ['2026-10-31'] },
+    { dow: 1, sortMin: 360, sport: 'vb', label: 'VB (High School): 6&ndash;6:50 PM', short: 'VB HS', cta: 'Book →', href: VBHS, external: true },
+    { dow: 2, sortMin: 360, sport: 'vb', label: 'VB (High School): 6&ndash;6:50 PM', short: 'VB HS', cta: 'Book →', href: VBHS, external: true },
+    { dow: 6, sortMin: 840, sport: 'vb', label: 'VB (High School): 2&ndash;2:50 PM', short: 'VB HS', cta: 'Book →', href: VBHS, external: true, except: ['2026-10-31'] }
   ];
 
   /* One-off / special events. sortMin places them in order alongside recurring classes on shared days. short = compact in-cell label. */
   var EVENTS = [
     { start: '2026-09-12', sortMin: 900, time: '3:00 PM', sport: 'bb', title: 'Fall League Evaluations', meta: '$25', short: 'Evaluations', cta: 'Save Your Evaluation Spot →', href: 'https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations', external: true },
-    { start: '2026-10-01', sortMin: 540, time: '', sport: 'general', title: 'Doors Open', meta: 'Opening Day', short: 'Doors Open', cta: 'Explore Programs →', href: 'programs' },
-    { start: '2026-10-12', end: '2026-10-15', sortMin: 480, time: '', sport: 'both', title: 'Fall Break Camp', meta: 'Basketball mornings, volleyball afternoons', short: 'Fall Break Camp', cta: 'View Camps + Register →', href: 'camps#fall-break' },
+    { start: '2026-10-12', end: '2026-10-15', sortMin: 480, time: '', sport: 'both', title: 'Fall Break Camp', meta: 'Basketball mornings, volleyball afternoons', short: 'Fall Break Camp', cta: 'View Camps + Register →', href: 'camps#fall-break', priority: true },
     { start: '2026-10-16', sortMin: 540, time: '', sport: 'both', title: 'Fall Break Competition Day', meta: 'Single-day games, both sports', short: 'Competition Day', cta: 'View Camps →', href: 'camps#board' },
     { start: '2026-10-23', sortMin: 1080, time: '', sport: 'bb', title: 'Fall League Kicks Off', meta: 'Teams set, practices + games begin', short: 'League Kickoff', cta: 'View League →', href: 'leagues#fall-league' },
     { start: '2026-10-24', sortMin: 540, time: '', sport: 'bb', title: 'First Fall League Games', meta: 'Somebody&rsquo;s keeping score now', short: 'First Games', cta: 'View League →', href: 'leagues#fall-league' },
-    { start: '2026-10-28', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'School lets out early', short: 'Early Release', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-10-28', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'School lets out early', short: 'Early Release', cta: 'View Camps →', href: 'camps#board', priority: true },
     { start: '2026-10-30', sortMin: 1140, time: '', sport: 'bb', title: 'Halloween Shootout', meta: 'Costume-optional basketball night', short: 'Halloween Shootout', cta: 'Register for Basketball →', href: 'https://app.upperhand.io/customers/2876-the-courts-llc/events/206883-halloween-basketball-shootout', external: true },
     { start: '2026-10-31', sortMin: 1140, time: '', sport: 'vb', title: 'Volleyween', meta: 'Costume-optional volleyball night', short: 'Volleyween', cta: 'Register for Volleyball →', href: 'https://app.upperhand.io/customers/2876-the-courts-llc/events/206884-volleyween', external: true },
-    { start: '2026-11-03', sortMin: 480, time: '', sport: 'both', title: 'No School Day Camp', meta: 'No school? No problem', short: 'No School Camp', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-11-03', sortMin: 480, time: '', sport: 'both', title: 'No School Day Camp', meta: 'No school? No problem', short: 'No School Camp', cta: 'View Camps →', href: 'camps#board', priority: true },
     { start: '2026-11-14', sortMin: 600, time: '', sport: 'general', title: 'What Makes a Great Player?', meta: 'Parent talk', short: 'Parent Talk', cta: 'RSVP →', href: 'contact?interest=Something%20Else#contact-form', preset: 'Something Else' },
-    { start: '2026-11-18', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'Another early release', short: 'Early Release', cta: 'View Camps →', href: 'camps#board' },
-    { start: '2026-11-23', end: '2026-11-25', sortMin: 480, time: '', sport: 'both', title: 'Thanksgiving Break Camp', meta: 'Three days before turkey', short: 'Thanksgiving Camp', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-11-18', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'Another early release', short: 'Early Release', cta: 'View Camps →', href: 'camps#board', priority: true },
+    { start: '2026-11-23', end: '2026-11-25', sortMin: 480, time: '', sport: 'both', title: 'Thanksgiving Break Camp', meta: 'Three days before turkey', short: 'Thanksgiving Camp', cta: 'View Camps →', href: 'camps#board', priority: true },
     { start: '2026-12-05', sortMin: 1080, time: '6&ndash;9 PM', sport: 'general', title: 'GOAT Movie Night', meta: 'Pizza + a movie', short: 'Movie Night', cta: 'Save Your Spot →', href: 'https://app.upperhand.io/customers/2876-the-courts-llc/events/206887-goat-movie-night', external: true },
-    { start: '2026-12-09', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'They&rsquo;re letting them out early again', short: 'Early Release', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-12-09', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'They&rsquo;re letting them out early again', short: 'Early Release', cta: 'View Camps →', href: 'camps#board', priority: true },
     { start: '2026-12-11', end: '2026-12-13', sortMin: 540, time: '', sport: 'bb', title: 'Fall League Tournament', meta: 'The season closes out', short: 'Tournament', cta: 'View League →', href: 'leagues#fall-league' },
     { start: '2026-12-18', sortMin: 1020, time: '5&ndash;8 PM', sport: 'both', title: 'Holiday Classic', meta: 'Members $35 &middot; Non-Members $45', short: 'Holiday Classic', cta: 'Register →', href: 'https://app.upperhand.io/customers/2876-the-courts-llc/events/206889-holiday-classic', external: true },
-    { start: '2026-12-21', end: '2026-12-23', sortMin: 480, time: '', sport: 'both', title: 'Holiday Break Camp', meta: 'The break is long', short: 'Holiday Camp', cta: 'View Camps →', href: 'camps#board' },
-    { start: '2026-12-28', end: '2026-12-30', sortMin: 480, time: '', sport: 'both', title: 'New Year Camp', meta: 'One more run before the year ends', short: 'New Year Camp', cta: 'View Camps →', href: 'camps#board' }
+    { start: '2026-12-21', end: '2026-12-23', sortMin: 480, time: '', sport: 'both', title: 'Holiday Break Camp', meta: 'The break is long', short: 'Holiday Camp', cta: 'View Camps →', href: 'camps#board', priority: true },
+    { start: '2026-12-28', end: '2026-12-30', sortMin: 480, time: '', sport: 'both', title: 'New Year Camp', meta: 'One more run before the year ends', short: 'New Year Camp', cta: 'View Camps →', href: 'camps#board', priority: true }
   ];
 
   var MONTHS = [
@@ -551,13 +570,17 @@
   function itemsOnDate(ds, dow) {
     var items = [];
     if (ds >= RECURRING_START) {
-      RECURRING.forEach(function (r) { if (r.dow === dow) items.push(r); });
+      RECURRING.forEach(function (r) { if (r.dow === dow && (!r.except || r.except.indexOf(ds) === -1)) items.push(r); });
     }
     EVENTS.forEach(function (e) {
       var end = e.end || e.start;
       if (ds >= e.start && ds <= end) items.push(e);
     });
-    items.sort(function (a, b) { return a.sortMin - b.sortMin; });
+    items.sort(function (a, b) {
+      var pa = a.priority ? 0 : 1, pb = b.priority ? 0 : 1;
+      if (pa !== pb) return pa - pb;
+      return a.sortMin - b.sortMin;
+    });
     return items;
   }
 
@@ -584,10 +607,16 @@
     items.forEach(function (it) {
       var attrs = it.external ? ' target="_blank" rel="noopener"' : '';
       var preset = it.preset ? ' data-preset="' + it.preset + '"' : '';
-      var timeLine = it.time ? it.time : '';
-      var label = timeLine ? (timeLine + (it.meta ? ' &middot; ' + it.meta : '')) : it.meta;
       var accentCls = it.sport === 'vb' ? ' mcal-pop-item--vb' : (it.sport === 'bb' || it.sport === 'both' ? '' : ' mcal-pop-item--general');
-      out += '<div class="mcal-pop-item' + accentCls + '"><span class="mcal-pop-time">' + label + '</span><p class="mcal-pop-title">' + it.title + '</p><a class="mcal-pop-link" href="' + it.href + '"' + attrs + preset + '>' + it.cta + '</a></div>';
+      out += '<div class="mcal-pop-item' + accentCls + '">';
+      if (it.label) {
+        out += '<p class="mcal-pop-title">' + it.label + '</p>';
+      } else {
+        var timeLine = it.time ? it.time : '';
+        var meta = timeLine ? (timeLine + (it.meta ? ' &middot; ' + it.meta : '')) : it.meta;
+        out += '<span class="mcal-pop-time">' + meta + '</span><p class="mcal-pop-title">' + it.title + '</p>';
+      }
+      out += '<a class="mcal-pop-link" href="' + it.href + '"' + attrs + preset + '>' + it.cta + '</a></div>';
     });
     out += '</div></div>';
     return out;
@@ -604,9 +633,19 @@
     }).join('');
 
     if (monthIndex === 0) {
-      earlyEl.innerHTML = '<div class="mcal-early-inner"><span class="mcal-early-label">Starting Early</span>' +
-        '<p class="mcal-early-text"><strong>Sat, Sept 12 &middot; 3 PM</strong> &mdash; Fall League Evaluations &middot; $25</p>' +
-        '<a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations" target="_blank" rel="noopener" data-booking-type="basketball-evaluation">Save Your Spot →</a></div>';
+      earlyEl.innerHTML =
+        '<div class="mcal-banner mcal-banner--orange">' +
+          '<div class="mcal-banner-icon"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.16)"/><path d="M12 6v6l4 2" stroke="var(--black)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+          '<div class="mcal-banner-body"><span class="mcal-banner-label">Starting Early</span>' +
+            '<p class="mcal-banner-text"><strong>Sat, Sept 12 &middot; 3 PM</strong> &mdash; Fall League Evaluations &middot; $25</p></div>' +
+          '<a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations" target="_blank" rel="noopener" data-booking-type="basketball-evaluation">Save Your Spot →</a>' +
+        '</div>' +
+        '<div class="mcal-banner mcal-banner--dark">' +
+          '<div class="mcal-banner-icon"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 21V9l8-6 8 6v12" stroke="var(--orange)" stroke-width="2" stroke-linejoin="round"/><path d="M9 21v-7h6v7" stroke="var(--orange)" stroke-width="2" stroke-linejoin="round"/></svg></div>' +
+          '<div class="mcal-banner-body"><span class="mcal-banner-label">Opening Day</span>' +
+            '<p class="mcal-banner-text"><strong>Thu, Oct 1</strong> &mdash; Doors officially open</p></div>' +
+          '<a href="programs">Explore Programs →</a>' +
+        '</div>';
     } else {
       earlyEl.innerHTML = '';
     }
