@@ -15,23 +15,50 @@
 <style>
   /* ================= Weekly Programs (wp-*) ================= */
   .wp-section { padding: 12px 0 60px; }
-  .wp-head { max-width: 640px; margin: 0 auto 40px; text-align: center; }
+  .wp-head { max-width: 640px; margin: 0 auto 32px; text-align: center; }
   .wp-head .eyebrow { color: var(--orange); }
   .wp-note { font-size: 14.5px; color: var(--gray-dark); margin: 10px auto 0; max-width: 52ch; }
-  .wp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px; }
-  .wp-card { background: var(--gray-light); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-md); padding: 30px 28px; }
-  .wp-card-head { display: flex; align-items: center; gap: 11px; margin-bottom: 22px; }
-  .wp-sport-dot { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; }
+  .wp-sport-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
   .wp-sport-dot--bb { background: var(--orange); }
   .wp-sport-dot--vb { background: var(--black); }
-  .wp-card h3 { font-family: var(--font-display); font-weight: 900; font-size: 23px; margin: 0; }
+  .wp-legend { display: flex; justify-content: center; gap: 22px; margin: 0 0 36px; }
+  .wp-legend-item { display: flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-dark); }
+
+  .wp-schedule { display: grid; grid-template-columns: 1.6fr 1fr; gap: 32px; align-items: start; }
+  .wp-schedule-name { font-family: var(--font-display); font-weight: 900; font-size: 19px; margin: 0 0 16px; }
+
+  .wp-week-grid { display: grid; grid-template-columns: 56px repeat(5, 1fr); gap: 6px; }
+  .wp-week-cell { min-height: 64px; }
+  .wp-week-cell--head { min-height: auto; font-family: var(--font-sport); font-weight: 700; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); text-align: center; padding-bottom: 6px; }
+  .wp-week-time { display: flex; align-items: center; justify-content: flex-end; font-family: var(--font-sport); font-weight: 700; font-size: 12px; color: var(--gray-dark); padding-right: 6px; text-align: right; }
+  .wp-week-grid > .wp-week-cell:not(.wp-week-cell--head):not(.wp-week-time) { background: var(--gray-light); border-radius: 6px; padding: 4px; display: flex; flex-direction: column; gap: 4px; justify-content: center; }
+
+  .wp-block { display: flex; align-items: center; justify-content: center; border-radius: 5px; padding: 8px 6px; text-align: center; line-height: 1.25; border-left: 3px solid transparent; font-family: var(--font-heading); font-weight: 800; font-size: 12px; min-height: 40px; }
+  .wp-block--bb { background: var(--orange-soft); border-left-color: var(--orange); color: var(--orange-ink); }
+  .wp-block--vb { background: var(--white); border-left-color: var(--black); color: var(--black); border: 1px solid var(--gray-mid); border-left-width: 3px; }
+  .wp-block:hover { filter: brightness(0.96); }
+
+  .wp-sat-list { display: flex; flex-direction: column; gap: 8px; }
+  .wp-sat-row { display: flex; align-items: center; gap: 14px; background: var(--gray-light); border-radius: 8px; padding: 12px 16px; border-left: 4px solid transparent; }
+  .wp-sat-row.wp-block--bb { border-left-color: var(--orange); background: var(--orange-soft); }
+  .wp-sat-row.wp-block--vb { border-left-color: var(--black); background: var(--gray-light); }
+  .wp-sat-time { font-family: var(--font-sport); font-weight: 800; font-size: 13px; color: var(--gray-dark); white-space: nowrap; flex-shrink: 0; width: 62px; }
+  .wp-sat-name { font-family: var(--font-heading); font-weight: 700; font-size: 14.5px; color: var(--black); }
+
   .wp-tier { padding: 18px 0; border-top: 1px solid var(--gray-mid); display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
-  .wp-tier:first-of-type { border-top: none; padding-top: 0; }
   .wp-tier-name { font-family: var(--font-heading); font-weight: 800; font-size: 15.5px; margin: 0 0 6px; }
   .wp-tier-times { font-size: 14px; color: var(--gray-dark); line-height: 1.6; margin: 0; }
   .wp-tier-cta { font-family: var(--font-heading); font-weight: 700; font-size: 13.5px; color: var(--orange); white-space: nowrap; flex-shrink: 0; }
   .wp-tier-cta:hover { color: var(--orange-hover); }
-  @media (max-width: 760px) { .wp-grid { grid-template-columns: 1fr; } .wp-tier { flex-direction: column; gap: 6px; } }
+
+  @media (max-width: 860px) {
+    .wp-schedule { grid-template-columns: 1fr; gap: 40px; }
+  }
+  @media (max-width: 480px) {
+    .wp-week-grid { grid-template-columns: 40px repeat(5, 1fr); gap: 3px; }
+    .wp-week-cell--head { font-size: 10px; }
+    .wp-block { padding: 4px 3px; font-size: 10px; min-height: 32px; }
+  }
 
   /* ================= Calendar (cal2-*) ================= */
   .cal2-section { padding: 12px 0 90px; background: var(--gray-light); }
@@ -260,39 +287,58 @@
       <span class="eyebrow">Weekly Programs</span>
       <p class="wp-note">Advance registration is required. Sessions are subject to capacity and availability.</p>
     </div>
-    <div class="wp-grid">
-      <div class="wp-card">
-        <div class="wp-card-head"><span class="wp-sport-dot wp-sport-dot--bb"></span><h3>Basketball</h3></div>
-        <div class="wp-tier">
-          <div><p class="wp-tier-name">Fundamentals · Grades K&ndash;2</p><p class="wp-tier-times">Wed &middot; 5:00&ndash;5:50 PM</p></div>
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206739-basketball-fundamentals-grades-k-2" target="_blank" rel="noopener" class="wp-tier-cta" data-booking-type="basketball-fundamentals-k2">Book →</a>
-        </div>
-        <div class="wp-tier">
-          <div><p class="wp-tier-name">Grades 3&ndash;5</p><p class="wp-tier-times">Thu &middot; 5:00&ndash;5:50 PM<br>Fri &middot; 5:00&ndash;5:50 PM<br>Sat &middot; 9:00&ndash;9:50 AM</p></div>
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206747-basketball-training-grades-3-5" target="_blank" rel="noopener" class="wp-tier-cta" data-booking-type="basketball-training-3-5">Book →</a>
-        </div>
-        <div class="wp-tier">
-          <div><p class="wp-tier-name">Grades 6&ndash;8</p><p class="wp-tier-times">Thu &middot; 6:00&ndash;6:50 PM<br>Fri &middot; 6:00&ndash;6:50 PM<br>Sat &middot; 10:00&ndash;10:50 AM</p></div>
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206749-basketball-training-grades-6-8" target="_blank" rel="noopener" class="wp-tier-cta" data-booking-type="basketball-training-6-8">Book →</a>
-        </div>
-        <div class="wp-tier">
-          <div><p class="wp-tier-name">High School</p><p class="wp-tier-times">Thu &middot; 7:00&ndash;7:50 PM<br>Fri &middot; 7:00&ndash;7:50 PM<br>Sat &middot; 11:00&ndash;11:50 AM</p></div>
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206750-basketball-training-high-school" target="_blank" rel="noopener" class="wp-tier-cta" data-booking-type="basketball-training-hs">Book →</a>
+    <div class="wp-legend">
+      <span class="wp-legend-item"><span class="wp-sport-dot wp-sport-dot--bb"></span>Basketball</span>
+      <span class="wp-legend-item"><span class="wp-sport-dot wp-sport-dot--vb"></span>Volleyball</span>
+    </div>
+    <div class="wp-schedule">
+      <div class="wp-week">
+        <h3 class="wp-schedule-name">Weeknights</h3>
+        <div class="wp-week-grid">
+          <div class="wp-week-cell wp-week-cell--head"></div>
+          <div class="wp-week-cell wp-week-cell--head">Mon</div>
+          <div class="wp-week-cell wp-week-cell--head">Tue</div>
+          <div class="wp-week-cell wp-week-cell--head">Wed</div>
+          <div class="wp-week-cell wp-week-cell--head">Thu</div>
+          <div class="wp-week-cell wp-week-cell--head">Fri</div>
+
+          <div class="wp-week-cell wp-week-time">5 PM</div>
+          <div class="wp-week-cell"></div>
+          <div class="wp-week-cell"></div>
+          <div class="wp-week-cell">
+            <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206739-basketball-fundamentals-grades-k-2" target="_blank" rel="noopener" class="wp-block wp-block--bb" data-booking-type="basketball-fundamentals-k2">Fundamentals K&ndash;2</a>
+            <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206752-volleyball-training-grades-4-8" target="_blank" rel="noopener" class="wp-block wp-block--vb" data-booking-type="volleyball-training-4-8">Grades 4&ndash;8</a>
+          </div>
+          <div class="wp-week-cell"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206747-basketball-training-grades-3-5" target="_blank" rel="noopener" class="wp-block wp-block--bb" data-booking-type="basketball-training-3-5">Grades 3&ndash;5</a></div>
+          <div class="wp-week-cell"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206747-basketball-training-grades-3-5" target="_blank" rel="noopener" class="wp-block wp-block--bb" data-booking-type="basketball-training-3-5">Grades 3&ndash;5</a></div>
+
+          <div class="wp-week-cell wp-week-time">6 PM</div>
+          <div class="wp-week-cell"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206753-volleyball-training-high-school" target="_blank" rel="noopener" class="wp-block wp-block--vb" data-booking-type="volleyball-training-hs">High School</a></div>
+          <div class="wp-week-cell"></div>
+          <div class="wp-week-cell"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206753-volleyball-training-high-school" target="_blank" rel="noopener" class="wp-block wp-block--vb" data-booking-type="volleyball-training-hs">High School</a></div>
+          <div class="wp-week-cell"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206749-basketball-training-grades-6-8" target="_blank" rel="noopener" class="wp-block wp-block--bb" data-booking-type="basketball-training-6-8">Grades 6&ndash;8</a></div>
+          <div class="wp-week-cell"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206749-basketball-training-grades-6-8" target="_blank" rel="noopener" class="wp-block wp-block--bb" data-booking-type="basketball-training-6-8">Grades 6&ndash;8</a></div>
+
+          <div class="wp-week-cell wp-week-time">7 PM</div>
+          <div class="wp-week-cell"></div>
+          <div class="wp-week-cell"></div>
+          <div class="wp-week-cell"></div>
+          <div class="wp-week-cell"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206750-basketball-training-high-school" target="_blank" rel="noopener" class="wp-block wp-block--bb" data-booking-type="basketball-training-hs">High School</a></div>
+          <div class="wp-week-cell"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206750-basketball-training-high-school" target="_blank" rel="noopener" class="wp-block wp-block--bb" data-booking-type="basketball-training-hs">High School</a></div>
         </div>
       </div>
-      <div class="wp-card">
-        <div class="wp-card-head"><span class="wp-sport-dot wp-sport-dot--vb"></span><h3>Volleyball</h3></div>
-        <div class="wp-tier">
-          <div><p class="wp-tier-name">Grades 4&ndash;8</p><p class="wp-tier-times">Mon &middot; 5:00&ndash;5:50 PM<br>Wed &middot; 5:00&ndash;5:50 PM<br>Sat &middot; 1:00&ndash;1:50 PM</p></div>
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206752-volleyball-training-grades-4-8" target="_blank" rel="noopener" class="wp-tier-cta" data-booking-type="volleyball-training-4-8">Book →</a>
-        </div>
-        <div class="wp-tier">
-          <div><p class="wp-tier-name">High School</p><p class="wp-tier-times">Mon &middot; 6:00&ndash;6:50 PM<br>Wed &middot; 6:00&ndash;6:50 PM<br>Sat &middot; 2:00&ndash;2:50 PM</p></div>
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206753-volleyball-training-high-school" target="_blank" rel="noopener" class="wp-tier-cta" data-booking-type="volleyball-training-hs">Book →</a>
+      <div class="wp-sat">
+        <h3 class="wp-schedule-name">Saturdays</h3>
+        <div class="wp-sat-list">
+          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206747-basketball-training-grades-3-5" target="_blank" rel="noopener" class="wp-sat-row wp-block--bb" data-booking-type="basketball-training-3-5"><span class="wp-sat-time">9:00 AM</span><span class="wp-sat-name">Basketball &middot; Grades 3&ndash;5</span></a>
+          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206749-basketball-training-grades-6-8" target="_blank" rel="noopener" class="wp-sat-row wp-block--bb" data-booking-type="basketball-training-6-8"><span class="wp-sat-time">10:00 AM</span><span class="wp-sat-name">Basketball &middot; Grades 6&ndash;8</span></a>
+          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206750-basketball-training-high-school" target="_blank" rel="noopener" class="wp-sat-row wp-block--bb" data-booking-type="basketball-training-hs"><span class="wp-sat-time">11:00 AM</span><span class="wp-sat-name">Basketball &middot; High School</span></a>
+          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206752-volleyball-training-grades-4-8" target="_blank" rel="noopener" class="wp-sat-row wp-block--vb" data-booking-type="volleyball-training-4-8"><span class="wp-sat-time">1:00 PM</span><span class="wp-sat-name">Volleyball &middot; Grades 4&ndash;8</span></a>
+          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206753-volleyball-training-high-school" target="_blank" rel="noopener" class="wp-sat-row wp-block--vb" data-booking-type="volleyball-training-hs"><span class="wp-sat-time">2:00 PM</span><span class="wp-sat-name">Volleyball &middot; High School</span></a>
         </div>
       </div>
     </div>
-    <div class="wp-tier" style="border-top:1px solid var(--gray-mid); margin-top:20px; padding-top:20px;">
+    <div class="wp-tier" style="border-top:1px solid var(--gray-mid); margin-top:32px; padding-top:20px;">
       <div><p class="wp-tier-name">Dr. Dish</p><p class="wp-tier-times">Book anytime, based on availability.</p></div>
       <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206726-dr-dot-dish-individual" target="_blank" rel="noopener" class="wp-tier-cta" data-booking-type="dr-dish">Book Dr. Dish →</a>
     </div>
