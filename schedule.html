@@ -13,97 +13,69 @@
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="stylesheet" href="css/styles.css?v=2">
 <style>
-  /* ================= Weekly Programs (wp-*) ================= */
-  .wp-section { padding: 12px 0 60px; }
-  .wp-head { max-width: 640px; margin: 0 auto 32px; text-align: center; }
-  .wp-head .eyebrow { color: var(--orange); }
-  .wp-note { font-size: 14.5px; color: var(--gray-dark); margin: 10px auto 0; max-width: 52ch; }
-  .wp-sport-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
-  .wp-sport-dot--bb { background: var(--orange); }
-  .wp-sport-dot--vb { background: var(--black); }
-  .wp-legend { display: flex; justify-content: center; gap: 22px; margin: 0 0 36px; }
-  .wp-legend-item { display: flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-dark); }
+  /* ================= Unified Schedule Calendar (mcal-*) ================= */
+  .mcal-section { padding: 12px 0 90px; }
+  .mcal-head { max-width: 640px; margin: 0 auto; text-align: center; }
+  .mcal-head .eyebrow { color: var(--orange); }
+  .mcal-note { font-size: 14.5px; color: var(--gray-dark); margin: 10px auto 0; max-width: 58ch; }
+  .mcal-legend { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; margin: 24px 0 0; }
+  .mcal-legend-item { display: flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-dark); }
+  .mcal-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .mcal-dot--bb { background: var(--orange); }
+  .mcal-dot--vb { background: var(--black); }
+  .mcal-dot--general { background: var(--white); border: 1.5px solid var(--gray-dark); }
 
-  .wp-schedule { display: grid; grid-template-columns: 1.6fr 1fr; gap: 32px; align-items: start; }
-  .wp-schedule-name { font-family: var(--font-display); font-weight: 900; font-size: 19px; margin: 0 0 16px; }
+  .mcal-nav { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 36px 0 6px; }
+  .mcal-nav-btn { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--gray-mid); background: var(--white); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--black); flex-shrink: 0; transition: border-color 0.15s var(--ease), color 0.15s var(--ease); }
+  .mcal-nav-btn:hover:not(:disabled) { border-color: var(--orange); color: var(--orange); }
+  .mcal-nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .mcal-month-name { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 3vw, 30px); min-width: 210px; text-align: center; }
+  .mcal-tabs { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 6px 0 40px; }
+  .mcal-tab { font-family: var(--font-sport); font-weight: 700; font-size: 12.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 999px; padding: 8px 18px; cursor: pointer; transition: all 0.15s var(--ease); }
+  .mcal-tab:hover { border-color: var(--orange); color: var(--black); }
+  .mcal-tab.active { background: var(--black); border-color: var(--black); color: var(--white); }
 
-  .wp-week-grid { display: grid; grid-template-columns: 56px repeat(5, 1fr); gap: 6px; }
-  .wp-week-cell { min-height: 64px; }
-  .wp-week-cell--head { min-height: auto; font-family: var(--font-sport); font-weight: 700; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); text-align: center; padding-bottom: 6px; }
-  .wp-week-time { display: flex; align-items: center; justify-content: flex-end; font-family: var(--font-sport); font-weight: 700; font-size: 12px; color: var(--gray-dark); padding-right: 6px; text-align: right; }
-  .wp-week-grid > .wp-week-cell:not(.wp-week-cell--head):not(.wp-week-time) { background: var(--gray-light); border-radius: 6px; padding: 4px; display: flex; flex-direction: column; gap: 4px; justify-content: center; }
+  .mcal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; max-width: 800px; margin: 0 auto; }
+  .mcal-dow { text-align: center; font-family: var(--font-sport); font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); padding-bottom: 8px; }
+  .mcal-day { aspect-ratio: 1; position: relative; }
+  .mcal-day-inner { width: 100%; height: 100%; background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 8px; padding: 7px; display: flex; flex-direction: column; font-family: var(--font-heading); box-sizing: border-box; }
+  .mcal-day--empty .mcal-day-inner { visibility: hidden; }
+  .mcal-day-num { font-size: 13px; font-weight: 700; color: var(--black); }
+  .mcal-day-dots { display: flex; flex-wrap: wrap; gap: 3px; margin-top: auto; }
+  .mcal-dot-sm { width: 6px; height: 6px; border-radius: 50%; }
+  .mcal-day--active .mcal-day-inner { cursor: pointer; }
+  .mcal-day--active .mcal-day-inner:hover, .mcal-day--open .mcal-day-inner { border-color: var(--orange); box-shadow: 0 6px 16px rgba(23,23,23,0.1); }
 
-  .wp-block { display: flex; align-items: center; justify-content: center; border-radius: 5px; padding: 8px 6px; text-align: center; line-height: 1.25; border-left: 3px solid transparent; font-family: var(--font-heading); font-weight: 800; font-size: 12px; min-height: 40px; }
-  .wp-block--bb { background: var(--orange-soft); border-left-color: var(--orange); color: var(--orange-ink); }
-  .wp-block--vb { background: var(--white); border-left-color: var(--black); color: var(--black); border: 1px solid var(--gray-mid); border-left-width: 3px; }
-  .wp-block:hover { filter: brightness(0.96); }
-
-  .wp-sat-list { display: flex; flex-direction: column; gap: 8px; }
-  .wp-sat-row { display: flex; align-items: center; gap: 14px; background: var(--gray-light); border-radius: 8px; padding: 12px 16px; border-left: 4px solid transparent; }
-  .wp-sat-row.wp-block--bb { border-left-color: var(--orange); background: var(--orange-soft); }
-  .wp-sat-row.wp-block--vb { border-left-color: var(--black); background: var(--gray-light); }
-  .wp-sat-time { font-family: var(--font-sport); font-weight: 800; font-size: 13px; color: var(--gray-dark); white-space: nowrap; flex-shrink: 0; width: 62px; }
-  .wp-sat-name { font-family: var(--font-heading); font-weight: 700; font-size: 14.5px; color: var(--black); }
-
-  .wp-tier { padding: 18px 0; border-top: 1px solid var(--gray-mid); display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
-  .wp-tier-name { font-family: var(--font-heading); font-weight: 800; font-size: 15.5px; margin: 0 0 6px; }
-  .wp-tier-times { font-size: 14px; color: var(--gray-dark); line-height: 1.6; margin: 0; }
-  .wp-tier-cta { font-family: var(--font-heading); font-weight: 700; font-size: 13.5px; color: var(--orange); white-space: nowrap; flex-shrink: 0; }
-  .wp-tier-cta:hover { color: var(--orange-hover); }
-
-  @media (max-width: 860px) {
-    .wp-schedule { grid-template-columns: 1fr; gap: 40px; }
+  .mcal-pop {
+    display: none; position: absolute; z-index: 30; top: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+    width: 250px; background: var(--black); color: var(--white); border-radius: 10px; padding: 16px 18px; text-align: left;
+    box-shadow: 0 14px 34px rgba(0,0,0,0.28);
   }
-  @media (max-width: 480px) {
-    .wp-week-grid { grid-template-columns: 40px repeat(5, 1fr); gap: 3px; }
-    .wp-week-cell--head { font-size: 10px; }
-    .wp-block { padding: 4px 3px; font-size: 10px; min-height: 32px; }
-  }
+  .mcal-day--open .mcal-pop { display: block; }
+  @media (hover: hover) { .mcal-day--active:hover .mcal-pop { display: block; } }
+  .mcal-pop-date { font-family: var(--font-sport); font-weight: 800; font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); margin: 0 0 10px; }
+  .mcal-pop-item { padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.14); }
+  .mcal-pop-item:first-of-type { border-top: none; padding-top: 0; }
+  .mcal-pop-time { display: flex; align-items: center; gap: 7px; font-family: var(--font-sport); font-weight: 700; font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 3px; }
+  .mcal-pop-title { font-family: var(--font-heading); font-weight: 800; font-size: 14px; margin: 0 0 8px; line-height: 1.25; }
+  .mcal-pop-link { font-family: var(--font-heading); font-weight: 700; font-size: 12.5px; color: var(--white); background: var(--orange); padding: 6px 13px; border-radius: 999px; display: inline-flex; align-items: center; gap: 5px; }
+  .mcal-pop-link:hover { background: var(--orange-hover); }
 
-  /* ================= Calendar (cal2-*) ================= */
-  .cal2-section { padding: 12px 0 90px; background: var(--gray-light); }
-  .cal2-head { max-width: 620px; margin: 0 auto; text-align: center; }
-  .cal2-head .eyebrow { color: var(--orange); }
-  .cal2-legend { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin: 26px 0 40px; }
-  .cal2-legend-item { display: flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-dark); }
-  .cal2-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .cal2-legend-dot--bb { background: var(--orange); }
-  .cal2-legend-dot--vb { background: var(--black); }
-  .cal2-legend-dot--general { background: var(--white); border: 1.5px solid var(--gray-dark); }
-  .cal2-months { display: flex; flex-direction: column; gap: 60px; }
-  .cal2-month-name { text-align: center; font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2.8vw, 30px); margin: 0 0 22px; }
-  .cal2-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 7px; max-width: 760px; margin: 0 auto; }
-  .cal2-dow { text-align: center; font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); padding-bottom: 8px; }
-  .cal2-day { aspect-ratio: 1; background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 8px; position: relative; padding: 0; overflow: hidden; }
-  .cal2-day--empty { background: none; border: none; aspect-ratio: 1; }
-  .cal2-day-toggle { width: 100%; height: 100%; background: none; border: none; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; font-family: var(--font-heading); font-size: 14px; font-weight: 600; color: inherit; }
-  .cal2-day--has-event .cal2-day-toggle { cursor: pointer; }
-  .cal2-day--has-event:hover { border-color: var(--orange); }
-  .cal2-day-dots { display: flex; gap: 3px; }
-  .cal2-dot { width: 6px; height: 6px; border-radius: 50%; }
-  .cal2-dot--bb { background: var(--orange); }
-  .cal2-dot--vb { background: var(--black); }
-  .cal2-dot--general { background: var(--gray-dark); }
-  .cal2-day--expanded {
-    grid-column: 1 / -1; aspect-ratio: auto; background: var(--black); border-color: var(--black); overflow: visible;
+  .mcal-drdish { max-width: 800px; margin: 44px auto 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; background: var(--gray-light); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-md); padding: 20px 26px; }
+  .mcal-drdish p { margin: 0; font-size: 14.5px; color: var(--gray-dark); }
+  .mcal-drdish p strong { color: var(--black); }
+  .mcal-drdish a { font-family: var(--font-heading); font-weight: 700; font-size: 13.5px; color: var(--orange); white-space: nowrap; }
+  .mcal-drdish a:hover { color: var(--orange-hover); }
+
+  @media (max-width: 720px) {
+    .mcal-grid { gap: 4px; }
+    .mcal-day-inner { padding: 4px; }
+    .mcal-day-num { font-size: 11px; }
+    .mcal-dow { font-size: 9px; }
+    .mcal-pop { width: 190px; padding: 12px 14px; }
+    .mcal-pop-title { font-size: 13px; }
   }
-  .cal2-day--expanded .cal2-day-toggle {
-    flex-direction: row; justify-content: flex-start; align-items: center; gap: 14px; padding: 16px 20px; height: auto; color: var(--white); cursor: pointer;
-  }
-  .cal2-expand-date { font-family: var(--font-sport); font-weight: 800; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); flex-shrink: 0; }
-  .cal2-expand-body { display: flex; flex-direction: column; gap: 2px; text-align: left; }
-  .cal2-expand-title { font-family: var(--font-display); font-weight: 900; font-size: 17px; line-height: 1.2; }
-  .cal2-expand-meta { font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 500; }
-  .cal2-expand-link { font-family: var(--font-heading); font-weight: 700; font-size: 13.5px; color: var(--white); background: var(--orange); padding: 9px 18px; border-radius: 999px; white-space: nowrap; flex-shrink: 0; margin: 0 20px 16px auto; display: inline-block; }
-  .cal2-expand-link:hover { background: var(--orange-hover); }
-  @media (max-width: 620px) {
-    .cal2-grid { gap: 4px; }
-    .cal2-day-toggle { font-size: 12px; }
-    .cal2-dow { font-size: 9px; }
-    .cal2-day--expanded .cal2-day-toggle { flex-direction: column; align-items: flex-start; gap: 6px; padding: 16px 16px 12px; }
-    .cal2-expand-link { margin: 0 16px 16px; }
-  }
-  @media (prefers-reduced-motion: reduce) { .cal2-day--has-event { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .mcal-day--active .mcal-day-inner, .mcal-nav-btn, .mcal-tab { transition: none; } }
 
   /* ================= More Ways to Play — editorial modules (mwp-*) ================= */
   .mwp-head { max-width: 620px; margin: 0 0 32px; }
@@ -281,82 +253,29 @@
   </div>
 </section>
 
-<section class="wp-section" id="weekly-programs">
+<section class="mcal-section" id="weekly-programs">
   <div class="container">
-    <div class="wp-head">
-      <span class="eyebrow">Weekly Programs</span>
-      <p class="wp-note">Advance registration is required. Sessions are subject to capacity and availability.</p>
+    <div class="mcal-head">
+      <span class="eyebrow">Schedule</span>
+      <h2 class="section-title">Everything, On One Calendar.</h2>
+      <p class="mcal-note">Weekly classes and one-off events, all in one place. Hover or tap any day with something on it &mdash; you'll see what it is and get a link to book.</p>
     </div>
-    <div class="wp-legend">
-      <span class="wp-legend-item"><span class="wp-sport-dot wp-sport-dot--bb"></span>Basketball</span>
-      <span class="wp-legend-item"><span class="wp-sport-dot wp-sport-dot--vb"></span>Volleyball</span>
+    <div class="mcal-legend">
+      <span class="mcal-legend-item"><span class="mcal-dot mcal-dot--bb"></span>Basketball</span>
+      <span class="mcal-legend-item"><span class="mcal-dot mcal-dot--vb"></span>Volleyball</span>
+      <span class="mcal-legend-item"><span class="mcal-dot mcal-dot--general"></span>Courts-Wide (movie nights, parent talks, opening day)</span>
     </div>
-    <div class="wp-schedule">
-      <div class="wp-week">
-        <h3 class="wp-schedule-name">Weeknights</h3>
-        <div class="wp-week-grid">
-          <div class="wp-week-cell wp-week-cell--head"></div>
-          <div class="wp-week-cell wp-week-cell--head">Mon</div>
-          <div class="wp-week-cell wp-week-cell--head">Tue</div>
-          <div class="wp-week-cell wp-week-cell--head">Wed</div>
-          <div class="wp-week-cell wp-week-cell--head">Thu</div>
-          <div class="wp-week-cell wp-week-cell--head">Fri</div>
-
-          <div class="wp-week-cell wp-week-time">5 PM</div>
-          <div class="wp-week-cell"></div>
-          <div class="wp-week-cell"></div>
-          <div class="wp-week-cell">
-            <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206739-basketball-fundamentals-grades-k-2" target="_blank" rel="noopener" class="wp-block wp-block--bb" data-booking-type="basketball-fundamentals-k2">Fundamentals K&ndash;2</a>
-            <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206752-volleyball-training-grades-4-8" target="_blank" rel="noopener" class="wp-block wp-block--vb" data-booking-type="volleyball-training-4-8">Grades 4&ndash;8</a>
-          </div>
-          <div class="wp-week-cell"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206747-basketball-training-grades-3-5" target="_blank" rel="noopener" class="wp-block wp-block--bb" data-booking-type="basketball-training-3-5">Grades 3&ndash;5</a></div>
-          <div class="wp-week-cell"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206747-basketball-training-grades-3-5" target="_blank" rel="noopener" class="wp-block wp-block--bb" data-booking-type="basketball-training-3-5">Grades 3&ndash;5</a></div>
-
-          <div class="wp-week-cell wp-week-time">6 PM</div>
-          <div class="wp-week-cell"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206753-volleyball-training-high-school" target="_blank" rel="noopener" class="wp-block wp-block--vb" data-booking-type="volleyball-training-hs">High School</a></div>
-          <div class="wp-week-cell"></div>
-          <div class="wp-week-cell"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206753-volleyball-training-high-school" target="_blank" rel="noopener" class="wp-block wp-block--vb" data-booking-type="volleyball-training-hs">High School</a></div>
-          <div class="wp-week-cell"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206749-basketball-training-grades-6-8" target="_blank" rel="noopener" class="wp-block wp-block--bb" data-booking-type="basketball-training-6-8">Grades 6&ndash;8</a></div>
-          <div class="wp-week-cell"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206749-basketball-training-grades-6-8" target="_blank" rel="noopener" class="wp-block wp-block--bb" data-booking-type="basketball-training-6-8">Grades 6&ndash;8</a></div>
-
-          <div class="wp-week-cell wp-week-time">7 PM</div>
-          <div class="wp-week-cell"></div>
-          <div class="wp-week-cell"></div>
-          <div class="wp-week-cell"></div>
-          <div class="wp-week-cell"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206750-basketball-training-high-school" target="_blank" rel="noopener" class="wp-block wp-block--bb" data-booking-type="basketball-training-hs">High School</a></div>
-          <div class="wp-week-cell"><a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206750-basketball-training-high-school" target="_blank" rel="noopener" class="wp-block wp-block--bb" data-booking-type="basketball-training-hs">High School</a></div>
-        </div>
-      </div>
-      <div class="wp-sat">
-        <h3 class="wp-schedule-name">Saturdays</h3>
-        <div class="wp-sat-list">
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206747-basketball-training-grades-3-5" target="_blank" rel="noopener" class="wp-sat-row wp-block--bb" data-booking-type="basketball-training-3-5"><span class="wp-sat-time">9:00 AM</span><span class="wp-sat-name">Basketball &middot; Grades 3&ndash;5</span></a>
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206749-basketball-training-grades-6-8" target="_blank" rel="noopener" class="wp-sat-row wp-block--bb" data-booking-type="basketball-training-6-8"><span class="wp-sat-time">10:00 AM</span><span class="wp-sat-name">Basketball &middot; Grades 6&ndash;8</span></a>
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206750-basketball-training-high-school" target="_blank" rel="noopener" class="wp-sat-row wp-block--bb" data-booking-type="basketball-training-hs"><span class="wp-sat-time">11:00 AM</span><span class="wp-sat-name">Basketball &middot; High School</span></a>
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206752-volleyball-training-grades-4-8" target="_blank" rel="noopener" class="wp-sat-row wp-block--vb" data-booking-type="volleyball-training-4-8"><span class="wp-sat-time">1:00 PM</span><span class="wp-sat-name">Volleyball &middot; Grades 4&ndash;8</span></a>
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/classes/206753-volleyball-training-high-school" target="_blank" rel="noopener" class="wp-sat-row wp-block--vb" data-booking-type="volleyball-training-hs"><span class="wp-sat-time">2:00 PM</span><span class="wp-sat-name">Volleyball &middot; High School</span></a>
-        </div>
-      </div>
+    <div class="mcal-nav">
+      <button type="button" class="mcal-nav-btn" id="mcalPrev" aria-label="Previous month">&larr;</button>
+      <span class="mcal-month-name" id="mcalMonthName"></span>
+      <button type="button" class="mcal-nav-btn" id="mcalNext" aria-label="Next month">&rarr;</button>
     </div>
-    <div class="wp-tier" style="border-top:1px solid var(--gray-mid); margin-top:32px; padding-top:20px;">
-      <div><p class="wp-tier-name">Dr. Dish</p><p class="wp-tier-times">Book anytime, based on availability.</p></div>
-      <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206726-dr-dot-dish-individual" target="_blank" rel="noopener" class="wp-tier-cta" data-booking-type="dr-dish">Book Dr. Dish →</a>
+    <div class="mcal-tabs" id="mcalTabs"></div>
+    <div class="mcal-grid" id="mcalGrid"></div>
+    <div class="mcal-drdish">
+      <p><strong>Dr. Dish</strong> &mdash; not on a fixed weekly schedule. Book anytime, based on availability.</p>
+      <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206726-dr-dot-dish-individual" target="_blank" rel="noopener" data-booking-type="dr-dish">Book Dr. Dish →</a>
     </div>
-  </div>
-</section>
-
-<section class="cal2-section">
-  <div class="container">
-    <div class="cal2-head">
-      <span class="eyebrow">On the Calendar</span>
-      <h2 class="section-title">Camps, Games, and Everything Else.</h2>
-    </div>
-    <div class="cal2-legend">
-      <span class="cal2-legend-item"><span class="cal2-legend-dot cal2-legend-dot--bb"></span>Basketball</span>
-      <span class="cal2-legend-item"><span class="cal2-legend-dot cal2-legend-dot--vb"></span>Volleyball</span>
-      <span class="cal2-legend-item"><span class="cal2-legend-dot cal2-legend-dot--general"></span>Courts-Wide</span>
-    </div>
-    <div class="cal2-months" id="cal2Months"></div>
   </div>
 </section>
 
@@ -542,25 +461,53 @@
 <script src="js/script.js"></script>
 <script>
 (function () {
+  var UH = 'https://app.upperhand.io/customers/2876-the-courts-llc/';
+  var BB35 = UH + 'classes/206747-basketball-training-grades-3-5';
+  var BB68 = UH + 'classes/206749-basketball-training-grades-6-8';
+  var BBHS = UH + 'classes/206750-basketball-training-high-school';
+  var VB48 = UH + 'classes/206752-volleyball-training-grades-4-8';
+  var VBHS = UH + 'classes/206753-volleyball-training-high-school';
+
+  /* Recurring weekly classes. dow: 0=Sun...6=Sat. sortMin = minutes since midnight, for ordering within a day. */
+  var RECURRING = [
+    { dow: 3, sortMin: 300, time: '5:00 PM', sport: 'bb', title: 'Basketball Fundamentals', meta: 'Grades K&ndash;2', cta: 'Book →', href: UH + 'events/206739-basketball-fundamentals-grades-k-2', external: true },
+    { dow: 4, sortMin: 300, time: '5:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 3&ndash;5', cta: 'Book →', href: BB35, external: true },
+    { dow: 5, sortMin: 300, time: '5:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 3&ndash;5', cta: 'Book →', href: BB35, external: true },
+    { dow: 6, sortMin: 540, time: '9:00 AM', sport: 'bb', title: 'Basketball', meta: 'Grades 3&ndash;5', cta: 'Book →', href: BB35, external: true },
+    { dow: 4, sortMin: 360, time: '6:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 6&ndash;8', cta: 'Book →', href: BB68, external: true },
+    { dow: 5, sortMin: 360, time: '6:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 6&ndash;8', cta: 'Book →', href: BB68, external: true },
+    { dow: 6, sortMin: 600, time: '10:00 AM', sport: 'bb', title: 'Basketball', meta: 'Grades 6&ndash;8', cta: 'Book →', href: BB68, external: true },
+    { dow: 4, sortMin: 420, time: '7:00 PM', sport: 'bb', title: 'Basketball', meta: 'High School', cta: 'Book →', href: BBHS, external: true },
+    { dow: 5, sortMin: 420, time: '7:00 PM', sport: 'bb', title: 'Basketball', meta: 'High School', cta: 'Book →', href: BBHS, external: true },
+    { dow: 6, sortMin: 660, time: '11:00 AM', sport: 'bb', title: 'Basketball', meta: 'High School', cta: 'Book →', href: BBHS, external: true },
+    { dow: 1, sortMin: 300, time: '5:00 PM', sport: 'vb', title: 'Volleyball', meta: 'Grades 4&ndash;8', cta: 'Book →', href: VB48, external: true },
+    { dow: 3, sortMin: 300, time: '5:00 PM', sport: 'vb', title: 'Volleyball', meta: 'Grades 4&ndash;8', cta: 'Book →', href: VB48, external: true },
+    { dow: 6, sortMin: 780, time: '1:00 PM', sport: 'vb', title: 'Volleyball', meta: 'Grades 4&ndash;8', cta: 'Book →', href: VB48, external: true },
+    { dow: 1, sortMin: 360, time: '6:00 PM', sport: 'vb', title: 'Volleyball', meta: 'High School', cta: 'Book →', href: VBHS, external: true },
+    { dow: 3, sortMin: 360, time: '6:00 PM', sport: 'vb', title: 'Volleyball', meta: 'High School', cta: 'Book →', href: VBHS, external: true },
+    { dow: 6, sortMin: 840, time: '2:00 PM', sport: 'vb', title: 'Volleyball', meta: 'High School', cta: 'Book →', href: VBHS, external: true }
+  ];
+
+  /* One-off / special events. sortMin places them in order alongside recurring classes on shared days. */
   var EVENTS = [
-    { start: '2026-09-12', sport: 'bb', title: 'Fall League Evaluations', meta: 'Saturday &middot; 3 PM &middot; $25', body: 'Come show us your game &mdash; placement, not cuts.', cta: 'Save Your Evaluation Spot →', href: 'https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations', external: true },
-    { start: '2026-10-01', sport: 'general', title: 'Doors Open', meta: 'Opening Day', body: 'The Courts opens in Nolensville.', cta: 'Explore Programs →', href: 'programs' },
-    { start: '2026-10-12', end: '2026-10-15', sport: 'both', title: 'Fall Break Camp', meta: 'Mon&ndash;Thu', body: 'Basketball mornings, volleyball afternoons.', cta: 'View Camps + Register →', href: 'camps#fall-break' },
-    { start: '2026-10-16', sport: 'both', title: 'Fall Break Competition Day', meta: 'Friday', body: 'Single-day games for both sports.', cta: 'View Camps →', href: 'camps#board' },
-    { start: '2026-10-23', sport: 'bb', title: 'Fall League Kicks Off', meta: 'Week of Oct 23', body: 'Teams are set. Weekly practices and games begin.', cta: 'View League →', href: 'leagues#fall-league' },
-    { start: '2026-10-24', sport: 'bb', title: 'First Fall League Games', meta: 'Saturday', body: 'Somebody&rsquo;s keeping score now.', cta: 'View League →', href: 'leagues#fall-league' },
-    { start: '2026-10-28', sport: 'both', title: 'Early Release Camp', meta: 'Wednesday', body: 'School lets out early. We&rsquo;ve got the day covered.', cta: 'View Camps →', href: 'camps#board' },
-    { start: '2026-10-30', sport: 'bb', title: 'Halloween Shootout', meta: 'Friday', body: 'A costume-optional night of basketball.', cta: 'Register for Basketball →', href: 'contact?interest=Basketball#contact-form', preset: 'Basketball' },
-    { start: '2026-10-31', sport: 'vb', title: 'Volleyween', meta: 'Saturday', body: 'A costume-optional night of volleyball.', cta: 'Register for Volleyball →', href: 'contact?interest=Volleyball#contact-form', preset: 'Volleyball' },
-    { start: '2026-11-03', sport: 'both', title: 'No School Day Camp', meta: 'Tuesday', body: 'No school? No problem.', cta: 'View Camps →', href: 'camps#board' },
-    { start: '2026-11-14', sport: 'general', title: 'What Makes a Great Player?', meta: 'Saturday &middot; Parent Talk', body: 'A conversation for Courts parents.', cta: 'RSVP →', href: 'contact?interest=Something%20Else#contact-form', preset: 'Something Else' },
-    { start: '2026-11-18', sport: 'both', title: 'Early Release Camp', meta: 'Wednesday', body: 'Another early release. Send them over.', cta: 'View Camps →', href: 'camps#board' },
-    { start: '2026-11-23', end: '2026-11-25', sport: 'both', title: 'Thanksgiving Break Camp', meta: 'Mon&ndash;Wed', body: 'Three days of camp before turkey.', cta: 'View Camps →', href: 'camps#board' },
-    { start: '2026-12-05', sport: 'general', title: 'GOAT Movie Night', meta: 'Saturday &middot; 6&ndash;9 PM', body: 'Pizza, a movie, and basketball energy.', cta: 'Save Your Spot →', href: 'contact?interest=Something%20Else#contact-form', preset: 'Something Else' },
-    { start: '2026-12-09', sport: 'both', title: 'Early Release Camp', meta: 'Wednesday', body: 'They&rsquo;re letting them out early again.', cta: 'View Camps →', href: 'camps#board' },
-    { start: '2026-12-11', end: '2026-12-13', sport: 'bb', title: 'Fall League Tournament', meta: 'Fri&ndash;Sun', body: 'The season closes out with tournament games.', cta: 'View League →', href: 'leagues#fall-league' },
-    { start: '2026-12-21', end: '2026-12-23', sport: 'both', title: 'Holiday Break Camp', meta: 'Mon&ndash;Wed', body: 'The break is long. We can help.', cta: 'View Camps →', href: 'camps#board' },
-    { start: '2026-12-28', end: '2026-12-30', sport: 'both', title: 'New Year Camp', meta: 'Mon&ndash;Wed', body: 'One more run before the year ends.', cta: 'View Camps →', href: 'camps#board' }
+    { start: '2026-09-12', sortMin: 900, time: '3:00 PM', sport: 'bb', title: 'Fall League Evaluations', meta: '$25', cta: 'Save Your Evaluation Spot →', href: 'https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations', external: true },
+    { start: '2026-10-01', sortMin: 540, time: '', sport: 'general', title: 'Doors Open', meta: 'Opening Day', cta: 'Explore Programs →', href: 'programs' },
+    { start: '2026-10-12', end: '2026-10-15', sortMin: 480, time: '', sport: 'both', title: 'Fall Break Camp', meta: 'Basketball mornings, volleyball afternoons', cta: 'View Camps + Register →', href: 'camps#fall-break' },
+    { start: '2026-10-16', sortMin: 540, time: '', sport: 'both', title: 'Fall Break Competition Day', meta: 'Single-day games, both sports', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-10-23', sortMin: 1080, time: '', sport: 'bb', title: 'Fall League Kicks Off', meta: 'Teams set, practices + games begin', cta: 'View League →', href: 'leagues#fall-league' },
+    { start: '2026-10-24', sortMin: 540, time: '', sport: 'bb', title: 'First Fall League Games', meta: 'Somebody&rsquo;s keeping score now', cta: 'View League →', href: 'leagues#fall-league' },
+    { start: '2026-10-28', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'School lets out early', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-10-30', sortMin: 1140, time: '', sport: 'bb', title: 'Halloween Shootout', meta: 'Costume-optional basketball night', cta: 'Register for Basketball →', href: 'contact?interest=Basketball#contact-form', preset: 'Basketball' },
+    { start: '2026-10-31', sortMin: 1140, time: '', sport: 'vb', title: 'Volleyween', meta: 'Costume-optional volleyball night', cta: 'Register for Volleyball →', href: 'contact?interest=Volleyball#contact-form', preset: 'Volleyball' },
+    { start: '2026-11-03', sortMin: 480, time: '', sport: 'both', title: 'No School Day Camp', meta: 'No school? No problem', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-11-14', sortMin: 600, time: '', sport: 'general', title: 'What Makes a Great Player?', meta: 'Parent talk', cta: 'RSVP →', href: 'contact?interest=Something%20Else#contact-form', preset: 'Something Else' },
+    { start: '2026-11-18', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'Another early release', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-11-23', end: '2026-11-25', sortMin: 480, time: '', sport: 'both', title: 'Thanksgiving Break Camp', meta: 'Three days before turkey', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-12-05', sortMin: 1080, time: '6&ndash;9 PM', sport: 'general', title: 'GOAT Movie Night', meta: 'Pizza + a movie', cta: 'Save Your Spot →', href: 'contact?interest=Something%20Else#contact-form', preset: 'Something Else' },
+    { start: '2026-12-09', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'They&rsquo;re letting them out early again', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-12-11', end: '2026-12-13', sortMin: 540, time: '', sport: 'bb', title: 'Fall League Tournament', meta: 'The season closes out', cta: 'View League →', href: 'leagues#fall-league' },
+    { start: '2026-12-21', end: '2026-12-23', sortMin: 480, time: '', sport: 'both', title: 'Holiday Break Camp', meta: 'The break is long', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-12-28', end: '2026-12-30', sortMin: 480, time: '', sport: 'both', title: 'New Year Camp', meta: 'One more run before the year ends', cta: 'View Camps →', href: 'camps#board' }
   ];
 
   var MONTHS = [
@@ -570,90 +517,114 @@
     { year: 2026, month: 12, name: 'December 2026' }
   ];
   var DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  var monthIndex = 0;
+
+  var grid = document.getElementById('mcalGrid');
+  var monthNameEl = document.getElementById('mcalMonthName');
+  var tabsEl = document.getElementById('mcalTabs');
+  var prevBtn = document.getElementById('mcalPrev');
+  var nextBtn = document.getElementById('mcalNext');
+  if (!grid) return;
 
   function pad(n) { return n < 10 ? '0' + n : '' + n; }
   function dateStr(y, m, d) { return y + '-' + pad(m) + '-' + pad(d); }
-  function eventsOnDate(ds) {
-    return EVENTS.filter(function (e) {
-      var end = e.end || e.start;
-      return ds >= e.start && ds <= end;
-    });
-  }
   function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
   function firstWeekday(y, m) { return new Date(y, m - 1, 1).getDay(); }
-  function dotsFor(sport) {
-    if (sport === 'both') return '<span class="cal2-dot cal2-dot--bb"></span><span class="cal2-dot cal2-dot--vb"></span>';
-    if (sport === 'bb') return '<span class="cal2-dot cal2-dot--bb"></span>';
-    if (sport === 'vb') return '<span class="cal2-dot cal2-dot--vb"></span>';
-    return '<span class="cal2-dot cal2-dot--general"></span>';
-  }
 
-  var wrap = document.getElementById('cal2Months');
-  if (!wrap) return;
-
-  function shortDate(ds) {
-    var parts = ds.split('-');
-    var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
-    return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-  }
-
-  function collapsedInner(d, evs) {
-    var dots = evs.length ? '<span class="cal2-day-dots">' + evs.map(function (e) { return dotsFor(e.sport); }).join('') + '</span>' : '';
-    return '<button type="button" class="cal2-day-toggle"><span>' + d + '</span>' + dots + '</button>';
-  }
-
-  function expandedInner(ds, evs) {
-    var out = '<button type="button" class="cal2-day-toggle"><span class="cal2-expand-date">' + shortDate(ds) + '</span><span class="cal2-expand-body">';
-    evs.forEach(function (ev) {
-      out += '<span class="cal2-expand-title">' + ev.title + '</span><span class="cal2-expand-meta">' + ev.meta + '</span>';
+  function itemsOnDate(ds, dow) {
+    var items = [];
+    RECURRING.forEach(function (r) { if (r.dow === dow) items.push(r); });
+    EVENTS.forEach(function (e) {
+      var end = e.end || e.start;
+      if (ds >= e.start && ds <= end) items.push(e);
     });
-    out += '</span></button>';
-    evs.forEach(function (ev) {
-      var attrs = ev.external ? ' target="_blank" rel="noopener"' : '';
-      var preset = ev.preset ? ' data-preset="' + ev.preset + '"' : '';
-      out += '<a class="cal2-expand-link" href="' + ev.href + '"' + attrs + preset + '>' + ev.cta + '</a>';
+    items.sort(function (a, b) { return a.sortMin - b.sortMin; });
+    return items;
+  }
+
+  function dotsFor(items) {
+    var out = '';
+    items.forEach(function (it) {
+      if (it.sport === 'both') out += '<span class="mcal-dot-sm mcal-dot--bb"></span><span class="mcal-dot-sm mcal-dot--vb"></span>';
+      else out += '<span class="mcal-dot-sm mcal-dot--' + (it.sport === 'general' ? 'general' : it.sport) + '"></span>';
     });
     return out;
   }
 
-  var html = '';
-  MONTHS.forEach(function (mo) {
-    html += '<div class="cal2-month"><h3 class="cal2-month-name">' + mo.name + '</h3><div class="cal2-grid">';
-    DOW.forEach(function (d) { html += '<div class="cal2-dow">' + d + '</div>'; });
+  function shortDate(y, m, d) {
+    var dt = new Date(y, m - 1, d);
+    return dt.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+  }
+
+  function popoverHtml(y, m, d, items) {
+    var out = '<div class="mcal-pop"><p class="mcal-pop-date">' + shortDate(y, m, d) + '</p>';
+    items.forEach(function (it) {
+      var attrs = it.external ? ' target="_blank" rel="noopener"' : '';
+      var preset = it.preset ? ' data-preset="' + it.preset + '"' : '';
+      var timeLine = it.time ? it.time : '';
+      var label = timeLine ? (timeLine + (it.meta ? ' &middot; ' + it.meta : '')) : it.meta;
+      out += '<div class="mcal-pop-item"><p class="mcal-pop-time">' + label + '</p><p class="mcal-pop-title">' + it.title + '</p><a class="mcal-pop-link" href="' + it.href + '"' + attrs + preset + '>' + it.cta + '</a></div>';
+    });
+    out += '</div>';
+    return out;
+  }
+
+  function render() {
+    var mo = MONTHS[monthIndex];
+    monthNameEl.textContent = mo.name;
+    prevBtn.disabled = monthIndex === 0;
+    nextBtn.disabled = monthIndex === MONTHS.length - 1;
+
+    tabsEl.innerHTML = MONTHS.map(function (m, i) {
+      return '<button type="button" class="mcal-tab' + (i === monthIndex ? ' active' : '') + '" data-i="' + i + '">' + m.name.split(' ')[0] + '</button>';
+    }).join('');
+
+    var html = '';
+    DOW.forEach(function (d) { html += '<div class="mcal-dow">' + d + '</div>'; });
     var lead = firstWeekday(mo.year, mo.month);
     var total = daysInMonth(mo.year, mo.month);
-    for (var i = 0; i < lead; i++) html += '<div class="cal2-day cal2-day--empty"></div>';
+    for (var i = 0; i < lead; i++) html += '<div class="mcal-day mcal-day--empty"><div class="mcal-day-inner"></div></div>';
     for (var d = 1; d <= total; d++) {
       var ds = dateStr(mo.year, mo.month, d);
-      var evs = eventsOnDate(ds);
-      if (evs.length) {
-        html += '<div class="cal2-day cal2-day--has-event" data-date="' + ds + '">' + collapsedInner(d, evs) + '</div>';
+      var dow = new Date(mo.year, mo.month - 1, d).getDay();
+      var items = itemsOnDate(ds, dow);
+      if (items.length) {
+        html += '<div class="mcal-day mcal-day--active" data-date="' + ds + '">' +
+          '<div class="mcal-day-inner"><span class="mcal-day-num">' + d + '</span><span class="mcal-day-dots">' + dotsFor(items) + '</span></div>' +
+          popoverHtml(mo.year, mo.month, d, items) +
+          '</div>';
       } else {
-        html += '<div class="cal2-day">' + collapsedInner(d, []) + '</div>';
+        html += '<div class="mcal-day"><div class="mcal-day-inner"><span class="mcal-day-num">' + d + '</span></div></div>';
       }
     }
-    html += '</div></div>';
-  });
-  wrap.innerHTML = html;
+    grid.innerHTML = html;
+  }
 
-  wrap.addEventListener('click', function (e) {
-    var toggle = e.target.closest('.cal2-day-toggle');
-    if (!toggle) return;
-    var day = toggle.closest('.cal2-day--has-event');
+  grid.addEventListener('click', function (e) {
+    var day = e.target.closest('.mcal-day--active');
     if (!day) return;
-    var wasExpanded = day.classList.contains('cal2-day--expanded');
-    wrap.querySelectorAll('.cal2-day--expanded').forEach(function (d) {
-      var ds = d.getAttribute('data-date');
-      var num = parseInt(ds.split('-')[2], 10);
-      d.classList.remove('cal2-day--expanded');
-      d.innerHTML = collapsedInner(num, eventsOnDate(ds));
-    });
-    if (!wasExpanded) {
-      var ds = day.getAttribute('data-date');
-      day.classList.add('cal2-day--expanded');
-      day.innerHTML = expandedInner(ds, eventsOnDate(ds));
+    if (e.target.closest('.mcal-pop-link')) return; /* let the booking link navigate normally */
+    var wasOpen = day.classList.contains('mcal-day--open');
+    grid.querySelectorAll('.mcal-day--open').forEach(function (d) { d.classList.remove('mcal-day--open'); });
+    if (!wasOpen) day.classList.add('mcal-day--open');
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.mcal-day')) {
+      grid.querySelectorAll('.mcal-day--open').forEach(function (d) { d.classList.remove('mcal-day--open'); });
     }
   });
+
+  prevBtn.addEventListener('click', function () { if (monthIndex > 0) { monthIndex--; render(); } });
+  nextBtn.addEventListener('click', function () { if (monthIndex < MONTHS.length - 1) { monthIndex++; render(); } });
+  tabsEl.addEventListener('click', function (e) {
+    var btn = e.target.closest('.mcal-tab');
+    if (!btn) return;
+    monthIndex = parseInt(btn.getAttribute('data-i'), 10);
+    render();
+  });
+
+  render();
 })();
 </script>
 </body>
