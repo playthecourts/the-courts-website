@@ -35,6 +35,15 @@
   .mcal-tab:hover { border-color: var(--orange); color: var(--black); }
   .mcal-tab.active { background: var(--black); border-color: var(--black); color: var(--white); }
 
+  .mcal-early { max-width: 1160px; margin: 0 auto 24px; }
+  .mcal-early-inner { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; background: var(--black); border-radius: 10px; padding: 14px 22px; position: relative; overflow: hidden; }
+  .mcal-early-inner::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--orange), #F2A65A 50%, var(--orange)); }
+  .mcal-early-label { font-family: var(--font-sport); font-weight: 800; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); flex-shrink: 0; }
+  .mcal-early-text { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--white); margin: 0; flex: 1; min-width: 200px; }
+  .mcal-early-text strong { color: var(--orange); }
+  .mcal-early-inner a { font-family: var(--font-heading); font-weight: 700; font-size: 13px; color: var(--white); background: var(--orange); padding: 8px 16px; border-radius: 999px; white-space: nowrap; flex-shrink: 0; }
+  .mcal-early-inner a:hover { background: var(--orange-hover); }
+
   .mcal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; max-width: 1160px; margin: 0 auto; }
   .mcal-dow { text-align: center; font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); padding-bottom: 10px; }
   .mcal-day { position: relative; }
@@ -276,6 +285,7 @@
       <button type="button" class="mcal-nav-btn" id="mcalNext" aria-label="Next month">&rarr;</button>
     </div>
     <div class="mcal-tabs" id="mcalTabs"></div>
+    <div class="mcal-early" id="mcalEarly"></div>
     <div class="mcal-grid" id="mcalGrid"></div>
   </div>
 </section>
@@ -518,7 +528,6 @@
   ];
 
   var MONTHS = [
-    { year: 2026, month: 9, name: 'September 2026' },
     { year: 2026, month: 10, name: 'October 2026' },
     { year: 2026, month: 11, name: 'November 2026' },
     { year: 2026, month: 12, name: 'December 2026' }
@@ -529,6 +538,7 @@
   var grid = document.getElementById('mcalGrid');
   var monthNameEl = document.getElementById('mcalMonthName');
   var tabsEl = document.getElementById('mcalTabs');
+  var earlyEl = document.getElementById('mcalEarly');
   var prevBtn = document.getElementById('mcalPrev');
   var nextBtn = document.getElementById('mcalNext');
   if (!grid) return;
@@ -592,6 +602,14 @@
     tabsEl.innerHTML = MONTHS.map(function (m, i) {
       return '<button type="button" class="mcal-tab' + (i === monthIndex ? ' active' : '') + '" data-i="' + i + '">' + m.name.split(' ')[0] + '</button>';
     }).join('');
+
+    if (monthIndex === 0) {
+      earlyEl.innerHTML = '<div class="mcal-early-inner"><span class="mcal-early-label">Starting Early</span>' +
+        '<p class="mcal-early-text"><strong>Sat, Sept 12 &middot; 3 PM</strong> &mdash; Fall League Evaluations &middot; $25</p>' +
+        '<a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations" target="_blank" rel="noopener" data-booking-type="basketball-evaluation">Save Your Spot →</a></div>';
+    } else {
+      earlyEl.innerHTML = '';
+    }
 
     var html = '';
     DOW.forEach(function (d) { html += '<div class="mcal-dow">' + d + '</div>'; });
