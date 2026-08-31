@@ -35,14 +35,17 @@
   .mcal-tab:hover { border-color: var(--orange); color: var(--black); }
   .mcal-tab.active { background: var(--black); border-color: var(--black); color: var(--white); }
 
-  .mcal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; max-width: 800px; margin: 0 auto; }
-  .mcal-dow { text-align: center; font-family: var(--font-sport); font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); padding-bottom: 8px; }
-  .mcal-day { aspect-ratio: 1; position: relative; }
-  .mcal-day-inner { width: 100%; height: 100%; background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 8px; padding: 7px; display: flex; flex-direction: column; font-family: var(--font-heading); box-sizing: border-box; }
-  .mcal-day--empty .mcal-day-inner { visibility: hidden; }
-  .mcal-day-num { font-size: 13px; font-weight: 700; color: var(--black); }
-  .mcal-day-dots { display: flex; flex-wrap: wrap; gap: 3px; margin-top: auto; }
-  .mcal-dot-sm { width: 6px; height: 6px; border-radius: 50%; }
+  .mcal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; max-width: 1160px; margin: 0 auto; }
+  .mcal-dow { text-align: center; font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); padding-bottom: 10px; }
+  .mcal-day { position: relative; }
+  .mcal-day-inner { width: 100%; height: 100%; min-height: 128px; background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 10px; padding: 10px; display: flex; flex-direction: column; gap: 6px; font-family: var(--font-heading); box-sizing: border-box; }
+  .mcal-day--empty .mcal-day-inner { visibility: hidden; min-height: 40px; }
+  .mcal-day-num { font-size: 16px; font-weight: 800; color: var(--black); flex-shrink: 0; }
+  .mcal-day-labels { display: flex; flex-direction: column; gap: 4px; }
+  .mcal-chip { display: block; font-family: var(--font-heading); font-weight: 700; font-size: 11.5px; line-height: 1.25; padding: 3px 7px; border-radius: 5px; border-left: 3px solid transparent; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mcal-chip--bb { background: var(--orange-soft); border-left-color: var(--orange); color: var(--orange-ink); }
+  .mcal-chip--vb { background: var(--gray-light); border-left-color: var(--black); color: var(--black); }
+  .mcal-chip--general { background: var(--gray-light); border-left-color: var(--gray-dark); color: var(--gray-dark); }
   .mcal-day--active .mcal-day-inner { cursor: pointer; }
   .mcal-day--active .mcal-day-inner:hover, .mcal-day--open .mcal-day-inner { border-color: var(--orange); box-shadow: 0 6px 16px rgba(23,23,23,0.1); }
 
@@ -62,11 +65,12 @@
   .mcal-pop-link:hover { background: var(--orange-hover); }
 
 
-  @media (max-width: 720px) {
-    .mcal-grid { gap: 4px; }
-    .mcal-day-inner { padding: 4px; }
-    .mcal-day-num { font-size: 11px; }
-    .mcal-dow { font-size: 9px; }
+  @media (max-width: 860px) {
+    .mcal-grid { gap: 5px; }
+    .mcal-day-inner { padding: 5px; min-height: 84px; gap: 3px; }
+    .mcal-day-num { font-size: 12px; }
+    .mcal-dow { font-size: 9.5px; }
+    .mcal-chip { font-size: 9px; padding: 2px 4px; border-left-width: 2px; }
     .mcal-pop { width: 190px; padding: 12px 14px; }
     .mcal-pop-title { font-size: 13px; }
   }
@@ -460,47 +464,50 @@
   var VBHS = UH + 'classes/206753-volleyball-training-high-school';
   var DRDISH = UH + 'events/206726-dr-dot-dish-individual';
 
-  /* Recurring weekly classes. dow: 0=Sun...6=Sat. sortMin = minutes since midnight, for ordering within a day. */
+  /* Weekly classes don't start until The Courts opens. */
+  var RECURRING_START = '2026-10-01';
+
+  /* Recurring weekly classes. dow: 0=Sun...6=Sat. sortMin = minutes since midnight, for ordering within a day. short = compact in-cell label. */
   var RECURRING = [
-    { dow: 0, sortMin: 0, time: 'Various Times', sport: 'bb', title: 'Dr. Dish', meta: 'Solo Sessions', cta: 'Book Dr. Dish →', href: DRDISH, external: true },
-    { dow: 3, sortMin: 300, time: '5:00 PM', sport: 'bb', title: 'Basketball Fundamentals', meta: 'Grades K&ndash;2', cta: 'Book →', href: UH + 'events/206739-basketball-fundamentals-grades-k-2', external: true },
-    { dow: 4, sortMin: 300, time: '5:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 3&ndash;5', cta: 'Book →', href: BB35, external: true },
-    { dow: 5, sortMin: 300, time: '5:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 3&ndash;5', cta: 'Book →', href: BB35, external: true },
-    { dow: 6, sortMin: 540, time: '9:00 AM', sport: 'bb', title: 'Basketball', meta: 'Grades 3&ndash;5', cta: 'Book →', href: BB35, external: true },
-    { dow: 4, sortMin: 360, time: '6:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 6&ndash;8', cta: 'Book →', href: BB68, external: true },
-    { dow: 5, sortMin: 360, time: '6:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 6&ndash;8', cta: 'Book →', href: BB68, external: true },
-    { dow: 6, sortMin: 600, time: '10:00 AM', sport: 'bb', title: 'Basketball', meta: 'Grades 6&ndash;8', cta: 'Book →', href: BB68, external: true },
-    { dow: 4, sortMin: 420, time: '7:00 PM', sport: 'bb', title: 'Basketball', meta: 'High School', cta: 'Book →', href: BBHS, external: true },
-    { dow: 5, sortMin: 420, time: '7:00 PM', sport: 'bb', title: 'Basketball', meta: 'High School', cta: 'Book →', href: BBHS, external: true },
-    { dow: 6, sortMin: 660, time: '11:00 AM', sport: 'bb', title: 'Basketball', meta: 'High School', cta: 'Book →', href: BBHS, external: true },
-    { dow: 1, sortMin: 300, time: '5:00 PM', sport: 'vb', title: 'Volleyball', meta: 'Grades 4&ndash;8', cta: 'Book →', href: VB48, external: true },
-    { dow: 2, sortMin: 300, time: '5:00 PM', sport: 'vb', title: 'Volleyball', meta: 'Grades 4&ndash;8', cta: 'Book →', href: VB48, external: true },
-    { dow: 6, sortMin: 780, time: '1:00 PM', sport: 'vb', title: 'Volleyball', meta: 'Grades 4&ndash;8', cta: 'Book →', href: VB48, external: true },
-    { dow: 1, sortMin: 360, time: '6:00 PM', sport: 'vb', title: 'Volleyball', meta: 'High School', cta: 'Book →', href: VBHS, external: true },
-    { dow: 2, sortMin: 360, time: '6:00 PM', sport: 'vb', title: 'Volleyball', meta: 'High School', cta: 'Book →', href: VBHS, external: true },
-    { dow: 6, sortMin: 840, time: '2:00 PM', sport: 'vb', title: 'Volleyball', meta: 'High School', cta: 'Book →', href: VBHS, external: true }
+    { dow: 0, sortMin: 0, time: 'Various Times', sport: 'bb', title: 'Dr. Dish', meta: 'Solo Sessions', short: 'Dr. Dish', cta: 'Book Dr. Dish →', href: DRDISH, external: true },
+    { dow: 3, sortMin: 300, time: '5:00 PM', sport: 'bb', title: 'Basketball Fundamentals', meta: 'Grades K&ndash;2', short: 'BB Fundamentals', cta: 'Book →', href: UH + 'events/206739-basketball-fundamentals-grades-k-2', external: true },
+    { dow: 4, sortMin: 300, time: '5:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 3&ndash;5', short: 'BB 3&ndash;5', cta: 'Book →', href: BB35, external: true },
+    { dow: 5, sortMin: 300, time: '5:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 3&ndash;5', short: 'BB 3&ndash;5', cta: 'Book →', href: BB35, external: true },
+    { dow: 6, sortMin: 540, time: '9:00 AM', sport: 'bb', title: 'Basketball', meta: 'Grades 3&ndash;5', short: 'BB 3&ndash;5', cta: 'Book →', href: BB35, external: true },
+    { dow: 4, sortMin: 360, time: '6:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 6&ndash;8', short: 'BB 6&ndash;8', cta: 'Book →', href: BB68, external: true },
+    { dow: 5, sortMin: 360, time: '6:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 6&ndash;8', short: 'BB 6&ndash;8', cta: 'Book →', href: BB68, external: true },
+    { dow: 6, sortMin: 600, time: '10:00 AM', sport: 'bb', title: 'Basketball', meta: 'Grades 6&ndash;8', short: 'BB 6&ndash;8', cta: 'Book →', href: BB68, external: true },
+    { dow: 4, sortMin: 420, time: '7:00 PM', sport: 'bb', title: 'Basketball', meta: 'High School', short: 'BB HS', cta: 'Book →', href: BBHS, external: true },
+    { dow: 5, sortMin: 420, time: '7:00 PM', sport: 'bb', title: 'Basketball', meta: 'High School', short: 'BB HS', cta: 'Book →', href: BBHS, external: true },
+    { dow: 6, sortMin: 660, time: '11:00 AM', sport: 'bb', title: 'Basketball', meta: 'High School', short: 'BB HS', cta: 'Book →', href: BBHS, external: true },
+    { dow: 1, sortMin: 300, time: '5:00 PM', sport: 'vb', title: 'Volleyball', meta: 'Grades 4&ndash;8', short: 'VB 4&ndash;8', cta: 'Book →', href: VB48, external: true },
+    { dow: 2, sortMin: 300, time: '5:00 PM', sport: 'vb', title: 'Volleyball', meta: 'Grades 4&ndash;8', short: 'VB 4&ndash;8', cta: 'Book →', href: VB48, external: true },
+    { dow: 6, sortMin: 780, time: '1:00 PM', sport: 'vb', title: 'Volleyball', meta: 'Grades 4&ndash;8', short: 'VB 4&ndash;8', cta: 'Book →', href: VB48, external: true },
+    { dow: 1, sortMin: 360, time: '6:00 PM', sport: 'vb', title: 'Volleyball', meta: 'High School', short: 'VB HS', cta: 'Book →', href: VBHS, external: true },
+    { dow: 2, sortMin: 360, time: '6:00 PM', sport: 'vb', title: 'Volleyball', meta: 'High School', short: 'VB HS', cta: 'Book →', href: VBHS, external: true },
+    { dow: 6, sortMin: 840, time: '2:00 PM', sport: 'vb', title: 'Volleyball', meta: 'High School', short: 'VB HS', cta: 'Book →', href: VBHS, external: true }
   ];
 
-  /* One-off / special events. sortMin places them in order alongside recurring classes on shared days. */
+  /* One-off / special events. sortMin places them in order alongside recurring classes on shared days. short = compact in-cell label. */
   var EVENTS = [
-    { start: '2026-09-12', sortMin: 900, time: '3:00 PM', sport: 'bb', title: 'Fall League Evaluations', meta: '$25', cta: 'Save Your Evaluation Spot →', href: 'https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations', external: true },
-    { start: '2026-10-01', sortMin: 540, time: '', sport: 'general', title: 'Doors Open', meta: 'Opening Day', cta: 'Explore Programs →', href: 'programs' },
-    { start: '2026-10-12', end: '2026-10-15', sortMin: 480, time: '', sport: 'both', title: 'Fall Break Camp', meta: 'Basketball mornings, volleyball afternoons', cta: 'View Camps + Register →', href: 'camps#fall-break' },
-    { start: '2026-10-16', sortMin: 540, time: '', sport: 'both', title: 'Fall Break Competition Day', meta: 'Single-day games, both sports', cta: 'View Camps →', href: 'camps#board' },
-    { start: '2026-10-23', sortMin: 1080, time: '', sport: 'bb', title: 'Fall League Kicks Off', meta: 'Teams set, practices + games begin', cta: 'View League →', href: 'leagues#fall-league' },
-    { start: '2026-10-24', sortMin: 540, time: '', sport: 'bb', title: 'First Fall League Games', meta: 'Somebody&rsquo;s keeping score now', cta: 'View League →', href: 'leagues#fall-league' },
-    { start: '2026-10-28', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'School lets out early', cta: 'View Camps →', href: 'camps#board' },
-    { start: '2026-10-30', sortMin: 1140, time: '', sport: 'bb', title: 'Halloween Shootout', meta: 'Costume-optional basketball night', cta: 'Register for Basketball →', href: 'contact?interest=Basketball#contact-form', preset: 'Basketball' },
-    { start: '2026-10-31', sortMin: 1140, time: '', sport: 'vb', title: 'Volleyween', meta: 'Costume-optional volleyball night', cta: 'Register for Volleyball →', href: 'contact?interest=Volleyball#contact-form', preset: 'Volleyball' },
-    { start: '2026-11-03', sortMin: 480, time: '', sport: 'both', title: 'No School Day Camp', meta: 'No school? No problem', cta: 'View Camps →', href: 'camps#board' },
-    { start: '2026-11-14', sortMin: 600, time: '', sport: 'general', title: 'What Makes a Great Player?', meta: 'Parent talk', cta: 'RSVP →', href: 'contact?interest=Something%20Else#contact-form', preset: 'Something Else' },
-    { start: '2026-11-18', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'Another early release', cta: 'View Camps →', href: 'camps#board' },
-    { start: '2026-11-23', end: '2026-11-25', sortMin: 480, time: '', sport: 'both', title: 'Thanksgiving Break Camp', meta: 'Three days before turkey', cta: 'View Camps →', href: 'camps#board' },
-    { start: '2026-12-05', sortMin: 1080, time: '6&ndash;9 PM', sport: 'general', title: 'GOAT Movie Night', meta: 'Pizza + a movie', cta: 'Save Your Spot →', href: 'contact?interest=Something%20Else#contact-form', preset: 'Something Else' },
-    { start: '2026-12-09', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'They&rsquo;re letting them out early again', cta: 'View Camps →', href: 'camps#board' },
-    { start: '2026-12-11', end: '2026-12-13', sortMin: 540, time: '', sport: 'bb', title: 'Fall League Tournament', meta: 'The season closes out', cta: 'View League →', href: 'leagues#fall-league' },
-    { start: '2026-12-21', end: '2026-12-23', sortMin: 480, time: '', sport: 'both', title: 'Holiday Break Camp', meta: 'The break is long', cta: 'View Camps →', href: 'camps#board' },
-    { start: '2026-12-28', end: '2026-12-30', sortMin: 480, time: '', sport: 'both', title: 'New Year Camp', meta: 'One more run before the year ends', cta: 'View Camps →', href: 'camps#board' }
+    { start: '2026-09-12', sortMin: 900, time: '3:00 PM', sport: 'bb', title: 'Fall League Evaluations', meta: '$25', short: 'Evaluations', cta: 'Save Your Evaluation Spot →', href: 'https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations', external: true },
+    { start: '2026-10-01', sortMin: 540, time: '', sport: 'general', title: 'Doors Open', meta: 'Opening Day', short: 'Doors Open', cta: 'Explore Programs →', href: 'programs' },
+    { start: '2026-10-12', end: '2026-10-15', sortMin: 480, time: '', sport: 'both', title: 'Fall Break Camp', meta: 'Basketball mornings, volleyball afternoons', short: 'Fall Break Camp', cta: 'View Camps + Register →', href: 'camps#fall-break' },
+    { start: '2026-10-16', sortMin: 540, time: '', sport: 'both', title: 'Fall Break Competition Day', meta: 'Single-day games, both sports', short: 'Competition Day', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-10-23', sortMin: 1080, time: '', sport: 'bb', title: 'Fall League Kicks Off', meta: 'Teams set, practices + games begin', short: 'League Kickoff', cta: 'View League →', href: 'leagues#fall-league' },
+    { start: '2026-10-24', sortMin: 540, time: '', sport: 'bb', title: 'First Fall League Games', meta: 'Somebody&rsquo;s keeping score now', short: 'First Games', cta: 'View League →', href: 'leagues#fall-league' },
+    { start: '2026-10-28', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'School lets out early', short: 'Early Release', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-10-30', sortMin: 1140, time: '', sport: 'bb', title: 'Halloween Shootout', meta: 'Costume-optional basketball night', short: 'Halloween Shootout', cta: 'Register for Basketball →', href: 'https://app.upperhand.io/customers/2876-the-courts-llc/events/206883-halloween-basketball-shootout', external: true },
+    { start: '2026-10-31', sortMin: 1140, time: '', sport: 'vb', title: 'Volleyween', meta: 'Costume-optional volleyball night', short: 'Volleyween', cta: 'Register for Volleyball →', href: 'https://app.upperhand.io/customers/2876-the-courts-llc/events/206884-volleyween', external: true },
+    { start: '2026-11-03', sortMin: 480, time: '', sport: 'both', title: 'No School Day Camp', meta: 'No school? No problem', short: 'No School Camp', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-11-14', sortMin: 600, time: '', sport: 'general', title: 'What Makes a Great Player?', meta: 'Parent talk', short: 'Parent Talk', cta: 'RSVP →', href: 'contact?interest=Something%20Else#contact-form', preset: 'Something Else' },
+    { start: '2026-11-18', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'Another early release', short: 'Early Release', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-11-23', end: '2026-11-25', sortMin: 480, time: '', sport: 'both', title: 'Thanksgiving Break Camp', meta: 'Three days before turkey', short: 'Thanksgiving Camp', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-12-05', sortMin: 1080, time: '6&ndash;9 PM', sport: 'general', title: 'GOAT Movie Night', meta: 'Pizza + a movie', short: 'Movie Night', cta: 'Save Your Spot →', href: 'contact?interest=Something%20Else#contact-form', preset: 'Something Else' },
+    { start: '2026-12-09', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'They&rsquo;re letting them out early again', short: 'Early Release', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-12-11', end: '2026-12-13', sortMin: 540, time: '', sport: 'bb', title: 'Fall League Tournament', meta: 'The season closes out', short: 'Tournament', cta: 'View League →', href: 'leagues#fall-league' },
+    { start: '2026-12-21', end: '2026-12-23', sortMin: 480, time: '', sport: 'both', title: 'Holiday Break Camp', meta: 'The break is long', short: 'Holiday Camp', cta: 'View Camps →', href: 'camps#board' },
+    { start: '2026-12-28', end: '2026-12-30', sortMin: 480, time: '', sport: 'both', title: 'New Year Camp', meta: 'One more run before the year ends', short: 'New Year Camp', cta: 'View Camps →', href: 'camps#board' }
   ];
 
   var MONTHS = [
@@ -526,7 +533,9 @@
 
   function itemsOnDate(ds, dow) {
     var items = [];
-    RECURRING.forEach(function (r) { if (r.dow === dow) items.push(r); });
+    if (ds >= RECURRING_START) {
+      RECURRING.forEach(function (r) { if (r.dow === dow) items.push(r); });
+    }
     EVENTS.forEach(function (e) {
       var end = e.end || e.start;
       if (ds >= e.start && ds <= end) items.push(e);
@@ -535,11 +544,15 @@
     return items;
   }
 
-  function dotsFor(items) {
+  function chipsFor(items) {
     var out = '';
     items.forEach(function (it) {
-      if (it.sport === 'both') out += '<span class="mcal-dot-sm mcal-dot--bb"></span><span class="mcal-dot-sm mcal-dot--vb"></span>';
-      else out += '<span class="mcal-dot-sm mcal-dot--' + (it.sport === 'general' ? 'general' : it.sport) + '"></span>';
+      if (it.sport === 'both') {
+        out += '<span class="mcal-chip mcal-chip--bb">' + it.short + '</span>';
+      } else {
+        var cls = it.sport === 'general' ? 'general' : it.sport;
+        out += '<span class="mcal-chip mcal-chip--' + cls + '">' + it.short + '</span>';
+      }
     });
     return out;
   }
@@ -583,7 +596,7 @@
       var items = itemsOnDate(ds, dow);
       if (items.length) {
         html += '<div class="mcal-day mcal-day--active" data-date="' + ds + '">' +
-          '<div class="mcal-day-inner"><span class="mcal-day-num">' + d + '</span><span class="mcal-day-dots">' + dotsFor(items) + '</span></div>' +
+          '<div class="mcal-day-inner"><span class="mcal-day-num">' + d + '</span><span class="mcal-day-labels">' + chipsFor(items) + '</span></div>' +
           popoverHtml(mo.year, mo.month, d, items) +
           '</div>';
       } else {
