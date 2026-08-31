@@ -226,7 +226,7 @@
         <div class="cf-group" data-cat="Programs + Membership" hidden>
           <div class="form-row">
             <label for="pm-lookingfor">What are you looking for?*</label>
-            <select id="pm-lookingfor" required><option value="">Select one</option><option>Membership</option><option>Camps</option><option>Open Gym</option><option>Help me find the right program</option><option>General program question</option></select>
+            <select id="pm-lookingfor" required><option value="">Select one</option><option>Membership</option><option>Camps</option><option>Help me find the right program</option><option>General program question</option></select>
           </div>
 
           <div class="cf-subgroup" data-show-if="pm-lookingfor:Membership" hidden>
@@ -242,7 +242,6 @@
             </div>
             <div class="form-row"><label>What matters most? <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="pm-priorities">
           <label class="chip"><input type="checkbox" id="pm-priorities-group-training" name="pm-priorities"><span>Group training</span></label>
-          <label class="chip"><input type="checkbox" id="pm-priorities-open-gym" name="pm-priorities"><span>Open Gym</span></label>
           <label class="chip"><input type="checkbox" id="pm-priorities-private-training" name="pm-priorities"><span>Private Training</span></label>
           <label class="chip"><input type="checkbox" id="pm-priorities-dr-dish" name="pm-priorities"><span>Dr. Dish</span></label>
           <label class="chip"><input type="checkbox" id="pm-priorities-family-membership" name="pm-priorities"><span>Family membership</span></label>
@@ -283,22 +282,6 @@
         </div></div>
             <div class="form-row"><label for="pm-camp-age">Athlete age / grade*</label><input type="text" id="pm-camp-age" placeholder="e.g. 10 / 5th grade" required></div>
             <div class="form-row"><label for="pm-camp-extra">Anything else? <span class="form-optional-tag">Optional</span></label><textarea id="pm-camp-extra"></textarea></div>
-          </div>
-
-          <div class="cf-subgroup" data-show-if="pm-lookingfor:Open Gym" hidden>
-            <div class="form-grid-2">
-              <div class="form-row"><label for="pm-og-sport">Sport*</label><select id="pm-og-sport" required><option value="">Select one</option><option>Basketball</option><option>Volleyball</option></select></div>
-              <div class="form-row"><label for="pm-og-age">Athlete age / grade <span class="form-optional-tag">Optional</span></label><input type="text" id="pm-og-age"></div>
-            </div>
-            <div class="form-row"><label>What can we help with?* <span class="form-optional-tag">Choose all that apply</span></label><div class="chip-group" data-group="pm-og-help" data-chip-required="true">
-          <label class="chip"><input type="checkbox" id="pm-og-help-upcoming-open-gym-times" name="pm-og-help"><span>Upcoming Open Gym times</span></label>
-          <label class="chip"><input type="checkbox" id="pm-og-help-age-eligibility" name="pm-og-help"><span>Age / eligibility</span></label>
-          <label class="chip"><input type="checkbox" id="pm-og-help-member-access" name="pm-og-help"><span>Member access</span></label>
-          <label class="chip"><input type="checkbox" id="pm-og-help-drop-in-pricing" name="pm-og-help"><span>Drop-in pricing</span></label>
-          <label class="chip"><input type="checkbox" id="pm-og-help-registration" name="pm-og-help"><span>Registration</span></label>
-          <label class="chip"><input type="checkbox" id="pm-og-help-other" name="pm-og-help"><span>Something else</span></label>
-        </div></div>
-            <div class="form-row" data-reveal-if="pm-og-help-other" hidden><label for="pm-og-extra">Tell us what you need.</label><textarea id="pm-og-extra"></textarea></div>
           </div>
 
           <div class="cf-subgroup" data-show-if="pm-lookingfor:Help me find the right program" hidden>

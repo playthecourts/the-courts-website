@@ -91,16 +91,15 @@
   .way-tile:hover .way-link .arrow { transform: translateX(4px); }
   .way--private { grid-column: span 7; min-height: 340px; }
   .way--camps { grid-column: span 5; min-height: 340px; }
-  .way--leagues { grid-column: span 5; }
-  .way--opengym { grid-column: span 4; }
-  .way--drdish { grid-column: span 3; min-height: 270px; }
+  .way--leagues { grid-column: span 7; }
+  .way--drdish { grid-column: span 5; min-height: 270px; }
   .way--drdish { background: var(--black); }
   .way--drdish .way-copy { color: rgba(255,255,255,0.65); }
   .way--drdish .way-tile-body { padding: 22px 22px; }
   .way--leagues .photo-bg { background: linear-gradient(135deg, #2a2a2a, #111); }
   @media (max-width: 980px) {
     .ways-grid { grid-template-columns: repeat(2, 1fr); }
-    .way--private, .way--camps, .way--leagues, .way--opengym, .way--drdish { grid-column: span 1; min-height: 300px; }
+    .way--private, .way--camps, .way--leagues, .way--drdish { grid-column: span 1; min-height: 300px; }
   }
   @media (max-width: 560px) {
     .ways-grid { grid-template-columns: 1fr; }
@@ -290,7 +289,6 @@
             <span class="sport-tag">Private Training</span>
             <span class="sport-tag">Camps</span>
             <span class="sport-tag">Basketball Leagues</span>
-            <span class="sport-tag">Open Gym</span>
             <span class="sport-tag">Dr. Dish</span>
           </div>
           <a href="basketball" class="btn btn-primary">Explore Basketball →</a>
@@ -310,7 +308,6 @@
             <span class="sport-tag">Group Training</span>
             <span class="sport-tag">Private Training</span>
             <span class="sport-tag">Camps</span>
-            <span class="sport-tag">Open Gym</span>
           </div>
           <a href="volleyball" class="btn btn-primary">Explore Volleyball →</a>
         </div>
@@ -355,15 +352,6 @@
           <h3 class="way-name">Basketball Leagues</h3>
           <p class="way-copy">Practice is great. Eventually, somebody has to keep score. Structured games, plenty of touches, and a chance to put the work to use.</p>
           <span class="way-link">View Basketball Leagues <span class="arrow">→</span></span>
-        </div>
-      </a>
-      <a href="schedule?type=opengym" class="way-tile way--opengym reveal">
-        <div class="photo-bg"><img src="images/gear-bottle-shoes.jpg" alt=""></div>
-        <div class="way-tile-body">
-          <p class="way-label">Just Play</p>
-          <h3 class="way-name">Open Gym</h3>
-          <p class="way-copy">No drill plan. No line to stand in. Just court time. Scheduled, coach-supervised time to shoot, play, and get more reps.</p>
-          <span class="way-link">See Open Gym <span class="arrow">→</span></span>
         </div>
       </a>
       <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206726-dr-dot-dish-individual" target="_blank" rel="noopener" class="way-tile way--drdish reveal" data-booking-type="dr-dish">
