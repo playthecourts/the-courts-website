@@ -61,11 +61,6 @@
   .mcal-pop-link { font-family: var(--font-heading); font-weight: 700; font-size: 12.5px; color: var(--white); background: var(--orange); padding: 6px 13px; border-radius: 999px; display: inline-flex; align-items: center; gap: 5px; }
   .mcal-pop-link:hover { background: var(--orange-hover); }
 
-  .mcal-drdish { max-width: 800px; margin: 44px auto 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; background: var(--gray-light); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-md); padding: 20px 26px; }
-  .mcal-drdish p { margin: 0; font-size: 14.5px; color: var(--gray-dark); }
-  .mcal-drdish p strong { color: var(--black); }
-  .mcal-drdish a { font-family: var(--font-heading); font-weight: 700; font-size: 13.5px; color: var(--orange); white-space: nowrap; }
-  .mcal-drdish a:hover { color: var(--orange-hover); }
 
   @media (max-width: 720px) {
     .mcal-grid { gap: 4px; }
@@ -272,10 +267,6 @@
     </div>
     <div class="mcal-tabs" id="mcalTabs"></div>
     <div class="mcal-grid" id="mcalGrid"></div>
-    <div class="mcal-drdish">
-      <p><strong>Dr. Dish</strong> &mdash; not on a fixed weekly schedule. Book anytime, based on availability.</p>
-      <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206726-dr-dot-dish-individual" target="_blank" rel="noopener" data-booking-type="dr-dish">Book Dr. Dish →</a>
-    </div>
   </div>
 </section>
 
@@ -467,9 +458,11 @@
   var BBHS = UH + 'classes/206750-basketball-training-high-school';
   var VB48 = UH + 'classes/206752-volleyball-training-grades-4-8';
   var VBHS = UH + 'classes/206753-volleyball-training-high-school';
+  var DRDISH = UH + 'events/206726-dr-dot-dish-individual';
 
   /* Recurring weekly classes. dow: 0=Sun...6=Sat. sortMin = minutes since midnight, for ordering within a day. */
   var RECURRING = [
+    { dow: 0, sortMin: 0, time: 'Various Times', sport: 'bb', title: 'Dr. Dish', meta: 'Solo Sessions', cta: 'Book Dr. Dish →', href: DRDISH, external: true },
     { dow: 3, sortMin: 300, time: '5:00 PM', sport: 'bb', title: 'Basketball Fundamentals', meta: 'Grades K&ndash;2', cta: 'Book →', href: UH + 'events/206739-basketball-fundamentals-grades-k-2', external: true },
     { dow: 4, sortMin: 300, time: '5:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 3&ndash;5', cta: 'Book →', href: BB35, external: true },
     { dow: 5, sortMin: 300, time: '5:00 PM', sport: 'bb', title: 'Basketball', meta: 'Grades 3&ndash;5', cta: 'Book →', href: BB35, external: true },
