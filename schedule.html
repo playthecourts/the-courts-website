@@ -51,17 +51,23 @@
 
   .mcal-pop {
     display: none; position: absolute; z-index: 30; top: calc(100% + 8px); left: 50%; transform: translateX(-50%);
-    width: 250px; background: var(--black); color: var(--white); border-radius: 10px; padding: 16px 18px; text-align: left;
-    box-shadow: 0 14px 34px rgba(0,0,0,0.28);
+    width: 288px; background: var(--black); color: var(--white); border-radius: 12px; text-align: left; overflow: hidden;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.32);
   }
+  .mcal-pop::before { content: ''; display: block; height: 4px; background: linear-gradient(90deg, var(--orange), #F2A65A 50%, var(--orange)); }
+  .mcal-pop-inner { padding: 20px 22px; }
   .mcal-day--open .mcal-pop { display: block; }
   @media (hover: hover) { .mcal-day--active:hover .mcal-pop { display: block; } }
-  .mcal-pop-date { font-family: var(--font-sport); font-weight: 800; font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); margin: 0 0 10px; }
-  .mcal-pop-item { padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.14); }
+  .mcal-pop-date { font-family: var(--font-sport); font-weight: 800; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 14px; }
+  .mcal-pop-item { padding: 14px 0 14px 14px; border-top: 1px solid rgba(255,255,255,0.14); position: relative; }
   .mcal-pop-item:first-of-type { border-top: none; padding-top: 0; }
-  .mcal-pop-time { display: flex; align-items: center; gap: 7px; font-family: var(--font-sport); font-weight: 700; font-size: 14px; letter-spacing: 0.03em; text-transform: uppercase; color: rgba(255,255,255,0.75); margin-bottom: 4px; }
-  .mcal-pop-title { font-family: var(--font-heading); font-weight: 800; font-size: 14px; margin: 0 0 8px; line-height: 1.25; }
-  .mcal-pop-link { font-family: var(--font-heading); font-weight: 700; font-size: 12.5px; color: var(--white); background: var(--orange); padding: 6px 13px; border-radius: 999px; display: inline-flex; align-items: center; gap: 5px; }
+  .mcal-pop-item::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 2px; background: var(--orange); }
+  .mcal-pop-item:first-of-type::before { top: 0; }
+  .mcal-pop-item--vb::before { background: rgba(255,255,255,0.55); }
+  .mcal-pop-item--general::before { background: rgba(255,255,255,0.3); }
+  .mcal-pop-time { display: inline-flex; align-items: center; font-family: var(--font-sport); font-weight: 700; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.65); background: rgba(255,255,255,0.08); border-radius: 999px; padding: 4px 10px; margin-bottom: 8px; }
+  .mcal-pop-title { font-family: var(--font-display); font-weight: 900; font-size: 17px; margin: 0 0 10px; line-height: 1.2; }
+  .mcal-pop-link { font-family: var(--font-heading); font-weight: 700; font-size: 13px; color: var(--white); background: var(--orange); padding: 8px 16px; border-radius: 999px; display: inline-flex; align-items: center; gap: 5px; }
   .mcal-pop-link:hover { background: var(--orange-hover); }
 
 
@@ -564,15 +570,16 @@
   }
 
   function popoverHtml(y, m, d, items) {
-    var out = '<div class="mcal-pop"><p class="mcal-pop-date">' + shortDate(y, m, d) + '</p>';
+    var out = '<div class="mcal-pop"><div class="mcal-pop-inner"><p class="mcal-pop-date">' + shortDate(y, m, d) + '</p>';
     items.forEach(function (it) {
       var attrs = it.external ? ' target="_blank" rel="noopener"' : '';
       var preset = it.preset ? ' data-preset="' + it.preset + '"' : '';
       var timeLine = it.time ? it.time : '';
       var label = timeLine ? (timeLine + (it.meta ? ' &middot; ' + it.meta : '')) : it.meta;
-      out += '<div class="mcal-pop-item"><p class="mcal-pop-time">' + label + '</p><p class="mcal-pop-title">' + it.title + '</p><a class="mcal-pop-link" href="' + it.href + '"' + attrs + preset + '>' + it.cta + '</a></div>';
+      var accentCls = it.sport === 'vb' ? ' mcal-pop-item--vb' : (it.sport === 'bb' || it.sport === 'both' ? '' : ' mcal-pop-item--general');
+      out += '<div class="mcal-pop-item' + accentCls + '"><span class="mcal-pop-time">' + label + '</span><p class="mcal-pop-title">' + it.title + '</p><a class="mcal-pop-link" href="' + it.href + '"' + attrs + preset + '>' + it.cta + '</a></div>';
     });
-    out += '</div>';
+    out += '</div></div>';
     return out;
   }
 
@@ -607,14 +614,32 @@
     grid.innerHTML = html;
   }
 
+  function clampPopover(day) {
+    var pop = day.querySelector('.mcal-pop');
+    if (!pop) return;
+    pop.style.transform = 'translateX(-50%)';
+    var rect = pop.getBoundingClientRect();
+    var gridRect = grid.getBoundingClientRect();
+    if (rect.right > gridRect.right - 8) {
+      pop.style.transform = 'translateX(calc(-50% - ' + (rect.right - gridRect.right + 8) + 'px))';
+    } else if (rect.left < gridRect.left + 8) {
+      pop.style.transform = 'translateX(calc(-50% + ' + (gridRect.left - rect.left + 8) + 'px))';
+    }
+  }
+
   grid.addEventListener('click', function (e) {
     var day = e.target.closest('.mcal-day--active');
     if (!day) return;
     if (e.target.closest('.mcal-pop-link')) return; /* let the booking link navigate normally */
     var wasOpen = day.classList.contains('mcal-day--open');
     grid.querySelectorAll('.mcal-day--open').forEach(function (d) { d.classList.remove('mcal-day--open'); });
-    if (!wasOpen) day.classList.add('mcal-day--open');
+    if (!wasOpen) { day.classList.add('mcal-day--open'); clampPopover(day); }
   });
+
+  grid.addEventListener('mouseenter', function (e) {
+    var day = e.target.closest ? e.target.closest('.mcal-day--active') : null;
+    if (day) clampPopover(day);
+  }, true);
 
   document.addEventListener('click', function (e) {
     if (!e.target.closest('.mcal-day')) {
