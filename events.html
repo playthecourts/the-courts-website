@@ -26,10 +26,10 @@
 
   /* ---------- Events status callout ---------- */
   .ev-status { padding: 40px 0 0; }
-  .ev-status-box { max-width: 980px; margin: 0 auto; display: flex; align-items: center; gap: 24px; background: var(--orange); border-radius: 16px; padding: clamp(24px,3vw,32px) clamp(28px,4vw,40px); text-align: left; }
+  .ev-status-box { width: fit-content; max-width: 100%; margin: 0 auto; display: flex; align-items: center; gap: 24px; background: var(--orange); border-radius: 16px; padding: clamp(24px,3vw,32px) clamp(32px,4.5vw,48px); text-align: left; }
   .ev-status-icon { flex-shrink: 0; width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; }
-  .ev-status-body h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(21px,2.6vw,27px); color: var(--white); margin: 0 0 7px; line-height: 1.15; }
-  .ev-status-body p { font-size: 15.5px; line-height: 1.55; color: rgba(255,255,255,0.88); max-width: 62ch; margin: 0; font-weight: 500; }
+  .ev-status-body h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(23px,2.9vw,30px); color: var(--white); margin: 0 0 8px; line-height: 1.15; }
+  .ev-status-body p { font-size: 17px; line-height: 1.55; color: rgba(255,255,255,0.88); max-width: 62ch; margin: 0; font-weight: 500; }
   @media (max-width: 620px) { .ev-status-box { flex-direction: column; align-items: flex-start; gap: 16px; } }
 
   /* ---------- Save-the-date two-line status ---------- */
