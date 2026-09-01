@@ -88,7 +88,7 @@
   .ev-halloween-tagline { font-family:var(--font-heading); font-weight:700; font-size:15px; color:rgba(255,255,255,0.85); margin:0 0 12px; }
   .ev-halloween-day p:not(.ev-halloween-tagline) { font-size:14.5px; line-height:1.6; color:rgba(255,255,255,0.65); margin:0 0 20px; }
   .ev-halloween-day .courts-commentary { margin-top:auto; padding-top:16px; }
-  .ev-halloween-day .btn { margin-top:22px; align-self:flex-start; }
+  .ev-halloween-day .btn, .ev-halloween-day .soon-pill { margin-top:22px; align-self:flex-start; }
   .ev-halloween-day--fri .ev-halloween-date, .ev-halloween-day--sat .ev-halloween-date { color:rgba(23,23,23,0.85); }
   .ev-halloween-day--fri h4, .ev-halloween-day--sat h4 { color:var(--black); }
   .ev-halloween-day--fri .ev-halloween-tagline, .ev-halloween-day--sat .ev-halloween-tagline { color:rgba(23,23,23,0.85); }
@@ -315,6 +315,11 @@
 
   .page-hero .photo { opacity: 1; }
   .page-hero .photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(23,23,23,0.55) 0%, rgba(23,23,23,0.45) 30%, rgba(23,23,23,0.78) 100%); }
+
+  /* ---------- Coming-soon CTA pill (replaces booking links pre-launch) ---------- */
+  .soon-pill { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 999px; padding: 13px 22px; white-space: nowrap; }
+  .soon-pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+  .soon-pill--dark { color: rgba(255,255,255,0.78); background: transparent; border-color: rgba(255,255,255,0.28); }
 
 
 </style>
@@ -639,7 +644,7 @@
             <h4>Halloween Shootout</h4>
             <p class="ev-halloween-tagline">Wear a costume. Bring a jumper.</p>
             <span class="courts-commentary">Dribble. Shoot. Boo.</span>
-            <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206883-halloween-basketball-shootout" target="_blank" rel="noopener" class="btn btn-primary" data-booking-type="halloween-shootout">Register for Basketball →</a>
+            <span class="soon-pill">Save the Date. Registration Opens Soon.</span>
           </div>
           <div class="ev-halloween-day ev-halloween-day--sat">
             <svg class="ev-halloween-day-web ev-halloween-day-web--br" aria-hidden="true" width="160" height="160" viewBox="0 0 90 90" fill="none" style="transform:rotate(180deg);"><g stroke="rgba(23,23,23,0.28)" stroke-width="1.1"><path d="M0,0 L90,0"/><path d="M0,0 L0,90"/><path d="M0,0 L90,90"/><path d="M0,0 L64,22"/><path d="M0,0 L22,64"/><path d="M12,0 Q12,12 0,12"/><path d="M28,0 Q28,28 0,28"/><path d="M50,0 Q50,50 0,50"/><path d="M72,0 Q72,72 0,72"/></g></svg>
@@ -661,7 +666,7 @@
             <h4>Volleyween</h4>
             <p class="ev-halloween-tagline">Wear a costume. Bring your kneepads.</p>
             <span class="courts-commentary">Bump. Set. Boo.</span>
-            <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206884-volleyween" target="_blank" rel="noopener" class="btn btn-secondary" data-booking-type="volleyween">Register for Volleyball →</a>
+            <span class="soon-pill">Save the Date. Registration Opens Soon.</span>
           </div>
         </div>
       </div>
@@ -800,7 +805,7 @@
           <!-- INTERNAL ONLY — DO NOT PUBLISH: Confirm public performance / screening rights for this film before this event is promoted publicly. -->
           <div class="hero-ctas ctas" style="justify-content:center;">
             <a href="https://youtu.be/kmY-rYS7yng?si=OmYEtnJ3JZn2W79G" class="btn btn-on-dark" target="_blank" rel="noopener">Watch the Trailer ↗</a>
-            <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206887-goat-movie-night" target="_blank" rel="noopener" class="btn btn-primary" data-booking-type="goat-movie-night">Save Your Spot →</a>
+            <span class="soon-pill soon-pill--dark">Save the Date. Registration Opens Soon.</span>
           </div>
         </div>
       </div>
@@ -875,7 +880,7 @@
             <span>Basketball</span><span>Volleyball</span><span>Games</span><span>Challenges</span><span>Music</span><span>Prizes</span>
           </div>
           <span class="ev-halloween-access">Members $35 &middot; Non-Members $45</span>
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206889-holiday-classic" target="_blank" rel="noopener" class="btn btn-primary" data-booking-type="holiday-classic">Register →</a>
+          <span class="soon-pill soon-pill--dark">Save the Date. Registration Opens Soon.</span>
           <span class="courts-commentary courts-commentary--on-dark">Holiday spirit. Competitive spirit. We&rsquo;ll take both.</span>
         </div>
       </div>

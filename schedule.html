@@ -98,6 +98,8 @@
   .mcal-pop-title { font-family: var(--font-display); font-weight: 900; font-size: 17px; margin: 0 0 10px; line-height: 1.2; }
   .mcal-pop-link { font-family: var(--font-heading); font-weight: 700; font-size: 13px; color: var(--white); background: var(--orange); padding: 8px 16px; border-radius: 999px; display: inline-flex; align-items: center; gap: 5px; }
   .mcal-pop-link:hover { background: var(--orange-hover); }
+  .mcal-pop-soon { font-family: var(--font-sport); font-weight: 700; font-size: 11.5px; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(255,255,255,0.78); background: transparent; border: 1.5px solid rgba(255,255,255,0.28); padding: 8px 14px; border-radius: 999px; display: inline-flex; align-items: center; gap: 7px; }
+  .mcal-pop-soon::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
 
 
   @media (max-width: 860px) {
@@ -532,16 +534,16 @@
     { start: '2026-10-23', sortMin: 1080, time: '', sport: 'bb', title: 'Fall League Kicks Off', meta: 'Teams set, practices + games begin', short: 'League Kickoff', cta: 'View League →', href: 'leagues#fall-league' },
     { start: '2026-10-24', sortMin: 540, time: '', sport: 'bb', title: 'First Fall League Games', meta: 'Somebody&rsquo;s keeping score now', short: 'First Games', cta: 'View League →', href: 'leagues#fall-league' },
     { start: '2026-10-28', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'School lets out early', short: 'Early Release', cta: 'View Camps →', href: 'camps#board', priority: true },
-    { start: '2026-10-30', sortMin: 1140, time: '', sport: 'bb', title: 'Halloween Shootout', meta: 'Costume-optional basketball night', short: 'Halloween Shootout', cta: 'Register for Basketball →', href: 'https://app.upperhand.io/customers/2876-the-courts-llc/events/206883-halloween-basketball-shootout', external: true },
-    { start: '2026-10-31', sortMin: 1140, time: '', sport: 'vb', title: 'Volleyween', meta: 'Costume-optional volleyball night', short: 'Volleyween', cta: 'Register for Volleyball →', href: 'https://app.upperhand.io/customers/2876-the-courts-llc/events/206884-volleyween', external: true },
+    { start: '2026-10-30', sortMin: 1140, time: '', sport: 'bb', title: 'Halloween Shootout', meta: 'Costume-optional basketball night', short: 'Halloween Shootout', soon: true },
+    { start: '2026-10-31', sortMin: 1140, time: '', sport: 'vb', title: 'Volleyween', meta: 'Costume-optional volleyball night', short: 'Volleyween', soon: true },
     { start: '2026-11-03', sortMin: 480, time: '', sport: 'both', title: 'No School Day Camp', meta: 'No school? No problem', short: 'No School Camp', cta: 'View Camps →', href: 'camps#board', priority: true },
     { start: '2026-11-14', sortMin: 600, time: '', sport: 'general', title: 'What Makes a Great Player?', meta: 'Parent talk', short: 'Parent Talk', cta: 'RSVP →', href: 'contact?interest=Something%20Else#contact-form', preset: 'Something Else' },
     { start: '2026-11-18', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'Another early release', short: 'Early Release', cta: 'View Camps →', href: 'camps#board', priority: true },
     { start: '2026-11-23', end: '2026-11-25', sortMin: 480, time: '', sport: 'both', title: 'Thanksgiving Break Camp', meta: 'Three days before turkey', short: 'Thanksgiving Camp', cta: 'View Camps →', href: 'camps#board', priority: true },
-    { start: '2026-12-05', sortMin: 1080, time: '6&ndash;9 PM', sport: 'general', title: 'GOAT Movie Night', meta: 'Pizza + a movie', short: 'Movie Night', cta: 'Save Your Spot →', href: 'https://app.upperhand.io/customers/2876-the-courts-llc/events/206887-goat-movie-night', external: true },
+    { start: '2026-12-05', sortMin: 1080, time: '6&ndash;9 PM', sport: 'general', title: 'GOAT Movie Night', meta: 'Pizza + a movie', short: 'Movie Night', soon: true },
     { start: '2026-12-09', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'They&rsquo;re letting them out early again', short: 'Early Release', cta: 'View Camps →', href: 'camps#board', priority: true },
     { start: '2026-12-11', end: '2026-12-13', sortMin: 540, time: '', sport: 'bb', title: 'Fall League Tournament', meta: 'The season closes out', short: 'Tournament', cta: 'View League →', href: 'leagues#fall-league' },
-    { start: '2026-12-18', sortMin: 1020, time: '5&ndash;8 PM', sport: 'both', title: 'Holiday Classic', meta: 'Members $35 &middot; Non-Members $45', short: 'Holiday Classic', cta: 'Register →', href: 'https://app.upperhand.io/customers/2876-the-courts-llc/events/206889-holiday-classic', external: true },
+    { start: '2026-12-18', sortMin: 1020, time: '5&ndash;8 PM', sport: 'both', title: 'Holiday Classic', meta: 'Members $35 &middot; Non-Members $45', short: 'Holiday Classic', soon: true },
     { start: '2026-12-21', end: '2026-12-23', sortMin: 480, time: '', sport: 'both', title: 'Holiday Break Camp', meta: 'The break is long', short: 'Holiday Camp', cta: 'View Camps →', href: 'camps#board', priority: true },
     { start: '2026-12-28', end: '2026-12-30', sortMin: 480, time: '', sport: 'both', title: 'New Year Camp', meta: 'One more run before the year ends', short: 'New Year Camp', cta: 'View Camps →', href: 'camps#board', priority: true }
   ];
@@ -616,7 +618,11 @@
         var meta = timeLine ? (timeLine + (it.meta ? ' &middot; ' + it.meta : '')) : it.meta;
         out += '<span class="mcal-pop-time">' + meta + '</span><p class="mcal-pop-title">' + it.title + '</p>';
       }
-      out += '<a class="mcal-pop-link" href="' + it.href + '"' + attrs + preset + '>' + it.cta + '</a></div>';
+      if (it.soon) {
+        out += '<span class="mcal-pop-soon">Save the Date. Registration Opens Soon.</span></div>';
+      } else {
+        out += '<a class="mcal-pop-link" href="' + it.href + '"' + attrs + preset + '>' + it.cta + '</a></div>';
+      }
     });
     out += '</div></div>';
     return out;
