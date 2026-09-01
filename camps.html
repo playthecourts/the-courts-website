@@ -15,6 +15,20 @@
 <style>
   /* ---------- Hero next-up ---------- */
 
+  /* ---------- Camp status callout ---------- */
+  .camp-status { padding: 64px 0 8px; text-align: center; }
+  .camp-status-box { max-width: 720px; margin: 0 auto; background: var(--gray-light); border-left: 5px solid var(--orange); border-radius: var(--radius-md); padding: clamp(30px,4vw,44px) clamp(28px,4vw,44px); }
+  .camp-status-box .eyebrow { display: block; margin-bottom: 12px; }
+  .camp-status-box h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px,3vw,30px); margin: 0 0 14px; line-height: 1.1; }
+  .camp-status-box p { font-size: 16px; line-height: 1.65; color: var(--gray-dark); max-width: 58ch; margin: 0 auto; }
+  .camp-status-lead { font-weight: 800; color: var(--black); margin-top: 16px; }
+  .camp-schedule-note { font-size: 14px; font-style: italic; color: var(--gray-dark); max-width: 60ch; margin: 18px auto 0; text-align: center; line-height: 1.6; }
+
+  /* ---------- Coming-soon CTA pill (replaces booking links pre-launch) ---------- */
+  .soon-pill { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 999px; padding: 13px 22px; white-space: nowrap; }
+  .soon-pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+  .soon-pill--dark { color: rgba(255,255,255,0.78); background: transparent; border-color: rgba(255,255,255,0.28); padding: 10px 18px; }
+
   /* ---------- Camp feature: basketball / volleyball split ---------- */
   .camp-feature { padding: 76px 0; }
   .camp-split-grid { display: grid; grid-template-columns: 1fr 1px 1fr; gap: 48px; align-items: start; }
@@ -240,6 +254,17 @@
   </div>
 </section>
 
+<section class="camp-status">
+  <div class="container">
+    <div class="camp-status-box">
+      <span class="eyebrow">Camp Schedule</span>
+      <h2>Camp Schedule Is Coming Together.</h2>
+      <p>We&rsquo;ve got the dates and programming planned. We&rsquo;re just finishing up the backend setup so registration is smooth when it opens.</p>
+      <p class="camp-status-lead">Here&rsquo;s what we&rsquo;re planning:</p>
+    </div>
+  </div>
+</section>
+
 <section class="camp-feature" id="fall-break">
   <div class="container">
     <div class="section-head center" style="margin-bottom:56px;">
@@ -260,7 +285,7 @@
           </div>
           <div class="camp-split-action">
             <p class="camp-feature-price">$225 <span class="member-price">&middot; Members $195</span></p>
-            <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206640-fall-break-basketball-camp" target="_blank" rel="noopener" class="btn btn-primary" data-booking-type="fall-break-basketball-camp">Register for Basketball →</a>
+            <span class="soon-pill">Stay Tuned. More Soon.</span>
           </div>
         </div>
       </div>
@@ -278,7 +303,7 @@
           </div>
           <div class="camp-split-action">
             <p class="camp-feature-price">$225 <span class="member-price">&middot; Members $195</span></p>
-            <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206641-fall-break-volleyball-camp" target="_blank" rel="noopener" class="btn btn-primary" data-booking-type="fall-break-volleyball-camp">Register for Volleyball →</a>
+            <span class="soon-pill">Stay Tuned. More Soon.</span>
           </div>
         </div>
       </div>
@@ -294,12 +319,12 @@
         <div class="camp-comp-cta">
           <span>Basketball</span>
           <strong>$65 <span class="member-price">&middot; Members $55</span></strong>
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206644-fall-break-basketball-competition-day" target="_blank" rel="noopener" data-booking-type="fall-break-basketball-competition">Add Friday →</a>
+          <span class="soon-pill soon-pill--dark">Stay Tuned. More Soon.</span>
         </div>
         <div class="camp-comp-cta">
           <span>Volleyball</span>
           <strong>$65 <span class="member-price">&middot; Members $55</span></strong>
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206645-fall-break-volleyball-competition-day" target="_blank" rel="noopener" data-booking-type="fall-break-volleyball-competition">Add Friday →</a>
+          <span class="soon-pill soon-pill--dark">Stay Tuned. More Soon.</span>
         </div>
       </div>
     </div>
@@ -311,7 +336,8 @@
     <div class="section-head center">
       <span class="eyebrow" style="font-size:22px;">Coming Up</span>
       <h2 class="section-title">So Many Days Off. So Little Time.</h2>
-      <p class="section-sub">Every early release, break, and holiday &mdash; mapped out and ready to book.<br>Space is limited and advance registration is required.</p>
+      <p class="section-sub">Every early release, break, and holiday we&rsquo;re planning &mdash; mapped out below.<br>Registration opens as each date goes live.</p>
+      <p class="camp-schedule-note">Dates and programming are planned and may shift slightly as we finish the schedule. Registration links will be added as each camp goes live.</p>
     </div>
     <div class="camp-filter" id="campFilterMonth">
       <button type="button" class="camp-filter-btn active" data-filter="all">All</button>
@@ -335,8 +361,8 @@
               <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span><span class="cal-combo-price">$225 &middot; Members $195</span></div>
             </div>
             <div class="cal-combo-actions">
-              <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206640-fall-break-basketball-camp" target="_blank" rel="noopener" class="cal-action" data-sport="bb" data-booking-type="fall-break-basketball-camp">Basketball →</a>
-              <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206641-fall-break-volleyball-camp" target="_blank" rel="noopener" class="cal-action" data-sport="vb" data-booking-type="fall-break-volleyball-camp">Volleyball →</a>
+              <span class="cal-action cal-action--soon" data-sport="bb">Basketball &middot; Soon</span>
+              <span class="cal-action cal-action--soon" data-sport="vb">Volleyball &middot; Soon</span>
             </div>
           </div>
           <div class="cal-row cal-row--combo reveal">
@@ -346,8 +372,8 @@
               <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball</span><span class="cal-combo-price">$65 &middot; Members $55</span><span class="cal-tag">Optional Add-On</span></div>
             </div>
             <div class="cal-combo-actions">
-              <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206644-fall-break-basketball-competition-day" target="_blank" rel="noopener" class="cal-action" data-sport="bb" data-booking-type="fall-break-basketball-competition">Basketball →</a>
-              <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206645-fall-break-volleyball-competition-day" target="_blank" rel="noopener" class="cal-action" data-sport="vb" data-booking-type="fall-break-volleyball-competition">Volleyball →</a>
+              <span class="cal-action cal-action--soon" data-sport="bb">Basketball &middot; Soon</span>
+              <span class="cal-action cal-action--soon" data-sport="vb">Volleyball &middot; Soon</span>
             </div>
           </div>
           <div class="cal-row reveal" data-sport="bb">
