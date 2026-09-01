@@ -98,14 +98,61 @@
   .lg-divisions-note h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(18px, 2vw, 22px); margin: 0 0 10px; color: var(--black); }
   .lg-divisions-note p { font-size: 14.5px; line-height: 1.6; color: var(--gray-dark); margin: 0; }
 
-  .lg-eval-card { background: var(--black); border-radius: var(--radius-lg); padding: clamp(36px,5vw,60px); max-width: 780px; margin: 0 auto; text-align: center; }
-  .lg-eval-card .section-title { color: var(--white); }
-  .lg-eval-when { font-family: var(--font-sport); font-weight: 800; font-size: 16px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); margin: 14px 0 20px; }
-  .lg-eval-body { font-size: 15.5px; line-height: 1.65; color: rgba(255,255,255,0.72); max-width: 52ch; margin: 0 auto 22px; }
-  .lg-eval-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px,2.6vw,28px); color: var(--white); margin: 0 0 28px; }
-  .lg-eval-price span { display: block; font-family: var(--font-heading); font-weight: 500; font-size: 14px; color: rgba(255,255,255,0.6); margin-top: 8px; }
-  .lg-eval-foot { font-size: 13.5px; color: rgba(255,255,255,0.5); max-width: 48ch; margin: 24px auto 0; line-height: 1.6; }
-  .lg-eval-foot a { color: var(--orange); font-weight: 700; }
+  /* ---------- Fall League Evaluation Sign-Up ---------- */
+  .lg-eval-wrap { display: grid; grid-template-columns: 1.4fr 1fr; gap: 60px; align-items: start; }
+  .lg-eval-lede { font-size: 16px; line-height: 1.65; color: var(--gray-dark); max-width: 54ch; margin: 14px 0 0; }
+  .lg-eval-when { font-family: var(--font-sport); font-weight: 800; font-size: 16px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); margin: 18px 0 16px; }
+  .lg-eval-body { font-size: 15.5px; line-height: 1.65; color: var(--gray-dark); max-width: 54ch; margin: 0 0 22px; }
+  .lg-eval-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(20px,2.4vw,24px); color: var(--black); margin: 0 0 36px; }
+  .lg-eval-price span { display: block; font-family: var(--font-heading); font-weight: 500; font-size: 14px; color: var(--gray-dark); margin-top: 8px; max-width: 54ch; line-height: 1.55; }
+
+  .lg-eval-steps { padding-top: 32px; border-top: 1px solid var(--gray-mid); margin-bottom: 36px; }
+  .lg-eval-steps h3 { font-family: var(--font-sport); font-weight: 800; font-size: 14px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--black); margin: 0 0 20px; }
+  .lg-eval-steps ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 18px; }
+  .lg-eval-steps li { display: flex; gap: 16px; align-items: flex-start; }
+  .lg-eval-step-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--orange); color: var(--white); font-family: var(--font-display); font-weight: 900; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+  .lg-eval-steps li strong { display: block; font-family: var(--font-heading); font-weight: 800; font-size: 15.5px; color: var(--black); margin-bottom: 3px; }
+  .lg-eval-steps li p { font-size: 14.5px; line-height: 1.55; color: var(--gray-dark); margin: 0; }
+
+  .lg-eval-season { background: var(--gray-light); border-left: 4px solid var(--orange); border-radius: var(--radius-sm); padding: 18px 22px; }
+  .lg-eval-season h4 { font-family: var(--font-sport); font-weight: 800; font-size: 12.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); margin: 0 0 8px; }
+  .lg-eval-season p { font-size: 14px; line-height: 1.7; color: var(--gray-dark); margin: 0; }
+
+  .lg-eval-form-wrap { background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-lg); padding: clamp(28px,3.5vw,40px); position: sticky; top: 110px; }
+  .lg-eval-form-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(21px,2.2vw,25px); margin: 0 0 24px; }
+  .lg-eval-fgroup { padding-top: 22px; margin-top: 4px; border-top: 1px solid var(--gray-mid); }
+  .lg-eval-fgroup:first-of-type { padding-top: 0; margin-top: 0; border-top: none; }
+  .lg-eval-fgroup-label { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 12px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+  .lg-eval-form-wrap .form-row { margin-bottom: 22px; }
+  .lg-eval-form-wrap .form-row label { display: block; font-family: var(--font-sport); font-weight: 700; font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-dark); margin-bottom: 9px; }
+  .lg-eval-form-wrap .form-row input,
+  .lg-eval-form-wrap .form-row select,
+  .lg-eval-form-wrap .form-row textarea {
+    width: 100%; border: none; border-bottom: 2px solid var(--gray-mid); border-radius: 0; background: transparent;
+    padding: 12px 2px; font-size: 16px; font-family: var(--font-body); color: var(--black); transition: border-color 0.2s var(--ease);
+  }
+  .lg-eval-form-wrap .form-row select {
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23343434' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 4px center; background-size: 11px 7px; padding-right: 22px;
+  }
+  .lg-eval-form-wrap .form-row input:focus,
+  .lg-eval-form-wrap .form-row select:focus,
+  .lg-eval-form-wrap .form-row textarea:focus { outline: none; border-bottom-color: var(--orange); }
+  .lg-eval-form-wrap .form-row textarea { min-height: 76px; resize: vertical; }
+  .lg-eval-form-wrap .form-row.field-invalid input,
+  .lg-eval-form-wrap .form-row.field-invalid select,
+  .lg-eval-form-wrap .form-row.field-invalid textarea { border-bottom-color: #C0392B; }
+  .lg-eval-form-wrap .field-error { display: none; font-size: 12.5px; color: #C0392B; margin-top: 7px; }
+  .lg-eval-form-wrap .form-row.field-invalid .field-error { display: block; }
+  .lg-eval-hint { display: block; font-size: 12.5px; font-style: italic; color: var(--gray-dark); margin-top: 8px; line-height: 1.5; }
+  .lg-eval-form-note { font-size: 12.5px; color: var(--gray-dark); text-align: center; margin: 14px 0 0; line-height: 1.5; }
+  .lg-eval-form-error { display: none; font-size: 13.5px; font-weight: 600; color: #C0392B; text-align: center; margin: 14px 0 0; }
+  .lg-eval-form-error.show { display: block; }
+  .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+  @media (max-width: 980px) { .lg-eval-wrap { grid-template-columns: 1fr; gap: 44px; } .lg-eval-form-wrap { position: static; } }
+  @media (max-width: 560px) { .form-grid-2 { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .lg-eval-form-wrap .form-row input, .lg-eval-form-wrap .form-row select, .lg-eval-form-wrap .form-row textarea { transition: none; } }
 </style>
 </head>
 <body class="has-announce">
@@ -116,7 +163,7 @@
     <span class="site-announce-headline">Fall League. Let's Go.</span>
     <span class="site-announce-detail">Evaluations are <strong>September 12 at 3 PM</strong>. Registration closes September 20.</span>
     <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH AFTER SEPT 12 -->
-    <a href="https://forms.gle/MQwc3d1ib1YbRxpc7" target="_blank" rel="noopener" class="site-announce-cta" data-booking-type="basketball-evaluation-interest">Join the Evaluation List <span class="arrow">→</span></a>
+    <a href="leagues#evaluations" class="site-announce-cta" data-booking-type="basketball-evaluation-interest">Join the Evaluation List <span class="arrow">→</span></a>
   </span>
 </div>
 
@@ -252,7 +299,7 @@
     <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH TO "Complete Fall League Registration →"
          (https://app.upperhand.io/customers/2876-the-courts-llc/events/206630-fall-2026-basketball-league) AFTER SEPT 12 -->
     <div class="hero-ctas ctas">
-      <a href="https://forms.gle/MQwc3d1ib1YbRxpc7" target="_blank" rel="noopener" class="btn btn-primary" data-booking-type="basketball-evaluation-interest">Join the Evaluation List →</a>
+      <a href="#evaluations" class="btn btn-primary" data-booking-type="basketball-evaluation-interest">Join the Evaluation List →</a>
       <a href="#fall-league" class="btn btn-on-dark">See How Fall Works ↓</a>
     </div>
     <p class="lg-hero-eval-note">Evaluations · Sept. 12 at 3 PM · $25<span>If you&rsquo;re interested or need more information, complete the form above. The $25 evaluation fee will apply once registration opens.</span></p>
@@ -282,7 +329,7 @@
     <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH TO "Complete Fall League Registration →"
          (https://app.upperhand.io/customers/2876-the-courts-llc/events/206630-fall-2026-basketball-league) AFTER SEPT 12 -->
     <div class="hero-ctas ctas" style="justify-content:center; margin-top:28px;">
-      <a href="https://forms.gle/MQwc3d1ib1YbRxpc7" target="_blank" rel="noopener" class="btn btn-primary" data-booking-type="basketball-evaluation-interest">Join the Evaluation List →</a>
+      <a href="#evaluations" class="btn btn-primary" data-booking-type="basketball-evaluation-interest">Join the Evaluation List →</a>
     </div>
     <p style="text-align:center; margin-top:18px; font-size:13.5px; color:rgba(255,255,255,0.5);">If you&rsquo;re interested or need more information, complete the form above and we&rsquo;ll follow up with next steps. The full $25 evaluation fee is applied toward registration once it opens.</p>
     <p style="text-align:center; margin-top:20px; font-size:14px; color:rgba(255,255,255,0.2); font-style:italic; font-weight:400;">Evaluations help us build balanced teams. Nobody&rsquo;s getting cut, and nobody&rsquo;s auditioning for the NBA.</p>
@@ -332,7 +379,7 @@
             </div>
             <div class="roster-status-wrap">
               <span class="roster-status roster-status--forming"><span class="dot"></span>Teams Forming Now</span>
-              <a href="https://forms.gle/MQwc3d1ib1YbRxpc7" target="_blank" rel="noopener" class="roster-cta" data-booking-type="basketball-evaluation-interest">Join the Evaluation List →</a>
+              <a href="#evaluations" class="roster-cta" data-booking-type="basketball-evaluation-interest">Join the Evaluation List →</a>
             </div>
           </div>
           <div class="roster-row">
@@ -342,7 +389,7 @@
             </div>
             <div class="roster-status-wrap">
               <span class="roster-status roster-status--forming"><span class="dot"></span>Team Forming Now</span>
-              <a href="https://forms.gle/MQwc3d1ib1YbRxpc7" target="_blank" rel="noopener" class="roster-cta" data-booking-type="basketball-evaluation-interest">Join the Evaluation List →</a>
+              <a href="#evaluations" class="roster-cta" data-booking-type="basketball-evaluation-interest">Join the Evaluation List →</a>
             </div>
           </div>
           <div class="roster-row">
@@ -352,7 +399,7 @@
             </div>
             <div class="roster-status-wrap">
               <span class="roster-status roster-status--forming"><span class="dot"></span>Team Forming Now</span>
-              <a href="https://forms.gle/MQwc3d1ib1YbRxpc7" target="_blank" rel="noopener" class="roster-cta" data-booking-type="basketball-evaluation-interest">Join the Evaluation List →</a>
+              <a href="#evaluations" class="roster-cta" data-booking-type="basketball-evaluation-interest">Join the Evaluation List →</a>
             </div>
           </div>
           <div class="roster-row">
@@ -380,16 +427,84 @@
 
 <section style="padding:24px 0 96px;" id="evaluations">
   <div class="container">
-    <div class="lg-eval-card">
-      <span class="eyebrow">Fall League Evaluations</span>
-      <h2 class="section-title">Come Show Us Your Game.</h2>
-      <p class="lg-eval-when">Saturday, September 12 · 3 PM</p>
-      <p class="lg-eval-body">Evaluations help us understand skill level, build balanced teams, and determine the best team and division structure based on the athletes who want to play.</p>
-      <p class="lg-eval-price">$25 per athlete<span>If you&rsquo;re interested or need more information, complete the form below. The $25 fee is applied toward Fall League registration once it opens.</span></p>
-      <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH TO "Complete Fall League Registration →"
-           (https://app.upperhand.io/customers/2876-the-courts-llc/events/206630-fall-2026-basketball-league) AFTER SEPT 12 -->
-      <a href="https://forms.gle/MQwc3d1ib1YbRxpc7" target="_blank" rel="noopener" class="btn btn-primary" data-booking-type="basketball-evaluation-interest">Join the Evaluation List →</a>
-      <p class="lg-eval-foot">Don&rsquo;t see your athlete&rsquo;s division above? Complete the form so we know you&rsquo;re interested, or join the <a href="https://app.upperhand.io/customers/2876-the-courts-llc/teams/206713-fall-basketball-league-interest-list" target="_blank" rel="noopener">Interest List</a>.</p>
+    <div class="lg-eval-wrap">
+      <div class="lg-eval-intro">
+        <span class="eyebrow">Fall League Evaluations</span>
+        <h2 class="section-title">Raise Your Hand. We&rsquo;ll See You at Evaluations.</h2>
+        <p class="lg-eval-lede">We&rsquo;re building teams for the upcoming fall basketball season with West Nashville Sports League (WNSL), and the first step is Evaluation Day.</p>
+        <p class="lg-eval-when">Saturday, September 12 &middot; 3 PM</p>
+        <p class="lg-eval-body">There are no cuts. Evaluations simply help us get to know each athlete, understand skill levels, and build balanced teams with smaller rosters, meaningful playing time, and the right level of competition.</p>
+        <p class="lg-eval-price">Evaluation Fee: $25<span>We&rsquo;ll send you the evaluation registration and payment link shortly after you submit this form. If your athlete joins a fall team, the full $25 evaluation fee will be applied toward Fall League registration.</span></p>
+
+        <div class="lg-eval-steps">
+          <h3>What Happens Next</h3>
+          <ol>
+            <li><span class="lg-eval-step-num">1</span><div><strong>Raise your hand here.</strong><p>Let us know your athlete plans to attend evaluations on September 12 at 3 PM.</p></div></li>
+            <li><span class="lg-eval-step-num">2</span><div><strong>Complete evaluation registration.</strong><p>We&rsquo;ll email you the $25 evaluation registration and payment link shortly.</p></div></li>
+            <li><span class="lg-eval-step-num">3</span><div><strong>Join us for Evaluation Day.</strong><p>We&rsquo;ll use evaluations to help create thoughtful, balanced teams. There are no cuts.</p></div></li>
+            <li><span class="lg-eval-step-num">4</span><div><strong>Hear from us after evaluations.</strong><p>Following Evaluation Day, we&rsquo;ll update you on your athlete&rsquo;s team and send you the link to complete Fall League registration.</p></div></li>
+          </ol>
+        </div>
+
+        <div class="lg-eval-season">
+          <h4>Fall Season</h4>
+          <p>Season: October 24&ndash;December 13<br>Regular Season: October 24&ndash;December 5<br>End-of-Season Tournament: December 11&ndash;13</p>
+        </div>
+      </div>
+
+      <div class="lg-eval-form-wrap">
+        <form id="evalForm" novalidate>
+          <h3 class="lg-eval-form-title">Raise Your Hand</h3>
+
+          <div class="lg-eval-fgroup">
+            <span class="lg-eval-fgroup-label">Parent / Guardian</span>
+            <div class="form-grid-2">
+              <div class="form-row"><label for="ev-parent-name">Parent / Guardian Name</label><input type="text" id="ev-parent-name" name="parent_name" required><span class="field-error"></span></div>
+              <div class="form-row"><label for="ev-email">Email</label><input type="email" id="ev-email" name="email" required><span class="field-error"></span></div>
+            </div>
+            <div class="form-row"><label for="ev-phone">Phone</label><input type="tel" id="ev-phone" name="phone" required><span class="field-error"></span></div>
+          </div>
+
+          <div class="lg-eval-fgroup">
+            <span class="lg-eval-fgroup-label">Athlete</span>
+            <div class="form-row"><label for="ev-player-name">Player Name</label><input type="text" id="ev-player-name" name="player_name" required><span class="field-error"></span></div>
+            <div class="form-grid-2">
+              <div class="form-row"><label for="ev-player-gender">Player Gender</label><select id="ev-player-gender" name="player_gender" required><option value="">Select one</option><option>Boy</option><option>Girl</option></select><span class="field-error"></span></div>
+              <div class="form-row"><label for="ev-player-grade">Current Grade <span class="form-optional-tag">2026&ndash;27 School Year</span></label><select id="ev-player-grade" name="player_grade" required><option value="">Select one</option><option>3rd</option><option>4th</option><option>5th</option><option>6th</option><option>7th</option><option>Other</option></select><span class="field-error"></span></div>
+            </div>
+            <div class="form-row"><label for="ev-school">School <span class="form-optional-tag">Optional</span></label><input type="text" id="ev-school" name="school"></div>
+          </div>
+
+          <div class="lg-eval-fgroup">
+            <span class="lg-eval-fgroup-label">Evaluation Day</span>
+            <div class="form-row"><label for="ev-attendance">Will your athlete attend Fall League Evaluations on Saturday, September 12 at 3 PM?</label><select id="ev-attendance" name="evaluation_attendance" required><option value="">Select one</option><option>Yes &mdash; we&rsquo;ll be there</option><option>We&rsquo;re planning to, but need to confirm</option><option>I&rsquo;m interested, but need more information first</option></select><span class="field-error"></span></div>
+            <div class="form-row"><label for="ev-organized-bball">Has your athlete played organized basketball before? <span class="form-optional-tag">Optional</span></label><select id="ev-organized-bball" name="organized_basketball"><option value="">Select one</option><option>Yes</option><option>No</option></select></div>
+            <div class="form-row" id="evExperienceRow" hidden><label for="ev-experience">Tell us a little about their basketball experience. <span class="form-optional-tag">Optional</span></label><textarea id="ev-experience" name="basketball_experience"></textarea></div>
+          </div>
+
+          <div class="lg-eval-fgroup">
+            <span class="lg-eval-fgroup-label">Fall League</span>
+            <div class="form-row"><label for="ev-interest">If we&rsquo;re able to place your athlete on a team that works with your schedule, how likely are you to participate this fall?</label><select id="ev-interest" name="fall_league_interest" required><option value="">Select one</option><option>Definitely &mdash; we&rsquo;re planning to play</option><option>Very likely</option><option>Interested, but still deciding</option><option>Just looking for more information</option></select><span class="field-error"></span></div>
+            <div class="form-row"><label for="ev-placement">Is there a specific athlete, coach, or group you&rsquo;d like your athlete to be placed with? <span class="form-optional-tag">Optional</span></label><textarea id="ev-placement" name="placement_request"></textarea><span class="lg-eval-hint">We&rsquo;ll do our best to accommodate requests, but team placement will ultimately be based on grade, skill level, roster balance, and overall numbers.</span></div>
+            <div class="form-row"><label for="ev-conflicts">Are there any scheduling conflicts or considerations we should know about for practices or games? <span class="form-optional-tag">Optional</span></label><textarea id="ev-conflicts" name="scheduling_conflicts"></textarea></div>
+            <div class="form-row"><label for="ev-notes">Anything else you&rsquo;d like us to know about your athlete? <span class="form-optional-tag">Optional</span></label><textarea id="ev-notes" name="additional_notes"></textarea></div>
+          </div>
+
+          <input type="hidden" name="source" value="Website - Fall League Evaluation Sign-Up">
+          <input type="hidden" name="signup_page" class="lg-eval-signup-page" value="">
+
+          <button type="submit" class="btn btn-primary btn-block" id="evalFormSubmit">Raise My Hand →</button>
+          <p class="lg-eval-form-note">Submitting this form does not complete registration or require payment. We&rsquo;ll follow up with next steps.</p>
+          <p class="lg-eval-form-error" id="evalFormError" hidden>That didn&rsquo;t go through. Give it another try.</p>
+        </form>
+        <div id="evalFormSuccess" class="form-success" style="display:none;">
+          <h3>You&rsquo;re on the list.</h3>
+          <p>We&rsquo;ll see you for Fall League Evaluations on Saturday, September 12 at 3 PM.</p>
+          <p>We&rsquo;ll email the $25 evaluation registration and payment link shortly.</p>
+          <p>Following evaluations, we&rsquo;ll update you on team placement and send everything you need to complete Fall League registration.</p>
+          <p>Keep an eye on your inbox.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -408,7 +523,7 @@
         <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH TO "Complete Fall League Registration →"
              (https://app.upperhand.io/customers/2876-the-courts-llc/events/206630-fall-2026-basketball-league) AFTER SEPT 12 -->
         <div class="ctas" style="display:flex; gap:14px; flex-wrap:wrap; margin:4px 0 16px;">
-          <a href="https://forms.gle/MQwc3d1ib1YbRxpc7" target="_blank" rel="noopener" class="btn btn-primary" data-booking-type="basketball-evaluation-interest">Join the Evaluation List →</a>
+          <a href="#evaluations" class="btn btn-primary" data-booking-type="basketball-evaluation-interest">Join the Evaluation List →</a>
           <a href="https://app.upperhand.io/customers/2876-the-courts-llc/teams/206713-fall-basketball-league-interest-list" target="_blank" rel="noopener" class="btn btn-on-dark" data-booking-type="basketball-league-interest">Don&rsquo;t See Your Division? Join the Interest List →</a>
         </div>
         <p class="lg-nextup-foot">Weekly membership or higher required for league participation.</p>
@@ -611,6 +726,93 @@
     </div>
   </div>
 </footer>
+
+<script>
+(function () {
+  var form = document.getElementById('evalForm');
+  if (!form) return;
+  var success = document.getElementById('evalFormSuccess');
+  var errorEl = document.getElementById('evalFormError');
+  var submitBtn = document.getElementById('evalFormSubmit');
+  var defaultLabel = submitBtn.textContent;
+  var signupPageField = form.querySelector('.lg-eval-signup-page');
+  signupPageField.value = window.location.pathname;
+
+  var orgBball = document.getElementById('ev-organized-bball');
+  var experienceRow = document.getElementById('evExperienceRow');
+  orgBball.addEventListener('change', function () {
+    experienceRow.hidden = orgBball.value !== 'Yes';
+  });
+
+  var errorMessages = {
+    'ev-parent-name': 'Enter a parent/guardian name',
+    'ev-email': 'Add a valid email address',
+    'ev-phone': 'Add a phone number',
+    'ev-player-name': 'Enter the player&rsquo;s name',
+    'ev-player-gender': 'Choose one',
+    'ev-player-grade': 'Choose one',
+    'ev-attendance': 'Let us know if they&rsquo;ll attend',
+    'ev-interest': 'Choose one'
+  };
+  var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function showError(row, msg) {
+    row.classList.add('field-invalid');
+    var err = row.querySelector('.field-error');
+    if (err) err.innerHTML = msg;
+  }
+  function clearError(row) { row.classList.remove('field-invalid'); }
+
+  form.querySelectorAll('input, select, textarea').forEach(function (field) {
+    var clear = function () { var row = field.closest('.form-row'); if (row) clearError(row); };
+    field.addEventListener('input', clear);
+    field.addEventListener('change', clear);
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (submitBtn.disabled) return;
+
+    var valid = true;
+    Object.keys(errorMessages).forEach(function (id) {
+      var field = document.getElementById(id);
+      var row = field.closest('.form-row');
+      var val = field.value.trim();
+      if (!val || (id === 'ev-email' && !emailPattern.test(val))) {
+        valid = false;
+        showError(row, errorMessages[id]);
+      } else {
+        clearError(row);
+      }
+    });
+
+    if (!valid) {
+      var firstInvalid = form.querySelector('.field-invalid');
+      if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    errorEl.classList.remove('show');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    fetch('https://formspree.io/f/xeaqjjzn', {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function (res) {
+      if (!res.ok) throw new Error('Submission failed');
+      form.style.display = 'none';
+      success.style.display = 'block';
+      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }).catch(function () {
+      errorEl.classList.add('show');
+      submitBtn.disabled = false;
+      submitBtn.textContent = defaultLabel;
+    });
+  });
+})();
+</script>
 
 <script src="js/script.js"></script>
 </body>

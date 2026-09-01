@@ -24,6 +24,19 @@
   /* ---------- Hero: quiet opening/location line ---------- */
   .ev-hero-quiet { font-family:var(--font-sport); font-weight:700; font-size:18px; letter-spacing:0.06em; text-transform:uppercase; color:rgba(255,255,255,0.85); line-height:1.7; margin:22px 0 0; }
 
+  /* ---------- Events status callout ---------- */
+  .ev-status { padding: 44px 0 0; text-align: center; }
+  .ev-status-box { max-width: 680px; margin: 0 auto; background: var(--gray-light); border-left: 5px solid var(--orange); border-radius: var(--radius-md); padding: clamp(24px,3.5vw,34px) clamp(26px,4vw,38px); }
+  .ev-status-box h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(20px,2.4vw,25px); margin: 0 0 10px; line-height: 1.15; }
+  .ev-status-box p { font-size: 15px; line-height: 1.6; color: var(--gray-dark); max-width: 56ch; margin: 0 auto; }
+
+  /* ---------- Save-the-date two-line status ---------- */
+  .soon-savedate { display: inline-flex; flex-direction: column; gap: 2px; }
+  .soon-savedate strong { font-family: var(--font-display); font-weight: 900; font-size: 15px; color: var(--black); text-transform: uppercase; letter-spacing: 0.02em; }
+  .soon-savedate span { font-family: var(--font-heading); font-weight: 500; font-size: 13px; color: var(--gray-dark); }
+  .soon-savedate--dark strong { color: var(--white); }
+  .soon-savedate--dark span { color: rgba(255,255,255,0.6); }
+
   /* ---------- Featured posters ---------- */
   .ev-poster { display:block; position:relative; text-decoration:none; border-radius:var(--radius-md); overflow:hidden; margin-bottom:20px; }
   .ev-poster--grand { background:var(--black); min-height:420px; }
@@ -332,7 +345,7 @@
     <span class="site-announce-headline">Fall League. Let's Go.</span>
     <span class="site-announce-detail">Evaluations are <strong>September 12 at 3 PM</strong>. Registration closes September 20.</span>
     <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH AFTER SEPT 12 -->
-    <a href="https://forms.gle/MQwc3d1ib1YbRxpc7" target="_blank" rel="noopener" class="site-announce-cta" data-booking-type="basketball-evaluation-interest">Join the Evaluation List <span class="arrow">→</span></a>
+    <a href="leagues#evaluations" class="site-announce-cta" data-booking-type="basketball-evaluation-interest">Join the Evaluation List <span class="arrow">→</span></a>
   </span>
 </div>
 
@@ -471,6 +484,15 @@
   </div>
 </section>
 
+<section class="ev-status">
+  <div class="container">
+    <div class="ev-status-box">
+      <h2>We&rsquo;re Gearing Up.</h2>
+      <p>The calendar is taking shape. We&rsquo;re loading schedules, registration, and all the good stuff now. Stay tuned. It&rsquo;s coming fast.</p>
+    </div>
+  </div>
+</section>
+
 <section style="padding:44px 0 0;" id="lineup">
   <div class="container">
     <div class="section-head" style="margin-bottom:20px;">
@@ -517,7 +539,7 @@
               <span class="ev-eval-stamp">Placement, <span class="accent">Not Cuts.</span></span>
               <p style="font-size:15.5px; color:rgba(255,255,255,0.5); margin:-14px 0 20px;">Your $25 evaluation fee is applied toward Fall League registration if your athlete joins.</p>
               <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH AFTER SEPT 12 -->
-              <a href="https://forms.gle/MQwc3d1ib1YbRxpc7" target="_blank" rel="noopener" class="btn btn-primary" data-booking-type="basketball-evaluation-interest">Join the Evaluation List →</a>
+              <a href="leagues#evaluations" class="btn btn-primary" data-booking-type="basketball-evaluation-interest">Join the Evaluation List →</a>
             </div>
           </div>
         </div>
@@ -644,7 +666,7 @@
             <h4>Halloween Shootout</h4>
             <p class="ev-halloween-tagline">Wear a costume. Bring a jumper.</p>
             <span class="courts-commentary">Dribble. Shoot. Boo.</span>
-            <span class="soon-pill">Save the Date. Registration Opens Soon.</span>
+            <span class="soon-savedate"><strong>Save the Date</strong><span>Registration coming soon.</span></span>
           </div>
           <div class="ev-halloween-day ev-halloween-day--sat">
             <svg class="ev-halloween-day-web ev-halloween-day-web--br" aria-hidden="true" width="160" height="160" viewBox="0 0 90 90" fill="none" style="transform:rotate(180deg);"><g stroke="rgba(23,23,23,0.28)" stroke-width="1.1"><path d="M0,0 L90,0"/><path d="M0,0 L0,90"/><path d="M0,0 L90,90"/><path d="M0,0 L64,22"/><path d="M0,0 L22,64"/><path d="M12,0 Q12,12 0,12"/><path d="M28,0 Q28,28 0,28"/><path d="M50,0 Q50,50 0,50"/><path d="M72,0 Q72,72 0,72"/></g></svg>
@@ -666,7 +688,7 @@
             <h4>Volleyween</h4>
             <p class="ev-halloween-tagline">Wear a costume. Bring your kneepads.</p>
             <span class="courts-commentary">Bump. Set. Boo.</span>
-            <span class="soon-pill">Save the Date. Registration Opens Soon.</span>
+            <span class="soon-pill">Sign-Ups Open Soon</span>
           </div>
         </div>
       </div>
@@ -805,7 +827,7 @@
           <!-- INTERNAL ONLY — DO NOT PUBLISH: Confirm public performance / screening rights for this film before this event is promoted publicly. -->
           <div class="hero-ctas ctas" style="justify-content:center;">
             <a href="https://youtu.be/kmY-rYS7yng?si=OmYEtnJ3JZn2W79G" class="btn btn-on-dark" target="_blank" rel="noopener">Watch the Trailer ↗</a>
-            <span class="soon-pill soon-pill--dark">Save the Date. Registration Opens Soon.</span>
+            <span class="soon-pill soon-pill--dark">Details Dropping Soon</span>
           </div>
         </div>
       </div>
@@ -880,7 +902,7 @@
             <span>Basketball</span><span>Volleyball</span><span>Games</span><span>Challenges</span><span>Music</span><span>Prizes</span>
           </div>
           <span class="ev-halloween-access">Members $35 &middot; Non-Members $45</span>
-          <span class="soon-pill soon-pill--dark">Save the Date. Registration Opens Soon.</span>
+          <span class="soon-savedate soon-savedate--dark"><strong>Save the Date</strong><span>Registration coming soon.</span></span>
           <span class="courts-commentary courts-commentary--on-dark">Holiday spirit. Competitive spirit. We&rsquo;ll take both.</span>
         </div>
       </div>
@@ -917,7 +939,7 @@
             <h4>Friday Night at The Courts</h4>
             <p style="text-wrap:balance;">Lights down. Music up. Courts open.<br>We're turning the first Friday of the month into something worth leaving the house for.</p>
             <span class="courts-commentary">You'll want in.</span>
-            <a href="contact?interest=Something%20Else#contact-form" class="cal-link" data-preset="Something Else">Get First Dibs →</a>
+            <span class="soon-pill">Stay Tuned</span>
           </div>
         </div>
       </div>
