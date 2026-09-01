@@ -83,6 +83,16 @@
   .plan-card-cta:hover .arrow { transform: translateX(4px); }
   .plan-card-cta:hover { color: var(--orange); }
 
+  .plan-card-soon { margin-top: auto; font-family: var(--font-sport); font-weight: 700; font-size: 13.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--gray-dark); display: inline-flex; align-items: center; gap: 9px; padding-top: 18px; border-top: 1px solid var(--gray-mid); }
+  .plan-card-soon::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+
+  /* ---------- Membership status callout ---------- */
+  .mem-status { max-width: 720px; margin: 0 auto 48px; background: var(--gray-light); border-left: 5px solid var(--orange); border-radius: var(--radius-md); padding: clamp(28px,4vw,40px) clamp(28px,4vw,40px); text-align: center; }
+  .mem-status .eyebrow { display: block; margin-bottom: 12px; }
+  .mem-status h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px,2.8vw,28px); margin: 0 0 14px; line-height: 1.15; }
+  .mem-status p { font-size: 16px; line-height: 1.65; color: var(--gray-dark); max-width: 58ch; margin: 0 auto; }
+  .mem-status-open { font-weight: 800; color: var(--black); margin-top: 14px; }
+
   @media (max-width: 900px) {
     .plan-module { grid-template-columns: 1fr; border-top: none; }
     .plan-card { border-left: none; border-top: 1px solid var(--gray-mid); padding: 36px 4px 36px; }
@@ -182,7 +192,7 @@
     <span class="site-announce-headline">Fall League. Let's Go.</span>
     <span class="site-announce-detail">Evaluations are <strong>September 12 at 3 PM</strong>. Registration closes September 20.</span>
     <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH AFTER SEPT 12 -->
-    <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206626-fall-basketball-league-evaluations" target="_blank" rel="noopener" class="site-announce-cta" data-booking-type="basketball-evaluation">Save Your Evaluation Spot <span class="arrow">→</span></a>
+    <a href="https://forms.gle/MQwc3d1ib1YbRxpc7" target="_blank" rel="noopener" class="site-announce-cta" data-booking-type="basketball-evaluation-interest">Join the Evaluation List <span class="arrow">→</span></a>
   </span>
 </div>
 
@@ -247,7 +257,7 @@
     </nav>
     <div class="nav-cta">
       <a href="member-portal" class="btn btn-secondary">Login</a>
-      <a href="https://app.upperhand.io/customers/2876-the-courts-llc/create_user" target="_blank" rel="noopener" class="btn btn-primary">Become a Member</a>
+      <span class="btn btn-secondary">Enrollment Opens Soon</span>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -305,7 +315,7 @@
     </div>
   </div>
   <a href="contact">Contact</a>
-  <a href="https://app.upperhand.io/customers/2876-the-courts-llc/create_user" target="_blank" rel="noopener" class="btn btn-primary btn-block">Become a Member</a>
+  <span class="btn btn-secondary btn-block">Enrollment Opens Soon</span>
 </div>
 
 <section class="mem-hero" id="main">
@@ -340,6 +350,13 @@
       <p>Four sessions. Unlimited training. More one-on-one. Or bring the whole crew.</p>
     </div>
 
+    <div class="mem-status">
+      <span class="eyebrow">Membership Status</span>
+      <h2>Memberships Are Almost Here.</h2>
+      <p>We&rsquo;re putting the finishing touches on the Courts member experience now. Plans and pricing are set. Online enrollment will open soon.</p>
+      <p class="mem-status-open">Opening October 1. Stay tuned.</p>
+    </div>
+
     <div class="plan-module">
       <div class="plan-card" data-plan="weekly">
         <p class="plan-card-num">01</p>
@@ -361,7 +378,7 @@
             <li>Camps &middot; Member pricing</li>
           </ul>
         </details>
-        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/client-memberships/12156" target="_blank" rel="noopener" class="plan-card-cta" data-booking-type="weekly-membership">Choose Weekly <span class="arrow">→</span></a>
+        <span class="plan-card-soon">Enrollment Opens Soon</span>
       </div>
 
       <div class="plan-card plan-card--popular" data-plan="unlimited">
@@ -385,7 +402,7 @@
             <li>Camps &middot; Member pricing</li>
           </ul>
         </details>
-        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/client-memberships/12158" target="_blank" rel="noopener" class="plan-card-cta" data-booking-type="unlimited-membership">Choose Unlimited <span class="arrow">→</span></a>
+        <span class="plan-card-soon">Enrollment Opens Soon</span>
       </div>
 
       <div class="plan-card" data-plan="fullcourt">
@@ -409,7 +426,7 @@
           </div>
         </div>
         <p class="plan-card-benefit-note" style="margin:-10px 0 16px;">Included Private Training and Dr. Dish sessions reset each billing cycle and don&rsquo;t roll over.</p>
-        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/client-memberships/12163" target="_blank" rel="noopener" class="plan-card-cta" data-booking-type="full-court-membership">Choose Full Court <span class="arrow">→</span></a>
+        <span class="plan-card-soon">Enrollment Opens Soon</span>
       </div>
 
       <div class="plan-card" data-plan="family">
@@ -440,7 +457,7 @@
             <li>Camps &middot; Member pricing</li>
           </ul>
         </details>
-        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/client-memberships/12164" target="_blank" rel="noopener" class="plan-card-cta" data-booking-type="family-membership">Choose Family <span class="arrow">→</span></a>
+        <span class="plan-card-soon">Enrollment Opens Soon</span>
       </div>
     </div>
   </div>
