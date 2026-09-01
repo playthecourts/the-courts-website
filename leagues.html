@@ -99,9 +99,9 @@
   .lg-divisions-note p { font-size: 14.5px; line-height: 1.6; color: var(--gray-dark); margin: 0; }
 
   /* ---------- Fall League Evaluation Sign-Up ---------- */
-  .lg-eval-wrap { display: grid; grid-template-columns: 1.4fr 1fr; gap: 60px; align-items: start; }
+  .lg-eval-wrap { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 56px; align-items: start; }
   .lg-eval-lede { font-size: 16px; line-height: 1.65; color: var(--gray-dark); max-width: 54ch; margin: 14px 0 0; }
-  .lg-eval-when { font-family: var(--font-sport); font-weight: 800; font-size: 16px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); margin: 18px 0 16px; }
+  .lg-eval-when { font-family: var(--font-sport); font-weight: 800; font-size: 20px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); margin: 18px 0 16px; }
   .lg-eval-body { font-size: 15.5px; line-height: 1.65; color: var(--gray-dark); max-width: 54ch; margin: 0 0 22px; }
   .lg-eval-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(20px,2.4vw,24px); color: var(--black); margin: 0 0 36px; }
   .lg-eval-price span { display: block; font-family: var(--font-heading); font-weight: 500; font-size: 14px; color: var(--gray-dark); margin-top: 8px; max-width: 54ch; line-height: 1.55; }
@@ -117,8 +117,9 @@
   .lg-eval-season { background: var(--gray-light); border-left: 4px solid var(--orange); border-radius: var(--radius-sm); padding: 18px 22px; }
   .lg-eval-season h4 { font-family: var(--font-sport); font-weight: 800; font-size: 12.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); margin: 0 0 8px; }
   .lg-eval-season p { font-size: 14px; line-height: 1.7; color: var(--gray-dark); margin: 0; }
+  .lg-eval-season p strong { color: var(--black); font-weight: 800; }
 
-  .lg-eval-form-wrap { background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-lg); padding: clamp(28px,3.5vw,40px); position: sticky; top: 110px; }
+  .lg-eval-form-wrap { background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-lg); padding: clamp(32px,4vw,48px); box-shadow: 0 24px 60px rgba(23,23,23,0.1); position: sticky; top: 110px; }
   .lg-eval-form-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(21px,2.2vw,25px); margin: 0 0 24px; }
   .lg-eval-fgroup { padding-top: 22px; margin-top: 4px; border-top: 1px solid var(--gray-mid); }
   .lg-eval-fgroup:first-of-type { padding-top: 0; margin-top: 0; border-top: none; }
@@ -128,21 +129,21 @@
   .lg-eval-form-wrap .form-row input,
   .lg-eval-form-wrap .form-row select,
   .lg-eval-form-wrap .form-row textarea {
-    width: 100%; border: none; border-bottom: 2px solid var(--gray-mid); border-radius: 0; background: transparent;
-    padding: 12px 2px; font-size: 16px; font-family: var(--font-body); color: var(--black); transition: border-color 0.2s var(--ease);
+    width: 100%; border: 1.5px solid var(--gray-mid); border-radius: var(--radius-sm); background: var(--white);
+    padding: 13px 14px; font-size: 16px; font-family: var(--font-body); color: var(--black); transition: border-color 0.2s var(--ease);
   }
   .lg-eval-form-wrap .form-row select {
     appearance: none; -webkit-appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23343434' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 4px center; background-size: 11px 7px; padding-right: 22px;
+    background-repeat: no-repeat; background-position: right 14px center; background-size: 11px 7px; padding-right: 32px;
   }
   .lg-eval-form-wrap .form-row input:focus,
   .lg-eval-form-wrap .form-row select:focus,
-  .lg-eval-form-wrap .form-row textarea:focus { outline: none; border-bottom-color: var(--orange); }
+  .lg-eval-form-wrap .form-row textarea:focus { outline: none; border-color: var(--orange); }
   .lg-eval-form-wrap .form-row textarea { min-height: 76px; resize: vertical; }
   .lg-eval-form-wrap .form-row.field-invalid input,
   .lg-eval-form-wrap .form-row.field-invalid select,
-  .lg-eval-form-wrap .form-row.field-invalid textarea { border-bottom-color: #C0392B; }
+  .lg-eval-form-wrap .form-row.field-invalid textarea { border-color: #C0392B; }
   .lg-eval-form-wrap .field-error { display: none; font-size: 12.5px; color: #C0392B; margin-top: 7px; }
   .lg-eval-form-wrap .form-row.field-invalid .field-error { display: block; }
   .lg-eval-hint { display: block; font-size: 12.5px; font-style: italic; color: var(--gray-dark); margin-top: 8px; line-height: 1.5; }
@@ -430,7 +431,7 @@
     <div class="lg-eval-wrap">
       <div class="lg-eval-intro">
         <span class="eyebrow">Fall League Evaluations</span>
-        <h2 class="section-title">Raise Your Hand. We&rsquo;ll See You at Evaluations.</h2>
+        <h2 class="section-title">Raise Your Hand.<br>We&rsquo;ll See You at Evaluations.</h2>
         <p class="lg-eval-lede">We&rsquo;re building teams for the upcoming fall basketball season with West Nashville Sports League (WNSL), and the first step is Evaluation Day.</p>
         <p class="lg-eval-when">Saturday, September 12 &middot; 3 PM</p>
         <p class="lg-eval-body">There are no cuts. Evaluations simply help us get to know each athlete, understand skill levels, and build balanced teams with smaller rosters, meaningful playing time, and the right level of competition.</p>
@@ -448,7 +449,7 @@
 
         <div class="lg-eval-season">
           <h4>Fall Season</h4>
-          <p>Season: October 24&ndash;December 13<br>Regular Season: October 24&ndash;December 5<br>End-of-Season Tournament: December 11&ndash;13</p>
+          <p><strong>Regular Season:</strong> October 24&ndash;December 5<br><strong>End-of-Season Tournament:</strong> December 11&ndash;13</p>
         </div>
       </div>
 
