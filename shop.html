@@ -200,6 +200,28 @@
     .cart-drawer, .cart-overlay, .tile-media .photo, .tile-rule, .cart-toggle { transition:none; }
     .tile-add.shake { animation:none; }
   }
+
+  /* ---------- Gear First Drop overlay ---------- */
+  .gear-overlay { position: fixed; inset: 0; z-index: 190; background: rgba(23,23,23,0.62); display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 1; transition: opacity 0.25s var(--ease); }
+  .gear-overlay.gear-overlay--closed { opacity: 0; pointer-events: none; }
+  .gear-modal { position: relative; width: 100%; max-width: 460px; background: var(--white); border-radius: var(--radius-lg); padding: clamp(36px,5vw,48px) clamp(28px,5vw,40px); text-align: center; box-shadow: 0 30px 70px rgba(0,0,0,0.35); }
+  .gear-modal-close { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 50%; border: none; background: var(--gray-light); color: var(--black); font-size: 22px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .gear-modal-close:hover { background: var(--gray-mid); }
+  .gear-modal-eyebrow { font-family: var(--font-sport); font-weight: 800; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); display: block; margin-bottom: 10px; }
+  .gear-modal-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px,3.4vw,30px); line-height: 1.12; margin: 0 0 16px; }
+  .gear-modal-copy { font-size: 15.5px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 12px; }
+  .gear-modal-cta { margin-top: 22px; }
+  .gear-modal-foot { font-size: 13px; color: var(--gray-dark); margin: 12px 0 0; }
+  .gear-modal-form { margin-top: 22px; text-align: left; }
+  .gear-modal-label { display: block; font-family: var(--font-heading); font-weight: 700; font-size: 13px; color: var(--black); margin-bottom: 8px; }
+  .gear-modal-form-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .gear-modal-form-row input[type="email"] { flex: 1; min-width: 160px; padding: 13px 16px; border-radius: 999px; border: 1.5px solid var(--gray-mid); font-family: var(--font-body); font-size: 14.5px; color: var(--black); }
+  .gear-modal-form-row input[type="email"]:focus { outline: none; border-color: var(--orange); }
+  .gear-modal-error { color: #B3261E; font-size: 13px; margin: 10px 0 0; }
+  .gear-modal-success h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px,3vw,26px); margin: 22px 0 10px; }
+  .gear-modal-success p { font-size: 15.5px; color: var(--gray-dark); margin: 0; }
+  @media (max-width: 480px) { .gear-modal-form-row { flex-direction: column; } .gear-modal-form-row button { width: 100%; } }
+  @media (prefers-reduced-motion: reduce) { .gear-overlay { transition: none; } }
 </style>
 
 </head>
@@ -335,6 +357,37 @@
   </div>
   <a href="contact">Contact</a>
   <a href="https://app.upperhand.io/customers/2876-the-courts-llc/create_user" target="_blank" rel="noopener" class="btn btn-primary btn-block">Become a Member</a>
+</div>
+
+<div class="gear-overlay" id="gearOverlay">
+  <div class="gear-modal">
+    <button type="button" class="gear-modal-close" id="gearModalClose" aria-label="Close">&times;</button>
+    <span class="gear-modal-eyebrow">Gear</span>
+    <h2 class="gear-modal-title">The First Drop Is in the Works.</h2>
+    <p class="gear-modal-copy">We&rsquo;re working with a small group of vendors to bring in the Courts gear we actually want to wear, use, and keep around.</p>
+    <p class="gear-modal-copy">Samples are in. Production is underway. We&rsquo;re dialing in the details now.</p>
+
+    <div class="gear-modal-cta" id="gearModalCtaWrap">
+      <button type="button" class="btn btn-primary" id="gearFirstDibsBtn">Get First Dibs →</button>
+      <p class="gear-modal-foot">First drop coming soon.</p>
+    </div>
+
+    <form class="gear-modal-form" id="gearModalForm" hidden>
+      <label for="gearEmail" class="gear-modal-label">Email Address</label>
+      <div class="gear-modal-form-row">
+        <input type="email" id="gearEmail" name="email" placeholder="you@email.com" required>
+        <button type="submit" class="btn btn-primary" id="gearFormSubmit">Keep Me Posted →</button>
+      </div>
+      <input type="hidden" name="source" value="Website - Gear First Drop">
+      <input type="hidden" name="signup_page" class="gear-signup-page" value="">
+      <p class="gear-modal-error" id="gearFormError" hidden>Something went wrong. Please try again, or email us at hello@playthecourts.com.</p>
+    </form>
+
+    <div class="gear-modal-success" id="gearModalSuccess" hidden>
+      <h3>You&rsquo;re In.</h3>
+      <p>We&rsquo;ll let you know when the first Courts drop lands.</p>
+    </div>
+  </div>
 </div>
 
 <section class="shop-hero" id="main">
@@ -909,6 +962,61 @@
       }
 
       addToCart({ name: name, price: price, variant: variant });
+    });
+  });
+})();
+</script>
+
+<script>
+(function () {
+  var overlay = document.getElementById('gearOverlay');
+  var closeBtn = document.getElementById('gearModalClose');
+  var ctaWrap = document.getElementById('gearModalCtaWrap');
+  var firstDibsBtn = document.getElementById('gearFirstDibsBtn');
+  var form = document.getElementById('gearModalForm');
+  var success = document.getElementById('gearModalSuccess');
+  var errorEl = document.getElementById('gearFormError');
+  var signupPageField = form.querySelector('.gear-signup-page');
+  if (!overlay) return;
+
+  signupPageField.value = window.location.pathname;
+
+  function closeOverlay() {
+    overlay.classList.add('gear-overlay--closed');
+    document.body.style.overflow = '';
+  }
+
+  document.body.style.overflow = 'hidden';
+  closeBtn.addEventListener('click', closeOverlay);
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) closeOverlay(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeOverlay(); });
+
+  firstDibsBtn.addEventListener('click', function () {
+    ctaWrap.hidden = true;
+    form.hidden = false;
+    document.getElementById('gearEmail').focus();
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    errorEl.hidden = true;
+    var submitBtn = document.getElementById('gearFormSubmit');
+    var defaultLabel = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    fetch('https://formspree.io/f/xeaqejqz', {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function (res) {
+      if (!res.ok) throw new Error('Submission failed');
+      form.hidden = true;
+      success.hidden = false;
+    }).catch(function () {
+      errorEl.hidden = false;
+      submitBtn.disabled = false;
+      submitBtn.textContent = defaultLabel;
     });
   });
 })();
