@@ -3,18 +3,18 @@
    ========================================================= */
 
 :root {
-  --black: #171717;
+  --black: #000000;
   --charcoal: #1A1A1A;
   --white: #FFFFFF;
   --gray-light: #F7F5F0;
   --gray-mid: #D9D7D2;
   --gray-dark: #343434;
 
-  --orange: #D5601F;
-  --orange-hover: #BF5419;
-  --orange-press: #A94812;
-  --orange-soft: rgba(213, 96, 31, 0.1);
-  --orange-ink: #96431A;
+  --orange: #F58220;
+  --orange-hover: #F17308;
+  --orange-press: #D96503;
+  --orange-soft: rgba(245, 130, 32, 0.1);
+  --orange-ink: #C4610D;
 
   --font-display: 'Archivo Black', 'Archivo', sans-serif;
   --font-heading: 'Archivo', sans-serif;
