@@ -87,11 +87,13 @@
   .plan-card-soon::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
 
   /* ---------- Membership status callout ---------- */
-  .mem-status { max-width: 720px; margin: 0 auto 48px; background: var(--gray-light); border-left: 5px solid var(--orange); border-radius: var(--radius-md); padding: clamp(28px,4vw,40px) clamp(28px,4vw,40px); text-align: center; }
-  .mem-status .eyebrow { display: block; margin-bottom: 12px; }
-  .mem-status h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px,2.8vw,28px); margin: 0 0 14px; line-height: 1.15; }
-  .mem-status p { font-size: 16px; line-height: 1.65; color: var(--gray-dark); max-width: 58ch; margin: 0 auto; }
-  .mem-status-open { font-weight: 800; color: var(--black); margin-top: 14px; }
+  .mem-status { width: fit-content; max-width: 100%; margin: 0 auto 48px; display: flex; align-items: center; gap: 24px; background: var(--orange); border-radius: 16px; padding: clamp(24px,3vw,32px) clamp(32px,4.5vw,48px); text-align: left; }
+  .mem-status-icon { flex-shrink: 0; width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; }
+  .mem-status-body .eyebrow { display: block; margin-bottom: 8px; color: rgba(255,255,255,0.85); }
+  .mem-status-body h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(23px,2.9vw,30px); color: var(--white); margin: 0 0 8px; line-height: 1.15; }
+  .mem-status-body p { font-size: 17px; line-height: 1.55; color: rgba(255,255,255,0.88); max-width: 62ch; margin: 0; font-weight: 500; }
+  .mem-status-open { font-weight: 800; color: var(--white) !important; margin-top: 10px; }
+  @media (max-width: 620px) { .mem-status { flex-direction: column; align-items: flex-start; gap: 16px; } }
 
   @media (max-width: 900px) {
     .plan-module { grid-template-columns: 1fr; border-top: none; }
@@ -343,10 +345,13 @@
 <section class="mem-selector-zone" id="plan-selector">
   <div class="container">
     <div class="mem-status">
-      <span class="eyebrow">Membership Status</span>
-      <h2>Memberships Are Almost Here.</h2>
-      <p>We&rsquo;re putting the finishing touches on the Courts member experience now. Plans and pricing are set. Online enrollment will open soon.</p>
-      <p class="mem-status-open">Opening October 1. Stay tuned.</p>
+      <div class="mem-status-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="var(--white)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><circle cx="8" cy="12" r="2.2"/><path d="M13.5 10.5h5M13.5 13.5h3.5"/></svg></div>
+      <div class="mem-status-body">
+        <span class="eyebrow">Membership Status</span>
+        <h2>Memberships Are Almost Here.</h2>
+        <p>We&rsquo;re putting the finishing touches on the Courts member experience now. Plans and pricing are set. Online enrollment will open soon.</p>
+        <p class="mem-status-open">Opening October 1. Stay tuned.</p>
+      </div>
     </div>
 
     <div class="mem-section-head">

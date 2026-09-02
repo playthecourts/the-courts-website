@@ -17,6 +17,11 @@
 
   body { background: var(--black); }
 
+  /* ---------- Coming-soon CTA pill (replaces booking links pre-launch) ---------- */
+  .soon-pill { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 999px; padding: 13px 22px; white-space: nowrap; }
+  .soon-pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+  .soon-pill--dark { color: rgba(255,255,255,0.78); background: transparent; border-color: rgba(255,255,255,0.28); }
+
   .dd-head { max-width: 660px; margin: 0 auto 8px; text-align: center; }
   .dd-head .eyebrow { font-size: 19px; letter-spacing: 0.1em; }
   .dd-head h2 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(28px, 4vw, 42px); line-height: 1.1; margin: 0; }
@@ -133,7 +138,7 @@
   .dd-quick-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3vw, 36px); color: var(--white); margin: 0 0 14px; }
   .dd-quick-member { display: block; font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--orange); margin-top: 4px; }
   .dd-quick-body { font-size: 14.5px; line-height: 1.6; color: rgba(255,255,255,0.68); margin: 0 0 24px; flex-grow: 1; }
-  .dd-quick-card .btn { align-self: flex-start; }
+  .dd-quick-card .btn, .dd-quick-card .soon-pill { align-self: flex-start; }
   .dd-quick-footnote { font-size: 12.5px; font-style: italic; color: rgba(255,255,255,0.45); margin: 12px 0 0; }
   @media (max-width: 860px) { .dd-quick-grid { grid-template-columns: 1fr; max-width: 420px; } }
 
@@ -374,7 +379,6 @@
       <p class="dd-hero-sub">Hundreds of purposeful reps without chasing a ball across the gym.</p>
       <p class="dd-hero-bold">Work on your shot, track your progress, and get more out of the time you already spend in the gym.</p>
       <div class="dd-hero-ctas">
-        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206726-dr-dot-dish-individual" target="_blank" rel="noopener" class="btn btn-primary" data-booking-type="dr-dish">Book Dr. Dish →</a>
         <a href="membership" class="dd-hero-link">See Membership Options →</a>
       </div>
     </div>
@@ -410,14 +414,14 @@
         <p class="dd-quick-meta">1 Athlete &middot; 30 Minutes</p>
         <p class="dd-quick-price">$30 <span class="dd-quick-member">Members $20</span></p>
         <p class="dd-quick-body">Focused shooting work with the machine to yourself.</p>
-        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206726-dr-dot-dish-individual" target="_blank" rel="noopener" class="btn btn-primary" data-booking-type="dr-dish-individual">Book a Solo Session →</a>
+        <span class="soon-pill soon-pill--dark">Coming Soon</span>
       </div>
       <div class="dd-quick-card reveal">
         <span class="dd-quick-label">Bring a Teammate</span>
         <p class="dd-quick-meta">2 Athletes &middot; 30 Minutes</p>
         <p class="dd-quick-price">$50 <span class="dd-quick-member">total</span></p>
         <p class="dd-quick-body">More reps. A little competition. Someone to blame when you lose the shooting challenge.</p>
-        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206728-dr-dot-dish-bring-a-teammate" target="_blank" rel="noopener" class="btn btn-primary" data-booking-type="dr-dish-duo">Book for Two →</a>
+        <span class="soon-pill soon-pill--dark">Coming Soon</span>
         <p class="dd-quick-footnote">Both athletes share the 30-minute session.</p>
       </div>
       <div class="dd-quick-card reveal">
@@ -425,7 +429,7 @@
         <p class="dd-quick-meta">10 Individual Sessions</p>
         <p class="dd-quick-price">$250</p>
         <p class="dd-quick-body">For athletes who want Dr. Dish to become part of their regular routine.</p>
-        <a href="https://app.upperhand.io/customers/2876-the-courts-llc/credit_passes#pdo346f2fc0-9302-4417-b4ec-983794c9f413" target="_blank" rel="noopener" class="btn btn-primary" data-booking-type="dr-dish-10-pack">Buy 10 Sessions →</a>
+        <span class="soon-pill soon-pill--dark">Coming Soon</span>
       </div>
     </div>
     <div class="dd-fullcourt-callout reveal">
@@ -468,7 +472,7 @@
           <div class="dd-seq-media"><img src="images/Dr.Dish-PlayerAppScreens.webp" alt="The Dr. Dish app, showing drill setup, shooting modes, and live shot-arc activity tracking." style="object-fit:contain; background:var(--white);"></div>
           <h3>See What's Working.</h3>
           <p>Use the feedback during your workout to make adjustments and find what&rsquo;s clicking.</p>
-          <p class="dd-seq-zinger">Some days it's you vs. the machine. Some days it's you vs. last Tuesday.</p>
+          <p class="dd-seq-zinger">Some days it's you vs. the machine.<br>Some days it's you vs. last Tuesday.</p>
         </div>
       </div>
       <p class="dd-how-utility"><strong>Never used one?</strong><a href="https://www.youtube.com/watch?v=2ur42dLnH_Y" target="_blank" rel="noopener">Watch Dr. Dish in Action ↗</a></p>
@@ -561,7 +565,7 @@
           <p class="dd-avail-note">Advance reservation required.</p>
         </div>
         <div class="dd-cta-left">
-          <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206726-dr-dot-dish-individual" target="_blank" rel="noopener" class="btn btn-primary" data-booking-type="dr-dish">Book Dr. Dish →</a>
+          <span class="soon-pill soon-pill--dark">Registration Coming Soon</span>
         </div>
       </div>
       <div class="dd-avail-col dd-avail-col--countdown">
@@ -749,7 +753,7 @@
       <span class="pre-footer-eyebrow">Ready?</span>
       <h3 class="pre-footer-title">Put Some Shots Up.</h3>
       <p style="font-size:15px; color:rgba(255,255,255,0.62); margin:-8px 0 18px;">Thirty minutes. A lot of reps. Nobody chasing rebounds.</p>
-      <a href="https://app.upperhand.io/customers/2876-the-courts-llc/events/206726-dr-dot-dish-individual" target="_blank" rel="noopener" class="pre-footer-link" data-booking-type="dr-dish">Book Dr. Dish <span class="arrow">→</span></a>
+      <span class="soon-pill soon-pill--dark">Registration Coming Soon</span>
     </div>
     <div class="pre-footer-col">
       <span class="pre-footer-eyebrow">Want a Little Feedback With Those Reps?</span>

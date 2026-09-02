@@ -525,7 +525,7 @@
   /* One-off / special events. sortMin places them in order alongside recurring classes on shared days. short = compact in-cell label. */
   var EVENTS = [
     { start: '2026-09-12', sortMin: 900, time: '3:00 PM', sport: 'bb', title: 'Fall League Evaluations', meta: '$25', short: 'Evaluations', cta: 'Join the Evaluation List →', href: 'leagues#evaluations' },
-    { start: '2026-10-12', end: '2026-10-15', sortMin: 480, time: '', sport: 'both', title: 'Fall Break Camp', meta: 'Basketball mornings, volleyball afternoons', short: 'Fall Break Camp', cta: 'View Camps + Register →', href: 'camps#fall-break', priority: true },
+    { start: '2026-10-12', end: '2026-10-15', sortMin: 480, time: '', sport: 'both', title: 'Fall Break Camp', meta: 'Basketball mornings, volleyball afternoons', short: 'Fall Break Camp', cta: 'View Camps →', href: 'camps#fall-break', priority: true },
     { start: '2026-10-16', sortMin: 540, time: '', sport: 'both', title: 'Fall Break Competition Day', meta: 'Single-day games, both sports', short: 'Competition Day', cta: 'View Camps →', href: 'camps#board' },
     { start: '2026-10-23', sortMin: 1080, time: '', sport: 'bb', title: 'Fall League Kicks Off', meta: 'Teams set, practices + games begin', short: 'League Kickoff', cta: 'View League →', href: 'leagues#fall-league' },
     { start: '2026-10-24', sortMin: 540, time: '', sport: 'bb', title: 'First Fall League Games', meta: 'Somebody&rsquo;s keeping score now', short: 'First Games', cta: 'View League →', href: 'leagues#fall-league' },
@@ -533,7 +533,7 @@
     { start: '2026-10-30', sortMin: 1140, time: '', sport: 'bb', title: 'Halloween Shootout', meta: 'Costume-optional basketball night', short: 'Halloween Shootout', soon: true },
     { start: '2026-10-31', sortMin: 1140, time: '', sport: 'vb', title: 'Volleyween', meta: 'Costume-optional volleyball night', short: 'Volleyween', soon: true },
     { start: '2026-11-03', sortMin: 480, time: '', sport: 'both', title: 'No School Day Camp', meta: 'No school? No problem', short: 'No School Camp', cta: 'View Camps →', href: 'camps#board', priority: true },
-    { start: '2026-11-14', sortMin: 600, time: '', sport: 'general', title: 'What Makes a Great Player?', meta: 'Parent talk', short: 'Parent Talk', cta: 'RSVP →', href: 'contact?interest=Something%20Else#contact-form', preset: 'Something Else' },
+    { start: '2026-11-14', sortMin: 600, time: '', sport: 'general', title: 'What Makes a Great Player?', meta: 'Parent talk', short: 'Parent Talk' },
     { start: '2026-11-18', sortMin: 780, time: '', sport: 'both', title: 'Early Release Camp', meta: 'Another early release', short: 'Early Release', cta: 'View Camps →', href: 'camps#board', priority: true },
     { start: '2026-11-23', end: '2026-11-25', sortMin: 480, time: '', sport: 'both', title: 'Thanksgiving Break Camp', meta: 'Three days before turkey', short: 'Thanksgiving Camp', cta: 'View Camps →', href: 'camps#board', priority: true },
     { start: '2026-12-05', sortMin: 1080, time: '6&ndash;9 PM', sport: 'general', title: 'GOAT Movie Night', meta: 'Pizza + a movie', short: 'Movie Night', soon: true },
@@ -616,8 +616,10 @@
       }
       if (it.soon) {
         out += '<span class="mcal-pop-soon">Save the Date. Registration Opens Soon.</span></div>';
-      } else {
+      } else if (it.cta) {
         out += '<a class="mcal-pop-link" href="' + it.href + '"' + attrs + preset + '>' + it.cta + '</a></div>';
+      } else {
+        out += '</div>';
       }
     });
     out += '</div></div>';
