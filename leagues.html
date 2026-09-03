@@ -17,10 +17,7 @@
 <style>
   /* ================= Leagues page — editorial system (lg-*) ================= */
 
-  @keyframes lgPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
   .lg-hero-gradient { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 45%, rgba(0,0,0,0.6) 100%); pointer-events: none; }
-  .lg-forming-flash { animation: lgPulse 2s ease-in-out infinite; }
-  @media (prefers-reduced-motion: reduce) { .lg-forming-flash { animation: none; } }
 
   .lg-hero-evals { margin: 22px 0 8px; }
   .lg-hero-evals-label { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 4px; }
@@ -98,9 +95,9 @@
   .lg-eval-steps li strong { display: block; font-family: var(--font-heading); font-weight: 800; font-size: 15.5px; color: var(--black); margin-bottom: 3px; }
   .lg-eval-steps li p { font-size: 14.5px; line-height: 1.55; color: var(--gray-dark); margin: 0; }
 
-  .lg-eval-season { background: var(--gray-light); border-left: 4px solid var(--orange); border-radius: var(--radius-sm); padding: 18px 22px; }
-  .lg-eval-season h4 { font-family: var(--font-sport); font-weight: 800; font-size: 12.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); margin: 0 0 8px; }
-  .lg-eval-season p { font-size: 14px; line-height: 1.7; color: var(--gray-dark); margin: 0; }
+  .lg-eval-season { background: var(--gray-light); border-left: 4px solid var(--orange); border-radius: var(--radius-sm); padding: 20px 24px; }
+  .lg-eval-season h4 { font-family: var(--font-sport); font-weight: 800; font-size: 13.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); margin: 0 0 9px; }
+  .lg-eval-season p { font-size: 15.5px; line-height: 1.7; color: var(--gray-dark); margin: 0; }
   .lg-eval-season p strong { color: var(--black); font-weight: 800; }
 
   .lg-eval-form-wrap { background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-lg); padding: clamp(32px,4vw,48px); box-shadow: 0 24px 60px rgba(23,23,23,0.1); position: sticky; top: 110px; }
@@ -283,7 +280,7 @@
   <div class="container page-hero-inner">
     <span class="eyebrow eyebrow--light">Basketball Leagues</span>
     <h1 class="page-hero-title">Practice Is Great. Let&rsquo;s Keep Score.</h1>
-    <p class="page-hero-sub">Weekly practice. Saturday games. Real teammates. Real competition.<br><strong class="lg-forming-flash" style="display:inline-block; margin-top:10px; font-size:1.3em;">Fall teams are forming now.</strong></p>
+    <p class="page-hero-sub">Weekly practice. Saturday games. Real teammates. Real competition.<br><strong style="display:inline-block; margin-top:10px; font-size:1.3em;">Fall teams are forming now.</strong></p>
     <div class="lg-hero-evals">
       <span class="lg-hero-evals-label">Evaluations</span>
       <span class="lg-hero-evals-date">Saturday, September 12</span>
@@ -406,6 +403,13 @@
         </ul>
         <p class="lg-eval-price">Evaluation Fee &middot; $25<span>We&rsquo;ll send the registration and payment link after you submit the form. If your athlete joins a fall team, the full $25 will be applied toward league registration.</span></p>
 
+        <div class="lg-eval-season">
+          <h4>Fall Season</h4>
+          <p><strong>Regular Season:</strong> October 24&ndash;December 5</p>
+          <p style="margin-top: 10px;"><strong>Tournament Weekend:</strong> December 11&ndash;13, if applicable</p>
+          <p style="margin-top: 12px;"><strong>Game Locations:</strong> Games are played at multiple WNSL locations across West Nashville and Brentwood. Venues may include West End Middle, JT Moore, Montessori in Brentwood, Harding Academy, and others.</p>
+        </div>
+
         <div class="lg-eval-steps">
           <h3>What Happens Next</h3>
           <ol>
@@ -417,12 +421,6 @@
         </div>
 
         <p class="lg-eval-body">No cuts. Evaluations simply help us understand each athlete&rsquo;s level and create balanced teams with smaller rosters, meaningful playing time, and the right competition.</p>
-
-        <div class="lg-eval-season">
-          <h4>Fall Season</h4>
-          <p><strong>Regular Season:</strong> October 24&ndash;December 5<br><strong>Tournament Weekend:</strong> December 11&ndash;13, if applicable</p>
-          <p style="margin-top: 12px;"><strong>Game Locations:</strong> Games are played at multiple WNSL locations across West Nashville and Brentwood. Venues may include West End Middle, JT Moore, Montessori in Brentwood, Harding Academy, and others.</p>
-        </div>
       </div>
 
       <div class="lg-eval-form-wrap">
