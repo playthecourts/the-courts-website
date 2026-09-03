@@ -1,5 +1,6 @@
 // Prisma schema for The Courts member/admin platform.
-// Phase 1 (MVP steps 1-2): identity, family hierarchy, and staff/admin access.
+// Phase 1 (MVP steps 1-3): identity, family hierarchy, staff/admin access,
+// and the programs/sessions catalog for recurring classes + fixed-date events.
 // See ../../docs/PLATFORM_ARCHITECTURE.md for the full approved schema and rationale.
 
 generator client {
@@ -88,4 +89,54 @@ enum StaffRole {
   admin
   front_desk
   coach
+}
+
+/// Catalog entry — what's offered, not when. team_id/coach_id/resource_id are
+/// deliberately not on Session yet: those entities (leagues, coaches,
+/// resources) don't exist in the schema until their own MVP build steps.
+model Program {
+  id              String      @id @default(uuid())
+  name            String
+  programType     ProgramType @map("program_type")
+  sport           String?
+  description     String?
+  priceCents      Int?        @map("price_cents")
+  memberPriceCents Int?       @map("member_price_cents")
+  active          Boolean     @default(true)
+  createdAt       DateTime    @default(now()) @map("created_at")
+
+  sessions Session[]
+
+  @@map("programs")
+}
+
+enum ProgramType {
+  class
+  camp
+  league
+  resource
+  private
+  rental
+}
+
+/// A single bookable occurrence of a program. Recurring classes materialize
+/// into individual rows (via bulk generation) rather than being expanded
+/// from a recurrence rule at read time.
+model Session {
+  id         String        @id @default(uuid())
+  programId  String        @map("program_id")
+  startTime  DateTime      @map("start_time")
+  endTime    DateTime      @map("end_time")
+  capacity   Int
+  status     SessionStatus @default(scheduled)
+  createdAt  DateTime      @default(now()) @map("created_at")
+
+  program Program @relation(fields: [programId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+enum SessionStatus {
+  scheduled
+  cancelled
 }
