@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
 
-      fetch('https://formspree.io/f/xeaqjjzn', {
+      fetch('https://formspree.io/f/mvkoqpaw', {
         method: 'POST',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
