@@ -135,6 +135,13 @@
   .lg-eval-form-error { display: none; font-size: 13.5px; font-weight: 600; color: #C0392B; text-align: center; margin: 14px 0 0; }
   .lg-eval-form-error.show { display: block; }
   .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+  .lg-eval-add-athlete { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; font-family: var(--font-sport); font-weight: 800; font-size: 12.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--orange); background: none; border: none; padding: 0; cursor: pointer; }
+  .lg-eval-add-athlete:hover { color: var(--orange-hover); }
+  .lg-eval-extra-athlete { margin: 18px 0; padding-top: 18px; border-top: 1px dashed var(--gray-mid); }
+  .lg-eval-extra-athlete-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .lg-eval-extra-athlete-head span { font-family: var(--font-sport); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-dark); }
+  .lg-eval-remove-athlete { font-family: var(--font-sport); font-weight: 700; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--gray-dark); background: none; border: none; padding: 0; cursor: pointer; text-decoration: underline; }
+  .lg-eval-remove-athlete:hover { color: #C0392B; }
   @media (max-width: 980px) { .lg-eval-wrap { grid-template-columns: 1fr; gap: 44px; } .lg-eval-form-wrap { position: static; } }
   @media (max-width: 560px) { .form-grid-2 { grid-template-columns: 1fr; } }
   @media (prefers-reduced-motion: reduce) { .lg-eval-form-wrap .form-row input, .lg-eval-form-wrap .form-row select, .lg-eval-form-wrap .form-row textarea { transition: none; } }
@@ -438,6 +445,32 @@
               <div class="form-row"><label for="ev-player-grade">Current Grade <span class="form-optional-tag">2026&ndash;27 School Year</span></label><select id="ev-player-grade" name="player_grade" required><option value="">Select one</option><option>3rd</option><option>4th</option><option>5th</option><option>6th</option><option>7th</option><option>8th</option><option>Other</option></select><span class="field-error"></span></div>
             </div>
             <div class="form-row"><label for="ev-school">School <span class="form-optional-tag">Optional</span></label><input type="text" id="ev-school" name="school"></div>
+
+            <div class="lg-eval-extra-athlete" id="evExtraAthlete2" hidden>
+              <div class="lg-eval-extra-athlete-head">
+                <span>2nd Athlete</span>
+                <button type="button" class="lg-eval-remove-athlete" id="evRemoveAthlete2">Remove</button>
+              </div>
+              <div class="form-row"><label for="ev-player-name-2">Player Name</label><input type="text" id="ev-player-name-2" name="player_name_2"><span class="field-error"></span></div>
+              <div class="form-grid-2">
+                <div class="form-row"><label for="ev-player-gender-2">Player Gender</label><select id="ev-player-gender-2" name="player_gender_2"><option value="">Select one</option><option>Boy</option><option>Girl</option></select><span class="field-error"></span></div>
+                <div class="form-row"><label for="ev-player-grade-2">Current Grade</label><select id="ev-player-grade-2" name="player_grade_2"><option value="">Select one</option><option>3rd</option><option>4th</option><option>5th</option><option>6th</option><option>7th</option><option>8th</option><option>Other</option></select><span class="field-error"></span></div>
+              </div>
+            </div>
+
+            <div class="lg-eval-extra-athlete" id="evExtraAthlete3" hidden>
+              <div class="lg-eval-extra-athlete-head">
+                <span>3rd Athlete</span>
+                <button type="button" class="lg-eval-remove-athlete" id="evRemoveAthlete3">Remove</button>
+              </div>
+              <div class="form-row"><label for="ev-player-name-3">Player Name</label><input type="text" id="ev-player-name-3" name="player_name_3"><span class="field-error"></span></div>
+              <div class="form-grid-2">
+                <div class="form-row"><label for="ev-player-gender-3">Player Gender</label><select id="ev-player-gender-3" name="player_gender_3"><option value="">Select one</option><option>Boy</option><option>Girl</option></select><span class="field-error"></span></div>
+                <div class="form-row"><label for="ev-player-grade-3">Current Grade</label><select id="ev-player-grade-3" name="player_grade_3"><option value="">Select one</option><option>3rd</option><option>4th</option><option>5th</option><option>6th</option><option>7th</option><option>8th</option><option>Other</option></select><span class="field-error"></span></div>
+              </div>
+            </div>
+
+            <button type="button" class="lg-eval-add-athlete" id="evAddAthlete">+ Add Another Athlete</button>
           </div>
 
           <div class="lg-eval-fgroup">
@@ -648,6 +681,45 @@
   var experienceRow = document.getElementById('evExperienceRow');
   orgBball.addEventListener('change', function () {
     experienceRow.hidden = orgBball.value !== 'Yes';
+  });
+
+  var addAthleteBtn = document.getElementById('evAddAthlete');
+  var extra2 = document.getElementById('evExtraAthlete2');
+  var extra3 = document.getElementById('evExtraAthlete3');
+  var removeAthlete2Btn = document.getElementById('evRemoveAthlete2');
+  var removeAthlete3Btn = document.getElementById('evRemoveAthlete3');
+
+  function setAthleteGroup(group, visible) {
+    group.hidden = !visible;
+    group.querySelectorAll('input, select').forEach(function (field) {
+      field.disabled = !visible;
+      if (!visible) {
+        field.value = '';
+        var row = field.closest('.form-row');
+        if (row) clearError(row);
+      }
+    });
+  }
+
+  addAthleteBtn.addEventListener('click', function () {
+    if (extra2.hidden) {
+      setAthleteGroup(extra2, true);
+      addAthleteBtn.textContent = '+ Add a Third Athlete';
+    } else if (extra3.hidden) {
+      setAthleteGroup(extra3, true);
+      addAthleteBtn.hidden = true;
+    }
+  });
+  removeAthlete2Btn.addEventListener('click', function () {
+    setAthleteGroup(extra2, false);
+    setAthleteGroup(extra3, false);
+    addAthleteBtn.hidden = false;
+    addAthleteBtn.textContent = '+ Add Another Athlete';
+  });
+  removeAthlete3Btn.addEventListener('click', function () {
+    setAthleteGroup(extra3, false);
+    addAthleteBtn.hidden = false;
+    addAthleteBtn.textContent = '+ Add a Third Athlete';
   });
 
   var errorMessages = {
