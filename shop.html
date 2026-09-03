@@ -13,7 +13,7 @@
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="manifest" href="images/brand/site.webmanifest">
-<link rel="stylesheet" href="css/styles.css?v=3">
+<link rel="stylesheet" href="css/styles.css?v=4">
 <style>
   .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 
@@ -214,15 +214,6 @@
   .gear-modal-copy { font-size: 15.5px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 12px; }
   .gear-modal-cta { margin-top: 22px; }
   .gear-modal-foot { font-size: 13px; color: var(--gray-dark); margin: 12px 0 0; }
-  .gear-modal-form { margin-top: 22px; text-align: left; }
-  .gear-modal-label { display: block; font-family: var(--font-heading); font-weight: 700; font-size: 13px; color: var(--black); margin-bottom: 8px; }
-  .gear-modal-form-row { display: flex; gap: 10px; flex-wrap: wrap; }
-  .gear-modal-form-row input[type="email"] { flex: 1; min-width: 160px; padding: 13px 16px; border-radius: 999px; border: 1.5px solid var(--gray-mid); font-family: var(--font-body); font-size: 14.5px; color: var(--black); }
-  .gear-modal-form-row input[type="email"]:focus { outline: none; border-color: var(--orange); }
-  .gear-modal-error { color: #B3261E; font-size: 13px; margin: 10px 0 0; }
-  .gear-modal-success h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px,3vw,26px); margin: 22px 0 10px; }
-  .gear-modal-success p { font-size: 15.5px; color: var(--gray-dark); margin: 0; }
-  @media (max-width: 480px) { .gear-modal-form-row { flex-direction: column; } .gear-modal-form-row button { width: 100%; } }
   @media (prefers-reduced-motion: reduce) { .gear-overlay { transition: none; } }
 </style>
 
@@ -367,24 +358,7 @@
     <p class="gear-modal-copy">Samples are in. Production is moving. We&rsquo;re just getting the details right.</p>
 
     <div class="gear-modal-cta" id="gearModalCtaWrap">
-      <button type="button" class="btn btn-primary" id="gearFirstDibsBtn">Get First Dibs →</button>
       <p class="gear-modal-foot">First drop coming soon.</p>
-    </div>
-
-    <form class="gear-modal-form" id="gearModalForm" hidden>
-      <label for="gearEmail" class="gear-modal-label">Email Address</label>
-      <div class="gear-modal-form-row">
-        <input type="email" id="gearEmail" name="email" placeholder="you@email.com" required>
-        <button type="submit" class="btn btn-primary" id="gearFormSubmit">Keep Me Posted →</button>
-      </div>
-      <input type="hidden" name="source" value="Website - Gear First Drop">
-      <input type="hidden" name="signup_page" class="gear-signup-page" value="">
-      <p class="gear-modal-error" id="gearFormError" hidden>Something went wrong. Please try again, or email us at hello@playthecourts.com.</p>
-    </form>
-
-    <div class="gear-modal-success" id="gearModalSuccess" hidden>
-      <h3>You&rsquo;re In.</h3>
-      <p>We&rsquo;ll give you first dibs when it drops.</p>
     </div>
   </div>
 </div>
@@ -969,15 +943,7 @@
 (function () {
   var overlay = document.getElementById('gearOverlay');
   var closeBtn = document.getElementById('gearModalClose');
-  var ctaWrap = document.getElementById('gearModalCtaWrap');
-  var firstDibsBtn = document.getElementById('gearFirstDibsBtn');
-  var form = document.getElementById('gearModalForm');
-  var success = document.getElementById('gearModalSuccess');
-  var errorEl = document.getElementById('gearFormError');
-  var signupPageField = form.querySelector('.gear-signup-page');
   if (!overlay) return;
-
-  signupPageField.value = window.location.pathname;
 
   function closeOverlay() {
     overlay.classList.add('gear-overlay--closed');
@@ -988,38 +954,9 @@
   closeBtn.addEventListener('click', closeOverlay);
   overlay.addEventListener('click', function (e) { if (e.target === overlay) closeOverlay(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeOverlay(); });
-
-  firstDibsBtn.addEventListener('click', function () {
-    ctaWrap.hidden = true;
-    form.hidden = false;
-    document.getElementById('gearEmail').focus();
-  });
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    errorEl.hidden = true;
-    var submitBtn = document.getElementById('gearFormSubmit');
-    var defaultLabel = submitBtn.textContent;
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending…';
-
-    fetch('https://formspree.io/f/xeaqejqz', {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    }).then(function (res) {
-      if (!res.ok) throw new Error('Submission failed');
-      form.hidden = true;
-      success.hidden = false;
-    }).catch(function () {
-      errorEl.hidden = false;
-      submitBtn.disabled = false;
-      submitBtn.textContent = defaultLabel;
-    });
-  });
 })();
 </script>
 
-<script src="js/script.js"></script>
+<script src="js/script.js?v=2"></script>
 </body>
 </html>
