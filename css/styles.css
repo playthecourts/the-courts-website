@@ -132,9 +132,9 @@ body.has-announce .nav { top: var(--announce-h, 88px); }
 .nav.nav-solid .nav-toggle span { background: var(--black); }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .brand { display: flex; align-items: center; gap: 10px; }
-.brand-mark--wordmark { height: 60px; width: auto; max-width: 38vw; }
-@media (max-width: 1180px) { .brand-mark--wordmark { height: 48px; } }
-@media (max-width: 460px) { .brand-mark--wordmark { height: 39px; } }
+.brand-mark--wordmark { height: 84px; width: auto; max-width: 42vw; }
+@media (max-width: 1180px) { .brand-mark--wordmark { height: 64px; } }
+@media (max-width: 460px) { .brand-mark--wordmark { height: 48px; } }
 .brand-mark--light { display: block; }
 .brand-mark--dark { display: none; filter: brightness(0); }
 .nav.scrolled .brand-mark--light { display: none; }
