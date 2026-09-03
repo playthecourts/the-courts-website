@@ -2,7 +2,9 @@ import { generateRecurringSessions } from "@/app/admin/programs/actions";
 
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-export function RecurringSessionForm({ programId }: { programId: string }) {
+type Team = { id: string; name: string };
+
+export function RecurringSessionForm({ programId, teams }: { programId: string; teams: Team[] }) {
   const action = generateRecurringSessions.bind(null, programId);
 
   return (
@@ -40,6 +42,19 @@ export function RecurringSessionForm({ programId }: { programId: string }) {
         Capacity
         <input type="number" name="capacity" defaultValue={12} min={1} required className="w-20 rounded-md border border-neutral-300 px-2 py-1 text-sm" />
       </label>
+      {teams.length > 0 && (
+        <label className="flex flex-col gap-1 text-xs font-medium">
+          Team (optional)
+          <select name="teamId" className="rounded-md border border-neutral-300 px-2 py-1 text-sm">
+            <option value="">Evaluation / no team</option>
+            {teams.map((team) => (
+              <option key={team.id} value={team.id}>
+                {team.name}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       <button type="submit" className="rounded-md bg-black px-3 py-1.5 text-xs font-semibold text-white">
         Generate Sessions
       </button>

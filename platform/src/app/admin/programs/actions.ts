@@ -57,10 +57,12 @@ export async function createSession(programId: string, formData: FormData) {
   const startTime = new Date(`${formData.get("startTime") as string}Z`);
   const durationMinutes = parseInt(formData.get("durationMinutes") as string, 10);
   const endTime = new Date(startTime.getTime() + durationMinutes * 60_000);
+  const teamId = (formData.get("teamId") as string) || null;
 
   await prisma.session.create({
     data: {
       programId,
+      teamId,
       startTime,
       endTime,
       capacity: parseInt(formData.get("capacity") as string, 10),
@@ -81,6 +83,7 @@ export async function generateRecurringSessions(programId: string, formData: For
   const durationMinutes = parseInt(formData.get("durationMinutes") as string, 10);
   const weeks = parseInt(formData.get("weeks") as string, 10);
   const capacity = parseInt(formData.get("capacity") as string, 10);
+  const teamId = (formData.get("teamId") as string) || null;
 
   // Find the first occurrence on/after startDate matching dayOfWeek.
   const first = new Date(startDate);
@@ -92,7 +95,7 @@ export async function generateRecurringSessions(programId: string, formData: For
     const start = new Date(first);
     start.setUTCDate(start.getUTCDate() + i * 7);
     const end = new Date(start.getTime() + durationMinutes * 60_000);
-    return { programId, startTime: start, endTime: end, capacity };
+    return { programId, teamId, startTime: start, endTime: end, capacity };
   });
 
   await prisma.session.createMany({ data: sessions });

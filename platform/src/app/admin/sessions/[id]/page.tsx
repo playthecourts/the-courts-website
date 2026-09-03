@@ -12,6 +12,7 @@ export default async function SessionRosterPage(props: PageProps<"/admin/session
     where: { id },
     include: {
       program: true,
+      team: true,
       bookings: {
         where: { status: { in: ["booked", "attended", "no_show"] } },
         include: { athlete: true },
@@ -39,6 +40,7 @@ export default async function SessionRosterPage(props: PageProps<"/admin/session
           day: "numeric",
           timeZone: "UTC",
         }).format(session.startTime)}
+        {session.team && <span className="ml-2 font-normal text-neutral-500">· {session.team.name}</span>}
       </h1>
       <p className="mb-6 text-sm text-neutral-500">
         {new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "UTC" }).format(

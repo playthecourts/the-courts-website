@@ -1,6 +1,7 @@
 // Prisma schema for The Courts member/admin platform.
-// Phase 1 (MVP steps 1-6): identity, family hierarchy, staff/admin access,
-// the programs/sessions catalog, the booking loop, and memberships/entitlements.
+// Phase 1 (MVP steps 1-7): identity, family hierarchy, staff/admin access,
+// the programs/sessions catalog, the booking loop, memberships/entitlements,
+// and leagues (evaluations, teams, team practices/games).
 // See ../../docs/PLATFORM_ARCHITECTURE.md for the full approved schema and rationale.
 
 generator client {
@@ -73,6 +74,7 @@ model Athlete {
   waitlistEntries WaitlistEntry[]
   memberships     AthleteMembership[]
   credits         Credit[]
+  teamMemberships TeamMember[]
 
   @@map("athletes")
 }
@@ -96,9 +98,18 @@ enum StaffRole {
   coach
 }
 
-/// Catalog entry — what's offered, not when. team_id/coach_id/resource_id are
-/// deliberately not on Session yet: those entities (leagues, coaches,
-/// resources) don't exist in the schema until their own MVP build steps.
+/// Catalog entry — what's offered, not when. coach_id/resource_id are
+/// deliberately not on Session yet: those entities (coaches, resources)
+/// don't exist in the schema until their own MVP build steps.
+///
+/// A league is just a Program with programType = league. There is no
+/// separate LeagueSeason table — the candidate schema's league_seasons
+/// (name, sport, registration_price_cents) fully overlapped fields Program
+/// already has, so Team attaches directly to Program instead. One league
+/// Program spans its whole lifecycle: its early Sessions are evaluation
+/// time-slots (teamId null, booked through the same generic booking flow
+/// as any class), and its later Sessions are team practices/games (teamId
+/// set, created after evaluations once teams exist).
 model Program {
   id               String      @id @default(uuid())
   name             String
@@ -112,6 +123,7 @@ model Program {
 
   sessions     Session[]
   entitlements PlanEntitlement[]
+  teams        Team[]
 
   @@map("programs")
 }
@@ -131,6 +143,7 @@ enum ProgramType {
 model Session {
   id        String        @id @default(uuid())
   programId String        @map("program_id")
+  teamId    String?       @map("team_id")
   startTime DateTime      @map("start_time")
   endTime   DateTime      @map("end_time")
   capacity  Int
@@ -138,6 +151,7 @@ model Session {
   createdAt DateTime      @default(now()) @map("created_at")
 
   program         Program         @relation(fields: [programId], references: [id], onDelete: Cascade)
+  team            Team?           @relation(fields: [teamId], references: [id])
   bookings        Booking[]
   waitlistEntries WaitlistEntry[]
 
@@ -290,4 +304,34 @@ model Credit {
   athlete Athlete @relation(fields: [athleteId], references: [id], onDelete: Cascade)
 
   @@map("credits")
+}
+
+/// A roster within a league Program, formed after evaluations. No
+/// primaryCoachId yet — Coach doesn't exist in the schema, same
+/// don't-build-ahead-of-need reasoning as Session's missing coach_id/
+/// resource_id above.
+model Team {
+  id        String   @id @default(uuid())
+  programId String   @map("program_id")
+  name      String
+  division  String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  program  Program      @relation(fields: [programId], references: [id], onDelete: Cascade)
+  members  TeamMember[]
+  sessions Session[]
+
+  @@map("teams")
+}
+
+model TeamMember {
+  teamId    String   @map("team_id")
+  athleteId String   @map("athlete_id")
+  joinedAt  DateTime @default(now()) @map("joined_at")
+
+  team    Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  athlete Athlete @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+
+  @@id([teamId, athleteId])
+  @@map("team_members")
 }

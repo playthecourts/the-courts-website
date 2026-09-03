@@ -5,21 +5,33 @@ import { updateProgram } from "@/app/admin/programs/actions";
 import { SessionRow } from "./session-row";
 import { NewSessionForm } from "./new-session-form";
 import { RecurringSessionForm } from "./recurring-session-form";
+import { TeamRow } from "./team-row";
+import { NewTeamForm } from "./new-team-form";
 
 export default async function ProgramDetailPage(props: PageProps<"/admin/programs/[id]">) {
   await getCurrentStaff();
   const { id } = await props.params;
 
-  const program = await prisma.program.findUnique({
-    where: { id },
-    include: { sessions: { orderBy: { startTime: "asc" } } },
-  });
+  const [program, allAthletes] = await Promise.all([
+    prisma.program.findUnique({
+      where: { id },
+      include: {
+        sessions: { orderBy: { startTime: "asc" }, include: { team: true } },
+        teams: {
+          orderBy: { name: "asc" },
+          include: { members: { include: { athlete: true }, orderBy: { athlete: { firstName: "asc" } } } },
+        },
+      },
+    }),
+    prisma.athlete.findMany({ orderBy: { firstName: "asc" } }),
+  ]);
 
   if (!program) notFound();
 
   const updateAction = updateProgram.bind(null, program.id);
   const upcoming = program.sessions.filter((s) => s.startTime >= new Date());
   const past = program.sessions.filter((s) => s.startTime < new Date());
+  const isLeague = program.programType === "league";
 
   return (
     <div className="flex flex-col gap-8">
@@ -91,6 +103,34 @@ export default async function ProgramDetailPage(props: PageProps<"/admin/program
         </button>
       </form>
 
+      {isLeague && (
+        <section>
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-neutral-500">
+            Teams
+          </h2>
+          <div className="mb-4 rounded-lg border border-neutral-200">
+            {program.teams.length === 0 ? (
+              <p className="px-4 py-3 text-sm text-neutral-500">
+                No teams yet — form teams after evaluations, then assign practice/game sessions to them below.
+              </p>
+            ) : (
+              program.teams.map((team) => (
+                <TeamRow
+                  key={team.id}
+                  teamId={team.id}
+                  programId={program.id}
+                  name={team.name}
+                  division={team.division}
+                  members={team.members}
+                  allAthletes={allAthletes}
+                />
+              ))
+            )}
+          </div>
+          <NewTeamForm programId={program.id} />
+        </section>
+      )}
+
       <section>
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-neutral-500">
           Upcoming Sessions ({upcoming.length})
@@ -104,8 +144,8 @@ export default async function ProgramDetailPage(props: PageProps<"/admin/program
         </div>
 
         <div className="flex flex-col gap-3">
-          <NewSessionForm programId={program.id} />
-          <RecurringSessionForm programId={program.id} />
+          <NewSessionForm programId={program.id} teams={program.teams} />
+          <RecurringSessionForm programId={program.id} teams={program.teams} />
         </div>
       </section>
 
