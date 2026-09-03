@@ -1,4 +1,28 @@
 import { bookSession, cancelBooking, cancelWaitlistEntry } from "@/app/my-courts/actions";
+import type { BookingEligibility } from "@/lib/entitlements";
+
+function formatPrice(cents: number | null) {
+  if (cents === null || cents === 0) return "Free";
+  return `$${(cents / 100).toFixed(2)}`;
+}
+
+function EligibilityLabel({ eligibility }: { eligibility: BookingEligibility }) {
+  if (eligibility.type === "included") {
+    return (
+      <span className="text-xs text-neutral-500">
+        Included — {eligibility.membershipPlanName}
+      </span>
+    );
+  }
+  if (eligibility.type === "member_price") {
+    return (
+      <span className="text-xs text-neutral-500">
+        {formatPrice(eligibility.priceCents)} member price
+      </span>
+    );
+  }
+  return <span className="text-xs text-neutral-500">{formatPrice(eligibility.priceCents)}</span>;
+}
 
 export function SessionBookingRow({
   athleteId,
@@ -7,6 +31,7 @@ export function SessionBookingRow({
   bookingId,
   waitlistEntryId,
   isFull,
+  eligibility,
 }: {
   athleteId: string;
   athleteName: string;
@@ -14,6 +39,7 @@ export function SessionBookingRow({
   bookingId: string | null;
   waitlistEntryId: string | null;
   isFull: boolean;
+  eligibility: BookingEligibility | null;
 }) {
   return (
     <div className="flex items-center justify-between rounded-md bg-neutral-50 px-3 py-2 text-sm">
@@ -37,7 +63,8 @@ export function SessionBookingRow({
           </button>
         </form>
       ) : (
-        <form action={bookSession.bind(null, athleteId, sessionId)}>
+        <form action={bookSession.bind(null, athleteId, sessionId)} className="flex items-center gap-3">
+          {eligibility && !isFull && <EligibilityLabel eligibility={eligibility} />}
           <button type="submit" className="rounded-md bg-black px-3 py-1 text-xs font-semibold text-white">
             {isFull ? "Join Waitlist" : "Book"}
           </button>

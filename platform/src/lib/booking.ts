@@ -1,5 +1,6 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
+import { getBookingEligibility } from "@/lib/entitlements";
 
 // Shared booking logic used by both the guardian-facing action (after
 // authorization) and, later, any admin-initiated booking. A raw
@@ -11,6 +12,14 @@ export async function bookAthleteIntoSession(
   athleteId: string,
   bookedByGuardianId: string | null
 ) {
+  // Computed outside the transaction: entitlements.ts queries via the plain
+  // prisma client, not the tx client below. A price computed a moment
+  // before the capacity check is committed is an acceptable staleness
+  // window (worst case: a slightly wrong charged price to fix manually) —
+  // unlike the capacity check itself, which must never be stale.
+  const eligibility = await getBookingEligibility(athleteId, sessionId);
+  const priceChargedCents = eligibility.type === "included" ? 0 : eligibility.priceCents;
+
   return prisma.$transaction(async (tx) => {
     await tx.$executeRaw`SELECT id FROM sessions WHERE id = ${sessionId} FOR UPDATE`;
 
@@ -23,10 +32,7 @@ export async function bookAthleteIntoSession(
       return { status: "already_booked" as const };
     }
 
-    const session = await tx.session.findUniqueOrThrow({
-      where: { id: sessionId },
-      include: { program: true },
-    });
+    const session = await tx.session.findUniqueOrThrow({ where: { id: sessionId } });
     const bookedCount = await tx.booking.count({
       where: { sessionId, status: { not: "cancelled" } },
     });
@@ -38,22 +44,16 @@ export async function bookAthleteIntoSession(
           data: {
             status: "booked",
             bookedByGuardianId,
-            priceChargedCents: session.program.priceCents,
+            priceChargedCents,
             bookedAt: new Date(),
           },
         });
       } else {
         await tx.booking.create({
-          data: {
-            sessionId,
-            athleteId,
-            bookedByGuardianId,
-            status: "booked",
-            priceChargedCents: session.program.priceCents,
-          },
+          data: { sessionId, athleteId, bookedByGuardianId, status: "booked", priceChargedCents },
         });
       }
-      return { status: "booked" as const };
+      return { status: "booked" as const, eligibility };
     }
 
     const existingWaitlist = await tx.waitlistEntry.findUnique({
@@ -92,10 +92,13 @@ export async function cancelBookingById(bookingId: string) {
     });
     if (!nextWaiting) return;
 
-    const session = await tx.session.findUniqueOrThrow({
-      where: { id: booking.sessionId },
-      include: { program: true },
-    });
+    // Same out-of-transaction eligibility call as bookAthleteIntoSession, and
+    // for the same reason: entitlements.ts isn't parameterized for a tx
+    // client, and a price computed a moment before commit is an acceptable
+    // staleness window here (unlike the capacity check above it).
+    const eligibility = await getBookingEligibility(nextWaiting.athleteId, booking.sessionId);
+    const priceChargedCents = eligibility.type === "included" ? 0 : eligibility.priceCents;
+
     await tx.booking.upsert({
       where: {
         sessionId_athleteId: { sessionId: booking.sessionId, athleteId: nextWaiting.athleteId },
@@ -104,9 +107,9 @@ export async function cancelBookingById(bookingId: string) {
         sessionId: booking.sessionId,
         athleteId: nextWaiting.athleteId,
         status: "booked",
-        priceChargedCents: session.program.priceCents,
+        priceChargedCents,
       },
-      update: { status: "booked", bookedAt: new Date() },
+      update: { status: "booked", bookedAt: new Date(), priceChargedCents },
     });
     await tx.waitlistEntry.update({ where: { id: nextWaiting.id }, data: { status: "converted" } });
   });

@@ -1,6 +1,6 @@
 // Prisma schema for The Courts member/admin platform.
-// Phase 1 (MVP steps 1-5): identity, family hierarchy, staff/admin access,
-// the programs/sessions catalog, and the booking loop.
+// Phase 1 (MVP steps 1-6): identity, family hierarchy, staff/admin access,
+// the programs/sessions catalog, the booking loop, and memberships/entitlements.
 // See ../../docs/PLATFORM_ARCHITECTURE.md for the full approved schema and rationale.
 
 generator client {
@@ -68,9 +68,11 @@ model Athlete {
   photoConsent     Boolean  @default(false) @map("photo_consent")
   createdAt        DateTime @default(now()) @map("created_at")
 
-  family          Family          @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  family          Family              @relation(fields: [familyId], references: [id], onDelete: Cascade)
   bookings        Booking[]
   waitlistEntries WaitlistEntry[]
+  memberships     AthleteMembership[]
+  credits         Credit[]
 
   @@map("athletes")
 }
@@ -108,7 +110,8 @@ model Program {
   active           Boolean     @default(true)
   createdAt        DateTime    @default(now()) @map("created_at")
 
-  sessions Session[]
+  sessions     Session[]
+  entitlements PlanEntitlement[]
 
   @@map("programs")
 }
@@ -197,4 +200,94 @@ model WaitlistEntry {
 enum WaitlistEntryStatus {
   waiting
   converted
+}
+
+/// A purchasable plan (e.g. "Weekly Basketball, $120/mo"). No
+/// processor_subscription_id yet — payments aren't implemented, so
+/// memberships are admin-assigned directly rather than billed. Add that
+/// field when the payments step actually wires up a processor, not before.
+model MembershipPlan {
+  id              String          @id @default(uuid())
+  name            String
+  priceCents      Int             @map("price_cents")
+  billingInterval BillingInterval @map("billing_interval")
+  description     String?
+  active          Boolean         @default(true)
+  createdAt       DateTime        @default(now()) @map("created_at")
+
+  entitlements PlanEntitlement[]
+  memberships  AthleteMembership[]
+
+  @@map("membership_plans")
+}
+
+enum BillingInterval {
+  monthly
+  annual
+}
+
+/// A plan assigned to one athlete.
+model AthleteMembership {
+  id               String           @id @default(uuid())
+  athleteId        String           @map("athlete_id")
+  membershipPlanId String           @map("membership_plan_id")
+  status           MembershipStatus @default(active)
+  startDate        DateTime         @map("start_date") @db.Date
+  renewalDate      DateTime?        @map("renewal_date") @db.Date
+  createdAt        DateTime         @default(now()) @map("created_at")
+
+  athlete Athlete        @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  plan    MembershipPlan @relation(fields: [membershipPlanId], references: [id])
+
+  @@map("athlete_memberships")
+}
+
+enum MembershipStatus {
+  active
+  paused
+  cancelled
+}
+
+/// What a plan grants — structured rather than hardcoded, so eligibility is
+/// computed from data (see lib/entitlements.ts) instead of scattered
+/// if-statements. class_credit is evaluated dynamically by counting the
+/// athlete's bookings for programId within the current week against
+/// quantityPerPeriod — there is no separate credit balance to keep in sync
+/// for this benefit type; see Credit below for the different case that
+/// genuinely needs one (a purchased pack that doesn't reset weekly).
+model PlanEntitlement {
+  id                String      @id @default(uuid())
+  membershipPlanId  String      @map("membership_plan_id")
+  benefitType       BenefitType @map("benefit_type")
+  programId         String?     @map("program_id")
+  quantityPerPeriod Int?        @map("quantity_per_period")
+
+  plan    MembershipPlan @relation(fields: [membershipPlanId], references: [id], onDelete: Cascade)
+  program Program?       @relation(fields: [programId], references: [id])
+
+  @@map("plan_entitlements")
+}
+
+enum BenefitType {
+  class_credit
+  member_pricing
+  league_eligibility
+}
+
+/// A purchased, decrementing balance (e.g. a Dr. Dish 10-pack) — unlike
+/// class_credit above, this doesn't reset on a schedule. Not consumed by
+/// anything yet since resource bookings (Dr. Dish) are a later MVP step;
+/// the table exists now because memberships/credits are naturally one step.
+model Credit {
+  id         String    @id @default(uuid())
+  athleteId  String    @map("athlete_id")
+  creditType String    @map("credit_type")
+  balance    Int
+  source     String?
+  expiresAt  DateTime? @map("expires_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  athlete Athlete @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+
+  @@map("credits")
 }

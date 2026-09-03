@@ -1,11 +1,7 @@
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
+import { getBookingEligibility, type BookingEligibility } from "@/lib/entitlements";
 import { SessionBookingRow } from "./session-booking-row";
-
-function formatPrice(cents: number | null) {
-  if (cents === null || cents === 0) return "Free";
-  return `$${(cents / 100).toFixed(2)}`;
-}
 
 export default async function BookingsPage() {
   const guardian = await getCurrentGuardian();
@@ -25,6 +21,21 @@ export default async function BookingsPage() {
       _count: { select: { bookings: { where: { status: { not: "cancelled" } } } } },
     },
   });
+
+  // Precomputed before render — eligibility is only a decision aid for a
+  // seat not yet taken, so this only runs for genuinely open athlete/session
+  // pairs, not the full sessions x athletes cross product.
+  const eligibilityByKey = new Map<string, BookingEligibility>();
+  for (const session of sessions) {
+    for (const athlete of athletes) {
+      const alreadyHasSeat = session.bookings.some((b) => b.athleteId === athlete.id);
+      const alreadyWaitlisted = session.waitlistEntries.some((w) => w.athleteId === athlete.id);
+      if (!alreadyHasSeat && !alreadyWaitlisted) {
+        const eligibility = await getBookingEligibility(athlete.id, session.id);
+        eligibilityByKey.set(`${session.id}:${athlete.id}`, eligibility);
+      }
+    }
+  }
 
   return (
     <div>
@@ -56,7 +67,6 @@ export default async function BookingsPage() {
                   </p>
                 </div>
                 <p className="text-sm text-neutral-500">
-                  {formatPrice(session.program.memberPriceCents ?? session.program.priceCents)} ·{" "}
                   {session._count.bookings}/{session.capacity}
                 </p>
               </div>
@@ -67,6 +77,7 @@ export default async function BookingsPage() {
                     (w) => w.athleteId === athlete.id
                   );
                   const isFull = session._count.bookings >= session.capacity;
+                  const eligibility = eligibilityByKey.get(`${session.id}:${athlete.id}`) ?? null;
 
                   return (
                     <SessionBookingRow
@@ -77,6 +88,7 @@ export default async function BookingsPage() {
                       bookingId={booking?.id ?? null}
                       waitlistEntryId={waitlistEntry?.id ?? null}
                       isFull={isFull}
+                      eligibility={eligibility}
                     />
                   );
                 })}

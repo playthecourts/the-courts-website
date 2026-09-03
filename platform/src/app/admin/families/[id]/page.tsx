@@ -4,18 +4,25 @@ import { prisma } from "@/lib/prisma";
 import { updateFamilyName } from "@/app/admin/actions";
 import { AthleteRow } from "./athlete-row";
 import { NewAthleteForm } from "./new-athlete-form";
+import { AthleteMembershipBlock } from "./athlete-membership-block";
 
 export default async function FamilyDetailPage(props: PageProps<"/admin/families/[id]">) {
   await getCurrentStaff();
   const { id } = await props.params;
 
-  const family = await prisma.family.findUnique({
-    where: { id },
-    include: {
-      athletes: { orderBy: { firstName: "asc" } },
-      guardians: { include: { guardian: true } },
-    },
-  });
+  const [family, plans] = await Promise.all([
+    prisma.family.findUnique({
+      where: { id },
+      include: {
+        athletes: {
+          orderBy: { firstName: "asc" },
+          include: { memberships: { include: { plan: true }, orderBy: { createdAt: "desc" } } },
+        },
+        guardians: { include: { guardian: true } },
+      },
+    }),
+    prisma.membershipPlan.findMany({ where: { active: true }, orderBy: { name: "asc" } }),
+  ]);
 
   if (!family) notFound();
 
@@ -73,6 +80,26 @@ export default async function FamilyDetailPage(props: PageProps<"/admin/families
         </div>
         <NewAthleteForm familyId={family.id} />
       </section>
+
+      {family.athletes.length > 0 && (
+        <section>
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-neutral-500">
+            Memberships
+          </h2>
+          <div className="rounded-lg border border-neutral-200">
+            {family.athletes.map((athlete) => (
+              <AthleteMembershipBlock
+                key={athlete.id}
+                athleteId={athlete.id}
+                athleteName={`${athlete.firstName} ${athlete.lastName}`}
+                familyId={family.id}
+                memberships={athlete.memberships}
+                plans={plans}
+              />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
