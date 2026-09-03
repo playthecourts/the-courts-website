@@ -1,0 +1,74 @@
+// Prisma schema for The Courts member/admin platform.
+// Phase 1 (MVP step 1): identity + family hierarchy only.
+// See ../../docs/PLATFORM_ARCHITECTURE.md for the full approved schema and rationale.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+/// One row per guardian (parent) login. auth_id links to the Supabase Auth user.
+model Guardian {
+  id        String   @id @default(uuid())
+  authId    String   @unique @map("auth_id")
+  name      String
+  email     String   @unique
+  phone     String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  families FamilyGuardian[]
+
+  @@map("guardians")
+}
+
+/// The household unit. Athletes belong to exactly one family;
+/// guardians can belong to more than one (co-parents in separate households).
+model Family {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  guardians FamilyGuardian[]
+  athletes  Athlete[]
+
+  @@map("families")
+}
+
+/// Join table: which guardians can access which family. N:N to support
+/// co-parents/divorced households cleanly.
+model FamilyGuardian {
+  familyId   String @map("family_id")
+  guardianId String @map("guardian_id")
+  isPrimary  Boolean @default(false) @map("is_primary")
+
+  family   Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  guardian Guardian @relation(fields: [guardianId], references: [id], onDelete: Cascade)
+
+  @@id([familyId, guardianId])
+  @@map("family_guardians")
+}
+
+/// A child/participant. Belongs to one family; never authenticates directly.
+model Athlete {
+  id               String   @id @default(uuid())
+  familyId         String   @map("family_id")
+  firstName        String   @map("first_name")
+  lastName         String   @map("last_name")
+  dob              DateTime @db.Date
+  grade            String?
+  gender           String?
+  medicalNotes     String?  @map("medical_notes")
+  emergencyContact String?  @map("emergency_contact")
+  photoConsent     Boolean  @default(false) @map("photo_consent")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  family Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+
+  @@map("athletes")
+}
