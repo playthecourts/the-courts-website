@@ -1,8 +1,8 @@
 // Prisma schema for The Courts member/admin platform.
-// Phase 1 (MVP steps 1-8): identity, family hierarchy, staff/admin access,
+// Phase 1 (MVP steps 1-9): identity, family hierarchy, staff/admin access,
 // the programs/sessions catalog, the booking loop, memberships/entitlements,
-// leagues (evaluations, teams, team practices/games), and facility
-// resources (Dr. Dish, court rentals, double-booking prevention).
+// leagues (evaluations, teams, team practices/games), facility resources
+// (Dr. Dish, court rentals, double-booking prevention), and waivers.
 // See ../../docs/PLATFORM_ARCHITECTURE.md for the full approved schema and rationale.
 
 generator client {
@@ -23,8 +23,9 @@ model Guardian {
   phone     String?
   createdAt DateTime @default(now()) @map("created_at")
 
-  families FamilyGuardian[]
-  bookings Booking[]
+  families         FamilyGuardian[]
+  bookings         Booking[]
+  waiverSignatures WaiverSignature[]
 
   @@map("guardians")
 }
@@ -71,12 +72,13 @@ model Athlete {
   photoConsent     Boolean  @default(false) @map("photo_consent")
   createdAt        DateTime @default(now()) @map("created_at")
 
-  family          Family              @relation(fields: [familyId], references: [id], onDelete: Cascade)
-  bookings        Booking[]
-  waitlistEntries WaitlistEntry[]
-  memberships     AthleteMembership[]
-  credits         Credit[]
-  teamMemberships TeamMember[]
+  family           Family              @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  bookings         Booking[]
+  waitlistEntries  WaitlistEntry[]
+  memberships      AthleteMembership[]
+  credits          Credit[]
+  teamMemberships  TeamMember[]
+  waiverSignatures WaiverSignature[]
 
   @@map("athletes")
 }
@@ -381,4 +383,51 @@ model ResourceReservation {
 enum ResourceReservationStatus {
   confirmed
   cancelled
+}
+
+/// Content stored directly rather than as a contentUrl to a file — no
+/// object-storage infra (e.g. Supabase Storage) has been wired up yet, and
+/// plain text/markdown needs none. scope decides what a signature attaches
+/// to: `family` waivers need one signature per guardian (covers every
+/// athlete in the family); `athlete` waivers need one per athlete.
+model Waiver {
+  id            String      @id @default(uuid())
+  waiverType    String      @map("waiver_type")
+  version       String
+  content       String
+  scope         WaiverScope @default(family)
+  required      Boolean     @default(true)
+  effectiveDate DateTime    @map("effective_date") @db.Date
+  createdAt     DateTime    @default(now()) @map("created_at")
+
+  signatures WaiverSignature[]
+
+  @@map("waivers")
+}
+
+enum WaiverScope {
+  family
+  athlete
+}
+
+/// athleteId is null for a family-scope signature (the guardian signed once,
+/// covering the whole family) and set for an athlete-scope one. No DB
+/// uniqueness constraint on (waiverId, guardianId, athleteId) — Postgres
+/// unique constraints don't treat NULL athleteId values as equal to each
+/// other, so it couldn't actually prevent duplicate family-scope signatures
+/// anyway; the signing action checks for an existing signature first instead.
+model WaiverSignature {
+  id         String   @id @default(uuid())
+  guardianId String   @map("guardian_id")
+  athleteId  String?  @map("athlete_id")
+  waiverId   String   @map("waiver_id")
+  signedName String   @map("signed_name")
+  signedAt   DateTime @default(now()) @map("signed_at")
+  ipAddress  String?  @map("ip_address")
+
+  guardian Guardian @relation(fields: [guardianId], references: [id], onDelete: Cascade)
+  athlete  Athlete? @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  waiver   Waiver   @relation(fields: [waiverId], references: [id], onDelete: Cascade)
+
+  @@map("waiver_signatures")
 }

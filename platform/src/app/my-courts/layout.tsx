@@ -19,6 +19,9 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
           <Link href="/my-courts/bookings" className="text-neutral-600 hover:text-black">
             Book
           </Link>
+          <Link href="/my-courts/waivers" className="text-neutral-600 hover:text-black">
+            Waivers
+          </Link>
         </nav>
         <div className="flex items-center gap-4 text-sm">
           <span className="text-neutral-600">{guardian.name}</span>

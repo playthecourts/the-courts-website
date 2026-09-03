@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { bookAthleteIntoSession, cancelBookingById, cancelWaitlistEntryById } from "@/lib/booking";
+import { assertWaiversSigned } from "@/lib/waivers";
 
 async function assertOwnsAthlete(athleteId: string) {
   const guardian = await getCurrentGuardian();
@@ -18,6 +19,7 @@ async function assertOwnsAthlete(athleteId: string) {
 
 export async function bookSession(athleteId: string, sessionId: string) {
   const guardian = await assertOwnsAthlete(athleteId);
+  await assertWaiversSigned(guardian.id, athleteId);
   await bookAthleteIntoSession(sessionId, athleteId, guardian.id);
   revalidatePath("/my-courts/bookings");
   revalidatePath("/my-courts/schedule");
