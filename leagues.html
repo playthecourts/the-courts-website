@@ -36,6 +36,8 @@
 
   .lg-glance-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 4.6vw, 52px); line-height: 1.02; margin: 12px 0 0; color: var(--white); }
   .lg-rhythm-eyebrow { font-family: var(--font-sport); font-weight: 800; font-size: clamp(18px, 2vw, 20px); letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); display: block; margin-bottom: 8px; }
+  .lg-rhythm-sub { font-size: 15.5px; color: rgba(255,255,255,0.8); max-width: 56ch; margin: 40px auto 0; text-align: center; line-height: 1.5; }
+  .lg-rhythm-sub strong { color: var(--white); font-weight: 800; }
 
   .lg-timeline { display: flex; align-items: flex-start; justify-content: center; gap: 0; margin-top: 48px; flex-wrap: wrap; }
   .lg-timeline-step { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 0 22px; min-width: 140px; }
@@ -78,14 +80,6 @@
   .lg-eval-body { font-size: 15.5px; line-height: 1.65; color: var(--gray-dark); max-width: 54ch; margin: 0 0 22px; }
   .lg-eval-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(20px,2.4vw,24px); color: var(--black); margin: 0 0 36px; }
   .lg-eval-price span { display: block; font-family: var(--font-heading); font-weight: 500; font-size: 14px; color: var(--gray-dark); margin-top: 8px; max-width: 54ch; line-height: 1.55; }
-
-  .lg-eval-steps { padding-top: 32px; border-top: 1px solid var(--gray-mid); margin-bottom: 36px; }
-  .lg-eval-steps h3 { font-family: var(--font-sport); font-weight: 800; font-size: 14px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--black); margin: 0 0 20px; }
-  .lg-eval-steps ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 18px; }
-  .lg-eval-steps li { display: flex; gap: 16px; align-items: flex-start; }
-  .lg-eval-step-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--orange); color: var(--white); font-family: var(--font-display); font-weight: 900; font-size: 14px; display: flex; align-items: center; justify-content: center; }
-  .lg-eval-steps li strong { display: block; font-family: var(--font-heading); font-weight: 800; font-size: 15.5px; color: var(--black); margin-bottom: 3px; }
-  .lg-eval-steps li p { font-size: 14.5px; line-height: 1.55; color: var(--gray-dark); margin: 0; }
 
   .lg-eval-season { background: var(--gray-light); border-left: 4px solid var(--orange); border-radius: var(--radius-sm); padding: 20px 24px; }
   .lg-eval-season h4 { font-family: var(--font-sport); font-weight: 800; font-size: 13.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); margin: 0 0 9px; }
@@ -274,7 +268,7 @@
     <h1 class="page-hero-title">Practice Is Great. Let&rsquo;s Keep Score.</h1>
     <p class="page-hero-sub">Weekly practice. Saturday games. Real teammates. Real competition.<br><strong style="display:inline-block; margin-top:10px; font-size:1.3em;">Fall teams are forming now.</strong></p>
     <div class="lg-hero-evals">
-      <span class="lg-hero-evals-label">Evaluations</span>
+      <span class="lg-hero-evals-label">Fall League Evaluations</span>
       <span class="lg-hero-evals-date">Saturday, September 12</span>
       <div class="lg-hero-evals-times">
         <span><strong>3rd&ndash;5th Boys</strong> &middot; 3 PM</span>
@@ -282,7 +276,7 @@
         <span><strong>3rd&ndash;5th Girls</strong> &middot; 5 PM</span>
         <span><strong>6th&ndash;8th Girls</strong> &middot; 6 PM</span>
       </div>
-      <span class="lg-hero-evals-fee">$25 evaluation fee &middot; Applied toward league registration</span>
+      <span class="lg-hero-evals-fee">$25 evaluation &middot; Applied toward league registration</span>
     </div>
     <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH TO "Complete Fall League Registration →"
          (https://app.upperhand.io/customers/2876-the-courts-llc/events/206630-fall-2026-basketball-league) AFTER SEPT 12 -->
@@ -310,6 +304,7 @@
       <span class="lg-timeline-arrow">→</span>
       <div class="lg-timeline-step"><span class="lg-timeline-date">Dec 11&ndash;13</span><span class="lg-timeline-label">Tournament Weekend, if applicable</span></div>
     </div>
+    <p class="lg-rhythm-sub"><strong>Each week: 1 Courts development session + 1 team practice + 1 Saturday game.</strong></p>
   </div>
 </section>
 
@@ -329,13 +324,13 @@
           <li>Courts coaching throughout the season</li>
           <li>Tournament opportunity for qualifying teams</li>
         </ul>
-        <p class="lg-included-note">$25 evaluation fee is credited toward league registration if your athlete joins a team.</p>
+        <p class="lg-included-note">$25 evaluation fee is credited toward registration if your athlete joins a team.</p>
       </div>
       <div class="lg-included-connector" aria-hidden="true">+</div>
       <div class="lg-included-card lg-included-card--dark reveal">
-        <p class="lg-included-eyebrow-sm">More Than Game Day.</p>
-        <p class="lg-included-price">$120<span>/mo &middot; Weekly Basketball Membership, required</span></p>
-        <p class="lg-included-body">League athletes also participate in one Courts skills and development session each week.</p>
+        <p class="lg-included-eyebrow-sm">Weekly Basketball Membership</p>
+        <p class="lg-included-price">$120<span>/month &middot; Required for league athletes</span></p>
+        <p class="lg-included-body">Membership adds one Courts skills and development session each week.</p>
         <div class="lg-formula">
           <span>1 Development Session</span>
           <span class="lg-formula-plus">+</span>
@@ -362,7 +357,7 @@
         </div>
         <div class="lg-heard-item">
           <h3>More Development.</h3>
-          <p>League athletes get a weekly team practice plus a Courts skills session, so there&rsquo;s more time to actually get better.</p>
+          <p>A weekly Courts development session plus team practice means more time to actually get better.</p>
         </div>
         <div class="lg-heard-item">
           <h3>Better Communication.</h3>
@@ -378,8 +373,8 @@
     <div class="lg-eval-wrap">
       <div class="lg-eval-intro">
         <span class="eyebrow">Fall League Evaluations</span>
-        <h2 class="section-title">Raise Your Hand.<br>We&rsquo;ll See You at Evaluations.</h2>
-        <p class="lg-eval-lede">We&rsquo;re building teams for the upcoming fall basketball season with West Nashville Sports League (WNSL), and Evaluation Day is the first step.</p>
+        <h2 class="section-title">Raise Your Hand. We&rsquo;ll See You There.</h2>
+        <p class="lg-eval-lede">Evaluations help us understand each athlete&rsquo;s level and build balanced teams with smaller rosters, meaningful playing time, and the right competition.</p>
         <p class="lg-eval-when">Saturday, September 12</p>
         <ul class="lg-eval-times">
           <li><strong>3:00&ndash;3:50 PM</strong> &middot; 3rd&ndash;5th Grade Boys</li>
@@ -387,26 +382,15 @@
           <li><strong>5:00&ndash;5:50 PM</strong> &middot; 3rd&ndash;5th Grade Girls</li>
           <li><strong>6:00&ndash;6:50 PM</strong> &middot; 6th&ndash;8th Grade Girls</li>
         </ul>
-        <p class="lg-eval-price">Evaluation Fee &middot; $25<span>We&rsquo;ll send the registration and payment link after you submit the form. If your athlete joins a fall team, the full $25 will be applied toward league registration.</span></p>
+        <p class="lg-eval-price">Evaluation Fee &middot; $25<span>We&rsquo;ll email the registration and payment link after you submit the form. If your athlete joins a team, the full $25 is applied toward league registration.</span></p>
+        <p class="lg-eval-body">No cuts. Evaluations are simply how we create the right teams.</p>
 
         <div class="lg-eval-season">
           <h4>Fall Season</h4>
           <p><strong>Regular Season:</strong> October 24&ndash;December 5</p>
           <p style="margin-top: 10px;"><strong>Tournament Weekend:</strong> December 11&ndash;13, if applicable</p>
-          <p style="margin-top: 12px;"><strong>Game Locations:</strong> Games are played at multiple WNSL locations across West Nashville and Brentwood. Venues may include West End Middle, JT Moore, Montessori in Brentwood, Harding Academy, and others.</p>
+          <p style="margin-top: 12px;"><strong>Games:</strong> Played at WNSL locations throughout West Nashville and Brentwood.</p>
         </div>
-
-        <div class="lg-eval-steps">
-          <h3>What Happens Next</h3>
-          <ol>
-            <li><span class="lg-eval-step-num">1</span><div><strong>Raise Your Hand.</strong><p>Tell us your athlete plans to attend.</p></div></li>
-            <li><span class="lg-eval-step-num">2</span><div><strong>Complete Evaluation Registration.</strong><p>We&rsquo;ll email you the $25 registration and payment link.</p></div></li>
-            <li><span class="lg-eval-step-num">3</span><div><strong>Join Us September 12.</strong><p>Come during your athlete&rsquo;s assigned division time.</p></div></li>
-            <li><span class="lg-eval-step-num">4</span><div><strong>Hear From Us.</strong><p>After evaluations, we&rsquo;ll update you on team placement and send the Fall League registration link.</p></div></li>
-          </ol>
-        </div>
-
-        <p class="lg-eval-body">No cuts. Evaluations simply help us understand each athlete&rsquo;s level and create balanced teams with smaller rosters, meaningful playing time, and the right competition.</p>
       </div>
 
       <div class="lg-eval-form-wrap">
@@ -477,7 +461,7 @@
           <input type="hidden" name="signup_page" class="lg-eval-signup-page" value="">
 
           <button type="submit" class="btn btn-primary btn-block" id="evalFormSubmit">Raise My Hand →</button>
-          <p class="lg-eval-form-note">Submitting this form does not complete registration or require payment. We&rsquo;ll follow up with next steps.</p>
+          <p class="lg-eval-form-note">Submitting this form does not complete registration or require payment. We&rsquo;ll email your evaluation registration and payment link next.</p>
           <p class="lg-eval-form-error" id="evalFormError" hidden>That didn&rsquo;t go through. Give it another try.</p>
         </form>
         <div id="evalFormSuccess" class="form-success" style="display:none;">
@@ -495,28 +479,14 @@
 <section class="lg-nextup" id="register">
   <div class="container">
     <div class="lg-nextup-head">
-      <span class="eyebrow lg-nextup-eyebrow">Next On the Court</span>
-      <h2 class="lg-nextup-title">Fall Isn&rsquo;t the Only Season.</h2>
+      <span class="eyebrow lg-nextup-eyebrow">Up Next</span>
+      <h2 class="lg-nextup-title">Winter Basketball</h2>
     </div>
-    <div class="lg-nextup-grid">
-      <div class="lg-nextup-col">
-        <span class="lg-nextup-tag">Fall 2026</span>
-        <p class="lg-nextup-name">You In? Start Here.</p>
-        <p class="lg-nextup-detail">Evaluations · Saturday, September 12<br>Division times begin at 3 PM.</p>
-        <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH TO "Complete Fall League Registration →"
-             (https://app.upperhand.io/customers/2876-the-courts-llc/events/206630-fall-2026-basketball-league) AFTER SEPT 12 -->
-        <div class="ctas" style="display:flex; gap:14px; flex-wrap:wrap; margin:4px 0 16px;">
-          <a href="#evaluations" class="btn btn-primary" data-booking-type="basketball-evaluation-interest">Join the Evaluation List →</a>
-        </div>
-        <p class="lg-nextup-foot">Weekly Basketball Membership is required for league participation. League athletes receive one Courts development session each week in addition to their weekly team practice and Saturday game.</p>
-      </div>
-      <div class="lg-nextup-col">
-        <span class="lg-nextup-tag">Winter Basketball</span>
-        <p class="lg-nextup-dates">January 9&ndash;February 27, 2027</p>
-        <p class="lg-nextup-detail">One Saturday game. One team practice each week.</p>
-        <p class="lg-nextup-stat">Miss fall? We go again.</p>
-        <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-primary" data-preset="Basketball Leagues">Get Winter Updates →</a>
-      </div>
+    <div class="lg-nextup-single">
+      <p class="lg-nextup-dates">January 9&ndash;February 27, 2027</p>
+      <p class="lg-nextup-detail">Weekly team practice. Saturday games. Courts coaching.</p>
+      <p class="lg-nextup-stat">Miss fall? We go again.</p>
+      <a href="contact?interest=Basketball%20Leagues#contact-form" class="btn btn-primary" data-preset="Basketball Leagues">Get Winter Updates →</a>
     </div>
   </div>
 </section>
@@ -524,25 +494,16 @@
 <style>
   .lg-nextup { background: var(--black); color: var(--white); padding: 100px 0; overflow: hidden; position: relative; }
   .lg-nextup::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--orange); }
-  .lg-nextup-head { text-align: center; margin-bottom: 56px; }
+  .lg-nextup-head { text-align: center; margin-bottom: 40px; }
   .lg-nextup-eyebrow { font-size: 18px; }
   .lg-nextup-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 4vw, 40px); margin: 10px 0 0; color: var(--white); }
-  .lg-nextup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; max-width: 940px; margin: 0 auto; }
-  .lg-nextup-col { padding: 0 44px; border-left: 1px solid rgba(255,255,255,0.16); }
-  .lg-nextup-col:first-child { border-left: none; }
-  .lg-nextup-tag { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; }
-  .lg-nextup-name { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 2.8vw, 30px); color: var(--white); margin: 0 0 14px; }
+  .lg-nextup-single { text-align: center; max-width: 480px; margin: 0 auto; }
   .lg-nextup-dates { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2.6vw, 28px); color: var(--white); margin: 0 0 10px; line-height: 1.15; }
   .lg-nextup-detail { font-size: 15.5px; color: rgba(255,255,255,0.68); line-height: 1.5; margin: 0 0 18px; }
-  .lg-nextup-body { font-size: 15.5px; color: rgba(255,255,255,0.68); line-height: 1.6; margin: 0 0 18px; }
   .lg-nextup-stat { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--white); margin: 0 0 24px; }
-  .lg-nextup-foot { font-size: 13px; font-style: italic; color: rgba(255,255,255,0.5); margin: 16px 0 0; }
 
   @media (max-width: 900px) {
     .lg-nextup { padding: 72px 0; }
-    .lg-nextup-grid { grid-template-columns: 1fr; gap: 40px; max-width: 420px; }
-    .lg-nextup-col { border-left: none; border-top: 1px solid rgba(255,255,255,0.16); padding: 32px 0 0; }
-    .lg-nextup-col:first-child { border-top: none; padding-top: 0; }
   }
 </style>
 
