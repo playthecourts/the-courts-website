@@ -38,14 +38,13 @@
 
   .lg-glance-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 4.6vw, 52px); line-height: 1.02; margin: 12px 0 0; color: var(--white); }
   .lg-rhythm-eyebrow { font-family: var(--font-sport); font-weight: 800; font-size: clamp(18px, 2vw, 20px); letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); display: block; margin-bottom: 8px; }
-  .lg-rhythm-sub { display: flex; justify-content: center; margin: 44px auto 0; }
-  .lg-rhythm-sub strong { display: inline-block; font-family: var(--font-heading); font-weight: 700; font-size: 14.5px; color: var(--white); background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16); border-radius: var(--radius-md); padding: 13px 26px; line-height: 1.45; text-align: center; max-width: 480px; }
 
   .lg-timeline { display: flex; align-items: flex-start; justify-content: center; gap: 0; margin-top: 48px; flex-wrap: wrap; }
   .lg-timeline-step { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 0 22px; min-width: 140px; }
   .lg-timeline-date { font-family: var(--font-sport); font-weight: 800; font-size: clamp(18px, 2.1vw, 22px); letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); }
   .lg-timeline-label { font-family: var(--font-display); font-weight: 900; font-size: clamp(17px, 1.7vw, 20px); color: var(--white); line-height: 1.2; }
   .lg-timeline-arrow { color: var(--orange); font-family: var(--font-display); font-weight: 900; font-size: 22px; align-self: center; padding-top: 22px; flex-shrink: 0; }
+  .lg-timeline-step:last-child { margin-top: 18px; }
   @media (max-width: 760px) {
     .lg-timeline { flex-direction: column; align-items: stretch; gap: 22px; max-width: 320px; margin-left: auto; margin-right: auto; }
     .lg-timeline-step { flex-direction: row; text-align: left; gap: 16px; padding: 0; }
@@ -306,7 +305,6 @@
       <span class="lg-timeline-arrow">→</span>
       <div class="lg-timeline-step"><span class="lg-timeline-date">Dec 11&ndash;13</span><span class="lg-timeline-label">Tournament Weekend, if applicable</span></div>
     </div>
-    <p class="lg-rhythm-sub"><strong>Each week: 1 Courts development session + 1 team practice + 1 Saturday game.</strong></p>
   </div>
 </section>
 
@@ -375,7 +373,7 @@
     <div class="lg-eval-wrap">
       <div class="lg-eval-intro">
         <span class="eyebrow">Fall League Evaluations</span>
-        <h2 class="section-title">Raise Your Hand. We&rsquo;ll See You There.</h2>
+        <h2 class="section-title">Raise Your Hand.<br>We&rsquo;ll See You There.</h2>
         <p class="lg-eval-lede">Evaluations help us understand each athlete&rsquo;s level and build balanced teams with smaller rosters, meaningful playing time, and the right competition.</p>
         <p class="lg-eval-when">Saturday, September 12</p>
         <ul class="lg-eval-times">
