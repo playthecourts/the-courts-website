@@ -12,11 +12,11 @@ export default async function ProgramDetailPage(props: PageProps<"/admin/program
   await getCurrentStaff();
   const { id } = await props.params;
 
-  const [program, allAthletes] = await Promise.all([
+  const [program, allAthletes, resources] = await Promise.all([
     prisma.program.findUnique({
       where: { id },
       include: {
-        sessions: { orderBy: { startTime: "asc" }, include: { team: true } },
+        sessions: { orderBy: { startTime: "asc" }, include: { team: true, resource: true } },
         teams: {
           orderBy: { name: "asc" },
           include: { members: { include: { athlete: true }, orderBy: { athlete: { firstName: "asc" } } } },
@@ -24,6 +24,7 @@ export default async function ProgramDetailPage(props: PageProps<"/admin/program
       },
     }),
     prisma.athlete.findMany({ orderBy: { firstName: "asc" } }),
+    prisma.resource.findMany({ where: { active: true }, orderBy: { name: "asc" } }),
   ]);
 
   if (!program) notFound();
@@ -144,8 +145,8 @@ export default async function ProgramDetailPage(props: PageProps<"/admin/program
         </div>
 
         <div className="flex flex-col gap-3">
-          <NewSessionForm programId={program.id} teams={program.teams} />
-          <RecurringSessionForm programId={program.id} teams={program.teams} />
+          <NewSessionForm programId={program.id} teams={program.teams} resources={resources} />
+          <RecurringSessionForm programId={program.id} teams={program.teams} resources={resources} />
         </div>
       </section>
 

@@ -1,8 +1,17 @@
 import { createSession } from "@/app/admin/programs/actions";
 
 type Team = { id: string; name: string };
+type Resource = { id: string; name: string };
 
-export function NewSessionForm({ programId, teams }: { programId: string; teams: Team[] }) {
+export function NewSessionForm({
+  programId,
+  teams,
+  resources,
+}: {
+  programId: string;
+  teams: Team[];
+  resources: Resource[];
+}) {
   const action = createSession.bind(null, programId);
 
   return (
@@ -30,6 +39,19 @@ export function NewSessionForm({ programId, teams }: { programId: string; teams:
             {teams.map((team) => (
               <option key={team.id} value={team.id}>
                 {team.name}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
+      {resources.length > 0 && (
+        <label className="flex flex-col gap-1 text-xs font-medium">
+          Resource (optional)
+          <select name="resourceId" className="rounded-md border border-neutral-300 px-2 py-1 text-sm">
+            <option value="">No resource</option>
+            {resources.map((resource) => (
+              <option key={resource.id} value={resource.id}>
+                {resource.name}
               </option>
             ))}
           </select>

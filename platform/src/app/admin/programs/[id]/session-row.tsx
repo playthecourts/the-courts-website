@@ -11,6 +11,7 @@ type Session = {
   capacity: number;
   status: string;
   team: { name: string } | null;
+  resource: { name: string } | null;
 };
 
 function formatRange(start: Date, end: Date) {
@@ -49,6 +50,7 @@ export function SessionRow({ session }: { session: Session }) {
         )}
         <span className="ml-2 text-neutral-500">cap {session.capacity}</span>
         {session.team && <span className="ml-2 text-xs text-neutral-500">· {session.team.name}</span>}
+        {session.resource && <span className="ml-2 text-xs text-neutral-500">· {session.resource.name}</span>}
         {session.status === "cancelled" && (
           <span className="ml-2 text-xs text-red-500">cancelled</span>
         )}

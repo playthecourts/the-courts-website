@@ -1,7 +1,8 @@
 // Prisma schema for The Courts member/admin platform.
-// Phase 1 (MVP steps 1-7): identity, family hierarchy, staff/admin access,
+// Phase 1 (MVP steps 1-8): identity, family hierarchy, staff/admin access,
 // the programs/sessions catalog, the booking loop, memberships/entitlements,
-// and leagues (evaluations, teams, team practices/games).
+// leagues (evaluations, teams, team practices/games), and facility
+// resources (Dr. Dish, court rentals, double-booking prevention).
 // See ../../docs/PLATFORM_ARCHITECTURE.md for the full approved schema and rationale.
 
 generator client {
@@ -35,8 +36,9 @@ model Family {
   name      String
   createdAt DateTime @default(now()) @map("created_at")
 
-  guardians FamilyGuardian[]
-  athletes  Athlete[]
+  guardians    FamilyGuardian[]
+  athletes     Athlete[]
+  reservations ResourceReservation[]
 
   @@map("families")
 }
@@ -98,9 +100,8 @@ enum StaffRole {
   coach
 }
 
-/// Catalog entry — what's offered, not when. coach_id/resource_id are
-/// deliberately not on Session yet: those entities (coaches, resources)
-/// don't exist in the schema until their own MVP build steps.
+/// Catalog entry — what's offered, not when. coach_id is deliberately not
+/// on Session yet: Coach doesn't exist in the schema until its own step.
 ///
 /// A league is just a Program with programType = league. There is no
 /// separate LeagueSeason table — the candidate schema's league_seasons
@@ -141,16 +142,18 @@ enum ProgramType {
 /// into individual rows (via bulk generation) rather than being expanded
 /// from a recurrence rule at read time.
 model Session {
-  id        String        @id @default(uuid())
-  programId String        @map("program_id")
-  teamId    String?       @map("team_id")
-  startTime DateTime      @map("start_time")
-  endTime   DateTime      @map("end_time")
-  capacity  Int
-  status    SessionStatus @default(scheduled)
-  createdAt DateTime      @default(now()) @map("created_at")
+  id         String        @id @default(uuid())
+  programId  String        @map("program_id")
+  teamId     String?       @map("team_id")
+  resourceId String?       @map("resource_id")
+  startTime  DateTime      @map("start_time")
+  endTime    DateTime      @map("end_time")
+  capacity   Int
+  status     SessionStatus @default(scheduled)
+  createdAt  DateTime      @default(now()) @map("created_at")
 
   program         Program         @relation(fields: [programId], references: [id], onDelete: Cascade)
+  resource        Resource?       @relation(fields: [resourceId], references: [id])
   team            Team?           @relation(fields: [teamId], references: [id])
   bookings        Booking[]
   waitlistEntries WaitlistEntry[]
@@ -308,8 +311,7 @@ model Credit {
 
 /// A roster within a league Program, formed after evaluations. No
 /// primaryCoachId yet — Coach doesn't exist in the schema, same
-/// don't-build-ahead-of-need reasoning as Session's missing coach_id/
-/// resource_id above.
+/// don't-build-ahead-of-need reasoning as Session's missing coach_id above.
 model Team {
   id        String   @id @default(uuid())
   programId String   @map("program_id")
@@ -334,4 +336,49 @@ model TeamMember {
 
   @@id([teamId, athleteId])
   @@map("team_members")
+}
+
+/// A physical, ownable thing that can't be double-booked (Court 1, Court 2,
+/// Full Court, Dr. Dish). "cannot be double-booked" was called out as a
+/// hard requirement from the start — see lib/resources.ts for how that's
+/// actually enforced (a locked, transactional overlap check, the same
+/// technique already used for session capacity, not a bare application-
+/// layer check with a race window).
+model Resource {
+  id           String   @id @default(uuid())
+  name         String
+  resourceType String   @map("resource_type")
+  capacity     Int      @default(1)
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  sessions     Session[]
+  reservations ResourceReservation[]
+
+  @@map("resources")
+}
+
+/// An ad-hoc reservation NOT tied to the Program/Session catalog — a direct
+/// court rental a family books outside of any class/camp/league context.
+/// Program-driven resource use (e.g. a Dr. Dish session) goes through
+/// Session.resourceId instead; both are checked together for conflicts.
+model ResourceReservation {
+  id                String                    @id @default(uuid())
+  resourceId        String                    @map("resource_id")
+  familyId          String                    @map("family_id")
+  startTime         DateTime                  @map("start_time")
+  endTime           DateTime                  @map("end_time")
+  status            ResourceReservationStatus @default(confirmed)
+  priceChargedCents Int?                      @map("price_charged_cents")
+  createdAt         DateTime                  @default(now()) @map("created_at")
+
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  family   Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+
+  @@map("resource_reservations")
+}
+
+enum ResourceReservationStatus {
+  confirmed
+  cancelled
 }

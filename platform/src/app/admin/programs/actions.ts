@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { getCurrentStaff } from "@/lib/admin-dal";
 import { prisma } from "@/lib/prisma";
 import { ProgramType } from "@/generated/prisma/enums";
+import { assertResourceAvailable } from "@/lib/resources";
 
 function dollarsToCents(value: FormDataEntryValue | null): number | null {
   if (!value || value === "") return null;
@@ -58,15 +59,16 @@ export async function createSession(programId: string, formData: FormData) {
   const durationMinutes = parseInt(formData.get("durationMinutes") as string, 10);
   const endTime = new Date(startTime.getTime() + durationMinutes * 60_000);
   const teamId = (formData.get("teamId") as string) || null;
+  const resourceId = (formData.get("resourceId") as string) || null;
+  const capacity = parseInt(formData.get("capacity") as string, 10);
 
-  await prisma.session.create({
-    data: {
-      programId,
-      teamId,
-      startTime,
-      endTime,
-      capacity: parseInt(formData.get("capacity") as string, 10),
-    },
+  await prisma.$transaction(async (tx) => {
+    if (resourceId) {
+      await assertResourceAvailable(tx, resourceId, startTime, endTime);
+    }
+    await tx.session.create({
+      data: { programId, teamId, resourceId, startTime, endTime, capacity },
+    });
   });
   revalidatePath(`/admin/programs/${programId}`);
   revalidatePath("/admin/schedule");
@@ -84,6 +86,7 @@ export async function generateRecurringSessions(programId: string, formData: For
   const weeks = parseInt(formData.get("weeks") as string, 10);
   const capacity = parseInt(formData.get("capacity") as string, 10);
   const teamId = (formData.get("teamId") as string) || null;
+  const resourceId = (formData.get("resourceId") as string) || null;
 
   // Find the first occurrence on/after startDate matching dayOfWeek.
   const first = new Date(startDate);
@@ -95,10 +98,20 @@ export async function generateRecurringSessions(programId: string, formData: For
     const start = new Date(first);
     start.setUTCDate(start.getUTCDate() + i * 7);
     const end = new Date(start.getTime() + durationMinutes * 60_000);
-    return { programId, teamId, startTime: start, endTime: end, capacity };
+    return { programId, teamId, resourceId, startTime: start, endTime: end, capacity };
   });
 
-  await prisma.session.createMany({ data: sessions });
+  await prisma.$transaction(async (tx) => {
+    // All-or-nothing: if any one of the generated weekly slots would
+    // conflict, reject the whole batch rather than create some and skip
+    // others silently.
+    if (resourceId) {
+      for (const s of sessions) {
+        await assertResourceAvailable(tx, resourceId, s.startTime, s.endTime);
+      }
+    }
+    await tx.session.createMany({ data: sessions });
+  });
   revalidatePath(`/admin/programs/${programId}`);
   revalidatePath("/admin/schedule");
 }
