@@ -1,5 +1,5 @@
 // Prisma schema for The Courts member/admin platform.
-// Phase 1 (MVP step 1): identity + family hierarchy only.
+// Phase 1 (MVP steps 1-2): identity, family hierarchy, and staff/admin access.
 // See ../../docs/PLATFORM_ARCHITECTURE.md for the full approved schema and rationale.
 
 generator client {
@@ -69,4 +69,23 @@ model Athlete {
   family Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
 
   @@map("athletes")
+}
+
+/// Staff/admin login. Deliberately separate from Guardian — a different trust
+/// boundary, even though both authenticate through the same Supabase Auth.
+model StaffUser {
+  id        String   @id @default(uuid())
+  authId    String   @unique @map("auth_id")
+  name      String
+  email     String   @unique
+  role      StaffRole
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("staff_users")
+}
+
+enum StaffRole {
+  admin
+  front_desk
+  coach
 }
