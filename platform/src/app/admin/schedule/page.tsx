@@ -52,7 +52,7 @@ export default async function SchedulePage() {
                 {daySessions.map((session) => (
                   <Link
                     key={session.id}
-                    href={`/admin/programs/${session.programId}`}
+                    href={`/admin/sessions/${session.id}`}
                     className="flex items-center justify-between px-4 py-3 text-sm hover:bg-neutral-50"
                   >
                     <span className="font-medium">{session.program.name}</span>

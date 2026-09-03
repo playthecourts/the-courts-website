@@ -1,6 +1,6 @@
 // Prisma schema for The Courts member/admin platform.
-// Phase 1 (MVP steps 1-3): identity, family hierarchy, staff/admin access,
-// and the programs/sessions catalog for recurring classes + fixed-date events.
+// Phase 1 (MVP steps 1-5): identity, family hierarchy, staff/admin access,
+// the programs/sessions catalog, and the booking loop.
 // See ../../docs/PLATFORM_ARCHITECTURE.md for the full approved schema and rationale.
 
 generator client {
@@ -22,6 +22,7 @@ model Guardian {
   createdAt DateTime @default(now()) @map("created_at")
 
   families FamilyGuardian[]
+  bookings Booking[]
 
   @@map("guardians")
 }
@@ -42,8 +43,8 @@ model Family {
 /// Join table: which guardians can access which family. N:N to support
 /// co-parents/divorced households cleanly.
 model FamilyGuardian {
-  familyId   String @map("family_id")
-  guardianId String @map("guardian_id")
+  familyId   String  @map("family_id")
+  guardianId String  @map("guardian_id")
   isPrimary  Boolean @default(false) @map("is_primary")
 
   family   Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
@@ -67,7 +68,9 @@ model Athlete {
   photoConsent     Boolean  @default(false) @map("photo_consent")
   createdAt        DateTime @default(now()) @map("created_at")
 
-  family Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  family          Family          @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  bookings        Booking[]
+  waitlistEntries WaitlistEntry[]
 
   @@map("athletes")
 }
@@ -75,12 +78,12 @@ model Athlete {
 /// Staff/admin login. Deliberately separate from Guardian — a different trust
 /// boundary, even though both authenticate through the same Supabase Auth.
 model StaffUser {
-  id        String   @id @default(uuid())
-  authId    String   @unique @map("auth_id")
+  id        String    @id @default(uuid())
+  authId    String    @unique @map("auth_id")
   name      String
-  email     String   @unique
+  email     String    @unique
   role      StaffRole
-  createdAt DateTime @default(now()) @map("created_at")
+  createdAt DateTime  @default(now()) @map("created_at")
 
   @@map("staff_users")
 }
@@ -95,15 +98,15 @@ enum StaffRole {
 /// deliberately not on Session yet: those entities (leagues, coaches,
 /// resources) don't exist in the schema until their own MVP build steps.
 model Program {
-  id              String      @id @default(uuid())
-  name            String
-  programType     ProgramType @map("program_type")
-  sport           String?
-  description     String?
-  priceCents      Int?        @map("price_cents")
-  memberPriceCents Int?       @map("member_price_cents")
-  active          Boolean     @default(true)
-  createdAt       DateTime    @default(now()) @map("created_at")
+  id               String      @id @default(uuid())
+  name             String
+  programType      ProgramType @map("program_type")
+  sport            String?
+  description      String?
+  priceCents       Int?        @map("price_cents")
+  memberPriceCents Int?        @map("member_price_cents")
+  active           Boolean     @default(true)
+  createdAt        DateTime    @default(now()) @map("created_at")
 
   sessions Session[]
 
@@ -123,15 +126,17 @@ enum ProgramType {
 /// into individual rows (via bulk generation) rather than being expanded
 /// from a recurrence rule at read time.
 model Session {
-  id         String        @id @default(uuid())
-  programId  String        @map("program_id")
-  startTime  DateTime      @map("start_time")
-  endTime    DateTime      @map("end_time")
-  capacity   Int
-  status     SessionStatus @default(scheduled)
-  createdAt  DateTime      @default(now()) @map("created_at")
+  id        String        @id @default(uuid())
+  programId String        @map("program_id")
+  startTime DateTime      @map("start_time")
+  endTime   DateTime      @map("end_time")
+  capacity  Int
+  status    SessionStatus @default(scheduled)
+  createdAt DateTime      @default(now()) @map("created_at")
 
-  program Program @relation(fields: [programId], references: [id], onDelete: Cascade)
+  program         Program         @relation(fields: [programId], references: [id], onDelete: Cascade)
+  bookings        Booking[]
+  waitlistEntries WaitlistEntry[]
 
   @@map("sessions")
 }
@@ -139,4 +144,57 @@ model Session {
 enum SessionStatus {
   scheduled
   cancelled
+}
+
+/// A confirmed seat in a session. Simplification vs. the original candidate
+/// schema: there is no "waitlisted" booking status — a waitlisted athlete has
+/// a WaitlistEntry instead, and only gets a Booking once a seat is confirmed.
+/// This keeps "has a seat" (Booking) and "wants a seat" (WaitlistEntry) as
+/// two distinct, unambiguous states instead of overlapping ones.
+model Booking {
+  id                 String        @id @default(uuid())
+  sessionId          String        @map("session_id")
+  athleteId          String        @map("athlete_id")
+  bookedByGuardianId String?       @map("booked_by_guardian_id")
+  status             BookingStatus @default(booked)
+  priceChargedCents  Int?          @map("price_charged_cents")
+  bookedAt           DateTime      @default(now()) @map("booked_at")
+
+  session          Session   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  athlete          Athlete   @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  bookedByGuardian Guardian? @relation(fields: [bookedByGuardianId], references: [id])
+
+  // One active-or-historical booking per athlete per session — re-booking
+  // after a cancellation updates this row rather than creating a new one.
+  @@unique([sessionId, athleteId])
+  @@map("bookings")
+}
+
+enum BookingStatus {
+  booked
+  cancelled
+  attended
+  no_show
+}
+
+/// A family wanting a seat in a full session. Ordered by position; the
+/// oldest waiting entry is auto-converted to a Booking when a seat frees up.
+model WaitlistEntry {
+  id        String              @id @default(uuid())
+  sessionId String              @map("session_id")
+  athleteId String              @map("athlete_id")
+  position  Int
+  status    WaitlistEntryStatus @default(waiting)
+  createdAt DateTime            @default(now()) @map("created_at")
+
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  athlete Athlete @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, athleteId])
+  @@map("waitlist_entries")
+}
+
+enum WaitlistEntryStatus {
+  waiting
+  converted
 }

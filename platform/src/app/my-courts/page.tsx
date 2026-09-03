@@ -1,23 +1,12 @@
 import { getCurrentGuardian } from "@/lib/dal";
-import { logout } from "@/app/actions/auth";
 
 export default async function MyCourtsPage() {
   const guardian = await getCurrentGuardian();
   const families = guardian.families.map((fg) => fg.family);
 
   return (
-    <main className="mx-auto max-w-2xl px-6 py-12">
-      <div className="mb-8 flex items-start justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Welcome, {guardian.name}</h1>
-          <p className="text-sm text-neutral-600">{guardian.email}</p>
-        </div>
-        <form action={logout}>
-          <button type="submit" className="text-sm font-medium underline">
-            Sign out
-          </button>
-        </form>
-      </div>
+    <div>
+      <h1 className="mb-6 text-xl font-bold">Your Family</h1>
 
       {families.length === 0 ? (
         <p className="text-neutral-600">No family on file yet.</p>
@@ -40,6 +29,6 @@ export default async function MyCourtsPage() {
           </section>
         ))
       )}
-    </main>
+    </div>
   );
 }
