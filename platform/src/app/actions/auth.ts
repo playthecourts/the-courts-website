@@ -25,6 +25,7 @@ type AthleteInput = {
   dob: string;
   grade: string;
   gender: string;
+  photoConsent: boolean;
 };
 
 export async function signup(_prevState: unknown, formData: FormData) {
@@ -47,17 +48,21 @@ export async function signup(_prevState: unknown, formData: FormData) {
     const firstName = (formData.get(`athlete_${i}_firstName`) as string)?.trim();
     const lastName = (formData.get(`athlete_${i}_lastName`) as string)?.trim();
     const dob = formData.get(`athlete_${i}_dob`) as string;
-    if (!firstName || !lastName || !dob) continue;
-    athletes.push({
-      firstName,
-      lastName,
-      dob,
-      grade: (formData.get(`athlete_${i}_grade`) as string)?.trim() || "",
-      gender: (formData.get(`athlete_${i}_gender`) as string)?.trim() || "",
-    });
+    const grade = (formData.get(`athlete_${i}_grade`) as string)?.trim() || "";
+    const gender = (formData.get(`athlete_${i}_gender`) as string)?.trim() || "";
+    const photoConsent = formData.get(`athlete_${i}_photoConsent`) === "on";
+    if (!firstName && !lastName && !dob) continue; // this athlete row was never touched
+
+    if (!firstName || !lastName || !dob || !grade || !gender) {
+      return { error: "Fill in name, date of birth, grade, and gender for every athlete." };
+    }
+    if (!photoConsent) {
+      return { error: "Photo consent is required for every athlete." };
+    }
+    athletes.push({ firstName, lastName, dob, grade, gender, photoConsent });
   }
   if (athletes.length === 0) {
-    return { error: "Add at least one athlete, with a name and date of birth." };
+    return { error: "Add at least one athlete." };
   }
 
   const supabase = await createClient();
@@ -85,8 +90,9 @@ export async function signup(_prevState: unknown, formData: FormData) {
           firstName: a.firstName,
           lastName: a.lastName,
           dob: new Date(`${a.dob}T00:00:00Z`),
-          grade: a.grade || null,
-          gender: a.gender || null,
+          grade: a.grade,
+          gender: a.gender,
+          photoConsent: a.photoConsent,
         })),
       });
     });

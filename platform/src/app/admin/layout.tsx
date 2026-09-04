@@ -14,9 +14,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <Image
               src="/brand/logo-horizontal-full-white.png"
               alt="The Courts"
-              width={160}
-              height={44}
-              className="h-8 w-auto"
+              width={149}
+              height={64}
               priority
             />
             <span className="font-sport text-[10px] font-bold uppercase tracking-widest text-orange">

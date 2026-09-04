@@ -103,14 +103,29 @@ export function SignupForm() {
             </label>
             <div className="grid grid-cols-2 gap-3">
               <label className={labelClass}>
-                Grade <span className="font-body font-normal normal-case tracking-normal text-gray-mid">Optional</span>
-                <input type="text" name={`athlete_${i}_grade`} className={inputClass} />
+                Grade
+                <input type="text" name={`athlete_${i}_grade`} required className={inputClass} />
               </label>
               <label className={labelClass}>
-                Gender <span className="font-body font-normal normal-case tracking-normal text-gray-mid">Optional</span>
-                <input type="text" name={`athlete_${i}_gender`} className={inputClass} />
+                Gender
+                <select name={`athlete_${i}_gender`} required defaultValue="" className={inputClass}>
+                  <option value="" disabled>
+                    Select one
+                  </option>
+                  <option value="Boy">Boy</option>
+                  <option value="Girl">Girl</option>
+                </select>
               </label>
             </div>
+            <label className="flex items-start gap-2 font-body text-sm text-gray-dark">
+              <input
+                type="checkbox"
+                name={`athlete_${i}_photoConsent`}
+                required
+                className="mt-0.5 h-4 w-4 rounded border-gray-mid text-orange focus:ring-orange"
+              />
+              I consent to photos/video of my athlete being used by The Courts.
+            </label>
           </div>
         ))}
         <button

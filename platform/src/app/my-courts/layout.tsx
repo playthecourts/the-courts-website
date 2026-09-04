@@ -14,9 +14,8 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
             <Image
               src="/brand/logo-horizontal-full-color.png"
               alt="The Courts"
-              width={160}
-              height={44}
-              className="h-8 w-auto"
+              width={149}
+              height={64}
               priority
             />
           </Link>

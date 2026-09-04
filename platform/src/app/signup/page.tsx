@@ -8,9 +8,9 @@ export default function SignupPage() {
       <Image
         src="/brand/logo-horizontal-full-color.png"
         alt="The Courts"
-        width={200}
-        height={56}
-        className="mb-8 h-10 w-auto"
+        width={186}
+        height={80}
+        className="mb-8"
         priority
       />
       <h1 className="mb-1 font-display text-2xl font-black uppercase tracking-tight text-black">
