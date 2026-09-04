@@ -117,15 +117,6 @@ export function SignupForm() {
                 </select>
               </label>
             </div>
-            <label className="flex items-start gap-2 font-body text-sm text-gray-dark">
-              <input
-                type="checkbox"
-                name={`athlete_${i}_photoConsent`}
-                required
-                className="mt-0.5 h-4 w-4 rounded border-gray-mid text-orange focus:ring-orange"
-              />
-              I consent to photos/video of my athlete being used by The Courts.
-            </label>
           </div>
         ))}
         <button

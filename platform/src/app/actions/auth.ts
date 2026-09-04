@@ -25,7 +25,6 @@ type AthleteInput = {
   dob: string;
   grade: string;
   gender: string;
-  photoConsent: boolean;
 };
 
 export async function signup(_prevState: unknown, formData: FormData) {
@@ -50,16 +49,12 @@ export async function signup(_prevState: unknown, formData: FormData) {
     const dob = formData.get(`athlete_${i}_dob`) as string;
     const grade = (formData.get(`athlete_${i}_grade`) as string)?.trim() || "";
     const gender = (formData.get(`athlete_${i}_gender`) as string)?.trim() || "";
-    const photoConsent = formData.get(`athlete_${i}_photoConsent`) === "on";
     if (!firstName && !lastName && !dob) continue; // this athlete row was never touched
 
     if (!firstName || !lastName || !dob || !grade || !gender) {
       return { error: "Fill in name, date of birth, grade, and gender for every athlete." };
     }
-    if (!photoConsent) {
-      return { error: "Photo consent is required for every athlete." };
-    }
-    athletes.push({ firstName, lastName, dob, grade, gender, photoConsent });
+    athletes.push({ firstName, lastName, dob, grade, gender });
   }
   if (athletes.length === 0) {
     return { error: "Add at least one athlete." };
@@ -92,7 +87,6 @@ export async function signup(_prevState: unknown, formData: FormData) {
           dob: new Date(`${a.dob}T00:00:00Z`),
           grade: a.grade,
           gender: a.gender,
-          photoConsent: a.photoConsent,
         })),
       });
     });
