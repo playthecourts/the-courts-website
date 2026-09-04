@@ -27,60 +27,99 @@ type AthleteInput = {
   gender: string;
 };
 
-export async function signup(_prevState: unknown, formData: FormData) {
-  const name = (formData.get("name") as string)?.trim();
-  const email = (formData.get("email") as string)?.trim();
-  const password = formData.get("password") as string;
-  const phone = (formData.get("phone") as string)?.trim() || null;
-  const familyName = (formData.get("familyName") as string)?.trim();
+type SignupValues = {
+  name: string;
+  email: string;
+  phone: string;
+  familyName: string;
+  athletes: AthleteInput[];
+};
 
-  if (!name || !email || !password || !familyName) {
-    return { error: "Fill in all required fields." };
-  }
-  if (password.length < 8) {
-    return { error: "Password must be at least 8 characters." };
-  }
-
+function readSignupValues(formData: FormData): SignupValues {
   const athleteCount = parseInt((formData.get("athleteCount") as string) || "0", 10);
   const athletes: AthleteInput[] = [];
   for (let i = 0; i < athleteCount; i++) {
-    const firstName = (formData.get(`athlete_${i}_firstName`) as string)?.trim();
-    const lastName = (formData.get(`athlete_${i}_lastName`) as string)?.trim();
-    const dob = formData.get(`athlete_${i}_dob`) as string;
-    const grade = (formData.get(`athlete_${i}_grade`) as string)?.trim() || "";
-    const gender = (formData.get(`athlete_${i}_gender`) as string)?.trim() || "";
-    if (!firstName && !lastName && !dob) continue; // this athlete row was never touched
-
-    if (!firstName || !lastName || !dob || !grade || !gender) {
-      return { error: "Fill in name, date of birth, grade, and gender for every athlete." };
-    }
-    athletes.push({ firstName, lastName, dob, grade, gender });
+    athletes.push({
+      firstName: (formData.get(`athlete_${i}_firstName`) as string)?.trim() || "",
+      lastName: (formData.get(`athlete_${i}_lastName`) as string)?.trim() || "",
+      dob: (formData.get(`athlete_${i}_dob`) as string) || "",
+      grade: (formData.get(`athlete_${i}_grade`) as string)?.trim() || "",
+      gender: (formData.get(`athlete_${i}_gender`) as string)?.trim() || "",
+    });
   }
-  if (athletes.length === 0) {
-    return { error: "Add at least one athlete." };
+  return {
+    name: (formData.get("name") as string)?.trim() || "",
+    email: (formData.get("email") as string)?.trim() || "",
+    phone: (formData.get("phone") as string)?.trim() || "",
+    familyName: (formData.get("familyName") as string)?.trim() || "",
+    athletes,
+  };
+}
+
+export async function signup(_prevState: unknown, formData: FormData) {
+  const values = readSignupValues(formData);
+  const password = formData.get("password") as string;
+
+  if (!values.name || !values.email || !password || !values.familyName) {
+    return { error: "Fill in all required fields.", values };
+  }
+  if (password.length < 8) {
+    return { error: "Password must be at least 8 characters.", values };
+  }
+
+  const touchedAthletes = values.athletes.filter((a) => a.firstName || a.lastName || a.dob);
+  for (const a of touchedAthletes) {
+    if (!a.firstName || !a.lastName || !a.dob || !a.grade || !a.gender) {
+      return {
+        error: "Fill in name, date of birth, grade, and gender for every athlete.",
+        values,
+      };
+    }
+  }
+  if (touchedAthletes.length === 0) {
+    return { error: "Add at least one athlete.", values };
+  }
+
+  const existing = await prisma.guardian.findUnique({ where: { email: values.email } });
+  if (existing) {
+    return {
+      error: "An account with this email already exists. Try signing in instead.",
+      values,
+    };
   }
 
   const supabase = await createClient();
-  const { data, error: signUpError } = await supabase.auth.signUp({ email, password });
+  const { data, error: signUpError } = await supabase.auth.signUp({
+    email: values.email,
+    password,
+  });
 
   if (signUpError) {
-    return { error: signUpError.message };
+    return { error: signUpError.message, values };
   }
   if (!data.user) {
-    return { error: "Something went wrong creating your account. Try again." };
+    return { error: "Something went wrong creating your account. Try again.", values };
+  }
+  // Supabase returns a user with no identities (rather than an error) when the email
+  // already belongs to an existing account, to avoid revealing which emails are registered.
+  if (data.user.identities?.length === 0) {
+    return {
+      error: "An account with this email already exists. Try signing in instead.",
+      values,
+    };
   }
 
   try {
     await prisma.$transaction(async (tx) => {
       const guardian = await tx.guardian.create({
-        data: { authId: data.user!.id, name, email, phone },
+        data: { authId: data.user!.id, name: values.name, email: values.email, phone: values.phone || null },
       });
-      const family = await tx.family.create({ data: { name: familyName } });
+      const family = await tx.family.create({ data: { name: values.familyName } });
       await tx.familyGuardian.create({
         data: { familyId: family.id, guardianId: guardian.id, isPrimary: true },
       });
       await tx.athlete.createMany({
-        data: athletes.map((a) => ({
+        data: touchedAthletes.map((a) => ({
           familyId: family.id,
           firstName: a.firstName,
           lastName: a.lastName,

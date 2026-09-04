@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useActionState } from "react";
+import { useState, useEffect, useActionState } from "react";
 import { signup } from "@/app/actions/auth";
 
 type AthleteRow = { key: number };
@@ -16,6 +16,16 @@ export function SignupForm() {
   const [state, formAction, pending] = useActionState(signup, undefined);
   const [athletes, setAthletes] = useState<AthleteRow[]>([{ key: 0 }]);
 
+  // On a failed submission, the server hands back what was typed — re-sync the
+  // athlete row count so defaultValue below can actually restore each one.
+  useEffect(() => {
+    const returnedAthletes = state && "values" in state ? state.values?.athletes : undefined;
+    if (returnedAthletes && returnedAthletes.length > 0) {
+      setAthletes(returnedAthletes.map((_, i) => ({ key: i })));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
+
   if (state && "success" in state && state.success) {
     return (
       <p className="rounded-md bg-green-50 px-4 py-3 font-body text-sm text-green-800">
@@ -23,6 +33,8 @@ export function SignupForm() {
       </p>
     );
   }
+
+  const values = state && "values" in state ? state.values : undefined;
 
   return (
     <form action={formAction} className="flex flex-col gap-6">
@@ -34,11 +46,24 @@ export function SignupForm() {
         </h2>
         <label className={labelClass}>
           Your Name
-          <input type="text" name="name" required className={inputClass} />
+          <input
+            type="text"
+            name="name"
+            required
+            defaultValue={values?.name}
+            className={inputClass}
+          />
         </label>
         <label className={labelClass}>
           Email
-          <input type="email" name="email" required autoComplete="email" className={inputClass} />
+          <input
+            type="email"
+            name="email"
+            required
+            autoComplete="email"
+            defaultValue={values?.email}
+            className={inputClass}
+          />
         </label>
         <label className={labelClass}>
           Password
@@ -53,7 +78,12 @@ export function SignupForm() {
         </label>
         <label className={labelClass}>
           Phone <span className="font-body font-normal normal-case tracking-normal text-gray-mid">Optional</span>
-          <input type="tel" name="phone" className={inputClass} />
+          <input
+            type="tel"
+            name="phone"
+            defaultValue={values?.phone}
+            className={inputClass}
+          />
         </label>
         <label className={labelClass}>
           Family Name
@@ -62,6 +92,7 @@ export function SignupForm() {
             name="familyName"
             required
             placeholder="The Smith Family"
+            defaultValue={values?.familyName}
             className={inputClass}
           />
         </label>
@@ -90,25 +121,55 @@ export function SignupForm() {
             <div className="grid grid-cols-2 gap-3">
               <label className={labelClass}>
                 First Name
-                <input type="text" name={`athlete_${i}_firstName`} required className={inputClass} />
+                <input
+                  type="text"
+                  name={`athlete_${i}_firstName`}
+                  required
+                  defaultValue={values?.athletes[i]?.firstName}
+                  className={inputClass}
+                />
               </label>
               <label className={labelClass}>
                 Last Name
-                <input type="text" name={`athlete_${i}_lastName`} required className={inputClass} />
+                <input
+                  type="text"
+                  name={`athlete_${i}_lastName`}
+                  required
+                  defaultValue={values?.athletes[i]?.lastName}
+                  className={inputClass}
+                />
               </label>
             </div>
             <label className={labelClass}>
               Date of Birth
-              <input type="date" name={`athlete_${i}_dob`} required className={inputClass} />
+              <input
+                type="date"
+                name={`athlete_${i}_dob`}
+                required
+                defaultValue={values?.athletes[i]?.dob}
+                className={inputClass}
+              />
             </label>
             <div className="grid grid-cols-2 gap-3">
               <label className={labelClass}>
                 Grade
-                <input type="text" name={`athlete_${i}_grade`} required className={inputClass} />
+                <input
+                  type="text"
+                  name={`athlete_${i}_grade`}
+                  required
+                  defaultValue={values?.athletes[i]?.grade}
+                  className={inputClass}
+                />
               </label>
               <label className={labelClass}>
                 Gender
-                <select name={`athlete_${i}_gender`} required defaultValue="" className={inputClass}>
+                <select
+                  key={values?.athletes[i]?.gender || "empty"}
+                  name={`athlete_${i}_gender`}
+                  required
+                  defaultValue={values?.athletes[i]?.gender || ""}
+                  className={inputClass}
+                >
                   <option value="" disabled>
                     Select one
                   </option>
