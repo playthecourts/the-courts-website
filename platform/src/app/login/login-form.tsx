@@ -13,30 +13,30 @@ export function LoginForm() {
     <form action={formAction} className="flex flex-col gap-4">
       <input type="hidden" name="next" value={next} />
 
-      <label className="flex flex-col gap-1 text-sm font-medium">
+      <label className="flex flex-col gap-1 font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">
         Email
         <input
           type="email"
           name="email"
           required
           autoComplete="email"
-          className="rounded-md border border-neutral-300 px-3 py-2 text-base"
+          className="rounded-md border border-gray-mid px-3 py-2 font-body text-base font-normal normal-case tracking-normal text-black focus:border-orange focus:outline-none"
         />
       </label>
 
-      <label className="flex flex-col gap-1 text-sm font-medium">
+      <label className="flex flex-col gap-1 font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">
         Password
         <input
           type="password"
           name="password"
           required
           autoComplete="current-password"
-          className="rounded-md border border-neutral-300 px-3 py-2 text-base"
+          className="rounded-md border border-gray-mid px-3 py-2 font-body text-base font-normal normal-case tracking-normal text-black focus:border-orange focus:outline-none"
         />
       </label>
 
       {state?.error && (
-        <p className="text-sm text-red-600" role="alert">
+        <p className="font-body text-sm text-red-600" role="alert">
           {state.error}
         </p>
       )}
@@ -44,9 +44,9 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={pending}
-        className="mt-2 rounded-md bg-black px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+        className="mt-2 rounded-full bg-orange px-5 py-2.5 font-heading text-sm font-bold text-white transition-colors hover:bg-orange-hover disabled:opacity-50"
       >
-        {pending ? "Signing in…" : "Sign in"}
+        {pending ? "Signing in…" : "Sign In →"}
       </button>
     </form>
   );

@@ -1,26 +1,42 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-black: #000000;
+  --color-charcoal: #1a1a1a;
+  --color-white: #ffffff;
+  --color-gray-light: #f7f5f0;
+  --color-gray-mid: #d9d7d2;
+  --color-gray-dark: #343434;
+
+  --color-orange: #ff7a00;
+  --color-orange-hover: #e66e00;
+  --color-orange-press: #cc6200;
+
+  --background: var(--color-white);
+  --foreground: var(--color-black);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-black: var(--color-black);
+  --color-charcoal: var(--color-charcoal);
+  --color-white: var(--color-white);
+  --color-gray-light: var(--color-gray-light);
+  --color-gray-mid: var(--color-gray-mid);
+  --color-gray-dark: var(--color-gray-dark);
+  --color-orange: var(--color-orange);
+  --color-orange-hover: var(--color-orange-hover);
+  --color-orange-press: var(--color-orange-press);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-display: var(--font-archivo-black), var(--font-archivo), sans-serif;
+  --font-heading: var(--font-archivo), sans-serif;
+  --font-body: var(--font-inter), sans-serif;
+  --font-sport: var(--font-barlow-condensed), sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
 }

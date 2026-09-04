@@ -7,13 +7,20 @@ type AthleteRow = { key: number };
 
 let nextKey = 1;
 
+const labelClass =
+  "flex flex-col gap-1 font-sport text-xs font-bold uppercase tracking-wide text-gray-dark";
+const inputClass =
+  "rounded-md border border-gray-mid px-3 py-2 font-body text-base font-normal normal-case tracking-normal text-black focus:border-orange focus:outline-none";
+
 export function SignupForm() {
   const [state, formAction, pending] = useActionState(signup, undefined);
   const [athletes, setAthletes] = useState<AthleteRow[]>([{ key: 0 }]);
 
   if (state && "success" in state && state.success) {
     return (
-      <p className="rounded-md bg-green-50 px-4 py-3 text-sm text-green-800">{state.success}</p>
+      <p className="rounded-md bg-green-50 px-4 py-3 font-body text-sm text-green-800">
+        {state.success}
+      </p>
     );
   }
 
@@ -22,29 +29,18 @@ export function SignupForm() {
       <input type="hidden" name="athleteCount" value={athletes.length} />
 
       <div className="flex flex-col gap-4">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-neutral-500">
+        <h2 className="font-sport text-xs font-bold uppercase tracking-widest text-orange">
           Parent / Guardian
         </h2>
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        <label className={labelClass}>
           Your Name
-          <input
-            type="text"
-            name="name"
-            required
-            className="rounded-md border border-neutral-300 px-3 py-2 text-base"
-          />
+          <input type="text" name="name" required className={inputClass} />
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        <label className={labelClass}>
           Email
-          <input
-            type="email"
-            name="email"
-            required
-            autoComplete="email"
-            className="rounded-md border border-neutral-300 px-3 py-2 text-base"
-          />
+          <input type="email" name="email" required autoComplete="email" className={inputClass} />
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        <label className={labelClass}>
           Password
           <input
             type="password"
@@ -52,94 +48,67 @@ export function SignupForm() {
             required
             minLength={8}
             autoComplete="new-password"
-            className="rounded-md border border-neutral-300 px-3 py-2 text-base"
+            className={inputClass}
           />
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium">
-          Phone <span className="font-normal text-neutral-400">Optional</span>
-          <input
-            type="tel"
-            name="phone"
-            className="rounded-md border border-neutral-300 px-3 py-2 text-base"
-          />
+        <label className={labelClass}>
+          Phone <span className="font-body font-normal normal-case tracking-normal text-gray-mid">Optional</span>
+          <input type="tel" name="phone" className={inputClass} />
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        <label className={labelClass}>
           Family Name
           <input
             type="text"
             name="familyName"
             required
             placeholder="The Smith Family"
-            className="rounded-md border border-neutral-300 px-3 py-2 text-base"
+            className={inputClass}
           />
         </label>
       </div>
 
       <div className="flex flex-col gap-4">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-neutral-500">
+        <h2 className="font-sport text-xs font-bold uppercase tracking-widest text-orange">
           Athletes
         </h2>
         {athletes.map((athlete, i) => (
-          <div key={athlete.key} className="flex flex-col gap-3 rounded-md border border-neutral-200 p-4">
+          <div key={athlete.key} className="flex flex-col gap-3 rounded-md border border-gray-mid p-4">
             {athletes.length > 1 && (
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                <span className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">
                   Athlete {i + 1}
                 </span>
                 <button
                   type="button"
                   onClick={() => setAthletes((prev) => prev.filter((a) => a.key !== athlete.key))}
-                  className="text-xs font-medium text-neutral-500 underline"
+                  className="font-body text-xs font-medium text-gray-dark underline"
                 >
                   Remove
                 </button>
               </div>
             )}
             <div className="grid grid-cols-2 gap-3">
-              <label className="flex flex-col gap-1 text-sm font-medium">
+              <label className={labelClass}>
                 First Name
-                <input
-                  type="text"
-                  name={`athlete_${i}_firstName`}
-                  required
-                  className="rounded-md border border-neutral-300 px-3 py-2 text-base"
-                />
+                <input type="text" name={`athlete_${i}_firstName`} required className={inputClass} />
               </label>
-              <label className="flex flex-col gap-1 text-sm font-medium">
+              <label className={labelClass}>
                 Last Name
-                <input
-                  type="text"
-                  name={`athlete_${i}_lastName`}
-                  required
-                  className="rounded-md border border-neutral-300 px-3 py-2 text-base"
-                />
+                <input type="text" name={`athlete_${i}_lastName`} required className={inputClass} />
               </label>
             </div>
-            <label className="flex flex-col gap-1 text-sm font-medium">
+            <label className={labelClass}>
               Date of Birth
-              <input
-                type="date"
-                name={`athlete_${i}_dob`}
-                required
-                className="rounded-md border border-neutral-300 px-3 py-2 text-base"
-              />
+              <input type="date" name={`athlete_${i}_dob`} required className={inputClass} />
             </label>
             <div className="grid grid-cols-2 gap-3">
-              <label className="flex flex-col gap-1 text-sm font-medium">
-                Grade <span className="font-normal text-neutral-400">Optional</span>
-                <input
-                  type="text"
-                  name={`athlete_${i}_grade`}
-                  className="rounded-md border border-neutral-300 px-3 py-2 text-base"
-                />
+              <label className={labelClass}>
+                Grade <span className="font-body font-normal normal-case tracking-normal text-gray-mid">Optional</span>
+                <input type="text" name={`athlete_${i}_grade`} className={inputClass} />
               </label>
-              <label className="flex flex-col gap-1 text-sm font-medium">
-                Gender <span className="font-normal text-neutral-400">Optional</span>
-                <input
-                  type="text"
-                  name={`athlete_${i}_gender`}
-                  className="rounded-md border border-neutral-300 px-3 py-2 text-base"
-                />
+              <label className={labelClass}>
+                Gender <span className="font-body font-normal normal-case tracking-normal text-gray-mid">Optional</span>
+                <input type="text" name={`athlete_${i}_gender`} className={inputClass} />
               </label>
             </div>
           </div>
@@ -147,14 +116,14 @@ export function SignupForm() {
         <button
           type="button"
           onClick={() => setAthletes((prev) => [...prev, { key: nextKey++ }])}
-          className="w-fit text-sm font-semibold text-orange-600 underline"
+          className="w-fit font-sport text-sm font-bold uppercase tracking-wide text-orange hover:text-orange-hover"
         >
-          + Add another athlete
+          + Add Another Athlete
         </button>
       </div>
 
       {state?.error && (
-        <p className="text-sm text-red-600" role="alert">
+        <p className="font-body text-sm text-red-600" role="alert">
           {state.error}
         </p>
       )}
@@ -162,9 +131,9 @@ export function SignupForm() {
       <button
         type="submit"
         disabled={pending}
-        className="rounded-md bg-black px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+        className="rounded-full bg-orange px-5 py-2.5 font-heading text-sm font-bold text-white transition-colors hover:bg-orange-hover disabled:opacity-50"
       >
-        {pending ? "Creating account…" : "Create Account"}
+        {pending ? "Creating account…" : "Create Account →"}
       </button>
     </form>
   );

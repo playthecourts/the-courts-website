@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
 import { logout } from "@/app/actions/auth";
@@ -6,30 +7,41 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
   const guardian = await getCurrentGuardian();
 
   return (
-    <div className="min-h-screen">
-      <header className="flex items-center justify-between border-b border-neutral-200 px-6 py-4">
-        <nav className="flex items-center gap-6 text-sm font-medium">
-          <span className="font-bold">The Courts</span>
-          <Link href="/my-courts" className="text-neutral-600 hover:text-black">
-            Family
+    <div className="min-h-screen bg-gray-light">
+      <header className="flex items-center justify-between border-b border-gray-mid bg-white px-6 py-3">
+        <nav className="flex items-center gap-6">
+          <Link href="/my-courts">
+            <Image
+              src="/brand/logo-horizontal-full-color.png"
+              alt="The Courts"
+              width={160}
+              height={44}
+              className="h-8 w-auto"
+              priority
+            />
           </Link>
-          <Link href="/my-courts/schedule" className="text-neutral-600 hover:text-black">
-            Schedule
-          </Link>
-          <Link href="/my-courts/bookings" className="text-neutral-600 hover:text-black">
-            Book
-          </Link>
-          <Link href="/my-courts/waivers" className="text-neutral-600 hover:text-black">
-            Waivers
-          </Link>
-          <Link href="/my-courts/memberships" className="text-neutral-600 hover:text-black">
-            Membership
-          </Link>
+          <div className="flex items-center gap-5 font-sport text-xs font-bold uppercase tracking-wide">
+            <Link href="/my-courts" className="text-gray-dark hover:text-orange">
+              Family
+            </Link>
+            <Link href="/my-courts/schedule" className="text-gray-dark hover:text-orange">
+              Schedule
+            </Link>
+            <Link href="/my-courts/bookings" className="text-gray-dark hover:text-orange">
+              Book
+            </Link>
+            <Link href="/my-courts/waivers" className="text-gray-dark hover:text-orange">
+              Waivers
+            </Link>
+            <Link href="/my-courts/memberships" className="text-gray-dark hover:text-orange">
+              Membership
+            </Link>
+          </div>
         </nav>
-        <div className="flex items-center gap-4 text-sm">
-          <span className="text-neutral-600">{guardian.name}</span>
+        <div className="flex items-center gap-4 font-body text-sm">
+          <span className="text-gray-dark">{guardian.name}</span>
           <form action={logout}>
-            <button type="submit" className="font-medium underline">
+            <button type="submit" className="font-medium text-black underline">
               Sign out
             </button>
           </form>
