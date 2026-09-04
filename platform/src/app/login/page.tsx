@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Suspense } from "react";
 import { LoginForm } from "./login-form";
 
@@ -12,6 +13,13 @@ export default function LoginPage() {
       <Suspense fallback={null}>
         <LoginForm />
       </Suspense>
+
+      <p className="mt-6 text-center text-sm text-neutral-600">
+        New here?{" "}
+        <Link href="/signup" className="font-semibold underline">
+          Create an account
+        </Link>
+      </p>
     </main>
   );
 }
