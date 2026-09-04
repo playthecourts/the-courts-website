@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /platform/
+
+Sitemap: https://playthecourts.com/sitemap.xml
