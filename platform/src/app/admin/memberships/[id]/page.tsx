@@ -68,6 +68,19 @@ export default async function MembershipPlanDetailPage(props: PageProps<"/admin/
             className="rounded-md border border-neutral-300 px-3 py-2 text-base"
           />
         </label>
+        <label className="flex flex-col gap-1 text-sm font-medium">
+          Stripe Price ID
+          <input
+            name="stripePriceId"
+            defaultValue={plan.stripePriceId ?? ""}
+            placeholder="price_..."
+            className="rounded-md border border-neutral-300 px-3 py-2 text-base font-mono text-sm"
+          />
+          <span className="text-xs font-normal text-neutral-500">
+            From Stripe Dashboard → Product catalog. Families only see this plan as a checkout
+            option once this is set.
+          </span>
+        </label>
         <button type="submit" className="w-fit rounded-md bg-black px-4 py-2 text-sm font-semibold text-white">
           Save
         </button>

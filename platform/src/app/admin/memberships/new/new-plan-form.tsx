@@ -34,6 +34,18 @@ export function NewPlanForm() {
         Description (optional)
         <textarea name="description" rows={3} className="rounded-md border border-neutral-300 px-3 py-2 text-base" />
       </label>
+      <label className="flex flex-col gap-1 text-sm font-medium">
+        Stripe Price ID (optional)
+        <input
+          name="stripePriceId"
+          placeholder="price_..."
+          className="rounded-md border border-neutral-300 px-3 py-2 text-base font-mono text-sm"
+        />
+        <span className="text-xs font-normal text-neutral-500">
+          From Stripe Dashboard → Product catalog. Leave blank until the plan is ready for online
+          checkout — families won&rsquo;t see it as an option until this is set.
+        </span>
+      </label>
       <button
         type="submit"
         disabled={pending}

@@ -16,12 +16,13 @@ datasource db {
 
 /// One row per guardian (parent) login. auth_id links to the Supabase Auth user.
 model Guardian {
-  id        String   @id @default(uuid())
-  authId    String   @unique @map("auth_id")
-  name      String
-  email     String   @unique
-  phone     String?
-  createdAt DateTime @default(now()) @map("created_at")
+  id               String   @id @default(uuid())
+  authId           String   @unique @map("auth_id")
+  name             String
+  email            String   @unique
+  phone            String?
+  stripeCustomerId String?  @unique @map("stripe_customer_id")
+  createdAt        DateTime @default(now()) @map("created_at")
 
   families         FamilyGuardian[]
   bookings         Booking[]
@@ -232,6 +233,9 @@ model MembershipPlan {
   billingInterval BillingInterval @map("billing_interval")
   description     String?
   active          Boolean         @default(true)
+  /// The Stripe Price ID this plan bills against. Null until the plan is wired up for online checkout —
+  /// admins can still assign the plan manually (assignMembership) without one.
+  stripePriceId   String?         @unique @map("stripe_price_id")
   createdAt       DateTime        @default(now()) @map("created_at")
 
   entitlements PlanEntitlement[]
@@ -247,13 +251,16 @@ enum BillingInterval {
 
 /// A plan assigned to one athlete.
 model AthleteMembership {
-  id               String           @id @default(uuid())
-  athleteId        String           @map("athlete_id")
-  membershipPlanId String           @map("membership_plan_id")
-  status           MembershipStatus @default(active)
-  startDate        DateTime         @map("start_date") @db.Date
-  renewalDate      DateTime?        @map("renewal_date") @db.Date
-  createdAt        DateTime         @default(now()) @map("created_at")
+  id                   String           @id @default(uuid())
+  athleteId            String           @map("athlete_id")
+  membershipPlanId     String           @map("membership_plan_id")
+  status               MembershipStatus @default(active)
+  startDate            DateTime         @map("start_date") @db.Date
+  renewalDate          DateTime?        @map("renewal_date") @db.Date
+  /// The Stripe Subscription ID, set once a guardian completes checkout for this membership.
+  /// Null for memberships an admin assigned manually (assignMembership) without online billing.
+  stripeSubscriptionId String?          @unique @map("stripe_subscription_id")
+  createdAt            DateTime         @default(now()) @map("created_at")
 
   athlete Athlete        @relation(fields: [athleteId], references: [id], onDelete: Cascade)
   plan    MembershipPlan @relation(fields: [membershipPlanId], references: [id])
@@ -265,6 +272,8 @@ enum MembershipStatus {
   active
   paused
   cancelled
+  /// Stripe subscription payment failed (past_due/unpaid) — distinct from a deliberate pause.
+  past_due
 }
 
 /// What a plan grants — structured rather than hardcoded, so eligibility is

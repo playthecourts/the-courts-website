@@ -44,6 +44,7 @@ export default async function MembershipsPage() {
                 <p className="text-sm text-neutral-500">
                   {formatPrice(plan.priceCents, plan.billingInterval)} · {plan._count.entitlements} entitlement
                   {plan._count.entitlements === 1 ? "" : "s"}
+                  {plan.stripePriceId ? " · Online checkout on" : " · Online checkout off"}
                 </p>
               </div>
               <span className="text-sm text-neutral-500">

@@ -19,6 +19,7 @@ export async function createMembershipPlan(_prevState: unknown, formData: FormDa
       priceCents: dollarsToCents(formData.get("price")),
       billingInterval: formData.get("billingInterval") as BillingInterval,
       description: (formData.get("description") as string) || null,
+      stripePriceId: (formData.get("stripePriceId") as string) || null,
     },
   });
   revalidatePath("/admin/memberships");
@@ -35,6 +36,7 @@ export async function updateMembershipPlan(planId: string, formData: FormData) {
       priceCents: dollarsToCents(formData.get("price")),
       billingInterval: formData.get("billingInterval") as BillingInterval,
       description: (formData.get("description") as string) || null,
+      stripePriceId: (formData.get("stripePriceId") as string) || null,
     },
   });
   revalidatePath(`/admin/memberships/${planId}`);
