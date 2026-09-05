@@ -75,7 +75,7 @@
   .lg-included-list li { font-size: 15.5px; line-height: 1.4; color: var(--black); padding-left: 20px; position: relative; }
   .lg-included-list li::before { content: ''; position: absolute; left: 0; top: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); }
   .lg-included-note { font-size: 13.5px; line-height: 1.55; color: var(--gray-dark); margin: 0; padding-top: 18px; border-top: 1px solid var(--gray-mid); }
-  .lg-included-eyebrow-sm { font-family: var(--font-sport); font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); margin: 0 0 12px; }
+  .lg-included-eyebrow-sm { font-family: var(--font-sport); font-weight: 800; font-size: 20px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--orange); margin: 0 0 16px; }
   .lg-included-body { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.72); margin: 0 0 26px; }
   .lg-membership-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .lg-membership-item { background: rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 18px 20px; }
@@ -95,8 +95,11 @@
   .lg-eval-times li { font-size: 15px; color: var(--gray-dark); }
   .lg-eval-times strong { color: var(--black); font-weight: 700; }
   .lg-eval-body { font-size: 15.5px; line-height: 1.65; color: var(--gray-dark); max-width: 54ch; margin: 0 0 22px; }
-  .lg-eval-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(20px,2.4vw,24px); color: var(--black); margin: 0 0 36px; }
+  .lg-eval-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(20px,2.4vw,24px); color: var(--black); margin: 0 0 14px; }
   .lg-eval-price span { display: block; font-family: var(--font-heading); font-weight: 500; font-size: 14px; color: var(--gray-dark); margin-top: 8px; max-width: 54ch; line-height: 1.55; }
+  .lg-eval-pay-cta { background: var(--white); border: 1.5px solid var(--orange); border-radius: var(--radius-sm); padding: 22px 24px; margin: 0 0 32px; }
+  .lg-eval-pay-cta-headline { font-family: var(--font-heading); font-weight: 800; font-size: 16.5px; color: var(--black); margin: 0 0 14px; max-width: 42ch; }
+  .lg-eval-pay-cta-note { font-size: 13.5px; line-height: 1.5; color: var(--gray-dark); margin: 14px 0 0; max-width: 54ch; }
 
   .lg-eval-season { background: var(--gray-light); border-left: 4px solid var(--orange); border-radius: var(--radius-sm); padding: 20px 24px; }
   .lg-eval-season h4 { font-family: var(--font-sport); font-weight: 800; font-size: 13.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); margin: 0 0 9px; }
@@ -178,7 +181,7 @@
     <span class="site-announce-headline">Fall League. Let's Go.</span>
     <span class="site-announce-detail">Evaluations are <strong>September 12</strong>. Times vary by grade.</span>
     <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH AFTER SEPT 12 -->
-    <span class="site-announce-cta">Join the Evaluation List <span class="arrow">→</span></span>
+    <span class="site-announce-cta">Start Here <span class="arrow">→</span></span>
   </a>
 </div>
 
@@ -371,7 +374,7 @@
         <p class="lg-included-body" style="margin-bottom:20px;">League athletes must have an active <strong style="color:var(--white);">Basketball Membership at the Weekly level or higher</strong> during the season.</p>
         <div class="lg-membership-grid">
           <div class="lg-membership-item">
-            <h4>Already a Courts Member?</h4>
+            <h4>Already a NextGen or The Courts Member?</h4>
             <p>Your Fall League cost is simply <strong>$375 total</strong>. Your existing qualifying membership counts.</p>
           </div>
           <div class="lg-membership-item">
@@ -431,7 +434,14 @@
           <li><strong>5:00&ndash;5:50 PM</strong> &middot; 3rd&ndash;5th Grade Girls</li>
           <li><strong>6:00&ndash;6:50 PM</strong> &middot; 6th&ndash;8th Grade Girls</li>
         </ul>
-        <p class="lg-eval-price">Evaluation Fee &middot; $25<span>We&rsquo;ll email the registration and payment link after you submit the form. If your athlete joins a team, the full $25 is applied toward league registration.</span></p>
+        <p class="lg-eval-price">Evaluation Fee &middot; $25</p>
+
+        <div class="lg-eval-pay-cta">
+          <p class="lg-eval-pay-cta-headline">Ready to make it official? Complete your $25 Evaluation Registration.</p>
+          <a href="https://buy.stripe.com/4gMfZi4EMaYk4yM3TF0Fi00" class="btn btn-primary" target="_blank" rel="noopener">Pay Evaluation Fee →</a>
+          <p class="lg-eval-pay-cta-note">The $25 evaluation fee is applied toward the $375 Fall League registration if your athlete joins a team.</p>
+        </div>
+
         <p class="lg-eval-body">No cuts. Evaluations are simply how we create the right teams.</p>
         <p class="lg-eval-body" style="margin-top:-12px;"><strong>Fall League registration is $375 total.</strong> Athletes must also maintain an active Basketball Membership at the Weekly level or higher during the season.</p>
 
@@ -440,6 +450,8 @@
           <p><strong>Regular Season:</strong> October 24&ndash;December 5</p>
           <p style="margin-top: 10px;"><strong>Tournament Weekend:</strong> December 11&ndash;13, if applicable</p>
           <p style="margin-top: 12px;"><strong>Games:</strong> Played at WNSL locations throughout West Nashville and Brentwood.</p>
+          <p style="margin-top: 12px;"><strong>Team Practices:</strong> Currently planned for Wednesdays, one team-specific practice each week.</p>
+          <p style="margin-top: 12px;">Coach Johnny will be alongside the program this season, helping connect skill development with team play.</p>
         </div>
       </div>
 
@@ -511,15 +523,15 @@
           <input type="hidden" name="signup_page" class="lg-eval-signup-page" value="">
 
           <button type="submit" class="btn btn-primary btn-block" id="evalFormSubmit">Raise My Hand →</button>
-          <p class="lg-eval-form-note">Submitting this form does not complete registration or require payment. We&rsquo;ll email your evaluation registration and payment link next.</p>
+          <p class="lg-eval-form-note">Submitting this form does not complete registration or require payment. Your next step is to complete the $25 Evaluation Registration.</p>
           <p class="lg-eval-form-error" id="evalFormError" hidden>That didn&rsquo;t go through. Give it another try.</p>
         </form>
         <div id="evalFormSuccess" class="form-success" style="display:none;">
-          <h3>You&rsquo;re on the list.</h3>
+          <h3>Thanks for raising your hand.</h3>
           <p>We&rsquo;ll see you for Fall League Evaluations on Saturday, September 12.</p>
-          <p>We&rsquo;ll email the $25 evaluation registration and payment link shortly.</p>
-          <p>Following evaluations, we&rsquo;ll update you on team placement and send everything you need to complete Fall League registration.</p>
-          <p>Keep an eye on your inbox.</p>
+          <p>Your next step is to complete the $25 Evaluation Registration.</p>
+          <a href="https://buy.stripe.com/4gMfZi4EMaYk4yM3TF0Fi00" class="btn btn-primary" target="_blank" rel="noopener">Pay Evaluation Fee →</a>
+          <p style="margin-top:16px;">Following evaluations, we&rsquo;ll update you on team placement and send everything you need to complete Fall League registration.</p>
         </div>
       </div>
     </div>
