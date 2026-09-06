@@ -436,12 +436,6 @@
         </ul>
         <p class="lg-eval-price">Evaluation Fee &middot; $25</p>
 
-        <div class="lg-eval-pay-cta">
-          <p class="lg-eval-pay-cta-headline">Ready to make it official? Complete your $25 Evaluation Registration.</p>
-          <a href="https://buy.stripe.com/4gMfZi4EMaYk4yM3TF0Fi00" class="btn btn-primary" target="_blank" rel="noopener">Pay Evaluation Fee →</a>
-          <p class="lg-eval-pay-cta-note">The $25 evaluation fee is applied toward the $375 Fall League registration if your athlete joins a team.</p>
-        </div>
-
         <p class="lg-eval-body">No cuts. Evaluations are simply how we create the right teams.</p>
         <p class="lg-eval-body" style="margin-top:-12px;"><strong>Fall League registration is $375 total.</strong> Athletes must also maintain an active Basketball Membership at the Weekly level or higher during the season.</p>
 
@@ -451,7 +445,6 @@
           <p style="margin-top: 10px;"><strong>Tournament Weekend:</strong> December 11&ndash;13, if applicable</p>
           <p style="margin-top: 12px;"><strong>Games:</strong> Played at WNSL locations throughout West Nashville and Brentwood.</p>
           <p style="margin-top: 12px;"><strong>Team Practices:</strong> Currently planned for Wednesdays, one team-specific practice each week.</p>
-          <p style="margin-top: 12px;">Coach Johnny will be alongside the program this season, helping connect skill development with team play.</p>
         </div>
       </div>
 
@@ -513,7 +506,6 @@
 
           <div class="lg-eval-fgroup">
             <span class="lg-eval-fgroup-label">Fall League</span>
-            <div class="form-row"><label for="ev-interest">If we&rsquo;re able to place your athlete on a team that works with your schedule, how likely are you to participate this fall?</label><select id="ev-interest" name="fall_league_interest" required><option value="">Select one</option><option>Definitely &mdash; we&rsquo;re planning to play</option><option>Very likely</option><option>Interested, but still deciding</option><option>Just looking for more information</option></select><span class="field-error"></span></div>
             <div class="form-row"><label for="ev-placement">Is there a specific athlete, coach, or group you&rsquo;d like your athlete to be placed with? <span class="form-optional-tag">Optional</span></label><textarea id="ev-placement" name="placement_request"></textarea><span class="lg-eval-hint">We&rsquo;ll do our best to accommodate requests, but team placement will ultimately be based on grade, skill level, roster balance, and overall numbers.</span></div>
             <div class="form-row"><label for="ev-conflicts">Are there any scheduling conflicts or considerations we should know about for practices or games? <span class="form-optional-tag">Optional</span></label><textarea id="ev-conflicts" name="scheduling_conflicts"></textarea></div>
             <div class="form-row"><label for="ev-notes">Anything else you&rsquo;d like us to know about your athlete? <span class="form-optional-tag">Optional</span></label><textarea id="ev-notes" name="additional_notes"></textarea></div>
@@ -527,11 +519,9 @@
           <p class="lg-eval-form-error" id="evalFormError" hidden>That didn&rsquo;t go through. Give it another try.</p>
         </form>
         <div id="evalFormSuccess" class="form-success" style="display:none;">
-          <h3>Thanks for raising your hand.</h3>
-          <p>We&rsquo;ll see you for Fall League Evaluations on Saturday, September 12.</p>
-          <p>Your next step is to complete the $25 Evaluation Registration. Taking you there now&hellip;</p>
+          <p class="lg-eval-pay-cta-headline">Ready to make it official? Complete your $25 Evaluation Registration.</p>
           <a href="https://buy.stripe.com/4gMfZi4EMaYk4yM3TF0Fi00" id="evalPayBtn" class="btn btn-primary" rel="noopener">Pay Evaluation Fee →</a>
-          <p style="margin-top:16px;">Following evaluations, we&rsquo;ll update you on team placement and send everything you need to complete Fall League registration.</p>
+          <p class="lg-eval-pay-cta-note">The $25 evaluation fee is applied toward the $375 Fall League registration if your athlete joins a team.</p>
         </div>
       </div>
     </div>
@@ -737,8 +727,7 @@
     'ev-player-name': 'Enter the player&rsquo;s name',
     'ev-player-gender': 'Choose one',
     'ev-player-grade': 'Choose one',
-    'ev-attendance': 'Let us know if they&rsquo;ll attend',
-    'ev-interest': 'Choose one'
+    'ev-attendance': 'Let us know if they&rsquo;ll attend'
   };
   var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
