@@ -498,31 +498,19 @@
           </div>
 
           <div class="lg-eval-fgroup">
-            <span class="lg-eval-fgroup-label">Evaluation Day</span>
-            <div class="form-row"><label for="ev-attendance">Will your athlete attend Fall League Evaluations on Saturday, September 12? <span class="form-optional-tag">Grade + gender determine their assigned evaluation time</span></label><select id="ev-attendance" name="evaluation_attendance" required><option value="">Select one</option><option>Yes &mdash; we&rsquo;ll be there</option><option>We&rsquo;re planning to, but need to confirm</option><option>I&rsquo;m interested, but need more information first</option></select><span class="field-error"></span></div>
-            <div class="form-row"><label for="ev-organized-bball">Has your athlete played organized basketball before? <span class="form-optional-tag">Optional</span></label><select id="ev-organized-bball" name="organized_basketball"><option value="">Select one</option><option>Yes</option><option>No</option></select></div>
-            <div class="form-row" id="evExperienceRow" hidden><label for="ev-experience">Tell us a little about their basketball experience. <span class="form-optional-tag">Optional</span></label><textarea id="ev-experience" name="basketball_experience"></textarea></div>
-          </div>
-
-          <div class="lg-eval-fgroup">
-            <span class="lg-eval-fgroup-label">Fall League</span>
-            <div class="form-row"><label for="ev-placement">Is there a specific athlete, coach, or group you&rsquo;d like your athlete to be placed with? <span class="form-optional-tag">Optional</span></label><textarea id="ev-placement" name="placement_request"></textarea><span class="lg-eval-hint">We&rsquo;ll do our best to accommodate requests, but team placement will ultimately be based on grade, skill level, roster balance, and overall numbers.</span></div>
-            <div class="form-row"><label for="ev-conflicts">Are there any scheduling conflicts or considerations we should know about for practices or games? <span class="form-optional-tag">Optional</span></label><textarea id="ev-conflicts" name="scheduling_conflicts"></textarea></div>
-            <div class="form-row"><label for="ev-notes">Anything else you&rsquo;d like us to know about your athlete? <span class="form-optional-tag">Optional</span></label><textarea id="ev-notes" name="additional_notes"></textarea></div>
+            <span class="lg-eval-fgroup-label">Team Placement</span>
+            <div class="form-row"><label for="ev-placement">Is there a specific athlete, coach, or group you&rsquo;d like to be placed with? <span class="form-optional-tag">Optional</span></label><textarea id="ev-placement" name="placement_request"></textarea><span class="lg-eval-hint">We&rsquo;ll do our best to accommodate requests. Final team placement will be based on grade, skill level, roster balance, and overall registration.</span></div>
+            <div class="form-row"><label for="ev-conflicts">Any scheduling conflicts we should know about? <span class="form-optional-tag">Optional</span></label><textarea id="ev-conflicts" name="scheduling_conflicts"></textarea></div>
+            <div class="form-row"><label for="ev-notes">Anything else we should know about your athlete? <span class="form-optional-tag">Optional</span></label><textarea id="ev-notes" name="additional_notes"></textarea></div>
           </div>
 
           <input type="hidden" name="source" value="Website - Fall League Evaluation Sign-Up">
           <input type="hidden" name="signup_page" class="lg-eval-signup-page" value="">
 
-          <button type="submit" class="btn btn-primary btn-block" id="evalFormSubmit">Sign Me Up!</button>
-          <p class="lg-eval-form-note">Submitting this form does not complete registration or require payment. Your next step is to complete the $25 Evaluation Registration.</p>
+          <button type="submit" class="btn btn-primary btn-block" id="evalFormSubmit">Continue to Payment →</button>
+          <p class="lg-eval-form-note">Evaluation registration is $25 and will be credited toward the $375 Fall League fee if your athlete joins a team.</p>
           <p class="lg-eval-form-error" id="evalFormError" hidden>That didn&rsquo;t go through. Give it another try.</p>
         </form>
-        <div id="evalFormSuccess" class="form-success" style="display:none;">
-          <p class="lg-eval-pay-cta-headline">Ready to make it official? Complete your $25 Evaluation Registration.</p>
-          <a href="https://buy.stripe.com/4gMfZi4EMaYk4yM3TF0Fi00" id="evalPayBtn" class="btn btn-primary" rel="noopener">Pay Evaluation Fee →</a>
-          <p class="lg-eval-pay-cta-note">The $25 evaluation fee is applied toward the $375 Fall League registration if your athlete joins a team.</p>
-        </div>
       </div>
     </div>
   </div>
@@ -668,18 +656,11 @@
 (function () {
   var form = document.getElementById('evalForm');
   if (!form) return;
-  var success = document.getElementById('evalFormSuccess');
   var errorEl = document.getElementById('evalFormError');
   var submitBtn = document.getElementById('evalFormSubmit');
   var defaultLabel = submitBtn.textContent;
   var signupPageField = form.querySelector('.lg-eval-signup-page');
   signupPageField.value = window.location.pathname;
-
-  var orgBball = document.getElementById('ev-organized-bball');
-  var experienceRow = document.getElementById('evExperienceRow');
-  orgBball.addEventListener('change', function () {
-    experienceRow.hidden = orgBball.value !== 'Yes';
-  });
 
   var addAthleteBtn = document.getElementById('evAddAthlete');
   var extra2 = document.getElementById('evExtraAthlete2');
@@ -726,8 +707,7 @@
     'ev-phone': 'Add a phone number',
     'ev-player-name': 'Enter the player&rsquo;s name',
     'ev-player-gender': 'Choose one',
-    'ev-player-grade': 'Choose one',
-    'ev-attendance': 'Let us know if they&rsquo;ll attend'
+    'ev-player-grade': 'Choose one'
   };
   var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -769,7 +749,7 @@
 
     errorEl.classList.remove('show');
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending...';
+    submitBtn.textContent = 'Redirecting to payment…';
 
     fetch('https://formspree.io/f/xeaqjjzn', {
       method: 'POST',
@@ -777,20 +757,10 @@
       headers: { 'Accept': 'application/json' }
     }).then(function (res) {
       if (!res.ok) throw new Error('Submission failed');
-      form.style.display = 'none';
-      success.style.display = 'block';
-      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-      var payBtn = document.getElementById('evalPayBtn');
       var email = document.getElementById('ev-email').value.trim();
       var payUrl = 'https://buy.stripe.com/4gMfZi4EMaYk4yM3TF0Fi00';
       if (email) payUrl += '?prefilled_email=' + encodeURIComponent(email);
-      payBtn.href = payUrl;
-
-      var redirectTimer = setTimeout(function () {
-        window.location.href = payUrl;
-      }, 2200);
-      payBtn.addEventListener('click', function () { clearTimeout(redirectTimer); });
+      window.location.href = payUrl;
     }).catch(function () {
       errorEl.classList.add('show');
       submitBtn.disabled = false;
