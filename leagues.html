@@ -94,6 +94,7 @@
   .lg-eval-times { list-style: none; margin: 0 0 22px; padding: 0; display: flex; flex-direction: column; gap: 6px; }
   .lg-eval-times li { font-size: 15px; color: var(--gray-dark); }
   .lg-eval-times strong { color: var(--black); font-weight: 700; }
+  .lg-eval-times--split { display: grid; grid-template-columns: 1fr 1fr; grid-auto-flow: column; gap: 6px 28px; }
   .lg-eval-body { font-size: 15.5px; line-height: 1.65; color: var(--gray-dark); max-width: 54ch; margin: 0 0 22px; }
   .lg-eval-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(20px,2.4vw,24px); color: var(--black); margin: 0 0 14px; }
   .lg-eval-price span { display: block; font-family: var(--font-heading); font-weight: 500; font-size: 14px; color: var(--gray-dark); margin-top: 8px; max-width: 54ch; line-height: 1.55; }
@@ -178,8 +179,8 @@
 
 <div class="site-announce">
   <a href="leagues#evaluations" class="site-announce-inner" data-booking-type="basketball-evaluation-interest">
-    <span class="site-announce-headline">Fall League. Let's Go.</span>
-    <span class="site-announce-detail">Evaluations are <strong>September 12</strong>. Times vary by grade.</span>
+    <span class="site-announce-headline">Fall League Evaluations</span>
+    <span class="site-announce-detail"><strong>Sept 12</strong> &middot; Times by Grade</span>
     <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH AFTER SEPT 12 -->
     <span class="site-announce-cta">Start Here <span class="arrow">→</span></span>
   </a>
@@ -325,7 +326,6 @@
          (https://app.upperhand.io/customers/2876-the-courts-llc/events/206630-fall-2026-basketball-league) AFTER SEPT 12 -->
     <div class="hero-ctas ctas">
       <a href="#evaluations" class="btn btn-primary" data-booking-type="basketball-evaluation-interest">Sign Up for Evaluations →</a>
-      <a href="#fall-league" class="btn btn-on-dark">See How Fall Works ↓</a>
     </div>
   </div>
 </section>
@@ -366,29 +366,29 @@
           <li>Courts coaching throughout the season</li>
           <li>Tournament opportunity for qualifying teams</li>
         </ul>
-        <p class="lg-included-note"><strong>The $25 evaluation fee is applied toward the $375 registration fee if your athlete joins a team.</strong></p>
+        <p class="lg-included-note"><strong>Already paid the $25 evaluation fee? It comes off your $375 registration.</strong></p>
       </div>
 
       <div class="lg-included-card lg-included-card--dark reveal">
-        <p class="lg-included-eyebrow-sm">Membership Requirement</p>
-        <p class="lg-included-body" style="margin-bottom:20px;">League athletes must have an active <strong style="color:var(--white);">Basketball Membership at the Weekly level or higher</strong> during the season.</p>
+        <p class="lg-included-eyebrow-sm">Training Plan Requirement</p>
+        <p class="lg-included-body" style="margin-bottom:20px;">League athletes must maintain an active <strong style="color:var(--white);">Basketball Training Plan at the Weekly level or higher</strong> during the season.</p>
         <div class="lg-membership-grid">
           <div class="lg-membership-item">
             <h4>Already a NextGen or The Courts Member?</h4>
-            <p>Your Fall League cost is simply <strong>$375 total</strong>. Your existing qualifying membership counts.</p>
+            <p>Your Fall League cost is simply <strong>$375 total</strong>. Your existing qualifying Training Plan counts.</p>
           </div>
           <div class="lg-membership-item">
             <h4>Not a Member Yet?</h4>
-            <p>You&rsquo;ll need to enroll in at least the <strong>Weekly Basketball Membership at $120/month</strong> before the season begins.</p>
+            <p>You&rsquo;ll need to enroll in at least the <strong>Weekly Basketball Training Plan at $120/month</strong> before the season begins.</p>
           </div>
         </div>
-        <p class="lg-included-body" style="margin:20px 0 0;">Weekly Membership includes four Courts group training sessions per billing cycle, giving league athletes additional opportunities to work on skills outside of team practice.</p>
+        <p class="lg-included-body" style="margin:20px 0 0;">The Weekly Basketball Training Plan includes four coach-led group training sessions per billing cycle, giving league athletes additional opportunities to work on skills outside of team practice.</p>
         <div class="lg-formula" style="margin-top:20px;">
-          <span>1 Group Training Session</span>
+          <span>Group Training</span>
           <span class="lg-formula-plus">+</span>
-          <span>1 Team Practice</span>
+          <span>Team Practice</span>
           <span class="lg-formula-plus">+</span>
-          <span>1 Saturday Game</span>
+          <span>Saturday Games</span>
         </div>
       </div>
     </div>
@@ -428,11 +428,11 @@
         <h2 class="section-title">Evaluations Are Open.<br>Let&rsquo;s Get You Registered.</h2>
         <p class="lg-eval-lede">Evaluations help us understand each athlete&rsquo;s level and build balanced teams with smaller rosters, meaningful playing time, and the right competition.</p>
         <p class="lg-eval-when">Saturday, September 12</p>
-        <ul class="lg-eval-times">
-          <li><strong>3:00&ndash;3:50 PM</strong> &middot; 3rd&ndash;5th Grade Boys</li>
-          <li><strong>4:00&ndash;4:50 PM</strong> &middot; 6th&ndash;8th Grade Boys</li>
-          <li><strong>5:00&ndash;5:50 PM</strong> &middot; 3rd&ndash;5th Grade Girls</li>
-          <li><strong>6:00&ndash;6:50 PM</strong> &middot; 6th&ndash;8th Grade Girls</li>
+        <ul class="lg-eval-times lg-eval-times--split">
+          <li><strong>3rd&ndash;5th Boys</strong> &middot; 3 PM</li>
+          <li><strong>6th&ndash;8th Boys</strong> &middot; 4 PM</li>
+          <li><strong>3rd&ndash;5th Girls</strong> &middot; 5 PM</li>
+          <li><strong>6th&ndash;8th Girls</strong> &middot; 6 PM</li>
         </ul>
         <p class="lg-eval-price">Evaluation Fee &middot; $25</p>
 
