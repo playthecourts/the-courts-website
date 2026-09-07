@@ -42,6 +42,8 @@ type ChangeRow = {
   newValue: string | null;
   reason: string | null;
   familiesNotified: boolean | null;
+  coachNotified: boolean | null;
+  notificationMethod: string | null;
   affectedRegistrations: number;
   createdAt: string;
   changedBy: { name: string } | null;
@@ -52,6 +54,30 @@ type Preview = {
   occurrences: { start: string; end: string; index: number }[];
   conflicts: { severity: string; type: string; message: string; at: string }[];
 };
+
+/// How a change's notification state should be read back.
+///
+/// Deliberately never says "families notified" on its own. Until a transport
+/// exists, the strongest true statement is that an admin took responsibility —
+/// and this line is what gets shown to a parent who says nobody told them.
+function describeNotification(c: {
+  familiesNotified: boolean | null;
+  coachNotified: boolean | null;
+  notificationMethod: string | null;
+}): string {
+  if (c.familiesNotified === null && c.coachNotified === null) {
+    return "no notification recorded";
+  }
+  if (!c.familiesNotified && !c.coachNotified) return "nobody was told";
+
+  const who = [c.familiesNotified ? "families" : null, c.coachNotified ? "coach" : null]
+    .filter(Boolean)
+    .join(" + ");
+
+  return c.notificationMethod === "sent_automatically"
+    ? `${who} notified by the platform`
+    : `admin took on telling ${who} — not sent by the platform`;
+}
 
 const fmtDateTime = (iso: string) =>
   new Intl.DateTimeFormat("en-US", {
@@ -371,11 +397,8 @@ export function ScheduleSection({
                 <p className="mt-1 text-xs text-neutral">
                   {c.reason ? `${c.reason} · ` : ""}
                   {c.affectedRegistrations} registration{c.affectedRegistrations === 1 ? "" : "s"} affected
-                  {c.familiesNotified === null
-                    ? ""
-                    : c.familiesNotified
-                      ? " · families notified"
-                      : " · families not notified"}
+                  {" · "}
+                  {describeNotification(c)}
                 </p>
               </li>
             ))}
@@ -500,12 +523,16 @@ function SessionRowView({
               {session._count.bookings} registration{session._count.bookings === 1 ? " is" : "s are"} attached to this session.
               <div className="mt-2 flex flex-col gap-1.5">
                 <label className="flex items-center gap-2">
-                  <input type="checkbox" name="notifyFamilies" defaultChecked /> Notify families
+                  <input type="checkbox" name="notifyFamilies" defaultChecked /> I&apos;ll tell the families
                 </label>
                 <label className="flex items-center gap-2">
-                  <input type="checkbox" name="notifyCoach" defaultChecked /> Notify coach
+                  <input type="checkbox" name="notifyCoach" defaultChecked /> I&apos;ll tell the coach
                 </label>
               </div>
+              <p className="mt-2 text-xs">
+                The Courts doesn&apos;t send these yet — ticking a box records that you took it on,
+                and the change history will say so. Send the message yourself.
+              </p>
             </div>
           ) : null}
           {error ? <div className="mt-3"><ErrorNote>{error}</ErrorNote></div> : null}
@@ -541,12 +568,16 @@ function SessionRowView({
               <input type="checkbox" name="restoreCredits" defaultChecked /> Restore Training Plan session credits
             </label>
             <label className="flex items-center gap-2">
-              <input type="checkbox" name="notifyFamilies" defaultChecked /> Notify families
+              <input type="checkbox" name="notifyFamilies" defaultChecked /> I&apos;ll tell the families
             </label>
             <label className="flex items-center gap-2">
-              <input type="checkbox" name="notifyCoach" defaultChecked /> Notify coach
+              <input type="checkbox" name="notifyCoach" defaultChecked /> I&apos;ll tell the coach
             </label>
             <p className="mt-1 text-xs">
+              The Courts doesn&apos;t send these yet — ticking a box records that you took it on.
+              Send the message yourself.
+            </p>
+            <p className="text-xs">
               Refunds are not decided here. Cancelling releases the seats and records the change;
               any refund is handled deliberately from the registration.
             </p>

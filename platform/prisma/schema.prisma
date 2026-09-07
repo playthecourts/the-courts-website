@@ -17,9 +17,15 @@ datasource db {
 /// One row per guardian (parent) login. auth_id links to the Supabase Auth user.
 model Guardian {
   id               String   @id @default(uuid())
-  authId           String   @unique @map("auth_id")
+  /// Null for a guardian who has been ADDED to a family but has never signed in
+  /// (a second parent entered by the first). They are a real person on the
+  /// record with pickup rights and an emergency phone; they just have no login
+  /// yet. When they do sign up, this is filled in — a new row is never created.
+  authId           String?  @unique @map("auth_id")
   name             String
-  email            String   @unique
+  /// Also nullable for the same reason. Unique still holds for the ones that
+  /// have an address, since Postgres allows many NULLs in a unique index.
+  email            String?  @unique
   phone            String?
   stripeCustomerId String?  @unique @map("stripe_customer_id")
   createdAt        DateTime @default(now()) @map("created_at")
@@ -28,6 +34,11 @@ model Guardian {
   bookings         Booking[]
   waiverSignatures WaiverSignature[]
   communicationsReceived CommunicationRecipient[]
+  mediaConsents          MediaConsent[]
+  mediaConsentChanges    MediaConsentChange[]
+  emergencyContactLinks  EmergencyContact[]
+  pickupLinks            AuthorizedPickup[]
+  profileChanges         AthleteProfileChange[]
 
   @@map("guardians")
 }
@@ -55,6 +66,14 @@ model FamilyGuardian {
   familyId   String  @map("family_id")
   guardianId String  @map("guardian_id")
   isPrimary  Boolean @default(false) @map("is_primary")
+  /// "Mom", "Dad", "Grandmother", "Stepfather" — free text on purpose; a fixed
+  /// enum gets families wrong, and this is read by humans, not branched on.
+  relationship String? @map("relationship")
+  /// Pickup rights live here rather than on Athlete because they are a property
+  /// of the adult's relationship to the household. Additional non-guardian
+  /// pickup people are AuthorizedPickup rows.
+  authorizedForPickup Boolean @default(true) @map("authorized_for_pickup")
+  livesWithAthlete    Boolean? @map("lives_with_athlete")
 
   family   Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
   guardian Guardian @relation(fields: [guardianId], references: [id], onDelete: Cascade)
@@ -69,13 +88,70 @@ model Athlete {
   familyId         String   @map("family_id")
   firstName        String   @map("first_name")
   lastName         String   @map("last_name")
+  /// What they actually get called. Every parent-facing and coach-facing
+  /// surface prefers this over firstName when it's set.
+  nickname         String?
+  /// Sensitive. The full date never renders on the Player Card or any roster —
+  /// age and birthday MONTH are derived from it at render time (lib/athlete.ts).
   dob              DateTime @db.Date
   grade            String?
+  school           String?
   gender           String?
+  /// ["Basketball"], ["Volleyball"], or both. Array rather than an enum so an
+  /// athlete who picks up a second sport is an update, not a migration.
+  sports           String[] @default([]) @map("sports")
+  /// Only meaningful when sports has both, and only if the parent chose to say.
+  favoriteSport    String?  @map("favorite_sport")
+
+  /// Object path inside the private athlete-photos bucket — NEVER a public URL.
+  /// Rendered through a short-lived signed URL (lib/athlete-photo.ts).
+  photoPath        String?  @map("photo_path")
+  photoUpdatedAt   DateTime? @map("photo_updated_at")
+
+  // --- The parts that make this a profile and not a registration packet ---
+  /// "What do they want to get better at" — the athlete's own words, via parent.
+  goal             String?
+  /// How they like to be coached. Multi-select of COACHING_PREFERENCES keys.
+  coachingPreferences String[] @default([]) @map("coaching_preferences")
+  /// Personality, NOT skill. Never used for ranking, grouping or placement.
+  competitiveMeter CompetitiveMeter? @map("competitive_meter")
+  otherSports      String[] @default([]) @map("other_sports")
+  /// The COACH-VISIBLE PARENT NOTE. Deliberately its own column, never merged
+  /// into medicalNotes — "he shuts down if you correct him in front of the
+  /// group" and "he carries an EpiPen" are different kinds of information with
+  /// different audiences.
+  parentCoachNote  String?  @map("parent_coach_note")
+
+  // --- Safety ---
+  /// The explicit yes/no answer, kept separate from the free text so "we asked
+  /// and they said no" is distinguishable from "nobody ever filled this in".
+  hasMedicalInfo   Boolean  @default(false) @map("has_medical_info")
   medicalNotes     String?  @map("medical_notes")
+  /// Legacy free-text emergency contact from the first schema. Superseded by
+  /// the EmergencyContact rows below; kept so no production data is lost, and
+  /// read as a fallback when an athlete has no structured contact yet.
   emergencyContact String?  @map("emergency_contact")
+
+  hasCustodyRestrictions Boolean @default(false) @map("has_custody_restrictions")
+  /// HIGHLY RESTRICTED. Owner/admin/front desk only — never rendered in the
+  /// Coach App, at any role.
+  custodyRestrictions    String? @map("custody_restrictions")
+  /// The minimum-necessary operational instruction a coach may see instead
+  /// ("Do not release athlete to an unauthorized adult"). Written by staff,
+  /// not by the parent, and deliberately carries no legal detail.
+  custodyStaffInstruction String? @map("custody_staff_instruction")
+
+  /// Legacy boolean from the first schema. MediaConsent is the real record;
+  /// this is kept in sync for any older read path and is never the source of truth.
   photoConsent     Boolean  @default(false) @map("photo_consent")
+
+  /// Set when step 1 is done — the athlete is on the roster and usable. The
+  /// optional sections can be finished later without blocking anything.
+  basicsCompletedAt DateTime? @map("basics_completed_at")
+  /// Where the parent left off, so "Finish Later" resumes instead of restarting.
+  profileStep       String?   @map("profile_step")
   createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @default(now()) @updatedAt @map("updated_at")
 
   family           Family              @relation(fields: [familyId], references: [id], onDelete: Cascade)
   bookings         Booking[]
@@ -91,9 +167,25 @@ model Athlete {
   drDishLogs       DrDishLog[]
   placementRequest PlacementRequest[]
   offeringWaitlist OfferingWaitlistEntry[]
+  messageThreads   MessageThread[]
   registrations    Registration[]
+  emergencyContacts EmergencyContact[]
+  authorizedPickups AuthorizedPickup[]
+  mediaConsent      MediaConsent?
+  mediaConsentChanges MediaConsentChange[]
+  progressReports   ProgressReport[]
+  profileChanges    AthleteProfileChange[]
 
   @@map("athletes")
+}
+
+/// How an athlete likes to be pushed. A PERSONALITY preference the coach reads
+/// before a session — explicitly not a rating, not a level, and never an input
+/// to team placement or grouping.
+enum CompetitiveMeter {
+  here_to_learn
+  likes_a_challenge
+  keep_score
 }
 
 /// Staff/admin login. Deliberately separate from Guardian — a different trust
@@ -149,6 +241,10 @@ model StaffUser {
   tasksCreated         Task[]              @relation("TaskCreatedBy")
   tasksAssigned        Task[]              @relation("TaskAssignedTo")
   contentBlocks        ContentBlock[]
+  progressReportsAuthored ProgressReport[] @relation("ProgressAuthor")
+  progressReportsReviewed ProgressReport[] @relation("ProgressReviewer")
+  mediaConsentChanges     MediaConsentChange[]
+  profileChanges          AthleteProfileChange[]
 
   @@map("staff_users")
 }
@@ -390,6 +486,7 @@ model Offering {
   recurrenceRules RecurrenceRule[]
   registrations   Registration[]
   teams           Team[]
+  messageThreads  MessageThread[]
   requiredWaivers OfferingWaiver[]
   waitlist        OfferingWaitlistEntry[]
   scheduleChanges ScheduleChange[]
@@ -597,6 +694,7 @@ model Session {
   extraResources  SessionResource[]
   scheduleChanges ScheduleChange[]
   conflictOverrides ConflictOverride[]
+  messageThreads  MessageThread[]
   bookings        Booking[]
   waitlistEntries WaitlistEntry[]
   coaches         SessionCoach[]
@@ -1212,22 +1310,45 @@ model PlanTemplateItem {
 /// coach can see them combined.
 model Evaluation {
   id               String   @id @default(uuid())
-  programId        String   @map("program_id")
+  /// Nullable since an Initial/Baseline evaluation isn't tied to a league or
+  /// any other program — it's the athlete's starting point, recorded once.
+  programId        String?  @map("program_id")
   athleteId        String   @map("athlete_id")
   staffUserId      String   @map("staff_user_id")
   sport            String
+  evaluationType   EvaluationType @default(league) @map("evaluation_type")
+  /// Defaults to internal_only, and that default is the whole point: a league
+  /// evaluation exists to balance rosters, and its scores, comparisons and
+  /// placement talk are NOT parent-facing unless a human deliberately shares it.
+  visibility       EvaluationVisibility @default(internal_only)
+  publishedAt      DateTime? @map("published_at")
   scores           Json     @default("{}")
   notes            String?
   recommendedLevel String?  @map("recommended_level")
   createdAt        DateTime @default(now()) @map("created_at")
   updatedAt        DateTime @updatedAt @map("updated_at")
 
-  program Program   @relation(fields: [programId], references: [id], onDelete: Cascade)
+  program Program?  @relation(fields: [programId], references: [id], onDelete: Cascade)
   athlete Athlete   @relation(fields: [athleteId], references: [id], onDelete: Cascade)
   staff   StaffUser @relation(fields: [staffUserId], references: [id])
 
   @@unique([programId, athleteId, staffUserId])
+  @@index([athleteId, createdAt])
   @@map("evaluations")
+}
+
+enum EvaluationType {
+  /// The athlete's baseline. No invented history before it.
+  initial
+  league
+  skills
+  quarterly
+  custom
+}
+
+enum EvaluationVisibility {
+  internal_only
+  share_with_parent
 }
 
 /// A parent's team-placement request ("would like to play with Drew").
@@ -1363,6 +1484,7 @@ model Communication {
   program    Program?                 @relation(fields: [programId], references: [id])
   family     Family?                  @relation(fields: [familyId], references: [id])
   recipients CommunicationRecipient[]
+  threads    MessageThread[]
 
   @@index([sentAt])
   @@map("communications")
@@ -1874,10 +1996,21 @@ model ScheduleChange {
   previousValue String? @map("previous_value")
   newValue      String? @map("new_value")
   reason        String?
-  /// Null = no notification decision recorded yet; the cancellation and move
-  /// flows set it explicitly rather than defaulting to "yes".
+  /// Whether the people attached to this session were told.
+  ///
+  /// Read these together with `notificationMethod`. On their own they record an
+  /// admin's INTENT, not a delivered message — there is no email or SMS
+  /// transport wired up yet, so a `true` here with method `marked_manually`
+  /// means "an admin said they would tell them", not "the system sent
+  /// something". Keeping those two claims separate matters: this table is what
+  /// gets read back to a parent who says nobody told them.
   familiesNotified Boolean? @map("families_notified")
   coachNotified    Boolean? @map("coach_notified")
+  /// How the notification happened. `marked_manually` = an admin ticked the box
+  /// and is sending it themselves. `sent_automatically` = the platform actually
+  /// delivered it — nothing sets this yet, and nothing should until a transport
+  /// exists. Null on rows written before this distinction existed.
+  notificationMethod NotificationMethod? @map("notification_method")
   /// How many registrations were attached when the change was made — the number
   /// that actually matters when judging the impact later.
   affectedRegistrations Int @default(0) @map("affected_registrations")
@@ -1891,6 +2024,14 @@ model ScheduleChange {
   @@index([sessionId, createdAt])
   @@index([offeringId, createdAt])
   @@map("schedule_changes")
+}
+
+/// Deliberately distinguishes "a person said they'd handle it" from "the
+/// platform sent it". Collapsing the two would let the schedule history claim a
+/// family was contacted when no message ever left the building.
+enum NotificationMethod {
+  marked_manually
+  sent_automatically
 }
 
 enum ScheduleChangeType {
@@ -1983,4 +2124,345 @@ enum RegistrationSelection {
   all_sessions
   single_day
   team_season
+}
+
+// ===========================================================================
+// ATHLETE PROFILE
+//
+// The single source of truth for who an athlete is, shared by the Parent App,
+// the Coach App, the Front Desk and Courts OS. There is deliberately no second
+// athlete record anywhere: each surface reads THIS athlete through its own
+// authorization layer and sees a different slice of it.
+//
+// The organising rule for everything below: information is separated by WHO
+// NEEDS IT, not by which form collected it. Medical, custody, pickup and media
+// consent are four different audiences, so they are four different tables with
+// four different access rules — never one "notes" blob.
+// ===========================================================================
+
+/// Who to call when something happens. Structured rather than the old free-text
+/// column so the front desk can actually dial it, and so "same as Mom" doesn't
+/// mean retyping a phone number that then drifts out of date.
+model EmergencyContact {
+  id           String   @id @default(uuid())
+  athleteId    String   @map("athlete_id")
+  name         String
+  relationship String
+  phone        String
+  /// Set when the parent picked "Same as Parent / Guardian". The name/phone are
+  /// still copied here so a lookup never depends on a join at 7pm on a Saturday,
+  /// but this records where it came from.
+  guardianId   String?  @map("guardian_id")
+  sortOrder    Int      @default(0) @map("sort_order")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  athlete  Athlete   @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  guardian Guardian? @relation(fields: [guardianId], references: [id], onDelete: SetNull)
+
+  @@index([athleteId, sortOrder])
+  @@map("emergency_contacts")
+}
+
+/// A non-guardian adult allowed to collect this athlete — grandparent, nanny,
+/// a teammate's parent on carpool days. Guardians' own pickup rights live on
+/// FamilyGuardian.authorizedForPickup instead of being duplicated here.
+///
+/// Matters most for camps, Parents' Night Out and drop-off programming; normal
+/// training sessions do not run a formal pickup procedure.
+model AuthorizedPickup {
+  id           String   @id @default(uuid())
+  athleteId    String   @map("athlete_id")
+  name         String
+  relationship String
+  phone        String
+  note         String?
+  guardianId   String?  @map("guardian_id")
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  athlete  Athlete   @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  guardian Guardian? @relation(fields: [guardianId], references: [id], onDelete: SetNull)
+
+  @@index([athleteId, active])
+  @@map("authorized_pickups")
+}
+
+/// Permission to use photos/video of this athlete in Courts marketing.
+///
+/// Entirely separate from the profile photo: uploading a picture so coaches can
+/// put a name to a face grants NOTHING here. It is also separate from the
+/// liability waiver — a parent must answer this question on its own, and
+/// answering NO must never block participation.
+model MediaConsent {
+  id        String             @id @default(uuid())
+  athleteId String             @unique @map("athlete_id")
+  status    MediaConsentStatus
+  /// The guardian who actually made the choice. A child cannot consent.
+  consentedByGuardianId String @map("consented_by_guardian_id")
+  /// Captured as typed, not resolved from the guardian row at read time — this
+  /// is a record of what was acknowledged, and it must not change retroactively
+  /// if the guardian later edits their name.
+  guardianName         String  @map("guardian_name")
+  guardianRelationship String  @map("guardian_relationship")
+  acknowledged         Boolean @default(false)
+  consentDate          DateTime @map("consent_date")
+  /// Which version of the release text was on screen when they agreed.
+  releaseVersion       String  @map("release_version")
+  createdAt            DateTime @default(now()) @map("created_at")
+  updatedAt            DateTime @updatedAt @map("updated_at")
+
+  athlete   Athlete  @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  guardian  Guardian @relation(fields: [consentedByGuardianId], references: [id])
+
+  @@map("media_consents")
+}
+
+enum MediaConsentStatus {
+  /// Photos + video are okay on Courts-owned channels.
+  media_ok
+  /// Ask before using anything identifiable.
+  media_limited
+  /// No identifiable photo or video in marketing.
+  media_no
+}
+
+/// Every change of mind, kept forever. Needed for two reasons: a parent is
+/// entitled to know what they agreed to and when, and if permission is
+/// withdrawn after something has already been published, staff need the dates
+/// to work out what is already out in the world.
+model MediaConsentChange {
+  id              String              @id @default(uuid())
+  athleteId       String              @map("athlete_id")
+  oldStatus       MediaConsentStatus? @map("old_status")
+  newStatus       MediaConsentStatus  @map("new_status")
+  changedByGuardianId String?         @map("changed_by_guardian_id")
+  changedByStaffId    String?         @map("changed_by_staff_id")
+  releaseVersion  String              @map("release_version")
+  /// Set when a withdrawal needs a human to review already-published material.
+  /// Nothing here promises that distributed material disappears on its own.
+  needsFollowUp   Boolean             @default(false) @map("needs_follow_up")
+  followUpDoneAt  DateTime?           @map("follow_up_done_at")
+  createdAt       DateTime            @default(now()) @map("created_at")
+
+  athlete   Athlete    @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  guardian  Guardian?  @relation(fields: [changedByGuardianId], references: [id], onDelete: SetNull)
+  staff     StaffUser? @relation(fields: [changedByStaffId], references: [id], onDelete: SetNull)
+
+  @@index([athleteId, createdAt])
+  @@index([needsFollowUp, followUpDoneAt])
+  @@map("media_consent_changes")
+}
+
+// ---------------------------------------------------------------------------
+// PROGRESS
+//
+// A roughly quarterly, coach-written picture of how an athlete is developing.
+// Compared against their OWN past quarters and nothing else: there is no
+// percentile, no leaderboard, no teammate comparison anywhere in this model,
+// and that absence is the design.
+// ---------------------------------------------------------------------------
+
+model ProgressReport {
+  id        String   @id @default(uuid())
+  athleteId String   @map("athlete_id")
+  sport     String
+  /// Calendar year + quarter 1-4. Stored as two ints rather than a label so
+  /// ordering, "most recent first" and trend lookups are plain SQL, and so
+  /// nobody has to create quarters by hand each year (lib/quarters.ts).
+  year      Int
+  quarter   Int
+  status    ProgressReportStatus @default(draft)
+
+  /// Short coach summary in plain language. Not an essay.
+  coachTake String? @map("coach_take")
+
+  /// What to work on next, and optionally where that happens. The program
+  /// pointers are nullable on purpose — a coach is never forced to make a
+  /// commercial recommendation to finish a report.
+  upNextFocus       String? @map("up_next_focus")
+  upNextProgramType String? @map("up_next_program_type")
+  upNextOfferingId  String? @map("up_next_offering_id")
+
+  /// Attendance CONTEXT for the quarter ({"Group Training": 11, "Private": 2}),
+  /// snapshotted at publish so a later cancellation can't silently rewrite a
+  /// published report. Context only — never scored, never a grade.
+  participation Json? @map("participation")
+
+  authorStaffId     String    @map("author_staff_id")
+  reviewedByStaffId String?   @map("reviewed_by_staff_id")
+  publishedAt       DateTime? @map("published_at")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  athlete    Athlete   @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  author     StaffUser @relation("ProgressAuthor", fields: [authorStaffId], references: [id])
+  reviewedBy StaffUser? @relation("ProgressReviewer", fields: [reviewedByStaffId], references: [id])
+  skills     ProgressSkill[]
+  priorities ProgressPriority[]
+
+  /// One report per athlete per sport per quarter — a second draft for the same
+  /// quarter is an edit, not a new row.
+  @@unique([athleteId, sport, year, quarter])
+  @@index([athleteId, year, quarter])
+  @@index([status, year, quarter])
+  @@map("progress_reports")
+}
+
+enum ProgressReportStatus {
+  draft
+  ready_for_review
+  published
+}
+
+/// One skill line on a report. `level` is the 1-5 development scale from
+/// lib/progress-metrics.ts (Building → Advanced); parents see the WORD.
+model ProgressSkill {
+  id       String  @id @default(uuid())
+  reportId String  @map("report_id")
+  /// Key from the sport's metric list — basketball and volleyball have their
+  /// own, and volleyball is never scored on basketball categories.
+  metric   String
+  level    Int
+  /// True for the 2-4 lines shown under "What's Clicking".
+  clicking Boolean @default(false)
+  comment  String?
+  sortOrder Int    @default(0) @map("sort_order")
+
+  report ProgressReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@unique([reportId, metric])
+  @@map("progress_skills")
+}
+
+/// "What We're Working On" — 1-3 development priorities, in the coach's words.
+model ProgressPriority {
+  id        String @id @default(uuid())
+  reportId  String @map("report_id")
+  label     String
+  sortOrder Int    @default(0) @map("sort_order")
+
+  report ProgressReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@map("progress_priorities")
+}
+
+// ---------------------------------------------------------------------------
+// AUDIT
+//
+// AuditLog already covers staff actions. This covers the other half: parents
+// change their own athlete's sensitive fields too, and "who changed the pickup
+// list" has to be answerable regardless of which side of the system did it.
+// ---------------------------------------------------------------------------
+
+model AthleteProfileChange {
+  id        String           @id @default(uuid())
+  athleteId String           @map("athlete_id")
+  actorType ProfileActorType @map("actor_type")
+  actorGuardianId String?    @map("actor_guardian_id")
+  actorStaffId    String?    @map("actor_staff_id")
+  /// Denormalised display name, so history stays readable after a staff member
+  /// leaves or a guardian is removed from the family.
+  actorLabel      String     @map("actor_label")
+  /// media_consent | guardians | emergency | pickup | custody | medical | profile
+  category  String
+  field     String
+  /// Values are recorded for the categories where "what did it used to say"
+  /// matters. For medical and custody free text the values are deliberately
+  /// NOT copied here — the audit trail should not become a second, unguarded
+  /// store of the most sensitive text in the system.
+  oldValue  String? @map("old_value")
+  newValue  String? @map("new_value")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  athlete  Athlete    @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  guardian Guardian?  @relation(fields: [actorGuardianId], references: [id], onDelete: SetNull)
+  staff    StaffUser? @relation(fields: [actorStaffId], references: [id], onDelete: SetNull)
+
+  @@index([athleteId, createdAt])
+  @@index([category, createdAt])
+  @@map("athlete_profile_changes")
+}
+
+enum ProfileActorType {
+  guardian
+  staff
+  system
+}
+
+// ---------------------------------------------------------------------------
+// TWO-WAY MESSAGING (The Courts <-> one family)
+//
+// Deliberately separate from Communication above. A Communication is a
+// BROADCAST — one staff message fanned out to many families, where nobody
+// replies to everybody. A MessageThread is a CONVERSATION with exactly one
+// family, which is what a parent asking "will Tuesday be made up?" needs.
+//
+// There is no parent-to-parent channel here, and there will not be one by
+// accident: a thread always has exactly one family on one side and The Courts
+// on the other. Families are never exposed to each other, and no phone number
+// or email address crosses either way — staff address a family, not a contact.
+// ---------------------------------------------------------------------------
+
+model MessageThread {
+  id       String @id @default(uuid())
+  familyId String @map("family_id")
+  subject  String
+
+  /// What the conversation is about, when it started from something specific.
+  /// Gives staff the context to answer without asking the parent to re-explain.
+  offeringId String? @map("offering_id")
+  sessionId  String? @map("session_id")
+  athleteId  String? @map("athlete_id")
+  /// Set when a parent replied to a broadcast, so the answer keeps its origin.
+  communicationId String? @map("communication_id")
+
+  status        ThreadStatus @default(open)
+  /// Denormalized for inbox ordering without loading every message.
+  lastMessageAt DateTime     @default(now()) @map("last_message_at")
+  createdAt     DateTime     @default(now()) @map("created_at")
+
+  family        Family         @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  offering      Offering?      @relation(fields: [offeringId], references: [id], onDelete: SetNull)
+  session       Session?       @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  athlete       Athlete?       @relation(fields: [athleteId], references: [id], onDelete: SetNull)
+  communication Communication? @relation(fields: [communicationId], references: [id], onDelete: SetNull)
+  messages      Message[]
+
+  @@index([familyId, lastMessageAt])
+  @@index([status, lastMessageAt])
+  @@map("message_threads")
+}
+
+enum ThreadStatus {
+  open
+  /// Answered and closed by staff. A new reply from the family reopens it,
+  /// rather than disappearing into a resolved thread nobody watches.
+  resolved
+}
+
+/// One message in a thread. Exactly one of authorGuardianId / authorStaffId is
+/// set — that is what makes "who said this" unambiguous, and it is enforced by
+/// the send functions in lib/messaging.ts rather than a DB constraint, since
+/// Postgres cannot express "exactly one of these two" cleanly.
+model Message {
+  id       String @id @default(uuid())
+  threadId String @map("thread_id")
+  body     String
+
+  authorGuardianId String? @map("author_guardian_id")
+  authorStaffId    String? @map("author_staff_id")
+
+  /// When the other side saw it. Null means unread by them.
+  readByFamilyAt DateTime? @map("read_by_family_at")
+  readByStaffAt  DateTime? @map("read_by_staff_at")
+  createdAt      DateTime  @default(now()) @map("created_at")
+
+  thread        MessageThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  authorGuardian Guardian?    @relation(fields: [authorGuardianId], references: [id], onDelete: SetNull)
+  authorStaff    StaffUser?   @relation(fields: [authorStaffId], references: [id], onDelete: SetNull)
+
+  @@index([threadId, createdAt])
+  @@map("messages")
 }

@@ -1,49 +1,35 @@
 import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
-import { prisma } from "@/lib/prisma";
 import { loadParentFeed } from "@/lib/programs/parent-feed";
-import { CREATE_PICKER_ORDER, PROGRAM_TYPE_LABELS } from "@/lib/programs/types";
+import { PARENT_CATEGORIES } from "@/lib/programs/types";
 import { OfferingSessionCard } from "./offering-session-card";
 
-// Everything here comes from published Offerings. There is no separate parent
-// catalog to maintain: an admin publishes once in Courts OS and this reads the
-// same row. A draft cannot appear, because loadParentFeed's visibility rule is
-// the only door in.
+// Explore, filtered the way a parent thinks.
+//
+// The athlete is the primary filter, because picking a child already answers
+// sport, grade eligibility and most of "is this relevant to us" in one tap. The
+// 12 admin program types collapse into five buckets families recognise, and the
+// default is this week — the question people actually arrive with.
 
-const DATE_RANGES: Record<string, () => { from: Date; to?: Date }> = {
-  today: () => {
-    const now = new Date();
-    const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
-    return { from: now, to: new Date(start.getTime() + 86_400_000) };
-  },
-  tomorrow: () => {
-    const now = new Date();
-    const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1));
-    return { from: start, to: new Date(start.getTime() + 86_400_000) };
-  },
+const RANGES: Record<string, () => { from: Date; to?: Date }> = {
   week: () => ({ from: new Date(), to: new Date(Date.now() + 7 * 86_400_000) }),
-  weekend: () => {
-    const now = new Date();
-    const daysUntilSat = (6 - now.getUTCDay() + 7) % 7;
-    const sat = new Date(
-      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + daysUntilSat)
-    );
-    return { from: now, to: new Date(sat.getTime() + 2 * 86_400_000) };
-  },
-};
-const DATE_LABELS: Record<string, string> = {
-  today: "Today",
-  tomorrow: "Tomorrow",
-  week: "This Week",
-  weekend: "This Weekend",
+  anytime: () => ({ from: new Date() }),
 };
 
-function Chip({ href, active, children }: { href: string; active: boolean; children: React.ReactNode }) {
+function Chip({
+  href,
+  active,
+  children,
+}: {
+  href: string;
+  active: boolean;
+  children: React.ReactNode;
+}) {
   return (
     <Link
       href={href}
       aria-current={active ? "true" : undefined}
-      className={`min-h-[36px] rounded-full border px-4 py-1.5 font-sport text-xs font-bold uppercase tracking-wide ${
+      className={`min-h-[38px] rounded-full border px-4 py-1.5 font-sport text-xs font-bold uppercase tracking-wide transition-colors ${
         active
           ? "border-black bg-black text-white"
           : "border-gray-mid bg-white text-gray-dark hover:border-orange"
@@ -54,92 +40,134 @@ function Chip({ href, active, children }: { href: string; active: boolean; child
   );
 }
 
+function Row({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <span className="w-12 shrink-0 font-sport text-[11px] font-bold uppercase tracking-widest text-gray-dark">
+        {label}
+      </span>
+      {children}
+    </div>
+  );
+}
+
 export default async function ExplorePage({
   searchParams,
 }: {
-  searchParams: Promise<{ sport?: string; type?: string; when?: string }>;
+  searchParams: Promise<{ athlete?: string; cat?: string; when?: string }>;
 }) {
-  const { sport, type, when } = await searchParams;
+  const { athlete: athleteParam, cat, when } = await searchParams;
   const guardian = await getCurrentGuardian();
-  const athletes = guardian.families.flatMap((fg) => fg.family.athletes);
+  const allAthletes = guardian.families.flatMap((fg) => fg.family.athletes);
 
-  const range = when && DATE_RANGES[when] ? DATE_RANGES[when]() : { from: new Date() };
-  const cards = await loadParentFeed(athletes as never, {
-    sport,
-    programType: type,
+  // Default to this week. "Everything, forever" is a browsing mode, not the
+  // question someone opens the app with.
+  const range = (RANGES[when ?? "week"] ?? RANGES.week)();
+
+  const selected =
+    athleteParam && allAthletes.some((a) => a.id === athleteParam)
+      ? allAthletes.filter((a) => a.id === athleteParam)
+      : allAthletes;
+
+  const cards = await loadParentFeed(selected as never, {
+    category: cat,
     from: range.from,
     to: range.to,
   });
 
-  // Only offer filters that lead somewhere, drawn from what's actually published.
-  const availableSports = await prisma.offering.findMany({
-    where: { status: "published", visibleParentApp: true, internalOnly: false },
-    select: { program: { select: { sport: true } } },
-    distinct: ["programId"],
-  });
-  const sports = [...new Set(availableSports.map((o) => o.program.sport).filter(Boolean))] as string[];
-  const availableTypes = [...new Set(cards.map((c) => c.programType))];
+  // Only offer a category chip if it would actually lead somewhere.
+  const present = new Set(cards.map((c) => c.category));
+  const categoriesWithSessions = PARENT_CATEGORIES.filter((c) => present.has(c.key));
 
-  function chipHref(next: { sport?: string; type?: string; when?: string }) {
+  function href(next: { athlete?: string | null; cat?: string | null; when?: string | null }) {
     const params = new URLSearchParams();
-    const s = next.sport !== undefined ? next.sport : sport;
-    const t = next.type !== undefined ? next.type : type;
+    const a = next.athlete !== undefined ? next.athlete : athleteParam;
+    const c = next.cat !== undefined ? next.cat : cat;
     const w = next.when !== undefined ? next.when : when;
-    if (s) params.set("sport", s);
-    if (t) params.set("type", t);
+    if (a) params.set("athlete", a);
+    if (c) params.set("cat", c);
     if (w) params.set("when", w);
     const qs = params.toString();
     return `/my-courts/explore${qs ? `?${qs}` : ""}`;
   }
+
+  const who =
+    selected.length === 1
+      ? selected[0].firstName
+      : allAthletes.map((a) => a.firstName).join(" and ");
 
   return (
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="font-display text-2xl font-black text-black">Find Your Next Rep.</h1>
         <p className="mt-1 font-body text-sm text-gray-dark">
-          {athletes.length === 0
+          {allAthletes.length === 0
             ? "No athletes on file yet."
-            : `Showing what ${athletes.map((a) => a.firstName).join(" and ")} can join.`}
+            : `What ${who} can join${when === "anytime" ? "" : " this week"}.`}
         </p>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-wrap gap-2">
-          <Chip href={chipHref({ sport: undefined })} active={!sport}>All Sports</Chip>
-          {sports.map((s) => (
-            <Chip key={s} href={chipHref({ sport: s })} active={sport === s}>{s}</Chip>
-          ))}
-        </div>
-        {availableTypes.length > 1 ? (
-          <div className="flex flex-wrap gap-2">
-            <Chip href={chipHref({ type: undefined })} active={!type}>All Types</Chip>
-            {CREATE_PICKER_ORDER.filter((t) => availableTypes.includes(t)).map((t) => (
-              <Chip key={t} href={chipHref({ type: t })} active={type === t}>
-                {PROGRAM_TYPE_LABELS[t]}
+      <div className="flex flex-col gap-2.5">
+        {/* The athlete is the primary filter — one tap that means something. */}
+        {allAthletes.length > 1 ? (
+          <Row label="Who">
+            {allAthletes.map((a) => (
+              <Chip key={a.id} href={href({ athlete: a.id })} active={athleteParam === a.id}>
+                {a.firstName}
               </Chip>
             ))}
-          </div>
+            <Chip href={href({ athlete: null })} active={!athleteParam}>
+              Both
+            </Chip>
+          </Row>
         ) : null}
-        <div className="flex flex-wrap gap-2">
-          <Chip href={chipHref({ when: undefined })} active={!when}>Anytime</Chip>
-          {Object.entries(DATE_LABELS).map(([v, l]) => (
-            <Chip key={v} href={chipHref({ when: v })} active={when === v}>{l}</Chip>
-          ))}
-        </div>
+
+        {categoriesWithSessions.length > 1 ? (
+          <Row label="What">
+            <Chip href={href({ cat: null })} active={!cat}>
+              All
+            </Chip>
+            {categoriesWithSessions.map((c) => (
+              <Chip key={c.key} href={href({ cat: c.key })} active={cat === c.key}>
+                {c.label}
+              </Chip>
+            ))}
+          </Row>
+        ) : null}
+
+        <Row label="When">
+          <Chip href={href({ when: null })} active={when !== "anytime"}>
+            This Week
+          </Chip>
+          <Chip href={href({ when: "anytime" })} active={when === "anytime"}>
+            Anytime
+          </Chip>
+        </Row>
       </div>
 
       {cards.length === 0 ? (
         <div className="rounded-lg border border-gray-mid bg-white p-6 text-center">
           <p className="font-display text-lg font-black text-black">Nothing on the Board.</p>
           <p className="mt-1 font-body text-sm text-gray-dark">
-            Nothing matches that right now. Try another sport or a wider date range.
+            {when === "anytime"
+              ? "Nothing matches that right now."
+              : `Nothing for ${who} this week.`}
           </p>
-          <Link
-            href="/my-courts/explore"
-            className="mt-3 inline-block font-sport text-xs font-bold uppercase tracking-wide text-orange"
-          >
-            Clear Filters
-          </Link>
+          {when !== "anytime" ? (
+            <Link
+              href={href({ when: "anytime", cat: null })}
+              className="mt-3 inline-block font-sport text-xs font-bold uppercase tracking-wide text-orange"
+            >
+              Look Further Out
+            </Link>
+          ) : (
+            <Link
+              href="/my-courts/explore"
+              className="mt-3 inline-block font-sport text-xs font-bold uppercase tracking-wide text-orange"
+            >
+              Clear Filters
+            </Link>
+          )}
         </div>
       ) : (
         <div className="flex flex-col gap-3">

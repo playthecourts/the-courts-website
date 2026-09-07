@@ -163,6 +163,24 @@ async function main() {
     );
   }
 
+  // ---------- Notification honesty ----------
+  // The schedule history is what gets read back to a parent who says nobody
+  // told them, so it must never record a delivery that did not happen. Until a
+  // transport exists, every notification row must be marked_manually.
+  const notifRows = await prisma.scheduleChange.findMany({
+    where: { OR: [{ familiesNotified: true }, { coachNotified: true }] },
+    select: { id: true, notificationMethod: true, createdAt: true },
+  });
+  const claimsAutoSend = notifRows.filter((r) => r.notificationMethod === "sent_automatically");
+  // Rows written before the distinction existed are null; new ones must not be.
+  const recent = notifRows.filter((r) => r.createdAt > new Date(Date.now() - 5 * 60_000));
+  const unlabelled = recent.filter((r) => r.notificationMethod === null);
+  check(
+    "Notification records never claim a delivery the platform did not make",
+    claimsAutoSend.length === 0 && unlabelled.length === 0,
+    `${notifRows.length} rows claim someone was told; ${claimsAutoSend.length} claim automatic sending (must be 0 until a transport exists), ${unlabelled.length} of ${recent.length} recent rows unlabelled`
+  );
+
   // ---------- Parent feed respects publish + eligibility ----------
   const athletes = await prisma.athlete.findMany({ take: 4 });
   const feed = await loadParentFeed(athletes as never, {});

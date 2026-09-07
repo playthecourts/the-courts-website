@@ -4,7 +4,7 @@ import { availabilityFor, type Availability, qualifiesForAvailableThisWeek } fro
 import { checkAgeAndGrade, type AthleteForEligibility } from "./eligibility";
 import { resolveBookingRule } from "./pricing";
 import { describeBookingRule } from "./format";
-import { programTypeDef, gradeRangeLabel } from "./types";
+import { programTypeDef, gradeRangeLabel, parentCategoryFor, typesInCategory } from "./types";
 
 // ---------------------------------------------------------------------------
 // What the Parent App shows.
@@ -21,6 +21,8 @@ export type ParentSessionCard = {
   offeringName: string;
   programType: string;
   programTypeLabel: string;
+  /// Parent-facing bucket, not the admin type.
+  category: string;
   sport: string | null;
   shortDescription: string | null;
   gradeLabel: string | null;
@@ -56,7 +58,15 @@ export const PARENT_VISIBLE = {
 
 export async function loadParentFeed(
   athletes: AthleteForEligibility[] & { firstName: string; lastName: string }[],
-  opts: { sport?: string; programType?: string; from?: Date; to?: Date } = {}
+  opts: {
+    sport?: string;
+    programType?: string;
+    /// A parent-facing bucket (see PARENT_CATEGORIES) rather than one of the 12
+    /// admin program types.
+    category?: string;
+    from?: Date;
+    to?: Date;
+  } = {}
 ): Promise<ParentSessionCard[]> {
   const now = new Date();
   const athleteIds = athletes.map((a) => a.id);
@@ -69,6 +79,9 @@ export async function loadParentFeed(
         ...PARENT_VISIBLE,
         ...(opts.sport ? { program: { sport: opts.sport } } : {}),
         ...(opts.programType ? { program: { programType: opts.programType as never } } : {}),
+        ...(opts.category
+          ? { program: { programType: { in: typesInCategory(opts.category) } } }
+          : {}),
       },
     },
     orderBy: { startTime: "asc" },
@@ -147,6 +160,7 @@ export async function loadParentFeed(
       offeringName: s.title ?? o.name,
       programType: o.program.programType,
       programTypeLabel: def.label,
+      category: parentCategoryFor(o.program.programType),
       sport: o.program.sport,
       shortDescription: o.shortDescription,
       gradeLabel: gradeRangeLabel(o.gradeMin, o.gradeMax),

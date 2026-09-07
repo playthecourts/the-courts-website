@@ -99,6 +99,7 @@ export default async function FacilityPage() {
 
       {canBlock ? (
         <Card>
+          <div id="block" style={{ scrollMarginTop: "1rem" }} />
           <CardHeader title="Block a court or the facility" />
           <div className="p-4">
             <BlockForm resources={resources.map((r) => ({ id: r.id, name: r.name }))} />

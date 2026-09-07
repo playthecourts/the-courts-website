@@ -1403,3 +1403,113 @@ body.has-announce .nav { top: var(--announce-h, 88px); }
 }
 
 
+
+/* ---------------------------------------------------------------------------
+   Live program cards (js/courts-programs.js).
+
+   Rendered from the Courts OS feed, so a new camp or event appears here without
+   an HTML edit. Uses the site's existing brand variables; availability state is
+   carried by a label as well as colour, never colour alone.
+   --------------------------------------------------------------------------- */
+.cp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.cp-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  background: #fff;
+  border: 1px solid #d9d7d2;
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .18s ease, transform .18s ease;
+}
+.cp-card:hover,
+.cp-card:focus-visible { border-color: #D95A1A; transform: translateY(-2px); }
+.cp-card:focus-visible { outline: 2px solid #D95A1A; outline-offset: 3px; }
+
+.cp-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.cp-tags { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.cp-type {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .74rem;
+  color: #55524E;
+}
+
+.cp-state {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .72rem;
+  padding: 3px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.cp-ok     { color: #1D7A4C; background: #E8F4ED; }
+.cp-low    { color: #B94700; background: rgba(217,90,26,.1); }
+.cp-full   { color: #9A6207; background: #FCF3E3; }
+.cp-closed { color: #55524E; background: #EFECE8; }
+.cp-soon   { color: #1F5F8B; background: #E9F1F7; }
+
+.cp-name {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: 1.06rem;
+  line-height: 1.25;
+  margin: 0;
+  color: #0d0d0d;
+  text-wrap: balance;
+}
+
+.cp-meta {
+  font-size: .9rem;
+  color: #343434;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.cp-copy {
+  font-size: .92rem;
+  line-height: 1.5;
+  color: #55524E;
+  margin: 0;
+}
+
+.cp-cta {
+  margin-top: auto;
+  padding-top: 4px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .8rem;
+  color: #D95A1A;
+}
+
+.cp-empty {
+  padding: 28px 0;
+  color: #55524E;
+  font-size: .95rem;
+}
+.cp-empty a { color: #D95A1A; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cp-card { transition: none; }
+  .cp-card:hover, .cp-card:focus-visible { transform: none; }
+}

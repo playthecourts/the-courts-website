@@ -13,6 +13,21 @@ import { formatCents } from "@/lib/programs/format";
 
 export const dynamic = "force-dynamic";
 
+/// The marketing site is the only browser origin that needs this, so the
+/// allow-list is explicit rather than "*". Localhost is admitted in development
+/// only, so the preview page can be checked without deploying.
+function corsOrigin(request: Request): string {
+  const origin = request.headers.get("origin") ?? "";
+  const allowed = [
+    "https://playthecourts.com",
+    "https://www.playthecourts.com",
+    ...(process.env.NODE_ENV === "development"
+      ? ["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:8000"]
+      : []),
+  ];
+  return allowed.includes(origin) ? origin : "https://playthecourts.com";
+}
+
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const sport = url.searchParams.get("sport");
@@ -106,7 +121,8 @@ export async function GET(request: Request) {
         // Public, non-personal data. Short cache so a publish shows up quickly
         // without every visitor hitting the database.
         "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
-        "Access-Control-Allow-Origin": "https://playthecourts.com",
+        "Access-Control-Allow-Origin": corsOrigin(request),
+        Vary: "Origin",
       },
     }
   );

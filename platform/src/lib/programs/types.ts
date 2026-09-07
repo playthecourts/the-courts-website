@@ -408,3 +408,52 @@ export function gradeRangeLabel(min: number | null, max: number | null): string 
   if (min !== null) return `${gradeLabel(min)} Grade and up`;
   return `Through ${gradeLabel(max!)} Grade`;
 }
+
+// ---------------------------------------------------------------------------
+// Parent-facing categories.
+//
+// The 12 program types above are an ADMIN vocabulary — they exist so the
+// builder knows which workflow to run. A parent does not wonder whether
+// something is a Skills Clinic or a Guided Dr. Dish Session; they wonder what
+// their kid can do on Thursday. So the Parent App groups the same offerings
+// into the five buckets families actually think in.
+//
+// This is presentation only. Nothing is re-categorised in the database, and an
+// admin still sees the precise type everywhere in Courts OS.
+// ---------------------------------------------------------------------------
+
+export const PARENT_CATEGORIES = [
+  {
+    key: "training",
+    label: "Training",
+    types: ["group_training", "private_training", "skills_clinic", "guided_dr_dish", "class", "private", "resource"],
+  },
+  { key: "camps", label: "Camps", types: ["camp"] },
+  { key: "leagues", label: "Leagues", types: ["league", "evaluation"] },
+  {
+    key: "open_gym",
+    label: "Open Gym",
+    types: ["open_gym", "court_rental", "self_serve_dr_dish", "rental"],
+  },
+  { key: "events", label: "Events", types: ["special_event", "party", "event"] },
+] as const;
+
+export type ParentCategoryKey = (typeof PARENT_CATEGORIES)[number]["key"];
+
+const CATEGORY_BY_TYPE = new Map<string, ParentCategoryKey>();
+for (const c of PARENT_CATEGORIES) {
+  for (const t of c.types) CATEGORY_BY_TYPE.set(t, c.key);
+}
+
+/// Which parent-facing bucket a program type belongs to. Anything unmapped
+/// falls into Events rather than vanishing from the filter entirely.
+export function parentCategoryFor(type: ProgramType): ParentCategoryKey {
+  return CATEGORY_BY_TYPE.get(type) ?? "events";
+}
+
+/// Every program type inside a parent-facing category — used to turn one chip
+/// tap into the database filter it stands for.
+export function typesInCategory(key: string): ProgramType[] {
+  const c = PARENT_CATEGORIES.find((x) => x.key === key);
+  return c ? ([...c.types] as ProgramType[]) : [];
+}

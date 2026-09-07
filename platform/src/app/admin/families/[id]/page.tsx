@@ -59,7 +59,8 @@ export default async function FamilyDetailPage(props: PageProps<"/admin/families
           <ul className="flex flex-col gap-1 text-sm">
             {family.guardians.map((fg) => (
               <li key={fg.guardianId}>
-                {fg.guardian.name} — {fg.guardian.email}
+                {fg.guardian.name}
+                {fg.guardian.email ? ` — ${fg.guardian.email}` : " — no email on file"}
                 {fg.isPrimary && <span className="ml-2 text-xs text-neutral-500">(primary)</span>}
               </li>
             ))}

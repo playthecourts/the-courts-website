@@ -33,7 +33,10 @@ export async function startMembershipCheckout(athleteId: string, membershipPlanI
   let customerId = guardian.stripeCustomerId;
   if (!customerId) {
     const customer = await stripe.customers.create({
-      email: guardian.email,
+      // Guardian.email is nullable — a guardian added to a family by another
+      // parent may have no login and no address on file yet. Only the signed-in
+      // guardian reaches checkout, so this is defensive rather than expected.
+      email: guardian.email ?? undefined,
       name: guardian.name,
       metadata: { guardianId: guardian.id },
     });

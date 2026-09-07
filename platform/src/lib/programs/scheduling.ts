@@ -15,6 +15,10 @@ import { auditLog } from "@/lib/audit";
 //     once cannot double-book. (See assertResourcesFree.)
 //   * Every change to a live session writes a ScheduleChange row. A parent
 //     asking "when did this move and who told us?" gets an answer.
+//   * That answer distinguishes intent from delivery. NOTHING in this codebase
+//     sends an email or an SMS yet, so notifyFamilies/notifyCoach record that an
+//     admin took responsibility for telling people — never that a message was
+//     sent. See NotificationMethod in the schema.
 //   * Registrations survive changes. Moving a session never detaches the
 //     families who booked it.
 // ---------------------------------------------------------------------------
@@ -251,6 +255,11 @@ export async function moveSession(params: {
           reason: params.reason ?? null,
           familiesNotified: params.notifyFamilies,
           coachNotified: params.notifyCoach,
+          // No transport exists yet, so the only honest method is "an admin
+          // said they would send it". Change this to sent_automatically at the
+          // point something actually delivers, and not before.
+          notificationMethod:
+            params.notifyFamilies || params.notifyCoach ? "marked_manually" : null,
           affectedRegistrations: target._count.bookings,
           changedById: params.actorId,
         },
@@ -353,6 +362,8 @@ export async function cancelSession(params: {
           reason: params.reason,
           familiesNotified: params.notifyFamilies,
           coachNotified: params.notifyCoach,
+          notificationMethod:
+            params.notifyFamilies || params.notifyCoach ? "marked_manually" : null,
           affectedRegistrations: affected.length,
           changedById: params.actorId,
         },

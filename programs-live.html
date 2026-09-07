@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Live Programs — Preview | The Courts</title>
+<link rel="stylesheet" href="css/styles.css">
+<link rel="icon" href="favicon.ico">
+<style>
+  /* Preview chrome only — none of this ships to a real page. */
+  .prev-note {
+    background: #FCF3E3; border-left: 4px solid #9A6207;
+    padding: 16px 20px; margin: 0 0 32px; border-radius: 0 4px 4px 0;
+  }
+  .prev-note h2 {
+    font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase;
+    letter-spacing: .09em; font-size: .8rem; margin: 0 0 6px; color: #9A6207;
+  }
+  .prev-note p { margin: 0 0 8px; font-size: .93rem; color: #6b4a08; line-height: 1.55; }
+  .prev-note code {
+    background: rgba(0,0,0,.06); padding: .1em .4em; border-radius: 3px;
+    font-size: .88em;
+  }
+  .prev-wrap { max-width: 1100px; margin: 0 auto; padding: 48px 24px 96px; }
+  .prev-sec { margin-bottom: 56px; }
+  .prev-sec > h2 {
+    font-family: 'Archivo Black', sans-serif; font-size: 1.5rem;
+    margin: 0 0 6px; letter-spacing: -.02em;
+  }
+  .prev-sec > p.sub { margin: 0 0 20px; color: #55524E; font-size: .95rem; }
+</style>
+</head>
+<body>
+<div class="prev-wrap">
+
+  <div class="prev-note">
+    <h2>Preview — not linked from the site</h2>
+    <p>
+      Every card below is rendered live from Courts OS. Publishing a camp or an event
+      there makes it appear here; archiving it makes it disappear. No HTML edit, no deploy.
+    </p>
+    <p>
+      To use this on a real page, add <code>&lt;script src="js/courts-programs.js" defer&gt;&lt;/script&gt;</code>
+      and drop an empty <code>&lt;div data-courts-programs&gt;&lt;/div&gt;</code> wherever the cards belong.
+      Filter with <code>data-sport</code>, <code>data-type</code> and <code>data-limit</code>.
+    </p>
+    <p>
+      Opened from <code>localhost</code> it reads a local Courts OS on port 3000; anywhere else
+      it reads <code>admin.playthecourts.com</code>.
+    </p>
+  </div>
+
+  <section class="prev-sec">
+    <h2>Everything published</h2>
+    <p class="sub">&lt;div data-courts-programs&gt;&lt;/div&gt;</p>
+    <div data-courts-programs></div>
+  </section>
+
+  <section class="prev-sec">
+    <h2>Basketball only</h2>
+    <p class="sub">&lt;div data-courts-programs data-sport="Basketball"&gt;&lt;/div&gt;</p>
+    <div data-courts-programs data-sport="Basketball"></div>
+  </section>
+
+  <section class="prev-sec">
+    <h2>Camps only</h2>
+    <p class="sub">&lt;div data-courts-programs data-type="camp" data-limit="3"&gt;&lt;/div&gt;</p>
+    <div data-courts-programs data-type="camp" data-limit="3"></div>
+  </section>
+
+</div>
+<script src="js/courts-programs.js" defer></script>
+</body>
+</html>
