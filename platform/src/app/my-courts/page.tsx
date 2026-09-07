@@ -17,10 +17,6 @@ function formatTime(date: Date) {
   return new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "UTC" }).format(date);
 }
 
-function formatDateLong(date: Date) {
-  return new Intl.DateTimeFormat("en-US", { weekday: "long", month: "long", day: "numeric", timeZone: "UTC" }).format(date);
-}
-
 export default async function MyCourtsHomePage() {
   const guardian = await getCurrentGuardian();
   const firstName = guardian.name.split(" ")[0];
@@ -46,6 +42,15 @@ export default async function MyCourtsHomePage() {
   const thisWeek = upcomingBookings.filter(
     (b) => b.session.startTime <= thisWeekEnd && b.id !== nextUp?.id
   );
+
+  // Upcoming special events, regardless of whether this family has
+  // registered yet — a discovery/promo section, not a personal schedule one.
+  const upcomingEvents = await prisma.session.findMany({
+    where: { status: "scheduled", startTime: { gte: now }, program: { active: true, programType: "event" } },
+    orderBy: { startTime: "asc" },
+    include: { program: true },
+    take: 3,
+  });
 
   // Needs Your Attention: real conditions only — unsigned required waivers
   // per athlete, and any membership Stripe marked past_due.
@@ -206,6 +211,28 @@ export default async function MyCourtsHomePage() {
             className="mt-2 inline-block font-sport text-xs font-bold uppercase tracking-wide text-orange"
           >
             Full Schedule &rarr;
+          </Link>
+        </section>
+      )}
+
+      {upcomingEvents.length > 0 && (
+        <section>
+          <p className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">Happening at The Courts</p>
+          <div className="flex flex-col divide-y divide-gray-mid rounded-lg border border-gray-mid bg-white">
+            {upcomingEvents.map((s) => (
+              <div key={s.id} className="flex items-center justify-between px-4 py-3">
+                <p className="font-heading text-sm font-bold text-black">{s.program.name}</p>
+                <p className="font-body text-sm text-gray-dark">
+                  {formatDay(s.startTime, now)} &middot; {formatTime(s.startTime)}
+                </p>
+              </div>
+            ))}
+          </div>
+          <Link
+            href="/my-courts/explore?type=event"
+            className="mt-2 inline-block font-sport text-xs font-bold uppercase tracking-wide text-orange"
+          >
+            See All Events &rarr;
           </Link>
         </section>
       )}

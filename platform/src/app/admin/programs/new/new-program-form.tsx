@@ -27,6 +27,7 @@ export function NewProgramForm() {
           <option value="private">Private</option>
           <option value="resource">Resource</option>
           <option value="rental">Rental</option>
+          <option value="event">Special Event</option>
         </select>
       </label>
 

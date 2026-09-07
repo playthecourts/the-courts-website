@@ -139,6 +139,10 @@ enum ProgramType {
   resource
   private
   rental
+  /// A themed Courts moment (Halloween Hoops, Parents' Night Out, etc.) —
+  /// reuses the same Program/Session/Booking machinery as everything else
+  /// rather than a parallel events system, so admins manage it the same way.
+  event
 }
 
 /// A single bookable occurrence of a program. Recurring classes materialize

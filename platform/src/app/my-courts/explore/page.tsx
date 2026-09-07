@@ -11,6 +11,7 @@ const TYPE_LABELS: Record<string, string> = {
   resource: "Dr. Dish",
   private: "Private Training",
   rental: "Rental",
+  event: "Special Event",
 };
 
 function formatSessionTime(date: Date) {

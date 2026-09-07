@@ -60,6 +60,7 @@ export default async function ProgramDetailPage(props: PageProps<"/admin/program
             <option value="private">Private</option>
             <option value="resource">Resource</option>
             <option value="rental">Rental</option>
+            <option value="event">Special Event</option>
           </select>
         </label>
         <label className="flex flex-col gap-1 text-sm font-medium">
