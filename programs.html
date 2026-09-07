@@ -78,8 +78,10 @@
   .sport-body { font-size: 16.5px; line-height: 1.7; max-width: 42ch; margin: 0 0 26px; color: var(--gray-dark); }
   .sport-block--volleyball .sport-body { color: rgba(255,255,255,0.72); }
   .sport-tags { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 30px; }
-  .sport-tag { font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 7px 14px; border-radius: 999px; border: 1.5px solid var(--gray-mid); color: var(--gray-dark); }
+  .sport-tag { font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 7px 14px; border-radius: 999px; border: 1.5px solid var(--gray-mid); color: var(--gray-dark); text-decoration: none; transition: border-color 0.2s var(--ease), color 0.2s var(--ease), background 0.2s var(--ease); }
+  .sport-tag:hover { border-color: var(--orange); color: var(--orange-ink); background: var(--gray-light); }
   .sport-block--volleyball .sport-tag { border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.8); }
+  .sport-block--volleyball .sport-tag:hover { border-color: var(--orange); color: var(--white); background: rgba(255,255,255,0.08); }
   .sport-block-arc { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; z-index: 1; pointer-events: none; }
   @media (max-width: 900px) {
     .sport-block { padding: 0 0 64px; }
@@ -221,7 +223,8 @@
       <div class="nav-item"><a href="contact">Contact</a></div>
     </nav>
     <div class="nav-cta">
-      <span class="btn btn-secondary">Membership + Login Coming Soon</span>
+      <a href="member-portal" class="nav-cta-link">Parent Login</a>
+      <a href="membership#plan-selector" class="btn btn-primary">Become a Member</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -278,7 +281,8 @@
     </div>
   </div>
   <a href="contact">Contact</a>
-  <span class="btn btn-secondary btn-block">Membership + Login Coming Soon</span>
+  <a href="member-portal">Parent Login</a>
+  <a href="membership#plan-selector" class="btn btn-primary btn-block">Become a Member</a>
 </div>
 
 <section class="prog-hero" id="main">
@@ -321,11 +325,11 @@
           <h3 class="sport-headline">Get Better. <br class="br-desktop">Play Better.</h3>
           <p class="sport-body">Fundamentals. Meaningful reps. Real feedback. <span style="white-space:nowrap;">Then put it to work.</span></p>
           <div class="sport-tags">
-            <span class="sport-tag">Group Training</span>
-            <span class="sport-tag">Private Training</span>
-            <span class="sport-tag">Camps</span>
-            <span class="sport-tag">Basketball Leagues</span>
-            <span class="sport-tag">Dr. Dish</span>
+            <a href="basketball" class="sport-tag">Group Training</a>
+            <a href="private-coaching" class="sport-tag">Private Training</a>
+            <a href="camps" class="sport-tag">Camps</a>
+            <a href="leagues" class="sport-tag">Basketball Leagues</a>
+            <a href="dr-dish" class="sport-tag">Dr. Dish</a>
           </div>
           <a href="basketball" class="btn btn-primary">Explore Basketball →</a>
         </div>
@@ -341,14 +345,14 @@
           <h3 class="sport-headline">Pass. Set. <span style="white-space:nowrap;">Get After It.</span></h3>
           <p class="sport-body">More touches. Better movement. Smarter decisions. And plenty of time actually playing.</p>
           <div class="sport-tags">
-            <span class="sport-tag">Group Training</span>
-            <span class="sport-tag">Private Training</span>
-            <span class="sport-tag">Camps</span>
+            <a href="volleyball" class="sport-tag">Group Training</a>
+            <a href="private-coaching" class="sport-tag">Private Training</a>
+            <a href="camps" class="sport-tag">Camps</a>
           </div>
           <a href="volleyball" class="btn btn-primary">Explore Volleyball →</a>
         </div>
         <div class="sport-media">
-          <img loading="lazy" src="images/23_volleyball_hero_ready.png" alt="A volleyball player in a low ready stance, hands on her knees, teammates blurred at the net behind her." style="object-position:50% 20%;">
+          <img loading="lazy" src="images/volleyball_player_ready_on_court.png" alt="A volleyball player in a low ready stance, knee pads on, focused on the court." style="object-position:50% 15%;">
         </div>
       </div>
     </div>
@@ -360,7 +364,7 @@
     <div class="prog-section-head">
       <span class="eyebrow">More Ways to Play</span>
       <h2>There's Always Something Going On.</h2>
-      <p>Practice. Play. Compete. Work on something specific. <span style="white-space:nowrap;">Or just get some more court time.</span></p>
+      <p>Work on something specific. Get more reps. Compete. Play. <span style="white-space:nowrap;">Or just find another reason to get on the court.</span></p>
     </div>
     <div class="ways-grid">
       <a href="private-coaching" class="way-tile way--private reveal">
@@ -390,16 +394,25 @@
           <span class="way-link">View Basketball Leagues <span class="arrow">→</span></span>
         </div>
       </a>
-      <a href="https://app.playthecourts.com" target="_blank" rel="noopener" class="way-tile way--drdish reveal" data-booking-type="dr-dish">
+      <a href="dr-dish" class="way-tile way--drdish reveal">
         <div class="photo-bg"><img loading="lazy" src="images/23_dr_dish_female.png" alt="An athlete shooting into a Dr. Dish rebounding machine."></div>
         <div class="way-tile-body">
           <p class="way-label">Basketball Only</p>
           <h3 class="way-name">Dr. Dish</h3>
-          <p class="way-copy">More Shots. Less Chasing Rebounds. Dedicated shooting-machine time. You shoot. It feeds. Repeat.</p>
-          <span class="way-link">Book Dr. Dish <span class="arrow">→</span></span>
+          <p class="way-copy">More shots. Less chasing rebounds. Dedicated shooting-machine time. You shoot. It feeds. Repeat.</p>
+          <span class="way-link">Explore Dr. Dish <span class="arrow">→</span></span>
         </div>
       </a>
     </div>
+  </div>
+</section>
+
+<section class="membership-endcap">
+  <div class="container">
+    <span class="eyebrow">Playing a Lot?</span>
+    <h2>There's a Membership for That.</h2>
+    <p>From four sessions a month to unlimited training, there's a plan for how your athlete wants to play.</p>
+    <a href="membership#plan-selector" class="btn btn-primary">Choose Your Membership →</a>
   </div>
 </section>
 
@@ -463,7 +476,7 @@
           <h4>You&rsquo;re In.</h4>
           <p>We&rsquo;ll keep you posted on what&rsquo;s happening at The Courts.</p>
         </div>
-        <span class="footer-social-handle">@playthecourts</span>
+        <span class="footer-social-handle">@TheCourtsTN</span>
         <div class="footer-social-links">
           <a href="https://www.instagram.com/thecourtstn/" target="_blank" rel="noopener">Instagram ↗</a>
           <a href="https://www.facebook.com/playthecourts" target="_blank" rel="noopener">Facebook ↗</a>
@@ -493,7 +506,7 @@
         <li><a href="events">Events</a></li>
         <li><a href="court-rentals">Court Rentals</a></li>
         <li><a href="events#parties">Parties + Events</a></li>
-        <li><a href="member-portal">Log In</a></li>
+        <li><a href="member-portal">Parent Login</a></li>
       </ul></div></div>
       <div class="footer-nav-col">
         <h4>The Courts</h4>
