@@ -31,6 +31,7 @@ export const PRIMARY_NAV: NavItem[] = [
   },
   { label: "Leagues + Teams", href: "/os/leagues", capability: "leagues.view" },
   { label: "Coaches", href: "/os/coaches", capability: "coaches.view" },
+  { label: "Progress Reports", href: "/os/progress", capability: "athletes.view" },
   { label: "Photos + Video", href: "/os/media", capability: "athletes.viewMediaStatus" },
   { label: "Facility", href: "/os/facility", capability: "facility.view" },
   {

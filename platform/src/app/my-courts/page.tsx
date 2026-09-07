@@ -100,7 +100,7 @@ export default async function MyCourtsHomePage() {
 
       {attentionItems.length > 0 && (
         <section className="rounded-lg border border-orange bg-white p-4">
-          <p className="font-sport text-xs font-bold uppercase tracking-wide text-orange">
+          <p className="font-sport text-sm font-bold uppercase tracking-wide text-orange">
             One Tiny Admin Thing
           </p>
           <ul className="mt-2 flex flex-col gap-2">
@@ -116,7 +116,7 @@ export default async function MyCourtsHomePage() {
       )}
 
       <section>
-        <p className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">Next Up</p>
+        <p className="mb-2 font-sport text-sm font-bold uppercase tracking-wide text-orange">Next Up</p>
         {nextUp ? (
           <div className="rounded-lg border border-gray-mid bg-white p-5">
             <h2 className="font-display text-lg font-black text-black">
@@ -160,7 +160,7 @@ export default async function MyCourtsHomePage() {
 
       {athletes.length > 0 && (
         <section>
-          <p className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">Your Athletes</p>
+          <p className="mb-2 font-sport text-sm font-bold uppercase tracking-wide text-orange">Your Athletes</p>
           <div className="flex flex-col gap-2">
             {athletes.map((athlete) => (
               <Link
@@ -181,7 +181,7 @@ export default async function MyCourtsHomePage() {
       )}
 
       <section>
-        <p className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">Get Going</p>
+        <p className="mb-2 font-sport text-sm font-bold uppercase tracking-wide text-orange">Get Going</p>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           <Link href="/my-courts/explore" className="rounded-lg border border-gray-mid bg-white px-4 py-4 text-center font-sport text-xs font-bold uppercase tracking-wide text-black hover:border-orange">
             Book Training
@@ -200,7 +200,7 @@ export default async function MyCourtsHomePage() {
 
       {thisWeek.length > 0 && (
         <section>
-          <p className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">This Week</p>
+          <p className="mb-2 font-sport text-sm font-bold uppercase tracking-wide text-orange">This Week</p>
           <div className="flex flex-col divide-y divide-gray-mid rounded-lg border border-gray-mid bg-white">
             {thisWeek.map((b) => (
               <div key={b.id} className="flex items-center justify-between px-4 py-3">
@@ -225,7 +225,7 @@ export default async function MyCourtsHomePage() {
 
       {upcomingEvents.length > 0 && (
         <section>
-          <p className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">Happening at The Courts</p>
+          <p className="mb-2 font-sport text-sm font-bold uppercase tracking-wide text-orange">Happening at The Courts</p>
           <div className="flex flex-col divide-y divide-gray-mid rounded-lg border border-gray-mid bg-white">
             {upcomingEvents.map((s) => (
               <div key={s.id} className="flex items-center justify-between px-4 py-3">
@@ -247,7 +247,7 @@ export default async function MyCourtsHomePage() {
 
       {planSnapshot && (
         <section>
-          <p className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">Your Training Plan</p>
+          <p className="mb-2 font-sport text-sm font-bold uppercase tracking-wide text-orange">Your Training Plan</p>
           <div className="rounded-lg border border-gray-mid bg-white p-5">
             <p className="font-heading font-bold text-black">{planSnapshot.balance.membershipPlanName}</p>
             <p className="mt-1 font-body text-sm text-gray-dark">

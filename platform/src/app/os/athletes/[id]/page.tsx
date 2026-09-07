@@ -16,6 +16,7 @@ import {
 } from "@/lib/athlete";
 import { quarterLabel } from "@/lib/quarters";
 import { PageHeader, Card, CardHeader, Pill, EmptyState } from "../../_components/ui";
+import PickupInstructionForm from "./pickup-instruction-form";
 
 export const dynamic = "force-dynamic";
 
@@ -209,9 +210,14 @@ export default async function OsAthletePage({ params }: { params: Promise<{ id: 
               <Row label="Custody / Contact Restrictions">
                 {athlete.hasCustodyRestrictions ? (athlete.custodyRestrictions ?? "Flagged") : "None reported"}
               </Row>
-              <Row label="Instruction Coaches See">
-                {athlete.custodyStaffInstruction ?? "—"}
-              </Row>
+              {athlete.hasCustodyRestrictions && (
+                <div className="border-t border-gray-mid">
+                  <PickupInstructionForm
+                    athleteId={athlete.id}
+                    current={athlete.custodyStaffInstruction}
+                  />
+                </div>
+              )}
             </>
           )}
         </Card>
