@@ -2,15 +2,18 @@
 
 :root {
   --color-black: #000000;
+  --color-near-black: #0d0d0d;
   --color-charcoal: #1a1a1a;
   --color-white: #ffffff;
+  --color-warm-white: #faf8f5;
+  --color-warm-stone: #f2ede7;
   --color-gray-light: #f7f5f0;
   --color-gray-mid: #d9d7d2;
   --color-gray-dark: #343434;
 
-  --color-orange: #ff7a00;
-  --color-orange-hover: #e66e00;
-  --color-orange-press: #cc6200;
+  --color-orange: #D95A1A;
+  --color-orange-hover: #B94700;
+  --color-orange-press: #B94700;
 
   --background: var(--color-white);
   --foreground: var(--color-black);
@@ -20,8 +23,11 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-black: var(--color-black);
+  --color-near-black: var(--color-near-black);
   --color-charcoal: var(--color-charcoal);
   --color-white: var(--color-white);
+  --color-warm-white: var(--color-warm-white);
+  --color-warm-stone: var(--color-warm-stone);
   --color-gray-light: var(--color-gray-light);
   --color-gray-mid: var(--color-gray-mid);
   --color-gray-dark: var(--color-gray-dark);
