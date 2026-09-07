@@ -44,31 +44,35 @@ export default async function MyCourtsSchedulePage() {
   }
 
   return (
-    <div>
-      <h1 className="mb-6 text-xl font-bold">Schedule</h1>
+    <div className="flex flex-col gap-6">
+      <h1 className="font-display text-2xl font-black text-black">Schedule</h1>
 
       {bookings.length === 0 ? (
-        <p className="text-sm text-neutral-500">
-          Nothing booked yet.{" "}
-          <a href="/my-courts/bookings" className="underline">
-            Book a session →
+        <div className="rounded-lg border border-gray-mid bg-white p-6 text-center">
+          <p className="font-display text-lg font-black text-black">Suspiciously Quiet.</p>
+          <p className="mt-1 font-body text-sm text-gray-dark">There&rsquo;s nothing on the calendar yet.</p>
+          <a
+            href="/my-courts/explore"
+            className="mt-3 inline-block font-sport text-xs font-bold uppercase tracking-wide text-orange"
+          >
+            Find Something to Do &rarr;
           </a>
-        </p>
+        </div>
       ) : (
         <div className="flex flex-col gap-6">
           {Array.from(byDay.entries()).map(([day, dayBookings]) => (
             <div key={day}>
-              <h2 className="mb-2 text-sm font-semibold text-neutral-700">
+              <h2 className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">
                 {formatDateHeading(dayBookings[0].session.startTime)}
               </h2>
-              <div className="flex flex-col divide-y divide-neutral-200 rounded-lg border border-neutral-200">
+              <div className="flex flex-col divide-y divide-gray-mid rounded-lg border border-gray-mid bg-white">
                 {dayBookings.map((booking) => (
-                  <div key={booking.id} className="flex items-center justify-between px-4 py-3 text-sm">
+                  <div key={booking.id} className="flex items-center justify-between px-4 py-3">
                     <div>
-                      <span className="font-medium">{booking.session.program.name}</span>
-                      <span className="ml-2 text-neutral-500">{booking.athlete.firstName}</span>
+                      <span className="font-heading font-bold text-black">{booking.session.program.name}</span>
+                      <span className="ml-2 font-body text-sm text-gray-dark">{booking.athlete.firstName}</span>
                     </div>
-                    <span className="text-neutral-500">
+                    <span className="font-body text-sm text-gray-dark">
                       {formatTime(booking.session.startTime)}–{formatTime(booking.session.endTime)}
                     </span>
                   </div>

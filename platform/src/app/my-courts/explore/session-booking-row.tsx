@@ -9,19 +9,19 @@ function formatPrice(cents: number | null) {
 function EligibilityLabel({ eligibility }: { eligibility: BookingEligibility }) {
   if (eligibility.type === "included") {
     return (
-      <span className="text-xs text-neutral-500">
-        Included — {eligibility.membershipPlanName}
+      <span className="font-body text-xs text-gray-dark">
+        Included in your plan
       </span>
     );
   }
   if (eligibility.type === "member_price") {
     return (
-      <span className="text-xs text-neutral-500">
-        {formatPrice(eligibility.priceCents)} member price
+      <span className="font-body text-xs text-gray-dark">
+        {formatPrice(eligibility.priceCents)} member rate
       </span>
     );
   }
-  return <span className="text-xs text-neutral-500">{formatPrice(eligibility.priceCents)}</span>;
+  return <span className="font-body text-xs text-gray-dark">{formatPrice(eligibility.priceCents)}</span>;
 }
 
 export function SessionBookingRow({
@@ -42,30 +42,33 @@ export function SessionBookingRow({
   eligibility: BookingEligibility | null;
 }) {
   return (
-    <div className="flex items-center justify-between rounded-md bg-neutral-50 px-3 py-2 text-sm">
-      <span className="font-medium">{athleteName}</span>
+    <div className="flex items-center justify-between rounded-md bg-gray-light px-3 py-2.5">
+      <span className="font-heading text-sm font-bold text-black">{athleteName}</span>
 
       {bookingId ? (
-        <form action={cancelBooking.bind(null, bookingId)} className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-green-700">Booked</span>
-          <button type="submit" className="text-xs font-medium text-red-600 underline">
+        <form action={cancelBooking.bind(null, bookingId)} className="flex items-center gap-3">
+          <span className="font-sport text-xs font-bold uppercase tracking-wide text-orange">You&rsquo;re In</span>
+          <button type="submit" className="font-body text-xs text-gray-dark underline">
             Cancel
           </button>
         </form>
       ) : waitlistEntryId ? (
         <form
           action={cancelWaitlistEntry.bind(null, waitlistEntryId, athleteId)}
-          className="flex items-center gap-2"
+          className="flex items-center gap-3"
         >
-          <span className="text-xs font-semibold text-amber-700">Waitlisted</span>
-          <button type="submit" className="text-xs font-medium text-red-600 underline">
-            Leave waitlist
+          <span className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">Waitlisted</span>
+          <button type="submit" className="font-body text-xs text-gray-dark underline">
+            Leave Waitlist
           </button>
         </form>
       ) : (
         <form action={bookSession.bind(null, athleteId, sessionId)} className="flex items-center gap-3">
           {eligibility && !isFull && <EligibilityLabel eligibility={eligibility} />}
-          <button type="submit" className="rounded-md bg-black px-3 py-1 text-xs font-semibold text-white">
+          <button
+            type="submit"
+            className="min-h-[36px] rounded-full bg-black px-4 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange"
+          >
             {isFull ? "Join Waitlist" : "Book"}
           </button>
         </form>

@@ -84,3 +84,49 @@ export async function getBookingEligibility(
   // 3. Default.
   return { type: "full_price", priceCents: session.program.priceCents };
 }
+
+export type WeeklySessionBalance = {
+  membershipPlanName: string;
+  quantityPerPeriod: number;
+  usedThisWeek: number;
+};
+
+// Powers the Home dashboard's "2 of 4 sessions remaining" line and the
+// Training Plan page's session-balance card. Same class_credit accounting
+// as getBookingEligibility above, but summed across all of an athlete's
+// class_credit entitlements rather than checked against one session.
+export async function getWeeklySessionBalances(athleteId: string): Promise<WeeklySessionBalance[]> {
+  const memberships = await prisma.athleteMembership.findMany({
+    where: { athleteId, status: "active" },
+    include: { plan: { include: { entitlements: true } } },
+  });
+
+  const now = new Date();
+  const weekStart = startOfWeekUTC(now);
+  const weekEnd = endOfWeekUTC(now);
+
+  const balances: WeeklySessionBalance[] = [];
+  for (const membership of memberships) {
+    for (const entitlement of membership.plan.entitlements) {
+      if (entitlement.benefitType !== "class_credit" || !entitlement.quantityPerPeriod) continue;
+
+      const usedThisWeek = await prisma.booking.count({
+        where: {
+          athleteId,
+          status: { not: "cancelled" },
+          session: {
+            ...(entitlement.programId ? { programId: entitlement.programId } : {}),
+            startTime: { gte: weekStart, lt: weekEnd },
+          },
+        },
+      });
+
+      balances.push({
+        membershipPlanName: membership.plan.name,
+        quantityPerPeriod: entitlement.quantityPerPeriod,
+        usedThisWeek,
+      });
+    }
+  }
+  return balances;
+}
