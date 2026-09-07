@@ -260,12 +260,20 @@ async function main() {
     "A guardian with no authId and no email is attached to the same family — a second guardian never creates a second family record."
   );
 
-  const familyCount = await prisma.family.count({ where: { name: { startsWith: "[QA]" } } });
-  const athleteCount = await prisma.athlete.count({ where: { lastName: { contains: "[QA]" } } });
+  // Asserted as a RATIO, not a fixed count: the point is that adding siblings
+  // and guardians never adds families, and a hardcoded total would fail the
+  // moment anyone adds a test athlete by hand.
+  const qaFamilies = await prisma.family.findMany({
+    where: { name: { startsWith: "[QA]" } },
+    include: { _count: { select: { athletes: true, guardians: true } } },
+  });
+  const carter = qaFamilies.find((f) => f.name.includes("Carter"));
   check(
-    "Families — siblings share one household",
-    familyCount === 2 && athleteCount === 4,
-    `${athleteCount} QA athletes across ${familyCount} families (2 + 2). No duplicate family was created for a sibling or a second guardian.`
+    "Families — siblings and co-guardians share one household",
+    qaFamilies.length === 2 &&
+      (carter?._count.athletes ?? 0) >= 2 &&
+      (carter?._count.guardians ?? 0) >= 2,
+    `${qaFamilies.length} QA families hold ${qaFamilies.reduce((n, f) => n + f._count.athletes, 0)} athletes and ${qaFamilies.reduce((n, f) => n + f._count.guardians, 0)} guardians. The Carter household alone has ${carter?._count.athletes} athletes and ${carter?._count.guardians} guardians — no family was duplicated for either.`
   );
 
   // ======================================================================

@@ -29,7 +29,9 @@ export default function AddAthleteForm() {
 
   useEffect(() => {
     if (state.ok && state.athleteId) {
-      router.push(`/my-courts/athletes/${state.athleteId}/setup/photo`);
+      // Setup lives OUTSIDE /athletes/[id] so it doesn't inherit the profile
+      // layout's tabs and "finish your profile" nudge mid-flow.
+      router.push(`/my-courts/athletes/setup/${state.athleteId}/photo`);
     }
   }, [state, router]);
 
