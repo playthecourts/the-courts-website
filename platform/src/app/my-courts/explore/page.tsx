@@ -24,12 +24,34 @@ function formatSessionTime(date: Date) {
   }).format(date);
 }
 
+const DATE_RANGES: Record<string, () => { gte: Date; lt?: Date }> = {
+  today: () => {
+    const now = new Date();
+    const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+    return { gte: now, lt: new Date(start.getTime() + 24 * 60 * 60 * 1000) };
+  },
+  tomorrow: () => {
+    const now = new Date();
+    const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1));
+    return { gte: start, lt: new Date(start.getTime() + 24 * 60 * 60 * 1000) };
+  },
+  week: () => ({ gte: new Date(), lt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) }),
+  weekend: () => {
+    const now = new Date();
+    const day = now.getUTCDay(); // 0 = Sunday
+    const daysUntilSat = (6 - day + 7) % 7;
+    const satStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + daysUntilSat));
+    return { gte: now, lt: new Date(satStart.getTime() + 2 * 24 * 60 * 60 * 1000) };
+  },
+};
+const DATE_LABELS: Record<string, string> = { today: "Today", tomorrow: "Tomorrow", week: "This Week", weekend: "This Weekend" };
+
 export default async function ExplorePage({
   searchParams,
 }: {
-  searchParams: Promise<{ sport?: string; type?: string }>;
+  searchParams: Promise<{ sport?: string; type?: string; when?: string }>;
 }) {
-  const { sport, type } = await searchParams;
+  const { sport, type, when } = await searchParams;
   const guardian = await getCurrentGuardian();
   const athletes = guardian.families.flatMap((fg) => fg.family.athletes);
   const athleteIds = athletes.map((a) => a.id);
@@ -40,10 +62,12 @@ export default async function ExplorePage({
     select: { sport: true },
   });
 
+  const dateRange = when && DATE_RANGES[when] ? DATE_RANGES[when]() : { gte: new Date() };
+
   const sessions = await prisma.session.findMany({
     where: {
       status: "scheduled",
-      startTime: { gte: new Date() },
+      startTime: dateRange,
       program: {
         active: true,
         ...(sport ? { sport } : {}),
@@ -70,12 +94,14 @@ export default async function ExplorePage({
     }
   }
 
-  function chipHref(next: { sport?: string; type?: string }) {
+  function chipHref(next: { sport?: string; type?: string; when?: string }) {
     const params = new URLSearchParams();
     const s = next.sport !== undefined ? next.sport : sport;
     const t = next.type !== undefined ? next.type : type;
+    const w = next.when !== undefined ? next.when : when;
     if (s) params.set("sport", s);
     if (t) params.set("type", t);
+    if (w) params.set("when", w);
     const qs = params.toString();
     return `/my-courts/explore${qs ? `?${qs}` : ""}`;
   }
@@ -119,6 +145,14 @@ export default async function ExplorePage({
           <Chip href={chipHref({ type: undefined })} active={!type}>All Types</Chip>
           {Object.entries(TYPE_LABELS).map(([value, label]) => (
             <Chip key={value} href={chipHref({ type: value })} active={type === value}>
+              {label}
+            </Chip>
+          ))}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Chip href={chipHref({ when: undefined })} active={!when}>Anytime</Chip>
+          {Object.entries(DATE_LABELS).map(([value, label]) => (
+            <Chip key={value} href={chipHref({ when: value })} active={when === value}>
               {label}
             </Chip>
           ))}

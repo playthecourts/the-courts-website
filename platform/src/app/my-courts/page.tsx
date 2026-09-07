@@ -176,7 +176,7 @@ export default async function MyCourtsHomePage() {
           <Link href="/my-courts/explore?type=camp" className="rounded-lg border border-gray-mid bg-white px-4 py-4 text-center font-sport text-xs font-bold uppercase tracking-wide text-black hover:border-orange">
             Find a Camp
           </Link>
-          <Link href="/my-courts/explore?type=league" className="rounded-lg border border-gray-mid bg-white px-4 py-4 text-center font-sport text-xs font-bold uppercase tracking-wide text-black hover:border-orange">
+          <Link href="/my-courts/league" className="rounded-lg border border-gray-mid bg-white px-4 py-4 text-center font-sport text-xs font-bold uppercase tracking-wide text-black hover:border-orange">
             View League
           </Link>
           <Link href="/my-courts/explore?type=resource" className="rounded-lg border border-gray-mid bg-white px-4 py-4 text-center font-sport text-xs font-bold uppercase tracking-wide text-black hover:border-orange">

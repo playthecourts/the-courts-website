@@ -3,6 +3,8 @@ import { logout } from "@/app/actions/auth";
 
 const LINKS = [
   { href: "/my-courts/memberships", label: "Your Training Plan" },
+  { href: "/my-courts/league", label: "Fall League" },
+  { href: "/my-courts/payments", label: "Payments" },
   { href: "/my-courts/waivers", label: "Waivers" },
 ];
 
@@ -25,7 +27,7 @@ export default function MorePage() {
       </div>
 
       <p className="font-body text-xs text-gray-dark">
-        Payments, credits, messages, and account settings are coming soon.
+        Messages and account settings are coming soon.
       </p>
 
       <form action={logout}>
