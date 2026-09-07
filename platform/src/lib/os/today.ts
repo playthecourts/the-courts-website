@@ -27,7 +27,12 @@ export async function getTodaySessions(actor: OsActor, day = new Date()) {
       capacity: true,
       status: true,
       program: {
-        select: { id: true, name: true, sport: true, programType: true, gradeMin: true, gradeMax: true },
+        select: { id: true, name: true, sport: true, programType: true },
+      },
+      // Eligibility lives on the Offering now — the same program can run a
+      // 3rd–5th band this season and a 6th–8th band next.
+      offering: {
+        select: { id: true, name: true, seasonLabel: true, gradeMin: true, gradeMax: true, status: true },
       },
       resource: { select: { id: true, name: true } },
       team: { select: { id: true, name: true } },

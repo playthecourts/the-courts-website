@@ -19,7 +19,21 @@ export type AuditAction =
   | "send_communication"
   | "publish_announcement"
   | "change_capacity"
-  | "offer_waitlist_spot";
+  | "offer_waitlist_spot"
+  // --- Program Builder + Scheduler ---
+  | "create_sessions"
+  | "move_session"
+  | "cancel_session"
+  | "publish_offering"
+  | "unpublish_offering"
+  | "archive_offering"
+  | "clone_offering"
+  | "change_price"
+  | "link_stripe"
+  | "override_conflict"
+  | "block_facility"
+  | "promote_waitlist"
+  | "decline_waitlist";
 
 export async function auditLog(
   staffUserId: string,

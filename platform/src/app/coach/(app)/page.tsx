@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getCurrentCoach, isLeadership } from "@/lib/coach-dal";
-import { sessionsForDay, todayActionItems, confirmedCounts, type CoachSession } from "@/lib/coach-queries";
+import { sessionsForDay, todayActionItems, confirmedCounts, sessionTitle, type CoachSession } from "@/lib/coach-queries";
 import { formatLongDate, formatTimeRange, formatTime } from "@/lib/coach-format";
 import { capacityLabel } from "@/lib/coach-status";
 import { Card, Eyebrow, EmptyState, ActionLink, SectionHeading, Pill } from "@/components/coach/ui";
@@ -24,7 +24,7 @@ function NextUpCard({ session, confirmed }: { session: CoachSession; confirmed: 
       <div className="px-5 py-4">
         <Eyebrow className="text-orange">Next Up</Eyebrow>
         <h2 className="mt-1.5 font-display text-xl font-black uppercase leading-tight tracking-tight text-near-black">
-          {session.program.name}
+          {sessionTitle(session)}
         </h2>
         <p className="mt-1 font-heading text-base font-bold text-near-black">
           {formatTimeRange(session.startTime, session.endTime)}
@@ -61,7 +61,7 @@ function LaterRow({ session }: { session: CoachSession }) {
       </span>
       <span className="min-w-0 flex-1">
         <span className="block truncate font-heading text-sm font-bold text-near-black">
-          {session.program.name}
+          {sessionTitle(session)}
         </span>
         {subtitle && <span className="block truncate font-body text-xs text-gray-dark">{subtitle}</span>}
       </span>

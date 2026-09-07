@@ -1,4 +1,5 @@
 import "server-only";
+import { PROGRAM_TYPE_LABELS } from "@/lib/programs/types";
 import { prisma } from "@/lib/prisma";
 import { can } from "./permissions";
 import type { OsActor } from "./permissions";
@@ -93,25 +94,67 @@ export async function globalSearch(actor: OsActor, rawQuery: string): Promise<Se
     }
   }
 
-  // --- Programs -----------------------------------------------------------
+  // --- Programs + Offerings ------------------------------------------------
+  // Both, because an admin searching "Fall League" means the season and one
+  // searching "Basketball Group Training" means the definition — and they
+  // cannot be expected to know which layer they want.
   if (can(actor, "programs.view")) {
-    const programs = await prisma.program.findMany({
-      where: {
-        AND: [
-          programScope(actor),
-          { OR: [{ name: contains }, { internalName: contains }] },
-          { status: { not: "archived" } },
-        ],
-      },
-      take: PER_TYPE,
-      select: { id: true, name: true, sport: true, programType: true, status: true },
-    });
+    const [programs, offerings] = await Promise.all([
+      prisma.program.findMany({
+        where: {
+          AND: [
+            programScope(actor),
+            { OR: [{ name: contains }, { internalName: contains }] },
+            { archivedAt: null },
+          ],
+        },
+        take: PER_TYPE,
+        select: { id: true, name: true, sport: true, programType: true },
+      }),
+      prisma.offering.findMany({
+        where: {
+          AND: [
+            { program: programScope(actor) },
+            {
+              OR: [
+                { name: contains },
+                { internalName: contains },
+                { seasonLabel: contains },
+              ],
+            },
+            { status: { not: "archived" } },
+          ],
+        },
+        take: PER_TYPE,
+        orderBy: [{ startDate: "desc" }],
+        select: {
+          id: true,
+          name: true,
+          seasonLabel: true,
+          status: true,
+          program: { select: { sport: true, programType: true } },
+        },
+      }),
+    ]);
+
+    for (const o of offerings) {
+      hits.push({
+        type: "program",
+        id: o.id,
+        title: [o.name, o.seasonLabel].filter(Boolean).join(" · "),
+        subtitle: [o.program.sport, PROGRAM_TYPE_LABELS[o.program.programType], o.status.replace(/_/g, " ")]
+          .filter(Boolean)
+          .join(" · "),
+        href: `/os/offerings/${o.id}`,
+      });
+    }
+
     for (const p of programs) {
       hits.push({
         type: "program",
         id: p.id,
         title: p.name,
-        subtitle: [p.sport, p.programType.replace("_", " "), p.status].filter(Boolean).join(" · "),
+        subtitle: [p.sport, PROGRAM_TYPE_LABELS[p.programType], "program"].filter(Boolean).join(" · "),
         href: `/os/programs/${p.id}`,
       });
     }

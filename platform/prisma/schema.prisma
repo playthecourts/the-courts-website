@@ -90,6 +90,7 @@ model Athlete {
   incidentReports  IncidentReport[]
   drDishLogs       DrDishLog[]
   placementRequest PlacementRequest[]
+  offeringWaitlist OfferingWaitlistEntry[]
   registrations    Registration[]
 
   @@map("athletes")
@@ -131,6 +132,14 @@ model StaffUser {
   athleteFlagsCreated  AthleteFlag[]
   drDishLogs           DrDishLog[]
   auditLogs            AuditLog[]
+  offeringsCreated     Offering[]         @relation("OfferingCreatedBy")
+  offeringsPublished   Offering[]         @relation("OfferingPublishedBy")
+  sessionsCancelled    Session[]          @relation("SessionCancelledBy")
+  scheduleChanges      ScheduleChange[]
+  conflictOverrides    ConflictOverride[]
+  templatesCreated     OfferingTemplate[]
+  waitlistOffers       WaitlistEntry[]
+  offeringWaitlistOffers OfferingWaitlistEntry[]
   creditLedgerEntries  CreditLedgerEntry[]
   registrationsCreated Registration[]
   leadsOwned           Lead[]              @relation("LeadOwner")
@@ -170,6 +179,15 @@ enum StaffRole {
 /// time-slots (teamId null, booked through the same generic booking flow
 /// as any class), and its later Sessions are team practices/games (teamId
 /// set, created after evaluations once teams exist).
+/// The REUSABLE DEFINITION of something The Courts offers — "Basketball Group
+/// Training", "Basketball Camp". It answers WHAT we run, never WHEN.
+///
+/// Everything season-specific (dates, price, staffing, registration rules,
+/// publish targets, Stripe linkage) lives on Offering, so "Fall 2026 League"
+/// and "Winter 2027 League" are two Offerings of ONE Program instead of two
+/// unrelated Program rows that happen to share a name. The fields left here
+/// that look season-ish (priceCents, defaultCapacity) are DEFAULTS seeded into
+/// a new Offering — the Offering is what actually gets scheduled and charged.
 model Program {
   id               String      @id @default(uuid())
   name             String
@@ -179,53 +197,32 @@ model Program {
   programType      ProgramType @map("program_type")
   sport            String?
   description      String?
+
+  // --- Defaults inherited by each new Offering, so "create the Fall season"
+  // never starts from a blank form. Editable per Offering afterwards. ---
   priceCents       Int?        @map("price_cents")
   memberPriceCents Int?        @map("member_price_cents")
-  /// Kept for backwards compatibility with the existing Parent App queries,
-  /// which filter on `active`. `status` is the real lifecycle field for
-  /// Courts OS; publishProgram() keeps the two in sync rather than leaving
-  /// the old surface reading a field nobody maintains.
-  active           Boolean     @default(true)
-  status           ProgramStatus @default(draft)
-
-  // --- Eligibility (progressive disclosure: not every type shows these) ---
-  gradeMin         Int?        @map("grade_min")
-  gradeMax         Int?        @map("grade_max")
-  ageMin           Int?        @map("age_min")
-  ageMax           Int?        @map("age_max")
-  /// "any" | "boys" | "girls" — free text rather than an enum so a program
-  /// can be described the way The Courts actually markets it.
-  gender           String?
-  skillLevel       String?     @map("skill_level")
-
-  // --- Capacity + registration window ---
   defaultCapacity  Int?        @map("default_capacity")
-  waitlistEnabled  Boolean     @default(true) @map("waitlist_enabled")
-  registrationOpensAt  DateTime? @map("registration_opens_at")
-  registrationClosesAt DateTime? @map("registration_closes_at")
+  defaultDurationMinutes Int?  @map("default_duration_minutes")
+  defaultSkillLevel      SkillLevel? @map("default_skill_level")
+  /// Whether an Offering of this program may be published with no coach
+  /// assigned. Group Training and Private Training say no; Open Gym says yes.
+  requiresCoach          Boolean @default(false) @map("requires_coach")
+  /// Resource type an Offering of this program must reserve — "shooting_machine"
+  /// for either Dr. Dish type. Null means no specific requirement.
+  requiredResourceType   String? @map("required_resource_type")
 
-  // --- Publish targets. "Create once, publish everywhere" is enforced by
-  // these three flags being read by each surface, not by copying rows. ---
-  visibleParentApp Boolean     @default(true) @map("visible_parent_app")
-  visibleWebsite   Boolean     @default(false) @map("visible_website")
-  visibleCoachApp  Boolean     @default(true) @map("visible_coach_app")
+  /// Kept for backwards compatibility with the existing Parent App queries,
+  /// which filter on `active`. Offering.status is the real lifecycle field;
+  /// publishOffering() keeps this in sync rather than leaving the old surface
+  /// reading a field nobody maintains.
+  active           Boolean     @default(true)
+  /// Retired definitions stay queryable for history instead of being deleted.
+  archivedAt       DateTime?   @map("archived_at")
+  createdAt        DateTime    @default(now()) @map("created_at")
+  updatedAt        DateTime    @default(now()) @updatedAt @map("updated_at")
 
-  // --- Stripe. The Price is authored in Stripe; we only hold the pointer. ---
-  stripePriceId       String?  @map("stripe_price_id")
-  stripeMemberPriceId String?  @map("stripe_member_price_id")
-
-  imageUrl           String?   @map("image_url")
-  cancellationPolicy String?   @map("cancellation_policy")
-  /// League lifecycle stage. Null for every non-league program type.
-  leagueStage        LeagueStage? @map("league_stage")
-  seasonLabel        String?   @map("season_label")
-  /// Set when duplicated, so "Clone Season" keeps a legible lineage.
-  duplicatedFromId   String?   @map("duplicated_from_id")
-  publishedAt        DateTime? @map("published_at")
-  archivedAt         DateTime? @map("archived_at")
-  createdAt          DateTime  @default(now()) @map("created_at")
-  updatedAt          DateTime  @default(now()) @updatedAt @map("updated_at")
-
+  offerings    Offering[]
   sessions     Session[]
   entitlements PlanEntitlement[]
   teams        Team[]
@@ -233,19 +230,260 @@ model Program {
   placementRequests PlacementRequest[]
   communications Communication[]
   announcements  Announcement[]
-  registrations Registration[]
   promoCodes    PromoCode[]
   credits       Credit[]
-  requiredWaivers ProgramWaiver[]
   tasks         Task[]
-  duplicatedFrom Program?  @relation("ProgramLineage", fields: [duplicatedFromId], references: [id])
-  duplicates     Program[] @relation("ProgramLineage")
 
-  @@index([status])
-  @@index([programType, status])
+  @@index([programType, active])
   @@map("programs")
 }
 
+/// A specific, schedulable, sellable VERSION of a Program — "Fall Break
+/// Basketball Camp 2026", "3rd–5th Grade Group Training · Fall 2026".
+///
+/// This is the row the whole system revolves around: sessions hang off it,
+/// registrations point at it, pricing and Stripe linkage live on it, and the
+/// three publish targets read it. Create it once here and the Parent App,
+/// Coach App and website all render from this same row — there is no second
+/// copy anywhere to keep in sync.
+model Offering {
+  id          String  @id @default(uuid())
+  programId   String  @map("program_id")
+  /// Public name. Falls back to the program's name when blank.
+  name        String
+  internalName String? @map("internal_name")
+  /// "Fall 2026", "Winter 2027" — what makes two Offerings of one Program
+  /// distinguishable at a glance.
+  seasonLabel String? @map("season_label")
+
+  status      OfferingStatus @default(draft)
+
+  // --- Copy. Deliberately four separate fields: a six-paragraph website
+  // description must never end up inside a compact Parent App card, and an
+  // internal note must never reach a parent. ---
+  shortDescription   String? @map("short_description")
+  fullDescription    String? @map("full_description")
+  /// Parent-facing logistics ("enter through the east doors").
+  parentInstructions String? @map("parent_instructions")
+  /// Coach App only.
+  coachNotes         String? @map("coach_notes")
+  /// Courts OS only. Never rendered on any parent- or coach-facing surface.
+  internalNotes      String? @map("internal_notes")
+  whatToBring        String[] @default([]) @map("what_to_bring")
+  websiteCta         String? @map("website_cta")
+
+  imageUrl       String? @map("image_url")
+  imageMobileUrl String? @map("image_mobile_url")
+  imageAltText   String? @map("image_alt_text")
+
+  // --- Schedule shape. The occurrences themselves are Session rows; this
+  // records what KIND of schedule the admin built so the builder can round-trip. ---
+  scheduleKind ScheduleKind @default(one_time) @map("schedule_kind")
+  startDate    DateTime? @map("start_date") @db.Date
+  endDate      DateTime? @map("end_date") @db.Date
+
+  // --- Eligibility. Grade is first because that is how parents and admins
+  // actually think; age is available for the cases that genuinely need it. ---
+  gradeMin  Int?    @map("grade_min")
+  gradeMax  Int?    @map("grade_max")
+  ageMin    Int?    @map("age_min")
+  ageMax    Int?    @map("age_max")
+  /// "any" | "boys" | "girls" — free text rather than an enum so a program can
+  /// be described the way The Courts actually markets it, and so gender is only
+  /// recorded where it genuinely gates participation.
+  gender    String?
+  skillLevel SkillLevel? @map("skill_level")
+  inviteOnly Boolean @default(false) @map("invite_only")
+  /// Requires an active Training Plan to register at all (distinct from
+  /// Training Plan members merely getting a better price).
+  requiresTrainingPlan Boolean @default(false) @map("requires_training_plan")
+  eligibilityNote String? @map("eligibility_note")
+
+  // --- Capacity ---
+  /// Whole-offering ceiling (a camp sells 40 seats across all four days).
+  /// Null means capacity is tracked per session only.
+  capacityTotal          Int? @map("capacity_total")
+  /// Seeded onto each generated Session; individual sessions can differ.
+  defaultSessionCapacity Int? @map("default_session_capacity")
+  /// "Few spots left" threshold. Configurable because 3 is right for group
+  /// training and wrong for a 40-seat camp.
+  lowSpotThreshold       Int  @default(3) @map("low_spot_threshold")
+
+  waitlistMode       WaitlistMode @default(automatic) @map("waitlist_mode")
+  /// How long a waitlist offer is held before it expires to the next family.
+  waitlistOfferHours Int @default(24) @map("waitlist_offer_hours")
+
+  // --- Registration ---
+  registrationMode     RegistrationMode @default(session) @map("registration_mode")
+  registrationOpensAt  DateTime? @map("registration_opens_at")
+  registrationClosesAt DateTime? @map("registration_closes_at")
+  closeWhenFull        Boolean @default(false) @map("close_when_full")
+  /// Multi-day offerings only: may a family buy a single day as well as the
+  /// whole thing?
+  allowSingleDay       Boolean @default(false) @map("allow_single_day")
+
+  // --- Pricing. Stripe stays the source of truth for the payment objects; we
+  // hold pointers plus the amounts we display. ---
+  pricingModel        PricingModel @default(per_session) @map("pricing_model")
+  priceCents          Int? @map("price_cents")
+  memberPriceCents    Int? @map("member_price_cents")
+  singleDayPriceCents Int? @map("single_day_price_cents")
+  depositCents        Int? @map("deposit_cents")
+
+  stripeProductId        String? @map("stripe_product_id")
+  stripePriceId          String? @map("stripe_price_id")
+  stripeMemberPriceId    String? @map("stripe_member_price_id")
+  stripeSingleDayPriceId String? @map("stripe_single_day_price_id")
+  /// Explicit Stripe tax code. NEVER inferred from marketing copy — coach-led
+  /// training, league participation, open gym, court rental and merchandise can
+  /// each be taxed differently, and guessing is a compliance problem. Null on a
+  /// paid offering raises TAX SETUP REQUIRED at publish time.
+  stripeTaxCode String? @map("stripe_tax_code")
+  taxBehavior   TaxBehavior @default(unspecified) @map("tax_behavior")
+
+  // --- Training Plan interaction. "Member" never silently means "free". ---
+  creditRule        CreditRule @default(separate_payment) @map("credit_rule")
+  /// Training Plan sessions consumed per booking when creditRule = uses_credit.
+  creditsPerBooking Int @default(1) @map("credits_per_booking")
+
+  // --- Publish targets. Create once, publish everywhere: each surface reads
+  // these flags off this row. Nothing is copied anywhere. ---
+  visibleParentApp Boolean @default(true) @map("visible_parent_app")
+  visibleWebsite   Boolean @default(false) @map("visible_website")
+  visibleCoachApp  Boolean @default(true) @map("visible_coach_app")
+  /// Staff practice, internal meetings, invite-only training: occupies the
+  /// facility and appears in Courts OS, reaches no public surface.
+  internalOnly     Boolean @default(false) @map("internal_only")
+  publishedAt      DateTime? @map("published_at")
+  publishedById    String?   @map("published_by_id")
+
+  /// League lifecycle stage. Null for every non-league offering.
+  leagueStage LeagueStage? @map("league_stage")
+  /// A league Offering points at its evaluation Offering. They stay DISTINCT
+  /// registration and payment objects — a $25 evaluation is not a discount line
+  /// on a $375 league — and any credit between them is configured explicitly.
+  evaluationOfferingId String? @map("evaluation_offering_id")
+
+  // --- Off-site programming (league games at another facility). ---
+  externalLocationName    String? @map("external_location_name")
+  externalLocationAddress String? @map("external_location_address")
+
+  /// Lineage, so Clone Season stays legible.
+  clonedFromOfferingId String? @map("cloned_from_offering_id")
+  templateId           String? @map("template_id")
+
+  createdById String?   @map("created_by_id")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
+  archivedAt  DateTime? @map("archived_at")
+
+  program         Program   @relation(fields: [programId], references: [id], onDelete: Cascade)
+  createdBy       StaffUser? @relation("OfferingCreatedBy", fields: [createdById], references: [id])
+  publishedBy     StaffUser? @relation("OfferingPublishedBy", fields: [publishedById], references: [id])
+  clonedFrom      Offering?  @relation("OfferingLineage", fields: [clonedFromOfferingId], references: [id])
+  clones          Offering[] @relation("OfferingLineage")
+  evaluationFor   Offering?  @relation("LeagueEvaluation", fields: [evaluationOfferingId], references: [id])
+  leaguesUsingThisEvaluation Offering[] @relation("LeagueEvaluation")
+  template        OfferingTemplate? @relation(fields: [templateId], references: [id])
+
+  sessions        Session[]
+  recurrenceRules RecurrenceRule[]
+  registrations   Registration[]
+  teams           Team[]
+  requiredWaivers OfferingWaiver[]
+  waitlist        OfferingWaitlistEntry[]
+  scheduleChanges ScheduleChange[]
+
+  @@index([status, startDate])
+  @@index([programId, status])
+  @@map("offerings")
+}
+
+/// Plain labels, because an admin reads these at 5pm with a gym full of kids.
+enum OfferingStatus {
+  draft
+  ready_to_publish
+  published
+  registration_closed
+  completed
+  cancelled
+  archived
+}
+
+enum ScheduleKind {
+  one_time
+  recurring
+  multi_day
+  season
+  custom
+}
+
+enum SkillLevel {
+  beginner
+  developing
+  intermediate
+  advanced
+  all_levels
+  invite_only
+}
+
+enum WaitlistMode {
+  none
+  /// Families may add themselves; a freed seat still requires an explicit
+  /// offer before anyone is booked or charged.
+  automatic
+  /// Admin adds families and runs promotion by hand.
+  manual
+}
+
+/// What a family is actually buying. Not every program fits one model, which is
+/// why this is per-Offering rather than global.
+enum RegistrationMode {
+  /// Book individual occurrences (group training, open gym, Dr. Dish).
+  session
+  /// One registration covers the whole run (camp, clinic).
+  offering
+  /// Whole camp, or individual days, per allowSingleDay.
+  multi_day
+  /// League: register for the season, get placed on a team.
+  season
+}
+
+enum PricingModel {
+  free
+  one_time
+  per_session
+  multi_day_package
+  /// Covered by a recurring Training Plan rather than sold per booking.
+  training_plan
+  deposit
+}
+
+/// Mirrors Stripe's own tax_behavior. `unspecified` is the honest default and
+/// is what the publish check refuses to ship a paid offering with.
+enum TaxBehavior {
+  unspecified
+  inclusive
+  exclusive
+}
+
+/// How an Offering interacts with Training Plans. Deliberately explicit:
+/// "member" does not imply "free", and the booking screen states the rule.
+enum CreditRule {
+  /// Booking consumes creditsPerBooking from the plan's weekly allowance.
+  uses_credit
+  /// Included with no credit consumed (unlimited-style benefit).
+  included
+  /// Members pay memberPriceCents; non-members pay priceCents.
+  member_price
+  /// Plan grants no benefit here; everyone pays.
+  separate_payment
+  free
+}
+
+/// Superseded by OfferingStatus — lifecycle moved to the Offering layer.
+/// Retained because Postgres cannot drop an enum type that a dropped column
+/// once used without a rewrite; nothing reads it.
 enum ProgramStatus {
   draft
   published
@@ -267,36 +505,98 @@ enum LeagueStage {
   complete
 }
 
+/// The Courts' own vocabulary, not generic SaaS categories. Each value selects a
+/// distinct builder workflow — which field groups appear, which defaults apply,
+/// whether a coach or a specific resource is required. See lib/programs/types.ts.
+///
+/// The first five are legacy names kept only so existing rows stay valid. Each
+/// has a canonical successor (class→group_training, resource→guided_dr_dish,
+/// private→private_training, rental→court_rental, event→special_event) and the
+/// data migration moved every row over. Postgres cannot drop enum values without
+/// a table rewrite, so they stay in the type and out of the UI.
 enum ProgramType {
   class
-  camp
-  league
   resource
   private
   rental
-  /// A themed Courts moment (Halloween Hoops, Parents' Night Out, etc.) —
-  /// reuses the same Program/Session/Booking machinery as everything else
-  /// rather than a parallel events system, so admins manage it the same way.
   event
+
+  group_training
+  private_training
+  skills_clinic
+  camp
+  league
+  evaluation
+  guided_dr_dish
+  self_serve_dr_dish
+  open_gym
+  court_rental
+  party
+  special_event
 }
 
 /// A single bookable occurrence of a program. Recurring classes materialize
 /// into individual rows (via bulk generation) rather than being expanded
 /// from a recurrence rule at read time.
+/// One actual scheduled occurrence. Recurring programming materializes into
+/// individual rows rather than being expanded from a rule at read time — which
+/// is what makes "move just this Tuesday" possible without rebuilding a series.
 model Session {
   id         String        @id @default(uuid())
+  /// Denormalized from offering.programId and kept equal to it by the scheduling
+  /// engine, which never writes one without the other. Every pre-Offering query
+  /// in the Parent App, Coach App and entitlements engine reads this — keeping it
+  /// is what let the Offering layer land without rewriting them. The Offering is
+  /// the source of truth; this is a maintained index into it, not a second one.
   programId  String        @map("program_id")
+  /// Which season/instance this belongs to. Nullable only for the pre-Offering
+  /// rows the backfill adopted into legacy offerings; the engine always sets it.
+  offeringId String?       @map("offering_id")
+  /// Set when generated from a recurrence rule; null for one-time sessions,
+  /// custom dates and camp days.
+  seriesId   String?       @map("series_id")
   teamId     String?       @map("team_id")
+  /// Primary resource. Additional courts for a multi-court program live in
+  /// SessionResource; the conflict engine checks both together.
   resourceId String?       @map("resource_id")
   startTime  DateTime      @map("start_time")
   endTime    DateTime      @map("end_time")
   capacity   Int
   status     SessionStatus @default(scheduled)
+  /// Per-occurrence label ("Day 2 — Tournament", "Make-up session"). The
+  /// offering's name is used when null.
+  title      String?
+  /// 1-based day number inside a multi-day camp — drives single-day
+  /// registration and day-by-day attendance. Null elsewhere.
+  dayIndex   Int?          @map("day_index")
+  /// True once this occurrence diverges from its series' rule (moved, re-staffed,
+  /// re-courted). "Edit this and future" regenerates the rest and leaves these
+  /// alone, so a deliberate one-off change is never silently reverted.
+  isException Boolean      @default(false) @map("is_exception")
+  /// Parent-facing note for this occurrence only.
+  publicNote   String?     @map("public_note")
+  /// Never leaves Courts OS / the Coach App.
+  internalNote String?     @map("internal_note")
+  cancellationReason String?   @map("cancellation_reason")
+  cancelledAt        DateTime? @map("cancelled_at")
+  cancelledById      String?   @map("cancelled_by_id")
+  /// Set on a make-up session, pointing at the cancelled one it replaces, so a
+  /// make-up never reads as an unrelated extra session.
+  replacesSessionId  String?   @map("replaces_session_id")
   createdAt  DateTime      @default(now()) @map("created_at")
+  updatedAt  DateTime      @default(now()) @updatedAt @map("updated_at")
 
   program         Program         @relation(fields: [programId], references: [id], onDelete: Cascade)
+  offering        Offering?       @relation(fields: [offeringId], references: [id], onDelete: Cascade)
+  series          RecurrenceRule? @relation(fields: [seriesId], references: [id], onDelete: SetNull)
   resource        Resource?       @relation(fields: [resourceId], references: [id])
   team            Team?           @relation(fields: [teamId], references: [id])
+  cancelledBy     StaffUser?      @relation("SessionCancelledBy", fields: [cancelledById], references: [id])
+  replaces        Session?        @relation("SessionReplacement", fields: [replacesSessionId], references: [id])
+  replacedBy      Session[]       @relation("SessionReplacement")
+  extraResources  SessionResource[]
+  scheduleChanges ScheduleChange[]
+  conflictOverrides ConflictOverride[]
   bookings        Booking[]
   waitlistEntries WaitlistEntry[]
   coaches         SessionCoach[]
@@ -307,6 +607,9 @@ model Session {
   drDishLogs      DrDishLog[]
   communications  Communication[]
 
+  @@index([offeringId, startTime])
+  @@index([startTime, status])
+  @@index([seriesId])
   @@map("sessions")
 }
 
@@ -339,6 +642,13 @@ model Booking {
   /// drop-in class booking, which IS its own registration.
   registrationId     String?       @map("registration_id")
 
+  /// Which Training Plan benefit paid for this seat, recorded at booking time so
+  /// a later plan change never rewrites history. Null for full-price bookings.
+  creditSource       String?       @map("credit_source")
+  /// Set once a Courts-side cancellation has returned this seat's Training Plan
+  /// credit, so re-running the cancellation flow cannot restore it twice.
+  creditRestored     Boolean       @default(false) @map("credit_restored")
+
   session          Session           @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   athlete          Athlete           @relation(fields: [athleteId], references: [id], onDelete: Cascade)
   bookedByGuardian Guardian?         @relation(fields: [bookedByGuardianId], references: [id])
@@ -366,23 +676,41 @@ enum BookingStatus {
 
 /// A family wanting a seat in a full session. Ordered by position; the
 /// oldest waiting entry is auto-converted to a Booking when a seat frees up.
+/// A family wanting a seat in a full session.
+///
+/// A freed seat is OFFERED to the next family and held until offerExpiresAt —
+/// never silently booked and charged. That is the single most important rule in
+/// this model: promotion is an invitation, not an enrolment.
 model WaitlistEntry {
   id        String              @id @default(uuid())
   sessionId String              @map("session_id")
   athleteId String              @map("athlete_id")
   position  Int
   status    WaitlistEntryStatus @default(waiting)
+  offeredAt      DateTime? @map("offered_at")
+  offerExpiresAt DateTime? @map("offer_expires_at")
+  offeredById    String?   @map("offered_by_id")
+  respondedAt    DateTime? @map("responded_at")
   createdAt DateTime            @default(now()) @map("created_at")
 
-  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  athlete Athlete @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  session   Session    @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  athlete   Athlete    @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  offeredBy StaffUser? @relation(fields: [offeredById], references: [id])
 
   @@unique([sessionId, athleteId])
+  @@index([sessionId, status, position])
   @@map("waitlist_entries")
 }
 
+/// `converted` predates the promotion flow and means "became a booking". It is
+/// kept as the terminal success state that `accepted` resolves into, so the old
+/// auto-promotion path and the new offer path land on the same value.
 enum WaitlistEntryStatus {
   waiting
+  offered
+  accepted
+  declined
+  expired
   converted
 }
 
@@ -532,11 +860,16 @@ model CreditLedgerEntry {
 model Team {
   id        String   @id @default(uuid())
   programId String   @map("program_id")
+  /// Which league season this roster belongs to. Same maintained-index
+  /// relationship as Session.programId above: the Offering is the truth,
+  /// programId stays equal to offering.programId for the existing queries.
+  offeringId String? @map("offering_id")
   name      String
   division  String?
   createdAt DateTime @default(now()) @map("created_at")
 
   program  Program      @relation(fields: [programId], references: [id], onDelete: Cascade)
+  offering Offering?    @relation(fields: [offeringId], references: [id], onDelete: Cascade)
   members  TeamMember[]
   sessions Session[]
   coaches  TeamCoach[]
@@ -569,17 +902,27 @@ model Resource {
   name         String
   resourceType String   @map("resource_type")
   capacity     Int      @default(1)
+  /// Column order in the facility scheduler.
+  sortOrder    Int      @default(0) @map("sort_order")
+  /// Program types allowed here. Empty means no restriction — the facility is
+  /// configuration, not hard-coded.
+  allowedProgramTypes ProgramType[] @default([]) @map("allowed_program_types")
+  /// Resources this one physically overlaps. Full Court contains Half Court A
+  /// and B, so booking either blocks the other. Stored symmetrically on both
+  /// rows by the admin action; the conflict engine walks it. This is why
+  /// "Court 1 is free" can be false even with no booking on Court 1.
+  overlapsResourceIds String[] @default([]) @map("overlaps_resource_ids")
+  description  String?
+  /// Optional sport affinity, so the facility view can group Court 1/2 against
+  /// a volleyball-only resource. Null means "usable by anything".
+  sport        String?
   active       Boolean  @default(true)
   createdAt    DateTime @default(now()) @map("created_at")
 
-  /// Optional sport affinity, so the facility view can group Court 1/2 vs.
-  /// a volleyball-only resource. Null means "usable by anything".
-  sport        String?
-  sortOrder    Int      @default(0) @map("sort_order")
-
-  sessions     Session[]
-  reservations ResourceReservation[]
-  blocks       FacilityBlock[]
+  sessions         Session[]
+  sessionResources SessionResource[]
+  reservations     ResourceReservation[]
+  blocks           FacilityBlock[]
 
   @@map("resources")
 }
@@ -625,7 +968,7 @@ model Waiver {
   createdAt     DateTime    @default(now()) @map("created_at")
 
   signatures WaiverSignature[]
-  programs   ProgramWaiver[]
+  offerings  OfferingWaiver[]
 
   @@map("waivers")
 }
@@ -690,10 +1033,16 @@ model SessionCoach {
   @@map("session_coaches")
 }
 
+/// Not everyone working a camp is a coach — check-in staff and event leads get
+/// an honest role through the same table instead of being mislabeled "coach".
 enum CoachRole {
   lead
   assistant
   substitute
+  check_in
+  event_lead
+  court_lead
+  other
 }
 
 /// Which staff coach a league Team. Same reasoning as SessionCoach, and the
@@ -1157,8 +1506,17 @@ model AuditLog {
 /// and the single Booking are created together.
 model Registration {
   id         String             @id @default(uuid())
-  programId  String             @map("program_id")
+  /// Registration attaches to the OFFERING, not the Program — a family
+  /// registers for "Fall 2026 League", and may register again for Winter 2027
+  /// without either row colliding with the other.
+  offeringId String             @map("offering_id")
   athleteId  String             @map("athlete_id")
+  /// Which shape of registration this is, per the offering's registrationMode.
+  /// A camp bought as a single day and one bought whole are the same model with
+  /// different selections, not two systems.
+  selection  RegistrationSelection @default(all_sessions)
+  /// Chosen day for a single-day camp registration.
+  selectedSessionId String?      @map("selected_session_id")
   status     RegistrationStatus @default(started)
   paymentStatus PaymentStatus   @default(none) @map("payment_status")
 
@@ -1187,16 +1545,16 @@ model Registration {
   cancelledAt  DateTime? @map("cancelled_at")
   updatedAt    DateTime  @default(now()) @updatedAt @map("updated_at")
 
-  program        Program    @relation(fields: [programId], references: [id], onDelete: Cascade)
+  offering       Offering   @relation(fields: [offeringId], references: [id], onDelete: Cascade)
   athlete        Athlete    @relation(fields: [athleteId], references: [id], onDelete: Cascade)
   createdByStaff StaffUser? @relation(fields: [createdByStaffId], references: [id])
   promoCode      PromoCode? @relation(fields: [promoCodeId], references: [id])
   bookings       Booking[]
 
-  /// One registration per athlete per program. Re-registering after a
+  /// One registration per athlete per offering. Re-registering after a
   /// cancellation updates this row, which is also what stops a double-click
   /// on Checkout from producing two registrations.
-  @@unique([programId, athleteId])
+  @@unique([offeringId, athleteId])
   @@index([status])
   @@index([paymentStatus])
   @@map("registrations")
@@ -1430,13 +1788,199 @@ enum ContentSlot {
 
 /// Which waivers a program requires. A join table rather than an array column
 /// so the registration flow can check completion with a real query.
-model ProgramWaiver {
-  programId String @map("program_id")
-  waiverId  String @map("waiver_id")
+/// Which waivers an Offering requires. Attached per Offering rather than per
+/// Program because a camp and a court rental of the same facility need
+/// different paperwork, and a new season is the moment to re-check it.
+model OfferingWaiver {
+  offeringId String @map("offering_id")
+  waiverId   String @map("waiver_id")
 
-  program Program @relation(fields: [programId], references: [id], onDelete: Cascade)
-  waiver  Waiver  @relation(fields: [waiverId], references: [id], onDelete: Cascade)
+  offering Offering @relation(fields: [offeringId], references: [id], onDelete: Cascade)
+  waiver   Waiver   @relation(fields: [waiverId], references: [id], onDelete: Cascade)
 
-  @@id([programId, waiverId])
-  @@map("program_waivers")
+  @@id([offeringId, waiverId])
+  @@map("offering_waivers")
+}
+
+// ---------------------------------------------------------------------------
+// SCHEDULING ENGINE
+//
+// Everything below exists so that a schedule can be built once, changed safely,
+// and explained afterwards. The three jobs are: remember the RULE a series came
+// from (RecurrenceRule), record every deliberate deviation and who made it
+// (ScheduleChange, ConflictOverride), and let one occurrence occupy more than
+// one court (SessionResource).
+// ---------------------------------------------------------------------------
+
+/// The rule a recurring series was generated from. Sessions are still
+/// materialized rows — this is kept so "edit this and future" can regenerate
+/// the tail of a series, and so the builder can show the admin what they built
+/// instead of making them reverse-engineer it from 11 rows.
+model RecurrenceRule {
+  id         String @id @default(uuid())
+  offeringId String @map("offering_id")
+  /// Mirrors ScheduleSpec in lib/programs/recurrence.ts.
+  frequency  RecurrenceFrequency @default(weekly)
+  /// 0 = Sunday, matching Date.getUTCDay().
+  weekdays   Int[]  @default([])
+  /// Wall-clock minutes from midnight (17*60 = 5:00 PM).
+  startMinute     Int @map("start_minute")
+  durationMinutes Int @map("duration_minutes")
+  startDate  DateTime  @map("start_date") @db.Date
+  endDate    DateTime? @map("end_date") @db.Date
+  /// Default resource + capacity applied to generated occurrences. An individual
+  /// session may diverge; that marks it as an exception.
+  resourceId String? @map("resource_id")
+  capacity   Int?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  offering Offering  @relation(fields: [offeringId], references: [id], onDelete: Cascade)
+  sessions Session[]
+
+  @@index([offeringId])
+  @@map("recurrence_rules")
+}
+
+enum RecurrenceFrequency {
+  weekly
+  biweekly
+}
+
+/// Additional resources for one occurrence — a camp taking Court 1 AND Court 2,
+/// an evaluation using the whole facility. Session.resourceId stays the primary;
+/// these are the extras, and the conflict engine treats them identically.
+model SessionResource {
+  sessionId  String @map("session_id")
+  resourceId String @map("resource_id")
+
+  session  Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@id([sessionId, resourceId])
+  @@index([resourceId])
+  @@map("session_resources")
+}
+
+/// What changed about a scheduled session, when, by whom, and whether families
+/// were told. Distinct from AuditLog on purpose: this is the record that gets
+/// read back to a parent who says "nobody told us it moved", so it is scoped
+/// tightly to schedule changes and carries the notification outcome.
+model ScheduleChange {
+  id         String @id @default(uuid())
+  sessionId  String? @map("session_id")
+  offeringId String? @map("offering_id")
+  changeType ScheduleChangeType @map("change_type")
+  /// Human-readable before/after, rendered directly in the history timeline.
+  previousValue String? @map("previous_value")
+  newValue      String? @map("new_value")
+  reason        String?
+  /// Null = no notification decision recorded yet; the cancellation and move
+  /// flows set it explicitly rather than defaulting to "yes".
+  familiesNotified Boolean? @map("families_notified")
+  coachNotified    Boolean? @map("coach_notified")
+  /// How many registrations were attached when the change was made — the number
+  /// that actually matters when judging the impact later.
+  affectedRegistrations Int @default(0) @map("affected_registrations")
+  changedById String?  @map("changed_by_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  session   Session?   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  offering  Offering?  @relation(fields: [offeringId], references: [id], onDelete: Cascade)
+  changedBy StaffUser? @relation(fields: [changedById], references: [id])
+
+  @@index([sessionId, createdAt])
+  @@index([offeringId, createdAt])
+  @@map("schedule_changes")
+}
+
+enum ScheduleChangeType {
+  created
+  moved
+  cancelled
+  restored
+  resource_changed
+  coach_changed
+  capacity_changed
+  rescheduled
+  makeup_added
+  series_edited
+}
+
+/// A soft conflict an authorized admin deliberately accepted. Recording the
+/// reason is what separates "we know, it's fine, Johnny only needs 10 minutes"
+/// from a double-booking nobody noticed.
+model ConflictOverride {
+  id           String @id @default(uuid())
+  sessionId    String @map("session_id")
+  conflictType String @map("conflict_type")
+  detail       String
+  reason       String
+  overriddenById String   @map("overridden_by_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  session      Session   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  overriddenBy StaffUser @relation(fields: [overriddenById], references: [id])
+
+  @@index([sessionId])
+  @@map("conflict_overrides")
+}
+
+/// A reusable starting point for a new Offering.
+///
+/// Deliberately stores STRUCTURE only — capacity, duration, eligibility,
+/// registration and visibility rules. It does not carry dates, coach
+/// assignments, Stripe prices or season names, because a template that
+/// resurrects last season's price or last season's coach is worse than no
+/// template at all. The builder re-asks for those every time.
+model OfferingTemplate {
+  id          String      @id @default(uuid())
+  name        String
+  programType ProgramType @map("program_type")
+  sport       String?
+  /// The structural defaults, shaped like OfferingTemplateConfig in
+  /// lib/programs/templates.ts. Json because the field set differs per program
+  /// type and adding a type should not require a migration.
+  config      Json        @default("{}")
+  createdById String?     @map("created_by_id")
+  active      Boolean     @default(true)
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @default(now()) @updatedAt @map("updated_at")
+
+  createdBy StaffUser? @relation(fields: [createdById], references: [id])
+  offerings Offering[]
+
+  @@map("offering_templates")
+}
+
+/// Offering-level waitlist, for the cases where a family wants the whole thing
+/// (a full camp, a full league season) rather than one occurrence. Same explicit
+/// offer semantics as WaitlistEntry — nobody is enrolled or charged without
+/// accepting an offer first.
+model OfferingWaitlistEntry {
+  id         String              @id @default(uuid())
+  offeringId String              @map("offering_id")
+  athleteId  String              @map("athlete_id")
+  position   Int
+  status     WaitlistEntryStatus @default(waiting)
+  offeredAt      DateTime? @map("offered_at")
+  offerExpiresAt DateTime? @map("offer_expires_at")
+  offeredById    String?   @map("offered_by_id")
+  respondedAt    DateTime? @map("responded_at")
+  createdAt  DateTime            @default(now()) @map("created_at")
+
+  offering  Offering   @relation(fields: [offeringId], references: [id], onDelete: Cascade)
+  athlete   Athlete    @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  offeredBy StaffUser? @relation(fields: [offeredById], references: [id])
+
+  @@unique([offeringId, athleteId])
+  @@index([offeringId, status, position])
+  @@map("offering_waitlist_entries")
+}
+
+/// Which shape of registration a family bought. One model, several selections —
+/// not a separate system per program type.
+enum RegistrationSelection {
+  all_sessions
+  single_day
+  team_season
 }

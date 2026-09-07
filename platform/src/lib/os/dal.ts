@@ -137,7 +137,8 @@ export function sessionScope(actor: OsActor): Prisma.SessionWhereInput {
 export function registrationScope(actor: OsActor): Prisma.RegistrationWhereInput {
   const sports = scopedSports(actor);
   if (sports === null || sports.length === 0) return {};
-  return { program: { sport: { in: sports } } };
+  // Registration attaches to an Offering, so the sport is one hop further out.
+  return { offering: { program: { sport: { in: sports } } } };
 }
 
 export function athleteScope(actor: OsActor): Prisma.AthleteWhereInput {
@@ -147,7 +148,7 @@ export function athleteScope(actor: OsActor): Prisma.AthleteWhereInput {
   // a booked session, or a team. Not the whole customer database.
   return {
     OR: [
-      { registrations: { some: { program: { sport: { in: sports } } } } },
+      { registrations: { some: { offering: { program: { sport: { in: sports } } } } } },
       { bookings: { some: { session: { program: { sport: { in: sports } } } } } },
       { teamMemberships: { some: { team: { program: { sport: { in: sports } } } } } },
     ],
@@ -160,6 +161,14 @@ export function familyScope(actor: OsActor): Prisma.FamilyWhereInput {
   return { athletes: { some: athleteScope(actor) } };
 }
 
+export function offeringScope(actor: OsActor): Prisma.OfferingWhereInput {
+  const sports = scopedSports(actor);
+  if (sports === null || sports.length === 0) return {};
+  return { program: { sport: { in: sports } } };
+}
+
+/// Same shape as assertProgramAccess, for the Offering layer — a head coach may
+/// only open an offering whose program is in one of their sports.
 export function teamScope(actor: OsActor): Prisma.TeamWhereInput {
   const sports = scopedSports(actor);
   if (sports === null || sports.length === 0) return {};
@@ -177,6 +186,15 @@ export async function assertProgramAccess(actor: OsActor, programId: string) {
   const found = await prisma.program.findFirst({
     where: { AND: [{ id: programId }, programScope(actor)] },
     select: { id: true, sport: true },
+  });
+  if (!found) throw new OsAccessError();
+  return found;
+}
+
+export async function assertOfferingAccess(actor: OsActor, offeringId: string) {
+  const found = await prisma.offering.findFirst({
+    where: { AND: [{ id: offeringId }, offeringScope(actor)] },
+    select: { id: true, programId: true, program: { select: { sport: true, programType: true } } },
   });
   if (!found) throw new OsAccessError();
   return found;
@@ -203,7 +221,7 @@ export async function assertFamilyAccess(actor: OsActor, familyId: string) {
 export async function assertRegistrationAccess(actor: OsActor, registrationId: string) {
   const found = await prisma.registration.findFirst({
     where: { AND: [{ id: registrationId }, registrationScope(actor)] },
-    select: { id: true, programId: true, program: { select: { sport: true } } },
+    select: { id: true, offeringId: true, offering: { select: { programId: true, program: { select: { sport: true } } } } },
   });
   if (!found) throw new OsAccessError();
   return found;

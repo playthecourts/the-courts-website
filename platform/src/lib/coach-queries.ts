@@ -19,8 +19,23 @@ export async function sessionsInRange(actor: CoachActor, from: Date, to: Date) {
     orderBy: { startTime: "asc" },
     include: {
       program: true,
+      // The Offering carries the season-specific public name a coach actually
+      // recognises ("3rd–5th Grade Basketball Group Training · Fall 2026")
+      // plus coachNotes, which is the only note field the Coach App may show.
+      // parentInstructions and internalNotes are deliberately not selected.
+      offering: {
+        select: {
+          id: true,
+          name: true,
+          seasonLabel: true,
+          coachNotes: true,
+          gradeMin: true,
+          gradeMax: true,
+        },
+      },
       team: true,
       resource: true,
+      extraResources: { include: { resource: { select: { name: true } } } },
       coaches: { include: { staff: { select: { id: true, name: true } } } },
       _count: { select: { bookings: { where: { status: { not: "cancelled" } } } } },
     },
@@ -32,6 +47,27 @@ export async function sessionsForDay(actor: CoachActor, day: Date) {
 }
 
 export type CoachSession = Awaited<ReturnType<typeof sessionsInRange>>[number];
+
+/// What a coach should see this session called. Prefers the per-occurrence
+/// title ("Day 2"), then the Offering's public name, and only falls back to the
+/// Program definition for pre-Offering rows.
+export function sessionTitle(session: {
+  title?: string | null;
+  offering?: { name: string } | null;
+  program: { name: string };
+}): string {
+  return session.title ?? session.offering?.name ?? session.program.name;
+}
+
+/// Every court a session occupies, not just the primary one — a camp on two
+/// courts should say so on the coach's schedule.
+export function sessionCourts(session: {
+  resource?: { name: string } | null;
+  extraResources?: { resource: { name: string } }[];
+}): string[] {
+  return [session.resource?.name, ...(session.extraResources ?? []).map((r) => r.resource.name)]
+    .filter(Boolean) as string[];
+}
 
 /**
  * Confirmed count for a session — how many families have actually said yes.

@@ -1,3 +1,4 @@
+import { sessionTitle } from "@/lib/coach-queries";
 import Link from "next/link";
 import type { Route } from "next";
 import { prisma } from "@/lib/prisma";
@@ -132,7 +133,7 @@ export default async function CoachSchedulePage(props: PageProps<"/coach/schedul
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="block truncate font-heading text-sm font-bold text-near-black">
-                          {s.program.name}
+                          {sessionTitle(s)}
                         </span>
                         <span className="block truncate font-body text-xs text-gray-dark">
                           {[s.team?.name, s.resource?.name, scope !== "mine" ? otherCoaches : null]

@@ -1,6 +1,7 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
 import { getBookingEligibility } from "@/lib/entitlements";
+import { offerNextSpot } from "@/lib/programs/waitlist";
 
 // Shared booking logic used by both the guardian-facing action (after
 // authorization) and, later, any admin-initiated booking. A raw
@@ -76,43 +77,30 @@ export async function bookAthleteIntoSession(
   });
 }
 
-// Cancels a booking and, if a seat frees up, auto-promotes the oldest
-// waiting waitlist entry into a real booking within the same transaction.
+// Cancels a booking. If a seat frees up, the next waiting family is OFFERED it
+// — never booked and charged automatically.
+//
+// This used to auto-convert the oldest waitlist entry straight into a paid
+// booking. That silently enrolled a child and charged a card because somebody
+// else dropped out, which is not a decision this system gets to make on a
+// family's behalf. Promotion is now an explicit, expiring offer; see
+// lib/programs/waitlist.ts.
 export async function cancelBookingById(bookingId: string) {
-  return prisma.$transaction(async (tx) => {
-    const booking = await tx.booking.findUniqueOrThrow({ where: { id: bookingId } });
-    if (booking.status !== "booked") return;
+  const booking = await prisma.$transaction(async (tx) => {
+    const found = await tx.booking.findUniqueOrThrow({ where: { id: bookingId } });
+    if (found.status !== "booked") return null;
 
-    await tx.$executeRaw`SELECT id FROM sessions WHERE id = ${booking.sessionId} FOR UPDATE`;
+    await tx.$executeRaw`SELECT id FROM sessions WHERE id = ${found.sessionId} FOR UPDATE`;
     await tx.booking.update({ where: { id: bookingId }, data: { status: "cancelled" } });
-
-    const nextWaiting = await tx.waitlistEntry.findFirst({
-      where: { sessionId: booking.sessionId, status: "waiting" },
-      orderBy: { position: "asc" },
-    });
-    if (!nextWaiting) return;
-
-    // Same out-of-transaction eligibility call as bookAthleteIntoSession, and
-    // for the same reason: entitlements.ts isn't parameterized for a tx
-    // client, and a price computed a moment before commit is an acceptable
-    // staleness window here (unlike the capacity check above it).
-    const eligibility = await getBookingEligibility(nextWaiting.athleteId, booking.sessionId);
-    const priceChargedCents = eligibility.type === "included" ? 0 : eligibility.priceCents;
-
-    await tx.booking.upsert({
-      where: {
-        sessionId_athleteId: { sessionId: booking.sessionId, athleteId: nextWaiting.athleteId },
-      },
-      create: {
-        sessionId: booking.sessionId,
-        athleteId: nextWaiting.athleteId,
-        status: "booked",
-        priceChargedCents,
-      },
-      update: { status: "booked", bookedAt: new Date(), priceChargedCents },
-    });
-    await tx.waitlistEntry.update({ where: { id: nextWaiting.id }, data: { status: "converted" } });
+    return found;
   });
+
+  if (!booking) return;
+
+  // Outside the transaction: offering a spot takes its own lock, and a failure
+  // to notify the next family must not roll back the cancellation the family
+  // in front of them already completed.
+  await offerNextSpot(booking.sessionId, null);
 }
 
 export async function cancelWaitlistEntryById(waitlistEntryId: string) {

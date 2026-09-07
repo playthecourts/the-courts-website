@@ -7,7 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "qa:seed": "tsx scripts/seed-qa-programming.ts",
+    "qa:clean": "tsx scripts/seed-qa-programming.ts --clean",
+    "qa:scenarios": "tsx scripts/qa/qa-scenarios.ts",
+    "qa:mutations": "tsx scripts/qa/qa-mutations.ts",
+    "qa:credits": "tsx scripts/qa/qa-credits.ts",
+    "qa": "npm run qa:scenarios && npm run qa:credits && npm run qa:mutations"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.0",
@@ -32,6 +38,7 @@
     "eslint-config-next": "16.3.4",
     "prisma": "^7.10.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.13",
     "typescript": "^5"
   }
 }
