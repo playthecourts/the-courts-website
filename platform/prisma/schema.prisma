@@ -27,6 +27,7 @@ model Guardian {
   families         FamilyGuardian[]
   bookings         Booking[]
   waiverSignatures WaiverSignature[]
+  communicationsReceived CommunicationRecipient[]
 
   @@map("guardians")
 }
@@ -41,6 +42,7 @@ model Family {
   guardians    FamilyGuardian[]
   athletes     Athlete[]
   reservations ResourceReservation[]
+  communications Communication[]
 
   @@map("families")
 }
@@ -80,6 +82,12 @@ model Athlete {
   credits          Credit[]
   teamMemberships  TeamMember[]
   waiverSignatures WaiverSignature[]
+  coachNotes       CoachNote[]
+  evaluations      Evaluation[]
+  flags            AthleteFlag[]
+  incidentReports  IncidentReport[]
+  drDishLogs       DrDishLog[]
+  placementRequest PlacementRequest[]
 
   @@map("athletes")
 }
@@ -92,7 +100,34 @@ model StaffUser {
   name      String
   email     String    @unique
   role      StaffRole
+  /// Sport scoping for the Coach App. A head_coach is scoped to the sports listed
+  /// here ("Head of Basketball" is role=head_coach, sports=["Basketball"]) and sees
+  /// nothing outside them. For role=coach this is descriptive only — a plain coach's
+  /// access comes from their explicit SessionCoach/TeamCoach assignments, never from
+  /// this list. Empty for admin, who is scoped to everything by role.
+  sports    String[]  @default([]) @map("sports")
+  phone     String?
+  title     String?
+  active    Boolean   @default(true)
   createdAt DateTime  @default(now()) @map("created_at")
+
+  sessionAssignments   SessionCoach[]
+  teamAssignments      TeamCoach[]
+  attendanceRecords    AttendanceRecord[]
+  coachNotes           CoachNote[]
+  sessionNotes         SessionNote[]
+  sessionPlans         SessionPlan[]
+  planTemplates        PlanTemplate[]
+  evaluations          Evaluation[]
+  availability         CoachAvailability[]
+  coverageRequested    CoverageRequest[]  @relation("CoverageRequestedBy")
+  coverageAssigned     CoverageRequest[]  @relation("CoverageAssignedTo")
+  incidentReports      IncidentReport[]
+  communications       Communication[]
+  announcements        Announcement[]
+  athleteFlagsCreated  AthleteFlag[]
+  drDishLogs           DrDishLog[]
+  auditLogs            AuditLog[]
 
   @@map("staff_users")
 }
@@ -101,6 +136,9 @@ enum StaffRole {
   admin
   front_desk
   coach
+  /// Sport-level operational lead (Head of Basketball / Head of Volleyball).
+  /// Scoped by StaffUser.sports — deliberately NOT automatic access to every sport.
+  head_coach
 }
 
 /// Catalog entry — what's offered, not when. coach_id is deliberately not
@@ -128,6 +166,10 @@ model Program {
   sessions     Session[]
   entitlements PlanEntitlement[]
   teams        Team[]
+  evaluations  Evaluation[]
+  placementRequests PlacementRequest[]
+  communications Communication[]
+  announcements  Announcement[]
 
   @@map("programs")
 }
@@ -164,6 +206,13 @@ model Session {
   team            Team?           @relation(fields: [teamId], references: [id])
   bookings        Booking[]
   waitlistEntries WaitlistEntry[]
+  coaches         SessionCoach[]
+  plan            SessionPlan?
+  notes           SessionNote[]
+  coverageRequests CoverageRequest[]
+  incidentReports IncidentReport[]
+  drDishLogs      DrDishLog[]
+  communications  Communication[]
 
   @@map("sessions")
 }
@@ -192,9 +241,10 @@ model Booking {
   priceChargedCents  Int?          @map("price_charged_cents")
   bookedAt           DateTime      @default(now()) @map("booked_at")
 
-  session          Session   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  athlete          Athlete   @relation(fields: [athleteId], references: [id], onDelete: Cascade)
-  bookedByGuardian Guardian? @relation(fields: [bookedByGuardianId], references: [id])
+  session          Session           @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  athlete          Athlete           @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  bookedByGuardian Guardian?         @relation(fields: [bookedByGuardianId], references: [id])
+  attendance       AttendanceRecord?
 
   // One active-or-historical booking per athlete per session — re-booking
   // after a cancellation updates this row rather than creating a new one.
@@ -348,6 +398,9 @@ model Team {
   program  Program      @relation(fields: [programId], references: [id], onDelete: Cascade)
   members  TeamMember[]
   sessions Session[]
+  coaches  TeamCoach[]
+  communications Communication[]
+  announcements  Announcement[]
 
   @@map("teams")
 }
@@ -454,4 +507,485 @@ model WaiverSignature {
   waiver   Waiver   @relation(fields: [waiverId], references: [id], onDelete: Cascade)
 
   @@map("waiver_signatures")
+}
+
+// ---------------------------------------------------------------------------
+// COACH APP (coach.playthecourts.com)
+//
+// Everything below extends the SAME source of truth the Parent App and Admin
+// already use. There is deliberately no coach-side copy of athletes, families,
+// registrations, schedules or teams — the Coach App reads Athlete, Family,
+// Booking, Session, Program and Team directly, and only adds the operational
+// records that genuinely did not exist before (who is assigned to coach what,
+// what actually happened in the gym, and what a coach observed).
+// ---------------------------------------------------------------------------
+
+/// Which staff are working a given Session. This is what fills the coach_id
+/// gap the original Session comment called out — a join table rather than a
+/// column because sessions routinely have a lead plus assistants, and because
+/// substitute coverage needs to add a coach without overwriting the original
+/// assignment (see CoverageRequest).
+///
+/// For a role=coach staff user this table IS their access boundary: a plain
+/// coach can see a session if and only if a row here links them to it.
+model SessionCoach {
+  sessionId   String        @map("session_id")
+  staffUserId String        @map("staff_user_id")
+  role        CoachRole     @default(lead)
+  assignedAt  DateTime      @default(now()) @map("assigned_at")
+
+  session Session   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  staff   StaffUser @relation(fields: [staffUserId], references: [id], onDelete: Cascade)
+
+  @@id([sessionId, staffUserId])
+  @@index([staffUserId])
+  @@map("session_coaches")
+}
+
+enum CoachRole {
+  lead
+  assistant
+  substitute
+}
+
+/// Which staff coach a league Team. Same reasoning as SessionCoach, and the
+/// second half of a plain coach's access boundary: athletes on a team they
+/// coach are visible to them even outside a specific session.
+model TeamCoach {
+  teamId      String    @map("team_id")
+  staffUserId String    @map("staff_user_id")
+  role        CoachRole @default(lead)
+  assignedAt  DateTime  @default(now()) @map("assigned_at")
+
+  team  Team      @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  staff StaffUser @relation(fields: [staffUserId], references: [id], onDelete: Cascade)
+
+  @@id([teamId, staffUserId])
+  @@index([staffUserId])
+  @@map("team_coaches")
+}
+
+/// What actually happened, kept separate from Booking.status (which tracks the
+/// seat: booked/cancelled). The architecture doc called for exactly this split
+/// so "intent to attend" and "actual outcome" don't collapse into one ambiguous
+/// field — and the coach-facing states (here/late/absent/excused) are richer
+/// than BookingStatus's attended/no_show.
+///
+/// markAttendance writes this row AND mirrors a coarse equivalent onto
+/// Booking.status in the same transaction, so the pre-existing /admin roster
+/// view keeps working. This record is the authoritative one.
+model AttendanceRecord {
+  id            String           @id @default(uuid())
+  bookingId     String           @unique @map("booking_id")
+  status        AttendanceStatus
+  checkedInAt   DateTime?        @map("checked_in_at")
+  recordedById  String?          @map("recorded_by_id")
+  recordedAt    DateTime         @default(now()) @map("recorded_at")
+  note          String?
+
+  booking    Booking    @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  recordedBy StaffUser? @relation(fields: [recordedById], references: [id])
+
+  @@map("attendance_records")
+}
+
+enum AttendanceStatus {
+  present
+  late
+  absent
+  excused
+}
+
+/// A coach's observation about one athlete.
+///
+/// visibility is the single most safety-critical field in the Coach App: it
+/// defaults to staff_private, and a note only becomes parent-visible when a
+/// coach deliberately marks it parent_shared. The Parent App reads ONLY
+/// parent_shared notes. There is no bulk "share all" path by design.
+model CoachNote {
+  id                 String         @id @default(uuid())
+  athleteId          String         @map("athlete_id")
+  staffUserId        String         @map("staff_user_id")
+  sessionId          String?        @map("session_id")
+  visibility         NoteVisibility @default(staff_private)
+  body               String
+  /// Quick tags (Ball Handling, Serving, Effort...) — sport-appropriate lists
+  /// live in lib/coach-tags.ts, kept out of the DB so they can change freely.
+  tags               String[]       @default([])
+  focus              String?
+  workingOn          String?        @map("working_on")
+  nextRecommendation String?        @map("next_recommendation")
+  createdAt          DateTime       @default(now()) @map("created_at")
+  updatedAt          DateTime       @updatedAt @map("updated_at")
+
+  athlete Athlete   @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  staff   StaffUser @relation(fields: [staffUserId], references: [id])
+
+  @@index([athleteId, createdAt])
+  @@map("coach_notes")
+}
+
+enum NoteVisibility {
+  staff_private
+  parent_shared
+}
+
+/// A note about the group/session rather than an individual. Never parent-facing.
+model SessionNote {
+  id          String   @id @default(uuid())
+  sessionId   String   @map("session_id")
+  staffUserId String   @map("staff_user_id")
+  body        String
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  session Session   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  staff   StaffUser @relation(fields: [staffUserId], references: [id])
+
+  @@map("session_notes")
+}
+
+/// A lightweight practice plan for one session — a short ordered list of
+/// timed blocks, not whiteboard software.
+model SessionPlan {
+  id          String   @id @default(uuid())
+  sessionId   String   @unique @map("session_id")
+  staffUserId String   @map("staff_user_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  session Session           @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  staff   StaffUser         @relation(fields: [staffUserId], references: [id])
+  items   SessionPlanItem[]
+
+  @@map("session_plans")
+}
+
+model SessionPlanItem {
+  id       String  @id @default(uuid())
+  planId   String  @map("plan_id")
+  position Int
+  minutes  Int
+  activity String
+  notes    String?
+
+  plan SessionPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@index([planId, position])
+  @@map("session_plan_items")
+}
+
+/// A reusable plan a head coach/admin approves for the whole staff (Phase 2
+/// coaching library). Normal coaches can apply one to their session but not
+/// create or edit approved templates.
+model PlanTemplate {
+  id          String   @id @default(uuid())
+  name        String
+  sport       String?
+  category    String?
+  createdById String   @map("created_by_id")
+  approved    Boolean  @default(false)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  createdBy StaffUser          @relation(fields: [createdById], references: [id])
+  items     PlanTemplateItem[]
+
+  @@map("plan_templates")
+}
+
+model PlanTemplateItem {
+  id         String  @id @default(uuid())
+  templateId String  @map("template_id")
+  position   Int
+  minutes    Int
+  activity   String
+  notes      String?
+
+  template PlanTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@index([templateId, position])
+  @@map("plan_template_items")
+}
+
+/// One coach's evaluation of one athlete for one league Program.
+///
+/// scores is Json rather than six columns because the category set is
+/// sport-specific (basketball scores ball handling; volleyball scores serving)
+/// and adding a sport shouldn't require a migration. The category definitions
+/// live in lib/evaluation-rubrics.ts. Unique per (program, athlete, coach) so
+/// several coaches can independently evaluate the same athlete and a head
+/// coach can see them combined.
+model Evaluation {
+  id               String   @id @default(uuid())
+  programId        String   @map("program_id")
+  athleteId        String   @map("athlete_id")
+  staffUserId      String   @map("staff_user_id")
+  sport            String
+  scores           Json     @default("{}")
+  notes            String?
+  recommendedLevel String?  @map("recommended_level")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  program Program   @relation(fields: [programId], references: [id], onDelete: Cascade)
+  athlete Athlete   @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  staff   StaffUser @relation(fields: [staffUserId], references: [id])
+
+  @@unique([programId, athleteId, staffUserId])
+  @@map("evaluations")
+}
+
+/// A parent's team-placement request ("would like to play with Drew").
+/// Surfaced during team building as a REQUEST — explicitly advisory, never
+/// auto-applied. Team assignment stays a human decision.
+model PlacementRequest {
+  id          String   @id @default(uuid())
+  programId   String   @map("program_id")
+  athleteId   String   @map("athlete_id")
+  requestText String   @map("request_text")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  program Program @relation(fields: [programId], references: [id], onDelete: Cascade)
+  athlete Athlete @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+
+  @@map("placement_requests")
+}
+
+/// Coach working availability. One table covers both shapes: a recurring
+/// weekly block (weekday set, specificDate null) and a one-off conflict
+/// (specificDate set, weekday null). Availability informs admin/head-coach
+/// scheduling — it does not let a coach create public programming.
+model CoachAvailability {
+  id           String             @id @default(uuid())
+  staffUserId  String             @map("staff_user_id")
+  weekday      Int?
+  specificDate DateTime?          @map("specific_date") @db.Date
+  startMinute  Int                @map("start_minute")
+  endMinute    Int                @map("end_minute")
+  status       AvailabilityStatus @default(available)
+  note         String?
+  createdAt    DateTime           @default(now()) @map("created_at")
+
+  staff StaffUser @relation(fields: [staffUserId], references: [id], onDelete: Cascade)
+
+  @@index([staffUserId])
+  @@map("coach_availability")
+}
+
+enum AvailabilityStatus {
+  available
+  preferred
+  unavailable
+}
+
+/// "I need coverage for this session." Raised by the assigned coach, resolved
+/// by a head coach/admin assigning a replacement — which adds a SessionCoach
+/// row with role=substitute rather than silently rewriting the original
+/// assignment, so the staffing history stays legible.
+model CoverageRequest {
+  id            String         @id @default(uuid())
+  sessionId     String         @map("session_id")
+  requestedById String         @map("requested_by_id")
+  reason        String?
+  status        CoverageStatus @default(open)
+  assignedToId  String?        @map("assigned_to_id")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  resolvedAt    DateTime?      @map("resolved_at")
+
+  session     Session    @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  requestedBy StaffUser  @relation("CoverageRequestedBy", fields: [requestedById], references: [id])
+  assignedTo  StaffUser? @relation("CoverageAssignedTo", fields: [assignedToId], references: [id])
+
+  @@index([status])
+  @@map("coverage_requests")
+}
+
+enum CoverageStatus {
+  open
+  assigned
+  cancelled
+}
+
+/// Internal incident record (injury / behavior / facility). Factual fields
+/// only — the form deliberately asks what happened and what was done, not for
+/// any diagnosis. Visible to the reporting coach and to admin/head coach for
+/// that sport; never to parents through the Parent App.
+model IncidentReport {
+  id                    String         @id @default(uuid())
+  sessionId             String?        @map("session_id")
+  athleteId             String?        @map("athlete_id")
+  reportedById          String         @map("reported_by_id")
+  occurredAt            DateTime       @map("occurred_at")
+  incidentType          IncidentType   @map("incident_type")
+  description           String
+  actionTaken           String         @map("action_taken")
+  parentNotified        Boolean        @default(false) @map("parent_notified")
+  adminFollowUpRequired Boolean        @default(false) @map("admin_follow_up_required")
+  status                IncidentStatus @default(open)
+  createdAt             DateTime       @default(now()) @map("created_at")
+
+  session    Session?  @relation(fields: [sessionId], references: [id])
+  athlete    Athlete?  @relation(fields: [athleteId], references: [id])
+  reportedBy StaffUser @relation(fields: [reportedById], references: [id])
+
+  @@index([status])
+  @@map("incident_reports")
+}
+
+enum IncidentType {
+  injury
+  behavior
+  facility
+  other
+}
+
+enum IncidentStatus {
+  open
+  under_review
+  closed
+}
+
+/// A message a coach sends to an operational group. Recipients are resolved to
+/// guardians at send time (CommunicationRecipient) — coaches address a session,
+/// team, program or family, never a phone number, and never a minor directly.
+/// The Parent App renders these; no personal contact details are exposed to
+/// coaches or between families.
+model Communication {
+  id          String             @id @default(uuid())
+  senderId    String             @map("sender_id")
+  scope       CommunicationScope
+  sessionId   String?            @map("session_id")
+  teamId      String?            @map("team_id")
+  programId   String?            @map("program_id")
+  familyId    String?            @map("family_id")
+  subject     String
+  body        String
+  sentAt      DateTime           @default(now()) @map("sent_at")
+
+  sender     StaffUser                @relation(fields: [senderId], references: [id])
+  session    Session?                 @relation(fields: [sessionId], references: [id])
+  team       Team?                    @relation(fields: [teamId], references: [id])
+  program    Program?                 @relation(fields: [programId], references: [id])
+  family     Family?                  @relation(fields: [familyId], references: [id])
+  recipients CommunicationRecipient[]
+
+  @@index([sentAt])
+  @@map("communications")
+}
+
+enum CommunicationScope {
+  session
+  team
+  program
+  family
+}
+
+/// Fan-out row: one per guardian who should see a Communication. Materialized
+/// at send time so the Parent App inbox is a simple indexed read, and so the
+/// recipient list is a permanent record of who was actually told what.
+model CommunicationRecipient {
+  id              String    @id @default(uuid())
+  communicationId String    @map("communication_id")
+  guardianId      String    @map("guardian_id")
+  readAt          DateTime? @map("read_at")
+
+  communication Communication @relation(fields: [communicationId], references: [id], onDelete: Cascade)
+  guardian      Guardian      @relation(fields: [guardianId], references: [id], onDelete: Cascade)
+
+  @@unique([communicationId, guardianId])
+  @@index([guardianId, readAt])
+  @@map("communication_recipients")
+}
+
+/// A sport- or program-wide notice from a head coach/admin. Broader and more
+/// persistent than a Communication (which targets one specific group), and
+/// surfaced in the Parent App to the families it applies to.
+model Announcement {
+  id          String    @id @default(uuid())
+  createdById String    @map("created_by_id")
+  sport       String?
+  programId   String?   @map("program_id")
+  teamId      String?   @map("team_id")
+  title       String
+  body        String
+  publishedAt DateTime  @default(now()) @map("published_at")
+  expiresAt   DateTime? @map("expires_at")
+
+  createdBy StaffUser @relation(fields: [createdById], references: [id])
+  program   Program?  @relation(fields: [programId], references: [id])
+  team      Team?     @relation(fields: [teamId], references: [id])
+
+  @@index([publishedAt])
+  @@map("announcements")
+}
+
+/// Operational flags only. The permitted set is intentionally narrow and
+/// non-stigmatizing — no health or behavioral labels live here; medical detail
+/// stays in Athlete.medicalNotes behind its own permission check, and anything
+/// incident-shaped belongs in IncidentReport.
+model AthleteFlag {
+  id          String          @id @default(uuid())
+  athleteId   String          @map("athlete_id")
+  flagType    AthleteFlagType @map("flag_type")
+  note        String?
+  createdById String          @map("created_by_id")
+  active      Boolean         @default(true)
+  createdAt   DateTime        @default(now()) @map("created_at")
+  resolvedAt  DateTime?       @map("resolved_at")
+
+  athlete   Athlete   @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  createdBy StaffUser @relation(fields: [createdById], references: [id])
+
+  @@index([athleteId, active])
+  @@map("athlete_flags")
+}
+
+enum AthleteFlagType {
+  new_athlete
+  first_session
+  needs_evaluation
+  parent_follow_up
+  attendance_concern
+}
+
+/// Manually recorded Guided Dr. Dish numbers.
+///
+/// These are typed in by the coach. There is NO Dr. Dish API integration in
+/// this codebase — nothing here is machine-reported, and no value is inferred
+/// or synthesized. If a real integration is added later it should populate
+/// these same fields and set a source field, not a parallel table.
+model DrDishLog {
+  id          String   @id @default(uuid())
+  sessionId   String   @map("session_id")
+  athleteId   String   @map("athlete_id")
+  staffUserId String   @map("staff_user_id")
+  workout     String?
+  makes       Int?
+  attempts    Int?
+  focus       String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  session Session   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  athlete Athlete   @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  staff   StaffUser @relation(fields: [staffUserId], references: [id])
+
+  @@unique([sessionId, athleteId])
+  @@map("dr_dish_logs")
+}
+
+/// Append-only trail for sensitive staff actions — viewing emergency contacts
+/// or medical notes, sharing a note with a parent, changing team assignments,
+/// resolving coverage, filing an incident. Written by lib/audit.ts.
+model AuditLog {
+  id          String   @id @default(uuid())
+  staffUserId String   @map("staff_user_id")
+  action      String
+  entityType  String   @map("entity_type")
+  entityId    String?  @map("entity_id")
+  metadata    Json?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  staff StaffUser @relation(fields: [staffUserId], references: [id])
+
+  @@index([staffUserId, createdAt])
+  @@index([entityType, entityId])
+  @@map("audit_logs")
 }
