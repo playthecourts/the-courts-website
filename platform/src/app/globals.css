@@ -15,6 +15,21 @@
   --color-orange-hover: #B94700;
   --color-orange-press: #B94700;
 
+  /* Semantic status. Orange is the BRAND, not a status — these carry meaning
+     so that "needs attention" never has to compete with "this nav item is
+     selected" for the same colour. Every one is paired with an icon/label in
+     the UI so status is never communicated by colour alone. */
+  --color-success: #1D7A4C;
+  --color-success-bg: #E8F4ED;
+  --color-warning: #9A6207;
+  --color-warning-bg: #FCF3E3;
+  --color-danger: #B3261E;
+  --color-danger-bg: #FBEAE9;
+  --color-info: #1F5F8B;
+  --color-info-bg: #E9F1F7;
+  --color-neutral: #55524E;
+  --color-neutral-bg: #EFECE8;
+
   --background: var(--color-white);
   --foreground: var(--color-black);
 }
@@ -34,6 +49,16 @@
   --color-orange: var(--color-orange);
   --color-orange-hover: var(--color-orange-hover);
   --color-orange-press: var(--color-orange-press);
+  --color-success: var(--color-success);
+  --color-success-bg: var(--color-success-bg);
+  --color-warning: var(--color-warning);
+  --color-warning-bg: var(--color-warning-bg);
+  --color-danger: var(--color-danger);
+  --color-danger-bg: var(--color-danger-bg);
+  --color-info: var(--color-info);
+  --color-info-bg: var(--color-info-bg);
+  --color-neutral: var(--color-neutral);
+  --color-neutral-bg: var(--color-neutral-bg);
 
   --font-display: var(--font-archivo-black), var(--font-archivo), sans-serif;
   --font-heading: var(--font-archivo), sans-serif;
@@ -45,4 +70,51 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-body);
+}
+
+/* --- Courts OS ---------------------------------------------------------- */
+
+/* Respect the OS-level reduced-motion preference everywhere, once. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Visible focus everywhere. Never removed, only restyled. */
+.os :focus-visible,
+.os-focus:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Eyebrow / label treatment: Barlow Condensed, per the brand spec. */
+.os-eyebrow {
+  font-family: var(--font-sport);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.6875rem;
+  line-height: 1;
+}
+
+.os-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.os-heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+/* Tabular numerals so counts and money line up in columns. */
+.os-num {
+  font-variant-numeric: tabular-nums;
 }

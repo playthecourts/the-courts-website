@@ -1,4 +1,5 @@
 import { bookSession, cancelBooking, cancelWaitlistEntry } from "@/app/my-courts/actions";
+import { ConfirmSubmitButton } from "./confirm-submit-button";
 import type { BookingEligibility } from "@/lib/entitlements";
 
 function formatPrice(cents: number | null) {
@@ -50,9 +51,13 @@ export function SessionBookingRow({
       {bookingId ? (
         <form action={cancelBooking.bind(null, bookingId)} className="flex items-center gap-3">
           <span className="font-sport text-xs font-bold uppercase tracking-wide text-orange">You&rsquo;re In</span>
-          <button type="submit" className="font-body text-xs text-gray-dark underline">
+          <ConfirmSubmitButton
+            confirmMessage={`Cancel ${athleteName}'s spot in this session?`}
+            ariaLabel={`Cancel ${athleteName}'s booking`}
+            className="font-body text-xs text-gray-dark underline"
+          >
             Cancel
-          </button>
+          </ConfirmSubmitButton>
         </form>
       ) : waitlistEntryId ? (
         <form
@@ -62,15 +67,20 @@ export function SessionBookingRow({
           <span className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">
             {waitlistPosition ? `#${waitlistPosition} on the Waitlist` : "Waitlisted"}
           </span>
-          <button type="submit" className="font-body text-xs text-gray-dark underline">
+          <ConfirmSubmitButton
+            confirmMessage={`Take ${athleteName} off the waitlist for this session?`}
+            ariaLabel={`Remove ${athleteName} from the waitlist`}
+            className="font-body text-xs text-gray-dark underline"
+          >
             Leave Waitlist
-          </button>
+          </ConfirmSubmitButton>
         </form>
       ) : (
         <form action={bookSession.bind(null, athleteId, sessionId)} className="flex items-center gap-3">
           {eligibility && !isFull && <EligibilityLabel eligibility={eligibility} />}
           <button
             type="submit"
+            aria-label={`${isFull ? "Join waitlist" : "Book"} for ${athleteName}`}
             className="min-h-[36px] rounded-full bg-black px-4 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange"
           >
             {isFull ? "Join Waitlist" : "Book"}

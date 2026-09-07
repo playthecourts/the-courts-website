@@ -186,25 +186,25 @@ export function programScope(actor: CoachActor): Prisma.ProgramWhereInput {
 //
 // Every one of these composes the scope filter above with the requested id and
 // asks the database. If the row doesn't come back inside the actor's scope,
-// access is denied. They all throw CoachAccessError, which the /coach error
-// boundary renders as a plain "you don't have access" screen — the same
-// response whether the record is out of scope or doesn't exist, so a coach
-// can't probe for the existence of another sport's data.
+// access is denied.
 // ---------------------------------------------------------------------------
 
-export class CoachAccessError extends Error {
-  constructor(message = "You don't have access to that.") {
-    super(message);
-    this.name = "CoachAccessError";
-  }
-}
-
+/**
+ * Every denial lands on the same branded screen via redirect(), whether the
+ * record is out of scope or simply doesn't exist. Two reasons for one shared
+ * outcome: a coach can't probe for the existence of another sport's data by
+ * comparing responses, and the deny is a real server-side navigation that's
+ * trivial to verify in QA (scenario 20) rather than a silently empty page.
+ *
+ * redirect() works identically in Server Components and Server Actions, so
+ * the same assertion guards both the page render and the action behind it.
+ */
 export async function assertSessionAccess(actor: CoachActor, sessionId: string) {
   const found = await prisma.session.findFirst({
     where: { AND: [{ id: sessionId }, sessionScope(actor)] },
     select: { id: true },
   });
-  if (!found) throw new CoachAccessError();
+  if (!found) redirect("/coach/no-access");
   return sessionId;
 }
 
@@ -213,7 +213,7 @@ export async function assertAthleteAccess(actor: CoachActor, athleteId: string) 
     where: { AND: [{ id: athleteId }, athleteScope(actor)] },
     select: { id: true },
   });
-  if (!found) throw new CoachAccessError();
+  if (!found) redirect("/coach/no-access");
   return athleteId;
 }
 
@@ -222,7 +222,7 @@ export async function assertTeamAccess(actor: CoachActor, teamId: string) {
     where: { AND: [{ id: teamId }, teamScope(actor)] },
     select: { id: true },
   });
-  if (!found) throw new CoachAccessError();
+  if (!found) redirect("/coach/no-access");
   return teamId;
 }
 
@@ -231,8 +231,17 @@ export async function assertProgramAccess(actor: CoachActor, programId: string) 
     where: { AND: [{ id: programId }, programScope(actor)] },
     select: { id: true },
   });
-  if (!found) throw new CoachAccessError();
+  if (!found) redirect("/coach/no-access");
   return programId;
+}
+
+/** Capability denial (e.g. a plain coach trying a head-coach-only action). */
+export function denyUnlessLeadership(actor: CoachActor) {
+  if (!isLeadership(actor)) redirect("/coach/no-access");
+}
+
+export function denyUnlessManagesSport(actor: CoachActor, sport: string | null) {
+  if (!canManageSport(actor, sport)) redirect("/coach/no-access");
 }
 
 // ---------------------------------------------------------------------------

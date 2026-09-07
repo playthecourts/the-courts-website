@@ -43,6 +43,8 @@ model Family {
   athletes     Athlete[]
   reservations ResourceReservation[]
   communications Communication[]
+  leads          Lead[]
+  tasks          Task[]
 
   @@map("families")
 }
@@ -88,6 +90,7 @@ model Athlete {
   incidentReports  IncidentReport[]
   drDishLogs       DrDishLog[]
   placementRequest PlacementRequest[]
+  registrations    Registration[]
 
   @@map("athletes")
 }
@@ -128,17 +131,32 @@ model StaffUser {
   athleteFlagsCreated  AthleteFlag[]
   drDishLogs           DrDishLog[]
   auditLogs            AuditLog[]
+  creditLedgerEntries  CreditLedgerEntry[]
+  registrationsCreated Registration[]
+  leadsOwned           Lead[]              @relation("LeadOwner")
+  leadActivities       LeadActivity[]
+  promoCodesCreated    PromoCode[]
+  facilityBlocks       FacilityBlock[]
+  tasksCreated         Task[]              @relation("TaskCreatedBy")
+  tasksAssigned        Task[]              @relation("TaskAssignedTo")
+  contentBlocks        ContentBlock[]
 
   @@map("staff_users")
 }
 
 enum StaffRole {
+  /// Owner / super admin. Full access to everything including business financials.
+  owner
   admin
   front_desk
   coach
   /// Sport-level operational lead (Head of Basketball / Head of Volleyball).
   /// Scoped by StaffUser.sports — deliberately NOT automatic access to every sport.
   head_coach
+  /// Content + featured programming only. No athlete PII, no financials.
+  marketing
+  /// Read-only access to revenue reporting. No operational write access.
+  finance_viewer
 }
 
 /// Catalog entry — what's offered, not when. coach_id is deliberately not
@@ -155,13 +173,58 @@ enum StaffRole {
 model Program {
   id               String      @id @default(uuid())
   name             String
+  /// Staff-facing name, when the public name isn't operationally clear
+  /// ("Fall 26 BB League – 3/4 Boys" vs. "Fall Basketball League").
+  internalName     String?     @map("internal_name")
   programType      ProgramType @map("program_type")
   sport            String?
   description      String?
   priceCents       Int?        @map("price_cents")
   memberPriceCents Int?        @map("member_price_cents")
+  /// Kept for backwards compatibility with the existing Parent App queries,
+  /// which filter on `active`. `status` is the real lifecycle field for
+  /// Courts OS; publishProgram() keeps the two in sync rather than leaving
+  /// the old surface reading a field nobody maintains.
   active           Boolean     @default(true)
-  createdAt        DateTime    @default(now()) @map("created_at")
+  status           ProgramStatus @default(draft)
+
+  // --- Eligibility (progressive disclosure: not every type shows these) ---
+  gradeMin         Int?        @map("grade_min")
+  gradeMax         Int?        @map("grade_max")
+  ageMin           Int?        @map("age_min")
+  ageMax           Int?        @map("age_max")
+  /// "any" | "boys" | "girls" — free text rather than an enum so a program
+  /// can be described the way The Courts actually markets it.
+  gender           String?
+  skillLevel       String?     @map("skill_level")
+
+  // --- Capacity + registration window ---
+  defaultCapacity  Int?        @map("default_capacity")
+  waitlistEnabled  Boolean     @default(true) @map("waitlist_enabled")
+  registrationOpensAt  DateTime? @map("registration_opens_at")
+  registrationClosesAt DateTime? @map("registration_closes_at")
+
+  // --- Publish targets. "Create once, publish everywhere" is enforced by
+  // these three flags being read by each surface, not by copying rows. ---
+  visibleParentApp Boolean     @default(true) @map("visible_parent_app")
+  visibleWebsite   Boolean     @default(false) @map("visible_website")
+  visibleCoachApp  Boolean     @default(true) @map("visible_coach_app")
+
+  // --- Stripe. The Price is authored in Stripe; we only hold the pointer. ---
+  stripePriceId       String?  @map("stripe_price_id")
+  stripeMemberPriceId String?  @map("stripe_member_price_id")
+
+  imageUrl           String?   @map("image_url")
+  cancellationPolicy String?   @map("cancellation_policy")
+  /// League lifecycle stage. Null for every non-league program type.
+  leagueStage        LeagueStage? @map("league_stage")
+  seasonLabel        String?   @map("season_label")
+  /// Set when duplicated, so "Clone Season" keeps a legible lineage.
+  duplicatedFromId   String?   @map("duplicated_from_id")
+  publishedAt        DateTime? @map("published_at")
+  archivedAt         DateTime? @map("archived_at")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @default(now()) @updatedAt @map("updated_at")
 
   sessions     Session[]
   entitlements PlanEntitlement[]
@@ -170,8 +233,38 @@ model Program {
   placementRequests PlacementRequest[]
   communications Communication[]
   announcements  Announcement[]
+  registrations Registration[]
+  promoCodes    PromoCode[]
+  credits       Credit[]
+  requiredWaivers ProgramWaiver[]
+  tasks         Task[]
+  duplicatedFrom Program?  @relation("ProgramLineage", fields: [duplicatedFromId], references: [id])
+  duplicates     Program[] @relation("ProgramLineage")
 
+  @@index([status])
+  @@index([programType, status])
   @@map("programs")
+}
+
+enum ProgramStatus {
+  draft
+  published
+  /// Registration closed, program still running.
+  closed
+  completed
+  cancelled
+  archived
+}
+
+enum LeagueStage {
+  interest
+  evaluation
+  evaluation_complete
+  registration
+  team_placement
+  season
+  tournament
+  complete
 }
 
 enum ProgramType {
@@ -241,9 +334,15 @@ model Booking {
   priceChargedCents  Int?          @map("price_charged_cents")
   bookedAt           DateTime      @default(now()) @map("booked_at")
 
+  /// The master Registration this seat belongs to, for programs registered
+  /// at the program level (camps, leagues, multi-week clinics). Null for a
+  /// drop-in class booking, which IS its own registration.
+  registrationId     String?       @map("registration_id")
+
   session          Session           @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   athlete          Athlete           @relation(fields: [athleteId], references: [id], onDelete: Cascade)
   bookedByGuardian Guardian?         @relation(fields: [bookedByGuardianId], references: [id])
+  registration     Registration?     @relation(fields: [registrationId], references: [id])
   attendance       AttendanceRecord?
 
   // One active-or-historical booking per athlete per session — re-booking
@@ -380,9 +479,51 @@ model Credit {
   expiresAt  DateTime? @map("expires_at")
   createdAt  DateTime  @default(now()) @map("created_at")
 
-  athlete Athlete @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  /// Monetary credits (e.g. the $25 Fall League evaluation credit) carry a
+  /// value and the program they may be redeemed against. Session-pack credits
+  /// leave these null and use `balance` as a count instead.
+  valueCents        Int?    @map("value_cents")
+  eligibleProgramId String? @map("eligible_program_id")
+  status            CreditStatus @default(issued)
+  /// Set when this credit was consumed, so the ledger never silently changes.
+  redeemedAt        DateTime? @map("redeemed_at")
 
+  athlete Athlete  @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  eligibleProgram Program? @relation(fields: [eligibleProgramId], references: [id])
+  ledgerEntries CreditLedgerEntry[]
+
+  @@index([athleteId, status])
   @@map("credits")
+}
+
+enum CreditStatus {
+  issued
+  used
+  expired
+  cancelled
+}
+
+/// Every change to a Credit balance, appended — never an in-place edit.
+/// "Never silently change balances" is a stated requirement, so the balance
+/// column is the cached head of this ledger and every mutation writes a row
+/// here recording who, when and why.
+model CreditLedgerEntry {
+  id           String   @id @default(uuid())
+  creditId     String   @map("credit_id")
+  /// Signed. +4 when a plan issues sessions, -1 when one is consumed.
+  delta        Int
+  balanceAfter Int      @map("balance_after")
+  reason       String
+  /// Null when the system issued/consumed it automatically.
+  staffUserId  String?  @map("staff_user_id")
+  sessionId    String?  @map("session_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  credit Credit     @relation(fields: [creditId], references: [id], onDelete: Cascade)
+  staff  StaffUser? @relation(fields: [staffUserId], references: [id])
+
+  @@index([creditId, createdAt])
+  @@map("credit_ledger_entries")
 }
 
 /// A roster within a league Program, formed after evaluations. No
@@ -431,8 +572,14 @@ model Resource {
   active       Boolean  @default(true)
   createdAt    DateTime @default(now()) @map("created_at")
 
+  /// Optional sport affinity, so the facility view can group Court 1/2 vs.
+  /// a volleyball-only resource. Null means "usable by anything".
+  sport        String?
+  sortOrder    Int      @default(0) @map("sort_order")
+
   sessions     Session[]
   reservations ResourceReservation[]
+  blocks       FacilityBlock[]
 
   @@map("resources")
 }
@@ -478,6 +625,7 @@ model Waiver {
   createdAt     DateTime    @default(now()) @map("created_at")
 
   signatures WaiverSignature[]
+  programs   ProgramWaiver[]
 
   @@map("waivers")
 }
@@ -988,4 +1136,307 @@ model AuditLog {
   @@index([staffUserId, createdAt])
   @@index([entityType, entityId])
   @@map("audit_logs")
+}
+
+// ===========================================================================
+// COURTS OS
+//
+// Everything below is the operational control layer. It deliberately adds to
+// the existing model rather than shadowing it: a Registration points at the
+// same Program the Parent App renders and the same Athlete the Coach App sees.
+// There is no second copy of a family, program, session or roster anywhere.
+// ===========================================================================
+
+/// The master record of "this athlete is signed up for this program".
+///
+/// This is the missing middle layer the old schema lacked. A Booking is a seat
+/// in ONE session; for a camp, league or multi-week clinic a family registers
+/// once at the program level and then occupies many session seats. Registration
+/// is that once — it owns the money, the paperwork and the status, and the
+/// Bookings hang off it for attendance. For a drop-in class the Registration
+/// and the single Booking are created together.
+model Registration {
+  id         String             @id @default(uuid())
+  programId  String             @map("program_id")
+  athleteId  String             @map("athlete_id")
+  status     RegistrationStatus @default(started)
+  paymentStatus PaymentStatus   @default(none) @map("payment_status")
+
+  /// What the family was actually charged, after member pricing/promo. Held
+  /// here because Stripe is the source of truth for the payment but not for
+  /// "which registration was this for".
+  amountCents      Int?    @map("amount_cents")
+  /// Pointers only — never card data, never a cached Stripe object.
+  stripeCheckoutSessionId String? @unique @map("stripe_checkout_session_id")
+  stripePaymentIntentId   String? @unique @map("stripe_payment_intent_id")
+  promoCodeId       String? @map("promo_code_id")
+  creditAppliedCents Int?   @map("credit_applied_cents")
+
+  /// Registration question answers, keyed by question id.
+  formResponses Json?     @map("form_responses")
+  /// Denormalized "all required waivers signed" flag, recomputed on read in
+  /// the registration detail view; stored so list views don't N+1.
+  waiversComplete Boolean @default(false) @map("waivers_complete")
+
+  /// Set when an admin registered this athlete manually rather than the
+  /// family self-serving, so the audit story is legible.
+  createdByStaffId String? @map("created_by_staff_id")
+  adminNote        String? @map("admin_note")
+
+  registeredAt DateTime  @default(now()) @map("registered_at")
+  cancelledAt  DateTime? @map("cancelled_at")
+  updatedAt    DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  program        Program    @relation(fields: [programId], references: [id], onDelete: Cascade)
+  athlete        Athlete    @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  createdByStaff StaffUser? @relation(fields: [createdByStaffId], references: [id])
+  promoCode      PromoCode? @relation(fields: [promoCodeId], references: [id])
+  bookings       Booking[]
+
+  /// One registration per athlete per program. Re-registering after a
+  /// cancellation updates this row, which is also what stops a double-click
+  /// on Checkout from producing two registrations.
+  @@unique([programId, athleteId])
+  @@index([status])
+  @@index([paymentStatus])
+  @@map("registrations")
+}
+
+/// Deliberately short. Every extra status is one more thing an admin has to
+/// interpret at 5pm with a gym full of kids.
+enum RegistrationStatus {
+  /// Family opened the flow, hasn't finished.
+  started
+  /// Finished the form but something is outstanding (waiver, payment info).
+  incomplete
+  registered
+  waitlisted
+  cancelled
+  /// Needs a human: eligibility question, duplicate, disputed payment.
+  admin_review
+}
+
+enum PaymentStatus {
+  /// Free program, or nothing owed.
+  none
+  due
+  pending
+  paid
+  failed
+  refunded
+  partially_refunded
+}
+
+/// Lightweight CRM. Explicitly NOT a general sales tool — it tracks people who
+/// showed interest in The Courts and whether they converted, nothing more.
+model Lead {
+  id        String     @id @default(uuid())
+  name      String
+  email     String?
+  phone     String?
+  source    LeadSource @default(other)
+  stage     LeadStage  @default(new)
+  sport     String?
+  /// Free text: "3rd grade son, asked about Tuesday group training".
+  interest  String?
+  notes     String?
+  /// Set once the lead becomes a real family, linking pipeline to outcome.
+  familyId  String?    @map("family_id")
+  ownerId   String?    @map("owner_id")
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @default(now()) @updatedAt @map("updated_at")
+  convertedAt DateTime? @map("converted_at")
+
+  family     Family?        @relation(fields: [familyId], references: [id])
+  owner      StaffUser?     @relation("LeadOwner", fields: [ownerId], references: [id])
+  activities LeadActivity[]
+
+  @@index([stage])
+  @@index([source])
+  @@map("leads")
+}
+
+enum LeadSource {
+  website
+  parent_referral
+  coach_referral
+  walk_in
+  social
+  nextgen_rollover
+  camp
+  league_evaluation
+  event
+  rental
+  other
+}
+
+enum LeadStage {
+  new
+  contacted
+  trial
+  attended
+  follow_up
+  converted
+  not_now
+}
+
+model LeadActivity {
+  id          String   @id @default(uuid())
+  leadId      String   @map("lead_id")
+  staffUserId String?  @map("staff_user_id")
+  note        String
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  lead  Lead       @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  staff StaffUser? @relation(fields: [staffUserId], references: [id])
+
+  @@index([leadId, createdAt])
+  @@map("lead_activities")
+}
+
+/// A discount The Courts issued. The authoritative coupon lives in Stripe when
+/// one is attached (stripePromotionCodeId); this row is the operational view —
+/// who it went to, what it's for, whether it's been used.
+model PromoCode {
+  id          String      @id @default(uuid())
+  code        String      @unique
+  label       String
+  /// Exactly one of these is set.
+  amountOffCents Int?     @map("amount_off_cents")
+  percentOff     Int?     @map("percent_off")
+  status      PromoStatus @default(issued)
+  /// Restricts redemption to one program (e.g. an evaluation credit that is
+  /// only good against the Fall League).
+  eligibleProgramId String? @map("eligible_program_id")
+  source      String?
+  maxRedemptions Int?     @map("max_redemptions")
+  timesRedeemed  Int      @default(0) @map("times_redeemed")
+  expiresAt   DateTime?   @map("expires_at")
+  stripePromotionCodeId String? @unique @map("stripe_promotion_code_id")
+  stripeCouponId        String? @map("stripe_coupon_id")
+  createdById String?     @map("created_by_id")
+  createdAt   DateTime    @default(now()) @map("created_at")
+
+  eligibleProgram Program?   @relation(fields: [eligibleProgramId], references: [id])
+  createdBy       StaffUser? @relation(fields: [createdById], references: [id])
+  registrations   Registration[]
+
+  @@index([status])
+  @@map("promo_codes")
+}
+
+enum PromoStatus {
+  issued
+  used
+  expired
+  cancelled
+}
+
+/// Facility unavailability that is not a booking — maintenance, a holiday, an
+/// owner block. Checked by the same conflict logic that guards double-booking,
+/// so a blocked court cannot take a new session.
+model FacilityBlock {
+  id         String  @id @default(uuid())
+  /// Null means the WHOLE facility is blocked (holiday, snow closure).
+  resourceId String? @map("resource_id")
+  startTime  DateTime @map("start_time")
+  endTime    DateTime @map("end_time")
+  reason     FacilityBlockReason
+  note       String?
+  createdById String? @map("created_by_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  resource  Resource?  @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  createdBy StaffUser? @relation(fields: [createdById], references: [id])
+
+  @@index([startTime, endTime])
+  @@map("facility_blocks")
+}
+
+enum FacilityBlockReason {
+  maintenance
+  private_event
+  holiday
+  repair
+  owner_block
+  other
+}
+
+/// Deliberately minimal — a follow-up list, not project management. It has no
+/// projects, no subtasks, no dependencies, and that is the point.
+model Task {
+  id          String     @id @default(uuid())
+  title       String
+  detail      String?
+  status      TaskStatus @default(open)
+  dueDate     DateTime?  @map("due_date") @db.Date
+  assignedToId String?   @map("assigned_to_id")
+  createdById  String?   @map("created_by_id")
+
+  /// Optional anchors. A task can hang off whatever it is actually about.
+  familyId    String?    @map("family_id")
+  programId   String?    @map("program_id")
+
+  createdAt   DateTime   @default(now()) @map("created_at")
+  completedAt DateTime?  @map("completed_at")
+
+  assignedTo StaffUser? @relation("TaskAssignedTo", fields: [assignedToId], references: [id])
+  createdBy  StaffUser? @relation("TaskCreatedBy", fields: [createdById], references: [id])
+  family     Family?    @relation(fields: [familyId], references: [id])
+  program    Program?   @relation(fields: [programId], references: [id])
+
+  @@index([status, dueDate])
+  @@map("tasks")
+}
+
+enum TaskStatus {
+  open
+  done
+  cancelled
+}
+
+/// Frequently-changing marketing content, editable without a deploy. Slot-based
+/// rather than a general CMS: there is a fixed set of places on the website and
+/// in the apps whose copy changes weekly, and this covers exactly those.
+model ContentBlock {
+  id          String       @id @default(uuid())
+  slot        ContentSlot  @unique
+  enabled     Boolean      @default(false)
+  headline    String?
+  body        String?
+  linkLabel   String?      @map("link_label")
+  linkUrl     String?      @map("link_url")
+  /// For the "featured program" slots.
+  programId   String?      @map("program_id")
+  updatedById String?      @map("updated_by_id")
+  updatedAt   DateTime     @default(now()) @updatedAt @map("updated_at")
+
+  updatedBy StaffUser? @relation(fields: [updatedById], references: [id])
+
+  @@map("content_blocks")
+}
+
+enum ContentSlot {
+  announcement_bar
+  homepage_featured_program
+  featured_camp
+  featured_league
+  featured_event
+  emergency_closure
+  this_week_at_the_courts
+  parent_app_announcement
+  coach_app_announcement
+}
+
+/// Which waivers a program requires. A join table rather than an array column
+/// so the registration flow can check completion with a real query.
+model ProgramWaiver {
+  programId String @map("program_id")
+  waiverId  String @map("waiver_id")
+
+  program Program @relation(fields: [programId], references: [id], onDelete: Cascade)
+  waiver  Waiver  @relation(fields: [waiverId], references: [id], onDelete: Cascade)
+
+  @@id([programId, waiverId])
+  @@map("program_waivers")
 }
