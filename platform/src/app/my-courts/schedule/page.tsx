@@ -72,9 +72,18 @@ export default async function MyCourtsSchedulePage() {
                       <span className="font-heading font-bold text-black">{booking.session.program.name}</span>
                       <span className="ml-2 font-body text-sm text-gray-dark">{booking.athlete.firstName}</span>
                     </div>
-                    <span className="font-body text-sm text-gray-dark">
-                      {formatTime(booking.session.startTime)}–{formatTime(booking.session.endTime)}
-                    </span>
+                    <div className="flex items-center gap-3">
+                      <span className="font-body text-sm text-gray-dark">
+                        {formatTime(booking.session.startTime)}–{formatTime(booking.session.endTime)}
+                      </span>
+                      <a
+                        href={`/my-courts/calendar/${booking.id}`}
+                        className="font-sport text-[10px] font-bold uppercase tracking-wide text-orange"
+                        title="Add to Calendar"
+                      >
+                        + Cal
+                      </a>
+                    </div>
                   </div>
                 ))}
               </div>

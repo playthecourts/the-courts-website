@@ -184,6 +184,11 @@ model Booking {
   athleteId          String        @map("athlete_id")
   bookedByGuardianId String?       @map("booked_by_guardian_id")
   status             BookingStatus @default(booked)
+  /// Attendance intent for team practices/games (league sessions with a
+  /// teamId) — separate from `status`, which tracks the seat itself.
+  /// Null means "no response yet"; left off drop-in class bookings, where
+  /// an RSVP prompt wouldn't make sense.
+  rsvpStatus         RsvpStatus?   @map("rsvp_status")
   priceChargedCents  Int?          @map("price_charged_cents")
   bookedAt           DateTime      @default(now()) @map("booked_at")
 
@@ -195,6 +200,12 @@ model Booking {
   // after a cancellation updates this row rather than creating a new one.
   @@unique([sessionId, athleteId])
   @@map("bookings")
+}
+
+enum RsvpStatus {
+  going
+  not_going
+  not_sure
 }
 
 enum BookingStatus {

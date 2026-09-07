@@ -204,6 +204,7 @@ export default async function ExplorePage({
                         sessionId={session.id}
                         bookingId={booking?.id ?? null}
                         waitlistEntryId={waitlistEntry?.id ?? null}
+                        waitlistPosition={waitlistEntry?.position ?? null}
                         isFull={isFull}
                         eligibility={eligibility}
                       />

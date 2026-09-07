@@ -129,12 +129,20 @@ export default async function MyCourtsHomePage() {
             {nextUp.session.resource && (
               <p className="font-body text-sm text-gray-dark">{nextUp.session.resource.name}</p>
             )}
-            <Link
-              href="/my-courts/schedule"
-              className="mt-3 inline-block font-sport text-xs font-bold uppercase tracking-wide text-orange"
-            >
-              View Details &rarr;
-            </Link>
+            <div className="mt-3 flex items-center gap-4">
+              <Link
+                href="/my-courts/schedule"
+                className="font-sport text-xs font-bold uppercase tracking-wide text-orange"
+              >
+                View Details &rarr;
+              </Link>
+              <a
+                href={`/my-courts/calendar/${nextUp.id}`}
+                className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark hover:text-orange"
+              >
+                Add to Calendar
+              </a>
+            </div>
           </div>
         ) : (
           <div className="rounded-lg border border-gray-mid bg-white p-5">

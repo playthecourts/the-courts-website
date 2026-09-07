@@ -30,6 +30,7 @@ export function SessionBookingRow({
   sessionId,
   bookingId,
   waitlistEntryId,
+  waitlistPosition,
   isFull,
   eligibility,
 }: {
@@ -38,6 +39,7 @@ export function SessionBookingRow({
   sessionId: string;
   bookingId: string | null;
   waitlistEntryId: string | null;
+  waitlistPosition: number | null;
   isFull: boolean;
   eligibility: BookingEligibility | null;
 }) {
@@ -57,7 +59,9 @@ export function SessionBookingRow({
           action={cancelWaitlistEntry.bind(null, waitlistEntryId, athleteId)}
           className="flex items-center gap-3"
         >
-          <span className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">Waitlisted</span>
+          <span className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">
+            {waitlistPosition ? `#${waitlistPosition} on the Waitlist` : "Waitlisted"}
+          </span>
           <button type="submit" className="font-body text-xs text-gray-dark underline">
             Leave Waitlist
           </button>

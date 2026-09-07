@@ -1,5 +1,6 @@
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
+import { RsvpButtons } from "./rsvp-buttons";
 
 function formatSessionTime(date: Date) {
   return new Intl.DateTimeFormat("en-US", {
@@ -32,7 +33,11 @@ export default async function LeaguePage() {
         team: {
           include: {
             program: true,
-            sessions: { where: { startTime: { gte: new Date() } }, orderBy: { startTime: "asc" } },
+            sessions: {
+              where: { startTime: { gte: new Date() } },
+              orderBy: { startTime: "asc" },
+              include: { bookings: { where: { athleteId: { in: athleteIds } } } },
+            },
           },
         },
       },
@@ -92,12 +97,16 @@ export default async function LeaguePage() {
             {upcomingTeamSessions.length > 0 && (
               <div className="mt-4 border-t border-gray-mid pt-4">
                 <p className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">Upcoming</p>
-                <div className="flex flex-col gap-2">
-                  {upcomingTeamSessions.map((s) => (
-                    <div key={s.id} className="flex items-center justify-between">
-                      <span className="font-body text-sm text-black">{formatSessionTime(s.startTime)}</span>
-                    </div>
-                  ))}
+                <div className="flex flex-col gap-3">
+                  {upcomingTeamSessions.map((s) => {
+                    const booking = s.bookings.find((b) => b.athleteId === athlete.id);
+                    return (
+                      <div key={s.id} className="flex flex-col gap-1.5">
+                        <span className="font-body text-sm text-black">{formatSessionTime(s.startTime)}</span>
+                        {booking && <RsvpButtons bookingId={booking.id} current={booking.rsvpStatus} />}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}

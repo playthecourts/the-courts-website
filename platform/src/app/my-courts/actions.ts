@@ -49,3 +49,19 @@ export async function cancelWaitlistEntry(waitlistEntryId: string, athleteId: st
   await cancelWaitlistEntryById(waitlistEntryId);
   revalidatePath("/my-courts/bookings");
 }
+
+export async function setRsvp(bookingId: string, rsvpStatus: "going" | "not_going" | "not_sure") {
+  const guardian = await getCurrentGuardian();
+  const booking = await prisma.booking.findUniqueOrThrow({ where: { id: bookingId }, include: { athlete: true } });
+
+  const ownsAthlete = guardian.families.some((fg) =>
+    fg.family.athletes.some((a) => a.id === booking.athlete.id)
+  );
+  if (!ownsAthlete) {
+    throw new Error("Not authorized to act on this booking.");
+  }
+
+  await prisma.booking.update({ where: { id: bookingId }, data: { rsvpStatus } });
+  revalidatePath("/my-courts/league");
+  revalidatePath("/my-courts/schedule");
+}
