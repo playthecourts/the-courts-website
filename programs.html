@@ -106,8 +106,12 @@
   .way-link .arrow { color: var(--orange); transition: transform 0.2s var(--ease); }
   .way-tile:hover .way-link .arrow { transform: translateX(4px); }
   .way--private { grid-column: span 7; min-height: 340px; }
+  .way--private .photo-bg img { filter: brightness(1.3); }
+  .way--private .photo-bg::after { background: linear-gradient(180deg, rgba(23,23,23,0) 0%, rgba(23,23,23,0.12) 30%, rgba(23,23,23,0.42) 58%, rgba(23,23,23,0.88) 100%); }
   .way--camps { grid-column: span 5; min-height: 340px; }
   .way--leagues { grid-column: span 7; }
+  .way--leagues .photo-bg img { filter: brightness(1.3); }
+  .way--leagues .photo-bg::after { background: linear-gradient(180deg, rgba(23,23,23,0) 0%, rgba(23,23,23,0.12) 30%, rgba(23,23,23,0.42) 58%, rgba(23,23,23,0.88) 100%); }
   .way--drdish { grid-column: span 5; min-height: 270px; }
   .way--drdish { background: var(--black); }
   .way--drdish .way-copy { color: rgba(255,255,255,0.65); }
