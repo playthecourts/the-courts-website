@@ -16,9 +16,20 @@ type SessionLike = {
     name: string;
     sport: string | null;
     programType: string;
+  };
+  /// The season this occurrence belongs to. Carries the name a coach or admin
+  /// recognises and the grade band, both of which are per-season — the same
+  /// program runs 3rd–5th one season and 6th–8th the next. Null only for
+  /// pre-Offering rows.
+  offering?: {
+    id: string;
+    name: string;
+    seasonLabel?: string | null;
     gradeMin: number | null;
     gradeMax: number | null;
-  };
+  } | null;
+  /// Per-occurrence label ("Day 2", "Make-up session").
+  title?: string | null;
   resource: { id: string; name: string } | null;
   team: { id: string; name: string } | null;
   coaches: { role: string; staff: { id: string; name: string } }[];
@@ -30,7 +41,10 @@ type SessionLike = {
 export function SessionRow({ session: s }: { session: SessionLike }) {
   const cancelled = s.status === "cancelled";
   const lead = s.coaches.find((c) => c.role === "lead") ?? s.coaches[0];
-  const grades = gradeRange(s.program.gradeMin, s.program.gradeMax);
+  const grades = gradeRange(s.offering?.gradeMin ?? null, s.offering?.gradeMax ?? null);
+  // Prefer what this occurrence is actually called, then the season, then the
+  // reusable program definition as a last resort.
+  const name = s.title ?? s.offering?.name ?? s.program.name;
 
   return (
     <li className={cancelled ? "opacity-60" : undefined}>
@@ -44,7 +58,7 @@ export function SessionRow({ session: s }: { session: SessionLike }) {
 
         <span className="min-w-0 flex-1">
           <span className="flex flex-wrap items-center gap-2">
-            <span className="os-heading text-sm text-near-black">{s.program.name}</span>
+            <span className="os-heading text-sm text-near-black">{name}</span>
             {cancelled ? <Pill tone="danger">Cancelled</Pill> : null}
           </span>
           <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-gray-dark">

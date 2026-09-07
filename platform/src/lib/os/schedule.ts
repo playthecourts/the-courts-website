@@ -57,6 +57,17 @@ export const SESSION_SELECT = {
       name: true,
       sport: true,
       programType: true,
+    },
+  },
+  // Grade bands live on the Offering, not the Program — the same program runs a
+  // 3rd–5th band one season and a 6th–8th band the next. The Offering also
+  // carries the season-specific public name a coach or admin recognises.
+  offering: {
+    select: {
+      id: true,
+      name: true,
+      seasonLabel: true,
+      status: true,
       gradeMin: true,
       gradeMax: true,
     },

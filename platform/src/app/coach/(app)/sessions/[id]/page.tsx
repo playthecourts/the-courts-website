@@ -6,6 +6,7 @@ import { capacityLabel, pastDueAthleteIds, registrationStatusFor, trainingPlanSt
 import { activeFlagsFor } from "@/lib/coach-queries";
 import { Card, Eyebrow, Pill, SectionHeading, BackLink, ActionLink } from "@/components/coach/ui";
 import SessionRoster, { type RosterRow } from "./session-roster";
+import { staffMediaLabel, needsPhotographerAttention } from "@/lib/media-consent";
 import SessionPlan from "./session-plan";
 import DrDishBlock from "./dr-dish-block";
 import WaitlistRow from "./waitlist-row";
@@ -31,7 +32,10 @@ export default async function CoachSessionPage(props: PageProps<"/coach/sessions
       notes: { include: { staff: { select: { name: true } } }, orderBy: { createdAt: "desc" } },
       bookings: {
         where: { status: { not: "cancelled" } },
-        include: { athlete: true, attendance: true },
+        include: {
+          athlete: { include: { mediaConsent: { select: { status: true } } } },
+          attendance: true,
+        },
         orderBy: [{ athlete: { firstName: "asc" } }, { athlete: { lastName: "asc" } }],
       },
       waitlistEntries: {
@@ -71,6 +75,8 @@ export default async function CoachSessionPage(props: PageProps<"/coach/sessions
       flags: flags.get(b.athleteId) ?? [],
       registrationLabel: reg.label,
       registrationTone: reg.tone,
+      mediaLabel: staffMediaLabel(b.athlete.mediaConsent?.status ?? null),
+      mediaNeedsCare: needsPhotographerAttention(b.athlete.mediaConsent?.status ?? null),
       planLabel:
         plan?.kind === "covered"
           ? `${plan.remaining} of ${plan.total} left`

@@ -39,6 +39,8 @@ model Guardian {
   emergencyContactLinks  EmergencyContact[]
   pickupLinks            AuthorizedPickup[]
   profileChanges         AthleteProfileChange[]
+  messagesSent           Message[]
+  featuredDecisions      FeaturedContentApproval[]
 
   @@map("guardians")
 }
@@ -56,6 +58,7 @@ model Family {
   communications Communication[]
   leads          Lead[]
   tasks          Task[]
+  messageThreads         MessageThread[]
 
   @@map("families")
 }
@@ -175,6 +178,7 @@ model Athlete {
   mediaConsentChanges MediaConsentChange[]
   progressReports   ProgressReport[]
   profileChanges    AthleteProfileChange[]
+  featuredApprovals      FeaturedContentApproval[]
 
   @@map("athletes")
 }
@@ -245,6 +249,8 @@ model StaffUser {
   progressReportsReviewed ProgressReport[] @relation("ProgressReviewer")
   mediaConsentChanges     MediaConsentChange[]
   profileChanges          AthleteProfileChange[]
+  messagesSent            Message[]
+  featuredRequests        FeaturedContentApproval[]
 
   @@map("staff_users")
 }
@@ -2465,4 +2471,74 @@ model Message {
 
   @@index([threadId, createdAt])
   @@map("messages")
+}
+
+/// A SEPARATE approval for making one athlete the subject of a piece of
+/// content, rather than one of many people in it.
+///
+/// General media consent (MediaConsent) covers practice photography, camp and
+/// league shots, group and background footage — the ordinary content of a gym.
+/// It deliberately does NOT cover an athlete spotlight, a testimonial, an
+/// interview, a direct-to-camera video, a full-name feature, or the centrepiece
+/// of a paid campaign. Those make a child the story rather than a participant,
+/// and a parent who agreed to the first has not agreed to the second.
+///
+/// A row here is requested by staff and answered by a guardian. media_ok on the
+/// athlete is a precondition, never a substitute.
+model FeaturedContentApproval {
+  id        String @id @default(uuid())
+  athleteId String @map("athlete_id")
+
+  kind        FeaturedContentKind
+  /// What is actually being asked for, in plain words the guardian will read.
+  description String
+  /// Where it would appear, if narrower than the general release.
+  intendedUse String? @map("intended_use")
+  /// Whether the athlete's full name would be published. Defaults false, and
+  /// the general release never grants it.
+  usesFullName Boolean @default(false) @map("uses_full_name")
+
+  status        FeaturedApprovalStatus @default(requested)
+  requestedById String   @map("requested_by_id")
+  requestedAt   DateTime @default(now()) @map("requested_at")
+
+  decidedByGuardianId String?   @map("decided_by_guardian_id")
+  /// Snapshot, for the same reason MediaConsent snapshots it: a record of what
+  /// was agreed must not change if the guardian later edits their name.
+  decidedByName       String?   @map("decided_by_name")
+  decidedAt           DateTime? @map("decided_at")
+  guardianNote        String?   @map("guardian_note")
+  /// Time-bounded on purpose: permission for a campaign is not permission
+  /// forever. Null means no stated end.
+  expiresAt           DateTime? @map("expires_at")
+  releaseVersion      String    @map("release_version")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  athlete     Athlete   @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  requestedBy StaffUser @relation(fields: [requestedById], references: [id])
+  decidedBy   Guardian? @relation(fields: [decidedByGuardianId], references: [id])
+
+  @@index([athleteId, status])
+  @@index([status, requestedAt])
+  @@map("featured_content_approvals")
+}
+
+enum FeaturedContentKind {
+  spotlight
+  testimonial
+  interview
+  full_name_feature
+  campaign_centerpiece
+  other
+}
+
+enum FeaturedApprovalStatus {
+  requested
+  approved
+  declined
+  /// Past expiresAt. The content may still exist; the permission does not.
+  expired
+  withdrawn
 }

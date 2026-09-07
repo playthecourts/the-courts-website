@@ -33,6 +33,11 @@ export type RosterRow = {
   registrationLabel: string;
   registrationTone: "ok" | "warn" | "neutral";
   planLabel: string | null;
+  /// Two words only: Media OK / Ask First / No Media / Not Answered. Shown so a
+  /// coach doesn't photograph a child whose family said not to — never the
+  /// release text, the guardian's identity or the consent history.
+  mediaLabel: string;
+  mediaNeedsCare: boolean;
 };
 
 const OPTIONS: { value: AttendanceStatus; label: string }[] = [
@@ -189,6 +194,13 @@ export default function SessionRoster({
                         </span>
                       )}
                       {r.planLabel && <span>· {r.planLabel}</span>}
+                      {/* Only surfaced when it changes what a coach should do.
+                          "Media OK" is the quiet default and needs no shouting. */}
+                      {r.mediaNeedsCare && (
+                        <span className="font-sport font-bold uppercase text-amber-700">
+                          · {r.mediaLabel}
+                        </span>
+                      )}
                     </span>
                   </Link>
 

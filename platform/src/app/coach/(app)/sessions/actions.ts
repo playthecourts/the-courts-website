@@ -159,14 +159,35 @@ export async function saveCoachNote(sessionId: string | null, formData: FormData
   revalidatePath(`/coach/athletes/${athleteId}`);
 }
 
-/** Revealing emergency/medical info is allowed but always recorded. */
+/**
+ * Revealing emergency/medical info is allowed but always recorded.
+ *
+ * Note what is NOT returned: custodyRestrictions. A coach gets
+ * custodyStaffInstruction — the minimum-necessary operational line staff wrote
+ * for them ("Do not release athlete to an unauthorized adult") — and never the
+ * family's legal detail, at any coach role. The full text is owner/admin/front
+ * desk only, in Courts OS.
+ */
 export async function revealEmergencyInfo(athleteId: string) {
   const actor = await getCurrentCoach();
   await assertAthleteAccess(actor, athleteId);
 
   const athlete = await prisma.athlete.findUniqueOrThrow({
     where: { id: athleteId },
-    select: { emergencyContact: true, medicalNotes: true },
+    select: {
+      emergencyContact: true,
+      medicalNotes: true,
+      hasMedicalInfo: true,
+      custodyStaffInstruction: true,
+      emergencyContacts: {
+        orderBy: { sortOrder: "asc" },
+        select: { name: true, relationship: true, phone: true },
+      },
+      authorizedPickups: {
+        where: { active: true },
+        select: { name: true, relationship: true, phone: true },
+      },
+    },
   });
 
   await auditLog(actor.id, "view_emergency_info", "athlete", athleteId);
@@ -175,8 +196,14 @@ export async function revealEmergencyInfo(athleteId: string) {
   }
 
   return {
-    emergencyContact: athlete.emergencyContact,
+    // Structured contacts first; the legacy free-text column is the fallback
+    // for athletes added before the profile existed.
+    contacts: athlete.emergencyContacts,
+    legacyEmergencyContact: athlete.emergencyContact,
     medicalNotes: athlete.medicalNotes,
+    hasMedicalInfo: athlete.hasMedicalInfo,
+    pickupInstruction: athlete.custodyStaffInstruction,
+    authorizedPickups: athlete.authorizedPickups,
   };
 }
 

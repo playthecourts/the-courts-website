@@ -13,10 +13,11 @@
     "qa:scenarios": "tsx scripts/qa/qa-scenarios.ts",
     "qa:mutations": "tsx scripts/qa/qa-mutations.ts",
     "qa:credits": "tsx scripts/qa/qa-credits.ts",
-    "qa": "npm run qa:scenarios && npm run qa:credits && npm run qa:mutations",
+    "qa": "npm run qa:scenarios && npm run qa:credits && npm run qa:mutations && npm run qa:media",
     "storage:setup": "tsx scripts/setup-storage.ts",
     "qa:athlete": "tsx scripts/qa/qa-athlete-profile.ts",
-    "seed:athlete-qa": "tsx scripts/seed-athlete-profile-qa.ts"
+    "seed:athlete-qa": "tsx scripts/seed-athlete-profile-qa.ts",
+    "qa:media": "tsx scripts/qa/qa-media-consent.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.0",

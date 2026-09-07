@@ -33,7 +33,16 @@ export type AuditAction =
   | "override_conflict"
   | "block_facility"
   | "promote_waitlist"
-  | "decline_waitlist";
+  | "decline_waitlist"
+  // --- Athlete Profile + Progress ---
+  | "save_progress_report"
+  | "submit_progress_report"
+  | "publish_progress_report"
+  | "return_progress_report"
+  | "view_custody_restrictions"
+  | "edit_athlete_profile"
+  | "set_pickup_instruction"
+  | "resolve_media_follow_up";
 
 export async function auditLog(
   staffUserId: string,

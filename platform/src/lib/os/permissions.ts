@@ -32,6 +32,17 @@ export const CAPABILITIES = [
   "families.viewSensitive",
   "athletes.view",
   "athletes.edit",
+  /// The custody / contact-restriction free text. Separate from
+  /// families.viewSensitive (medical + emergency) because it has a different
+  /// and smaller audience: a head coach may need to know a child carries an
+  /// EpiPen; nobody outside owner/admin/front desk needs the family's legal
+  /// situation. Coaches get a one-line pickup instruction instead, written by
+  /// staff, and never this.
+  "athletes.viewCustody",
+  /// Photo + video permission status only — three words, no release text and
+  /// no guardian details. Held by marketing precisely so they can check before
+  /// a shoot WITHOUT being given athlete records.
+  "athletes.viewMediaStatus",
 
   // Leads / CRM
   "leads.view",
@@ -136,6 +147,7 @@ const HEAD_COACH: Capability[] = [
   "families.viewSensitive",
   "athletes.view",
   "athletes.edit",
+  "athletes.viewMediaStatus",
   "programs.view",
   "programs.create",
   "programs.edit",
@@ -176,6 +188,7 @@ const HEAD_COACH: Capability[] = [
 const COACH: Capability[] = [
   "os.access",
   "athletes.view",
+  "athletes.viewMediaStatus",
   "schedule.view",
   "coverage.view",
   "communications.view",
@@ -186,6 +199,13 @@ const FRONT_DESK: Capability[] = [
   "os.access",
   "families.view",
   "families.edit",
+  /// Front desk holds the safety half of the record deliberately. They are who
+  /// a parent reaches at the door, who reads an allergy before a camp, and who
+  /// refuses a pickup. Withholding emergency contacts and custody restrictions
+  /// from the desk would make the desk unable to do the one job only it can do.
+  "families.viewSensitive",
+  "athletes.viewCustody",
+  "athletes.viewMediaStatus",
   "athletes.view",
   "programs.view",
   "schedule.view",
@@ -207,6 +227,11 @@ const FRONT_DESK: Capability[] = [
 /// and this system holds information about children.
 const MARKETING: Capability[] = [
   "os.access",
+  /// The ONLY athlete-adjacent thing marketing may see: whether a given athlete
+  /// is Media OK / Ask First / No Media, for planning a shoot. No DOB, no
+  /// medical data, no emergency contacts, no custody information, no pickup
+  /// lists, no coach notes — and no athlete list of their own.
+  "athletes.viewMediaStatus",
   "programs.view",
   "schedule.view",
   "content.manage",
