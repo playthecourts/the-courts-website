@@ -81,6 +81,14 @@
   .cr-basics-item h4 { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 10px; }
   .cr-basics-item p { font-size: 14.5px; line-height: 1.6; color: var(--black); margin: 0; }
   @media (max-width: 560px) { .cr-basics-board { grid-template-columns: 1fr; } }
+
+  /* ---------- Pickleball cross-promo banner ---------- */
+  .cr-pb-banner { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 20px; justify-content: center; background: #E9F0E6; padding: 16px 24px; text-align: center; }
+  .cr-pb-banner-pill { font-family: var(--font-sport); font-weight: 800; font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--white); background: #4F7A45; padding: 5px 12px; border-radius: 999px; flex-shrink: 0; }
+  .cr-pb-banner-text { font-family: var(--font-heading); font-weight: 600; font-size: 14.5px; color: var(--black); }
+  .cr-pb-banner-link { font-family: var(--font-heading); font-weight: 700; font-size: 14.5px; color: #355C35; flex-shrink: 0; }
+  .cr-pb-banner-link .arrow { color: #355C35; }
+  .cr-pb-banner:hover .cr-pb-banner-link { text-decoration: underline; }
 </style>
 <script type="application/ld+json">
 {
@@ -130,6 +138,7 @@
         <div class="nav-dropdown">
           <a href="basketball">Basketball</a>
           <a href="volleyball">Volleyball</a>
+          <a href="pickleball">Pickleball</a>
           <a href="private-coaching">Private Training</a>
           <a href="camps">Camps</a>
           <a href="leagues">Leagues</a>
@@ -190,6 +199,7 @@
     <div class="mobile-nav-sub">
       <a href="basketball">Basketball</a>
       <a href="volleyball">Volleyball</a>
+      <a href="pickleball">Pickleball</a>
       <a href="private-coaching">Private Training</a>
       <a href="camps">Camps</a>
       <a href="leagues">Leagues</a>
@@ -261,6 +271,12 @@
     </div>
   </div>
 </section>
+
+<a href="pickleball" class="cr-pb-banner">
+  <span class="cr-pb-banner-pill">New &middot; Starts November 1</span>
+  <span class="cr-pb-banner-text">Pickleball Is Coming Inside. Bring your paddle. We&rsquo;ve got the court.</span>
+  <span class="cr-pb-banner-link">Explore Pickleball <span class="arrow">→</span></span>
+</a>
 
 <section class="cr-idea" id="uses">
   <div class="container">
@@ -424,6 +440,7 @@
         <div class="footer-nav-sub"><ul>
         <li><a href="basketball">Basketball</a></li>
         <li><a href="volleyball">Volleyball</a></li>
+        <li><a href="pickleball">Pickleball</a></li>
         <li><a href="private-coaching">Private Training</a></li>
         <li><a href="camps">Camps</a></li>
         <li><a href="leagues">Basketball Leagues</a></li>

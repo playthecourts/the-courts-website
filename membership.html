@@ -91,6 +91,8 @@
   .plan-card-details ul { margin: 14px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
   .plan-card-details li { font-size: 15px; line-height: 1.5; color: var(--gray-dark); padding-left: 14px; position: relative; }
   .plan-card-details li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); }
+  .plan-card-details li.li-row { display: flex; justify-content: space-between; gap: 12px; }
+  .plan-card-details .li-value { color: var(--black); font-weight: 600; text-align: right; flex-shrink: 0; }
 
   .plan-card-cta { margin-top: auto; font-family: var(--font-sport); font-weight: 700; font-size: 13.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--black); display: inline-flex; align-items: center; gap: 6px; text-decoration: none; padding-top: 18px; border-top: 1px solid var(--gray-mid); }
   .plan-card-cta .arrow { color: var(--orange); transition: transform 0.2s var(--ease); }
@@ -239,6 +241,7 @@
         <div class="nav-dropdown">
           <a href="basketball">Basketball</a>
           <a href="volleyball">Volleyball</a>
+          <a href="pickleball">Pickleball</a>
           <a href="private-coaching">Private Training</a>
           <a href="camps">Camps</a>
           <a href="leagues">Leagues</a>
@@ -299,6 +302,7 @@
     <div class="mobile-nav-sub">
       <a href="basketball">Basketball</a>
       <a href="volleyball">Volleyball</a>
+      <a href="pickleball">Pickleball</a>
       <a href="private-coaching">Private Training</a>
       <a href="camps">Camps</a>
       <a href="leagues">Leagues</a>
@@ -398,9 +402,9 @@
         <details class="plan-card-details">
           <summary>See What's Included <svg class="plan-card-details-arrow" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
           <ul>
-            <li>Dr. Dish &middot; $20 / 30 min</li>
-            <li>Private Training &middot; Member rate</li>
-            <li>Camps &middot; Member pricing</li>
+            <li class="li-row"><span>Dr. Dish</span><span class="li-value">$20 / 30 min</span></li>
+            <li class="li-row"><span>Private Training</span><span class="li-value">Member rate</span></li>
+            <li class="li-row"><span>Camps</span><span class="li-value">Member pricing</span></li>
           </ul>
         </details>
         <a href="https://app.playthecourts.com/signup" target="_blank" rel="noopener" class="plan-card-cta" data-plan-cta="weekly">Join Weekly <span class="arrow">→</span></a>
@@ -422,9 +426,9 @@
           <summary>See What's Included <svg class="plan-card-details-arrow" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
           <ul>
             <li>Quarterly progress updates</li>
-            <li>Private Training &middot; Member rate</li>
-            <li>Dr. Dish &middot; Member rate</li>
-            <li>Camps &middot; Member pricing</li>
+            <li class="li-row"><span>Private Training</span><span class="li-value">Member rate</span></li>
+            <li class="li-row"><span>Dr. Dish</span><span class="li-value">Member rate</span></li>
+            <li class="li-row"><span>Camps</span><span class="li-value">Member pricing</span></li>
           </ul>
         </details>
         <a href="https://app.playthecourts.com/signup" target="_blank" rel="noopener" class="plan-card-cta" data-plan-cta="unlimited">Join Unlimited <span class="arrow">→</span></a>
@@ -477,9 +481,9 @@
           <summary>See What's Included <svg class="plan-card-details-arrow" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
           <ul>
             <li>Quarterly progress updates</li>
-            <li>Private Training &middot; Member rate</li>
-            <li>Dr. Dish &middot; Member rate for basketball athletes</li>
-            <li>Camps &middot; Member pricing</li>
+            <li class="li-row"><span>Private Training</span><span class="li-value">Member rate</span></li>
+            <li class="li-row"><span>Dr. Dish</span><span class="li-value">Member rate for basketball athletes</span></li>
+            <li class="li-row"><span>Camps</span><span class="li-value">Member pricing</span></li>
           </ul>
         </details>
         <a href="https://app.playthecourts.com/signup" target="_blank" rel="noopener" class="plan-card-cta" data-plan-cta="family">Join Family <span class="arrow">→</span></a>
@@ -608,7 +612,7 @@
     </div>
     <div class="faq-item">
       <button class="faq-q">Do I have to be a member to play at The Courts? <span class="faq-q-icon">+</span></button>
-      <div class="faq-a"><p>No. You can book group training, Dr. Dish, Private Training, camps, basketball leagues, or court time without a membership where available. Coming a lot? That's when membership starts to make sense.</p></div>
+      <div class="faq-a"><p>No. You can book group training, Dr. Dish, Private Training, camps, basketball leagues, events, or court time without a membership where available. Coming a lot? That's when membership starts to make sense.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q">What does Unlimited actually mean? <span class="faq-q-icon">+</span></button>
@@ -616,7 +620,7 @@
     </div>
     <div class="faq-item">
       <button class="faq-q">Do unused sessions roll over? <span class="faq-q-icon">+</span></button>
-      <div class="faq-a"><p>No. Weekly sessions and the included Private Training and Dr. Dish sessions on Full Court reset each billing cycle. Use them within the cycle &mdash; they don&rsquo;t carry over.</p></div>
+      <div class="faq-a"><p>No. Sessions included with your membership reset each billing cycle. Use them within the cycle &mdash; they don&rsquo;t carry over.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q">Can I pause my membership? <span class="faq-q-icon">+</span></button>
@@ -624,7 +628,7 @@
     </div>
     <div class="faq-item">
       <button class="faq-q">What isn't included in membership? <span class="faq-q-icon">+</span></button>
-      <div class="faq-a"><p>Camps and basketball leagues are separate registrations. Private Training and Dr. Dish vary by plan. Full Court includes one Private Training session and two Dr. Dish sessions each month; otherwise member rates apply. Fall League athletes must maintain a Basketball Membership at the Weekly level or higher &mdash; existing qualifying members do not need to purchase another membership.</p></div>
+      <div class="faq-a"><p>Camps and basketball leagues are separate registrations. Private Training and Dr. Dish are also booked separately, with member pricing available where applicable. Fall League athletes must maintain a qualifying Basketball Membership at the Weekly level or higher. If you already have an eligible membership, you do not need to purchase another one.</p></div>
     </div>
     <div class="mem-faq-more">
       <a href="faq">View All FAQs <span class="arrow">→</span></a>
@@ -641,8 +645,8 @@
     </div>
     <div class="pre-footer-col">
       <span class="pre-footer-eyebrow">Want to Look Around First?</span>
-      <h3 class="pre-footer-title">See What's on the Court.</h3>
-      <a href="schedule" class="pre-footer-link">View Schedule <span class="arrow">→</span></a>
+      <h3 class="pre-footer-title">See What Else We Offer.</h3>
+      <a href="programs" class="pre-footer-link">Explore Programs <span class="arrow">→</span></a>
     </div>
   </div>
 </section>
@@ -709,6 +713,7 @@
         <div class="footer-nav-sub"><ul>
         <li><a href="basketball">Basketball</a></li>
         <li><a href="volleyball">Volleyball</a></li>
+        <li><a href="pickleball">Pickleball</a></li>
         <li><a href="private-coaching">Private Training</a></li>
         <li><a href="camps">Camps</a></li>
         <li><a href="leagues">Basketball Leagues</a></li>
