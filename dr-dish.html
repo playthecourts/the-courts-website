@@ -89,7 +89,7 @@
   .dd-seq-trail path { fill: none; stroke: var(--gray-mid); stroke-width: 2; stroke-dasharray: 2 10; stroke-linecap: round; }
   .dd-seq-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
   .dd-seq-step { position: relative; }
-  .dd-seq-num { display: block; font-family: var(--font-display); font-size: 15px; color: var(--orange); letter-spacing: 0.06em; margin-bottom: 12px; }
+  .dd-seq-num { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 3.2vw, 38px); color: var(--orange); letter-spacing: 0.02em; margin-bottom: 12px; }
   .dd-seq-media { position: relative; aspect-ratio: 4/3.3; overflow: hidden; border-radius: var(--radius-md); margin-bottom: 18px; background: var(--charcoal); }
   .dd-seq-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .dd-seq-media--again { position: relative; }
@@ -149,7 +149,7 @@
   .dd-quick-card { background: var(--charcoal); border-top: 3px solid var(--orange); border-radius: var(--radius-md); padding: 32px 28px; display: flex; flex-direction: column; }
   .dd-quick-label { font-family: var(--font-display); font-weight: 900; font-size: 21px; color: var(--white); margin-bottom: 6px; }
   .dd-quick-meta { font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin: 0 0 18px; }
-  .dd-quick-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3vw, 36px); color: var(--white); margin: 0 0 14px; }
+  .dd-quick-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(40px, 4.6vw, 52px); color: var(--white); margin: 0 0 14px; }
   .dd-quick-member { display: block; font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--orange); margin-top: 4px; }
   .dd-quick-body { font-size: 14.5px; line-height: 1.6; color: rgba(255,255,255,0.68); margin: 0 0 24px; flex-grow: 1; }
   .dd-quick-card .btn, .dd-quick-card .soon-pill { align-self: flex-start; }
@@ -162,50 +162,26 @@
   .dd-fullcourt-callout a { font-family: var(--font-heading); font-weight: 700; font-size: 14.5px; color: var(--orange); }
   @media (max-width: 700px) { .dd-quick { padding: 60px 0; } }
 
-  /* ---------- Countdown ---------- */
-  .dd-countdown-time { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(46px, 5.6vw, 72px); color: var(--gray-light); letter-spacing: 0.01em; line-height: 1; font-variant-numeric: tabular-nums; }
-  .dd-countdown-line { display: block; width: 56px; height: 3px; background: var(--orange); margin: 24px auto 20px; border-radius: 2px; }
-  .dd-countdown-caption { display: block; font-family: var(--font-sport); font-weight: 700; font-size: clamp(14px, 1.4vw, 18px); letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
-  .dd-countdown-wink { display: block; font-family: var(--font-heading); font-weight: 500; font-style: italic; font-size: 15px; color: rgba(255,255,255,0.6); margin-top: 16px; }
-
   /* ---------- Availability ---------- */
   .dd-pricing { background: var(--white); padding: 80px 0; }
-  .dd-avail-grid { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 56px; align-items: center; }
-  .dd-avail-col--countdown { background: var(--charcoal); border-radius: var(--radius-md); padding: 44px 28px; border-top: 3px solid var(--orange); }
-  .dd-avail-card { background: var(--charcoal); border-left: 3px solid var(--orange); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: clamp(30px,3.6vw,44px); color: var(--white); text-align: left; margin-top: 28px; }
+  .dd-avail-card--center { max-width: 460px; margin: 40px auto 0; }
+  .dd-avail-card { background: var(--charcoal); border-top: 3px solid var(--orange); border-radius: var(--radius-md); padding: clamp(30px,3.6vw,44px); color: var(--white); text-align: center; }
   .dd-avail-day { font-family: var(--font-sport); font-weight: 700; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 10px; }
-  .dd-avail-hours { font-family: var(--font-display); font-weight: 900; font-size: clamp(38px, 4.4vw, 54px); color: var(--white); margin: 0 0 22px; }
+  .dd-avail-hours { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 3.2vw, 36px); color: var(--white); margin: 0 0 22px; }
   .dd-avail-note { font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,0.7); margin: 0 0 10px; }
   .dd-avail-note:last-child { margin-bottom: 0; }
-  .dd-cta-center { text-align: center; margin-top: 40px; }
-  .dd-cta-left { margin-top: 28px; }
-  @media (max-width: 900px) {
-    .dd-avail-grid { grid-template-columns: 1fr; gap: 40px; }
-    .dd-avail-col--countdown { padding: 44px 24px; }
-  }
+  .dd-cta-center { text-align: center; margin-top: 32px; }
   @media (max-width: 700px) {
     .dd-pricing { padding: 60px 0; }
   }
 
-  /* ---------- Know Your Numbers (future stats) ---------- */
+  /* ---------- Coming to Dr. Dish (future stats + challenges) ---------- */
   .dd-stats-teaser { background: var(--charcoal); padding: 90px 0; text-align: center; }
-  .dd-stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: rgba(255,255,255,0.1); max-width: 860px; margin: 48px auto 0; border-radius: var(--radius-md); overflow: hidden; }
-  .dd-stats-tile { background: var(--black); padding: 28px 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-  .dd-stats-value { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3vw, 34px); color: rgba(255,255,255,0.3); }
-  .dd-stats-label { font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+  .dd-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.1); max-width: 620px; margin: 48px auto 0; border-radius: var(--radius-md); overflow: hidden; }
+  .dd-stats-tile { background: var(--black); padding: 22px 12px; display: flex; align-items: center; justify-content: center; }
+  .dd-stats-label { font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.7); text-align: center; }
   .dd-coming-soon { display: inline-block; margin-top: 32px; font-family: var(--font-sport); font-weight: 800; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); background: var(--orange); padding: 8px 18px; border-radius: 999px; }
-  .dd-coming-soon--dark { color: var(--white); background: var(--black); }
-  @media (max-width: 760px) { .dd-stats-grid { grid-template-columns: repeat(2, 1fr); max-width: 340px; } }
-
-  /* ---------- Leaderboards ---------- */
-  .dd-leaderboard { background: var(--white); padding: 90px 0; text-align: center; }
-  .dd-lb-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; max-width: 780px; margin: 44px auto 0; }
-  .dd-lb-tile { font-family: var(--font-display); font-weight: 900; font-size: 15px; color: var(--white); padding: 16px 22px; border-radius: var(--radius-md); }
-  .dd-lb-tile--1 { background: var(--orange); }
-  .dd-lb-tile--2 { background: #2E9E7C; }
-  .dd-lb-tile--3 { background: #8B5FA8; }
-  .dd-lb-tile--4 { background: var(--black); }
-  .dd-lb-payoff { font-family: var(--font-heading); font-weight: 700; font-size: 17px; color: var(--black); margin: 36px 0 0; }
+  @media (max-width: 560px) { .dd-stats-grid { grid-template-columns: repeat(2, 1fr); max-width: 340px; } }
 
   /* ---------- Teams + Programs ---------- */
   .dd-teams { background: var(--black); padding: 100px 0; }
@@ -471,7 +447,7 @@
       </div>
     </div>
     <div class="dd-fullcourt-callout reveal">
-      <p>Full Court Basketball members get <strong>two individual Dr. Dish sessions every month</strong>, with additional sessions at the <strong>$20 member rate</strong>.</p>
+      <p><strong>Full Court members:</strong> 2 individual Dr. Dish sessions included each month. Additional sessions &middot; $20 each.</p>
       <a href="membership#plan-selector">See Full Court →</a>
     </div>
   </div>
@@ -530,9 +506,8 @@
 <section class="dd-workouts">
   <div class="container">
     <div class="dd-head">
-      <span class="eyebrow">Not Just Shots</span>
+      <span class="eyebrow">More Than Random Reps</span>
       <h2>Come In With a Plan.</h2>
-      <p>Choose a workout, chase a personal best, or use a Courts-created session built around the same skills our coaches are working on in training.</p>
     </div>
     <div class="dd-workout-tags">
       <span>Catch + Shoot</span>
@@ -547,113 +522,42 @@
   </div>
 </section>
 
-<!-- ================= KEEP GOING ================= -->
-<section class="dd-consistency">
-  <div class="container">
-    <div class="dd-head dd-head--light">
-      <span class="eyebrow">Keep Going</span>
-      <h2>One Session Is Good. <br class="br-desktop">Consistency Is Better.</h2>
-      <p>Dr. Dish works best when athletes come back, get more reps, and build on what they did last time.</p>
-    </div>
-    <div class="dd-ladder">
-      <div class="dd-ladder-step reveal">
-        <span class="dd-ladder-num">01</span>
-        <h3>Try It</h3>
-        <p>One individual 30-minute session.</p>
-        <span class="dd-ladder-price">$30 <small>Members $20</small></span>
-      </div>
-      <span class="dd-ladder-arrow" aria-hidden="true">→</span>
-      <div class="dd-ladder-step reveal">
-        <span class="dd-ladder-num">02</span>
-        <h3>Bring Someone</h3>
-        <p>Two athletes share one 30-minute session.</p>
-        <span class="dd-ladder-price">$50 <small>total</small></span>
-      </div>
-      <span class="dd-ladder-arrow" aria-hidden="true">→</span>
-      <div class="dd-ladder-step reveal">
-        <span class="dd-ladder-num">03</span>
-        <h3>Get 10</h3>
-        <p>Ten individual sessions.</p>
-        <span class="dd-ladder-price">$250</span>
-      </div>
-      <span class="dd-ladder-arrow" aria-hidden="true">→</span>
-      <div class="dd-ladder-step dd-ladder-step--full reveal">
-        <span class="dd-ladder-num">04</span>
-        <h3>Go Full Court</h3>
-        <p>Unlimited basketball group training, private training, and two Dr. Dish sessions every month.</p>
-        <a href="membership#plan-selector" class="dd-ladder-link">See Full Court →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ================= 5. AVAILABILITY ================= -->
 <section class="dd-pricing">
   <div class="container">
-    <div class="dd-avail-grid">
-      <div class="dd-avail-col">
-        <div class="dd-head" style="text-align:left; margin:0 0 8px;">
-          <span class="eyebrow">Availability</span>
-          <h2 style="font-size:clamp(34px, 4.6vw, 54px);">Sundays Are for Shots.</h2>
-        </div>
-        <div class="dd-avail-card reveal">
-          <p class="dd-avail-day">Sundays</p>
-          <p class="dd-avail-hours">All Day</p>
-          <p class="dd-avail-note">30-minute solo sessions, available all day Sunday. Additional times may open up when the court is available.</p>
-          <p class="dd-avail-note">Advance reservation required.</p>
-        </div>
-        <div class="dd-cta-left">
-          <span class="soon-pill soon-pill--dark">Registration Coming Soon</span>
-        </div>
-      </div>
-      <div class="dd-avail-col dd-avail-col--countdown">
-        <div class="reveal" id="ddClockBoard">
-          <span class="dd-countdown-time" id="ddClockTime">30:00</span>
-          <span class="dd-countdown-line" aria-hidden="true"></span>
-          <span class="dd-countdown-caption">Ready. Set. Shoot.</span>
-          <span class="dd-countdown-wink">The ball comes back. Like it has manners.</span>
-        </div>
-      </div>
+    <div class="dd-head" style="margin-bottom:0;">
+      <span class="eyebrow">Availability</span>
+      <h2 style="font-size:clamp(34px, 4.6vw, 54px);">Sundays Are for Shots.</h2>
+    </div>
+    <div class="dd-avail-card dd-avail-card--center reveal">
+      <p class="dd-avail-day">Sundays</p>
+      <p class="dd-avail-hours">30-Minute Sessions &middot; All Day</p>
+      <p class="dd-avail-note">Additional times may open when court availability allows.</p>
+      <p class="dd-avail-note">Advance reservation required.</p>
+    </div>
+    <div class="dd-cta-center">
+      <span class="soon-pill soon-pill--dark">Registration Coming Soon</span>
     </div>
   </div>
 </section>
 
-<!-- ================= KNOW YOUR NUMBERS ================= -->
+<!-- ================= COMING TO DR. DISH ================= -->
 <section class="dd-stats-teaser">
   <div class="container">
     <div class="dd-head dd-head--light">
-      <span class="eyebrow">Know Your Numbers</span>
-      <h2>More Than Makes.</h2>
-      <p>We&rsquo;re building ways for athletes to use their Dr. Dish data to understand their shooting, set goals, and see progress over time.</p>
+      <span class="eyebrow">Coming to Dr. Dish</span>
+      <h2>Give Yourself a Number to Beat.</h2>
+      <p>We&rsquo;re building more ways to use Dr. Dish data, track progress, and compete against your own numbers.</p>
     </div>
     <div class="dd-stats-grid">
-      <div class="dd-stats-tile"><span class="dd-stats-value">&mdash;</span><span class="dd-stats-label">Shooting %</span></div>
-      <div class="dd-stats-tile"><span class="dd-stats-value">&mdash;</span><span class="dd-stats-label">Makes</span></div>
-      <div class="dd-stats-tile"><span class="dd-stats-value">&mdash;</span><span class="dd-stats-label">Attempts</span></div>
-      <div class="dd-stats-tile"><span class="dd-stats-value">&mdash;</span><span class="dd-stats-label">Personal Best</span></div>
-      <div class="dd-stats-tile"><span class="dd-stats-value">&mdash;</span><span class="dd-stats-label">Workout History</span></div>
+      <div class="dd-stats-tile"><span class="dd-stats-label">Shooting %</span></div>
+      <div class="dd-stats-tile"><span class="dd-stats-label">Makes</span></div>
+      <div class="dd-stats-tile"><span class="dd-stats-label">Attempts</span></div>
+      <div class="dd-stats-tile"><span class="dd-stats-label">Personal Bests</span></div>
+      <div class="dd-stats-tile"><span class="dd-stats-label">Workout History</span></div>
+      <div class="dd-stats-tile"><span class="dd-stats-label">Monthly Challenges</span></div>
     </div>
     <span class="dd-coming-soon">Coming Soon</span>
-  </div>
-</section>
-
-<!-- ================= LEADERBOARDS ================= -->
-<section class="dd-leaderboard">
-  <div class="container">
-    <div class="dd-head">
-      <span class="eyebrow">Think You Can Shoot?</span>
-      <h2>Prove It.</h2>
-      <p>Monthly Dr. Dish challenges are coming to The Courts.</p>
-    </div>
-    <div class="dd-lb-grid">
-      <span class="dd-lb-tile dd-lb-tile--1">Most Makes</span>
-      <span class="dd-lb-tile dd-lb-tile--2">Best Shooting Percentage</span>
-      <span class="dd-lb-tile dd-lb-tile--3">Free Throw Challenge</span>
-      <span class="dd-lb-tile dd-lb-tile--4">Personal Best</span>
-      <span class="dd-lb-tile dd-lb-tile--1">Age-Group Leaderboards</span>
-    </div>
-    <p class="dd-lb-payoff">Come back. Beat your number. See where you land.</p>
-    <span class="dd-coming-soon dd-coming-soon--dark">Coming Soon</span>
   </div>
 </section>
 
@@ -663,77 +567,27 @@
     <div class="dd-head dd-head--light">
       <span class="eyebrow">Teams + Programs</span>
       <h2>Put the Whole Team to Work.</h2>
-      <p>Dr. Dish isn&rsquo;t just for individual workouts.</p>
-      <p>Youth teams, travel programs, AAU programs, coaches, and training groups can reserve dedicated Dr. Dish time for their athletes.</p>
-      <p>More reps. Less standing around. A way to get multiple athletes meaningful shooting work while coaches stay focused on coaching.</p>
-    </div>
-    <div class="dd-teams-tags">
-      <span>Team Shooting Sessions</span>
-      <span>Recurring Weekly Blocks</span>
-      <span>Boys + Girls Programs</span>
-      <span>Travel / AAU Programs</span>
-      <span>Grades 4&ndash;8</span>
-      <span>Small-Group Shooting Work</span>
-      <span>Courts Workout Library</span>
-      <span>Seasonal Arrangements</span>
+      <p>Teams, travel programs, coaches, and training groups can reserve dedicated Dr. Dish time.</p>
+      <p>More reps. Less standing around.</p>
     </div>
 
     <div class="dd-team-price-grid">
       <div class="dd-team-price-card">
         <h3>Team Dr. Dish Block</h3>
         <p class="dd-team-price">$100<small>/hour</small></p>
-        <p>Dedicated Dr. Dish and court access for your team or program.</p>
-        <!-- [PINK — TEAM DR. DISH BOOKING/INQUIRY URL] Staging only. Replace href once a real booking flow exists. -->
         <a href="contact?interest=Community%20%2B%20Partnerships#contact-form" class="btn btn-on-dark" data-preset="Community + Partnerships">Reserve Team Time →</a>
       </div>
       <div class="dd-team-price-card dd-team-price-card--founding">
         <span class="dd-founding-badge">Founding Program Rate</span>
-        <h3>Local Program? Let&rsquo;s Talk.</h3>
-        <p>Select local youth and travel programs can lock in recurring Dr. Dish time at a <strong>$75/hour Founding Program Rate</strong> during launch.</p>
-        <p>Give your team a consistent weekly shooting block, get more athletes meaningful reps, and know the time is already yours.</p>
-        <!-- [PINK — TEAM DR. DISH BOOKING/INQUIRY URL] Staging only. Replace href once a real booking flow exists. -->
+        <h3>$75<small>/hour</small></h3>
+        <p>Available for select recurring local programs during launch.</p>
         <a href="contact?interest=Community%20%2B%20Partnerships#contact-form" class="btn btn-primary" data-preset="Community + Partnerships">Ask About a Recurring Block →</a>
       </div>
     </div>
 
     <div class="dd-intro-banner">
-      <h3>Want to Try It First?</h3>
-      <p>We&rsquo;re opening a limited number of introductory Dr. Dish sessions for local youth programs.</p>
-      <p>Bring your athletes in and we&rsquo;ll put them through a Courts shooting workout so coaches and families can see how it works.</p>
-      <span class="dd-limited-note">Limited introductory sessions available for select local youth programs.</span>
-      <!-- [PINK — TEAM DR. DISH BOOKING/INQUIRY URL] Staging only. Replace href once a real booking flow exists. -->
+      <p><strong>Want to try it first?</strong> Limited introductory Dr. Dish sessions are available for select local youth programs.</p>
       <a href="contact?interest=Community%20%2B%20Partnerships#contact-form" class="dd-intro-link" data-preset="Community + Partnerships">Ask About an Intro Session →</a>
-    </div>
-
-    <div class="dd-team-example">
-      <span class="eyebrow">Your Team. Your Time. Every Week.</span>
-      <div class="dd-team-example-card">
-        <h4>5th Grade Boys</h4>
-        <p>Tuesdays &middot; 5&ndash;6 PM<br>10-Week Block</p>
-        <p class="dd-team-example-price">Founding Program Rate &middot; $750</p>
-      </div>
-      <p class="dd-team-example-note">Example based on a 10-week recurring block at the Founding Program Rate. Contact us to build a schedule for your team.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ================= MEMBERSHIP CONNECTION ================= -->
-<section class="dd-membership-link">
-  <div class="container">
-    <div class="dd-head">
-      <span class="eyebrow">Already Putting In the Reps?</span>
-      <h2>There Might Be a Better Way to Train.</h2>
-      <p>If your athlete is regularly booking training and individual Dr. Dish sessions, Full Court Basketball may be the better value.</p>
-    </div>
-    <div class="dd-fc-highlight">
-      <h3>Full Court Basketball</h3>
-      <ul>
-        <li>Unlimited basketball group training</li>
-        <li>1 private basketball training session / month</li>
-        <li>2 individual Dr. Dish sessions / month</li>
-        <li>$20 additional individual Dr. Dish sessions</li>
-      </ul>
-      <a href="membership#plan-selector" class="btn btn-primary">See Full Court →</a>
     </div>
   </div>
 </section>
@@ -908,43 +762,5 @@
 </footer>
 
 <script src="js/script.js?v=2"></script>
-<script>
-  (function () {
-    var timeEl = document.getElementById('ddClockTime');
-    var boardEl = document.getElementById('ddClockBoard');
-    if (!timeEl || !boardEl) return;
-    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion || !('IntersectionObserver' in window)) return;
-
-    function formatTime(totalSeconds) {
-      var m = Math.floor(totalSeconds / 60);
-      var s = totalSeconds % 60;
-      return m + ':' + String(s).padStart(2, '0');
-    }
-
-    var started = false;
-    var timerId = null;
-    function runTimer() {
-      if (started) return;
-      started = true;
-      var seconds = 30 * 60;
-      timerId = setInterval(function () {
-        seconds--;
-        if (seconds < 0) {
-          clearInterval(timerId);
-          return;
-        }
-        timeEl.textContent = formatTime(seconds);
-      }, 1000);
-    }
-
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) runTimer();
-      });
-    }, { threshold: 0.6 });
-    io.observe(boardEl);
-  })();
-</script>
 </body>
 </html>
