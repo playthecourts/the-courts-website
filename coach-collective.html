@@ -50,23 +50,16 @@
   .cc-head h2 .accent { color: var(--orange); }
 
   /* ---------- The Collective ---------- */
-  .cc-collective { background: var(--white); padding: 80px 0; }
+  .cc-collective { background: var(--white); padding: 80px 0 0; }
   .cc-collective-body { max-width: 600px; margin: 32px auto 0; text-align: center; }
   .cc-collective-body p { font-size: 17px; line-height: 1.8; color: var(--gray-dark); margin: 0 0 14px; }
-  .cc-collective-strong { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2.8vw, 30px); color: var(--black); margin: 28px 0 0; }
-
-  /* ---------- Train Here ---------- */
-  .cc-train { background: var(--gray-light); padding: 80px 0 0; }
-  .cc-train-body { max-width: 600px; margin: 32px auto 0; text-align: center; }
-  .cc-train-body p { font-size: 17px; line-height: 1.8; color: var(--gray-dark); margin: 0 0 10px; }
-  .cc-sports-grid { display: grid; grid-template-columns: 1fr 1fr; min-height: 480px; margin-top: 64px; }
-  .cc-sport-panel { position: relative; display: flex; align-items: flex-end; padding: 48px; overflow: hidden; }
+  .cc-sports-grid { display: grid; grid-template-columns: 1fr 1fr; min-height: 320px; margin-top: 56px; }
+  .cc-sport-panel { position: relative; display: flex; align-items: flex-end; padding: 32px; overflow: hidden; }
   .cc-sport-panel .photo { position: absolute; inset: 0; }
-  .cc-sport-panel .photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(23,23,23,0.1) 30%, rgba(23,23,23,0.88) 100%); }
+  .cc-sport-panel .photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(23,23,23,0.1) 30%, rgba(23,23,23,0.72) 100%); }
   .cc-sport-body { position: relative; z-index: 2; }
-  .cc-sport-body .eyebrow { color: var(--orange); }
-  .cc-sport-body h3 { font-family: var(--font-display); font-weight: 900; color: var(--white); font-size: clamp(26px, 3.2vw, 36px); margin: 12px 0 0; line-height: 1.05; }
-  @media (max-width: 900px) { .cc-sports-grid { grid-template-columns: 1fr; min-height: 0; } .cc-sport-panel { min-height: 320px; } }
+  .cc-sport-body .eyebrow { color: var(--white); }
+  @media (max-width: 900px) { .cc-sports-grid { grid-template-columns: 1fr; min-height: 0; } .cc-sport-panel { min-height: 200px; } }
 
   /* ---------- A Little More Support ---------- */
   .cc-support { background: var(--white); padding: 80px 0; }
@@ -187,7 +180,8 @@
       <div class="nav-item"><a href="contact">Contact</a></div>
     </nav>
     <div class="nav-cta">
-      <span class="btn btn-secondary">Membership + Login Coming Soon</span>
+      <a href="member-portal" class="nav-cta-link">Parent Login</a>
+      <a href="membership#plan-selector" class="btn btn-primary">Become a Member</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -244,7 +238,8 @@
     </div>
   </div>
   <a href="contact">Contact</a>
-  <span class="btn btn-secondary btn-block">Membership + Login Coming Soon</span>
+  <a href="member-portal" class="nav-cta-link">Parent Login</a>
+  <a href="membership#plan-selector" class="btn btn-primary btn-block">Become a Member</a>
 </div>
 
 <section class="cc-hero" id="main">
@@ -252,7 +247,7 @@
     <div class="cc-hero-copy">
       <span class="eyebrow">The Coach Collective</span>
       <h1 class="cc-hero-title">Your Program. <br class="br-desktop">With a <span class="accent">Home Court.</span></h1>
-      <p class="cc-hero-sub">You bring the athletes, the coaching, and your way of doing things. We bring the court, the community, and, if you want it, a little help behind the scenes.</p>
+      <p class="cc-hero-sub">You bring the athletes, the coaching, and your way of doing things. We bring the court &mdash; and a little backup if you need it.</p>
       <div class="hero-ctas"><a href="contact?interest=The%20Coach%20Collective#contact-form" class="btn btn-primary" data-preset="The Coach Collective">Join the Coach Collective →</a></div>
     </div>
     <div class="cc-hero-media">
@@ -265,25 +260,11 @@
   <div class="container">
     <div class="cc-head">
       <span class="eyebrow">The Collective</span>
-      <h2>Good Coaches Know <br class="br-desktop">Other Good <span class="accent">Coaches.</span></h2>
+      <h2>Your Athletes. Your Program. <span class="accent">Our Court.</span></h2>
     </div>
     <div class="cc-collective-body">
-      <p>Be part of a network of independent basketball and volleyball coaches doing their own thing under one roof.</p>
-      <p>Swap ideas. Make connections. Learn from each other. Know a few more people who understand the work.</p>
-      <p class="cc-collective-strong">Your Program Stays Yours. You Just Know More People Now.</p>
-    </div>
-  </div>
-</section>
-
-<section class="cc-train">
-  <div class="container">
-    <div class="cc-head">
-      <span class="eyebrow">Train Here</span>
-      <h2>Bring Your <span class="accent">People.</span></h2>
-    </div>
-    <div class="cc-train-body">
-      <p>Private sessions. Small groups. Skill work. Your program.</p>
-      <p>You coach your athletes your way. We give you a consistent place to do it.</p>
+      <p>Run private sessions, small groups, team workouts, or a program of your own.</p>
+      <p>You coach your athletes your way. We give you a consistent place to do it &mdash; alongside other independent basketball and volleyball coaches doing the same.</p>
     </div>
   </div>
   <div class="cc-sports-grid">
@@ -291,14 +272,12 @@
       <div class="photo" role="img" aria-label="A coach and young basketball players fist-bumping in a team huddle at The Courts"><img loading="lazy" src="images/leagues-huddle.jpg" alt="" style="object-position:55% 30%;"></div>
       <div class="cc-sport-body">
         <span class="eyebrow eyebrow--light">Basketball</span>
-        <h3>Bring the workout. We&rsquo;ve got the hoops.</h3>
       </div>
     </div>
     <div class="cc-sport-panel">
       <div class="photo" role="img" aria-label="A coach talking with a group of young volleyball players in a huddle"><img loading="lazy" src="images/volleyball-huddle.jpg" alt="" style="object-position:50% 20%;"></div>
       <div class="cc-sport-body">
         <span class="eyebrow eyebrow--light">Volleyball</span>
-        <h3>Bring the group. We&rsquo;ve got the net.</h3>
       </div>
     </div>
   </div>
@@ -312,8 +291,7 @@
       <h2>Need Backup? <br class="br-desktop">We&rsquo;ve Got <span class="accent">Some.</span></h2>
     </div>
     <div class="cc-support-body">
-      <p>Some coaches just need a court. Others want a little more help running everything around the coaching.</p>
-      <p class="cc-support-intro">For Coach Collective members who want it, The Courts can provide additional support with things like:</p>
+      <p class="cc-support-intro">Need help with the stuff around the coaching?</p>
     </div>
     <ul class="cc-support-list">
       <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3v3M16 3v3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Scheduling</li>
@@ -322,7 +300,7 @@
       <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4.5 6.5a2 2 0 012-2h11a2 2 0 012 2v8a2 2 0 01-2 2H10l-4 3.5v-3.5H6.5a2 2 0 01-2-2v-8z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Parent Communication</li>
       <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="4" cy="6" r="1.1" fill="currentColor"/><circle cx="4" cy="12" r="1.1" fill="currentColor"/><circle cx="4" cy="18" r="1.1" fill="currentColor"/></svg>Program Logistics</li>
     </ul>
-    <p class="cc-support-strong">Your Program. Your Call. We&rsquo;re Here If You Need Us.</p>
+    <p class="cc-support-strong">Your Program Stays Yours. Use the Help You Need.</p>
   </div>
 </section>
 
@@ -330,25 +308,24 @@
   <div class="container">
     <div class="cc-head">
       <span class="eyebrow">Who It&rsquo;s For</span>
-      <h2>You Coach. <br class="br-desktop">You&rsquo;ve Got People. <br class="br-desktop">That&rsquo;s Pretty Much <span class="accent">It.</span></h2>
+      <h2>You Coach. <br class="br-desktop">You&rsquo;ve Got <span class="accent">People.</span></h2>
     </div>
     <ul class="cc-qualify-list">
       <li>Independent basketball coaches.</li>
       <li>Independent volleyball coaches.</li>
       <li>Private trainers.</li>
       <li>Small-group coaches.</li>
-      <li>Coaches building a program of their own.</li>
+      <li>Coaches building programs of their own.</li>
     </ul>
-    <p class="cc-qualify-note">One athlete. Twenty athletes. Somewhere in between.</p>
-    <p class="cc-qualify-close">If you&rsquo;ve got people to train, we&rsquo;ve got room.</p>
+    <p class="cc-qualify-note">One athlete or twenty.</p>
+    <p class="cc-qualify-close">If you&rsquo;ve got people to train, let&rsquo;s talk.</p>
   </div>
 </section>
 
 <section class="cc-final">
   <div class="container">
-    <span class="eyebrow">The Coach Collective</span>
-    <h2>Your People. <br class="br-desktop">Your Program. <br class="br-desktop">Our Court.</h2>
-    <p>Train here. Meet other coaches. Build your thing. And if you need a little backup along the way, we&rsquo;ve got some.</p>
+    <span class="eyebrow">Ready for a Home Court?</span>
+    <h2>Let&rsquo;s Talk.</h2>
     <div class="ctas" style="justify-content:center;"><a href="contact?interest=The%20Coach%20Collective#contact-form" class="btn btn-primary" data-preset="The Coach Collective">Ask About The Coach Collective →</a></div>
   </div>
 </section>

@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Youth Basketball &amp; Volleyball Training Plans in Nolensville | The Courts</title>
-<meta name="description" content="Weekly, Unlimited, Full Court, and Family training plans built around coach-led instruction for basketball and volleyball athletes at The Courts in Nolensville, TN.">
+<title>Youth Basketball &amp; Volleyball Membership Plans in Nolensville | The Courts</title>
+<meta name="description" content="Weekly, Unlimited, Full Court, and Family membership plans built around coach-led instruction for basketball and volleyball athletes at The Courts in Nolensville, TN.">
 <link rel="canonical" href="https://playthecourts.com/membership">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Courts">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://playthecourts.com/membership">
-<meta property="og:title" content="Youth Basketball &amp; Volleyball Training Plans in Nolensville | The Courts">
-<meta property="og:description" content="Weekly, Unlimited, Full Court, and Family training plans built around coach-led instruction for basketball and volleyball athletes at The Courts in Nolensville, TN.">
+<meta property="og:title" content="Youth Basketball &amp; Volleyball Membership Plans in Nolensville | The Courts">
+<meta property="og:description" content="Weekly, Unlimited, Full Court, and Family membership plans built around coach-led instruction for basketball and volleyball athletes at The Courts in Nolensville, TN.">
 <meta property="og:image" content="https://playthecourts.com/images/sweaty_shoulder_detail_crop.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Youth Basketball &amp; Volleyball Training Plans in Nolensville | The Courts">
-<meta name="twitter:description" content="Weekly, Unlimited, Full Court, and Family training plans built around coach-led instruction for basketball and volleyball athletes at The Courts in Nolensville, TN.">
+<meta name="twitter:title" content="Youth Basketball &amp; Volleyball Membership Plans in Nolensville | The Courts">
+<meta name="twitter:description" content="Weekly, Unlimited, Full Court, and Family membership plans built around coach-led instruction for basketball and volleyball athletes at The Courts in Nolensville, TN.">
 <meta name="twitter:image" content="https://playthecourts.com/images/sweaty_shoulder_detail_crop.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -97,17 +97,9 @@
   .plan-card-cta:hover .arrow { transform: translateX(4px); }
   .plan-card-cta:hover { color: var(--orange); }
 
-  .plan-card-soon { margin-top: auto; font-family: var(--font-sport); font-weight: 700; font-size: 13.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--gray-dark); display: inline-flex; align-items: center; gap: 9px; padding-top: 18px; border-top: 1px solid var(--gray-mid); }
-  .plan-card-soon::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
-
-  /* ---------- Membership status callout ---------- */
-  .mem-status { width: fit-content; max-width: 100%; margin: 0 auto 48px; display: flex; align-items: center; gap: 24px; background: var(--orange); border-radius: 16px; padding: clamp(24px,3vw,32px) clamp(32px,4.5vw,48px); text-align: left; }
-  .mem-status-icon { flex-shrink: 0; width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; }
-  .mem-status-body .eyebrow { display: block; margin-bottom: 8px; color: rgba(255,255,255,0.85); }
-  .mem-status-body h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(23px,2.9vw,30px); color: var(--white); margin: 0 0 8px; line-height: 1.15; }
-  .mem-status-body p { font-size: 17px; line-height: 1.55; color: rgba(255,255,255,0.88); max-width: 62ch; margin: 0; font-weight: 500; }
-  .mem-status-open { font-weight: 800; color: var(--white) !important; margin-top: 10px; }
-  @media (max-width: 620px) { .mem-status { flex-direction: column; align-items: flex-start; gap: 16px; } }
+  /* ---------- Small launch-state callout ---------- */
+  .mem-join-now { max-width: 640px; margin: 0 auto 48px; text-align: center; font-size: 16px; line-height: 1.6; color: var(--gray-dark); background: var(--gray-light); border-radius: 12px; padding: 16px 24px; }
+  .mem-join-now strong { color: var(--black); }
 
   @media (max-width: 900px) {
     .plan-module { grid-template-columns: 1fr; border-top: none; }
@@ -294,7 +286,8 @@
       <div class="nav-item"><a href="contact">Contact</a></div>
     </nav>
     <div class="nav-cta">
-      <span class="btn btn-secondary">Membership + Login Coming Soon</span>
+      <a href="member-portal" class="nav-cta-link">Parent Login</a>
+      <a href="membership#plan-selector" class="btn btn-primary">Become a Member</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -351,14 +344,15 @@
     </div>
   </div>
   <a href="contact">Contact</a>
-  <span class="btn btn-secondary btn-block">Membership + Login Coming Soon</span>
+  <a href="member-portal" class="nav-cta-link">Parent Login</a>
+  <a href="membership#plan-selector" class="btn btn-primary btn-block">Become a Member</a>
 </div>
 
 <section class="mem-hero" id="main">
   <div class="mem-hero-grid">
     <div class="mem-hero-copy">
-      <span class="eyebrow">Training Plans</span>
-      <h1 class="mem-hero-title">More Reps. More Coaching. More Ways to Get Better.</h1>
+      <span class="eyebrow">Membership</span>
+      <h1 class="mem-hero-title">More Court. More Reps. More Ways to Play.</h1>
       <div class="hero-ctas" style="margin-top:8px;"><a href="#plan-selector" class="btn btn-primary">See the Plans ↓</a></div>
     </div>
     <div class="mem-hero-media">
@@ -380,20 +374,12 @@
 
 <section class="mem-selector-zone" id="plan-selector">
   <div class="container">
-    <div class="mem-status">
-      <div class="mem-status-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="var(--white)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><circle cx="8" cy="12" r="2.2"/><path d="M13.5 10.5h5M13.5 13.5h3.5"/></svg></div>
-      <div class="mem-status-body">
-        <span class="eyebrow">Training Plan Status</span>
-        <h2>Training Plans Are Almost Here.</h2>
-        <p>We&rsquo;re putting the finishing touches on the Courts training experience now. Plans and pricing are set. Online enrollment will open soon.</p>
-        <p class="mem-status-open">Opening October 1. Stay tuned.</p>
-      </div>
-    </div>
+    <p class="mem-join-now"><strong>Join Now. Start October 1.</strong> Memberships are available now, with benefits beginning when The Courts opens October 1.</p>
 
     <div class="mem-section-head">
       <span class="eyebrow">Pick Your Plan</span>
-      <h2>Four Ways to Train More.</h2>
-      <p>Four sessions. Unlimited training. More one-on-one. Or bring the whole crew.</p>
+      <h2>Find Your Fit.</h2>
+      <p>Four sessions. Unlimited access. More one-on-one. Or bring the whole crew.</p>
     </div>
 
     <div class="plan-module">
@@ -417,7 +403,7 @@
             <li>Camps &middot; Member pricing</li>
           </ul>
         </details>
-        <span class="plan-card-soon">Enrollment Opens Soon</span>
+        <a href="https://app.playthecourts.com/signup" target="_blank" rel="noopener" class="plan-card-cta" data-plan-cta="weekly">Join Weekly <span class="arrow">→</span></a>
       </div>
 
       <div class="plan-card plan-card--popular" data-plan="unlimited">
@@ -441,7 +427,7 @@
             <li>Camps &middot; Member pricing</li>
           </ul>
         </details>
-        <span class="plan-card-soon">Enrollment Opens Soon</span>
+        <a href="https://app.playthecourts.com/signup" target="_blank" rel="noopener" class="plan-card-cta" data-plan-cta="unlimited">Join Unlimited <span class="arrow">→</span></a>
       </div>
 
       <div class="plan-card" data-plan="fullcourt">
@@ -457,7 +443,7 @@
           <div>
             <span class="plan-card-benefit-num">2</span>
             <span class="plan-card-benefit-label">Dr. Dish<br>Sessions / Month</span>
-            <p class="plan-card-benefit-note">Basketball only. Additional sessions &middot; $20 each.</p>
+            <p class="plan-card-benefit-note">Dr. Dish benefit is for basketball athletes. Additional Dr. Dish sessions are $20 each.</p>
           </div>
           <div>
             <span class="plan-card-benefit-num">Unlimited</span>
@@ -465,7 +451,7 @@
           </div>
         </div>
         <p class="plan-card-benefit-note" style="margin:-10px 0 16px;">Included Private Training and Dr. Dish sessions reset each billing cycle and don&rsquo;t roll over.</p>
-        <span class="plan-card-soon">Enrollment Opens Soon</span>
+        <a href="https://app.playthecourts.com/signup" target="_blank" rel="noopener" class="plan-card-cta" data-plan-cta="fullcourt">Join Full Court <span class="arrow">→</span></a>
       </div>
 
       <div class="plan-card" data-plan="family">
@@ -496,7 +482,7 @@
             <li>Camps &middot; Member pricing</li>
           </ul>
         </details>
-        <span class="plan-card-soon">Enrollment Opens Soon</span>
+        <a href="https://app.playthecourts.com/signup" target="_blank" rel="noopener" class="plan-card-cta" data-plan-cta="family">Join Family <span class="arrow">→</span></a>
       </div>
     </div>
   </div>
@@ -583,7 +569,7 @@
     <div class="mem-section-head">
       <span class="eyebrow">Drop-In Options</span>
       <h2>Come Play Anyway.</h2>
-      <p>You don&rsquo;t need a membership to get on the court. Drop-in options below are open now &mdash; membership enrollment opens October 1.</p>
+      <p>You don&rsquo;t need a membership to play at The Courts. Drop-in options will be available beginning October 1.</p>
     </div>
     <div class="dropin-list">
       <div class="dropin-row">
@@ -651,7 +637,7 @@
     <div class="pre-footer-col">
       <span class="pre-footer-eyebrow">Ready to Play?</span>
       <h3 class="pre-footer-title">Find Your Membership.</h3>
-      <a href="contact?interest=Membership#contact-form" class="pre-footer-link" data-preset="Membership">Become a Member <span class="arrow">→</span></a>
+      <a href="https://app.playthecourts.com/signup" target="_blank" rel="noopener" class="pre-footer-link">Become a Member <span class="arrow">→</span></a>
     </div>
     <div class="pre-footer-col">
       <span class="pre-footer-eyebrow">Want to Look Around First?</span>
