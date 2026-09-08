@@ -108,6 +108,10 @@
   .lg-eval-season p strong { color: var(--black); font-weight: 800; }
 
   .lg-eval-form-wrap { background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: var(--radius-lg); padding: clamp(32px,4vw,48px); box-shadow: 0 24px 60px rgba(23,23,23,0.1); position: sticky; top: 110px; }
+  .lg-eval-toggle { width: 100%; justify-content: center; margin-bottom: 8px; }
+  .lg-eval-form-panel { overflow: hidden; max-height: 0; opacity: 0; transition: max-height 0.4s var(--ease), opacity 0.3s var(--ease); }
+  .lg-eval-form-panel.is-open { max-height: 4000px; opacity: 1; margin-top: 28px; }
+  .lg-eval-form-wrap > .lg-eval-pay-cta:first-of-type { margin-top: 8px; }
   .lg-eval-form-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(21px,2.2vw,25px); margin: 0 0 24px; }
   .lg-eval-fgroup { padding-top: 22px; margin-top: 4px; border-top: 1px solid var(--gray-mid); }
   .lg-eval-fgroup:first-of-type { padding-top: 0; margin-top: 0; border-top: none; }
@@ -424,17 +428,11 @@
       </div>
 
       <div class="lg-eval-form-wrap">
-        <div class="lg-eval-pay-cta">
-          <p class="lg-eval-pay-cta-headline">Already submitted your evaluation form? We&rsquo;ve got your information. You can pay your evaluation fee now.</p>
-          <a href="https://buy.stripe.com/4gMfZi4EMaYk4yM3TF0Fi00" class="btn btn-primary" rel="noopener">Pay Evaluation Fee →</a>
-        </div>
+        <button type="button" class="btn btn-primary lg-eval-toggle" id="evalToggleBtn" aria-expanded="false" aria-controls="evalFormPanel">
+          <span class="lg-eval-toggle-label">Register for Evaluations <span class="arrow">→</span></span>
+        </button>
 
-        <div class="lg-eval-pay-cta">
-          <p class="lg-eval-pay-cta-headline">Can&rsquo;t Make Evaluations?</p>
-          <p class="lg-eval-pay-cta-note" style="margin:0 0 16px;">Go ahead and complete your Fall League registration, and our coaching team will follow up with you directly about player placement.</p>
-          <a href="https://buy.stripe.com/3cI14o6MU5E0fdq3TF0Fi02" class="btn btn-primary" rel="noopener">Complete League Registration →</a>
-        </div>
-
+        <div class="lg-eval-form-panel" id="evalFormPanel" hidden>
         <form id="evalForm" novalidate>
           <h3 class="lg-eval-form-title">Fall League Evaluation Registration</h3>
 
@@ -498,6 +496,18 @@
           <p class="lg-eval-form-note">Evaluation registration is $25 and counts toward your $375 Fall League registration. Once your evaluation registration is complete, we&rsquo;ll send you a $25 promo code to use at league checkout.</p>
           <p class="lg-eval-form-error" id="evalFormError" hidden>That didn&rsquo;t go through. Give it another try.</p>
         </form>
+        </div>
+
+        <div class="lg-eval-pay-cta">
+          <p class="lg-eval-pay-cta-headline">Already submitted your evaluation form? We&rsquo;ve got your information. You can pay your evaluation fee now.</p>
+          <a href="https://buy.stripe.com/4gMfZi4EMaYk4yM3TF0Fi00" class="btn btn-primary" rel="noopener">Pay Evaluation Fee →</a>
+        </div>
+
+        <div class="lg-eval-pay-cta">
+          <p class="lg-eval-pay-cta-headline">Can&rsquo;t Make Evaluations?</p>
+          <p class="lg-eval-pay-cta-note" style="margin:0 0 16px;">Go ahead and complete your Fall League registration, and our coaching team will follow up with you directly about player placement.</p>
+          <a href="https://buy.stripe.com/3cI14o6MU5E0fdq3TF0Fi02" class="btn btn-primary" rel="noopener">Complete League Registration →</a>
+        </div>
       </div>
     </div>
   </div>
@@ -639,6 +649,33 @@
   </div>
 </footer>
 
+<script>
+(function () {
+  var toggleBtn = document.getElementById('evalToggleBtn');
+  var panel = document.getElementById('evalFormPanel');
+  if (!toggleBtn || !panel) return;
+  var labelEl = toggleBtn.querySelector('.lg-eval-toggle-label');
+  var closeTimer = null;
+
+  toggleBtn.addEventListener('click', function () {
+    var expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+    if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+    if (expanded) {
+      panel.classList.remove('is-open');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      labelEl.innerHTML = 'Register for Evaluations <span class="arrow">→</span>';
+      closeTimer = setTimeout(function () { panel.hidden = true; }, 400);
+    } else {
+      panel.hidden = false;
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { panel.classList.add('is-open'); });
+      });
+      toggleBtn.setAttribute('aria-expanded', 'true');
+      labelEl.innerHTML = 'Hide Registration Form <span class="arrow">↑</span>';
+    }
+  });
+})();
+</script>
 <script>
 (function () {
   var form = document.getElementById('evalForm');

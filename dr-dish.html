@@ -113,23 +113,6 @@
   .dd-workout-tags span { font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--black); border: 1.5px solid var(--gray-mid); border-radius: 999px; padding: 10px 20px; }
   .dd-workouts-note { text-align: center; font-size: 14px; font-style: italic; color: var(--gray-dark); margin: 32px 0 0; }
 
-  /* ---------- Keep Going ladder ---------- */
-  .dd-consistency { background: var(--black); padding: 90px 0; }
-  .dd-ladder { display: flex; align-items: stretch; gap: 0; margin-top: 56px; flex-wrap: wrap; justify-content: center; }
-  .dd-ladder-step { flex: 1; min-width: 190px; text-align: center; padding: 0 20px; }
-  .dd-ladder-num { display: block; font-family: var(--font-sport); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; color: var(--orange); margin-bottom: 10px; }
-  .dd-ladder-step h3 { font-family: var(--font-display); font-weight: 900; font-size: 21px; color: var(--white); margin: 0 0 8px; }
-  .dd-ladder-step p { font-size: 13.5px; line-height: 1.5; color: rgba(255,255,255,0.65); margin: 0 0 14px; }
-  .dd-ladder-price { font-family: var(--font-display); font-weight: 900; font-size: 20px; color: var(--white); }
-  .dd-ladder-price small { display: block; font-family: var(--font-heading); font-weight: 600; font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px; }
-  .dd-ladder-step--full { background: rgba(222, 80, 25,0.1); border-radius: var(--radius-md); padding: 24px 20px; }
-  .dd-ladder-link { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--orange); }
-  .dd-ladder-arrow { color: var(--orange); font-family: var(--font-display); font-weight: 900; font-size: 20px; align-self: center; flex-shrink: 0; }
-  @media (max-width: 900px) {
-    .dd-ladder { flex-direction: column; align-items: stretch; max-width: 320px; margin-left: auto; margin-right: auto; }
-    .dd-ladder-step { text-align: left; padding: 0; }
-    .dd-ladder-arrow { display: none; }
-  }
   @media (max-width: 900px) {
     .dd-how { padding: 60px 0; }
     .dd-seq-trail { display: none; }
@@ -185,40 +168,21 @@
 
   /* ---------- Teams + Programs ---------- */
   .dd-teams { background: var(--black); padding: 100px 0; }
-  .dd-teams-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 860px; margin: 40px auto 0; }
-  .dd-teams-tags span { font-family: var(--font-sport); font-weight: 700; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(255,255,255,0.75); border: 1.5px solid rgba(255,255,255,0.25); border-radius: 999px; padding: 8px 16px; }
   .dd-team-price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; max-width: 900px; margin: 56px auto 0; }
-  .dd-team-price-card { background: var(--charcoal); border-radius: var(--radius-md); padding: 36px 32px; }
-  .dd-team-price-card h3 { font-family: var(--font-display); font-weight: 900; font-size: 24px; color: var(--white); margin: 0 0 14px; }
-  .dd-team-price-card p { font-size: 14.5px; line-height: 1.6; color: rgba(255,255,255,0.68); margin: 0 0 14px; }
-  .dd-team-price-card strong { color: var(--white); }
-  .dd-team-price { font-family: var(--font-display); font-weight: 900; font-size: 40px; color: var(--white); margin: 0 0 16px; }
+  .dd-team-price-card { background: var(--charcoal); border-radius: var(--radius-md); padding: 36px 32px; text-align: center; }
+  .dd-team-price-card h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3vw, 38px); color: var(--white); margin: 0 0 14px; }
+  .dd-team-price-card p { font-size: 14.5px; line-height: 1.6; color: rgba(255,255,255,0.68); margin: 0 0 20px; }
+  .dd-team-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 3.4vw, 44px); color: var(--white); margin: 0 0 16px; }
   .dd-team-price small { font-family: var(--font-heading); font-weight: 600; font-size: 15px; color: rgba(255,255,255,0.55); }
+  .dd-team-price-card--founding h3 small { font-family: var(--font-heading); font-weight: 600; font-size: 15px; color: rgba(255,255,255,0.55); }
   .dd-team-price-card--founding { border: 1.5px solid var(--orange); }
   .dd-founding-badge { display: inline-block; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-weight: 800; font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; margin-bottom: 14px; }
   @media (max-width: 760px) { .dd-team-price-grid { grid-template-columns: 1fr; } }
 
-  .dd-intro-banner { max-width: 640px; margin: 56px auto 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.14); padding-top: 44px; }
-  .dd-intro-banner h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 2.8vw, 32px); color: var(--white); margin: 0 0 14px; }
-  .dd-intro-banner p { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.68); margin: 0 0 10px; }
-  .dd-limited-note { display: block; font-size: 13px; font-style: italic; color: rgba(255,255,255,0.45); margin: 14px 0 20px; }
+  .dd-intro-banner { max-width: 560px; margin: 48px auto 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.14); padding-top: 36px; }
+  .dd-intro-banner p { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.68); margin: 0 0 12px; }
+  .dd-intro-banner strong { color: var(--white); }
   .dd-intro-link { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--orange); }
-
-  .dd-team-example { max-width: 480px; margin: 64px auto 0; text-align: center; }
-  .dd-team-example .eyebrow { display: block; margin-bottom: 20px; }
-  .dd-team-example-card { background: var(--charcoal); border-left: 3px solid var(--orange); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 26px 30px; text-align: left; }
-  .dd-team-example-card h4 { font-family: var(--font-display); font-weight: 900; font-size: 19px; color: var(--white); margin: 0 0 8px; }
-  .dd-team-example-card p { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.68); margin: 0 0 8px; }
-  .dd-team-example-price { font-family: var(--font-heading); font-weight: 700; color: var(--orange) !important; }
-  .dd-team-example-note { font-size: 12.5px; font-style: italic; color: rgba(255,255,255,0.45); margin: 16px 0 0; }
-
-  /* ---------- Membership connection ---------- */
-  .dd-membership-link { background: var(--white); padding: 96px 0; }
-  .dd-fc-highlight { max-width: 480px; margin: 48px auto 0; background: var(--gray-light); border-radius: var(--radius-md); padding: 36px 40px; text-align: left; }
-  .dd-fc-highlight h3 { font-family: var(--font-display); font-weight: 900; font-size: 21px; margin: 0 0 18px; }
-  .dd-fc-highlight ul { margin: 0 0 26px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
-  .dd-fc-highlight li { font-size: 15px; color: var(--gray-dark); padding-left: 16px; position: relative; }
-  .dd-fc-highlight li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); }
 
   /* ---------- Good to Know ---------- */
   .dd-faq { background: var(--gray-light); padding: 96px 0; }
@@ -616,12 +580,8 @@
       <div class="faq-a"><p>Nope. Anyone can book Dr. Dish. Members receive preferred individual pricing.</p></div>
     </div>
     <div class="faq-item">
-      <button class="faq-q">Can I buy multiple sessions? <span class="faq-q-icon">+</span></button>
-      <div class="faq-a"><p>Yep. A 10-session individual package is $250.</p></div>
-    </div>
-    <div class="faq-item">
       <button class="faq-q">Does Full Court include Dr. Dish? <span class="faq-q-icon">+</span></button>
-      <div class="faq-a"><p>Yep. Full Court Basketball includes two individual sessions every month, with additional individual sessions at the $20 member rate.</p></div>
+      <div class="faq-a"><p>Yep. Full Court includes two individual sessions every month, with additional individual sessions at the $20 member rate.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q">Can my team use Dr. Dish? <span class="faq-q-icon">+</span></button>
