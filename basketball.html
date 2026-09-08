@@ -43,6 +43,26 @@
   .bb-hero-media .bb-hero-photo { position: absolute; top: 3%; right: 2%; left: 3%; bottom: 3%; border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 40px 70px rgba(0,0,0,0.28); }
   .bb-hero-media .bb-hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; }
   .bb-hero-baseline { position: absolute; left: 0; bottom: 11%; width: 18%; height: 3px; background: var(--orange); z-index: 3; }
+
+  /* ---------- Signature moment: basketball bounces in and settles on the baseline ---------- */
+  .bb-bounce-ball { position: absolute; left: 6%; bottom: 11%; z-index: 4; transform-origin: 50% 100%; animation: bbBounceIn 1.6s cubic-bezier(0.3,0,0.7,1) 0.4s both; }
+  @keyframes bbBounceIn {
+    0%   { transform: translateY(-160px) rotate(0deg); opacity: 0; }
+    6%   { opacity: 1; }
+    28%  { transform: translateY(0) rotate(80deg); }
+    42%  { transform: translateY(-46px) rotate(140deg); }
+    58%  { transform: translateY(0) rotate(220deg); }
+    68%  { transform: translateY(-16px) rotate(255deg); }
+    80%  { transform: translateY(0) rotate(300deg); }
+    88%  { transform: translateY(-5px) rotate(315deg); }
+    100% { transform: translateY(0) rotate(324deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bb-bounce-ball { animation: none; transform: rotate(324deg); opacity: 1; }
+  }
+  @media (max-width: 980px) {
+    .bb-bounce-ball { display: none; }
+  }
   @media (max-width: 980px) {
     .bb-hero-grid { grid-template-columns: 1fr; min-height: 0; }
     .bb-hero-copy { padding: 140px 24px 40px; }
@@ -311,6 +331,10 @@
     <div class="bb-hero-media">
       <div class="bb-hero-photo"><img src="images/03_hands_gripping_basketball.jpg" alt="Close-up of a hand gripping a basketball." style="object-position:50% 40%;"></div>
       <div class="bb-hero-baseline"></div>
+      <svg class="bb-bounce-ball" id="bbBounceBall" width="46" height="46" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+        <circle cx="22" cy="22" r="20" fill="var(--orange)"/>
+        <path d="M2,22 h40 M22,2 v40 M7,7 C15,15 15,29 7,37 M37,7 C29,15 29,29 37,37" stroke="#1B1000" stroke-width="1.6" opacity="0.5" fill="none"/>
+      </svg>
     </div>
   </div>
 </section>
