@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shop | The Courts — Nolensville, TN</title>
-<meta name="description" content="Tees, hoodies, hats, and gear from The Courts Shop in Nolensville, TN — plus Courts gift cards.">
+<title>The Courts Shop | Apparel, Gear &amp; Gift Cards</title>
+<meta name="description" content="Shop The Courts apparel, hats, training gear, bags and gift cards for basketball and volleyball families in Nolensville, TN.">
 <link rel="canonical" href="https://playthecourts.com/shop">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Courts">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://playthecourts.com/shop">
-<meta property="og:title" content="Shop | The Courts — Nolensville, TN">
-<meta property="og:description" content="Tees, hoodies, hats, and gear from The Courts Shop in Nolensville, TN — plus Courts gift cards.">
+<meta property="og:title" content="The Courts Shop | Apparel, Gear &amp; Gift Cards">
+<meta property="og:description" content="Shop The Courts apparel, hats, training gear, bags and gift cards for basketball and volleyball families in Nolensville, TN.">
 <meta property="og:image" content="https://playthecourts.com/images/16_volleyball_gear_courtside_still_life.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Shop | The Courts — Nolensville, TN">
-<meta name="twitter:description" content="Tees, hoodies, hats, and gear from The Courts Shop in Nolensville, TN — plus Courts gift cards.">
+<meta name="twitter:title" content="The Courts Shop | Apparel, Gear &amp; Gift Cards">
+<meta name="twitter:description" content="Shop The Courts apparel, hats, training gear, bags and gift cards for basketball and volleyball families in Nolensville, TN.">
 <meta name="twitter:image" content="https://playthecourts.com/images/16_volleyball_gear_courtside_still_life.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -103,7 +103,8 @@
   .tile--8 .tile-name { font-size:20px; }
   .tile-price { font-size:14px; color:var(--gray-dark); font-weight:600; white-space:nowrap; }
   .tile-sizing-note { font-size:12.5px; color:var(--gray-dark); margin:4px 0 0; }
-  .tile-variants { display:flex; gap:6px; flex-wrap:wrap; margin:10px 0 0; border:none; padding:0; }
+  .tile-size-label { display:block; font-family:var(--font-sport); font-weight:700; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--gray-dark); margin:12px 0 6px; }
+  .tile-variants { display:flex; gap:6px; flex-wrap:wrap; margin:0; border:none; padding:0; }
   .tile-variants input { position:absolute; opacity:0; width:1px; height:1px; }
   .tile-variants label {
     cursor:pointer; min-width:34px; text-align:center; padding:6px 8px; border:1.5px solid var(--gray-mid);
@@ -324,7 +325,8 @@
       <div class="nav-item"><a href="contact">Contact</a></div>
     </nav>
     <div class="nav-cta">
-      <span class="btn btn-secondary">Membership + Login Coming Soon</span>
+      <a href="member-portal" class="nav-cta-link">Parent Login</a>
+      <a href="membership#plan-selector" class="btn btn-primary">Become a Member</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -381,7 +383,8 @@
     </div>
   </div>
   <a href="contact">Contact</a>
-  <span class="btn btn-secondary btn-block">Membership + Login Coming Soon</span>
+  <a href="member-portal">Parent Login</a>
+  <a href="membership#plan-selector" class="btn btn-primary btn-block">Become a Member</a>
 </div>
 
 <div class="gear-overlay" id="gearOverlay">
@@ -429,6 +432,7 @@
         </div>
         <div class="tile-meta"><h3 class="tile-name">Courts Hoodie</h3><span class="tile-price">$58</span></div>
         <p class="tile-sizing-note">Adult sizing.</p>
+        <span class="tile-size-label" aria-hidden="true">Size</span>
         <fieldset class="tile-variants" data-required="true">
           <legend class="sr-only">Size for Courts Hoodie</legend>
           <input type="radio" name="size-hoodie" id="size-hoodie-xs" value="XS"><label for="size-hoodie-xs">XS</label>
@@ -455,6 +459,7 @@
         </div>
         <div class="tile-meta"><h3 class="tile-name">Courts Performance Tee</h3><span class="tile-price">$34</span></div>
         <p class="tile-sizing-note">Adult sizing.</p>
+        <span class="tile-size-label" aria-hidden="true">Size</span>
         <fieldset class="tile-variants" data-required="true">
           <legend class="sr-only">Size for Courts Performance Tee</legend>
           <input type="radio" name="size-perf-tee" id="size-perf-tee-xs" value="XS"><label for="size-perf-tee-xs">XS</label>
@@ -481,6 +486,7 @@
         </div>
         <div class="tile-meta"><h3 class="tile-name">Courts Tee</h3><span class="tile-price">$28</span></div>
         <p class="tile-sizing-note">Adult sizing.</p>
+        <span class="tile-size-label" aria-hidden="true">Size</span>
         <fieldset class="tile-variants" data-required="true">
           <legend class="sr-only">Size for Courts Tee</legend>
           <input type="radio" name="size-tee" id="size-tee-xs" value="XS"><label for="size-tee-xs">XS</label>
@@ -507,6 +513,7 @@
         </div>
         <div class="tile-meta"><h3 class="tile-name">Court Shorts</h3><span class="tile-price">$36</span></div>
         <p class="tile-sizing-note">Adult sizing.</p>
+        <span class="tile-size-label" aria-hidden="true">Size</span>
         <fieldset class="tile-variants" data-required="true">
           <legend class="sr-only">Size for Court Shorts</legend>
           <input type="radio" name="size-shorts" id="size-shorts-xs" value="XS"><label for="size-shorts-xs">XS</label>
@@ -534,6 +541,7 @@
         </div>
         <div class="tile-meta"><h3 class="tile-name">Courts Joggers</h3><span class="tile-price">$48</span></div>
         <p class="tile-sizing-note">Adult sizing.</p>
+        <span class="tile-size-label" aria-hidden="true">Size</span>
         <fieldset class="tile-variants" data-required="true">
           <legend class="sr-only">Size for Courts Joggers</legend>
           <input type="radio" name="size-joggers" id="size-joggers-xs" value="XS"><label for="size-joggers-xs">XS</label>
@@ -680,9 +688,9 @@
 <section class="pre-footer">
   <div class="container pre-footer-inner">
     <div class="pre-footer-col">
-      <span class="pre-footer-eyebrow">Ready to Play?</span>
-      <h3 class="pre-footer-title">See What's on the Court.</h3>
-      <a href="schedule" class="pre-footer-link">View Schedule <span class="arrow">→</span></a>
+      <span class="pre-footer-eyebrow">Ready When You Are.</span>
+      <h3 class="pre-footer-title">See What's Coming Up.</h3>
+      <a href="events" class="pre-footer-link">See the Event Lineup <span class="arrow">→</span></a>
     </div>
     <div class="pre-footer-col">
       <span class="pre-footer-eyebrow">Playing a Lot?</span>
@@ -797,10 +805,10 @@
   </div>
 </footer>
 
-<button type="button" class="cart-toggle" id="cartToggle" aria-haspopup="dialog" aria-controls="cartDrawer">
+<button type="button" class="cart-toggle" id="cartToggle" aria-haspopup="dialog" aria-controls="cartDrawer" aria-label="Bag, 0 items">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 8h12l-1.2 11a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 8V6a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
   Bag
-  <span class="cart-toggle-count" id="cartCount">0</span>
+  <span class="cart-toggle-count" id="cartCount" aria-hidden="true">0</span>
 </button>
 
 <div class="cart-overlay" id="cartOverlay" hidden></div>
@@ -902,6 +910,7 @@
     }
     countEl.textContent = totalQty;
     subtotalEl.textContent = money(subtotal);
+    document.getElementById('cartToggle').setAttribute('aria-label', 'Bag, ' + totalQty + (totalQty === 1 ? ' item' : ' items'));
   }
 
   function openDrawer() {
