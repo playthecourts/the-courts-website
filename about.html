@@ -121,7 +121,8 @@
       <div class="nav-item"><a href="contact">Contact</a></div>
     </nav>
     <div class="nav-cta">
-      <span class="btn btn-secondary">Membership + Login Coming Soon</span>
+      <a href="member-portal" class="nav-cta-link">Parent Login</a>
+      <a href="membership#plan-selector" class="btn btn-primary">Become a Member</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -178,18 +179,20 @@
     </div>
   </div>
   <a href="contact">Contact</a>
-  <span class="btn btn-secondary btn-block">Membership + Login Coming Soon</span>
+  <a href="member-portal">Parent Login</a>
+  <a href="membership#plan-selector" class="btn btn-primary btn-block">Become a Member</a>
 </div>
 
 <section id="main" style="padding:164px 0 28px; background:var(--gray-light);">
   <div class="container" style="max-width:760px;">
     <div class="founder-note-wrap">
     <div class="founder-note">
-      <h1 class="ab-intro-headline">Hello, <span class="accent ab-nolensville-wrap"><span class="ab-opening-pill"><span class="ab-opening-dot"></span>Opening October 1</span>Nolensville.</span></h1>
+      <span class="ab-opening-pill"><span class="ab-opening-dot"></span>Opening October 1</span>
+      <h1 class="ab-intro-headline">Hello, <span class="accent">Nolensville.</span></h1>
       <p>I had the opportunity to experience NextGen first as a parent, which gave me a front-row seat to what made this place special.</p>
       <p>I watched my son train, play, make friends, and find a place he genuinely wanted to keep coming back to. I saw coaches who cared, relationships that formed, and a community that grew around the court.</p>
       <p><strong style="font-size:16.5px;">I was a parent here before I was the owner.</strong></p>
-      <button type="button" class="founder-note-toggle" id="founderToggle" aria-expanded="false" aria-controls="founder-more">Read the Full Letter <span class="founder-note-toggle-icon">+</span></button>
+      <button type="button" class="founder-note-toggle" id="founderToggle" aria-expanded="false" aria-controls="founder-more">Read Melissa&rsquo;s Note <span class="founder-note-toggle-icon" aria-hidden="true">+</span></button>
       <div class="founder-note-more" id="founder-more" hidden>
         <p>I grew up as a competitive cheerleader, so I've spent a lot of my life on the sidelines cheering other people on.</p>
         <p><strong>Turns out, I still am.</strong></p>
@@ -209,8 +212,7 @@
 
 <style>
   .ab-intro-headline { font-family: var(--font-display); font-weight: 900; font-size: clamp(36px, 5.5vw, 60px); line-height: 1.03; letter-spacing: -0.01em; color: var(--black); margin: 0 0 20px; }
-  .ab-nolensville-wrap { position: relative; display: inline-block; }
-  .ab-opening-pill { position: absolute; bottom: 100%; right: 0; margin-bottom: 26px; display: inline-flex; align-items: center; gap: 8px; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 22px; border-radius: 999px; white-space: nowrap; }
+  .ab-opening-pill { margin-bottom: 22px; display: inline-flex; align-items: center; gap: 8px; background: var(--orange); color: var(--white); font-family: var(--font-sport); font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 22px; border-radius: 999px; white-space: nowrap; }
   .ab-opening-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--white); flex-shrink: 0; animation: featStatusPulse 1.6s ease-in-out infinite; }
   @media (prefers-reduced-motion: reduce) { .ab-opening-dot { animation: none; } }
 
@@ -221,8 +223,7 @@
   .founder-note-signoff { margin-top: 30px !important; }
   .founder-note-title { color: var(--gray-dark); font-size: 15px; }
   .founder-note-toggle { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--black); background: none; border: none; border-bottom: 1px solid var(--gray-mid); padding: 0 0 3px; cursor: pointer; margin: 4px 0 6px; }
-  .founder-note-toggle-icon { display: inline-block; font-family: var(--font-heading); font-weight: 900; color: var(--orange); font-size: 17px; line-height: 1; transition: transform 0.2s var(--ease); }
-  .founder-note-toggle[aria-expanded="true"] .founder-note-toggle-icon { transform: rotate(45deg); }
+  .founder-note-toggle-icon { display: inline-block; font-family: var(--font-heading); font-weight: 900; color: var(--orange); font-size: 17px; line-height: 1; }
   .founder-note-more[hidden] { display: none; }
   .founder-note-more { margin-top: 6px; }
 
@@ -378,7 +379,8 @@
       <h2 class="section-title" style="color:var(--white);">Good Coaches Change the Game.</h2>
       <p class="section-sub" style="color:rgba(255,255,255,0.72);"><span style="display:block; margin-bottom:3px;">Knowing the game matters. Knowing the athlete matters, too.</span><span style="display:block; margin-bottom:3px;">Our coaches know when to teach, when to push, and when to step back.</span><span style="display:block;">Give them what they need. Then let them own it.</span></p>
     </div>
-    <div class="coaches-board">
+    <!-- Hidden for launch: no approved coach photos or bios yet. Remove `hidden` once real assets exist — cards below are still intact. -->
+    <div class="coaches-board" hidden>
       <div class="coach-pill coach-pill--bb"><span class="coach-group-pill">Basketball</span></div>
       <div class="coach-pill coach-pill--vb"><span class="coach-group-pill">Volleyball</span></div>
 
@@ -524,7 +526,7 @@
       <div class="community-body">
         <p>Being part of a community means more than opening the doors. <strong>It means showing up.</strong></p>
         <p>We want The Courts to give back to the schools, organizations, families, and causes that make Nolensville such a great place to raise kids.</p>
-        <p>And we want our athletes to have opportunities to<br>be part of that, too. <strong>Because being a great teammate shouldn't stop at the gym door.</strong></p>
+        <p>And we want our athletes to have opportunities to be part of that, too. <strong>Because being a great teammate shouldn't stop at the gym door.</strong></p>
         <p>School partnerships. Volunteer projects. Community service. <strong>A chance to show up for the place that shows up for us.</strong></p>
       </div>
     </div>
@@ -826,7 +828,9 @@
       var expanded = btn.getAttribute('aria-expanded') === 'true';
       more.hidden = expanded;
       btn.setAttribute('aria-expanded', String(!expanded));
-      btn.innerHTML = expanded ? 'Read the Full Letter <span class="founder-note-toggle-icon">+</span>' : 'Show Less <span class="founder-note-toggle-icon">+</span>';
+      btn.innerHTML = expanded
+        ? 'Read Melissa&rsquo;s Note <span class="founder-note-toggle-icon" aria-hidden="true">+</span>'
+        : 'Show Less <span class="founder-note-toggle-icon" aria-hidden="true">&minus;</span>';
     });
   })();
 </script>
