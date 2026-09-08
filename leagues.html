@@ -430,9 +430,20 @@
       </div>
 
       <div class="lg-eval-form-wrap">
-        <button type="button" class="btn btn-primary lg-eval-toggle" id="evalToggleBtn" aria-expanded="false" aria-controls="evalFormPanel">
-          <span class="lg-eval-toggle-label">Register for Evaluations <span class="arrow">→</span></span>
-        </button>
+        <div class="lg-eval-decision-head">
+          <span class="eyebrow">Fall League</span>
+          <h3 class="lg-eval-decision-title">What Do You Need to Do?</h3>
+          <p class="lg-eval-decision-sub">Pick the option that fits where you are.</p>
+        </div>
+
+        <div class="lg-eval-option lg-eval-option--primary">
+          <span class="lg-eval-option-eyebrow">Need an Evaluation?</span>
+          <h4 class="lg-eval-option-head">Start Here.</h4>
+          <p class="lg-eval-option-body">Register your athlete for Fall League evaluations on September 12.</p>
+          <button type="button" class="btn btn-primary lg-eval-toggle" id="evalToggleBtn" aria-expanded="false" aria-controls="evalFormPanel">
+            <span class="lg-eval-toggle-label">Register for Evaluations <span class="arrow">→</span></span>
+          </button>
+        </div>
 
         <div class="lg-eval-form-panel" id="evalFormPanel" hidden>
         <form id="evalForm" novalidate>
@@ -500,15 +511,21 @@
         </form>
         </div>
 
-        <div class="lg-eval-pay-cta">
-          <p class="lg-eval-pay-cta-headline">Already submitted your evaluation form? We&rsquo;ve got your information. You can pay your evaluation fee now.</p>
-          <a href="https://buy.stripe.com/4gMfZi4EMaYk4yM3TF0Fi00" class="btn btn-primary" rel="noopener">Pay Evaluation Fee →</a>
-        </div>
+        <div class="lg-eval-options-secondary">
+          <div class="lg-eval-option lg-eval-option--secondary">
+            <span class="lg-eval-option-eyebrow">Already Submitted?</span>
+            <h4 class="lg-eval-option-head">Just Need to Pay?</h4>
+            <p class="lg-eval-option-body">If we already have your evaluation form, you can pay the $25 evaluation fee here.</p>
+            <a href="https://buy.stripe.com/4gMfZi4EMaYk4yM3TF0Fi00" class="btn btn-secondary lg-eval-option-cta" rel="noopener">Pay Evaluation Fee →</a>
+            <p class="lg-eval-option-note">$25 evaluation fee. Applied in full toward Fall League registration if your athlete joins a team.</p>
+          </div>
 
-        <div class="lg-eval-pay-cta">
-          <p class="lg-eval-pay-cta-headline">Can&rsquo;t Make Evaluations?</p>
-          <p class="lg-eval-pay-cta-note" style="margin:0 0 16px;">Go ahead and complete your Fall League registration, and our coaching team will follow up with you directly about player placement.</p>
-          <a href="https://buy.stripe.com/3cI14o6MU5E0fdq3TF0Fi02" class="btn btn-primary" rel="noopener">Complete League Registration →</a>
+          <div class="lg-eval-option lg-eval-option--alt">
+            <span class="lg-eval-option-eyebrow">Can&rsquo;t Make Evaluations?</span>
+            <h4 class="lg-eval-option-head">You Can Still Play.</h4>
+            <p class="lg-eval-option-body">Complete your Fall League registration and our coaching team will follow up directly about player placement.</p>
+            <a href="https://buy.stripe.com/3cI14o6MU5E0fdq3TF0Fi02" class="lg-eval-option-textlink" rel="noopener">Complete League Registration <span class="arrow">→</span></a>
+          </div>
         </div>
       </div>
     </div>
