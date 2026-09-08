@@ -221,6 +221,7 @@
   .founder-note p { font-size: 16.5px; line-height: 1.65; color: var(--gray-dark); margin: 0 0 18px; font-style: italic; }
   .founder-note p strong { color: var(--black); font-weight: 800; font-size: 18px; }
   .founder-note-signoff { margin-top: 30px !important; }
+  .founder-note-signoff strong { font-size: 15px; }
   .founder-note-title { color: var(--gray-dark); font-size: 15px; }
   .founder-note-toggle { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--black); background: none; border: none; border-bottom: 1px solid var(--gray-mid); padding: 0 0 3px; cursor: pointer; margin: 4px 0 6px; }
   .founder-note-toggle-icon { display: inline-block; font-family: var(--font-heading); font-weight: 900; color: var(--orange); font-size: 17px; line-height: 1; }
@@ -320,7 +321,6 @@
           <span class="ts-sb-winners-label">Past Winners</span>
           <p class="ts-sb-winners-empty">Quiet in here. For now.</p>
         </div>
-        <a href="contact?interest=Something%20Else#contact-form" class="ts-sb-cta" data-preset="Something Else">Nominate an Athlete →</a>
       </div>
     </div>
   </div>
@@ -364,8 +364,6 @@
   .ts-sb-winners { text-align: center; padding: 16px 0; margin: 0 0 20px; border-top: 1px solid var(--gray-mid); }
   .ts-sb-winners-label { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 17px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
   .ts-sb-winners-empty { font-size: 12.5px; font-style: italic; line-height: 1.5; color: var(--gray-dark); margin: 0; }
-  .ts-sb-cta { display: block; text-align: center; font-family: var(--font-heading); font-weight: 800; font-size: 17px; color: var(--orange); }
-  .ts-sb-cta:hover { color: var(--orange-hover); }
   @media (max-width: 860px) {
     .ts-grid { grid-template-columns: 1fr; gap: 40px; }
     .ts-scoreboard { margin: 0 auto; }
@@ -379,8 +377,7 @@
       <h2 class="section-title" style="color:var(--white);">Good Coaches Change the Game.</h2>
       <p class="section-sub" style="color:rgba(255,255,255,0.72);"><span style="display:block; margin-bottom:3px;">Knowing the game matters. Knowing the athlete matters, too.</span><span style="display:block; margin-bottom:3px;">Our coaches know when to teach, when to push, and when to step back.</span><span style="display:block;">Give them what they need. Then let them own it.</span></p>
     </div>
-    <!-- Hidden for launch: no approved coach photos or bios yet. Remove `hidden` once real assets exist — cards below are still intact. -->
-    <div class="coaches-board" hidden>
+    <div class="coaches-board">
       <div class="coach-pill coach-pill--bb"><span class="coach-group-pill">Basketball</span></div>
       <div class="coach-pill coach-pill--vb"><span class="coach-group-pill">Volleyball</span></div>
 
