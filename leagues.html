@@ -98,9 +98,35 @@
   .lg-eval-body { font-size: 15.5px; line-height: 1.65; color: var(--gray-dark); max-width: 54ch; margin: 0 0 22px; }
   .lg-eval-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(20px,2.4vw,24px); color: var(--black); margin: 0 0 14px; }
   .lg-eval-price span { display: block; font-family: var(--font-heading); font-weight: 500; font-size: 14px; color: var(--gray-dark); margin-top: 8px; max-width: 54ch; line-height: 1.55; }
-  .lg-eval-pay-cta { background: var(--white); border: 1.5px solid var(--orange); border-radius: var(--radius-sm); padding: 22px 24px; margin: 0 0 32px; }
-  .lg-eval-pay-cta-headline { font-family: var(--font-heading); font-weight: 800; font-size: 16.5px; color: var(--black); margin: 0 0 14px; max-width: 42ch; }
-  .lg-eval-pay-cta-note { font-size: 13.5px; line-height: 1.5; color: var(--gray-dark); margin: 14px 0 0; max-width: 54ch; }
+  .lg-eval-decision-head { margin: 0 0 24px; }
+  .lg-eval-decision-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px,2.4vw,27px); margin: 4px 0 8px; }
+  .lg-eval-decision-sub { font-size: 15px; color: var(--gray-dark); margin: 0; }
+
+  .lg-eval-option { border-radius: var(--radius-md); padding: 26px 28px; }
+  .lg-eval-option-eyebrow { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 11.5px; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 10px; }
+  .lg-eval-option-head { font-family: var(--font-display); font-weight: 900; font-size: clamp(21px,2.4vw,26px); margin: 0 0 10px; line-height: 1.1; }
+  .lg-eval-option-body { font-size: 14.5px; line-height: 1.6; margin: 0 0 20px; max-width: 42ch; }
+  .lg-eval-option-note { font-size: 12.5px; line-height: 1.5; margin: 12px 0 0; max-width: 46ch; color: var(--gray-dark); }
+
+  .lg-eval-option--primary { background: var(--near-black); margin-bottom: 28px; }
+  .lg-eval-option--primary .lg-eval-option-eyebrow { color: var(--orange); }
+  .lg-eval-option--primary .lg-eval-option-head { color: var(--white); }
+  .lg-eval-option--primary .lg-eval-option-body { color: rgba(255,255,255,0.72); }
+  .lg-eval-option--primary .lg-eval-toggle { width: 100%; justify-content: center; }
+
+  .lg-eval-options-secondary { display: flex; flex-direction: column; gap: 18px; margin-top: 28px; }
+  .lg-eval-option--secondary,
+  .lg-eval-option--alt { background: var(--warm-stone); padding: 22px 24px; }
+  .lg-eval-option--secondary .lg-eval-option-eyebrow,
+  .lg-eval-option--alt .lg-eval-option-eyebrow { color: var(--orange-ink); }
+  .lg-eval-option--secondary .lg-eval-option-head,
+  .lg-eval-option--alt .lg-eval-option-head { color: var(--black); font-size: clamp(19px,2.1vw,22px); }
+  .lg-eval-option--secondary .lg-eval-option-body,
+  .lg-eval-option--alt .lg-eval-option-body { color: var(--gray-dark); margin-bottom: 16px; }
+  .lg-eval-option-cta { width: 100%; justify-content: center; }
+  .lg-eval-option-textlink { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-heading); font-weight: 700; font-size: 14.5px; color: var(--orange); }
+  .lg-eval-option-textlink .arrow { color: var(--orange); transition: transform 0.2s var(--ease); }
+  .lg-eval-option-textlink:hover .arrow { transform: translateX(4px); }
 
   .lg-eval-season { background: var(--gray-light); border-left: 4px solid var(--orange); border-radius: var(--radius-sm); padding: 20px 24px; }
   .lg-eval-season h4 { font-family: var(--font-sport); font-weight: 800; font-size: 13.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); margin: 0 0 9px; }
