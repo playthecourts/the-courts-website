@@ -29,42 +29,39 @@
 <style>
   /* ---------- Hero next-up ---------- */
 
-  /* ---------- Camp status callout ---------- */
-  .camp-status { padding: 64px 0 8px; text-align: center; }
-  .camp-status-box { max-width: 720px; margin: 0 auto; background: var(--gray-light); border-left: 5px solid var(--orange); border-radius: var(--radius-md); padding: clamp(30px,4vw,44px) clamp(28px,4vw,44px); }
-  .camp-status-box .eyebrow { display: block; margin-bottom: 12px; }
-  .camp-status-box h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px,3vw,30px); margin: 0 0 14px; line-height: 1.1; }
-  .camp-status-box p { font-size: 16px; line-height: 1.65; color: var(--gray-dark); max-width: 58ch; margin: 0 auto; }
-  .camp-status-lead { font-weight: 800; color: var(--black); margin-top: 16px; }
-  .camp-schedule-note { font-size: 14px; font-style: italic; color: var(--gray-dark); max-width: 60ch; margin: 18px auto 0; text-align: center; line-height: 1.6; }
+  /* ---------- Registration update banner ---------- */
+  .camp-reg-update { padding: 22px 0; }
+  .camp-reg-update .container { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px 12px; max-width: 640px; text-align: center; }
+  .camp-reg-update-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+  .camp-reg-update-label { font-family: var(--font-sport); font-weight: 800; font-size: 11.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); }
+  .camp-reg-update-text { font-family: var(--font-heading); font-weight: 600; font-size: 14.5px; color: var(--gray-dark); }
 
   /* ---------- Coming-soon CTA pill (replaces booking links pre-launch) ---------- */
   .soon-pill { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 999px; padding: 13px 22px; white-space: nowrap; }
   .soon-pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
   .soon-pill--dark { color: rgba(255,255,255,0.78); background: transparent; border-color: rgba(255,255,255,0.28); padding: 10px 18px; }
 
-  /* ---------- Camp feature: basketball / volleyball split ---------- */
-  .camp-feature { padding: 76px 0; }
-  .camp-split-grid { display: grid; grid-template-columns: 1fr 1px 1fr; gap: 48px; align-items: start; }
-  .camp-split-divider { background: var(--gray-mid); width: 1px; align-self: stretch; }
-  .camp-split-media { position: relative; aspect-ratio: 4/3; border-radius: var(--radius-md); overflow: hidden; margin-bottom: 26px; }
-  .camp-split-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .camp-feature-subhead { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 3vw, 32px); line-height: 1.05; margin: 12px 0 16px; }
+  /* ---------- Camp feature: basketball / volleyball, compact cards ---------- */
+  .camp-feature { padding: 52px 0 64px; }
+  .camp-split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; }
+  .camp-next-col { display: flex; flex-direction: column; background: var(--warm-white); border: 1px solid var(--gray-mid); border-radius: var(--radius-md); overflow: hidden; }
+  .camp-next-media { position: relative; aspect-ratio: 16/9; }
+  .camp-next-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .camp-next-body { padding: 22px 24px 24px; display: flex; flex-direction: column; flex-grow: 1; }
+  .camp-next-head { font-family: var(--font-display); font-weight: 900; font-size: clamp(20px, 2.2vw, 24px); line-height: 1.1; margin: 8px 0 8px; }
   .cp-underline { position: relative; display: inline-block; }
-  .cp-underline-mark { position: absolute; left: -2%; bottom: -10px; width: 104%; height: 14px; pointer-events: none; }
-  .camp-split-col p { font-size: 16px; line-height: 1.7; color: var(--gray-dark); max-width: 40ch; margin: 0 0 14px; }
-  .camp-feature-detail { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--black); margin: 18px 0 16px; }
-  .camp-split-foot { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-top: 20px; flex-wrap: wrap; }
-  .camp-split-schedule { display: flex; flex-direction: column; gap: 7px; font-family: var(--font-sport); font-weight: 700; font-size: 16px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); }
-  .camp-split-schedule span:nth-child(2) { color: var(--black); font-size: 17px; }
-  .camp-split-action { text-align: right; }
-  @media (max-width: 460px) { .camp-split-foot { flex-direction: column; align-items: flex-start; } .camp-split-action { text-align: left; } }
-  .camp-feature-detail .sep { color: var(--gray-mid); margin: 0 10px; }
-  .camp-feature-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 2.9vw, 34px); color: var(--black); margin: 0 0 6px; }
-  .camp-feature-price .member-price { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--orange); }
-  .camp-feature-price-daily { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--gray-dark); margin: 0 0 20px; }
-  .camp-feature-price-daily .member-price { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--orange); }
-  @media (max-width: 860px) { .camp-split-grid { grid-template-columns: 1fr; gap: 48px; } .camp-split-divider { display: none; } }
+  .cp-underline-mark { position: absolute; left: -2%; bottom: -8px; width: 104%; height: 12px; pointer-events: none; }
+  .camp-next-desc { font-size: 14.5px; line-height: 1.55; color: var(--gray-dark); margin: 0 0 16px; }
+  .camp-next-meta { display: flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-weight: 800; font-size: 14px; letter-spacing: 0.02em; color: var(--black); margin-bottom: 8px; }
+  .camp-next-meta-sep { color: var(--gray-mid); }
+  .camp-next-price { display: flex; align-items: center; gap: 8px; font-family: var(--font-heading); font-size: 14px; color: var(--gray-dark); margin-bottom: 16px; }
+  .camp-next-price strong { color: var(--black); font-weight: 800; }
+  .camp-next-price-sep { color: var(--gray-mid); }
+  .camp-next-body .soon-pill { margin-top: auto; align-self: flex-start; }
+  @media (max-width: 760px) {
+    .camp-split-grid { grid-template-columns: 1fr; gap: 24px; }
+    .camp-next-media { aspect-ratio: 16/9; }
+  }
 
   /* ---------- Compact month-grouped calendar ---------- */
   .camp-filter { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 40px auto 0; max-width: 720px; }
@@ -78,22 +75,24 @@
   .cal-row { display: grid; grid-template-columns: 108px 1fr 130px; align-items: center; gap: 16px; padding: 15px 20px; margin: 0 -20px; border-top: 1px solid var(--gray-mid); border-radius: 8px; }
   .cal-row:nth-child(even) { background: var(--gray-light); }
   .cal-date { display: inline-block; align-self: start; font-family: var(--font-display); font-weight: 900; color: var(--white); background: var(--orange); font-size: 12.5px; letter-spacing: 0.01em; padding: 7px 10px; border-radius: 8px; text-align: center; line-height: 1.2; white-space: nowrap; }
-  .cal-info h4 { font-family: var(--font-heading); font-weight: 800; color: var(--black); font-size: 16px; margin: 0 0 2px; display: inline; }
+  .cal-info h4 { font-family: var(--font-heading); font-weight: 800; color: var(--black); font-size: 15px; margin: 0 0 8px; }
   .cal-tag { display: inline-block; margin-left: 8px; font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-dark); background: var(--white); padding: 5px 12px; border-radius: 999px; vertical-align: middle; }
-  .cal-info p { font-family: var(--font-heading); font-size: 13px; font-weight: 700; color: var(--gray-dark); margin: 4px 0 0; }
+  .cal-info p { font-family: var(--font-heading); font-size: 13px; font-weight: 700; color: var(--gray-dark); margin: 6px 0 0; }
   .cal-info p .member-price { color: var(--orange); }
-  .cal-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .cal-pills { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
   .cal-pill { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 11px; border-radius: 999px; }
   .cal-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
   .cal-pill--bb { color: var(--orange-ink); background: rgba(222, 80, 25,0.13); }
   .cal-pill--bb::before { background: var(--orange); }
   .cal-pill--vb { color: #1E7A61; background: rgba(64,163,143,0.16); }
   .cal-pill--vb::before { background: #40A38F; }
+  .cal-info-time { font-family: var(--font-heading); font-weight: 700; font-size: 13px; color: var(--gray-dark); }
   .cal-action { font-size: 13px; font-weight: 700; color: var(--orange); text-align: right; white-space: nowrap; }
-  .cal-action--soon { color: var(--gray-dark); opacity: 0.55; font-style: italic; font-weight: 600; font-size: 11.5px; white-space: normal; line-height: 1.3; }
+  .cal-action--soon { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-sport); font-weight: 700; font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 999px; padding: 7px 12px; white-space: nowrap; }
+  .cal-action--soon::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
 
   .cal-row--combo { align-items: start; padding-top: 20px; padding-bottom: 20px; }
-  .cal-combo-info { display: flex; flex-direction: column; gap: 12px; }
+  .cal-combo-info { display: flex; flex-direction: column; gap: 14px; }
   .cal-combo-line { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
   .cal-combo-price { font-family: var(--font-heading); font-size: 12.5px; font-weight: 700; color: var(--gray-dark); }
   .cal-combo-price-daily { color: var(--gray-mid); font-weight: 600; }
@@ -276,64 +275,56 @@
     <h1 class="page-hero-title">School's Out. <br class="br-desktop">We're Not.</h1>
     <p class="page-hero-sub">Fall break. Teacher workdays. Early release. Holiday break.<br><strong>No school? We have plans.</strong></p>
     <div class="hero-ctas" style="margin-top:28px;">
-      <a href="#fall-break-bb" class="btn btn-primary">See What's Coming ↓</a>
-      <a href="faq" class="btn btn-on-dark">View Camp FAQs →</a>
+      <a href="#next-up" class="btn btn-primary">See What's Coming ↓</a>
+      <a href="faq" class="btn btn-on-dark">Camp FAQs →</a>
     </div>
   </div>
 </section>
 
-<section class="camp-status">
+<div class="camp-reg-update">
   <div class="container">
-    <div class="camp-status-box">
-      <span class="eyebrow">Camp Schedule</span>
-      <h2>Camp Schedule Is Coming Together.</h2>
-      <p>We&rsquo;ve got the dates and programming planned. We&rsquo;re just finishing up the backend setup so registration is smooth when it opens.</p>
-    </div>
+    <span class="camp-reg-update-dot" aria-hidden="true"></span>
+    <span class="camp-reg-update-label">Registration Update</span>
+    <span class="camp-reg-update-text">Fall Break registration opens soon.</span>
   </div>
-</section>
+</div>
 
-<section class="camp-feature" id="fall-break">
+<section class="camp-feature" id="next-up">
   <div class="container">
-    <div class="section-head center" style="margin-bottom:56px;">
+    <div class="section-head center" style="margin-bottom:36px;">
       <span class="eyebrow">Next Up</span>
-      <h2 class="section-title">Five Days of Camp. <br class="br-desktop">Take the Week or Just a Few.</h2>
+      <h2 class="section-title">Four Days of Camp. <br class="br-desktop">Let&rsquo;s Go.</h2>
+      <p class="section-sub">Take all four days or choose the days that work for you.</p>
     </div>
     <div class="camp-split-grid">
-      <div class="camp-split-col reveal" id="fall-break-bb">
-        <div class="camp-split-media"><img loading="lazy" src="images/basketball-camp-defensive-stance.png" alt="A young athlete in a defensive stance during camp, hoop in the background." style="object-position:50% 25%;"></div>
-        <span class="eyebrow">Basketball</span>
-        <h3 class="camp-feature-subhead">Fall Break <span class="cp-underline">Basketball<svg class="cp-underline-mark drawn-mark" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C28,11.5 58,5 90,8 C122,10.8 156,5.8 198,8.8" stroke="#DE5019" stroke-width="5.5" stroke-linecap="round" fill="none" opacity="0.88"/><path d="M3,7.8 C40,10 82,6.4 122,8.2 C152,9.4 178,7 197,7.8" stroke="#E5772F" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.6"/></svg></span> Camp.</h3>
-        <p>Five mornings of basketball training, competition, games, and plenty of reps.</p>
-        <div class="camp-split-foot">
-          <div class="camp-split-schedule">
-            <span>Mon&ndash;Fri</span>
-            <span>Oct 12&ndash;16</span>
-            <span>8 AM&ndash;12 PM</span>
+      <div class="camp-next-col reveal" id="fall-break-bb">
+        <div class="camp-next-media"><img loading="lazy" src="images/basketball-camp-defensive-stance.png" alt="A young athlete in a defensive stance during camp, hoop in the background." style="object-position:50% 30%;"></div>
+        <div class="camp-next-body">
+          <span class="eyebrow">Basketball</span>
+          <h3 class="camp-next-head">Fall Break <span class="cp-underline">Basketball<svg class="cp-underline-mark drawn-mark" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C28,11.5 58,5 90,8 C122,10.8 156,5.8 198,8.8" stroke="#DE5019" stroke-width="5.5" stroke-linecap="round" fill="none" opacity="0.88"/><path d="M3,7.8 C40,10 82,6.4 122,8.2 C152,9.4 178,7 197,7.8" stroke="#E5772F" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.6"/></svg></span> Camp</h3>
+          <p class="camp-next-desc">Four mornings of training, competition, games, and plenty of reps.</p>
+          <div class="camp-next-meta">
+            <span>Oct 12&ndash;15</span><span class="camp-next-meta-sep">&middot;</span><span>8 AM&ndash;12 PM</span>
           </div>
-          <div class="camp-split-action">
-            <p class="camp-feature-price">Full Week $300 <span class="member-price">&middot; Members $240</span></p>
-            <p class="camp-feature-price-daily">Daily $75/day <span class="member-price">&middot; Members $60/day</span></p>
-            <span class="soon-pill">Stay Tuned. More Soon.</span>
+          <div class="camp-next-price">
+            <span><strong>Full Camp</strong> $225</span><span class="camp-next-price-sep">&middot;</span><span><strong>Single Day</strong> $65</span>
           </div>
+          <span class="soon-pill">Registration Opens Soon</span>
         </div>
       </div>
-      <div class="camp-split-divider" aria-hidden="true"></div>
-      <div class="camp-split-col reveal">
-        <div class="camp-split-media"><img loading="lazy" src="images/volleyball-net-compete-hires.png" alt="A volleyball player attacking at the net during camp." style="object-position:50% 35%;"></div>
-        <span class="eyebrow">Volleyball</span>
-        <h3 class="camp-feature-subhead">Fall Break <span class="cp-underline">Volleyball<svg class="cp-underline-mark drawn-mark" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C28,11.5 58,5 90,8 C122,10.8 156,5.8 198,8.8" stroke="#DE5019" stroke-width="5.5" stroke-linecap="round" fill="none" opacity="0.88"/><path d="M3,7.8 C40,10 82,6.4 122,8.2 C152,9.4 178,7 197,7.8" stroke="#E5772F" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.6"/></svg></span> Camp.</h3>
-        <p>Five afternoons of volleyball training, competition, games, and plenty of touches.</p>
-        <div class="camp-split-foot">
-          <div class="camp-split-schedule">
-            <span>Mon&ndash;Fri</span>
-            <span>Oct 12&ndash;16</span>
-            <span>1&ndash;5 PM</span>
+      <div class="camp-next-col reveal">
+        <div class="camp-next-media"><img loading="lazy" src="images/volleyball-net-compete-hires.png" alt="A volleyball player attacking at the net during camp." style="object-position:50% 40%;"></div>
+        <div class="camp-next-body">
+          <span class="eyebrow">Volleyball</span>
+          <h3 class="camp-next-head">Fall Break <span class="cp-underline">Volleyball<svg class="cp-underline-mark drawn-mark" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C28,11.5 58,5 90,8 C122,10.8 156,5.8 198,8.8" stroke="#DE5019" stroke-width="5.5" stroke-linecap="round" fill="none" opacity="0.88"/><path d="M3,7.8 C40,10 82,6.4 122,8.2 C152,9.4 178,7 197,7.8" stroke="#E5772F" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.6"/></svg></span> Camp</h3>
+          <p class="camp-next-desc">Four afternoons of training, competition, games, and plenty of touches.</p>
+          <div class="camp-next-meta">
+            <span>Oct 12&ndash;15</span><span class="camp-next-meta-sep">&middot;</span><span>1&ndash;5 PM</span>
           </div>
-          <div class="camp-split-action">
-            <p class="camp-feature-price">Full Week $300 <span class="member-price">&middot; Members $240</span></p>
-            <p class="camp-feature-price-daily">Daily $75/day <span class="member-price">&middot; Members $60/day</span></p>
-            <span class="soon-pill">Stay Tuned. More Soon.</span>
+          <div class="camp-next-price">
+            <span><strong>Full Camp</strong> $225</span><span class="camp-next-price-sep">&middot;</span><span><strong>Single Day</strong> $65</span>
           </div>
+          <span class="soon-pill">Registration Opens Soon</span>
         </div>
       </div>
     </div>
@@ -345,17 +336,16 @@
     <div class="section-head center">
       <span class="eyebrow" style="font-size:22px;">Coming Up</span>
       <h2 class="section-title">So Many Days Off. So Little Time.</h2>
-      <p class="section-sub">Every early release, break, and holiday we&rsquo;re planning &mdash; mapped out below.<br>Registration opens as each date goes live.</p>
-      <p class="camp-schedule-note">Dates and programming are planned and may shift slightly as we finish the schedule. Registration links will be added as each camp goes live.</p>
+      <p class="section-sub">Every early release, break, and holiday we&rsquo;re planning, all in one place.</p>
     </div>
     <div class="camp-filter" id="campFilterMonth">
       <button type="button" class="camp-filter-btn active" data-filter="all">All</button>
-      <button type="button" class="camp-filter-btn" data-filter="oct">October</button>
-      <button type="button" class="camp-filter-btn" data-filter="nov">November</button>
-      <button type="button" class="camp-filter-btn" data-filter="dec">December</button>
+      <button type="button" class="camp-filter-btn" data-filter="oct">Oct</button>
+      <button type="button" class="camp-filter-btn" data-filter="nov">Nov</button>
+      <button type="button" class="camp-filter-btn" data-filter="dec">Dec</button>
     </div>
     <div class="camp-filter" id="campFilterSport" style="margin-top:12px;">
-      <button type="button" class="camp-filter-btn active" data-sport-filter="all">Both Sports</button>
+      <button type="button" class="camp-filter-btn active" data-sport-filter="all">All Sports</button>
       <button type="button" class="camp-filter-btn" data-sport-filter="bb">Basketball</button>
       <button type="button" class="camp-filter-btn" data-sport-filter="vb">Volleyball</button>
     </div>
@@ -363,19 +353,13 @@
       <div class="cal-board">
         <div class="cal-month-group" data-filter="oct">
           <div class="cal-month-label">October</div>
-          <div class="cal-row cal-row--combo reveal">
-            <span class="cal-date">Oct 12&ndash;16</span>
-            <div class="cal-combo-info">
-              <div class="cal-combo-line" data-sport="bb"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span><span class="cal-combo-price">Full Week $300 &middot; Members $240 <span class="cal-combo-price-daily">&middot; Daily $75 &middot; Members $60</span></span></div>
-              <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span><span class="cal-combo-price">Full Week $300 &middot; Members $240 <span class="cal-combo-price-daily">&middot; Daily $75 &middot; Members $60</span></span></div>
-            </div>
-            <div class="cal-combo-actions">
-              <span class="cal-action cal-action--soon">Registration Opens Soon</span>
-            </div>
-          </div>
           <div class="cal-row reveal" data-sport="bb">
             <span class="cal-date">Oct 28</span>
-            <div class="cal-info"><h4>Early Release</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 3&ndash;5 PM</span></div><p>$40 <span class="member-price">&middot; Members $35</span></p></div>
+            <div class="cal-info">
+              <h4>Early Release</h4>
+              <div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball</span><span class="cal-info-time">3&ndash;5 PM</span></div>
+              <p>$40 <span class="member-price">&middot; Members $35</span></p>
+            </div>
             <span class="cal-action cal-action--soon">Registration Opens Soon</span>
           </div>
         </div>
@@ -385,8 +369,8 @@
           <div class="cal-row cal-row--combo reveal">
             <span class="cal-date">Nov 3</span>
             <div class="cal-combo-info">
-              <div class="cal-combo-line" data-sport="bb"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span><span class="cal-combo-price">$65 &middot; Members $55</span></div>
-              <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span><span class="cal-combo-price">$65 &middot; Members $55</span></div>
+              <div class="cal-combo-line" data-sport="bb"><span class="cal-pill cal-pill--bb">Basketball</span><span class="cal-info-time">8&ndash;12</span><span class="cal-combo-price">$65 &middot; Members $55</span></div>
+              <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball</span><span class="cal-info-time">1&ndash;5</span><span class="cal-combo-price">$65 &middot; Members $55</span></div>
             </div>
             <div class="cal-combo-actions">
               <span class="cal-action cal-action--soon">Registration Opens Soon</span>
@@ -394,14 +378,18 @@
           </div>
           <div class="cal-row reveal" data-sport="vb">
             <span class="cal-date">Nov 18</span>
-            <div class="cal-info"><h4>Early Release</h4><div class="cal-pills"><span class="cal-pill cal-pill--vb">Volleyball 3&ndash;5 PM</span></div><p>$40 <span class="member-price">&middot; Members $35</span></p></div>
+            <div class="cal-info">
+              <h4>Early Release</h4>
+              <div class="cal-pills"><span class="cal-pill cal-pill--vb">Volleyball</span><span class="cal-info-time">3&ndash;5 PM</span></div>
+              <p>$40 <span class="member-price">&middot; Members $35</span></p>
+            </div>
             <span class="cal-action cal-action--soon">Registration Opens Soon</span>
           </div>
           <div class="cal-row cal-row--combo reveal">
             <span class="cal-date">Nov 23&ndash;25</span>
             <div class="cal-combo-info">
-              <div class="cal-combo-line" data-sport="bb"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
-              <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
+              <div class="cal-combo-line" data-sport="bb"><span class="cal-pill cal-pill--bb">Basketball</span><span class="cal-info-time">8&ndash;12</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
+              <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball</span><span class="cal-info-time">1&ndash;5</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
             </div>
             <div class="cal-combo-actions">
               <span class="cal-action cal-action--soon">Registration Opens Soon</span>
@@ -413,14 +401,18 @@
           <div class="cal-month-label">December</div>
           <div class="cal-row reveal" data-sport="bb">
             <span class="cal-date">Dec 9</span>
-            <div class="cal-info"><h4>Early Release</h4><div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball 3&ndash;5 PM</span></div><p>$40 <span class="member-price">&middot; Members $35</span></p></div>
+            <div class="cal-info">
+              <h4>Early Release</h4>
+              <div class="cal-pills"><span class="cal-pill cal-pill--bb">Basketball</span><span class="cal-info-time">3&ndash;5 PM</span></div>
+              <p>$40 <span class="member-price">&middot; Members $35</span></p>
+            </div>
             <span class="cal-action cal-action--soon">Registration Opens Soon</span>
           </div>
           <div class="cal-row cal-row--combo reveal">
             <span class="cal-date">Dec 21&ndash;23</span>
             <div class="cal-combo-info">
-              <div class="cal-combo-line" data-sport="bb"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
-              <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
+              <div class="cal-combo-line" data-sport="bb"><span class="cal-pill cal-pill--bb">Basketball</span><span class="cal-info-time">8&ndash;12</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
+              <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball</span><span class="cal-info-time">1&ndash;5</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
             </div>
             <div class="cal-combo-actions">
               <span class="cal-action cal-action--soon">Registration Opens Soon</span>
@@ -429,8 +421,8 @@
           <div class="cal-row cal-row--combo reveal">
             <span class="cal-date">Dec 28&ndash;30</span>
             <div class="cal-combo-info">
-              <div class="cal-combo-line" data-sport="bb"><span class="cal-pill cal-pill--bb">Basketball 8&ndash;12</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
-              <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball 1&ndash;5</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
+              <div class="cal-combo-line" data-sport="bb"><span class="cal-pill cal-pill--bb">Basketball</span><span class="cal-info-time">8&ndash;12</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
+              <div class="cal-combo-line" data-sport="vb"><span class="cal-pill cal-pill--vb">Volleyball</span><span class="cal-info-time">1&ndash;5</span><span class="cal-combo-price">$175 &middot; Members $150</span></div>
             </div>
             <div class="cal-combo-actions">
               <span class="cal-action cal-action--soon">Registration Opens Soon</span>
@@ -451,9 +443,9 @@
 <section class="pre-footer">
   <div class="container pre-footer-inner">
     <div class="pre-footer-col">
-      <span class="pre-footer-eyebrow">Next Day Off?</span>
-      <h3 class="pre-footer-title">We Probably Have Plans.</h3>
-      <a href="#board" class="pre-footer-link">See What's Coming <span class="arrow">→</span></a>
+      <span class="pre-footer-eyebrow">Playing a Lot?</span>
+      <h3 class="pre-footer-title">There&rsquo;s a Membership for That.</h3>
+      <a href="membership#plan-selector" class="pre-footer-link">Choose Your Membership <span class="arrow">→</span></a>
     </div>
     <div class="pre-footer-col">
       <span class="pre-footer-eyebrow">Just Want to Play?</span>
