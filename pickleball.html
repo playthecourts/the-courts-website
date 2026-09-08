@@ -86,19 +86,18 @@
   @media (max-width: 860px) { .pb-social-grid { grid-template-columns: 1fr; gap: 32px; } .pb-social-copy p { max-width: none; } }
 
   /* ---------- Section 4: court rentals CTA ---------- */
-  .pb-rentals { background: var(--pb-green-soft); padding: 80px 0; text-align: center; }
+  .pb-rentals { background: var(--warm-white); padding: 80px 0; text-align: center; }
   .pb-rentals .pb-eyebrow { color: var(--pb-green-dark); }
   .pb-rentals h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3.6vw, 44px); margin: 0 0 16px; color: var(--black); }
   .pb-rentals p { font-size: 16.5px; line-height: 1.6; color: var(--gray-dark); max-width: 48ch; margin: 0 auto 30px; }
 
-  /* ---------- Pre-footer green variant ---------- */
-  .pb-pre-footer-primary { background: var(--pb-green-dark) !important; }
-  .pb-pre-footer-primary .pre-footer-eyebrow, .pb-pre-footer-primary .pre-footer-title { color: var(--white); }
-  .pb-pre-footer-primary .pre-footer-link { color: var(--white); }
-  .pb-pre-footer-primary .pre-footer-link .arrow { color: var(--white); }
-  .pre-footer-inner .pre-footer-col:not(.pb-pre-footer-primary) .pre-footer-link .arrow { color: #22A04C; }
-  .pb-pre-footer-primary .pre-footer-link:hover { color: #DFF5E6; }
-  .pre-footer-inner .pre-footer-col:not(.pb-pre-footer-primary) .pre-footer-link:hover { color: #22A04C; }
+  /* ---------- Pre-footer: sitewide black bar, pickleball-green accents ---------- */
+  .pb-pre-footer .pre-footer-col:first-child { border-right-color: var(--pb-green); }
+  .pb-pre-footer .pre-footer-eyebrow { color: var(--pb-green); }
+  .pb-pre-footer .pre-footer-link .arrow { color: var(--pb-green); }
+  .pb-pre-footer .pre-footer-link:hover { border-bottom-color: var(--pb-green); }
+  .pb-pre-footer .pre-footer-link:hover .arrow { color: var(--pb-green); }
+  @media (max-width: 640px) { .pb-pre-footer .pre-footer-col:first-child { border-bottom-color: var(--pb-green); } }
 </style>
 </head>
 <body>
@@ -298,9 +297,9 @@
   </div>
 </section>
 
-<section class="pre-footer">
+<section class="pre-footer pb-pre-footer">
   <div class="container pre-footer-inner">
-    <div class="pre-footer-col pb-pre-footer-primary">
+    <div class="pre-footer-col">
       <span class="pre-footer-eyebrow">Ready to Play?</span>
       <h3 class="pre-footer-title">Bring Your Game Inside.</h3>
       <a href="contact?interest=Pickleball#contact-form" class="pre-footer-link" data-preset="Pickleball">Get on the Pickleball List <span class="arrow">→</span></a>

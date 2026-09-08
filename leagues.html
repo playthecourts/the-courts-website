@@ -94,7 +94,7 @@
   .lg-eval-times { list-style: none; margin: 0 0 22px; padding: 0; display: flex; flex-direction: column; gap: 6px; }
   .lg-eval-times li { font-size: 15px; color: var(--gray-dark); }
   .lg-eval-times strong { color: var(--black); font-weight: 700; }
-  .lg-eval-times--split { display: grid; grid-template-columns: 1fr 1fr; grid-auto-flow: column; gap: 6px 28px; }
+  .lg-eval-times--split { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(2, auto); grid-auto-flow: column; gap: 6px 28px; }
   .lg-eval-body { font-size: 15.5px; line-height: 1.65; color: var(--gray-dark); max-width: 54ch; margin: 0 0 22px; }
   .lg-eval-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(20px,2.4vw,24px); color: var(--black); margin: 0 0 14px; }
   .lg-eval-price span { display: block; font-family: var(--font-heading); font-weight: 500; font-size: 14px; color: var(--gray-dark); margin-top: 8px; max-width: 54ch; line-height: 1.55; }
@@ -442,14 +442,14 @@
         </ul>
         <p class="lg-eval-price">$25 Evaluation<span>Applied toward your $375 Fall League registration</span></p>
 
-        <p class="lg-eval-body">No cuts. Evaluations help us build balanced teams and determine placement.</p>
+        <p class="lg-eval-body">No cuts.<br>Evaluations help us build balanced teams and determine placement.</p>
 
         <div class="lg-eval-season">
           <h4>Fall Season</h4>
           <p><strong>Regular Season:</strong> October 24&ndash;December 5</p>
           <p style="margin-top: 10px;"><strong>Tournament Weekend:</strong> December 11&ndash;13, if applicable</p>
           <p style="margin-top: 12px;"><strong>Games:</strong> Played at WNSL locations throughout West Nashville and Brentwood.</p>
-          <p style="margin-top: 12px;"><strong>Team Practices:</strong> Currently planned for Wednesdays, one team-specific practice each week.</p>
+          <p style="margin-top: 12px;"><strong>Team Practices:</strong> Currently planned for Wednesdays or Thursdays, depending on team, one team-specific practice each week.</p>
         </div>
       </div>
 
@@ -541,14 +541,81 @@
             <h4 class="lg-eval-option-head">Just Need to Pay?</h4>
             <p class="lg-eval-option-body">If we already have your evaluation form, you can pay the $25 evaluation fee here.</p>
             <a href="https://buy.stripe.com/4gMfZi4EMaYk4yM3TF0Fi00" class="btn btn-secondary lg-eval-option-cta" rel="noopener">Pay Evaluation Fee →</a>
-            <p class="lg-eval-option-note">$25 evaluation fee. Applied in full toward Fall League registration if your athlete joins a team.</p>
           </div>
 
           <div class="lg-eval-option lg-eval-option--alt">
             <span class="lg-eval-option-eyebrow">Can&rsquo;t Make Evaluations?</span>
             <h4 class="lg-eval-option-head">You Can Still Play.</h4>
             <p class="lg-eval-option-body">Complete your Fall League registration and our coaching team will follow up directly about player placement.</p>
-            <a href="https://buy.stripe.com/3cI14o6MU5E0fdq3TF0Fi02" class="lg-eval-option-textlink" rel="noopener">Complete League Registration <span class="arrow">→</span></a>
+            <button type="button" class="lg-eval-option-textlink" id="regToggleBtn" aria-expanded="false" aria-controls="regFormPanel">
+              <span class="lg-eval-toggle-label">Complete League Registration <span class="arrow">→</span></span>
+            </button>
+          </div>
+
+          <div class="lg-eval-form-panel" id="regFormPanel" hidden>
+          <form id="regForm" novalidate>
+            <h3 class="lg-eval-form-title">Fall League Registration</h3>
+
+            <div class="lg-eval-fgroup">
+              <span class="lg-eval-fgroup-label">Parent / Guardian</span>
+              <div class="form-grid-2">
+                <div class="form-row"><label for="reg-parent-name">Parent / Guardian Name</label><input type="text" id="reg-parent-name" name="parent_name" required><span class="field-error"></span></div>
+                <div class="form-row"><label for="reg-email">Email</label><input type="email" id="reg-email" name="email" required><span class="field-error"></span></div>
+              </div>
+              <div class="form-row"><label for="reg-phone">Phone</label><input type="tel" id="reg-phone" name="phone" required><span class="field-error"></span></div>
+              <div class="form-row"><label for="reg-referral">How did you hear about us? <span class="form-optional-tag">Optional</span></label><select id="reg-referral" name="referral_source"><option value="">Select one</option><option>Website</option><option>Email</option><option>Phone</option><option>Walk-In</option><option>Coach Referral</option><option>Parent Referral</option><option>Social Media</option><option>NextGen Rollover</option><option>Other</option></select></div>
+            </div>
+
+            <div class="lg-eval-fgroup">
+              <span class="lg-eval-fgroup-label">Athlete</span>
+              <div class="form-row"><label for="reg-player-name">Athlete Name</label><input type="text" id="reg-player-name" name="player_name" required><span class="field-error"></span></div>
+              <div class="form-grid-2">
+                <div class="form-row"><label for="reg-player-gender">Player Gender</label><select id="reg-player-gender" name="player_gender" required><option value="">Select one</option><option>Boy</option><option>Girl</option></select><span class="field-error"></span></div>
+                <div class="form-row"><label for="reg-player-grade">Current Grade <span class="form-optional-tag">2026&ndash;27 School Year</span></label><select id="reg-player-grade" name="player_grade" required><option value="">Select one</option><option>3rd</option><option>4th</option><option>5th</option><option>6th</option><option>7th</option><option>8th</option><option>Other</option></select><span class="field-error"></span></div>
+              </div>
+              <div class="form-row"><label for="reg-school">School <span class="form-optional-tag">Optional</span></label><input type="text" id="reg-school" name="school"></div>
+
+              <div class="lg-eval-extra-athlete" id="regExtraAthlete2" hidden>
+                <div class="lg-eval-extra-athlete-head">
+                  <span>2nd Athlete</span>
+                  <button type="button" class="lg-eval-remove-athlete" id="regRemoveAthlete2">Remove</button>
+                </div>
+                <div class="form-row"><label for="reg-player-name-2">Athlete Name</label><input type="text" id="reg-player-name-2" name="player_name_2"><span class="field-error"></span></div>
+                <div class="form-grid-2">
+                  <div class="form-row"><label for="reg-player-gender-2">Player Gender</label><select id="reg-player-gender-2" name="player_gender_2"><option value="">Select one</option><option>Boy</option><option>Girl</option></select><span class="field-error"></span></div>
+                  <div class="form-row"><label for="reg-player-grade-2">Current Grade</label><select id="reg-player-grade-2" name="player_grade_2"><option value="">Select one</option><option>3rd</option><option>4th</option><option>5th</option><option>6th</option><option>7th</option><option>8th</option><option>Other</option></select><span class="field-error"></span></div>
+                </div>
+              </div>
+
+              <div class="lg-eval-extra-athlete" id="regExtraAthlete3" hidden>
+                <div class="lg-eval-extra-athlete-head">
+                  <span>3rd Athlete</span>
+                  <button type="button" class="lg-eval-remove-athlete" id="regRemoveAthlete3">Remove</button>
+                </div>
+                <div class="form-row"><label for="reg-player-name-3">Athlete Name</label><input type="text" id="reg-player-name-3" name="player_name_3"><span class="field-error"></span></div>
+                <div class="form-grid-2">
+                  <div class="form-row"><label for="reg-player-gender-3">Player Gender</label><select id="reg-player-gender-3" name="player_gender_3"><option value="">Select one</option><option>Boy</option><option>Girl</option></select><span class="field-error"></span></div>
+                  <div class="form-row"><label for="reg-player-grade-3">Current Grade</label><select id="reg-player-grade-3" name="player_grade_3"><option value="">Select one</option><option>3rd</option><option>4th</option><option>5th</option><option>6th</option><option>7th</option><option>8th</option><option>Other</option></select><span class="field-error"></span></div>
+                </div>
+              </div>
+
+              <button type="button" class="lg-eval-add-athlete" id="regAddAthlete">+ Add Another Athlete</button>
+            </div>
+
+            <div class="lg-eval-fgroup">
+              <span class="lg-eval-fgroup-label">Team Placement</span>
+              <div class="form-row"><label for="reg-placement">Is there a specific athlete, coach, or group you&rsquo;d like to be placed with? <span class="form-optional-tag">Optional</span></label><textarea id="reg-placement" name="placement_request"></textarea><span class="lg-eval-hint">We&rsquo;ll do our best to accommodate requests. Final team placement will be based on grade, skill level, roster balance, and overall registration.</span></div>
+              <div class="form-row"><label for="reg-conflicts">Any scheduling conflicts we should know about? <span class="form-optional-tag">Optional</span></label><textarea id="reg-conflicts" name="scheduling_conflicts"></textarea></div>
+              <div class="form-row"><label for="reg-notes">Anything else we should know about your athlete? <span class="form-optional-tag">Optional</span></label><textarea id="reg-notes" name="additional_notes"></textarea></div>
+            </div>
+
+            <input type="hidden" name="source" value="Website - Fall League Direct Registration">
+            <input type="hidden" name="signup_page" class="lg-eval-signup-page" value="">
+
+            <button type="submit" class="btn btn-primary btn-block" id="regFormSubmit">Continue to Payment →</button>
+            <p class="lg-eval-form-note">Fall League registration is $375. You&rsquo;ll be redirected to secure payment to complete your spot.</p>
+            <p class="lg-eval-form-error" id="regFormError" hidden>That didn&rsquo;t go through. Give it another try.</p>
+          </form>
           </div>
         </div>
       </div>
@@ -737,6 +804,33 @@
 </script>
 <script>
 (function () {
+  var toggleBtn = document.getElementById('regToggleBtn');
+  var panel = document.getElementById('regFormPanel');
+  if (!toggleBtn || !panel) return;
+  var labelEl = toggleBtn.querySelector('.lg-eval-toggle-label');
+  var closeTimer = null;
+
+  toggleBtn.addEventListener('click', function () {
+    var expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+    if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+    if (expanded) {
+      panel.classList.remove('is-open');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      labelEl.innerHTML = 'Complete League Registration <span class="arrow">→</span>';
+      closeTimer = setTimeout(function () { panel.hidden = true; }, 400);
+    } else {
+      panel.hidden = false;
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { panel.classList.add('is-open'); });
+      });
+      toggleBtn.setAttribute('aria-expanded', 'true');
+      labelEl.innerHTML = 'Hide Registration Form <span class="arrow">↑</span>';
+    }
+  });
+})();
+</script>
+<script>
+(function () {
   var form = document.getElementById('evalForm');
   if (!form) return;
   var errorEl = document.getElementById('evalFormError');
@@ -842,6 +936,123 @@
       if (!res.ok) throw new Error('Submission failed');
       var email = document.getElementById('ev-email').value.trim();
       var payUrl = 'https://buy.stripe.com/4gMfZi4EMaYk4yM3TF0Fi00';
+      if (email) payUrl += '?prefilled_email=' + encodeURIComponent(email);
+      window.location.href = payUrl;
+    }).catch(function () {
+      errorEl.classList.add('show');
+      submitBtn.disabled = false;
+      submitBtn.textContent = defaultLabel;
+    });
+  });
+})();
+</script>
+<script>
+(function () {
+  var form = document.getElementById('regForm');
+  if (!form) return;
+  var errorEl = document.getElementById('regFormError');
+  var submitBtn = document.getElementById('regFormSubmit');
+  var defaultLabel = submitBtn.textContent;
+  var signupPageField = form.querySelector('.lg-eval-signup-page');
+  signupPageField.value = window.location.pathname;
+
+  var addAthleteBtn = document.getElementById('regAddAthlete');
+  var extra2 = document.getElementById('regExtraAthlete2');
+  var extra3 = document.getElementById('regExtraAthlete3');
+  var removeAthlete2Btn = document.getElementById('regRemoveAthlete2');
+  var removeAthlete3Btn = document.getElementById('regRemoveAthlete3');
+
+  function setAthleteGroup(group, visible) {
+    group.hidden = !visible;
+    group.querySelectorAll('input, select').forEach(function (field) {
+      field.disabled = !visible;
+      if (!visible) {
+        field.value = '';
+        var row = field.closest('.form-row');
+        if (row) clearError(row);
+      }
+    });
+  }
+
+  addAthleteBtn.addEventListener('click', function () {
+    if (extra2.hidden) {
+      setAthleteGroup(extra2, true);
+      addAthleteBtn.textContent = '+ Add a Third Athlete';
+    } else if (extra3.hidden) {
+      setAthleteGroup(extra3, true);
+      addAthleteBtn.hidden = true;
+    }
+  });
+  removeAthlete2Btn.addEventListener('click', function () {
+    setAthleteGroup(extra2, false);
+    setAthleteGroup(extra3, false);
+    addAthleteBtn.hidden = false;
+    addAthleteBtn.textContent = '+ Add Another Athlete';
+  });
+  removeAthlete3Btn.addEventListener('click', function () {
+    setAthleteGroup(extra3, false);
+    addAthleteBtn.hidden = false;
+    addAthleteBtn.textContent = '+ Add a Third Athlete';
+  });
+
+  var errorMessages = {
+    'reg-parent-name': 'Enter a parent/guardian name',
+    'reg-email': 'Add a valid email address',
+    'reg-phone': 'Add a phone number',
+    'reg-player-name': 'Enter the player&rsquo;s name',
+    'reg-player-gender': 'Choose one',
+    'reg-player-grade': 'Choose one'
+  };
+  var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function showError(row, msg) {
+    row.classList.add('field-invalid');
+    var err = row.querySelector('.field-error');
+    if (err) err.innerHTML = msg;
+  }
+  function clearError(row) { row.classList.remove('field-invalid'); }
+
+  form.querySelectorAll('input, select, textarea').forEach(function (field) {
+    var clear = function () { var row = field.closest('.form-row'); if (row) clearError(row); };
+    field.addEventListener('input', clear);
+    field.addEventListener('change', clear);
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (submitBtn.disabled) return;
+
+    var valid = true;
+    Object.keys(errorMessages).forEach(function (id) {
+      var field = document.getElementById(id);
+      var row = field.closest('.form-row');
+      var val = field.value.trim();
+      if (!val || (id === 'reg-email' && !emailPattern.test(val))) {
+        valid = false;
+        showError(row, errorMessages[id]);
+      } else {
+        clearError(row);
+      }
+    });
+
+    if (!valid) {
+      var firstInvalid = form.querySelector('.field-invalid');
+      if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    errorEl.classList.remove('show');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Redirecting to payment…';
+
+    fetch('https://formspree.io/f/xeaqjjzn', {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function (res) {
+      if (!res.ok) throw new Error('Submission failed');
+      var email = document.getElementById('reg-email').value.trim();
+      var payUrl = 'https://buy.stripe.com/3cI14o6MU5E0fdq3TF0Fi02';
       if (email) payUrl += '?prefilled_email=' + encodeURIComponent(email);
       window.location.href = payUrl;
     }).catch(function () {
