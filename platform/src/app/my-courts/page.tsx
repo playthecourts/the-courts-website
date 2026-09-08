@@ -3,6 +3,16 @@ import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { getWeeklySessionBalances } from "@/lib/entitlements";
+import { signedPhotoUrls } from "@/lib/athlete-photo";
+import { displayName } from "@/lib/athlete";
+import {
+  ActionNeededStrip,
+  AthleteRow,
+  ExplorePanel,
+  QuickLinks,
+  UpNextCard,
+  WelcomeHero,
+} from "./dashboard-sections";
 
 function formatDay(date: Date, now: Date) {
   const dayMs = 24 * 60 * 60 * 1000;
@@ -11,6 +21,10 @@ function formatDay(date: Date, now: Date) {
   if (diffDays === 0) return "Today";
   if (diffDays === 1) return "Tomorrow";
   return new Intl.DateTimeFormat("en-US", { weekday: "short", timeZone: "UTC" }).format(date);
+}
+
+function formatDayNumber(date: Date) {
+  return new Intl.DateTimeFormat("en-US", { day: "numeric", timeZone: "UTC" }).format(date);
 }
 
 function formatTime(date: Date) {
@@ -32,16 +46,51 @@ export default async function MyCourtsHomePage() {
           session: { startTime: { gte: now } },
         },
         orderBy: { session: { startTime: "asc" } },
-        include: { session: { include: { program: true, resource: true } }, athlete: true },
+        include: {
+          session: {
+            include: { program: true, resource: true, coaches: { include: { staff: true } } },
+          },
+          athlete: true,
+        },
         take: 8,
       })
     : [];
 
-  const nextUp = upcomingBookings[0] ?? null;
+  const nextUpBooking = upcomingBookings[0] ?? null;
   const thisWeekEnd = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
   const thisWeek = upcomingBookings.filter(
-    (b) => b.session.startTime <= thisWeekEnd && b.id !== nextUp?.id
+    (b) => b.session.startTime <= thisWeekEnd && b.id !== nextUpBooking?.id
   );
+
+  const nextUp = nextUpBooking
+    ? {
+        programName: nextUpBooking.session.program.name,
+        sport: nextUpBooking.session.program.sport,
+        athleteName: displayName(nextUpBooking.athlete),
+        coachName: nextUpBooking.session.coaches[0]?.staff.name.split(" ")[0] ?? null,
+        dayLabel: formatDay(nextUpBooking.session.startTime, now),
+        dayNumber: formatDayNumber(nextUpBooking.session.startTime),
+        time: formatTime(nextUpBooking.session.startTime),
+        location: nextUpBooking.session.resource?.name ?? null,
+      }
+    : null;
+
+  const photoUrls = await signedPhotoUrls(athletes.map((a) => a.photoPath));
+  const athleteCards = athletes.map((athlete) => {
+    const next = upcomingBookings.find((b) => b.athleteId === athlete.id);
+    return {
+      id: athlete.id,
+      firstName: athlete.firstName,
+      lastName: athlete.lastName,
+      nickname: athlete.nickname,
+      grade: athlete.grade,
+      sports: athlete.sports,
+      photoUrl: athlete.photoPath ? (photoUrls.get(athlete.photoPath) ?? null) : null,
+      nextActivity: next
+        ? `${formatDay(next.session.startTime, now)} · ${formatTime(next.session.startTime)}`
+        : null,
+    };
+  });
 
   // Upcoming special events, regardless of whether this family has
   // registered yet — a discovery/promo section, not a personal schedule one.
@@ -90,123 +139,30 @@ export default async function MyCourtsHomePage() {
   }
 
   return (
-    <div className="flex flex-col gap-8">
-      <div>
-        <h1 className="font-display text-2xl font-black text-black md:text-3xl">Hey, {firstName}.</h1>
-        <p className="mt-1 font-body text-gray-dark">
-          {nextUp || thisWeek.length > 0 ? "Here's what's happening at The Courts." : "Let's find your next rep."}
-        </p>
-      </div>
+    <div className="flex flex-col gap-7 md:gap-9">
+      <WelcomeHero firstName={firstName} />
 
-      {attentionItems.length > 0 && (
-        <section className="rounded-lg border border-orange bg-white p-4">
-          <p className="font-sport text-sm font-bold uppercase tracking-wide text-orange">
-            One Tiny Admin Thing
-          </p>
-          <ul className="mt-2 flex flex-col gap-2">
-            {attentionItems.map((item, i) => (
-              <li key={i}>
-                <Link href={item.href} className="font-body text-sm text-black underline">
-                  {item.athleteName} — {item.message}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+      <ActionNeededStrip items={attentionItems} />
 
-      <section>
-        <p className="mb-2 font-sport text-sm font-bold uppercase tracking-wide text-orange">Next Up</p>
-        {nextUp ? (
-          <div className="rounded-lg border border-gray-mid bg-white p-5">
-            <h2 className="font-display text-lg font-black text-black">
-              {nextUp.session.program.name}
-            </h2>
-            <p className="mt-1 font-body text-sm text-gray-dark">
-              {nextUp.athlete.firstName} &middot; {formatDay(nextUp.session.startTime, now)} &middot;{" "}
-              {formatTime(nextUp.session.startTime)}
-            </p>
-            {nextUp.session.resource && (
-              <p className="font-body text-sm text-gray-dark">{nextUp.session.resource.name}</p>
-            )}
-            <div className="mt-3 flex items-center gap-4">
-              <Link
-                href="/my-courts/schedule"
-                className="font-sport text-xs font-bold uppercase tracking-wide text-orange"
-              >
-                View Details &rarr;
-              </Link>
-              <a
-                href={`/my-courts/calendar/${nextUp.id}`}
-                className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark hover:text-orange"
-              >
-                Add to Calendar
-              </a>
-            </div>
-          </div>
-        ) : (
-          <div className="rounded-lg border border-gray-mid bg-white p-5">
-            <p className="font-display text-lg font-black text-black">Court&rsquo;s Open.</p>
-            <p className="mt-1 font-body text-sm text-gray-dark">Find your next training session.</p>
-            <Link
-              href="/my-courts/explore"
-              className="mt-3 inline-block font-sport text-xs font-bold uppercase tracking-wide text-orange"
-            >
-              Explore Training &rarr;
-            </Link>
-          </div>
-        )}
-      </section>
+      <UpNextCard nextUp={nextUp} />
 
-      {athletes.length > 0 && (
-        <section>
-          <p className="mb-2 font-sport text-sm font-bold uppercase tracking-wide text-orange">Your Athletes</p>
-          <div className="flex flex-col gap-2">
-            {athletes.map((athlete) => (
-              <Link
-                key={athlete.id}
-                href={`/my-courts/athletes/${athlete.id}`}
-                className="flex items-center justify-between rounded-lg border border-gray-mid bg-white px-4 py-3"
-              >
-                <span className="font-heading font-bold text-black">
-                  {athlete.firstName} {athlete.lastName}
-                </span>
-                {athlete.grade && (
-                  <span className="font-body text-sm text-gray-dark">Grade {athlete.grade}</span>
-                )}
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
+      <ExplorePanel />
 
-      <section>
-        <p className="mb-2 font-sport text-sm font-bold uppercase tracking-wide text-orange">Get Going</p>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          <Link href="/my-courts/explore" className="rounded-lg border border-gray-mid bg-white px-4 py-4 text-center font-sport text-xs font-bold uppercase tracking-wide text-black hover:border-orange">
-            Book Training
-          </Link>
-          <Link href="/my-courts/explore?type=camp" className="rounded-lg border border-gray-mid bg-white px-4 py-4 text-center font-sport text-xs font-bold uppercase tracking-wide text-black hover:border-orange">
-            Find a Camp
-          </Link>
-          <Link href="/my-courts/league" className="rounded-lg border border-gray-mid bg-white px-4 py-4 text-center font-sport text-xs font-bold uppercase tracking-wide text-black hover:border-orange">
-            View League
-          </Link>
-          <Link href="/my-courts/explore?type=resource" className="rounded-lg border border-gray-mid bg-white px-4 py-4 text-center font-sport text-xs font-bold uppercase tracking-wide text-black hover:border-orange">
-            Dr. Dish
-          </Link>
-        </div>
-      </section>
+      <AthleteRow athletes={athleteCards} />
+
+      <QuickLinks />
 
       {thisWeek.length > 0 && (
         <section>
-          <p className="mb-2 font-sport text-sm font-bold uppercase tracking-wide text-orange">This Week</p>
-          <div className="flex flex-col divide-y divide-gray-mid rounded-lg border border-gray-mid bg-white">
+          <p className="mb-2.5 font-sport text-[13px] font-bold tracking-wide text-orange uppercase">
+            This Week
+          </p>
+          <div className="flex flex-col divide-y divide-gray-mid rounded-2xl bg-white">
             {thisWeek.map((b) => (
-              <div key={b.id} className="flex items-center justify-between px-4 py-3">
+              <div key={b.id} className="flex items-center justify-between px-5 py-3.5">
                 <div>
-                  <p className="font-heading text-sm font-bold text-black">{b.session.program.name}</p>
-                  <p className="font-body text-xs text-gray-dark">{b.athlete.firstName}</p>
+                  <p className="font-heading text-sm font-bold text-near-black">{b.session.program.name}</p>
+                  <p className="font-body text-xs text-gray-dark">{displayName(b.athlete)}</p>
                 </div>
                 <p className="font-body text-sm text-gray-dark">
                   {formatDay(b.session.startTime, now)} &middot; {formatTime(b.session.startTime)}
@@ -216,7 +172,7 @@ export default async function MyCourtsHomePage() {
           </div>
           <Link
             href="/my-courts/schedule"
-            className="mt-2 inline-block font-sport text-xs font-bold uppercase tracking-wide text-orange"
+            className="mt-2.5 inline-block font-sport text-xs font-bold tracking-wide text-orange uppercase"
           >
             Full Schedule &rarr;
           </Link>
@@ -225,11 +181,13 @@ export default async function MyCourtsHomePage() {
 
       {upcomingEvents.length > 0 && (
         <section>
-          <p className="mb-2 font-sport text-sm font-bold uppercase tracking-wide text-orange">Happening at The Courts</p>
-          <div className="flex flex-col divide-y divide-gray-mid rounded-lg border border-gray-mid bg-white">
+          <p className="mb-2.5 font-sport text-[13px] font-bold tracking-wide text-orange uppercase">
+            Happening at The Courts
+          </p>
+          <div className="flex flex-col divide-y divide-gray-mid rounded-2xl bg-white">
             {upcomingEvents.map((s) => (
-              <div key={s.id} className="flex items-center justify-between px-4 py-3">
-                <p className="font-heading text-sm font-bold text-black">{s.program.name}</p>
+              <div key={s.id} className="flex items-center justify-between px-5 py-3.5">
+                <p className="font-heading text-sm font-bold text-near-black">{s.program.name}</p>
                 <p className="font-body text-sm text-gray-dark">
                   {formatDay(s.startTime, now)} &middot; {formatTime(s.startTime)}
                 </p>
@@ -238,7 +196,7 @@ export default async function MyCourtsHomePage() {
           </div>
           <Link
             href="/my-courts/explore?type=event"
-            className="mt-2 inline-block font-sport text-xs font-bold uppercase tracking-wide text-orange"
+            className="mt-2.5 inline-block font-sport text-xs font-bold tracking-wide text-orange uppercase"
           >
             See All Events &rarr;
           </Link>
@@ -247,16 +205,18 @@ export default async function MyCourtsHomePage() {
 
       {planSnapshot && (
         <section>
-          <p className="mb-2 font-sport text-sm font-bold uppercase tracking-wide text-orange">Your Training Plan</p>
-          <div className="rounded-lg border border-gray-mid bg-white p-5">
-            <p className="font-heading font-bold text-black">{planSnapshot.balance.membershipPlanName}</p>
+          <p className="mb-2.5 font-sport text-[13px] font-bold tracking-wide text-orange uppercase">
+            Your Training Plan
+          </p>
+          <div className="rounded-2xl bg-white p-5">
+            <p className="font-heading font-bold text-near-black">{planSnapshot.balance.membershipPlanName}</p>
             <p className="mt-1 font-body text-sm text-gray-dark">
               {planSnapshot.balance.quantityPerPeriod - planSnapshot.balance.usedThisWeek} of{" "}
               {planSnapshot.balance.quantityPerPeriod} sessions remaining
             </p>
             <Link
               href="/my-courts/explore"
-              className="mt-3 inline-block font-sport text-xs font-bold uppercase tracking-wide text-orange"
+              className="mt-3 inline-block font-sport text-xs font-bold tracking-wide text-orange uppercase"
             >
               Book Training &rarr;
             </Link>
