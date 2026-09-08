@@ -387,4 +387,20 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     revealEls.forEach(el => el.classList.add('in'));
   }
+
+  /* ---------- Signature motion: Drawn Play (self-drawing accent marks) ---------- */
+  const drawnEls = document.querySelectorAll('.drawn-mark');
+  if (drawnEls.length && 'IntersectionObserver' in window) {
+    const drawIo = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('drawn');
+          drawIo.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    drawnEls.forEach(el => drawIo.observe(el));
+  } else {
+    drawnEls.forEach(el => el.classList.add('drawn'));
+  }
 });

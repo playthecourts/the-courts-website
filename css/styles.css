@@ -1518,3 +1518,28 @@ body.has-announce .nav { top: var(--announce-h, 88px); }
   .cp-card { transition: none; }
   .cp-card:hover, .cp-card:focus-visible { transform: none; }
 }
+
+/* ================= Signature motion: Drawn Play ================= */
+/* Reusable "self-draws once in view" treatment for hand-drawn accent marks
+   (underlines, circles, squiggles). Add class="drawn-mark" to any decorative
+   SVG that uses stroke (not fill) for its line — script.js adds .drawn when
+   the element scrolls into view. */
+.drawn-mark path,
+.drawn-mark ellipse,
+.drawn-mark circle {
+  stroke-dasharray: 480;
+  stroke-dashoffset: 480;
+  transition: stroke-dashoffset 0.9s var(--ease);
+}
+.drawn-mark.drawn path,
+.drawn-mark.drawn ellipse,
+.drawn-mark.drawn circle {
+  stroke-dashoffset: 0;
+}
+.drawn-mark.drawn path:nth-child(2),
+.drawn-mark.drawn ellipse:nth-child(2) {
+  transition-delay: 0.12s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .drawn-mark path, .drawn-mark ellipse, .drawn-mark circle { transition: none; stroke-dashoffset: 0; }
+}
