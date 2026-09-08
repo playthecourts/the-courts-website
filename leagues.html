@@ -34,7 +34,7 @@
   .lg-hero-evals { margin: 26px 0 8px; background: rgba(255,255,255,0.07); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.16); border-radius: var(--radius-md); padding: 22px 26px; max-width: 460px; }
   .lg-hero-evals-label { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 4px; }
   .lg-hero-evals-date { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(20px, 2.4vw, 26px); color: var(--white); margin-bottom: 14px; }
-  .lg-hero-evals-times { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-bottom: 14px; }
+  .lg-hero-evals-times { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(2, auto); grid-auto-flow: column; gap: 6px 22px; margin-bottom: 14px; }
   .lg-hero-evals-times span { font-family: var(--font-heading); font-size: 15px; color: rgba(255,255,255,0.85); }
   .lg-hero-evals-times strong { color: var(--white); font-weight: 700; }
   .lg-hero-evals-fee { display: block; font-family: var(--font-heading); font-weight: 600; font-size: 14px; color: rgba(255,255,255,0.6); }
@@ -392,11 +392,11 @@
         </div>
         <p class="lg-included-body" style="margin:20px 0 0;"><a href="membership#plan-selector" style="color:var(--orange); font-weight:700;">See Membership Plans →</a></p>
         <div class="lg-formula" style="margin-top:20px;">
-          <span>Group Training</span>
+          <span>1 Group Training</span>
           <span class="lg-formula-plus">+</span>
-          <span>Team Practice</span>
+          <span>1 Team Practice</span>
           <span class="lg-formula-plus">+</span>
-          <span>Saturday Games</span>
+          <span>1 Saturday Game</span>
         </div>
       </div>
     </div>

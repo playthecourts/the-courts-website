@@ -133,10 +133,12 @@
   .ev-goat-stars { position:absolute; inset:0; z-index:0; pointer-events:none; }
   .ev-goat-star { position:absolute; width:4px; height:4px; border-radius:50%; background:rgba(255,255,255,0.65); box-shadow:0 0 6px 1px rgba(255,255,255,0.45); }
   .ev-goat-decor { position:absolute; z-index:0; pointer-events:none; }
-  .ev-goat-decor--pizza { bottom:7%; left:5%; }
+  .ev-goat-decor--pizza { bottom:7%; left:5%; animation:evPizzaSpin 7s linear infinite; transform-origin:50% 50%; }
   .ev-goat-decor--popcorn { bottom:6%; right:5%; }
   .ev-goat-mark { top:7%; right:5%; opacity:0.9; }
+  @keyframes evPizzaSpin { to { transform:rotate(360deg); } }
   @media (max-width:760px) { .ev-goat-decor { display:none; } }
+  @media (prefers-reduced-motion:reduce) { .ev-goat-decor--pizza { animation:none; } }
 
   /* Holiday Classic */
   .ev-poster--holiday { background:var(--charcoal); padding:0; position:relative; text-align:center; }
@@ -159,11 +161,27 @@
   .ev-holiday-decor--snow2 { top:8%; left:5%; }
   .ev-holiday-decor--holly { bottom:6%; left:4%; }
   .ev-holiday-decor--star2 { bottom:10%; right:4%; }
-  .ev-holiday-snow { position:absolute; inset:0; z-index:0; pointer-events:none; }
-  .ev-holiday-snow span { position:absolute; width:3px; height:3px; border-radius:50%; background:rgba(255,255,255,0.5); }
+  .ev-holiday-snow { position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+  .ev-holiday-snow span { position:absolute; top:-10px; width:3px; height:3px; border-radius:50%; background:rgba(255,255,255,0.5); animation:evSnowFall linear infinite; }
+  .ev-holiday-snow span:nth-child(1) { animation-duration:7s; animation-delay:0s; }
+  .ev-holiday-snow span:nth-child(2) { animation-duration:9s; animation-delay:1.2s; }
+  .ev-holiday-snow span:nth-child(3) { animation-duration:6.5s; animation-delay:2.4s; }
+  .ev-holiday-snow span:nth-child(4) { animation-duration:8s; animation-delay:0.6s; }
+  .ev-holiday-snow span:nth-child(5) { animation-duration:7.5s; animation-delay:3s; }
+  .ev-holiday-snow span:nth-child(6) { animation-duration:9.5s; animation-delay:1.8s; }
+  .ev-holiday-snow span:nth-child(7) { animation-duration:6s; animation-delay:4s; }
+  .ev-holiday-snow span:nth-child(8) { animation-duration:8.5s; animation-delay:2.1s; }
+  @keyframes evSnowFall { 0% { transform:translateY(0) translateX(0); opacity:0.9; } 100% { transform:translateY(240px) translateX(10px); opacity:0; } }
+  @media (prefers-reduced-motion:reduce) { .ev-holiday-snow span { animation:none; opacity:0.5; } }
   @media (max-width:760px) {
     .ev-holiday-decor--tree, .ev-holiday-decor--snow2, .ev-holiday-decor--holly, .ev-holiday-decor--star2 { display:none; }
   }
+
+  .cal-winterbreak-group { display:flex; flex-direction:column; gap:14px; }
+  .cal-winterbreak-group > .eyebrow { color:var(--orange); }
+  .cal-winterbreak-pair { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .cal-winterbreak-pair .cal-item { margin:0; }
+  @media (max-width:760px) { .cal-winterbreak-pair { grid-template-columns:1fr; } }
 
   .ev-poster--quiet { background:var(--charcoal); position:relative; padding:36px clamp(24px,4vw,44px); }
   .ev-poster--quiet::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg, var(--orange), #F2A65A 50%, var(--orange)); }
@@ -201,15 +219,13 @@
   .ev-eval-date { display:block; font-family:var(--font-sport); font-weight:800; font-size:17px; letter-spacing:0.06em; text-transform:uppercase; color:var(--orange); margin-bottom:10px; }
   .ev-eval-body .cal-tag { background:rgba(255,255,255,0.1); color:var(--white); font-size:13.5px; padding:6px 14px; }
   .ev-eval-body h4 { font-family:var(--font-display); font-weight:900; font-size:clamp(26px,3.2vw,38px); line-height:1.08; color:var(--white); margin:14px 0 14px; white-space:nowrap; }
-  .ev-eval-status { font-family:var(--font-sport); font-weight:800; font-size:19px; letter-spacing:0.04em; text-transform:uppercase; color:rgba(255,255,255,0.85); margin:0 0 16px; }
+  .ev-eval-status { font-family:var(--font-sport); font-weight:800; font-size:19px; letter-spacing:0.04em; text-transform:uppercase; color:rgba(255,255,255,0.85); margin:0 0 4px; }
   .ev-eval-tbc { color:var(--orange); }
+  .ev-eval-time-note { font-size:13.5px; color:rgba(255,255,255,0.55); margin:0 0 16px; }
   .ev-eval-copy { font-size:15.5px; line-height:1.6; color:rgba(255,255,255,0.68); margin:0 0 22px; max-width:48ch; }
   .ev-eval-stamp { display:inline-block; font-family:var(--font-heading); font-weight:800; font-size:13.5px; color:var(--white); border:1.5px solid var(--orange); border-radius:999px; padding:5px 14px; margin-bottom:26px; }
   .ev-eval-stamp .accent { color:var(--orange); }
   .ev-eval-body .btn { display:block; width:fit-content; }
-  .ev-eval-ctas { display:flex; flex-wrap:wrap; align-items:center; gap:8px 24px; }
-  .ev-eval-alt { font-family:var(--font-heading); font-weight:700; font-size:14.5px; color:rgba(255,255,255,0.75); }
-  .ev-eval-alt:hover { color:var(--white); }
   @media (max-width:640px) { .ev-eval-body h4 { white-space:normal; } }
   @media (max-width:640px) {
     .ev-eval-card { padding:32px 22px; }
@@ -561,15 +577,13 @@
               <span class="ev-eval-date">Sat &middot; Sep 12</span>
               <span class="cal-tag cal-tag--league">Fall Basketball League</span>
               <h4>Come Show Us Your Game.</h4>
-              <p class="ev-eval-status">Evaluations <span class="ev-eval-tbc">3 PM &middot; $25</span></p>
+              <p class="ev-eval-status">Evaluations <span class="ev-eval-tbc">$25</span></p>
+              <p class="ev-eval-time-note">Times vary by grade.</p>
               <p class="ev-eval-copy">A few drills. A little play. A chance for the coaches to see everybody before teams are set.</p>
               <span class="ev-eval-stamp">Placement, <span class="accent">Not Cuts.</span></span>
               <p style="font-size:15.5px; color:rgba(255,255,255,0.5); margin:-14px 0 20px;">Your $25 evaluation fee is applied toward the $375 Fall League registration if your athlete joins.</p>
-              <div class="ev-eval-ctas">
-                <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH AFTER SEPT 12 -->
-                <a href="leagues#evaluations" class="btn btn-primary" data-booking-type="basketball-evaluation-interest">Sign Up for Evaluations →</a>
-                <a href="leagues#evaluations" class="ev-eval-alt">Can&rsquo;t Make Evaluations? Sign Up Here →</a>
-              </div>
+              <!-- FALL LEAGUE PRE-EVALUATION CTA: SWITCH AFTER SEPT 12 -->
+              <a href="leagues#evaluations" class="btn btn-primary" data-booking-type="basketball-evaluation-interest">Sign Up for Evaluations →</a>
             </div>
           </div>
         </div>
@@ -587,7 +601,7 @@
           <span class="cal-openingday-pill">Opening Day</span>
           <svg class="cal-openingday-underline" width="168" height="8" viewBox="0 0 168 8" fill="none" aria-hidden="true"><path d="M2,5 Q26,1 49,5 T96,4 T143,5 T166,3" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"/></svg>
           <h4>Doors Open.</h4>
-          <p class="cal-openingday-copy">We&rsquo;re officially open. Come in. Meet the crew. Look around for approximately thirty seconds. Then get on the court.</p>
+          <p class="cal-openingday-copy">We&rsquo;re officially open. Come in. Meet the crew.</p>
         </div>
       </div>
 
@@ -600,21 +614,11 @@
           <div class="cal-body">
             <span class="cal-tag cal-tag--camps">Camps</span>
             <h4>Fall Break Camp</h4>
-            <p class="cal-schedule">Basketball in the morning. Volleyball in the afternoon. Five days, with the games ramping up by Friday.</p>
+            <p class="cal-schedule">Basketball in the morning. Volleyball in the afternoon.</p>
             <div class="cal-feature-ctas">
               <a href="camps#fall-break" class="cal-link">View Camps →</a>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="cal-item cal-item--compact reveal" data-category="basketball" data-filter="league">
-        <div class="cal-date"><span class="cal-weekday">Week of</span><span class="cal-month">Oct</span><span class="cal-day">23</span></div>
-        <div class="cal-body">
-          <span class="cal-tag cal-tag--league">Fall Basketball League</span>
-          <h4>Teams Set. Season On.</h4>
-          <p>Schedules go out. Game week is here.</p>
-          <a href="leagues#fall-league" class="cal-link">View League →</a>
         </div>
       </div>
 
@@ -778,26 +782,6 @@
         </div>
       </div>
 
-      <div class="cal-item cal-item--compact reveal" style="position:relative; overflow:hidden;" data-category="basketball" data-filter="league">
-        <svg style="position:absolute; top:12px; right:16px; z-index:1; pointer-events:none;" width="52" height="62" viewBox="0 0 30 36" aria-hidden="true"><path d="M9,4 h12 v10 a6,6 0 0 1 -12,0 Z" fill="#D9A441"/><path d="M9,6 h-5 a3,3 0 0 0 3,7 h2" stroke="#D9A441" stroke-width="1.6" fill="none"/><path d="M21,6 h5 a3,3 0 0 1 -3,7 h-2" stroke="#D9A441" stroke-width="1.6" fill="none"/><rect x="13" y="20" width="4" height="6" fill="#D9A441"/><rect x="8" y="26" width="14" height="4" rx="1" fill="#D9A441"/><text x="15" y="12" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="7" fill="#1B1000">1</text></svg>
-        <svg style="position:absolute; bottom:14px; right:100px; z-index:1; pointer-events:none;" width="42" height="36" viewBox="0 0 40 34" aria-hidden="true"><ellipse cx="20" cy="6" rx="16" ry="4" fill="none" stroke="var(--orange)" stroke-width="2.5"/><path d="M6,7 L10,27 M34,7 L30,27 M12.5,7.5 L16,26 M27.5,7.5 L24,26 M18,8 L20,27 M22,8 L20,27" stroke="rgba(23,23,23,0.3)" stroke-width="1" fill="none"/></svg>
-        <svg style="position:absolute; bottom:32px; right:110px; z-index:2; pointer-events:none;" width="22" height="22" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="var(--orange)"/><path d="M2,15 h26 M15,2 v26 M5,5 C10,10 10,20 5,25 M25,5 C20,10 20,20 25,25" stroke="#1B1000" stroke-width="1" opacity="0.5" fill="none"/></svg>
-        <svg style="position:absolute; top:16px; right:78px; z-index:1; pointer-events:none;" width="58" height="34" viewBox="0 0 58 34" aria-hidden="true">
-          <rect x="1" y="1" width="56" height="32" rx="4" fill="#1B1000" stroke="var(--orange)" stroke-width="2"/>
-          <line x1="29" y1="6" x2="29" y2="28" stroke="var(--orange)" stroke-width="1" opacity="0.5"/>
-          <text x="14" y="23" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="14" fill="var(--orange)">84</text>
-          <text x="44" y="23" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="14" fill="var(--orange)">79</text>
-          <g fill="var(--orange)" opacity="0.6"><circle cx="8" cy="6" r="1.3"/><circle cx="14" cy="6" r="1.3"/><circle cx="20" cy="6" r="1.3"/><circle cx="38" cy="6" r="1.3"/><circle cx="44" cy="6" r="1.3"/><circle cx="50" cy="6" r="1.3"/></g>
-        </svg>
-        <div class="cal-date"><span class="cal-weekday">Fri&ndash;Sun</span><span class="cal-month">Dec</span><span class="cal-day">11&ndash;13</span></div>
-        <div class="cal-body" style="position:relative; z-index:2;">
-          <span class="cal-tag cal-tag--league">Fall Basketball League</span>
-          <h4>Tournament Weekend.</h4>
-          <p>The Fall Basketball League closes out with tournament games all weekend.</p>
-          <a href="leagues#fall-league" class="cal-link">View League →</a>
-        </div>
-      </div>
-
       <div class="ev-poster ev-poster--goat reveal">
         <div class="ev-goat-stars" aria-hidden="true">
           <span class="ev-goat-star" style="top:18%; left:12%;"></span>
@@ -854,6 +838,26 @@
             <a href="https://youtu.be/kmY-rYS7yng?si=OmYEtnJ3JZn2W79G" class="btn btn-on-dark" target="_blank" rel="noopener">Watch the Trailer ↗</a>
             <span class="soon-pill soon-pill--dark">Details Dropping Soon</span>
           </div>
+        </div>
+      </div>
+
+      <div class="cal-item cal-item--compact reveal" style="position:relative; overflow:hidden;" data-category="basketball" data-filter="league">
+        <svg style="position:absolute; top:12px; right:16px; z-index:1; pointer-events:none;" width="52" height="62" viewBox="0 0 30 36" aria-hidden="true"><path d="M9,4 h12 v10 a6,6 0 0 1 -12,0 Z" fill="#D9A441"/><path d="M9,6 h-5 a3,3 0 0 0 3,7 h2" stroke="#D9A441" stroke-width="1.6" fill="none"/><path d="M21,6 h5 a3,3 0 0 1 -3,7 h-2" stroke="#D9A441" stroke-width="1.6" fill="none"/><rect x="13" y="20" width="4" height="6" fill="#D9A441"/><rect x="8" y="26" width="14" height="4" rx="1" fill="#D9A441"/><text x="15" y="12" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="7" fill="#1B1000">1</text></svg>
+        <svg style="position:absolute; bottom:14px; right:100px; z-index:1; pointer-events:none;" width="42" height="36" viewBox="0 0 40 34" aria-hidden="true"><ellipse cx="20" cy="6" rx="16" ry="4" fill="none" stroke="var(--orange)" stroke-width="2.5"/><path d="M6,7 L10,27 M34,7 L30,27 M12.5,7.5 L16,26 M27.5,7.5 L24,26 M18,8 L20,27 M22,8 L20,27" stroke="rgba(23,23,23,0.3)" stroke-width="1" fill="none"/></svg>
+        <svg style="position:absolute; bottom:32px; right:110px; z-index:2; pointer-events:none;" width="22" height="22" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="var(--orange)"/><path d="M2,15 h26 M15,2 v26 M5,5 C10,10 10,20 5,25 M25,5 C20,10 20,20 25,25" stroke="#1B1000" stroke-width="1" opacity="0.5" fill="none"/></svg>
+        <svg style="position:absolute; top:16px; right:78px; z-index:1; pointer-events:none;" width="58" height="34" viewBox="0 0 58 34" aria-hidden="true">
+          <rect x="1" y="1" width="56" height="32" rx="4" fill="#1B1000" stroke="var(--orange)" stroke-width="2"/>
+          <line x1="29" y1="6" x2="29" y2="28" stroke="var(--orange)" stroke-width="1" opacity="0.5"/>
+          <text x="14" y="23" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="14" fill="var(--orange)">84</text>
+          <text x="44" y="23" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="14" fill="var(--orange)">79</text>
+          <g fill="var(--orange)" opacity="0.6"><circle cx="8" cy="6" r="1.3"/><circle cx="14" cy="6" r="1.3"/><circle cx="20" cy="6" r="1.3"/><circle cx="38" cy="6" r="1.3"/><circle cx="44" cy="6" r="1.3"/><circle cx="50" cy="6" r="1.3"/></g>
+        </svg>
+        <div class="cal-date"><span class="cal-weekday">Fri&ndash;Sun</span><span class="cal-month">Dec</span><span class="cal-day">11&ndash;13</span></div>
+        <div class="cal-body" style="position:relative; z-index:2;">
+          <span class="cal-tag cal-tag--league">Fall Basketball League</span>
+          <h4>Tournament Weekend.</h4>
+          <p>The Fall Basketball League closes out with tournament games all weekend.</p>
+          <a href="leagues#fall-league" class="cal-link">View League →</a>
         </div>
       </div>
 
@@ -932,39 +936,28 @@
         </div>
       </div>
 
-      <div class="cal-item cal-item--camp reveal" data-category="camps" data-filter="camps">
-        <div class="cal-date"><span class="cal-weekday">Mon&ndash;Wed</span><span class="cal-month">Dec</span><span class="cal-day">21&ndash;23</span></div>
-        <div class="cal-body">
-          <span class="cal-tag cal-tag--camps">Camps</span>
-          <h4>The Break Is Long. We Can Help.</h4>
-          <p class="cal-schedule">Basketball &middot; 8 AM&ndash;12 PM<br>Volleyball &middot; 1&ndash;5 PM</p>
-          <a href="camps#board" class="cal-link">View Camps →</a>
-        </div>
-      </div>
+      <div class="cal-winterbreak-group">
+        <span class="eyebrow">Winter Break Camps</span>
+        <div class="cal-winterbreak-pair">
+          <div class="cal-item cal-item--camp reveal" data-category="camps" data-filter="camps">
+            <div class="cal-date"><span class="cal-weekday">Mon&ndash;Wed</span><span class="cal-month">Dec</span><span class="cal-day">21&ndash;23</span></div>
+            <div class="cal-body">
+              <span class="cal-tag cal-tag--camps">Camps</span>
+              <h4>The Break Is Long. We Can Help.</h4>
+              <p class="cal-schedule">Basketball &middot; 8 AM&ndash;12 PM<br>Volleyball &middot; 1&ndash;5 PM</p>
+              <a href="camps#board" class="cal-link">View Camps →</a>
+            </div>
+          </div>
 
-      <div class="cal-item cal-item--camp reveal" data-category="camps" data-filter="camps">
-        <div class="cal-date"><span class="cal-weekday">Mon&ndash;Wed</span><span class="cal-month">Dec</span><span class="cal-day">28&ndash;30</span></div>
-        <div class="cal-body">
-          <span class="cal-tag cal-tag--camps">Camps</span>
-          <h4>One More Run Before We Call It a Year.</h4>
-          <p class="cal-schedule">Basketball &middot; 8 AM&ndash;12 PM<br>Volleyball &middot; 1&ndash;5 PM</p>
-          <span class="courts-commentary">Resolution can wait.</span>
-          <a href="camps#board" class="cal-link">View Camps →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="cal-nextup-wrap">
-      <div class="cal-month-head" style="margin-top:0;"><span class="eyebrow">Next Up</span><h2 class="section-title">2027 Is Already Getting Ideas.</h2></div>
-      <div class="cal-list">
-        <div class="cal-item cal-item--compact reveal" data-category="teaser" data-filter="teaser">
-          <div class="cal-date"><span class="cal-weekday">First Friday</span><span class="cal-month">Every</span><span class="cal-day">Month</span></div>
-          <div class="cal-body">
-            <span class="cal-tag cal-tag--teaser">Coming This January</span>
-            <h4>Friday Night at The Courts</h4>
-            <p style="text-wrap:balance;">Lights down. Music up. Courts open.</p>
-            <p style="text-wrap:balance; margin-top:14px;">We're turning the first Friday of the month into something worth leaving the house for.</p>
-            <span class="soon-pill">Stay Tuned</span>
+          <div class="cal-item cal-item--camp reveal" data-category="camps" data-filter="camps">
+            <div class="cal-date"><span class="cal-weekday">Mon&ndash;Wed</span><span class="cal-month">Dec</span><span class="cal-day">28&ndash;30</span></div>
+            <div class="cal-body">
+              <span class="cal-tag cal-tag--camps">Camps</span>
+              <h4>One More Run Before We Call It a Year.</h4>
+              <p class="cal-schedule">Basketball &middot; 8 AM&ndash;12 PM<br>Volleyball &middot; 1&ndash;5 PM</p>
+              <span class="courts-commentary">Resolution can wait.</span>
+              <a href="camps#board" class="cal-link">View Camps →</a>
+            </div>
           </div>
         </div>
       </div>
