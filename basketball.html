@@ -135,19 +135,30 @@
 
   /* ---------- Development by age: connected timeline ---------- */
   .bb-dev { background: var(--gray-light); padding: 90px 0 70px; }
-  .bb-dev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 64px; position: relative; }
+  .cp-underline { position: relative; display: inline-block; }
+  .cp-underline-mark { position: absolute; left: -2%; bottom: -6px; width: 104%; height: 12px; pointer-events: none; }
+  .bb-dev-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-top: 64px; position: relative; }
   .bb-dev-grid::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gray-mid); }
   .bb-dev-item { position: relative; padding-top: 26px; }
   .bb-dev-item::before { content: ''; position: absolute; top: -2px; left: 0; width: 46px; height: 2px; background: var(--orange); }
+  .bb-dev-step { display: block; font-family: var(--font-sport); font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-dark); opacity: 0.65; margin: 0 0 14px; }
+  .bb-dev-eyebrow { display: block; font-family: var(--font-sport); font-size: 12.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin: 0 0 8px; }
   .bb-dev-photo { border-radius: var(--radius-md); overflow: hidden; margin-bottom: 24px; aspect-ratio: 4/3.3; position: relative; }
   .bb-dev-photo--dark::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.45) 100%); }
   .bb-dev-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .bb-dev-range { font-family: var(--font-sport); font-size: clamp(19px, 1.9vw, 22px); font-weight: 800; letter-spacing: 0.01em; text-transform: uppercase; color: var(--orange); margin: 0 0 12px; line-height: 1; display: block; }
-  .bb-dev-item h3 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(19px, 1.9vw, 22px); line-height: 1.2; margin: 0 0 10px; }
-  .bb-dev-item p { font-size: 15px; line-height: 1.6; color: var(--gray-dark); margin: 0 0 10px; }
+  .bb-dev-range { font-family: var(--font-sport); font-size: 13.5px; font-weight: 700; letter-spacing: 0.01em; text-transform: uppercase; color: var(--gray-dark); margin: 0 0 12px; line-height: 1.3; display: block; }
+  .bb-dev-item h3 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(18px, 1.7vw, 21px); line-height: 1.2; margin: 0 0 10px; }
+  .bb-dev-item p { font-size: 14.5px; line-height: 1.6; color: var(--gray-dark); margin: 0 0 10px; }
   .bb-dev-item .bb-dev-closing { font-weight: 700; color: var(--black); font-size: 14.5px; margin: 0; }
-  .bb-dev-cta { text-align: center; margin-top: 64px; }
-  @media (max-width: 820px) { .bb-dev-grid { grid-template-columns: 1fr; gap: 48px; } .bb-dev-grid::before { display: none; } .bb-dev-item::before { width: 32px; } }
+  .bb-dev-focus { font-size: 12.5px; line-height: 1.6; color: var(--gray-dark); opacity: 0.85; margin: 0 0 18px; }
+  .bb-dev-link { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-heading); font-weight: 700; font-size: 13.5px; color: var(--orange); }
+  .bb-dev-link .arrow { color: var(--orange); transition: transform 0.2s var(--ease); }
+  .bb-dev-link:hover .arrow { transform: translateX(4px); }
+  .bb-dev-note { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; text-align: center; margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--gray-mid); }
+  .bb-dev-note p { margin: 0; font-size: 15px; color: var(--gray-dark); }
+  .bb-dev-note p strong { color: var(--black); font-weight: 700; }
+  @media (max-width: 980px) { .bb-dev-grid { grid-template-columns: 1fr 1fr; gap: 40px 32px; } }
+  @media (max-width: 620px) { .bb-dev-grid { grid-template-columns: 1fr; gap: 48px; } .bb-dev-grid::before { display: none; } .bb-dev-item::before { width: 32px; } }
 
   /* ---------- More Basketball: scannable image strip ---------- */
   .bb-more { background: var(--white); padding: 60px 0 130px; }
@@ -419,35 +430,58 @@
 
 <section class="bb-dev" id="development">
   <div class="container">
-    <div class="bb-head-row reveal">
-      <div>
-        <span class="eyebrow">Start Here. Keep Going.</span>
-        <h2 style="white-space:nowrap;">The Work Changes as They Do.</h2>
-      </div>
+    <div class="bb-head reveal">
+      <span class="eyebrow">The Pathway</span>
+      <h2>Find Your <span class="cp-underline">Starting Point<svg class="cp-underline-mark drawn-mark" viewBox="0 0 260 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8.5 C36,11.5 76,5 118,8 C158,10.8 202,5.8 258,8.8" stroke="#DE5019" stroke-width="5.5" stroke-linecap="round" fill="none" opacity="0.88"/><path d="M3,7.8 C52,10 106,6.4 158,8.2 C198,9.4 232,7 257,7.8" stroke="#E5772F" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.6"/></svg></span>.</h2>
+      <p>Every athlete starts somewhere. Whether your player is picking up a basketball for the first time or pushing toward the next level, we have a place to build confidence, develop skills, and keep getting better.</p>
     </div>
 
     <div class="bb-dev-grid">
       <div class="bb-dev-item reveal">
         <div class="bb-dev-photo"><img loading="lazy" src="images/05_shooting_practice.png" alt="A young athlete shooting a basketball toward the hoop." style="object-position:20% 50%;"></div>
-        <span class="bb-dev-range">Ages 6–9</span>
-        <h3>Build the Base.</h3>
-        <p>Ball control. Footwork. Shooting.<br>Lots of touches. Lots of chances to try.</p>
-        <p class="bb-dev-closing">Learn the game. Love it.<br>Ask for one more shot.</p>
+        <span class="bb-dev-step">01 — Start Here</span>
+        <span class="bb-dev-eyebrow">Basketball Basics</span>
+        <span class="bb-dev-range">Ages 4&ndash;7 &middot; New to the Game</span>
+        <h3>Your First Reps Start Here.</h3>
+        <p>A fun introduction to basketball fundamentals, confidence, and learning how to love being on the court.</p>
+        <p class="bb-dev-focus">Ball control &middot; Passing &middot; Shooting basics &middot; Footwork &middot; Confidence &middot; Being a great teammate</p>
+        <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="bb-dev-link" data-preset="Programs + Membership">Explore Basketball Basics <span class="arrow">→</span></a>
       </div>
       <div class="bb-dev-item reveal">
         <div class="bb-dev-photo bb-dev-photo--dark"><img loading="lazy" src="images/basketball_agility_drill_in_motion.png" alt="A young athlete dribbling through an agility hurdle drill." style="object-position:50% 30%;"></div>
-        <span class="bb-dev-range">Ages 10–13</span>
-        <h3>Add Speed. Add Decisions.</h3>
-        <p>Stronger fundamentals. Faster reads.<br>More competition.</p>
-        <p class="bb-dev-closing">Less thinking. More playing.</p>
+        <span class="bb-dev-step">02 — Build</span>
+        <span class="bb-dev-eyebrow">Basketball Foundations</span>
+        <span class="bb-dev-range">Ages 6&ndash;11 &middot; Building Fundamentals</span>
+        <h3>Build the Skills Every Player Needs.</h3>
+        <p>Focused training that helps athletes become more comfortable, confident, and capable on the court.</p>
+        <p class="bb-dev-focus">Ball handling &middot; Passing &middot; Shooting mechanics &middot; Footwork &middot; Finishing &middot; Decision-making</p>
+        <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="bb-dev-link" data-preset="Programs + Membership">Explore Basketball Foundations <span class="arrow">→</span></a>
+      </div>
+      <div class="bb-dev-item reveal">
+        <div class="bb-dev-photo bb-dev-photo--dark"><img loading="lazy" src="images/02_basketball_dribbling_coach.jpg" alt="A coach in a low defensive stance guarding an athlete working through a dribble move." style="object-position:50% 25%;"></div>
+        <span class="bb-dev-step">03 — Develop</span>
+        <span class="bb-dev-eyebrow">Basketball Group Training</span>
+        <span class="bb-dev-range">Ages 9&ndash;14 &middot; Skill Development</span>
+        <h3>Get Better. Play Better.</h3>
+        <p>Skill development, coaching feedback, and competitive drills designed to help athletes continue improving.</p>
+        <p class="bb-dev-focus">Advanced skills &middot; Game situations &middot; Creating space &middot; Reading the game &middot; Competing under pressure</p>
+        <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="bb-dev-link" data-preset="Programs + Membership">Explore Group Training <span class="arrow">→</span></a>
       </div>
       <div class="bb-dev-item reveal">
         <div class="bb-dev-photo bb-dev-photo--dark"><img loading="lazy" src="images/sweaty_arm_basketball_crop.jpg" alt="Close crop of an athlete's forearm resting against a basketball, mid-workout." style="object-position:50% 40%;"></div>
-        <span class="bb-dev-range">Ages 14+</span>
-        <h3>Make It Game Ready.</h3>
-        <p>Sharper reps. Smarter decisions. More pressure.</p>
-        <p class="bb-dev-closing">The little stuff is the big stuff now.</p>
+        <span class="bb-dev-step">04 — Push Further</span>
+        <span class="bb-dev-eyebrow">Basketball Performance</span>
+        <span class="bb-dev-range">Ages 11+ &middot; Advanced Development</span>
+        <h3>Train With Purpose.</h3>
+        <p>For athletes ready to challenge themselves with intentional development and a higher level of focus.</p>
+        <p class="bb-dev-focus">Advanced skill work &middot; Position development &middot; Decision-making &middot; Game preparation</p>
+        <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="bb-dev-link" data-preset="Programs + Membership">Explore Performance <span class="arrow">→</span></a>
       </div>
+    </div>
+
+    <div class="bb-dev-note reveal">
+      <p><strong>Not sure where your athlete fits?</strong> Our coaches can help find the right starting point.</p>
+      <a href="contact?interest=Programs%20%2B%20Membership#contact-form" class="btn btn-secondary" data-preset="Programs + Membership">Find the Right Fit →</a>
     </div>
 
   </div>
