@@ -40,8 +40,8 @@
   .pb-hero .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
   .pb-hero .photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(13,13,13,0.55) 0%, rgba(13,13,13,0.45) 30%, rgba(13,13,13,0.8) 100%); }
   .pb-hero-inner { position: relative; z-index: 2; padding: 180px 0 100px; }
-  .pb-hero-pill { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-weight: 800; font-size: 13px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--white); background: var(--pb-green); padding: 9px 18px; border-radius: 999px; margin-bottom: 22px; }
-  .pb-hero-pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--white); flex-shrink: 0; }
+  .pb-hero-pill { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-sport); font-weight: 800; font-size: 16px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--white); background: var(--pb-green); padding: 12px 24px; border-radius: 999px; margin-bottom: 22px; }
+  .pb-hero-pill::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--white); flex-shrink: 0; }
   .pb-hero-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(38px, 6vw, 66px); line-height: 0.98; color: var(--white); margin: 0 0 24px; max-width: 14ch; position: relative; }
   .pb-hero-title-mark { position: relative; display: inline-block; }
   .pb-hero-title-underline { position: absolute; left: -2%; bottom: -8px; width: 104%; height: 12px; pointer-events: none; }
@@ -55,7 +55,7 @@
 
   /* ---------- Shared section head ---------- */
   .pb-head { max-width: 640px; margin: 0 auto 8px; text-align: center; }
-  .pb-eyebrow { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--pb-green-dark); margin-bottom: 10px; }
+  .pb-eyebrow { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--pb-green); margin-bottom: 10px; }
   .pb-head h2 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(28px, 4vw, 42px); line-height: 1.1; margin: 0; color: var(--black); }
   .pb-head p { font-size: 16.5px; line-height: 1.65; color: var(--gray-dark); max-width: 56ch; margin: 14px auto 0; }
 
@@ -78,7 +78,6 @@
   /* ---------- Section 3: social ---------- */
   .pb-social { background: var(--near-black, #0D0D0D); color: var(--white); padding: 90px 0; }
   .pb-social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; max-width: 1080px; margin: 0 auto; }
-  .pb-social-copy .pb-eyebrow { color: var(--pb-green); }
   .pb-social-copy h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.05; margin: 0 0 18px; color: var(--white); }
   .pb-social-copy p { font-size: 16.5px; line-height: 1.7; color: rgba(255,255,255,0.72); margin: 0; max-width: 42ch; }
   .pb-social-media { position: relative; aspect-ratio: 4/3.2; border-radius: var(--radius-md); overflow: hidden; background: linear-gradient(135deg, #2a2a2a, #111); }
@@ -87,7 +86,6 @@
 
   /* ---------- Section 4: court rentals CTA ---------- */
   .pb-rentals { background: var(--warm-white); padding: 80px 0; text-align: center; }
-  .pb-rentals .pb-eyebrow { color: var(--pb-green-dark); }
   .pb-rentals h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 3.6vw, 44px); margin: 0 0 16px; color: var(--black); }
   .pb-rentals p { font-size: 16.5px; line-height: 1.6; color: var(--gray-dark); max-width: 48ch; margin: 0 auto 30px; }
 
@@ -98,6 +96,20 @@
   .pb-pre-footer .pre-footer-link:hover { border-bottom-color: var(--pb-green); }
   .pb-pre-footer .pre-footer-link:hover .arrow { color: var(--pb-green); }
   @media (max-width: 640px) { .pb-pre-footer .pre-footer-col:first-child { border-bottom-color: var(--pb-green); } }
+
+  /* ---------- Footer "Stay in the Loop": pickleball-green accents ---------- */
+  .footer-loop-col .eyebrow { color: var(--pb-green); }
+  .footer-loop-col .fnl-trigger { color: var(--pb-green); }
+  .footer-loop-col .fnl-trigger:hover { color: var(--pb-green-dark); }
+  .footer-loop-col .fnl-submit:hover:not(:disabled) { background: var(--pb-green); }
+  .footer-loop-col .chip input:checked + span { border-color: var(--pb-green); background: var(--pb-green-soft); color: var(--pb-green-dark); }
+  .footer-loop-col .footer-social-links a:hover { color: var(--pb-green-dark); }
+
+  /* ---------- Nav CTA: top-right buttons, pickleball green ---------- */
+  .nav-cta-link:hover { color: var(--pb-green); }
+  .nav.scrolled .nav-cta-link:hover, .nav.nav-solid .nav-cta-link:hover { color: var(--pb-green-dark); }
+  .nav-cta .btn.btn-primary, .mobile-menu .btn.btn-primary { background: var(--pb-green); }
+  .nav-cta .btn.btn-primary:hover, .mobile-menu .btn.btn-primary:hover { background: var(--pb-green-dark); }
 </style>
 </head>
 <body>
