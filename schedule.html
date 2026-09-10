@@ -530,7 +530,7 @@
     { day:"Thursday", sport:"basketball", type:"team", age:["9-14","11-plus"], ageLabel:null, desc:null, time:"6:00 PM", dur:"75 min", title:"Fall Basketball League Practice", coach:"Johnny Coles", included:null, cta:"locked" },
     { day:"Thursday", sport:"basketball", type:"training", age:["9-14","11-plus"], ageLabel:"Ages 11+", desc:"Advanced Development", time:"7:30 PM", dur:"60 min", title:"Basketball Performance", coach:"Johnny Coles", included:"Weekly, Unlimited + Full Court", cta:"book" },
 
-    { day:"Friday", sport:"basketball", type:"training", age:["6-10"], ageLabel:"Ages 6&ndash;10", desc:null, time:"6:00 PM", dur:"60 min", title:"Basketball Development", coach:"Johnny Coles", included:"Weekly, Unlimited + Full Court", cta:"book" },
+    { day:"Friday", sport:"basketball", type:"training", age:["6-10"], ageLabel:"Ages 6&ndash;10", desc:"Skills + Game Play", time:"6:00 PM", dur:"60 min", title:"Basketball Development", coach:"Johnny Coles", included:"Weekly, Unlimited + Full Court", cta:"book" },
     { day:"Friday", sport:"basketball", type:"open", tagLabel:"Game Play", age:["9-14","11-plus"], ageLabel:"Ages 11+", desc:"Game Play", time:"7:00 PM", dur:"60 min", title:"The Run", coach:"Johnny Coles", included:"Weekly, Unlimited + Full Court", cta:"book" },
     { day:"Friday", sport:"basketball", type:"open", tagLabel:"Open Court", age:[], ageLabel:null, desc:null, time:"8:00 PM", dur:"60 min", title:"Open Court / Shooting", coach:"Staff Member", included:"Weekly, Unlimited + Full Court", cta:"book" },
 
@@ -577,7 +577,7 @@
           ageRow +
           '<div class="sch-meta">' +
             '<span class="sch-tag ' + tagClass + '">' + tagLabel + '</span>' +
-            '<span class="sch-coach">Coach <strong>' + s.coach + '</strong></span>' +
+            '<span class="sch-coach">' + (s.coach === 'Staff Member' ? '<strong>Staff Member</strong>' : 'Coach <strong>' + s.coach + '</strong>') + '</span>' +
           '</div>' +
           included +
         '</div>' +
