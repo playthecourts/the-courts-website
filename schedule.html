@@ -49,21 +49,26 @@
   .sch-day-group { max-width: 900px; margin: 0 auto 34px; }
   .sch-day-head { display: flex; align-items: baseline; gap: 12px; margin: 0 0 12px; padding-bottom: 10px; border-bottom: 2px solid var(--near-black); }
   .sch-day-head h3 { font-family: var(--font-display); font-weight: 900; font-size: 19px; margin: 0; letter-spacing: -0.01em; }
-  .sch-day-sub { font-family: var(--font-sport); font-weight: 700; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); opacity: 0.65; }
+  .sch-day-tagline { font-family: var(--font-body); font-style: italic; font-size: 13px; color: var(--gray-dark); opacity: 0.55; }
+  .sch-day-sub { font-family: var(--font-sport); font-weight: 700; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); opacity: 0.65; margin-left: auto; }
 
   .sch-row { display: grid; grid-template-columns: 84px 1fr auto; align-items: center; gap: 18px; padding: 16px 4px; border-bottom: 1px solid var(--gray-mid); transition: background 0.15s var(--ease); }
   .sch-row:last-child { border-bottom: none; }
   .sch-row:hover { background: var(--orange-soft); }
   .sch-time { font-family: var(--font-sport); font-weight: 800; font-size: 15px; color: var(--near-black); line-height: 1.15; }
   .sch-time span { display: block; font-size: 10.5px; font-weight: 700; color: var(--gray-dark); opacity: 0.65; letter-spacing: 0.04em; text-transform: uppercase; margin-top: 1px; }
+  .sch-step { display: block; font-family: var(--font-sport); font-weight: 700; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); opacity: 0.55; margin-bottom: 4px; }
   .sch-row h4 { font-family: var(--font-heading); font-weight: 800; font-size: 15.5px; margin: 0 0 5px; color: var(--near-black); }
+  .sch-age-row { font-size: 12.5px; color: var(--gray-dark); margin: 0 0 7px; }
   .sch-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .sch-tag { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-sport); font-weight: 700; font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
   .sch-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-  .sch-tag--training { background: var(--orange-soft); color: var(--orange-ink); }
-  .sch-tag--training::before { background: var(--orange); }
+  .sch-tag--training { background: var(--warm-stone); color: var(--charcoal); }
+  .sch-tag--training::before { background: var(--charcoal); }
   .sch-tag--team { background: rgba(31,95,139,0.09); color: #1F5F8B; }
   .sch-tag--team::before { background: #1F5F8B; }
+  .sch-tag--open { background: rgba(13,13,13,0.06); color: var(--gray-dark); }
+  .sch-tag--open::before { background: var(--gray-dark); }
   .sch-coach { font-size: 12.5px; color: var(--gray-dark); }
   .sch-coach strong { color: var(--near-black); font-weight: 700; }
   .sch-included { font-size: 11.5px; color: var(--gray-dark); opacity: 0.75; margin: 6px 0 0; }
@@ -76,12 +81,13 @@
 
   .sch-prog { background: var(--near-black); color: var(--white); border-radius: var(--radius-md); padding: 26px 26px 24px; position: relative; overflow: hidden; }
   .sch-prog::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--orange); }
-  .sch-prog-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+  .sch-prog-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; }
   .sch-prog-window { font-family: var(--font-display); font-weight: 900; font-size: 22px; letter-spacing: -0.01em; }
   .sch-prog-coach { font-family: var(--font-sport); font-weight: 700; font-size: 12.5px; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
-  .sch-prog-tbd { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.06); border: 1px dashed rgba(255,255,255,0.24); border-radius: 10px; padding: 13px 16px; font-size: 13.5px; color: rgba(255,255,255,0.72); }
-  .sch-prog-tbd strong { color: var(--white); font-weight: 700; }
-  .sch-prog-note { margin: 12px 0 0; font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.5; }
+  .sch-prog-note { margin: 0 0 16px; font-size: 13.5px; color: rgba(255,255,255,0.72); line-height: 1.55; max-width: 52ch; }
+  .sch-prog-links { display: flex; gap: 10px; flex-wrap: wrap; }
+  .sch-btn-outline-dark { background: transparent; border: 1.5px solid rgba(255,255,255,0.32); color: var(--white); }
+  .sch-btn-outline-dark:hover { border-color: var(--white); }
 
   @media (max-width: 600px) {
     .sch-row { grid-template-columns: 60px 1fr; }
@@ -89,6 +95,8 @@
     .sch-btn { width: 100%; justify-content: center; }
     .sch-filter-row { gap: 8px; }
     .sch-filter-label { width: 100%; margin-bottom: 2px; }
+    .sch-day-head { flex-wrap: wrap; }
+    .sch-day-sub { margin-left: 0; }
   }
 
   /* ================= More Ways to Play — editorial modules (mwp-*) ================= */
@@ -286,8 +294,8 @@
   </div>
   <div class="container page-hero-inner">
     <span class="eyebrow eyebrow--light">Schedule</span>
-    <h1 class="page-hero-title">The Schedule.</h1>
-    <p class="page-hero-sub">Basketball is up first &mdash; built around our coaches&rsquo; programming. Volleyball, Pickleball, and Open Court are next.</p>
+    <h1 class="page-hero-title">Find Your Court Time.</h1>
+    <p class="page-hero-sub">Training. Practice. Play. Whatever gets you back on the court.</p>
   </div>
 </section>
 
@@ -516,42 +524,59 @@
   var BOOK_PRESET = 'Programs + Membership';
 
   var DATA = [
-    { day:"Monday", sport:"basketball", type:"training", age:["4-7","6-11"], ageLabel:"Ages 5&ndash;10", time:"6:00 PM", dur:"60 min", title:"Basketball Group Training", coach:"Spencer", included:"Weekly, Unlimited, Full Court", cta:"book" },
-    { day:"Monday", sport:"basketball", type:"training", age:["9-14","11-plus"], ageLabel:"Ages 11+", time:"7:00 PM", dur:"60 min", title:"Basketball Group Training", coach:"Spencer", included:"Weekly, Unlimited, Full Court", cta:"book" },
+    { day:"Wednesday", sport:"basketball", type:"training", age:["6-11"], step:"02 &mdash; Build Your Game", ageLabel:"Ages 6&ndash;11", desc:"Skills + Game Play", time:"5:00 PM", dur:"60 min", title:"Basketball Development", coach:"Johnny Coles", included:"Weekly, Unlimited + Full Court", cta:"book" },
+    { day:"Wednesday", sport:"basketball", type:"team", age:["9-14","11-plus"], ageLabel:null, desc:null, time:"6:00 PM", dur:"75 min", title:"Fall Basketball League Practice", coach:"Johnny Coles", included:null, cta:"locked" },
+    { day:"Wednesday", sport:"basketball", type:"training", age:["9-14","11-plus"], step:"03 &mdash; Push Further", ageLabel:"Ages 11+", desc:"Advanced Development", time:"7:30 PM", dur:"60 min", title:"Basketball Performance", coach:"Johnny Coles", included:"Weekly, Unlimited + Full Court", cta:"book" },
 
-    { day:"Wednesday", sport:"basketball", type:"training", age:["4-7","6-11"], ageLabel:"Ages 5&ndash;10", time:"5:00 PM", dur:"60 min", title:"Basketball Group Training", coach:"Johnny", included:"Weekly, Unlimited, Full Court", cta:"book" },
-    { day:"Wednesday", sport:"basketball", type:"team", age:["9-14","11-plus"], ageLabel:null, time:"6:00 PM", dur:"75 min", title:"Fall Basketball League Practice", coach:"Johnny", included:null, cta:"locked" },
-    { day:"Wednesday", sport:"basketball", type:"training", age:["9-14","11-plus"], ageLabel:"Ages 11+", time:"7:30 PM", dur:"60 min", title:"Basketball Group Training", coach:"Johnny", included:"Weekly, Unlimited, Full Court", cta:"book" },
+    { day:"Thursday", sport:"basketball", type:"training", age:["6-11"], step:"02 &mdash; Build Your Game", ageLabel:"Ages 6&ndash;11", desc:"Skills + Game Play", time:"5:00 PM", dur:"60 min", title:"Basketball Development", coach:"Johnny Coles", included:"Weekly, Unlimited + Full Court", cta:"book" },
+    { day:"Thursday", sport:"basketball", type:"team", age:["9-14","11-plus"], ageLabel:null, desc:null, time:"6:00 PM", dur:"75 min", title:"Fall Basketball League Practice", coach:"Johnny Coles", included:null, cta:"locked" },
+    { day:"Thursday", sport:"basketball", type:"training", age:["9-14","11-plus"], step:"03 &mdash; Push Further", ageLabel:"Ages 11+", desc:"Advanced Development", time:"7:30 PM", dur:"60 min", title:"Basketball Performance", coach:"Johnny Coles", included:"Weekly, Unlimited + Full Court", cta:"book" },
 
-    { day:"Thursday", sport:"basketball", type:"training", age:["4-7","6-11"], ageLabel:"Ages 5&ndash;10", time:"5:00 PM", dur:"60 min", title:"Basketball Group Training", coach:"Johnny", included:"Weekly, Unlimited, Full Court", cta:"book" },
-    { day:"Thursday", sport:"basketball", type:"team", age:["9-14","11-plus"], ageLabel:null, time:"6:00 PM", dur:"75 min", title:"Fall Basketball League Practice", coach:"Johnny", included:null, cta:"locked" },
-    { day:"Thursday", sport:"basketball", type:"training", age:["9-14","11-plus"], ageLabel:"Ages 11+", time:"7:30 PM", dur:"60 min", title:"Basketball Group Training", coach:"Johnny", included:"Weekly, Unlimited, Full Court", cta:"book" },
+    { day:"Friday", sport:"basketball", type:"training", age:["6-11"], step:"02 &mdash; Build Your Game", ageLabel:"Ages 6&ndash;11", desc:null, time:"6:00 PM", dur:"60 min", title:"Basketball Development", coach:"Johnny Coles", included:"Weekly, Unlimited + Full Court", cta:"book" },
+    { day:"Friday", sport:"basketball", type:"open", tagLabel:"Game Play", age:["9-14","11-plus"], ageLabel:"Ages 11+", desc:"Game Play", time:"7:00 PM", dur:"60 min", title:"The Run", coach:"Johnny Coles", included:"Weekly, Unlimited + Full Court", cta:"book" },
+    { day:"Friday", sport:"basketball", type:"open", tagLabel:"Open Court", age:[], ageLabel:null, desc:null, time:"8:00 PM", dur:"60 min", title:"Open Court / Shooting", coach:"Johnny Coles", included:"Weekly, Unlimited + Full Court", cta:"book" },
 
-    { day:"Friday", sport:"basketball", type:"training", age:["4-7","6-11"], ageLabel:"Ages 5&ndash;10", time:"6:00 PM", dur:"60 min", title:"Basketball Group Training", coach:"Johnny", included:"Weekly, Unlimited, Full Court", cta:"book" },
-    { day:"Friday", sport:"basketball", type:"training", age:["9-14","11-plus"], ageLabel:"Ages 11+", time:"7:00 PM", dur:"50 min", title:"Basketball Group Training", coach:"Johnny", included:"Weekly, Unlimited, Full Court", cta:"book" },
-
-    { day:"Saturday", sport:"basketball", type:"training", age:["4-7","6-11"], ageLabel:"Ages 5&ndash;10", weekNote:"2nd Sat", time:"9:00 AM", dur:"50 min", title:"Basketball Fundamentals", coach:"Johnny", included:"Weekly, Unlimited, Full Court", cta:"book" },
-    { day:"Saturday", sport:"basketball", type:"training", age:["9-14","11-plus"], ageLabel:"Ages 11+", weekNote:null, time:"10:00 AM", dur:"60 min", title:"Basketball Group Training", coach:"Johnny", included:"Weekly, Unlimited, Full Court", cta:"book" }
+    { day:"Saturday", sport:"basketball", type:"training", age:["4-7"], step:"01 &mdash; Start Here", ageLabel:"Ages 4&ndash;7", desc:"New to the Game", time:"9:00 AM", dur:"50 min", title:"Basketball Basics", coach:"Johnny Coles", included:"Weekly, Unlimited + Full Court", cta:"book" },
+    { day:"Saturday", sport:"basketball", type:"training", age:["6-11"], step:"02 &mdash; Build Your Game", ageLabel:"Ages 6&ndash;11", desc:"Skills + Game Play", time:"10:00 AM", dur:"60 min", title:"Basketball Development", coach:"Johnny Coles", included:"Weekly, Unlimited + Full Court", cta:"book" },
+    { day:"Saturday", sport:"basketball", type:"training", age:["9-14","11-plus"], step:"03 &mdash; Push Further", ageLabel:"Ages 11+", desc:"Advanced Development", time:"11:00 AM", dur:"60 min", title:"Basketball Performance", coach:"Johnny Coles", included:"Weekly, Unlimited + Full Court", cta:"book" }
   ];
 
-  var BLOCKS = [];
+  var DAY_TAGLINES = {
+    Wednesday: "Work Day.",
+    Thursday: "Put It to Work.",
+    Friday: "Game On.",
+    Saturday: "More Reps.",
+    Sunday: "Your Court. Your Time."
+  };
+
+  var SUNDAY_CARD = {
+    title: "Private Training + Dr. Dish",
+    note: "Sundays are reserved for one-on-one coaching and Dr. Dish reps — appointment-based, not a recurring class.",
+    links: [
+      { href: "private-coaching", label: "Book Private Training" },
+      { href: "dr-dish", label: "Explore Dr. Dish" }
+    ]
+  };
 
   var state = { tab: 'upcoming', sport: 'all', type: 'all', age: 'all' };
 
   function sessionRow(s) {
-    var tagClass = s.type === 'team' ? 'sch-tag--team' : 'sch-tag--training';
-    var tagLabel = s.type === 'team' ? 'Team Practice' : 'Group Training';
+    var tagClass = s.type === 'team' ? 'sch-tag--team' : (s.type === 'open' ? 'sch-tag--open' : 'sch-tag--training');
+    var tagLabel = s.tagLabel || (s.type === 'team' ? 'Team Practice' : (s.type === 'open' ? 'Open Court' : 'Group Training'));
     var cta = s.cta === 'book'
       ? '<a href="' + BOOK_HREF + '" class="sch-btn sch-btn-primary" data-preset="' + BOOK_PRESET + '">Book &rarr;</a>'
       : '<span class="sch-btn sch-btn-locked">Team Only</span>';
     var included = s.included ? '<p class="sch-included">Included with <strong>' + s.included + '</strong></p>' : '';
-    var subLabel = s.weekNote ? (s.weekNote + ' &middot; ' + s.dur) : s.dur;
-    var titleText = s.ageLabel ? (s.ageLabel + ': ' + s.title) : s.title;
+    var step = s.step ? '<span class="sch-step">' + s.step + '</span>' : '';
+    var ageText = s.ageLabel ? (s.desc ? s.ageLabel + ' &middot; ' + s.desc : s.ageLabel) : s.desc;
+    var ageRow = ageText ? '<div class="sch-age-row">' + ageText + '</div>' : '';
     return '' +
       '<div class="sch-row">' +
-        '<div class="sch-time">' + s.time + '<span>' + subLabel + '</span></div>' +
+        '<div class="sch-time">' + s.time + '<span>' + s.dur + '</span></div>' +
         '<div>' +
-          '<h4>' + titleText + '</h4>' +
+          step +
+          '<h4>' + s.title + '</h4>' +
+          ageRow +
           '<div class="sch-meta">' +
             '<span class="sch-tag ' + tagClass + '">' + tagLabel + '</span>' +
             '<span class="sch-coach">Coach <strong>' + s.coach + '</strong></span>' +
@@ -562,15 +587,17 @@
       '</div>';
   }
 
-  function progBlock(b) {
+  function sundayCard(c) {
+    var links = c.links.map(function (l) {
+      return '<a href="' + l.href + '" class="sch-btn sch-btn-outline-dark">' + l.label + ' &rarr;</a>';
+    }).join('');
     return '' +
       '<div class="sch-prog">' +
         '<div class="sch-prog-head">' +
-          '<span class="sch-prog-window">' + b.window + '</span>' +
-          '<span class="sch-prog-coach">Coach ' + b.coach + ' &middot; Basketball Programming</span>' +
+          '<span class="sch-prog-window">' + c.title + '</span>' +
         '</div>' +
-        '<div class="sch-prog-tbd"><strong>Class title TBD</strong>&nbsp;&mdash; sessions inside this window are being finalized.</div>' +
-        '<p class="sch-prog-note">' + b.note + '</p>' +
+        '<p class="sch-prog-note">' + c.note + '</p>' +
+        '<div class="sch-prog-links">' + links + '</div>' +
       '</div>';
   }
 
@@ -592,27 +619,32 @@
   function render() {
     var root = document.getElementById('schBody');
     if (!root) return;
-    var days = ['Monday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var days = ['Wednesday', 'Thursday', 'Friday', 'Saturday'];
     var html = '';
     var anyContent = false;
 
     days.forEach(function (day) {
       var rows = DATA.filter(function (s) { return s.day === day; }).filter(matchesFilters);
-      var block = BLOCKS.filter(function (b) { return b.day === day; })[0];
-      var showBlock = block && (state.sport === 'all' || state.sport === 'basketball') && (state.type === 'all' || state.type === 'training' || state.type === 'team');
-
-      if (rows.length === 0 && !showBlock) return;
+      if (rows.length === 0) return;
 
       var items = rows.map(function (s) { return { sortMin: timeToMinutes(s.time), html: sessionRow(s) }; });
-      if (showBlock) items.push({ sortMin: timeToMinutes(block.window), html: progBlock(block) });
       items.sort(function (a, b) { return a.sortMin - b.sortMin; });
 
       anyContent = true;
       html += '<div class="sch-day-group">';
-      html += '<div class="sch-day-head"><h3>' + day + '</h3><span class="sch-day-sub">Basketball</span></div>';
+      html += '<div class="sch-day-head"><h3>' + day + '</h3><span class="sch-day-tagline">' + DAY_TAGLINES[day] + '</span><span class="sch-day-sub">Basketball</span></div>';
       items.forEach(function (it) { html += it.html; });
       html += '</div>';
     });
+
+    var showSunday = state.type === 'all' && (state.sport === 'all' || state.sport === 'basketball');
+    if (showSunday) {
+      anyContent = true;
+      html += '<div class="sch-day-group">';
+      html += '<div class="sch-day-head"><h3>Sunday</h3><span class="sch-day-tagline">' + DAY_TAGLINES.Sunday + '</span><span class="sch-day-sub">By Appointment</span></div>';
+      html += sundayCard(SUNDAY_CARD);
+      html += '</div>';
+    }
 
     root.innerHTML = html;
     var emptyEl = document.getElementById('schEmpty');
