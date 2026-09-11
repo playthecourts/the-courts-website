@@ -43,7 +43,7 @@ export function WelcomeHero({ firstName }: { firstName: string }) {
           Set Up Your Athlete &rarr;
         </Link>
       </div>
-      <p className="relative mt-4 font-body text-[12.5px] text-gray-dark/70">
+      <p className="relative mt-4 font-body text-[12.5px] text-near-black">
         Schedules and bookings are coming soon.
       </p>
     </div>

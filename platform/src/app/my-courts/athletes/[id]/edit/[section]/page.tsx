@@ -130,7 +130,6 @@ export default async function EditSectionPage({
             athlete={athlete}
             displayName={name}
             currentStatus={athlete.mediaConsent?.status ?? null}
-            currentRelationship={athlete.mediaConsent?.guardianRelationship ?? null}
             nextHref={done}
           />
         )}

@@ -46,6 +46,20 @@ export default async function PlayerCardPage({ params }: { params: Promise<{ id:
 
   return (
     <div className="flex flex-col gap-5">
+      {!athlete.photoPath && (
+        <Link
+          href={`/my-courts/athletes/${athlete.id}/edit/player-card`}
+          className="flex items-center justify-between gap-3 rounded-xl border border-orange/40 bg-orange/5 px-4 py-3.5"
+        >
+          <p className="font-body text-[13.5px] leading-snug text-near-black">
+            Add {name}&rsquo;s photo so our coaches can get to know them.
+          </p>
+          <span className="shrink-0 font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
+            Add Photo
+          </span>
+        </Link>
+      )}
+
       <div className="overflow-hidden rounded-xl border border-gray-mid bg-white">
         {sports && <CardRow label="Sport">{sports}</CardRow>}
         {athlete.school && <CardRow label="School">{athlete.school}</CardRow>}
@@ -85,7 +99,7 @@ export default async function PlayerCardPage({ params }: { params: Promise<{ id:
             coaches read before a session.
           </p>
           <Link
-            href={`/my-courts/athletes/${athlete.id}/edit/about`}
+            href={`/my-courts/athletes/${athlete.id}/edit/player-card`}
             className="mt-3 inline-flex min-h-[44px] items-center rounded-lg bg-orange px-5 font-sport text-[13px] font-bold uppercase tracking-wide text-white hover:bg-orange-hover"
           >
             Add Their Details
@@ -93,21 +107,12 @@ export default async function PlayerCardPage({ params }: { params: Promise<{ id:
         </div>
       )}
 
-      <div className="flex items-center justify-center gap-4">
-        <Link
-          href={`/my-courts/athletes/${athlete.id}/edit/about`}
-          className="text-center font-sport text-[12px] font-bold uppercase tracking-[0.1em] text-gray-dark hover:text-orange"
-        >
-          Edit Player Card
-        </Link>
-        <span className="text-gray-mid">&middot;</span>
-        <Link
-          href={`/my-courts/athletes/${athlete.id}/edit/photo`}
-          className="text-center font-sport text-[12px] font-bold uppercase tracking-[0.1em] text-gray-dark hover:text-orange"
-        >
-          {athlete.photoPath ? "Change Photo" : "Add a Photo"}
-        </Link>
-      </div>
+      <Link
+        href={`/my-courts/athletes/${athlete.id}/edit/player-card`}
+        className="text-center font-sport text-[12px] font-bold uppercase tracking-[0.1em] text-gray-dark hover:text-orange"
+      >
+        Edit Player Card &rarr;
+      </Link>
     </div>
   );
 }

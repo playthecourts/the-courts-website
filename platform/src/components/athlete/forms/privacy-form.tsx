@@ -28,12 +28,9 @@ export default function PrivacyForm({
 }: {
   athlete: { id: string };
   displayName: string;
-  guardianName: string;
   currentStatus: string | null;
-  currentRelationship: string | null;
   nextHref: string;
   eyebrow?: string;
-  submitLabel?: string;
 }) {
   const router = useRouter();
   const [state, formAction] = useActionState<ActionState, FormData>(saveMediaConsent, { ok: false });

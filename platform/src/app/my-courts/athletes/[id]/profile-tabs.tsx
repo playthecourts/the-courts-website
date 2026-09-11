@@ -3,20 +3,19 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// Three tabs, and no more.
+// Four tabs, no generic "More" junk drawer.
 //
-// The brief for this profile was "help us know your kid", not "complete another
-// registration packet", and eight tabs across a phone is what the second one
-// looks like. Player Card and Progress are what a parent opens repeatedly;
-// everything administrative — about, coaching, safety, guardians, pickup,
-// privacy — lives one level down under More, where it is findable without
-// being in the way. Schedule and Programs live here too once there's
-// something live to book or enroll in.
+// Each tab is one kind of thing: Player Card is who this athlete is and how
+// to coach them, Progress is coach-written development notes, Family +
+// Safety is household/emergency logistics, and Waivers + Permissions is the
+// consent/legal record. Nothing here is a page waiting for a use — Schedule
+// and Programs join once there's something live to book or enroll in.
 
 const TABS = [
   { slug: "", label: "Player Card" },
   { slug: "progress", label: "Progress" },
-  { slug: "more", label: "More" },
+  { slug: "family-safety", label: "Family + Safety" },
+  { slug: "waivers", label: "Waivers + Permissions" },
 ];
 
 export default function ProfileTabs({ athleteId }: { athleteId: string }) {
