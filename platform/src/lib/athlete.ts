@@ -105,7 +105,6 @@ export function ageFrom(dob: Date, on: Date = new Date()): number {
 // ---------------------------------------------------------------------------
 
 export type CompletenessInput = {
-  photoPath: string | null;
   goal: string | null;
   coachingPreferences: string[];
   competitiveMeter: string | null;
@@ -114,6 +113,9 @@ export type CompletenessInput = {
 
 export type CompletenessStep = { key: string; label: string; done: boolean; href: string };
 
+// Photo is deliberately NOT tracked here — it's not profile-completion
+// information, it's a courtesy for coaches, and treating it as a step to
+// check off implied it was required the way the others aren't either.
 export function completeness(a: CompletenessInput, athleteId: string): {
   steps: CompletenessStep[];
   done: number;
@@ -122,13 +124,17 @@ export function completeness(a: CompletenessInput, athleteId: string): {
 } {
   const base = `/my-courts/athletes/${athleteId}`;
   const steps: CompletenessStep[] = [
-    { key: "photo", label: "Add a photo", done: Boolean(a.photoPath), href: `${base}/edit/photo` },
-    { key: "about", label: "What they're working on", done: Boolean(a.goal), href: `${base}/edit/about` },
+    {
+      key: "about",
+      label: "What they're working on",
+      done: Boolean(a.goal),
+      href: `${base}/edit/player-card`,
+    },
     {
       key: "coaching",
       label: "How they like to be coached",
       done: a.coachingPreferences.length > 0,
-      href: `${base}/edit/coaching`,
+      href: `${base}/edit/player-card`,
     },
     {
       key: "emergency",
