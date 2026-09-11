@@ -23,15 +23,23 @@ export default async function NewMessagePage({ searchParams }: PageProps<"/my-co
         <Link href="/my-courts/messages" className="font-sport text-xs font-bold uppercase tracking-wide text-orange">
           ← Messages
         </Link>
-        <h1 className="mt-2 font-display text-xl font-black text-black">Ask a Question</h1>
+        <h1 className="mt-2 font-display text-xl font-black text-black">Ask The Courts</h1>
         <p className="mt-1 font-body text-sm text-gray-dark">
-          Goes to the front desk. Someone at The Courts will reply here.
+          Have a question about your athlete, membership, registration, schedule, or anything
+          else? Send us a message here and our team will get back to you.
+        </p>
+        <p className="mt-1 font-body text-sm text-gray-dark">
+          Replies will appear here in your member portal.
         </p>
       </div>
       <NewThreadForm
         athletes={athletes.map((a) => ({ id: a.id, firstName: a.firstName }))}
         defaultSubject={replyingTo ? `Re: ${replyingTo.communication.subject}` : ""}
       />
+      <p className="font-body text-[12.5px] text-gray-dark">
+        Your message goes directly to The Courts team. We&rsquo;ll reply here so you can keep
+        everything in one place.
+      </p>
     </div>
   );
 }

@@ -16,7 +16,7 @@ export function NewThreadForm({
     <form action={action} className="flex flex-col gap-4">
       <div>
         <label htmlFor="subject" className="mb-1.5 block font-sport text-[11px] font-bold uppercase tracking-widest text-gray-dark">
-          What&rsquo;s it about
+          What&rsquo;s your question about?
         </label>
         <input
           id="subject"
@@ -31,7 +31,7 @@ export function NewThreadForm({
       {athletes.length > 0 ? (
         <div>
           <label htmlFor="athleteId" className="mb-1.5 block font-sport text-[11px] font-bold uppercase tracking-widest text-gray-dark">
-            Which athlete <span className="font-normal normal-case tracking-normal text-gray-dark">(optional)</span>
+            Which athlete? <span className="font-normal normal-case tracking-normal text-gray-dark">Optional</span>
           </label>
           <select
             id="athleteId"
@@ -39,7 +39,7 @@ export function NewThreadForm({
             defaultValue=""
             className="min-h-11 w-full rounded-lg border border-gray-mid bg-white px-3 font-body text-sm focus:border-orange focus:outline-none"
           >
-            <option value="">Not about one athlete</option>
+            <option value="">Not about a specific athlete</option>
             {athletes.map((a) => (
               <option key={a.id} value={a.id}>{a.firstName}</option>
             ))}
@@ -49,7 +49,7 @@ export function NewThreadForm({
 
       <div>
         <label htmlFor="body" className="mb-1.5 block font-sport text-[11px] font-bold uppercase tracking-widest text-gray-dark">
-          Message
+          Your message
         </label>
         <textarea
           id="body"
@@ -60,6 +60,24 @@ export function NewThreadForm({
         />
       </div>
 
+      <label className="flex items-start gap-2.5">
+        <input
+          type="checkbox"
+          name="notifyByEmail"
+          defaultChecked
+          className="mt-0.5 h-4 w-4 accent-orange"
+        />
+        <span>
+          <span className="block font-heading text-sm font-bold text-near-black">
+            Email me when The Courts replies
+          </span>
+          <span className="mt-0.5 block font-body text-[12.5px] text-gray-dark">
+            We&rsquo;ll send a short email letting you know there&rsquo;s a new reply waiting in your
+            member portal.
+          </span>
+        </span>
+      </label>
+
       {state?.error ? (
         <p role="alert" className="font-body text-sm text-red-700">{state.error}</p>
       ) : null}
@@ -69,7 +87,7 @@ export function NewThreadForm({
         disabled={pending}
         className="min-h-11 self-start rounded-md bg-orange px-5 font-sport text-xs font-bold uppercase tracking-wide text-white disabled:opacity-60"
       >
-        {pending ? "Sending…" : "Send to The Courts"}
+        {pending ? "Sending…" : "Send Message →"}
       </button>
     </form>
   );

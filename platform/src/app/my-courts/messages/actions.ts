@@ -38,6 +38,7 @@ export async function startThread(_prev: unknown, formData: FormData) {
     subject,
     body,
     context: { athleteId: validAthlete ? athleteId : null },
+    notifyByEmail: formData.get("notifyByEmail") === "on",
   });
 
   revalidatePath("/my-courts/messages");

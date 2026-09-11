@@ -1,6 +1,7 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
 import { auditLog } from "@/lib/audit";
+import { sendReplyNotification } from "@/lib/message-notifications";
 
 // ---------------------------------------------------------------------------
 // Two-way messaging: The Courts <-> one family.
@@ -37,6 +38,10 @@ export async function sendFamilyMessage(params: {
   subject?: string;
   threadId?: string;
   context?: ThreadContext;
+  /// Only meaningful when starting a new thread — whether a staff reply
+  /// should also trigger a notification email. Defaults to true (the
+  /// compose form's checkbox is checked by default).
+  notifyByEmail?: boolean;
 }) {
   const body = params.body.trim();
   if (!body) throw new Error("Write a message first.");
@@ -65,6 +70,7 @@ export async function sendFamilyMessage(params: {
           sessionId: params.context?.sessionId ?? null,
           athleteId: params.context?.athleteId ?? null,
           communicationId: params.context?.communicationId ?? null,
+          notifyByEmail: params.notifyByEmail ?? true,
         },
       });
       threadId = created.id;
@@ -121,6 +127,12 @@ export async function sendStaffMessage(params: {
 
   await auditLog(params.staffUserId, "send_communication", "message_thread", params.threadId, {
     resolved: !!params.resolve,
+  });
+
+  // Best-effort notification — never lets an email problem block a staff
+  // reply from landing in the portal, which is the system of record.
+  await sendReplyNotification(params.threadId, body).catch((err) => {
+    console.error("[messaging] reply notification failed", params.threadId, err);
   });
   return result;
 }

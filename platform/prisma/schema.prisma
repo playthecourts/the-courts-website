@@ -2425,6 +2425,10 @@ model MessageThread {
   communicationId String? @map("communication_id")
 
   status        ThreadStatus @default(open)
+  /// The family's choice, made on the compose form, of whether a staff reply
+  /// should also trigger a notification email. Portal is always the system
+  /// of record either way — this only controls the email nudge.
+  notifyByEmail Boolean      @default(true) @map("notify_by_email")
   /// Denormalized for inbox ordering without loading every message.
   lastMessageAt DateTime     @default(now()) @map("last_message_at")
   createdAt     DateTime     @default(now()) @map("created_at")

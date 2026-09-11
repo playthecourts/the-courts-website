@@ -30,13 +30,11 @@ export function WelcomeHero({ firstName }: { firstName: string }) {
         Memberships are open now for an October 1 start.
       </p>
       <p className="relative mt-2 max-w-[54ch] font-body text-[14px] leading-relaxed text-gray-dark md:text-[15px]">
-        Choose the membership that works for your family, then get your athlete set up by adding
-        the details that help us coach them well — including what they want to focus on, how they
-        learn best, and anything else that will help them have a great experience.
+        Choose your membership, then set up your athlete profile with what they want to work on
+        and anything that helps us coach them well.
       </p>
       <p className="relative mt-2 max-w-[54ch] font-body text-[14px] leading-relaxed text-gray-dark md:text-[15px]">
-        Get the details out of the way now, so when October 1 hits, you&rsquo;re ready to hit the
-        court.
+        Get set now, so you&rsquo;re ready to hit the court October 1.
       </p>
       <div className="relative mt-5 flex flex-wrap items-center gap-x-6 gap-y-3">
         <Link
