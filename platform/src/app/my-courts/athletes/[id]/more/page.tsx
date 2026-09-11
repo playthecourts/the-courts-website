@@ -82,13 +82,6 @@ export default async function AthleteMorePage({ params }: { params: Promise<{ id
           </li>
         ))}
       </ul>
-
-      <Link
-        href={`${base}/photo`}
-        className="text-center font-sport text-[12px] font-bold uppercase tracking-[0.1em] text-gray-dark hover:text-orange"
-      >
-        {athlete.photoPath ? "Change Photo" : "Add a Photo"}
-      </Link>
     </div>
   );
 }

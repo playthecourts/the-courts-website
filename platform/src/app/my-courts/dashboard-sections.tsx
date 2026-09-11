@@ -57,7 +57,7 @@ export function WelcomeHero({ firstName }: { firstName: string }) {
 export function ActionNeededStrip({
   items,
 }: {
-  items: { athleteName: string; message: string; href: string }[];
+  items: { athleteName: string; message: string; href: string; cta?: string }[];
 }) {
   if (items.length === 0) return null;
   return (
@@ -80,7 +80,7 @@ export function ActionNeededStrip({
             </span>
           </div>
           <span className="shrink-0 font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
-            Complete &rarr;
+            {item.cta ?? "Complete"} &rarr;
           </span>
         </Link>
       ))}

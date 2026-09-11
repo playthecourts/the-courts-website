@@ -93,12 +93,21 @@ export default async function PlayerCardPage({ params }: { params: Promise<{ id:
         </div>
       )}
 
-      <Link
-        href={`/my-courts/athletes/${athlete.id}/edit/about`}
-        className="text-center font-sport text-[12px] font-bold uppercase tracking-[0.1em] text-gray-dark hover:text-orange"
-      >
-        Edit Player Card
-      </Link>
+      <div className="flex items-center justify-center gap-4">
+        <Link
+          href={`/my-courts/athletes/${athlete.id}/edit/about`}
+          className="text-center font-sport text-[12px] font-bold uppercase tracking-[0.1em] text-gray-dark hover:text-orange"
+        >
+          Edit Player Card
+        </Link>
+        <span className="text-gray-mid">&middot;</span>
+        <Link
+          href={`/my-courts/athletes/${athlete.id}/edit/photo`}
+          className="text-center font-sport text-[12px] font-bold uppercase tracking-[0.1em] text-gray-dark hover:text-orange"
+        >
+          {athlete.photoPath ? "Change Photo" : "Add a Photo"}
+        </Link>
+      </div>
     </div>
   );
 }

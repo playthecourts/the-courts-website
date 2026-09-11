@@ -555,20 +555,17 @@ export async function saveMediaConsent(
   const { athlete, guardianId, guardianName } = await requireGuardianAthlete(athleteId);
 
   const statusRaw = str(formData, "status");
-  const acknowledged = str(formData, "acknowledged") === "yes";
-  const relationship = str(formData, "relationship");
-  const signedName = str(formData, "guardianName");
 
-  const allowed: MediaConsentStatus[] = ["media_ok", "media_limited", "media_no"];
+  // Only two choices are offered on the consent screen itself — clicking
+  // "Yes" or "No" is the explicit affirmative act, so there is no separate
+  // acknowledgment checkbox to also require. media_limited remains a valid
+  // stored value (staff tooling and historical records still handle it) but
+  // is no longer one of the choices a parent is offered here.
+  const allowed: MediaConsentStatus[] = ["media_ok", "media_no"];
   const errors: Record<string, string> = {};
   if (!allowed.includes(statusRaw as MediaConsentStatus)) {
-    errors.status = "Pick one of the three options.";
+    errors.status = "Choose yes or no.";
   }
-  if (!acknowledged) {
-    errors.acknowledged = "Please confirm you're the parent or legal guardian.";
-  }
-  if (!signedName) errors.guardianName = "Type your name.";
-  if (!relationship) errors.relationship = "How are you related to this athlete?";
   if (Object.keys(errors).length > 0) return { ok: false, errors };
 
   const status = statusRaw as MediaConsentStatus;
@@ -582,8 +579,8 @@ export async function saveMediaConsent(
         athleteId: athlete.id,
         status,
         consentedByGuardianId: guardianId,
-        guardianName: signedName,
-        guardianRelationship: relationship,
+        guardianName,
+        guardianRelationship: "Parent/Guardian",
         acknowledged: true,
         consentDate: now,
         releaseVersion: RELEASE_VERSION,
@@ -591,8 +588,8 @@ export async function saveMediaConsent(
       update: {
         status,
         consentedByGuardianId: guardianId,
-        guardianName: signedName,
-        guardianRelationship: relationship,
+        guardianName,
+        guardianRelationship: "Parent/Guardian",
         acknowledged: true,
         consentDate: now,
         releaseVersion: RELEASE_VERSION,
@@ -617,9 +614,11 @@ export async function saveMediaConsent(
 
     // Legacy boolean kept in sync for any older read path. MediaConsent is the
     // source of truth; this is never read to make a publishing decision.
+    // profileStep is untouched here — media consent lives outside the profile
+    // setup flow now, so answering it must not disturb setup progress.
     await tx.athlete.update({
       where: { id: athlete.id },
-      data: { photoConsent: status === "media_ok", profileStep: null },
+      data: { photoConsent: status === "media_ok" },
     });
   });
 

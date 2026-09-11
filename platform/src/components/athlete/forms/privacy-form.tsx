@@ -3,44 +3,28 @@
 import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { saveMediaConsent, type ActionState } from "@/app/my-courts/athletes/actions";
-import {
-  PARENT_CHOICES,
-  RELEASE_BODY,
-  RELEASE_CHANNELS,
-  RELEASE_VERSION,
-  GUARDIAN_ACKNOWLEDGMENT,
-  REVIEW_PENDING,
-} from "@/lib/media-consent";
-import {
-  StepHeader,
-  Question,
-  TextInput,
-  ChoiceCard,
-  CardStack,
-  SubmitButton,
-} from "@/components/athlete/form-ui";
+import { RELEASE_BODY, RELEASE_CHANNELS, RELEASE_VERSION, REVIEW_PENDING } from "@/lib/media-consent";
+import { StepHeader } from "@/components/athlete/form-ui";
 
-// Photos + video — its own screen, its own decision.
+// Photo + Video Permission — a consent choice, not a profile field. Lives
+// under Waivers & Releases / Action Needed and under My Athletes > Privacy +
+// Permissions, never inside athlete profile setup: it doesn't help a coach
+// personalize training, so it doesn't belong with the information that does.
 //
-// Three things are deliberate here:
+// Two things are deliberate here:
 //
-//   1. Nothing is preselected. The parent makes an affirmative choice, and a
-//      form that arrives with "Yes" already filled in is not a choice.
-//   2. The channels are listed by name. "Marketing purposes" is not something
-//      a person can meaningfully agree to.
-//   3. This is not the liability waiver and not the profile photo. A parent can
-//      upload a photo so coaches recognise their kid AND choose No here, and
-//      the two never affect each other.
+//   1. Nothing is preselected, and there is no separate acknowledgment
+//      checkbox on top of the two choices — clicking one of them IS the
+//      explicit, unambiguous decision.
+//   2. The channels are listed by name. "Marketing purposes" is not
+//      something a person can meaningfully agree to.
 
 export default function PrivacyForm({
   athlete,
   displayName,
-  guardianName,
   currentStatus,
-  currentRelationship,
   nextHref,
   eyebrow,
-  submitLabel = "Save",
 }: {
   athlete: { id: string };
   displayName: string;
@@ -58,33 +42,14 @@ export default function PrivacyForm({
     if (state.ok) router.push(nextHref);
   }, [state, router, nextHref]);
 
-  const errors = state.errors ?? {};
-
   return (
     <form action={formAction}>
       <input type="hidden" name="athleteId" value={athlete.id} />
       <StepHeader
         eyebrow={eyebrow}
-        title="Photos + Video"
-        sub="We love capturing what happens at The Courts. Let us know what you're comfortable with."
+        title="Photo + Video Permission"
+        sub={`Choose whether The Courts may use approved photos or video of ${displayName} in our own marketing channels.`}
       />
-
-      <Question label={`Can The Courts use photos or video of ${displayName}?`} error={errors.status}>
-        <CardStack>
-          {PARENT_CHOICES.map((c) => (
-            <ChoiceCard
-              key={c.status}
-              name="status"
-              value={c.status}
-              headline={c.headline}
-              detail={c.detail}
-              // Only an existing saved answer preselects. A first-time parent
-              // sees three empty options.
-              defaultChecked={currentStatus === c.status}
-            />
-          ))}
-        </CardStack>
-      </Question>
 
       <div className="mb-6 rounded-xl border border-gray-mid bg-gray-light p-4">
         <p className="mb-2 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-gray-dark">
@@ -115,41 +80,40 @@ export default function PrivacyForm({
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <Question label="Your Name" error={errors.guardianName}>
-          <TextInput name="guardianName" defaultValue={guardianName} required />
-        </Question>
-        <Question label="Relationship" error={errors.relationship}>
-          <TextInput
-            name="relationship"
-            defaultValue={currentRelationship ?? ""}
-            placeholder="Mom, Dad…"
-            required
-          />
-        </Question>
+      {state.errors?.status && (
+        <p role="alert" className="mb-3 font-body text-[13.5px] text-danger">
+          {state.errors.status}
+        </p>
+      )}
+
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <button
+          type="submit"
+          name="status"
+          value="media_ok"
+          className={`min-h-14 rounded-xl border-2 font-sport text-[13px] font-bold tracking-wide uppercase transition-colors ${
+            currentStatus === "media_ok"
+              ? "border-orange bg-orange text-white"
+              : "border-gray-mid bg-white text-near-black hover:border-orange"
+          }`}
+        >
+          Yes, I Give Permission
+        </button>
+        <button
+          type="submit"
+          name="status"
+          value="media_no"
+          className={`min-h-14 rounded-xl border-2 font-sport text-[13px] font-bold tracking-wide uppercase transition-colors ${
+            currentStatus === "media_no"
+              ? "border-near-black bg-near-black text-white"
+              : "border-gray-mid bg-white text-near-black hover:border-near-black"
+          }`}
+        >
+          No, I Do Not Give Permission
+        </button>
       </div>
 
-      <div className="mb-6">
-        <label className="flex cursor-pointer items-start gap-3">
-          <input
-            type="checkbox"
-            name="acknowledged"
-            value="yes"
-            className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--color-orange)]"
-          />
-          <span className="font-body text-[14px] leading-snug text-near-black">
-            {GUARDIAN_ACKNOWLEDGMENT}
-          </span>
-        </label>
-        {errors.acknowledged && (
-          <p role="alert" className="mt-1.5 font-body text-[13px] text-danger">
-            {errors.acknowledged}
-          </p>
-        )}
-      </div>
-
-      <SubmitButton>{submitLabel}</SubmitButton>
-      <p className="mt-3 text-center font-body text-[12.5px] text-gray-dark">
+      <p className="mt-4 text-center font-body text-[12.5px] text-gray-dark">
         You can change this any time. Choosing &ldquo;No&rdquo; never affects what {displayName} can
         take part in.
       </p>

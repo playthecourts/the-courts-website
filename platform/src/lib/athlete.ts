@@ -110,7 +110,6 @@ export type CompletenessInput = {
   coachingPreferences: string[];
   competitiveMeter: string | null;
   emergencyContactCount: number;
-  mediaConsentStatus: string | null;
 };
 
 export type CompletenessStep = { key: string; label: string; done: boolean; href: string };
@@ -136,12 +135,6 @@ export function completeness(a: CompletenessInput, athleteId: string): {
       label: "Emergency contact",
       done: a.emergencyContactCount > 0,
       href: `${base}/edit/safety`,
-    },
-    {
-      key: "media",
-      label: "Photo + video preference",
-      done: Boolean(a.mediaConsentStatus),
-      href: `${base}/edit/privacy`,
     },
   ];
 

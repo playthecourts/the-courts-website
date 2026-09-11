@@ -63,7 +63,6 @@ export default async function AthletesPage() {
                 coachingPreferences: athlete.coachingPreferences,
                 competitiveMeter: athlete.competitiveMeter,
                 emergencyContactCount: athlete.emergencyContacts.length,
-                mediaConsentStatus: athlete.mediaConsent?.status ?? null,
               },
               athlete.id
             );

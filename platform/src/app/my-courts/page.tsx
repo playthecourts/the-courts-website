@@ -73,9 +73,11 @@ export default async function MyCourtsHomePage() {
     take: 3,
   });
 
-  // Needs Your Attention: real conditions only — unsigned required waivers
-  // per athlete, and any membership Stripe marked past_due.
-  const attentionItems: { athleteName: string; message: string; href: string }[] = [];
+  // Action Needed: real conditions only — unsigned required waivers, an
+  // unanswered Photo + Video Permission choice, and any membership Stripe
+  // marked past_due. Deliberately "Action Needed" rather than "Waiver
+  // needed" — it needs to hold more than waivers without a naming clash.
+  const attentionItems: { athleteName: string; message: string; href: string; cta?: string }[] = [];
   for (const athlete of athletes) {
     const unsigned = await getUnsignedRequiredWaivers(guardian.id, athlete.id);
     for (const waiver of unsigned) {
@@ -83,6 +85,23 @@ export default async function MyCourtsHomePage() {
         athleteName: athlete.firstName,
         message: `Waiver needed: ${waiver.waiverType}`,
         href: "/my-courts/waivers",
+      });
+    }
+  }
+  if (athleteIds.length) {
+    const consented = await prisma.mediaConsent.findMany({
+      where: { athleteId: { in: athleteIds } },
+      select: { athleteId: true },
+    });
+    const consentedIds = new Set(consented.map((c) => c.athleteId));
+    for (const athlete of athletes) {
+      if (consentedIds.has(athlete.id)) continue;
+      attentionItems.push({
+        athleteName: athlete.firstName,
+        message:
+          "Photo + Video Permission — choose whether The Courts may use approved photos or video",
+        href: `/my-courts/athletes/${athlete.id}/edit/privacy`,
+        cta: "Review Permission",
       });
     }
   }
