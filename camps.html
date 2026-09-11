@@ -29,13 +29,6 @@
 <style>
   /* ---------- Hero next-up ---------- */
 
-  /* ---------- Registration update banner ---------- */
-  .camp-reg-update { padding: 30px 0; }
-  .camp-reg-update .container { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px 20px; max-width: 800px; text-align: center; }
-  .camp-reg-update-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
-  .camp-reg-update-label { font-family: var(--font-sport); font-weight: 800; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); }
-  .camp-reg-update-text { font-family: var(--font-heading); font-weight: 600; font-size: 16px; color: var(--gray-dark); }
-
   /* ---------- Coming-soon CTA pill (replaces booking links pre-launch) ---------- */
   .soon-pill { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 999px; padding: 13px 22px; white-space: nowrap; }
   .soon-pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
@@ -70,7 +63,7 @@
   .camp-filter-btn.active { background: var(--black); border-color: var(--black); color: var(--white); }
   .cal-wrap { margin-top: 32px; max-width: 720px; margin-left: auto; margin-right: auto; }
   .cal-board { background: var(--white); border-radius: var(--radius-md); padding: 8px 24px; border: 1px solid var(--gray-mid); }
-  .cal-month-label { display: flex; align-items: center; justify-content: center; font-family: var(--font-sport); font-size: 22px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); line-height: 1; padding: 18px 0; text-align: center; }
+  .cal-month-label { display: flex; align-items: center; justify-content: center; font-family: var(--font-sport); font-size: 22px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--black); line-height: 1; padding: 18px 0; text-align: center; }
   .cal-month-group:first-child .cal-month-label { padding-top: 20px; }
   .cal-row { display: grid; grid-template-columns: 108px 1fr auto; align-items: center; gap: 16px; padding: 15px 20px; margin: 0 -20px; border-top: 1px solid var(--gray-mid); border-radius: 8px; }
   .cal-row:nth-child(even) { background: var(--gray-light); }
@@ -281,20 +274,13 @@
   </div>
 </section>
 
-<div class="camp-reg-update">
-  <div class="container">
-    <span class="camp-reg-update-dot" aria-hidden="true"></span>
-    <span class="camp-reg-update-label">Registration Update</span>
-    <span class="camp-reg-update-text">Fall Break registration opens soon.</span>
-  </div>
-</div>
-
 <section class="camp-feature" id="next-up">
   <div class="container">
     <div class="section-head center" style="margin-bottom:36px;">
       <span class="eyebrow">Next Up</span>
       <h2 class="section-title">Four Days of Camp. <br class="br-desktop">Let&rsquo;s Go.</h2>
       <p class="section-sub">Take all four days or choose the days that work for you.</p>
+      <div style="text-align:center; margin-top:18px;"><span class="soon-pill">Fall Break Registration Opens Soon</span></div>
     </div>
     <div class="camp-split-grid">
       <div class="camp-next-col reveal" id="fall-break-bb">
