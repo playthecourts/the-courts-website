@@ -149,39 +149,50 @@ export async function saveAthletePhoto(
   _prev: ActionState,
   formData: FormData
 ): Promise<ActionState> {
-  const athleteId = str(formData, "athleteId");
-  const { athlete } = await requireGuardianAthlete(athleteId);
+  // Wrapped end-to-end: every prior failure mode here (an auth check
+  // throwing, a storage error, anything unanticipated) surfaced as a rejected
+  // promise the client-side useActionState never turns into visible text —
+  // the button just looked like it did nothing. Catching everything and
+  // returning a normal error means a real message on screen no matter what
+  // actually broke, which is also what let this bug finally get diagnosed.
+  try {
+    const athleteId = str(formData, "athleteId");
+    const { athlete } = await requireGuardianAthlete(athleteId);
 
-  const file = formData.get("photo");
-  if (!(file instanceof File) || file.size === 0) {
-    return { ok: false, errors: { photo: "Pick a photo first." } };
+    const file = formData.get("photo");
+    if (!(file instanceof File) || file.size === 0) {
+      return { ok: false, errors: { photo: "Pick a photo first." } };
+    }
+
+    const result = await uploadAthletePhoto(athlete.id, file);
+    if (!result.ok) return { ok: false, errors: { photo: result.error } };
+
+    const previousPath = athlete.photoPath;
+    await prisma.athlete.update({
+      where: { id: athlete.id },
+      data: { photoPath: result.path, photoUpdatedAt: new Date() },
+    });
+
+    // The old object is removed only after the new path is committed, so a
+    // failure here leaves a stray file rather than a profile pointing at nothing.
+    if (previousPath) await deleteAthletePhoto(previousPath);
+
+    const actor = await actorFor();
+    await recordProfileChange({
+      athleteId: athlete.id,
+      actor,
+      category: "profile",
+      field: "photo",
+      oldValue: previousPath ? "photo on file" : "no photo",
+      newValue: "photo on file",
+    });
+
+    revalidateAthlete(athlete.id);
+    return OK;
+  } catch (err) {
+    console.error("[saveAthletePhoto] failed", err);
+    return { ok: false, errors: { photo: "Something went wrong saving that photo. Please try again." } };
   }
-
-  const result = await uploadAthletePhoto(athlete.id, file);
-  if (!result.ok) return { ok: false, errors: { photo: result.error } };
-
-  const previousPath = athlete.photoPath;
-  await prisma.athlete.update({
-    where: { id: athlete.id },
-    data: { photoPath: result.path, photoUpdatedAt: new Date() },
-  });
-
-  // The old object is removed only after the new path is committed, so a
-  // failure here leaves a stray file rather than a profile pointing at nothing.
-  if (previousPath) await deleteAthletePhoto(previousPath);
-
-  const actor = await actorFor();
-  await recordProfileChange({
-    athleteId: athlete.id,
-    actor,
-    category: "profile",
-    field: "photo",
-    oldValue: previousPath ? "photo on file" : "no photo",
-    newValue: "photo on file",
-  });
-
-  revalidateAthlete(athlete.id);
-  return OK;
 }
 
 export async function removeAthletePhoto(athleteId: string) {

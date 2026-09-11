@@ -3,7 +3,7 @@
 import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { saveMediaConsent, type ActionState } from "@/app/my-courts/athletes/actions";
-import { RELEASE_BODY, RELEASE_CHANNELS, RELEASE_VERSION, REVIEW_PENDING } from "@/lib/media-consent";
+import { RELEASE_BODY, RELEASE_CHANNELS } from "@/lib/media-consent";
 import { StepHeader } from "@/components/athlete/form-ui";
 
 // Photo + Video Permission — a consent choice, not a profile field. Lives
@@ -53,7 +53,7 @@ export default function PrivacyForm({
 
       <div className="mb-6 rounded-xl border border-gray-mid bg-gray-light p-4">
         <p className="mb-2 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-gray-dark">
-          What you&rsquo;re agreeing to
+          What this includes
         </p>
         <p className="mb-2 font-body text-[13.5px] leading-relaxed text-near-black">
           If you say yes, approved photos and video may be used in:
@@ -64,20 +64,10 @@ export default function PrivacyForm({
           ))}
         </ul>
         {RELEASE_BODY.map((p) => (
-          <p key={p} className="mb-2 font-body text-[13.5px] leading-relaxed text-gray-dark">
+          <p key={p} className="mb-2 font-body text-[13.5px] leading-relaxed text-gray-dark last:mb-0">
             {p}
           </p>
         ))}
-        <p className="mt-3 font-body text-[12px] text-gray-dark">Release version {RELEASE_VERSION}</p>
-        {REVIEW_PENDING && (
-          // Shown to the parent, not hidden in a code comment: this text has not
-          // been through counsel, and pretending otherwise would be the exact
-          // kind of claim this project should never make.
-          <p className="mt-2 rounded-lg bg-warning-bg px-3 py-2 font-body text-[12.5px] leading-snug text-warning">
-            Draft wording — under review by The Courts. Your selection is saved and honored now;
-            we&rsquo;ll ask you to confirm again if the wording changes.
-          </p>
-        )}
       </div>
 
       {state.errors?.status && (
@@ -114,8 +104,7 @@ export default function PrivacyForm({
       </div>
 
       <p className="mt-4 text-center font-body text-[12.5px] text-gray-dark">
-        You can change this any time. Choosing &ldquo;No&rdquo; never affects what {displayName} can
-        take part in.
+        You can change this choice at any time.
       </p>
     </form>
   );

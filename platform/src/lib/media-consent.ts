@@ -14,8 +14,11 @@
 // Replace RELEASE_BODY with the approved wording and bump RELEASE_VERSION when
 // it lands. Every stored consent records the version that was on screen, so
 // swapping the text never silently re-characterises what a parent already
-// agreed to — and the UI renders REVIEW_PENDING as a visible notice while this
-// remains a draft.
+// agreed to. RELEASE_VERSION and REVIEW_PENDING are recorded for the audit
+// trail and any future staff/legal-facing view — deliberately NOT rendered
+// on the parent-facing consent screen, at the business owner's direction, to
+// keep that page clean. The underlying caution stands either way: this text
+// has not been through counsel.
 // ---------------------------------------------------------------------------
 
 import type { MediaConsentStatus } from "@/generated/prisma/enums";
@@ -27,20 +30,19 @@ export const REVIEW_PENDING = true;
 /// cannot agree to something they have to guess the boundaries of.
 export const RELEASE_CHANNELS = [
   "The Courts website",
-  "The Courts social media accounts, including Instagram and Facebook",
-  "Email marketing sent by The Courts",
-  "Digital advertising run by The Courts",
+  "The Courts social media accounts",
+  "Email marketing",
+  "Digital advertising",
   "Printed promotional materials",
   "Signage and displays inside the facility",
   "Other promotional materials owned by The Courts",
 ];
 
 export const RELEASE_BODY = [
-  "If you say yes, The Courts may use photos and video that include your athlete in the channels listed above. These are all channels The Courts owns or runs.",
-  "This permission does not extend to sponsors, partners, other families, or outside organizations. If The Courts is ever asked to share an image beyond its own channels, we will ask you separately.",
-  "Saying yes does not give The Courts permission to publish your athlete's full name, date of birth, school, home location, or any of their health or family information. Our practice is to use no name, or a first name only where it fits.",
-  "You can change this choice at any time in the Parent App under your athlete's Privacy + Permissions. New choices apply going forward. If something has already been printed, posted, or distributed, we will do what we reasonably can — but we can't promise that material already in the world disappears everywhere.",
-  "Choosing 'No' will never affect your athlete's ability to participate in anything at The Courts.",
+  "This permission only applies to channels owned or operated by The Courts. It does not extend to sponsors, partners, other families, or outside organizations. If we're ever asked to share an image beyond our own channels, we'll ask you separately.",
+  "We will not use this permission to publish your athlete's full name, date of birth, school, home location, or health or family information. Our practice is to use no name, or a first name only when appropriate.",
+  "You can change your choice at any time under Privacy + Permissions. Changes apply going forward. If something has already been printed, posted, or distributed, we'll do what we reasonably can to update or remove it, but we can't guarantee that previously distributed material can be fully removed.",
+  "Choosing No will never affect your athlete's ability to participate at The Courts.",
 ];
 
 export const GUARDIAN_ACKNOWLEDGMENT =
