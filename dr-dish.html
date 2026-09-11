@@ -35,6 +35,7 @@
   .soon-pill { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-sport); font-weight: 700; font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gray-dark); background: var(--white); border: 1.5px solid var(--gray-mid); border-radius: 999px; padding: 13px 22px; white-space: nowrap; }
   .soon-pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
   .soon-pill--dark { color: rgba(255,255,255,0.78); background: transparent; border-color: rgba(255,255,255,0.28); }
+  .soon-pill--lg { font-size: 15px; padding: 16px 28px; }
 
   .dd-head { max-width: 660px; margin: 0 auto 8px; text-align: center; }
   .dd-head .eyebrow { font-size: 19px; letter-spacing: 0.1em; }
@@ -121,22 +122,23 @@
 
   /* ---------- Quick Booking Options ---------- */
   .dd-quick { background: var(--black); padding: 80px 0 72px; }
-  .dd-session-copy { max-width: 640px; margin: 0 auto; text-align: center; }
+  .dd-session-copy { max-width: 1040px; margin: 0 auto; text-align: left; }
   .dd-session-copy .eyebrow { font-size: 19px; }
   .dd-session-copy h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3.6vw, 52px); line-height: 1.05; color: var(--white); margin: 12px 0 16px; white-space: nowrap; }
   @media (max-width: 480px) { .dd-session-copy h2 { white-space: normal; } }
-  .dd-session-copy p { font-size: 16.5px; line-height: 1.7; color: rgba(255,255,255,0.7); max-width: 44ch; margin: 0 auto 8px; }
-  .dd-session-bold { font-family: var(--font-heading); font-weight: 800; font-size: 19px; color: var(--white) !important; margin: 6px auto 0 !important; }
+  .dd-session-copy p { font-size: 16.5px; line-height: 1.7; color: rgba(255,255,255,0.7); max-width: 44ch; margin: 0 0 8px; }
+  .dd-session-bold { font-family: var(--font-heading); font-weight: 800; font-size: 19px; color: var(--white) !important; margin: 6px 0 0 !important; }
+  @media (max-width: 860px) { .dd-session-copy { text-align: center; } .dd-session-copy p, .dd-session-bold { margin-left: auto; margin-right: auto; } }
 
   .dd-quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1040px; margin: 56px auto 0; }
   .dd-quick-card { background: var(--charcoal); border-top: 3px solid var(--orange); border-radius: var(--radius-md); padding: 32px 28px; display: flex; flex-direction: column; }
   .dd-quick-label { font-family: var(--font-display); font-weight: 900; font-size: 21px; color: var(--white); margin-bottom: 6px; }
-  .dd-quick-meta { font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin: 0 0 18px; }
+  .dd-quick-meta { font-family: var(--font-sport); font-size: 14.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin: 0 0 18px; }
   .dd-quick-price { font-family: var(--font-display); font-weight: 900; font-size: clamp(40px, 4.6vw, 52px); color: var(--white); margin: 0 0 14px; }
   .dd-quick-member { display: block; font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--orange); margin-top: 4px; }
   .dd-quick-body { font-size: 14.5px; line-height: 1.6; color: rgba(255,255,255,0.68); margin: 0 0 24px; flex-grow: 1; }
   .dd-quick-card .btn, .dd-quick-card .soon-pill { align-self: flex-start; }
-  .dd-quick-footnote { font-size: 12.5px; font-style: italic; color: rgba(255,255,255,0.45); margin: 12px 0 0; }
+  .dd-quick-footnote { font-size: 12.5px; font-style: italic; color: rgba(255,255,255,0.72); margin: 12px 0 0; }
   @media (max-width: 860px) { .dd-quick-grid { grid-template-columns: 1fr; max-width: 420px; } }
 
   .dd-fullcourt-callout { max-width: 720px; margin: 48px auto 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.14); padding-top: 32px; }
@@ -400,7 +402,7 @@
       </div>
     </div>
     <div class="dd-fullcourt-callout reveal">
-      <p><strong>Full Court members:</strong> 2 individual Dr. Dish sessions included each month. Additional sessions &middot; $20 each.</p>
+      <p><strong>Full Court members:</strong> 2 individual Dr. Dish sessions included each month.<br>Additional sessions &middot; $20 each.</p>
       <a href="membership#plan-selector">See Full Court →</a>
     </div>
   </div>
@@ -488,7 +490,7 @@
       <p class="dd-avail-note">Advance reservation required.</p>
     </div>
     <div class="dd-cta-center">
-      <span class="soon-pill soon-pill--dark">Registration Coming Soon</span>
+      <span class="soon-pill soon-pill--lg">Registration Coming Soon</span>
     </div>
   </div>
 </section>
