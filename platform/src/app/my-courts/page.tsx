@@ -1,17 +1,15 @@
-import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { getUnsignedRequiredWaivers } from "@/lib/waivers";
-import { getWeeklySessionBalances } from "@/lib/entitlements";
 import { signedPhotoUrls } from "@/lib/athlete-photo";
 import { displayName } from "@/lib/athlete";
 import {
   ActionNeededStrip,
   AthleteRow,
-  ExplorePanel,
   QuickLinks,
   UpNextCard,
   WelcomeHero,
+  WhatsHappening,
 } from "./dashboard-sections";
 
 function formatDay(date: Date, now: Date) {
@@ -57,10 +55,6 @@ export default async function MyCourtsHomePage() {
     : [];
 
   const nextUpBooking = upcomingBookings[0] ?? null;
-  const thisWeekEnd = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-  const thisWeek = upcomingBookings.filter(
-    (b) => b.session.startTime <= thisWeekEnd && b.id !== nextUpBooking?.id
-  );
 
   const nextUp = nextUpBooking
     ? {
@@ -128,15 +122,12 @@ export default async function MyCourtsHomePage() {
     }
   }
 
-  // Training Plan snapshot: first athlete carrying a session-based plan.
-  let planSnapshot: { athleteName: string; balance: Awaited<ReturnType<typeof getWeeklySessionBalances>>[number] } | null = null;
-  for (const athlete of athletes) {
-    const balances = await getWeeklySessionBalances(athlete.id);
-    if (balances.length > 0) {
-      planSnapshot = { athleteName: athlete.firstName, balance: balances[0] };
-      break;
-    }
-  }
+  const happeningItems = upcomingEvents.map((s) => ({
+    id: s.id,
+    name: s.program.name,
+    dayLabel: formatDay(s.startTime, now),
+    time: formatTime(s.startTime),
+  }));
 
   return (
     <div className="flex flex-col gap-7 md:gap-9">
@@ -146,83 +137,11 @@ export default async function MyCourtsHomePage() {
 
       <UpNextCard nextUp={nextUp} />
 
-      <ExplorePanel />
+      <QuickLinks />
 
       <AthleteRow athletes={athleteCards} />
 
-      <QuickLinks />
-
-      {thisWeek.length > 0 && (
-        <section>
-          <p className="mb-2.5 font-sport text-[13px] font-bold tracking-wide text-orange uppercase">
-            This Week
-          </p>
-          <div className="flex flex-col divide-y divide-gray-mid rounded-2xl bg-white">
-            {thisWeek.map((b) => (
-              <div key={b.id} className="flex items-center justify-between px-5 py-3.5">
-                <div>
-                  <p className="font-heading text-sm font-bold text-near-black">{b.session.program.name}</p>
-                  <p className="font-body text-xs text-gray-dark">{displayName(b.athlete)}</p>
-                </div>
-                <p className="font-body text-sm text-gray-dark">
-                  {formatDay(b.session.startTime, now)} &middot; {formatTime(b.session.startTime)}
-                </p>
-              </div>
-            ))}
-          </div>
-          <Link
-            href="/my-courts/schedule"
-            className="mt-2.5 inline-block font-sport text-xs font-bold tracking-wide text-orange uppercase"
-          >
-            Full Schedule &rarr;
-          </Link>
-        </section>
-      )}
-
-      {upcomingEvents.length > 0 && (
-        <section>
-          <p className="mb-2.5 font-sport text-[13px] font-bold tracking-wide text-orange uppercase">
-            Happening at The Courts
-          </p>
-          <div className="flex flex-col divide-y divide-gray-mid rounded-2xl bg-white">
-            {upcomingEvents.map((s) => (
-              <div key={s.id} className="flex items-center justify-between px-5 py-3.5">
-                <p className="font-heading text-sm font-bold text-near-black">{s.program.name}</p>
-                <p className="font-body text-sm text-gray-dark">
-                  {formatDay(s.startTime, now)} &middot; {formatTime(s.startTime)}
-                </p>
-              </div>
-            ))}
-          </div>
-          <Link
-            href="/my-courts/explore?type=event"
-            className="mt-2.5 inline-block font-sport text-xs font-bold tracking-wide text-orange uppercase"
-          >
-            See All Events &rarr;
-          </Link>
-        </section>
-      )}
-
-      {planSnapshot && (
-        <section>
-          <p className="mb-2.5 font-sport text-[13px] font-bold tracking-wide text-orange uppercase">
-            Your Training Plan
-          </p>
-          <div className="rounded-2xl bg-white p-5">
-            <p className="font-heading font-bold text-near-black">{planSnapshot.balance.membershipPlanName}</p>
-            <p className="mt-1 font-body text-sm text-gray-dark">
-              {planSnapshot.balance.quantityPerPeriod - planSnapshot.balance.usedThisWeek} of{" "}
-              {planSnapshot.balance.quantityPerPeriod} sessions remaining
-            </p>
-            <Link
-              href="/my-courts/explore"
-              className="mt-3 inline-block font-sport text-xs font-bold tracking-wide text-orange uppercase"
-            >
-              Book Training &rarr;
-            </Link>
-          </div>
-        </section>
-      )}
+      <WhatsHappening items={happeningItems} />
     </div>
   );
 }

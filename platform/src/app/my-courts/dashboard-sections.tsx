@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CourtArc, CourtSeam } from "./court-lines";
+import { CourtArc } from "./court-lines";
 import {
   ArrowGlyph,
   BasketballGlyph,
@@ -12,28 +12,29 @@ import { AthleteAvatar } from "@/components/athlete/avatar";
 import { displayName } from "@/lib/athlete";
 
 // ---------------------------------------------------------------------------
-// Welcome — the first thing a parent sees. Light, editorial, oversized type.
-// Deliberately not dark: the one bold panel on this page is Up Next, so the
-// welcome header stays warm and open rather than competing with it.
+// Welcome — compact utility header, not a marketing hero. One line of
+// greeting, one headline, one short line of orientation copy.
 // ---------------------------------------------------------------------------
 export function WelcomeHero({ firstName }: { firstName: string }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-warm-white px-6 py-9 md:px-10 md:py-14">
-      <CourtArc className="pointer-events-none absolute -top-12 -right-14 h-56 w-56 text-orange/[0.12] md:h-72 md:w-72" />
-      <p className="relative font-heading text-[15px] font-bold text-gray-dark md:text-base">
+    <div className="relative overflow-hidden rounded-2xl bg-warm-white px-6 py-7 md:px-9 md:py-9">
+      <CourtArc className="pointer-events-none absolute -top-10 -right-12 h-40 w-40 text-orange/[0.1] md:h-52 md:w-52" />
+      <p className="relative font-heading text-[15px] font-bold text-gray-dark">
         Hey, {firstName}.
       </p>
-      <h1 className="relative mt-1 max-w-[16ch] font-display text-[34px] leading-[1.02] font-black tracking-tight text-near-black md:text-[52px]">
-        Ready for the next one?
+      <h1 className="relative mt-1 max-w-[20ch] font-display text-[26px] leading-[1.08] font-black tracking-tight text-near-black md:text-[36px]">
+        Your Courts, all in one place.
       </h1>
+      <p className="relative mt-2 max-w-[48ch] font-body text-[14px] text-gray-dark md:text-[15px]">
+        See what&rsquo;s coming up, manage your athletes, and find your next session.
+      </p>
     </div>
   );
 }
 
 // ---------------------------------------------------------------------------
-// Action Needed — a compact, elegant strip per item. Amber/warning tokens,
-// never the danger palette; this is a nudge, not an error. Renders nothing
-// once the caller passes an empty list, so the section disappears entirely.
+// Action Needed — only renders when something actually needs attention.
+// Warm Stone background with a single orange accent, per brand direction.
 // ---------------------------------------------------------------------------
 export function ActionNeededStrip({
   items,
@@ -43,24 +44,24 @@ export function ActionNeededStrip({
   if (items.length === 0) return null;
   return (
     <div className="flex flex-col gap-2">
-      <p className="font-sport text-[13px] font-bold tracking-wide text-warning uppercase">
+      <p className="font-sport text-[13px] font-bold tracking-wide text-orange uppercase">
         Action Needed
       </p>
       {items.map((item, i) => (
         <Link
           key={i}
           href={item.href}
-          className="flex items-center justify-between gap-4 rounded-xl border border-warning/25 bg-warning-bg px-4 py-3.5 transition-colors hover:border-warning/50 md:px-5"
+          className="flex items-center justify-between gap-4 rounded-xl border border-orange/20 bg-warm-stone px-4 py-3.5 transition-colors hover:border-orange/40 md:px-5"
         >
           <div className="flex min-w-0 items-center gap-3">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-warning/15 font-display text-sm font-black text-warning">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-orange/15 font-display text-sm font-black text-orange">
               !
             </span>
             <span className="min-w-0 font-body text-[13.5px] text-near-black">
               <span className="font-heading font-bold">{item.athleteName}</span> — {item.message}
             </span>
           </div>
-          <span className="shrink-0 font-sport text-[11px] font-bold tracking-wide text-warning uppercase">
+          <span className="shrink-0 font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
             Complete &rarr;
           </span>
         </Link>
@@ -70,8 +71,8 @@ export function ActionNeededStrip({
 }
 
 // ---------------------------------------------------------------------------
-// Up Next — the most prominent module on the page. One bold dark panel; a
-// deliberate, contained use of near-black rather than a page-wide tone.
+// Up Next — the most prominent module on the page, and the main reason a
+// parent opens the dashboard.
 // ---------------------------------------------------------------------------
 function SportGlyph({ sport, className }: { sport: string | null | undefined; className?: string }) {
   if ((sport ?? "").toLowerCase().startsWith("v")) return <VolleyballGlyph className={className} />;
@@ -126,27 +127,27 @@ export function UpNextCard({
               {nextUp.location && (
                 <p className="font-body text-[13.5px] text-white/45 md:text-[15px]">{nextUp.location}</p>
               )}
-              <div className="mt-5 flex items-center gap-5">
-                <Link
-                  href="/my-courts/schedule"
-                  className="font-sport text-xs font-bold tracking-wide text-orange uppercase hover:text-white"
-                >
-                  View Details &rarr;
-                </Link>
-              </div>
+              <Link
+                href="/my-courts/schedule"
+                className="mt-5 inline-block font-sport text-xs font-bold tracking-wide text-orange uppercase hover:text-white"
+              >
+                View Details &rarr;
+              </Link>
             </div>
           </div>
         ) : (
           <div className="relative">
-            <p className="max-w-[20ch] font-display text-[24px] leading-[1.05] font-black md:text-[32px]">
-              Nothing on the calendar yet.
+            <p className="font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
+              Nothing Booked Yet
             </p>
-            <p className="mt-1.5 font-body text-[15px] text-white/70">Let&rsquo;s change that.</p>
+            <p className="mt-1.5 max-w-[20ch] font-display text-[24px] leading-[1.05] font-black md:text-[32px]">
+              Ready when you are.
+            </p>
             <Link
               href="/my-courts/explore"
               className="mt-5 inline-flex items-center gap-2 font-sport text-xs font-bold tracking-wide text-orange uppercase hover:text-white"
             >
-              Find Training <ArrowGlyph className="h-3.5 w-3.5" />
+              Find a Session <ArrowGlyph className="h-3.5 w-3.5" />
             </Link>
           </div>
         )}
@@ -156,41 +157,43 @@ export function UpNextCard({
 }
 
 // ---------------------------------------------------------------------------
-// Explore — inspirational, not administrative. Room for rotating featured
-// programming later without a redesign: pass `featured` and it renders as a
-// small eyebrow line inside the same panel.
+// Quick Actions — four equal tiles. Same height, same icon treatment, same
+// padding, same title size. No descriptive copy.
 // ---------------------------------------------------------------------------
-export function ExplorePanel({ featured }: { featured?: string | null }) {
+const QUICK_ACTIONS = [
+  { href: "/my-courts/explore", label: "Book Training", Glyph: BasketballGlyph },
+  { href: "/my-courts/explore?type=camp", label: "Find a Camp", Glyph: CampGlyph },
+  { href: "/my-courts/league", label: "Leagues", Glyph: LeagueGlyph },
+  { href: "/my-courts/explore?type=resource", label: "Dr. Dish", Glyph: DrDishGlyph },
+] as const;
+
+export function QuickLinks() {
   return (
-    <Link
-      href="/my-courts/explore"
-      className="group relative block overflow-hidden rounded-2xl bg-warm-stone px-6 py-8 transition-colors hover:bg-orange/10 md:px-10 md:py-11"
-    >
-      <CourtSeam className="pointer-events-none absolute inset-0 h-full w-full text-orange/[0.14]" />
-      <div className="relative">
-        {featured && (
-          <p className="mb-2 font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
-            Featured &middot; {featured}
-          </p>
-        )}
-        <h2 className="max-w-[18ch] font-display text-[24px] leading-[1.05] font-black text-near-black md:text-[32px]">
-          Find Something to Play.
-        </h2>
-        <p className="mt-2 max-w-[36ch] font-body text-[14px] text-gray-dark md:text-[15px]">
-          Training, camps, leagues, and more — all in one place.
-        </p>
-        <span className="mt-5 inline-flex items-center gap-2 font-sport text-xs font-bold tracking-wide text-orange uppercase">
-          Explore Programs
-          <ArrowGlyph className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-        </span>
+    <section>
+      <p className="mb-2.5 font-sport text-[13px] font-bold tracking-wide text-orange uppercase">
+        Quick Actions
+      </p>
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {QUICK_ACTIONS.map(({ href, label, Glyph }) => (
+          <Link
+            key={href}
+            href={href}
+            className="group flex h-28 flex-col items-start justify-between rounded-2xl border border-gray-mid bg-white p-4 transition-colors hover:border-orange"
+          >
+            <Glyph className="h-5 w-5 text-orange" />
+            <span className="font-sport text-[11.5px] font-bold tracking-wide text-near-black uppercase">
+              {label}
+            </span>
+          </Link>
+        ))}
       </div>
-    </Link>
+    </section>
   );
 }
 
 // ---------------------------------------------------------------------------
-// Your Athletes — the athlete is the center of the experience. Horizontal
-// scroll on mobile, a clean row on desktop; one editorial card per athlete.
+// Your Athletes — compact rows, not oversized avatar cards. A small circular
+// avatar (photo, or brand-orange initials when there's no photo yet).
 // ---------------------------------------------------------------------------
 export function AthleteRow({
   athletes,
@@ -212,30 +215,25 @@ export function AthleteRow({
       <p className="mb-2.5 font-sport text-[13px] font-bold tracking-wide text-orange uppercase">
         Your Athletes
       </p>
-      <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0">
+      <div className="flex flex-col gap-2.5">
         {athletes.map((athlete) => (
           <Link
             key={athlete.id}
             href={`/my-courts/athletes/${athlete.id}`}
-            className="group flex w-[76%] shrink-0 snap-start flex-col items-start gap-3 rounded-2xl border border-gray-mid bg-white p-5 transition-colors hover:border-orange md:w-auto"
+            className="group flex items-center gap-3.5 rounded-2xl border border-gray-mid bg-white px-4 py-3.5 transition-colors hover:border-orange"
           >
-            <AthleteAvatar athlete={athlete} photoUrl={athlete.photoUrl} size="xl" />
-            <div className="min-w-0">
-              <p className="font-display text-[19px] font-black text-near-black">
+            <AthleteAvatar athlete={athlete} photoUrl={athlete.photoUrl} size="sm" />
+            <div className="min-w-0 flex-1">
+              <p className="font-heading text-[15px] font-bold text-near-black">
                 {displayName(athlete)}
               </p>
-              <p className="mt-0.5 font-body text-[13px] text-gray-dark">
-                {[athlete.grade ? `Grade ${athlete.grade}` : null, athlete.sports.join(" · ") || null]
+              <p className="mt-0.5 font-body text-[12.5px] text-gray-dark">
+                {[athlete.grade ? `Grade ${athlete.grade}` : null, athlete.nextActivity ? `Next: ${athlete.nextActivity}` : null]
                   .filter(Boolean)
                   .join(" · ") || "Profile started"}
               </p>
-              {athlete.nextActivity && (
-                <p className="mt-1.5 font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
-                  Next: {athlete.nextActivity}
-                </p>
-              )}
             </div>
-            <span className="mt-1 font-sport text-[11px] font-bold tracking-wide text-gray-dark uppercase group-hover:text-orange">
+            <span className="shrink-0 font-sport text-[11px] font-bold tracking-wide text-gray-dark uppercase group-hover:text-orange">
               View Profile &rarr;
             </span>
           </Link>
@@ -246,58 +244,30 @@ export function AthleteRow({
 }
 
 // ---------------------------------------------------------------------------
-// Quick Links — four destinations, deliberately not four identical buttons.
-// Book Training carries more visual weight because it's the most frequent
-// action; the rest share a lighter, compact treatment with their own icon.
+// What's Happening at The Courts — editorial, not administrative. A small
+// discovery module, capped at three items so it never competes with the
+// four core dashboard questions above it.
 // ---------------------------------------------------------------------------
-export function QuickLinks() {
+export function WhatsHappening({
+  items,
+}: {
+  items: { id: string; name: string; dayLabel: string; time: string }[];
+}) {
+  if (items.length === 0) return null;
   return (
     <section>
       <p className="mb-2.5 font-sport text-[13px] font-bold tracking-wide text-orange uppercase">
-        Get Going
+        What&rsquo;s Happening at The Courts
       </p>
-      <div className="flex flex-col gap-3">
-        <Link
-          href="/my-courts/explore"
-          className="group flex items-center justify-between gap-4 rounded-2xl bg-near-black px-6 py-6 transition-colors hover:bg-charcoal"
-        >
-          <div>
-            <BasketballGlyph className="h-7 w-7 text-orange" />
-            <p className="mt-3 font-display text-[20px] font-black text-white">Book Training</p>
-            <p className="mt-0.5 font-body text-[13px] text-white/55">Group sessions, open this week</p>
+      <div className="flex flex-col divide-y divide-gray-mid overflow-hidden rounded-2xl border border-gray-mid bg-white">
+        {items.map((item) => (
+          <div key={item.id} className="flex items-center justify-between gap-4 px-5 py-4">
+            <p className="font-heading text-sm font-bold text-near-black">{item.name}</p>
+            <p className="shrink-0 font-body text-[13px] text-gray-dark">
+              {item.dayLabel} &middot; {item.time}
+            </p>
           </div>
-          <ArrowGlyph className="h-5 w-5 shrink-0 text-white/50 transition-transform group-hover:translate-x-1 group-hover:text-orange" />
-        </Link>
-
-        <div className="grid grid-cols-3 gap-3">
-          <Link
-            href="/my-courts/explore?type=camp"
-            className="flex flex-col items-start gap-2.5 rounded-2xl bg-warm-stone px-4 py-5 transition-colors hover:bg-orange/15"
-          >
-            <CampGlyph className="h-5 w-5 text-orange" />
-            <span className="font-sport text-[11px] font-bold tracking-wide text-near-black uppercase">
-              Find a Camp
-            </span>
-          </Link>
-          <Link
-            href="/my-courts/league"
-            className="flex flex-col items-start gap-2.5 rounded-2xl border border-gray-mid bg-white px-4 py-5 transition-colors hover:border-orange"
-          >
-            <LeagueGlyph className="h-5 w-5 text-near-black" />
-            <span className="font-sport text-[11px] font-bold tracking-wide text-near-black uppercase">
-              Leagues
-            </span>
-          </Link>
-          <Link
-            href="/my-courts/explore?type=resource"
-            className="flex flex-col items-start gap-2.5 rounded-2xl border border-gray-mid bg-white px-4 py-5 transition-colors hover:border-orange"
-          >
-            <DrDishGlyph className="h-5 w-5 text-near-black" />
-            <span className="font-sport text-[11px] font-bold tracking-wide text-near-black uppercase">
-              Dr. Dish
-            </span>
-          </Link>
-        </div>
+        ))}
       </div>
     </section>
   );

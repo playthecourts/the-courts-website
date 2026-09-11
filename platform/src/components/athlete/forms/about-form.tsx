@@ -150,7 +150,7 @@ export default function AboutForm({
             <TextArea name="parentCoachNote" defaultValue={athlete.parentCoachNote ?? ""} rows={4} />
             <p className="mt-2 font-body text-[12.5px] leading-snug text-gray-dark">
               Shared with {displayName}&rsquo;s coaches and our sport leads — never with other
-              families. For allergies or medical needs, use the health question on the next step.
+              families.
             </p>
           </Question>
         </>

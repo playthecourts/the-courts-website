@@ -45,11 +45,12 @@ export default function PhotoPicker({
   const [state, formAction] = useActionState<ActionState, FormData>(saveAthletePhoto, { ok: false });
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [zoom, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [cropError, setCropError] = useState<string | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
-  const cameraRef = useRef<HTMLInputElement | null>(null);
   const hiddenFileRef = useRef<HTMLInputElement | null>(null);
   const dragging = useRef<{ x: number; y: number } | null>(null);
 
@@ -72,6 +73,8 @@ export default function PhotoPicker({
       if (prev) URL.revokeObjectURL(prev);
       return URL.createObjectURL(file);
     });
+    setImageLoaded(false);
+    setCropError(null);
     setZoom(1);
     setOffset({ x: 0, y: 0 });
   }
@@ -126,12 +129,30 @@ export default function PhotoPicker({
   }
 
   // The cropped result is moved into a real file input before submit, so the
-  // form still posts as a normal multipart form action.
+  // form still posts as a normal multipart form action. Every failure path
+  // here used to fall through silently — the button looked like it did
+  // nothing when the crop failed. Each one now sets a visible error instead.
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     if (!imageUrl) return;
     e.preventDefault();
-    const file = await buildCroppedFile();
-    if (!file || !hiddenFileRef.current) return;
+    setCropError(null);
+
+    if (!imageLoaded) {
+      setCropError("Still loading that photo — give it a second and try again.");
+      return;
+    }
+
+    let file: File | null = null;
+    try {
+      file = await buildCroppedFile();
+    } catch {
+      file = null;
+    }
+
+    if (!file || !hiddenFileRef.current) {
+      setCropError("We couldn't process that photo. Please try again.");
+      return;
+    }
     const dt = new DataTransfer();
     dt.items.add(file);
     hiddenFileRef.current.files = dt.files;
@@ -158,6 +179,7 @@ export default function PhotoPicker({
               src={imageUrl}
               alt="Reposition your athlete's photo"
               draggable={false}
+              onLoad={() => setImageLoaded(true)}
               className="absolute left-1/2 top-1/2 max-w-none select-none"
               style={{
                 transform: `translate(calc(-50% + ${offset.x}px), calc(-50% + ${offset.y}px)) scale(${zoom})`,
@@ -194,22 +216,11 @@ export default function PhotoPicker({
       <form action={formAction} onSubmit={handleSubmit}>
         <input type="hidden" name="athleteId" value={athleteId} />
         <input ref={hiddenFileRef} type="file" name="photo" className="hidden" />
-
-        {/* Two entry points, because a phone camera and the camera roll are
-            different intentions. capture= opens the camera directly. */}
-        <input
-          ref={cameraRef}
-          type="file"
-          accept="image/*"
-          capture="user"
-          onChange={onPick}
-          className="hidden"
-        />
         <input ref={fileRef} type="file" accept="image/*" onChange={onPick} className="hidden" />
 
-        {state.errors?.photo && (
+        {(cropError || state.errors?.photo) && (
           <p role="alert" className="mb-3 font-body text-[13.5px] text-danger">
-            {state.errors.photo}
+            {cropError ?? state.errors?.photo}
           </p>
         )}
 
@@ -222,14 +233,9 @@ export default function PhotoPicker({
               </SecondaryButton>
             </>
           ) : (
-            <>
-              <SecondaryButton type="button" onClick={() => cameraRef.current?.click()}>
-                Take Photo
-              </SecondaryButton>
-              <SecondaryButton type="button" onClick={() => fileRef.current?.click()}>
-                Choose From Library
-              </SecondaryButton>
-            </>
+            <SecondaryButton type="button" onClick={() => fileRef.current?.click()}>
+              Upload a Photo
+            </SecondaryButton>
           )}
         </div>
       </form>
