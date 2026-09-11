@@ -12,8 +12,9 @@ import { AthleteAvatar } from "@/components/athlete/avatar";
 import { displayName } from "@/lib/athlete";
 
 // ---------------------------------------------------------------------------
-// Welcome — compact utility header, not a marketing hero. One line of
-// greeting, one headline, one short line of orientation copy.
+// Welcome — launch-focused: pre-October 1, the dashboard's job is to get a
+// family to a membership and a set-up athlete, not to imply there's a
+// schedule to browse yet. Compact utility header, not a marketing hero.
 // ---------------------------------------------------------------------------
 export function WelcomeHero({ firstName }: { firstName: string }) {
   return (
@@ -22,11 +23,37 @@ export function WelcomeHero({ firstName }: { firstName: string }) {
       <p className="relative font-heading text-[15px] font-bold text-gray-dark">
         Hey, {firstName}.
       </p>
-      <h1 className="relative mt-1 max-w-[20ch] font-display text-[26px] leading-[1.08] font-black tracking-tight text-near-black md:text-[36px]">
-        Your Courts, all in one place.
+      <h1 className="relative mt-1 max-w-[16ch] font-display text-[26px] leading-[1.08] font-black tracking-tight text-near-black md:text-[36px]">
+        Ready to get started?
       </h1>
-      <p className="relative mt-2 max-w-[48ch] font-body text-[14px] text-gray-dark md:text-[15px]">
-        See what&rsquo;s coming up, manage your athletes, and find your next session.
+      <p className="relative mt-3 max-w-[52ch] font-heading text-[15px] font-bold text-near-black md:text-[16px]">
+        Memberships are open now for an October 1 start.
+      </p>
+      <p className="relative mt-2 max-w-[54ch] font-body text-[14px] leading-relaxed text-gray-dark md:text-[15px]">
+        Choose the membership that works for your family, then get your athlete set up by adding
+        the details that help us coach them well — including what they want to focus on, how they
+        learn best, and anything else that will help them have a great experience.
+      </p>
+      <p className="relative mt-2 max-w-[54ch] font-body text-[14px] leading-relaxed text-gray-dark md:text-[15px]">
+        Get the details out of the way now, so when October 1 hits, you&rsquo;re ready to hit the
+        court.
+      </p>
+      <div className="relative mt-5 flex flex-wrap items-center gap-x-6 gap-y-3">
+        <Link
+          href="/my-courts/memberships"
+          className="inline-flex items-center gap-2 rounded-full bg-orange px-6 py-3 font-sport text-xs font-bold tracking-wide text-white uppercase transition-colors hover:bg-orange-hover"
+        >
+          View Memberships <ArrowGlyph className="h-3.5 w-3.5" />
+        </Link>
+        <Link
+          href="/my-courts/athletes"
+          className="font-sport text-xs font-bold tracking-wide text-near-black uppercase hover:text-orange"
+        >
+          Set Up Your Athlete &rarr;
+        </Link>
+      </div>
+      <p className="relative mt-4 font-body text-[12.5px] text-gray-dark/70">
+        Schedules and bookings are coming soon.
       </p>
     </div>
   );
