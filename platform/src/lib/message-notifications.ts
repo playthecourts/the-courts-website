@@ -70,3 +70,42 @@ export async function sendReplyNotification(threadId: string, replyBody: string)
     recipients.map((to) => sendEmail({ to, subject, html, text }))
   );
 }
+
+const STAFF_INBOX = "hello@playthecourts.com";
+
+/**
+ * Fires when a family starts a NEW conversation (not on every reply within
+ * one — that would be noisy). Staff has no other way to know a message is
+ * waiting short of checking Courts OS, so this is the "someone needs you"
+ * signal, not optional the way the parent-side reply nudge is.
+ */
+export async function sendNewThreadStaffAlert(threadId: string) {
+  const thread = await prisma.messageThread.findUnique({
+    where: { id: threadId },
+    select: {
+      subject: true,
+      family: { select: { name: true } },
+      messages: { orderBy: { createdAt: "asc" }, take: 1, select: { body: true } },
+    },
+  });
+  if (!thread) return;
+
+  const threadUrl = `https://app.playthecourts.com/os/communications/${threadId}`;
+  const snippet = snippetFor(thread.messages[0]?.body ?? "");
+  const subject = `New message from ${thread.family.name}`;
+  const text = `${thread.family.name} sent a new message: "${thread.subject}"\n\n"${snippet}"\n\nView in Courts OS: ${threadUrl}`;
+
+  const html = `
+<div style="font-family:Arial,Helvetica,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;color:#0D0D0D;">
+  <p style="font-size:16px;font-weight:700;margin:0 0 4px;">New message from ${thread.family.name}</p>
+  <p style="font-size:13px;color:#343434;margin:0 0 16px;">${thread.subject}</p>
+  <p style="font-size:15px;line-height:1.6;margin:0 0 20px;color:#1A1A1A;background:#F2EDE7;border-left:3px solid #DE5019;padding:12px 16px;border-radius:6px;">
+    &ldquo;${snippet}&rdquo;
+  </p>
+  <a href="${threadUrl}" style="display:inline-block;background:#DE5019;color:#FFFFFF;font-weight:700;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;text-decoration:none;padding:12px 24px;border-radius:999px;">
+    View in Courts OS &rarr;
+  </a>
+</div>`.trim();
+
+  await sendEmail({ to: STAFF_INBOX, subject, html, text });
+}

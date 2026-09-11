@@ -28,7 +28,6 @@ export default async function AthleteProfileLayout({
 
   const progress = completeness(
     {
-      photoPath: athlete.photoPath,
       goal: athlete.goal,
       coachingPreferences: athlete.coachingPreferences,
       competitiveMeter: athlete.competitiveMeter,

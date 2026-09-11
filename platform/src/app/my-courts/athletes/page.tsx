@@ -58,7 +58,6 @@ export default async function AthletesPage() {
           {athletes.map((athlete) => {
             const progress = completeness(
               {
-                photoPath: athlete.photoPath,
                 goal: athlete.goal,
                 coachingPreferences: athlete.coachingPreferences,
                 competitiveMeter: athlete.competitiveMeter,

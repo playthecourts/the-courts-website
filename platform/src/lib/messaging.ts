@@ -1,7 +1,7 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
 import { auditLog } from "@/lib/audit";
-import { sendReplyNotification } from "@/lib/message-notifications";
+import { sendReplyNotification, sendNewThreadStaffAlert } from "@/lib/message-notifications";
 
 // ---------------------------------------------------------------------------
 // Two-way messaging: The Courts <-> one family.
@@ -46,7 +46,9 @@ export async function sendFamilyMessage(params: {
   const body = params.body.trim();
   if (!body) throw new Error("Write a message first.");
 
-  return prisma.$transaction(async (tx) => {
+  let isNewThread = false;
+
+  const result = await prisma.$transaction(async (tx) => {
     let threadId = params.threadId;
 
     if (threadId) {
@@ -74,6 +76,7 @@ export async function sendFamilyMessage(params: {
         },
       });
       threadId = created.id;
+      isNewThread = true;
     }
 
     const message = await tx.message.create({
@@ -93,6 +96,16 @@ export async function sendFamilyMessage(params: {
 
     return { threadId, messageId: message.id };
   });
+
+  // Staff has no other way to know a new conversation is waiting short of
+  // checking Courts OS directly — best-effort, never blocks the send.
+  if (isNewThread) {
+    await sendNewThreadStaffAlert(result.threadId).catch((err) => {
+      console.error("[messaging] new-thread staff alert failed", result.threadId, err);
+    });
+  }
+
+  return result;
 }
 
 /// Staff replying. Capability is checked by the caller (a server action);
