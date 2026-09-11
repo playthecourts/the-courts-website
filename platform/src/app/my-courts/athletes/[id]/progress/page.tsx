@@ -26,9 +26,8 @@ export default async function ProgressPage({ params }: { params: Promise<{ id: s
           No progress reports yet
         </p>
         <p className="mx-auto mt-2 max-w-[42ch] font-body text-[13.5px] leading-relaxed text-gray-dark">
-          Coaches write these about every quarter, once they&rsquo;ve had enough time on the court
-          with {name} to say something useful. You&rsquo;ll get a note here when the first one is
-          ready.
+          Coaches add progress notes once they&rsquo;ve had enough time on the court with {name} to
+          share something useful. We&rsquo;ll let you know when the first one is ready.
         </p>
       </div>
     );
