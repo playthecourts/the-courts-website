@@ -36,10 +36,6 @@ export default async function NewMessagePage({ searchParams }: PageProps<"/my-co
         athletes={athletes.map((a) => ({ id: a.id, firstName: a.firstName }))}
         defaultSubject={replyingTo ? `Re: ${replyingTo.communication.subject}` : ""}
       />
-      <p className="font-body text-[12.5px] text-gray-dark">
-        Your message goes directly to The Courts team. We&rsquo;ll reply here so you can keep
-        everything in one place.
-      </p>
     </div>
   );
 }
