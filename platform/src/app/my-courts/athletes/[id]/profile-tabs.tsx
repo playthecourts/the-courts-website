@@ -3,20 +3,20 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// Five tabs, and no more.
+// Four tabs, and no more.
 //
 // The brief for this profile was "help us know your kid", not "complete another
 // registration packet", and eight tabs across a phone is what the second one
-// looks like. Player Card, Progress, Schedule and Programs are what a parent
-// opens repeatedly; everything administrative — about, coaching, safety,
-// guardians, pickup, privacy — lives one level down under More, where it is
-// findable without being in the way.
+// looks like. Player Card, Progress and Schedule are what a parent opens
+// repeatedly; everything administrative — about, coaching, safety, guardians,
+// pickup, privacy — lives one level down under More, where it is findable
+// without being in the way. Programs lives here too until there's something
+// live to enroll in.
 
 const TABS = [
   { slug: "", label: "Player Card" },
   { slug: "progress", label: "Progress" },
   { slug: "schedule", label: "Schedule" },
-  { slug: "programs", label: "Programs" },
   { slug: "more", label: "More" },
 ];
 

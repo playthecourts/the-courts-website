@@ -1,20 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
-import { logout } from "@/app/actions/auth";
+import { familyCrewInitials, familyCrewName } from "@/lib/family";
+import { AccountMenu } from "./account-menu";
 import NavLink from "./nav-link";
 
 const NAV_ITEMS = [
   { href: "/my-courts", label: "Home", icon: "home" as const },
   { href: "/my-courts/schedule", label: "Schedule", icon: "schedule" as const },
-  { href: "/my-courts/explore", label: "Explore", icon: "explore" as const },
   { href: "/my-courts/athletes", label: "My Athletes", icon: "athletes" as const },
   { href: "/my-courts/more", label: "More", icon: "more" as const },
 ];
 
 export default async function MyCourtsLayout({ children }: { children: React.ReactNode }) {
   const guardian = await getCurrentGuardian();
-  const firstName = guardian.name.split(" ")[0];
+  const familyName = guardian.families[0]?.family.name ?? null;
+  const crewName = familyCrewName(familyName);
+  const initials = familyCrewInitials(familyName);
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-light md:flex-row">
@@ -38,16 +40,8 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
             </NavLink>
           ))}
         </nav>
-        <div className="flex items-center justify-between border-t border-gray-mid px-6 py-4">
-          <span className="truncate font-body text-sm text-gray-dark">{firstName}</span>
-          <form action={logout}>
-            <button
-              type="submit"
-              className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark hover:text-orange"
-            >
-              Sign Out
-            </button>
-          </form>
+        <div className="border-t border-gray-mid px-4 py-3">
+          <AccountMenu crewName={crewName} initials={initials} variant="sidebar" />
         </div>
       </aside>
 
@@ -62,14 +56,7 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
             priority
           />
         </Link>
-        <form action={logout}>
-          <button
-            type="submit"
-            className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark"
-          >
-            Sign Out
-          </button>
-        </form>
+        <AccountMenu crewName={crewName} initials={initials} variant="mobile" />
       </header>
 
       <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-24 pt-6 md:px-10 md:pb-10 md:pt-8">

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 
@@ -48,15 +49,23 @@ export default async function MyCourtsSchedulePage() {
       <h1 className="font-display text-2xl font-black text-black">Schedule</h1>
 
       {bookings.length === 0 ? (
-        <div className="rounded-lg border border-gray-mid bg-white p-6 text-center">
-          <p className="font-display text-lg font-black text-black">Suspiciously Quiet.</p>
-          <p className="mt-1 font-body text-sm text-gray-dark">There&rsquo;s nothing on the calendar yet.</p>
-          <a
-            href="/my-courts/explore"
-            className="mt-3 inline-block font-sport text-xs font-bold uppercase tracking-wide text-orange"
+        <div className="rounded-2xl border border-gray-mid bg-white p-8 text-center">
+          <p className="font-display text-xl font-black text-black md:text-2xl">
+            We Know. We&rsquo;re Ready Too.
+          </p>
+          <p className="mt-2 font-body text-sm text-gray-dark">
+            Schedules and bookings are coming soon.
+          </p>
+          <p className="mx-auto mt-3 max-w-[42ch] font-body text-sm text-gray-dark">
+            In the meantime, get your athlete profile set up so you&rsquo;re ready when it&rsquo;s
+            time to hit the court.
+          </p>
+          <Link
+            href="/my-courts/athletes"
+            className="mt-5 inline-flex items-center gap-2 rounded-full bg-orange px-6 py-3 font-sport text-xs font-bold uppercase tracking-wide text-white"
           >
-            Find Something to Do &rarr;
-          </a>
+            Set Up Your Athlete &rarr;
+          </Link>
         </div>
       ) : (
         <div className="flex flex-col gap-6">

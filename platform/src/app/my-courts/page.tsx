@@ -2,12 +2,9 @@ import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { signedPhotoUrls } from "@/lib/athlete-photo";
-import { displayName } from "@/lib/athlete";
 import {
   ActionNeededStrip,
   AthleteRow,
-  QuickLinks,
-  UpNextCard,
   WelcomeHero,
   WhatsHappening,
 } from "./dashboard-sections";
@@ -19,10 +16,6 @@ function formatDay(date: Date, now: Date) {
   if (diffDays === 0) return "Today";
   if (diffDays === 1) return "Tomorrow";
   return new Intl.DateTimeFormat("en-US", { weekday: "short", timeZone: "UTC" }).format(date);
-}
-
-function formatDayNumber(date: Date) {
-  return new Intl.DateTimeFormat("en-US", { day: "numeric", timeZone: "UTC" }).format(date);
 }
 
 function formatTime(date: Date) {
@@ -53,21 +46,6 @@ export default async function MyCourtsHomePage() {
         take: 8,
       })
     : [];
-
-  const nextUpBooking = upcomingBookings[0] ?? null;
-
-  const nextUp = nextUpBooking
-    ? {
-        programName: nextUpBooking.session.program.name,
-        sport: nextUpBooking.session.program.sport,
-        athleteName: displayName(nextUpBooking.athlete),
-        coachName: nextUpBooking.session.coaches[0]?.staff.name.split(" ")[0] ?? null,
-        dayLabel: formatDay(nextUpBooking.session.startTime, now),
-        dayNumber: formatDayNumber(nextUpBooking.session.startTime),
-        time: formatTime(nextUpBooking.session.startTime),
-        location: nextUpBooking.session.resource?.name ?? null,
-      }
-    : null;
 
   const photoUrls = await signedPhotoUrls(athletes.map((a) => a.photoPath));
   const athleteCards = athletes.map((athlete) => {
@@ -134,10 +112,6 @@ export default async function MyCourtsHomePage() {
       <WelcomeHero firstName={firstName} />
 
       <ActionNeededStrip items={attentionItems} />
-
-      <UpNextCard nextUp={nextUp} />
-
-      <QuickLinks />
 
       <AthleteRow athletes={athleteCards} />
 
