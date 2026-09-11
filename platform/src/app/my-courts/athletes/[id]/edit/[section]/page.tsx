@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getGuardianAthleteOrNull } from "@/lib/athlete-profile";
-import { getCurrentGuardian } from "@/lib/dal";
 import { signedPhotoUrl } from "@/lib/athlete-photo";
 import { displayName } from "@/lib/athlete";
 import PhotoPicker from "@/components/athlete/photo-picker";
@@ -19,8 +18,12 @@ import { StepHeader } from "@/components/athlete/form-ui";
 // only difference is the chrome around them and where "save" goes next. That
 // keeps a parent's second visit to Safety identical to their first, which is
 // the whole reason the setup flow doesn't get its own private copies.
+//
+// player-card bundles Photo + About + Coaching on one screen: those are the
+// "who is this athlete" questions, and a parent shouldn't have to visit three
+// separate destinations to answer them.
 
-const SECTIONS = ["photo", "about", "coaching", "safety", "guardians", "pickup", "privacy"] as const;
+const SECTIONS = ["player-card", "safety", "guardians", "pickup", "privacy"] as const;
 type Section = (typeof SECTIONS)[number];
 
 export default async function EditSectionPage({
@@ -34,10 +37,14 @@ export default async function EditSectionPage({
   const athlete = await getGuardianAthleteOrNull(id);
   if (!athlete) notFound();
 
-  const guardian = await getCurrentGuardian();
   const name = displayName(athlete);
   const back = `/my-courts/athletes/${athlete.id}`;
-  const done = section === "about" || section === "coaching" ? back : `${back}/more`;
+  const done =
+    section === "player-card"
+      ? back
+      : section === "privacy"
+        ? `${back}/waivers`
+        : `${back}/family-safety`;
 
   const guardianRows = athlete.family.guardians.map((fg) => ({
     id: fg.guardian.id,
@@ -60,31 +67,28 @@ export default async function EditSectionPage({
       </Link>
 
       <div className="mt-4">
-        {section === "photo" && (
-          <PhotoPicker
-            athlete={athlete}
-            athleteId={athlete.id}
-            currentPhotoUrl={await signedPhotoUrl(athlete.photoPath)}
-            nextHref={done}
-            title={athlete.photoPath ? "Change Photo" : "Add a Photo"}
-            sub="Makes it easier for coaches to put names to faces."
-          />
-        )}
-
-        {(section === "about" || section === "coaching") && (
-          <AboutForm
-            athlete={athlete}
-            displayName={name}
-            nextHref={done}
-            sections={section}
-            title={section === "about" ? `About ${name}` : "Coaching"}
-            sub={
-              section === "coaching"
-                ? "This is what your coach reads before a session."
-                : undefined
-            }
-            submitLabel="Save"
-          />
+        {section === "player-card" && (
+          <>
+            <PhotoPicker
+              athlete={athlete}
+              athleteId={athlete.id}
+              currentPhotoUrl={await signedPhotoUrl(athlete.photoPath)}
+              nextHref={done}
+              eyebrow="Photo"
+              title={athlete.photoPath ? "Change Photo" : "Add a Photo"}
+              sub="Makes it easier for coaches to put names to faces."
+            />
+            <div className="my-8 border-t border-gray-mid pt-2" />
+            <AboutForm
+              athlete={athlete}
+              displayName={name}
+              nextHref={done}
+              sections="all"
+              eyebrow="About + Coaching"
+              title={`About ${name}`}
+              submitLabel="Save"
+            />
+          </>
         )}
 
         {section === "safety" && (
@@ -125,7 +129,6 @@ export default async function EditSectionPage({
           <PrivacyForm
             athlete={athlete}
             displayName={name}
-            guardianName={athlete.mediaConsent?.guardianName ?? guardian.name}
             currentStatus={athlete.mediaConsent?.status ?? null}
             currentRelationship={athlete.mediaConsent?.guardianRelationship ?? null}
             nextHref={done}
