@@ -52,7 +52,7 @@ export default async function PlayerCardPage({ params }: { params: Promise<{ id:
           className="flex items-center justify-between gap-3 rounded-xl border border-orange/40 bg-orange/5 px-4 py-3.5"
         >
           <p className="font-body text-[13.5px] leading-snug text-near-black">
-            Add {name}&rsquo;s photo so our coaches can get to know them.
+            Makes it easier for coaches to put names to faces.
           </p>
           <span className="shrink-0 font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
             Add Photo
