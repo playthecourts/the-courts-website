@@ -25,7 +25,7 @@
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="manifest" href="images/brand/site.webmanifest">
-<link rel="stylesheet" href="css/styles.css?v=7">
+<link rel="stylesheet" href="css/styles.css?v=8">
 <style>
   /* ================= Leagues page — editorial system (lg-*) ================= */
 
@@ -58,8 +58,8 @@
   .lg-timeline-arrow { color: var(--orange); font-family: var(--font-display); font-weight: 900; font-size: 22px; align-self: center; padding-top: 22px; flex-shrink: 0; }
   .lg-timeline-step:last-child { margin-top: 18px; }
   .lg-eval-check { display: inline-block; vertical-align: -5px; margin-left: 5px; }
-  .lg-trophy { display: inline-block; vertical-align: -3px; margin: 0 3px; }
-  .lg-now-callout { position: absolute; top: 100%; left: 50%; margin-top: 12px; transform: translateX(-50%) rotate(-6deg); display: flex; flex-direction: column; align-items: center; pointer-events: none; }
+  .lg-trophy { display: inline-block; vertical-align: -7px; margin: 0 4px; }
+  .lg-now-callout { position: absolute; top: 100%; left: 20%; margin-top: 10px; transform: translateX(-50%) rotate(-14deg); display: flex; flex-direction: column; align-items: center; pointer-events: none; }
   .lg-now-arrow { display: block; transform: rotate(-30deg); }
   .lg-now-label { font-family: var(--font-heading); font-weight: 900; font-size: 12.5px; letter-spacing: 0.03em; text-transform: uppercase; color: var(--orange); white-space: nowrap; margin-top: 2px; }
   @media (max-width: 760px) {
@@ -88,12 +88,12 @@
   .lg-included-body { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.72); margin: 0 0 26px; }
   .lg-membership-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .lg-membership-item { background: rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 18px 20px; }
-  .lg-membership-item h4 { font-family: var(--font-heading); font-weight: 800; font-size: 15px; color: var(--white); margin: 0 0 8px; }
+  .lg-membership-item h4 { font-family: var(--font-heading); font-weight: 800; font-size: 15px; line-height: 1.3; min-height: 39px; color: var(--white); margin: 0 0 8px; }
   .lg-membership-item p { font-size: 14.5px; line-height: 1.55; color: rgba(255,255,255,0.78); margin: 0; }
   .lg-membership-item p strong { color: var(--white); }
   @media (max-width: 560px) { .lg-membership-grid { grid-template-columns: 1fr; } }
-  .lg-formula { display: flex; flex-wrap: nowrap; align-items: center; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
-  .lg-formula span:not(.lg-formula-plus) { font-family: var(--font-heading); font-weight: 700; font-size: 12.5px; color: var(--white); background: rgba(255,255,255,0.1); border-radius: 999px; padding: 8px 13px; white-space: nowrap; flex-shrink: 0; }
+  .lg-formula { display: flex; flex-wrap: nowrap; align-items: center; justify-content: flex-end; gap: 7px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+  .lg-formula span:not(.lg-formula-plus) { font-family: var(--font-heading); font-weight: 700; font-size: 13.5px; color: var(--white); background: rgba(255,255,255,0.1); border-radius: 999px; padding: 8px 11px; white-space: nowrap; flex-shrink: 0; }
   .lg-formula-plus { font-family: var(--font-display); font-weight: 900; color: var(--orange); font-size: 16px; flex-shrink: 0; }
 
   /* ---------- Fall League Evaluation Sign-Up ---------- */
@@ -221,7 +221,7 @@
   
   <span class="announce-balls" aria-hidden="true"><svg class="announce-ball announce-ball--1" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#FFFFFF"/><path d="M12,1 L12,23 M1,12 L23,12" stroke="#1A1A1A" stroke-width="1.1"/><path d="M4,3 Q12,12 4,21 M20,3 Q12,12 20,21" stroke="#1A1A1A" stroke-width="1.1" fill="none"/></svg><svg class="announce-ball announce-ball--2" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#FFFFFF"/><path d="M12,1 L12,23 M1,12 L23,12" stroke="#1A1A1A" stroke-width="1.1"/><path d="M4,3 Q12,12 4,21 M20,3 Q12,12 20,21" stroke="#1A1A1A" stroke-width="1.1" fill="none"/></svg><svg class="announce-ball announce-ball--3" viewBox="0 0 24 24" width="21" height="21" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#FFFFFF"/><path d="M12,1 L12,23 M1,12 L23,12" stroke="#1A1A1A" stroke-width="1.1"/><path d="M4,3 Q12,12 4,21 M20,3 Q12,12 20,21" stroke="#1A1A1A" stroke-width="1.1" fill="none"/></svg></span>
   <a href="leagues#registration" class="site-announce-inner" data-booking-type="basketball-league-registration">
-    <svg class="announce-hoop" viewBox="0 0 32 32" fill="none" aria-hidden="true"><ellipse cx="16" cy="10" rx="13" ry="4" stroke="#1A1A1A" stroke-width="2.6"/><path d="M4 10 L8 24 M10 10.5 L12 23 M16 11 L16 23 M22 10.5 L20 23 M28 10 L24 24" stroke="#1A1A1A" stroke-width="1.8" stroke-linecap="round"/><path d="M6 15 L26 15 M7 19 L25 19" stroke="#1A1A1A" stroke-width="1.3" stroke-linecap="round" opacity="0.8"/></svg><span class="site-announce-headline">Fall League registration closes September 20 at 5 PM.</span>
+    <svg class="announce-hoop" viewBox="0 0 32 32" fill="none" aria-hidden="true"><ellipse cx="16" cy="10" rx="13" ry="4" stroke="white" stroke-width="2.6"/><path d="M4 10 L8 24 M10 10.5 L12 23 M16 11 L16 23 M22 10.5 L20 23 M28 10 L24 24" stroke="white" stroke-width="1.8" stroke-linecap="round"/><path d="M6 15 L26 15 M7 19 L25 19" stroke="white" stroke-width="1.3" stroke-linecap="round" opacity="0.8"/></svg><span class="site-announce-headline">Fall League registration closes September 20 at 5 PM.</span>
     <span class="site-announce-cta">Register Now <span class="arrow">→</span></span>
   </a>
 </div>
@@ -355,7 +355,7 @@
   <div class="container page-hero-inner">
     <span class="eyebrow eyebrow--light">Basketball Leagues</span>
     <h1 class="page-hero-title">Practice Is Great. Let&rsquo;s Keep Score.</h1>
-    <p class="page-hero-sub">Weekly practice. Saturday games. Real teammates. Real competition.<br><strong style="display:inline-block; margin-top:10px; font-size:1.3em; color:var(--orange);">Registration closes September 20 at 5 PM.</strong></p>
+    <p class="page-hero-sub">Weekly practice. Saturday games. Real teammates. Real competition.<br><strong style="display:inline-block; margin-top:10px; font-size:1.12em; color:var(--orange);">Registration closes September 20 at 5 PM.</strong></p>
     <div class="hero-ctas ctas">
       <a href="#registration" class="btn btn-primary" data-booking-type="basketball-league-registration">Register for Fall League →</a>
       <a href="#fall-league" class="btn btn-on-dark">See League Details ↓</a>
@@ -378,7 +378,7 @@
       <div class="lg-timeline-step lg-timeline-step--now">
         <span class="lg-timeline-date">Through Sept 20</span><span class="lg-timeline-label">Registration</span>
         <span class="lg-now-callout" aria-hidden="true">
-          <svg class="lg-now-arrow drawn-mark" viewBox="0 0 20 50" width="16" fill="none"><path d="M10,46 L10,6" stroke="var(--orange)" stroke-width="3" stroke-linecap="round"/><path d="M3,16 L10,4 L17,16" stroke="var(--orange)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="lg-now-arrow drawn-mark" viewBox="0 0 20 70" width="16" fill="none"><path d="M10,66 L10,6" stroke="var(--orange)" stroke-width="3" stroke-linecap="round"/><path d="M3,16 L10,4 L17,16" stroke="var(--orange)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span class="lg-now-label">Happening Now</span>
         </span>
       </div>
@@ -390,7 +390,7 @@
       <div class="lg-timeline-step"><span class="lg-timeline-date">Oct 24</span><span class="lg-timeline-label">First Games</span></div>
       <span class="lg-timeline-arrow">→</span>
       <div class="lg-timeline-step">
-        <span class="lg-timeline-date"><svg class="lg-trophy" viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="M6 3h12v4a6 6 0 0 1-12 0V3Z" stroke="var(--orange)" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 4H3v2a4 4 0 0 0 4 4M18 4h3v2a4 4 0 0 1-4 4" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round"/><path d="M12 13v4M8 21h8M9 21c0-2 1-2.5 3-2.5s3 .5 3 2.5" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Dec 11&ndash;13 <svg class="lg-trophy" viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="M6 3h12v4a6 6 0 0 1-12 0V3Z" stroke="var(--orange)" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 4H3v2a4 4 0 0 0 4 4M18 4h3v2a4 4 0 0 1-4 4" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round"/><path d="M12 13v4M8 21h8M9 21c0-2 1-2.5 3-2.5s3 .5 3 2.5" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="lg-timeline-date"><svg class="lg-trophy" viewBox="0 0 24 24" width="27" height="27" aria-hidden="true"><path d="M6 3h12v4a6 6 0 0 1-12 0V3Z" fill="#F4C430" stroke="#B8860B" stroke-width="1"/><path d="M6 4H3v2a4 4 0 0 0 4 4M18 4h3v2a4 4 0 0 1-4 4" stroke="#F4C430" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M12 13v4M8 21h8M9 21c0-2 1-2.5 3-2.5s3 .5 3 2.5" stroke="#F4C430" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M8 4.5c0 2 1 3.5 2.5 4" stroke="#FFF3B0" stroke-width="1.1" stroke-linecap="round" opacity="0.85" fill="none"/></svg> Dec 11&ndash;13 <svg class="lg-trophy" viewBox="0 0 24 24" width="27" height="27" aria-hidden="true"><path d="M6 3h12v4a6 6 0 0 1-12 0V3Z" fill="#F4C430" stroke="#B8860B" stroke-width="1"/><path d="M6 4H3v2a4 4 0 0 0 4 4M18 4h3v2a4 4 0 0 1-4 4" stroke="#F4C430" stroke-width="1.8" stroke-linecap="round" fill="none"/><path d="M12 13v4M8 21h8M9 21c0-2 1-2.5 3-2.5s3 .5 3 2.5" stroke="#F4C430" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M8 4.5c0 2 1 3.5 2.5 4" stroke="#FFF3B0" stroke-width="1.1" stroke-linecap="round" opacity="0.85" fill="none"/></svg></span>
         <span class="lg-timeline-label">Tournament Weekend, if applicable</span>
       </div>
     </div>
