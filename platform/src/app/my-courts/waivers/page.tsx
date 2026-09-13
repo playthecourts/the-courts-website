@@ -30,7 +30,11 @@ export default async function WaiversPage() {
             const familySignature = waiver.signatures.find((s) => s.athleteId === null);
 
             return (
-              <section key={waiver.id} className="rounded-lg border border-neutral-200 p-5">
+              <section
+                key={waiver.id}
+                id={`waiver-${waiver.id}`}
+                className="scroll-mt-6 rounded-lg border border-neutral-200 p-5"
+              >
                 <div className="mb-2 flex items-baseline justify-between">
                   <h2 className="font-semibold">
                     {waiver.waiverType}

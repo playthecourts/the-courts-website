@@ -21,8 +21,7 @@ function nextWeeklyReset(now: Date) {
 }
 
 const ACCOUNT_LINKS = [
-  { href: "/my-courts/payments", label: "Payment Method" },
-  { href: "/my-courts/payments", label: "Billing History" },
+  { href: "/my-courts/payments", label: "Payments" },
   { href: "/my-courts/waivers", label: "Waivers + Releases" },
   { href: "/my-courts/messages", label: "Messages" },
   { href: "/my-courts/settings", label: "Family Settings" },

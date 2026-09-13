@@ -9,7 +9,13 @@ import { displayName } from "@/lib/athlete";
 // family to a membership and a set-up athlete, not to imply there's a
 // schedule to browse yet. Compact utility header, not a marketing hero.
 // ---------------------------------------------------------------------------
-export function WelcomeHero({ firstName }: { firstName: string }) {
+export function WelcomeHero({
+  firstName,
+  hasAthlete,
+}: {
+  firstName: string;
+  hasAthlete: boolean;
+}) {
   return (
     <div className="relative overflow-hidden rounded-2xl bg-warm-white px-6 py-7 md:px-9 md:py-9">
       <CourtArc className="pointer-events-none absolute -top-10 -right-12 h-40 w-40 text-orange/[0.1] md:h-52 md:w-52" />
@@ -23,11 +29,8 @@ export function WelcomeHero({ firstName }: { firstName: string }) {
         Memberships are open now for an October 1 start.
       </p>
       <p className="relative mt-2 max-w-[54ch] font-body text-[14px] leading-relaxed text-gray-dark md:text-[15px]">
-        Choose your membership, then set up your athlete profile with what they want to work on
-        and anything that helps us coach them well.
-      </p>
-      <p className="relative mt-2 max-w-[54ch] font-body text-[14px] leading-relaxed text-gray-dark md:text-[15px]">
-        Get set now, so you&rsquo;re ready to hit the court October 1.
+        Choose the membership that works for your family and get everything in place before
+        opening day.
       </p>
       <div className="relative mt-5 flex flex-wrap items-center gap-3">
         <Link
@@ -36,12 +39,14 @@ export function WelcomeHero({ firstName }: { firstName: string }) {
         >
           View Memberships <ArrowGlyph className="h-4 w-4" />
         </Link>
-        <Link
-          href="/my-courts/athletes"
-          className="inline-flex items-center gap-2 rounded-full border border-gray-mid bg-white px-6 py-3.5 font-sport text-sm font-bold tracking-wide text-near-black uppercase transition-colors hover:border-orange hover:text-orange"
-        >
-          Set Up Your Athlete &rarr;
-        </Link>
+        {!hasAthlete && (
+          <Link
+            href="/my-courts/athletes"
+            className="inline-flex items-center gap-2 rounded-full border border-gray-mid bg-white px-6 py-3.5 font-sport text-sm font-bold tracking-wide text-near-black uppercase transition-colors hover:border-orange hover:text-orange"
+          >
+            Add Your Athlete &rarr;
+          </Link>
+        )}
       </div>
       <p className="relative mt-4 font-body text-[12.5px] text-near-black">
         Schedules and bookings are coming soon.

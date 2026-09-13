@@ -108,9 +108,26 @@ export async function uploadAthletePhoto(
 
   const path = photoObjectPath(athleteId, ext);
   const supabase = await createClient();
-  const { error } = await supabase.storage
+  const { data, error } = await supabase.storage
     .from(PHOTO_BUCKET)
     .upload(path, file, { cacheControl: "3600", upsert: false, contentType: file.type });
+
+  // TEMP DIAGNOSTIC (remove once the photo-persistence bug is confirmed fixed):
+  // the generic error below was swallowing the real Supabase Storage error —
+  // this is the only way to see what actually failed without a repro
+  // environment. See src/app/my-courts/athletes/actions.ts for the matching
+  // log around the DB write.
+  console.log("[uploadAthletePhoto]", {
+    athleteId,
+    path,
+    fileSize: file.size,
+    fileType: file.type,
+    ok: !error,
+    storageData: data,
+    storageError: error
+      ? { message: error.message, name: error.name, cause: (error as { cause?: unknown }).cause }
+      : null,
+  });
 
   if (error) {
     return { ok: false, error: "We couldn't save that photo. Please try again." };

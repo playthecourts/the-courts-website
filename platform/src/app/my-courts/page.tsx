@@ -2,6 +2,7 @@ import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { signedPhotoUrls } from "@/lib/athlete-photo";
+import { completeness } from "@/lib/athlete";
 import {
   ActionNeededStrip,
   AthleteRow,
@@ -73,11 +74,43 @@ export default async function MyCourtsHomePage() {
     take: 3,
   });
 
-  // Action Needed: real conditions only — unsigned required waivers, an
-  // unanswered Photo + Video Permission choice, and any membership Stripe
-  // marked past_due. Deliberately "Action Needed" rather than "Waiver
-  // needed" — it needs to hold more than waivers without a naming clash.
+  // Action Needed: real conditions only — an incomplete athlete profile,
+  // unsigned required waivers, an unanswered Photo + Video Permission choice,
+  // and any membership Stripe marked past_due. Deliberately "Action Needed"
+  // rather than "Waiver needed" — it needs to hold more than waivers without
+  // a naming clash.
   const attentionItems: { athleteName: string; message: string; href: string; cta?: string }[] = [];
+
+  const emergencyContactCounts = athleteIds.length
+    ? await prisma.emergencyContact.groupBy({
+        by: ["athleteId"],
+        where: { athleteId: { in: athleteIds } },
+        _count: { athleteId: true },
+      })
+    : [];
+  const emergencyContactCountByAthlete = new Map(
+    emergencyContactCounts.map((row) => [row.athleteId, row._count.athleteId])
+  );
+  for (const athlete of athletes) {
+    const { nextStep } = completeness(
+      {
+        goal: athlete.goal,
+        coachingPreferences: athlete.coachingPreferences,
+        competitiveMeter: athlete.competitiveMeter,
+        emergencyContactCount: emergencyContactCountByAthlete.get(athlete.id) ?? 0,
+      },
+      athlete.id
+    );
+    if (nextStep) {
+      attentionItems.push({
+        athleteName: athlete.firstName,
+        message: `Finish their Player Card — next: ${nextStep.label}`,
+        href: nextStep.href,
+        cta: "Continue",
+      });
+    }
+  }
+
   for (const athlete of athletes) {
     const unsigned = await getUnsignedRequiredWaivers(guardian.id, athlete.id);
     for (const waiver of unsigned) {
@@ -128,7 +161,7 @@ export default async function MyCourtsHomePage() {
 
   return (
     <div className="flex flex-col gap-7 md:gap-9">
-      <WelcomeHero firstName={firstName} />
+      <WelcomeHero firstName={firstName} hasAthlete={athletes.length > 0} />
 
       <ActionNeededStrip items={attentionItems} />
 

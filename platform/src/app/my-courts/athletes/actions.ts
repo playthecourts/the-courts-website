@@ -168,9 +168,21 @@ export async function saveAthletePhoto(
     if (!result.ok) return { ok: false, errors: { photo: result.error } };
 
     const previousPath = athlete.photoPath;
-    await prisma.athlete.update({
+    const updated = await prisma.athlete.update({
       where: { id: athlete.id },
       data: { photoPath: result.path, photoUpdatedAt: new Date() },
+    });
+
+    // TEMP DIAGNOSTIC (remove once the photo-persistence bug is confirmed
+    // fixed): confirms the DB write itself actually committed the new path,
+    // separate from whether the upload succeeded (see the matching log in
+    // src/lib/athlete-photo.ts) — narrows a "still 3 tabs"-style report down
+    // to upload vs. DB write vs. read-back/cache.
+    console.log("[saveAthletePhoto] db updated", {
+      athleteId: athlete.id,
+      previousPath,
+      newPath: result.path,
+      confirmedPhotoPathOnRow: updated.photoPath,
     });
 
     // The old object is removed only after the new path is committed, so a

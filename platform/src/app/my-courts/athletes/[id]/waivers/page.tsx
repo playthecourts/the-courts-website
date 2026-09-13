@@ -48,12 +48,22 @@ export default async function AthleteWaiversPage({ params }: { params: Promise<{
                 key={waiver.id}
                 className="rounded-xl border border-gray-mid bg-white px-4 py-3.5"
               >
-                <p className="font-heading text-[15px] font-bold text-near-black">
-                  {waiver.waiverType}
-                </p>
-                <p className="mt-0.5 font-body text-[13px] text-gray-dark">
-                  &#10003; Signed {formatDate(signature.signedAt)}
-                </p>
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="font-heading text-[15px] font-bold text-near-black">
+                      {waiver.waiverType}
+                    </p>
+                    <p className="mt-0.5 font-body text-[13px] text-gray-dark">
+                      &#10003; Signed {formatDate(signature.signedAt)}
+                    </p>
+                  </div>
+                  <Link
+                    href={`/my-courts/waivers#waiver-${waiver.id}`}
+                    className="shrink-0 font-sport text-[11px] font-bold tracking-wide text-orange uppercase"
+                  >
+                    View &rarr;
+                  </Link>
+                </div>
               </div>
             ) : (
               <Link

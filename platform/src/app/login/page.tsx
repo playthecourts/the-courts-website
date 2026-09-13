@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import { AuthToggle } from "../auth-toggle";
 import { LoginForm } from "./login-form";
 
 export default function LoginPage() {
@@ -11,9 +12,10 @@ export default function LoginPage() {
         alt="The Courts"
         width={186}
         height={80}
-        className="mb-8"
+        className="mb-6"
         priority
       />
+      <AuthToggle active="signin" />
       <h1 className="mb-1 font-display text-2xl font-black uppercase tracking-tight text-black">
         Sign In
       </h1>

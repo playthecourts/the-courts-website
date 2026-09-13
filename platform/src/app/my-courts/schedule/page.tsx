@@ -51,14 +51,14 @@ export default async function MyCourtsSchedulePage() {
       {bookings.length === 0 ? (
         <div className="rounded-2xl border border-gray-mid bg-white p-8 text-center">
           <p className="font-display text-xl font-black text-black md:text-2xl">
-            We Know. We&rsquo;re Ready Too.
+            We&rsquo;re Excited Too.
           </p>
           <p className="mt-2 font-body text-sm text-gray-dark">
             Schedules and bookings are coming soon.
           </p>
           <p className="mx-auto mt-3 max-w-[42ch] font-body text-sm text-gray-dark">
-            In the meantime, get your athlete profile set up so you&rsquo;re ready when it&rsquo;s
-            time to hit the court.
+            Get your athlete profile set up now, and you&rsquo;ll be ready to hit the court when
+            booking opens.
           </p>
           <Link
             href="/my-courts/athletes"
