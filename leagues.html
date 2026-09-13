@@ -25,7 +25,7 @@
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="images/brand/apple-touch-icon.png">
 <link rel="manifest" href="images/brand/site.webmanifest">
-<link rel="stylesheet" href="css/styles.css?v=6">
+<link rel="stylesheet" href="css/styles.css?v=7">
 <style>
   /* ================= Leagues page — editorial system (lg-*) ================= */
 
@@ -57,16 +57,16 @@
   .lg-timeline-label { font-family: var(--font-display); font-weight: 900; font-size: clamp(17px, 1.7vw, 20px); color: var(--white); line-height: 1.2; }
   .lg-timeline-arrow { color: var(--orange); font-family: var(--font-display); font-weight: 900; font-size: 22px; align-self: center; padding-top: 22px; flex-shrink: 0; }
   .lg-timeline-step:last-child { margin-top: 18px; }
-  .lg-eval-check { position: absolute; top: -4px; right: 8px; }
-  .lg-now-callout { position: absolute; top: -66px; left: -8px; transform: rotate(-3deg); display: flex; flex-direction: column; align-items: center; pointer-events: none; }
-  .lg-now-arrow { display: block; }
-  .lg-now-label { font-family: var(--font-heading); font-weight: 900; font-size: 12.5px; letter-spacing: 0.03em; text-transform: uppercase; color: var(--orange); white-space: nowrap; }
+  .lg-eval-check { display: inline-block; vertical-align: -5px; margin-left: 5px; }
+  .lg-trophy { display: inline-block; vertical-align: -3px; margin: 0 3px; }
+  .lg-now-callout { position: absolute; top: 100%; left: 50%; margin-top: 12px; transform: translateX(-50%) rotate(-6deg); display: flex; flex-direction: column; align-items: center; pointer-events: none; }
+  .lg-now-arrow { display: block; transform: rotate(-30deg); }
+  .lg-now-label { font-family: var(--font-heading); font-weight: 900; font-size: 12.5px; letter-spacing: 0.03em; text-transform: uppercase; color: var(--orange); white-space: nowrap; margin-top: 2px; }
   @media (max-width: 760px) {
     .lg-timeline { flex-direction: column; align-items: stretch; gap: 22px; max-width: 320px; margin-left: auto; margin-right: auto; margin-top: 44px; }
     .lg-timeline-step { flex-direction: row; text-align: left; gap: 16px; padding: 0; justify-content: flex-start; }
     .lg-timeline-arrow { display: none; }
-    .lg-eval-check { position: static; margin-left: 8px; }
-    .lg-now-callout { position: static; transform: none; flex-direction: row; margin-left: 10px; }
+    .lg-now-callout { position: static; transform: none; flex-direction: row; margin-left: 10px; margin-top: 0; }
     .lg-now-arrow { display: none; }
     .lg-now-label { margin-top: 0; }
   }
@@ -92,9 +92,9 @@
   .lg-membership-item p { font-size: 14.5px; line-height: 1.55; color: rgba(255,255,255,0.78); margin: 0; }
   .lg-membership-item p strong { color: var(--white); }
   @media (max-width: 560px) { .lg-membership-grid { grid-template-columns: 1fr; } }
-  .lg-formula { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-  .lg-formula span:not(.lg-formula-plus) { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--white); background: rgba(255,255,255,0.1); border-radius: 999px; padding: 10px 16px; }
-  .lg-formula-plus { font-family: var(--font-display); font-weight: 900; color: var(--orange); font-size: 18px; }
+  .lg-formula { display: flex; flex-wrap: nowrap; align-items: center; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+  .lg-formula span:not(.lg-formula-plus) { font-family: var(--font-heading); font-weight: 700; font-size: 12.5px; color: var(--white); background: rgba(255,255,255,0.1); border-radius: 999px; padding: 8px 13px; white-space: nowrap; flex-shrink: 0; }
+  .lg-formula-plus { font-family: var(--font-display); font-weight: 900; color: var(--orange); font-size: 16px; flex-shrink: 0; }
 
   /* ---------- Fall League Evaluation Sign-Up ---------- */
   .lg-eval-wrap { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 56px; align-items: start; }
@@ -151,7 +151,7 @@
   .lg-eval-form-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(21px,2.2vw,25px); margin: 0 0 24px; }
   .lg-eval-fgroup { padding-top: 22px; margin-top: 4px; border-top: 1px solid var(--gray-mid); }
   .lg-eval-fgroup:first-of-type { padding-top: 0; margin-top: 0; border-top: none; }
-  .lg-eval-fgroup-label { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 12px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+  .lg-eval-fgroup-label { display: block; font-family: var(--font-sport); font-weight: 800; font-size: 14.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
   .lg-eval-form-wrap .form-row { margin-bottom: 22px; }
   .lg-eval-form-wrap .form-row label { display: block; font-family: var(--font-sport); font-weight: 700; font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-dark); margin-bottom: 9px; }
   .lg-eval-form-wrap .form-row input,
@@ -218,10 +218,10 @@
 <a href="#main" class="skip-link">Skip to main content</a>
 
 <div class="site-announce" id="fallLeagueBanner">
-  <svg class="announce-hoop" viewBox="0 0 32 32" fill="none" aria-hidden="true"><ellipse cx="16" cy="10" rx="13" ry="4" stroke="white" stroke-width="2"/><path d="M4 10 L8 24 M10 10.5 L12 23 M16 11 L16 23 M22 10.5 L20 23 M28 10 L24 24" stroke="white" stroke-width="1.3" stroke-linecap="round"/><path d="M6 15 L26 15 M7 19 L25 19" stroke="white" stroke-width="1" stroke-linecap="round" opacity="0.7"/></svg>
-  <span class="announce-balls" aria-hidden="true"><svg class="announce-ball announce-ball--1" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#DE5019"/><path d="M12,1 L12,23 M1,12 L23,12" stroke="#1A1A1A" stroke-width="1.1"/><path d="M4,3 Q12,12 4,21 M20,3 Q12,12 20,21" stroke="#1A1A1A" stroke-width="1.1" fill="none"/></svg><svg class="announce-ball announce-ball--2" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#DE5019"/><path d="M12,1 L12,23 M1,12 L23,12" stroke="#1A1A1A" stroke-width="1.1"/><path d="M4,3 Q12,12 4,21 M20,3 Q12,12 20,21" stroke="#1A1A1A" stroke-width="1.1" fill="none"/></svg><svg class="announce-ball announce-ball--3" viewBox="0 0 24 24" width="21" height="21" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#DE5019"/><path d="M12,1 L12,23 M1,12 L23,12" stroke="#1A1A1A" stroke-width="1.1"/><path d="M4,3 Q12,12 4,21 M20,3 Q12,12 20,21" stroke="#1A1A1A" stroke-width="1.1" fill="none"/></svg></span>
+  
+  <span class="announce-balls" aria-hidden="true"><svg class="announce-ball announce-ball--1" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#FFFFFF"/><path d="M12,1 L12,23 M1,12 L23,12" stroke="#1A1A1A" stroke-width="1.1"/><path d="M4,3 Q12,12 4,21 M20,3 Q12,12 20,21" stroke="#1A1A1A" stroke-width="1.1" fill="none"/></svg><svg class="announce-ball announce-ball--2" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#FFFFFF"/><path d="M12,1 L12,23 M1,12 L23,12" stroke="#1A1A1A" stroke-width="1.1"/><path d="M4,3 Q12,12 4,21 M20,3 Q12,12 20,21" stroke="#1A1A1A" stroke-width="1.1" fill="none"/></svg><svg class="announce-ball announce-ball--3" viewBox="0 0 24 24" width="21" height="21" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#FFFFFF"/><path d="M12,1 L12,23 M1,12 L23,12" stroke="#1A1A1A" stroke-width="1.1"/><path d="M4,3 Q12,12 4,21 M20,3 Q12,12 20,21" stroke="#1A1A1A" stroke-width="1.1" fill="none"/></svg></span>
   <a href="leagues#registration" class="site-announce-inner" data-booking-type="basketball-league-registration">
-    <span class="site-announce-headline">Fall League registration closes September 20 at 5 PM.</span>
+    <svg class="announce-hoop" viewBox="0 0 32 32" fill="none" aria-hidden="true"><ellipse cx="16" cy="10" rx="13" ry="4" stroke="#1A1A1A" stroke-width="2.6"/><path d="M4 10 L8 24 M10 10.5 L12 23 M16 11 L16 23 M22 10.5 L20 23 M28 10 L24 24" stroke="#1A1A1A" stroke-width="1.8" stroke-linecap="round"/><path d="M6 15 L26 15 M7 19 L25 19" stroke="#1A1A1A" stroke-width="1.3" stroke-linecap="round" opacity="0.8"/></svg><span class="site-announce-headline">Fall League registration closes September 20 at 5 PM.</span>
     <span class="site-announce-cta">Register Now <span class="arrow">→</span></span>
   </a>
 </div>
@@ -371,17 +371,16 @@
     </div>
     <div class="lg-timeline">
       <div class="lg-timeline-step lg-timeline-step--done">
-        <span class="lg-timeline-date">Sept 12</span>
+        <span class="lg-timeline-date">Sept 12<svg class="lg-eval-check" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#2E8B57"/><path d="M7 12.5l3 3 7-7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <span class="lg-timeline-label">Evaluations</span>
-        <svg class="lg-eval-check" viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#2E8B57"/><path d="M7 12.5l3 3 7-7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
       <span class="lg-timeline-arrow">→</span>
       <div class="lg-timeline-step lg-timeline-step--now">
-        <span class="lg-now-callout" aria-hidden="true">
-          <span class="lg-now-label">Happening Now</span>
-          <svg class="lg-now-arrow drawn-mark" viewBox="0 0 20 50" width="16" fill="none"><path d="M10,46 L10,6" stroke="var(--orange)" stroke-width="3" stroke-linecap="round"/><path d="M3,16 L10,4 L17,16" stroke="var(--orange)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
         <span class="lg-timeline-date">Through Sept 20</span><span class="lg-timeline-label">Registration</span>
+        <span class="lg-now-callout" aria-hidden="true">
+          <svg class="lg-now-arrow drawn-mark" viewBox="0 0 20 50" width="16" fill="none"><path d="M10,46 L10,6" stroke="var(--orange)" stroke-width="3" stroke-linecap="round"/><path d="M3,16 L10,4 L17,16" stroke="var(--orange)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="lg-now-label">Happening Now</span>
+        </span>
       </div>
       <span class="lg-timeline-arrow">→</span>
       <div class="lg-timeline-step"><span class="lg-timeline-date">After Registration</span><span class="lg-timeline-label">Team Placement</span></div>
@@ -391,14 +390,13 @@
       <div class="lg-timeline-step"><span class="lg-timeline-date">Oct 24</span><span class="lg-timeline-label">First Games</span></div>
       <span class="lg-timeline-arrow">→</span>
       <div class="lg-timeline-step">
-        <span class="lg-timeline-date">Dec 11&ndash;13</span>
+        <span class="lg-timeline-date"><svg class="lg-trophy" viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="M6 3h12v4a6 6 0 0 1-12 0V3Z" stroke="var(--orange)" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 4H3v2a4 4 0 0 0 4 4M18 4h3v2a4 4 0 0 1-4 4" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round"/><path d="M12 13v4M8 21h8M9 21c0-2 1-2.5 3-2.5s3 .5 3 2.5" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Dec 11&ndash;13 <svg class="lg-trophy" viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="M6 3h12v4a6 6 0 0 1-12 0V3Z" stroke="var(--orange)" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 4H3v2a4 4 0 0 0 4 4M18 4h3v2a4 4 0 0 1-4 4" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round"/><path d="M12 13v4M8 21h8M9 21c0-2 1-2.5 3-2.5s3 .5 3 2.5" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <span class="lg-timeline-label">Tournament Weekend, if applicable</span>
-        <svg class="lg-trophy" viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true"><path d="M6 3h12v4a6 6 0 0 1-12 0V3Z" stroke="var(--orange)" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 4H3v2a4 4 0 0 0 4 4M18 4h3v2a4 4 0 0 1-4 4" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round"/><path d="M12 13v4M8 21h8M9 21c0-2 1-2.5 3-2.5s3 .5 3 2.5" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
     </div>
-    <p style="font-family:var(--font-body); font-size:14.5px; line-height:1.7; color:rgba(255,255,255,0.62); max-width:640px; margin:36px auto 0; text-align:center;">
-      <strong style="color:rgba(255,255,255,0.85);">Games:</strong> Played at WNSL locations throughout West Nashville and Brentwood.<br>
-      <strong style="color:rgba(255,255,255,0.85);">Team Practices:</strong> Narrowing in on Thursdays, one team-specific practice each week.
+    <p style="font-family:var(--font-body); font-size:15px; line-height:1.8; color:rgba(255,255,255,0.78); max-width:640px; margin:36px auto 0; text-align:center;">
+      <strong style="font-family:var(--font-heading); font-weight:800; font-size:15px; color:var(--white);">Games:</strong> Played at WNSL locations throughout West Nashville and Brentwood.<br>
+      <strong style="font-family:var(--font-heading); font-weight:800; font-size:15px; color:var(--white);">Team Practices:</strong> Narrowing in on Thursdays, one team-specific practice each week.
     </p>
     <div style="text-align:center; margin-top:32px;">
       <a href="#whats-included" class="btn btn-on-dark">What&rsquo;s Included →</a>
@@ -524,7 +522,7 @@
           <div class="lg-eval-fgroup">
             <span class="lg-eval-fgroup-label">Team Placement</span>
             <div class="form-row"><label for="ev-placement">Is there a specific athlete you&rsquo;d like to be placed with? <span class="form-optional-tag">Optional</span></label><textarea id="ev-placement" name="placement_request"></textarea><span class="lg-eval-hint">Final team placement will be based on grade, skill level, roster balance, and overall registration.</span></div>
-            <div class="form-row"><label for="ev-conflicts">Any scheduling conflicts we should know about? <span class="form-optional-tag">Optional</span></label><textarea id="ev-conflicts" name="scheduling_conflicts"></textarea></div>
+            <div class="form-row"><label for="ev-conflicts">Any scheduling conflicts we should know about? <span class="form-optional-tag">Optional</span></label><textarea id="ev-conflicts" name="scheduling_conflicts"></textarea><span class="lg-eval-hint">Heads up: we&rsquo;re currently narrowing in on Thursdays for team practice.</span></div>
             <div class="form-row"><label for="ev-notes">Anything else we should know about your athlete? <span class="form-optional-tag">Optional</span></label><textarea id="ev-notes" name="additional_notes"></textarea></div>
           </div>
 
@@ -543,37 +541,36 @@
 </section>
 
 <section class="lg-nextup" id="register">
-  <div class="container">
-    <div class="lg-nextup-head">
-      <svg class="lg-nextup-snowman" viewBox="0 0 160 210" aria-hidden="true">
-        <circle cx="80" cy="168" r="38" fill="#F5F5F5"/>
-        <circle cx="80" cy="106" r="30" fill="#F5F5F5"/>
-        <circle cx="80" cy="58" r="24" fill="#F5F5F5"/>
-        <rect x="60" y="20" width="40" height="8" rx="2" fill="#1A1A1A"/>
-        <rect x="66" y="5" width="28" height="20" rx="3" fill="#1A1A1A"/>
-        <circle cx="72" cy="55" r="2.6" fill="#1A1A1A"/>
-        <circle cx="88" cy="55" r="2.6" fill="#1A1A1A"/>
-        <path d="M80,61 L95,64 L80,67 Z" fill="var(--orange)"/>
-        <circle cx="71" cy="70" r="1.7" fill="#1A1A1A"/>
-        <circle cx="76" cy="73" r="1.7" fill="#1A1A1A"/>
-        <circle cx="84" cy="73" r="1.7" fill="#1A1A1A"/>
-        <circle cx="89" cy="70" r="1.7" fill="#1A1A1A"/>
-        <path d="M59,82 Q80,93 101,82 L97,95 Q80,103 63,95 Z" fill="var(--orange)"/>
-        <path d="M93,91 L102,118 L89,116 Z" fill="var(--orange)"/>
-        <circle cx="80" cy="98" r="2.3" fill="#1A1A1A"/>
-        <circle cx="80" cy="109" r="2.3" fill="#1A1A1A"/>
-        <circle cx="80" cy="120" r="2.3" fill="#1A1A1A"/>
-        <path d="M50,102 Q26,90 13,62" stroke="#8B5E34" stroke-width="3.2" stroke-linecap="round" fill="none"/>
-        <path d="M20,69 L13,62 M8,67 L13,62 M13,55 L13,62" stroke="#8B5E34" stroke-width="2.6" stroke-linecap="round"/>
-        <path d="M110,102 Q132,118 137,144" stroke="#8B5E34" stroke-width="3.2" stroke-linecap="round" fill="none"/>
-        <circle cx="139" cy="160" r="14" fill="var(--orange)"/>
-        <path d="M139,146 L139,174 M125,160 L153,160" stroke="#1A1A1A" stroke-width="1.4"/>
-        <path d="M128,149 Q139,160 128,171 M150,149 Q139,160 150,171" stroke="#1A1A1A" stroke-width="1.4" fill="none"/>
-      </svg>
+  <div class="container lg-nextup-grid">
+    <svg class="lg-nextup-snowman" viewBox="0 0 160 210" aria-hidden="true">
+      <circle cx="80" cy="168" r="38" fill="#F5F5F5"/>
+      <circle cx="80" cy="106" r="30" fill="#F5F5F5"/>
+      <circle cx="80" cy="58" r="24" fill="#F5F5F5"/>
+      <path d="M56,52 Q58,24 80,22 Q102,24 104,52 Q80,42 56,52 Z" fill="var(--orange)"/>
+      <ellipse cx="103" cy="50" rx="16" ry="6" fill="var(--orange)"/>
+      <circle cx="80" cy="23" r="3" fill="#1A1A1A"/>
+      <circle cx="72" cy="55" r="2.6" fill="#1A1A1A"/>
+      <circle cx="88" cy="55" r="2.6" fill="#1A1A1A"/>
+      <path d="M80,61 L95,64 L80,67 Z" fill="var(--orange)"/>
+      <circle cx="71" cy="70" r="1.7" fill="#1A1A1A"/>
+      <circle cx="76" cy="73" r="1.7" fill="#1A1A1A"/>
+      <circle cx="84" cy="73" r="1.7" fill="#1A1A1A"/>
+      <circle cx="89" cy="70" r="1.7" fill="#1A1A1A"/>
+      <path d="M63,78 Q80,86 97,78 L97,84 Q80,92 63,84 Z" fill="var(--orange)"/>
+      <path d="M90,82 L96,97 L84,95 Z" fill="var(--orange)"/>
+      <circle cx="80" cy="98" r="2.3" fill="#1A1A1A"/>
+      <circle cx="80" cy="109" r="2.3" fill="#1A1A1A"/>
+      <circle cx="80" cy="120" r="2.3" fill="#1A1A1A"/>
+      <path d="M50,102 Q26,90 15,64" stroke="#8B5E34" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+      <circle cx="14" cy="61" r="5" fill="#8B5E34"/>
+      <path d="M110,102 Q132,118 137,144" stroke="#8B5E34" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+      <circle cx="139" cy="160" r="14" fill="var(--orange)"/>
+      <path d="M139,146 L139,174 M125,160 L153,160" stroke="#1A1A1A" stroke-width="1.4"/>
+      <path d="M128,149 Q139,160 128,171 M150,149 Q139,160 150,171" stroke="#1A1A1A" stroke-width="1.4" fill="none"/>
+    </svg>
+    <div class="lg-nextup-content">
       <span class="eyebrow lg-nextup-eyebrow">Up Next</span>
       <h2 class="lg-nextup-title">Winter Basketball</h2>
-    </div>
-    <div class="lg-nextup-single">
       <p class="lg-nextup-dates">Dates TBC</p>
       <p class="lg-nextup-detail">Weekly team practice. Saturday games. Courts coaching.</p>
       <p class="lg-nextup-stat">Miss fall? We go again.</p>
@@ -585,16 +582,20 @@
 <style>
   .lg-nextup { background: var(--black); color: var(--white); padding: 100px 0; overflow: hidden; position: relative; }
   .lg-nextup::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--orange); }
-  .lg-nextup-head { text-align: center; margin-bottom: 40px; }
-  .lg-nextup-snowman { display: block; width: 230px; height: auto; margin: 0 auto 24px; }
-  @media (max-width: 560px) { .lg-nextup-snowman { width: 160px; } }
+  .lg-nextup-grid { display: flex; align-items: center; justify-content: center; gap: 56px; }
+  .lg-nextup-snowman { display: block; width: 200px; height: auto; flex-shrink: 0; }
+  .lg-nextup-content { text-align: left; max-width: 420px; }
   .lg-nextup-eyebrow { font-size: 18px; }
-  .lg-nextup-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 4vw, 40px); margin: 10px 0 0; color: var(--white); }
-  .lg-nextup-single { text-align: center; max-width: 480px; margin: 0 auto; }
+  .lg-nextup-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 4vw, 40px); margin: 10px 0 20px; color: var(--white); }
   .lg-nextup-dates { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2.6vw, 28px); color: var(--white); margin: 0 0 10px; line-height: 1.15; }
-  .lg-nextup-detail { font-size: 15.5px; color: rgba(255,255,255,0.68); line-height: 1.5; margin: 0 0 18px; }
+  .lg-nextup-detail { font-size: 15.5px; font-weight: 300; color: rgba(255,255,255,0.68); line-height: 1.5; margin: 0 0 18px; }
   .lg-nextup-stat { font-family: var(--font-heading); font-weight: 700; font-size: 15px; color: var(--white); margin: 0 0 24px; }
 
+  @media (max-width: 720px) {
+    .lg-nextup-grid { flex-direction: column; gap: 28px; }
+    .lg-nextup-content { text-align: center; }
+    .lg-nextup-snowman { width: 160px; }
+  }
   @media (max-width: 900px) {
     .lg-nextup { padding: 72px 0; }
   }

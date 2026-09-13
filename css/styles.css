@@ -109,12 +109,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .site-announce-inner:hover .arrow { transform: translateX(3px); }
 .site-announce:has(.site-announce-inner:hover) { background: var(--orange-hover); }
 
-/* Decorative hoop (left) + bouncing basketballs (right, queued up toward the
-   hoop) — pure texture, never the content itself, so both are aria-hidden
-   and hidden below 1040px where the bar has no room to spare. Each ball
-   bounces on its own timing/height rather than a shared delay, so they read
-   as independent rather than a synchronized wave. */
-.announce-hoop { position: absolute; left: 26px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; opacity: 0.55; pointer-events: none; }
+/* Decorative hoop (inline, next to the headline) + bouncing basketballs
+   (right, queued up toward the hoop) — pure texture, never the content
+   itself, so both are aria-hidden and hidden below 1040px where the bar has
+   no room to spare. Each ball bounces on its own timing/height rather than a
+   shared delay, so they read as independent rather than a synchronized wave. */
+.announce-hoop { display: inline-block; vertical-align: -7px; width: 27px; height: 27px; margin-right: 12px; opacity: 1; pointer-events: none; }
 .announce-balls { position: absolute; right: 22px; top: 0; bottom: 0; display: flex; align-items: center; gap: 22px; pointer-events: none; }
 .announce-balls svg { display: block; opacity: 0.9; }
 .announce-ball--1 { animation: ballBounceA 1.3s cubic-bezier(.5,0,.8,.4) infinite; align-self: center; }
@@ -189,7 +189,7 @@ body.has-announce .nav { top: var(--announce-h, 88px); }
 .nav-cta { display: flex; align-items: center; gap: 14px; }
 .nav-cta .btn-secondary { color: var(--white); border-color: rgba(255,255,255,0.5); }
 .nav.scrolled .nav-cta .btn-secondary { color: var(--black); border-color: var(--black); }
-.nav-cta .btn { padding: 11px 22px; font-size: 14px; }
+.nav-cta .btn { padding: 8px 18px; font-size: 14px; }
 .nav-cta-link { font-family: var(--font-nav); font-weight: 600; font-size: 14px; color: var(--white); }
 .nav.scrolled .nav-cta-link, .nav.nav-solid .nav-cta-link { color: var(--black); }
 .nav-cta-link:hover { color: var(--orange); }
