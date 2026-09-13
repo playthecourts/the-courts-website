@@ -3,13 +3,16 @@ import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
 import { familyCrewInitials, familyCrewName } from "@/lib/family";
 import { AccountMenu } from "./account-menu";
-import NavLink from "./nav-link";
+import NavLink, { SignOutNavItem } from "./nav-link";
 
 const NAV_ITEMS = [
   { href: "/my-courts", label: "Home", icon: "home" as const },
   { href: "/my-courts/schedule", label: "Schedule", icon: "schedule" as const },
   { href: "/my-courts/athletes", label: "My Athletes", icon: "athletes" as const },
-  { href: "/my-courts/more", label: "More", icon: "more" as const },
+  { href: "/my-courts/memberships", label: "Your Training Plan", icon: "training" as const },
+  { href: "/my-courts/league", label: "Fall League", icon: "league" as const },
+  { href: "/my-courts/payments", label: "Payments", icon: "payments" as const },
+  { href: "/my-courts/waivers", label: "Waivers", icon: "waivers" as const },
 ];
 
 export default async function MyCourtsLayout({ children }: { children: React.ReactNode }) {
@@ -39,6 +42,7 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
               {item.label}
             </NavLink>
           ))}
+          <SignOutNavItem variant="sidebar" />
         </nav>
         <div className="border-t border-gray-mid px-4 py-3">
           <AccountMenu crewName={crewName} initials={initials} variant="sidebar" />
@@ -63,13 +67,15 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
         {children}
       </main>
 
-      {/* Mobile bottom nav */}
-      <nav className="fixed inset-x-0 bottom-0 z-20 flex border-t border-gray-mid bg-white md:hidden">
+      {/* Mobile bottom nav — scrolls horizontally since it now holds every
+          destination that used to live behind "More" */}
+      <nav className="fixed inset-x-0 bottom-0 z-20 flex overflow-x-auto border-t border-gray-mid bg-white md:hidden">
         {NAV_ITEMS.map((item) => (
           <NavLink key={item.href} href={item.href} icon={item.icon} variant="bottom">
             {item.label}
           </NavLink>
         ))}
+        <SignOutNavItem variant="bottom" />
       </nav>
     </div>
   );
