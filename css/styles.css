@@ -94,7 +94,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* [REMOVE / REPLACE FALL LEAGUE BANNER SEPTEMBER 20 AT 5 PM — campaign expires at the registration deadline] */
 .site-announce {
   display: flex; align-items: center; justify-content: center; min-height: 64px; box-sizing: border-box;
-  position: fixed; left: 0; right: 0; top: 0; z-index: 101;
+  position: fixed; left: 0; right: 0; top: 0; z-index: 101; overflow: hidden;
   background: var(--orange); color: var(--white); text-align: center; padding: 12px 20px;
   animation: announceIn 0.35s var(--ease) both;
 }
@@ -108,9 +108,27 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 @keyframes announceCtaNudge { 0%, 85%, 100% { transform: translateX(0); } 90% { transform: translateX(4px); } 95% { transform: translateX(0); } }
 .site-announce-inner:hover .arrow { transform: translateX(3px); }
 .site-announce:has(.site-announce-inner:hover) { background: var(--orange-hover); }
+
+/* Decorative hoop (left) + bouncing balls (right) — pure texture, never the
+   content itself, so both are aria-hidden and hidden below 860px where the
+   bar is already tight for the headline + CTA alone. */
+.announce-hoop { position: absolute; left: 26px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; opacity: 0.5; pointer-events: none; }
+.announce-balls { position: absolute; right: 26px; top: 0; bottom: 0; display: flex; align-items: center; gap: 9px; pointer-events: none; }
+.announce-balls span { display: block; width: 11px; height: 11px; border-radius: 50%; background: var(--white); opacity: 0.55; position: relative; animation: announceBounce 1.6s ease-in-out infinite; }
+.announce-balls span::before, .announce-balls span::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(222,80,25,0.45); }
+.announce-balls span::before { border-width: 0 0 0 1px; left: 50%; }
+.announce-balls span::after { border-width: 1px 0 0 0; top: 50%; }
+.announce-balls span:nth-child(1) { animation-delay: 0s; }
+.announce-balls span:nth-child(2) { animation-delay: 0.18s; }
+.announce-balls span:nth-child(3) { animation-delay: 0.36s; }
+@keyframes announceBounce { 0%, 100% { transform: translateY(9px); } 50% { transform: translateY(-9px); } }
+@media (max-width: 860px) {
+  .announce-hoop, .announce-balls { display: none; }
+}
 @media (prefers-reduced-motion: reduce) {
   .site-announce { animation: none; }
   .site-announce-cta .arrow { animation: none; }
+  .announce-balls span { animation: none; }
 }
 body.has-announce { padding-top: var(--announce-h, 88px); }
 body.has-announce .nav { top: var(--announce-h, 88px); }

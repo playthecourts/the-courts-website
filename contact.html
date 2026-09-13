@@ -55,6 +55,8 @@
 <a href="#main" class="skip-link">Skip to main content</a>
 
 <div class="site-announce" id="fallLeagueBanner">
+  <svg class="announce-hoop" viewBox="0 0 32 32" fill="none" aria-hidden="true"><ellipse cx="16" cy="10" rx="13" ry="4" stroke="white" stroke-width="2"/><path d="M4 10 L8 24 M10 10.5 L12 23 M16 11 L16 23 M22 10.5 L20 23 M28 10 L24 24" stroke="white" stroke-width="1.3" stroke-linecap="round"/><path d="M6 15 L26 15 M7 19 L25 19" stroke="white" stroke-width="1" stroke-linecap="round" opacity="0.7"/></svg>
+  <span class="announce-balls" aria-hidden="true"><span></span><span></span><span></span></span>
   <a href="leagues#registration" class="site-announce-inner" data-booking-type="basketball-league-registration">
     <span class="site-announce-headline">Fall League registration closes September 20 at 5 PM.</span>
     <span class="site-announce-cta">Register Now <span class="arrow">→</span></span>
@@ -218,9 +220,18 @@
 <section class="contact-form-section" style="padding:36px 0 80px;" id="contact-form">
   <div class="container" style="max-width:680px; position:relative; z-index:1;">
     <div class="contact-form-wrap">
-      <span class="eyebrow">Get in Touch</span>
-      <h2 class="section-title" style="margin-bottom:14px; font-size:clamp(32px, 4.6vw, 48px);">What Can We Help With?</h2>
-      <p style="font-size:16.5px; line-height:1.6; color:var(--gray-dark); max-width:520px; margin:0 0 38px;">Give us the basics. We'll get it to the right person.</p>
+      <span class="eyebrow" id="cfEyebrow">Get in Touch</span>
+      <h2 class="section-title" id="cfHeadline" style="margin-bottom:14px; font-size:clamp(32px, 4.6vw, 48px);">What Can We Help With?</h2>
+      <p id="cfIntro" style="font-size:16.5px; line-height:1.6; color:var(--gray-dark); max-width:520px; margin:0 0 38px;">Give us the basics. We'll get it to the right person.</p>
+      <script>
+        (function () {
+          if (new URLSearchParams(window.location.search).get('interest') === 'Basketball Leagues') {
+            document.getElementById('cfEyebrow').textContent = 'Fall League';
+            document.getElementById('cfHeadline').textContent = 'Questions About Fall League?';
+            document.getElementById('cfIntro').textContent = "Send us a note and we'll help with registration, team placement, membership requirements, or anything else you need.";
+          }
+        })();
+      </script>
 
       <div id="contactFormSuccess" class="form-success" style="display:none;">
         <h3>Got It.</h3>
