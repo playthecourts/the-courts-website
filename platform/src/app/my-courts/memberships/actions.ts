@@ -2,15 +2,36 @@
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
+import { CANCELLATION_REASONS } from "./constants";
 
 async function getOrigin() {
   const requestHeaders = await headers();
   const host = requestHeaders.get("host") ?? "localhost:3000";
   const protocol = host.startsWith("localhost") ? "http" : "https";
   return `${protocol}://${host}`;
+}
+
+/// Every membership-mutating action below re-resolves the membership THROUGH
+/// the signed-in guardian's athletes, the same shape as requireGuardianAthlete()
+/// in athlete-profile.ts — a guardian can never act on another family's
+/// subscription by guessing an id.
+async function requireGuardianMembership(athleteMembershipId: string) {
+  const guardian = await getCurrentGuardian();
+  const athleteIds = guardian.families.flatMap((fg) => fg.family.athletes.map((a) => a.id));
+
+  const membership = await prisma.athleteMembership.findFirst({
+    where: { id: athleteMembershipId, athleteId: { in: athleteIds } },
+    include: { plan: true },
+  });
+  if (!membership) throw new Error("We couldn't find that membership.");
+  if (!membership.stripeSubscriptionId) {
+    throw new Error("This membership isn't billed online, so it can't be changed here.");
+  }
+  return { guardian, membership };
 }
 
 export async function startMembershipCheckout(athleteId: string, membershipPlanId: string) {
@@ -66,4 +87,101 @@ export async function startMembershipCheckout(athleteId: string, membershipPlanI
   }
 
   redirect(session.url);
+}
+
+/// Guardian-level, not athlete-level — a Stripe Customer (and so the Billing
+/// Portal) belongs to the guardian, covering every athlete's subscriptions
+/// billed to that same customer.
+export async function startBillingPortalSession() {
+  const guardian = await getCurrentGuardian();
+  if (!guardian.stripeCustomerId) {
+    throw new Error("No billing account on file yet — subscribe to a plan first.");
+  }
+
+  const origin = await getOrigin();
+  const session = await stripe.billingPortal.sessions.create({
+    customer: guardian.stripeCustomerId,
+    return_url: `${origin}/my-courts/memberships`,
+  });
+
+  redirect(session.url);
+}
+
+/// Cancel-at-period-end, never immediate — the family keeps what they already
+/// paid for through the end of the current billing period. Stripe's own
+/// webhook (customer.subscription.updated) will re-confirm cancelAtPeriodEnd
+/// moments after this runs; the write here is so the UI updates instantly
+/// instead of waiting on webhook delivery.
+export async function cancelMembership(athleteMembershipId: string, formData: FormData) {
+  const reason = String(formData.get("reason") ?? "").trim();
+  const feedback = String(formData.get("feedback") ?? "").trim();
+  if (!CANCELLATION_REASONS.includes(reason as (typeof CANCELLATION_REASONS)[number])) {
+    throw new Error("Choose a reason.");
+  }
+
+  const { membership } = await requireGuardianMembership(athleteMembershipId);
+
+  await stripe.subscriptions.update(membership.stripeSubscriptionId!, {
+    cancel_at_period_end: true,
+  });
+
+  await prisma.athleteMembership.update({
+    where: { id: membership.id },
+    data: {
+      cancelAtPeriodEnd: true,
+      cancelledAt: new Date(),
+      cancellationReason: reason,
+      cancellationFeedback: reason === "Didn't meet expectations" && feedback ? feedback : null,
+    },
+  });
+
+  revalidatePath("/my-courts/memberships");
+}
+
+/// Undoes a scheduled (not-yet-effective) cancellation. Once status is
+/// actually "cancelled" the Stripe subscription is gone for good — this only
+/// works during the cancelAtPeriodEnd window.
+export async function reverseScheduledCancellation(athleteMembershipId: string) {
+  const { membership } = await requireGuardianMembership(athleteMembershipId);
+
+  await stripe.subscriptions.update(membership.stripeSubscriptionId!, {
+    cancel_at_period_end: false,
+  });
+
+  await prisma.athleteMembership.update({
+    where: { id: membership.id },
+    data: {
+      cancelAtPeriodEnd: false,
+      cancelledAt: null,
+      cancellationReason: null,
+      cancellationFeedback: null,
+    },
+  });
+
+  revalidatePath("/my-courts/memberships");
+}
+
+export async function changeMembershipTier(athleteMembershipId: string, newPlanId: string) {
+  const { membership } = await requireGuardianMembership(athleteMembershipId);
+
+  const newPlan = await prisma.membershipPlan.findUniqueOrThrow({ where: { id: newPlanId } });
+  if (!newPlan.stripePriceId) {
+    throw new Error("This plan isn't available for online checkout yet.");
+  }
+
+  const subscription = await stripe.subscriptions.retrieve(membership.stripeSubscriptionId!);
+  const itemId = subscription.items.data[0]?.id;
+  if (!itemId) throw new Error("Couldn't find the billed item on this subscription.");
+
+  await stripe.subscriptions.update(membership.stripeSubscriptionId!, {
+    items: [{ id: itemId, price: newPlan.stripePriceId }],
+    proration_behavior: "create_prorations",
+  });
+
+  await prisma.athleteMembership.update({
+    where: { id: membership.id },
+    data: { membershipPlanId: newPlan.id },
+  });
+
+  revalidatePath("/my-courts/memberships");
 }

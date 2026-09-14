@@ -858,6 +858,19 @@ model AthleteMembership {
   stripeSubscriptionId String?          @unique @map("stripe_subscription_id")
   createdAt            DateTime         @default(now()) @map("created_at")
 
+  /// True once a cancellation has been requested but the current billing
+  /// period hasn't ended yet — mirrors Stripe's own cancel_at_period_end.
+  /// `status` stays "active" for this whole window (renewalDate is the
+  /// effective cancellation date); only customer.subscription.deleted at
+  /// period end flips status to "cancelled" and clears this back to false.
+  cancelAtPeriodEnd    Boolean   @default(false) @map("cancel_at_period_end")
+  /// When the cancellation was REQUESTED, not when it takes effect.
+  cancelledAt          DateTime? @map("cancelled_at")
+  cancellationReason   String?   @map("cancellation_reason")
+  /// Free-text follow-up, only ever collected when cancellationReason is
+  /// "Didn't meet expectations".
+  cancellationFeedback String?   @map("cancellation_feedback")
+
   athlete Athlete        @relation(fields: [athleteId], references: [id], onDelete: Cascade)
   plan    MembershipPlan @relation(fields: [membershipPlanId], references: [id])
 

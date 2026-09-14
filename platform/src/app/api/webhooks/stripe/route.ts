@@ -63,11 +63,17 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
+  // cancel_at_period_end is how the Billing Portal's default cancellation
+  // shows up — the subscription `status` stays "active" for the whole
+  // remaining period, so without tracking this flag separately the app would
+  // show a cancelling membership as fully active right up until the very
+  // last second (customer.subscription.deleted, below).
   await prisma.athleteMembership.updateMany({
     where: { stripeSubscriptionId: subscription.id },
     data: {
       status: mapStatus(subscription.status),
       renewalDate: renewalDateFrom(subscription),
+      cancelAtPeriodEnd: subscription.cancel_at_period_end,
     },
   });
 }
@@ -75,7 +81,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   await prisma.athleteMembership.updateMany({
     where: { stripeSubscriptionId: subscription.id },
-    data: { status: "cancelled" },
+    data: { status: "cancelled", cancelAtPeriodEnd: false },
   });
 }
 
