@@ -221,7 +221,11 @@ export default async function MembershipsPage({
                         </>
                       ) : (
                         <p className="font-body text-[13px] text-gray-dark">
-                          Set up by The Courts — contact us to make changes.
+                          Set up by The Courts — contact{" "}
+                          <a href="mailto:hello@playthecourts.com" className="text-orange hover:text-orange-hover">
+                            hello@playthecourts.com
+                          </a>{" "}
+                          to make changes.
                         </p>
                       )}
                     </div>
