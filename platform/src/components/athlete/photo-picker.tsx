@@ -53,6 +53,13 @@ export default function PhotoPicker({
   const fileRef = useRef<HTMLInputElement | null>(null);
   const hiddenFileRef = useRef<HTMLInputElement | null>(null);
   const dragging = useRef<{ x: number; y: number } | null>(null);
+  // Set right before the programmatic requestSubmit() below, once the
+  // cropped file is already sitting in hiddenFileRef. Without this, the
+  // resubmit we trigger fires this exact handler again, which prevents its
+  // own default and requestSubmit()s again forever — the form action never
+  // actually runs and nothing ever reaches the server. This flag is what
+  // lets the SECOND submit fall through to the real action instead.
+  const readyToSubmit = useRef(false);
 
   useEffect(() => {
     if (state.ok) router.push(nextHref);
@@ -133,6 +140,12 @@ export default function PhotoPicker({
   // here used to fall through silently — the button looked like it did
   // nothing when the crop failed. Each one now sets a visible error instead.
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    // This is the resubmit we triggered ourselves below, with the cropped
+    // file already in place — let it through to the real form action.
+    if (readyToSubmit.current) {
+      readyToSubmit.current = false;
+      return;
+    }
     if (!imageUrl) return;
     e.preventDefault();
     setCropError(null);
@@ -156,6 +169,7 @@ export default function PhotoPicker({
     const dt = new DataTransfer();
     dt.items.add(file);
     hiddenFileRef.current.files = dt.files;
+    readyToSubmit.current = true;
     e.currentTarget.requestSubmit();
   }
 
