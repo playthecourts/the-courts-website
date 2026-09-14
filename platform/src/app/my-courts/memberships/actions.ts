@@ -107,11 +107,17 @@ export async function startBillingPortalSession() {
   redirect(session.url);
 }
 
-/// Cancel-at-period-end, never immediate — the family keeps what they already
-/// paid for through the end of the current billing period. Stripe's own
-/// webhook (customer.subscription.updated) will re-confirm cancelAtPeriodEnd
-/// moments after this runs; the write here is so the UI updates instantly
-/// instead of waiting on webhook delivery.
+const CANCELLATION_NOTICE_DAYS = 30;
+
+/// Flat 30 days' notice from the moment of the request — NOT "end of the
+/// current billing period" (those can differ substantially either
+/// direction). Stripe's `cancel_at` takes an exact future timestamp
+/// (distinct from the boolean `cancel_at_period_end`), so the subscription
+/// keeps billing normally — including one more renewal if it falls inside
+/// the notice window — right up until that moment. The webhook
+/// (customer.subscription.updated) re-confirms cancelAt moments after this
+/// runs; the write here is so the UI updates instantly instead of waiting
+/// on webhook delivery.
 export async function cancelMembership(athleteMembershipId: string, formData: FormData) {
   const reason = String(formData.get("reason") ?? "").trim();
   const feedback = String(formData.get("feedback") ?? "").trim();
@@ -121,14 +127,16 @@ export async function cancelMembership(athleteMembershipId: string, formData: Fo
 
   const { membership } = await requireGuardianMembership(athleteMembershipId);
 
+  const cancelAt = new Date(Date.now() + CANCELLATION_NOTICE_DAYS * 24 * 60 * 60 * 1000);
+
   await stripe.subscriptions.update(membership.stripeSubscriptionId!, {
-    cancel_at_period_end: true,
+    cancel_at: Math.floor(cancelAt.getTime() / 1000),
   });
 
   await prisma.athleteMembership.update({
     where: { id: membership.id },
     data: {
-      cancelAtPeriodEnd: true,
+      cancelAt,
       cancelledAt: new Date(),
       cancellationReason: reason,
       cancellationFeedback: reason === "Didn't meet expectations" && feedback ? feedback : null,
@@ -140,18 +148,18 @@ export async function cancelMembership(athleteMembershipId: string, formData: Fo
 
 /// Undoes a scheduled (not-yet-effective) cancellation. Once status is
 /// actually "cancelled" the Stripe subscription is gone for good — this only
-/// works during the cancelAtPeriodEnd window.
+/// works during the notice window.
 export async function reverseScheduledCancellation(athleteMembershipId: string) {
   const { membership } = await requireGuardianMembership(athleteMembershipId);
 
   await stripe.subscriptions.update(membership.stripeSubscriptionId!, {
-    cancel_at_period_end: false,
+    cancel_at: null,
   });
 
   await prisma.athleteMembership.update({
     where: { id: membership.id },
     data: {
-      cancelAtPeriodEnd: false,
+      cancelAt: null,
       cancelledAt: null,
       cancellationReason: null,
       cancellationFeedback: null,

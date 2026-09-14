@@ -12,10 +12,12 @@ export function CancelMembershipFlow({
   athleteMembershipId,
   planName,
   effectiveDateLabel,
+  mayRenewBeforeThat,
 }: {
   athleteMembershipId: string;
   planName: string;
   effectiveDateLabel: string;
+  mayRenewBeforeThat: boolean;
 }) {
   const [step, setStep] = useState<"idle" | "reason" | "confirm">("idle");
   const [reason, setReason] = useState<string>("");
@@ -90,11 +92,13 @@ export function CancelMembershipFlow({
   return (
     <div className="rounded-lg border border-gray-mid bg-warm-stone p-4">
       <p className="font-heading text-sm font-bold text-black">
-        {planName} will stay active through {effectiveDateLabel}.
+        {planName} will stay active through {effectiveDateLabel} — that&rsquo;s the required 30
+        days&rsquo; notice.
       </p>
       <p className="mt-1 font-body text-sm text-gray-dark">
-        You won&rsquo;t be charged again after that, and you can change your mind any time before
-        then.
+        {mayRenewBeforeThat
+          ? "Your normal renewal falls within that window, so one more charge will go through before the membership ends. You can change your mind any time before then."
+          : "You won’t be charged again after that, and you can change your mind any time before then."}
       </p>
       <form action={cancelMembership.bind(null, athleteMembershipId)} className="mt-4 flex gap-3">
         <input type="hidden" name="reason" value={reason} />

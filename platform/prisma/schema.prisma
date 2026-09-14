@@ -858,12 +858,15 @@ model AthleteMembership {
   stripeSubscriptionId String?          @unique @map("stripe_subscription_id")
   createdAt            DateTime         @default(now()) @map("created_at")
 
-  /// True once a cancellation has been requested but the current billing
-  /// period hasn't ended yet — mirrors Stripe's own cancel_at_period_end.
-  /// `status` stays "active" for this whole window (renewalDate is the
-  /// effective cancellation date); only customer.subscription.deleted at
-  /// period end flips status to "cancelled" and clears this back to false.
-  cancelAtPeriodEnd    Boolean   @default(false) @map("cancel_at_period_end")
+  /// Set once a cancellation has been requested — the date it actually takes
+  /// effect, mirroring Stripe's own subscription.cancel_at. NOT the same as
+  /// "end of the current billing period": policy is a flat 30 days' notice
+  /// from the request, which can land before OR after the next renewal date,
+  /// so a family may be billed once more during the notice window if their
+  /// normal renewal falls inside it. `status` stays "active" the whole time;
+  /// only customer.subscription.deleted at the actual cancel_at moment flips
+  /// status to "cancelled" and clears this back to null.
+  cancelAt             DateTime? @map("cancel_at")
   /// When the cancellation was REQUESTED, not when it takes effect.
   cancelledAt          DateTime? @map("cancelled_at")
   cancellationReason   String?   @map("cancellation_reason")

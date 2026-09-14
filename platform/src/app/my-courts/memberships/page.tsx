@@ -88,6 +88,13 @@ export default async function MembershipsPage({
     if (!membershipByAthlete.has(m.athleteId)) membershipByAthlete.set(m.athleteId, m);
   }
 
+  // Computed once for the whole render, not per-athlete-row: the actual
+  // cancellation date is decided server-side at submit time in
+  // cancelMembership — this is only a preview, and every row previewing the
+  // same moment is more honest than each one drifting by milliseconds.
+  const now = new Date();
+  const cancelPreviewDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between gap-4">
@@ -131,11 +138,11 @@ export default async function MembershipsPage({
 
                 {!membership && <SubscribeOptions athleteId={athlete.id} plans={plans} />}
 
-                {membership && membership.cancelAtPeriodEnd && (
+                {membership && membership.cancelAt && (
                   <div>
                     <p className="font-heading font-bold text-black">{membership.plan.name}</p>
                     <p className="font-body text-sm text-gray-dark">
-                      Cancels{membership.renewalDate ? ` ${formatDate(membership.renewalDate)}` : ""}
+                      Cancels {formatDate(membership.cancelAt)}
                     </p>
                     <form
                       action={reverseScheduledCancellation.bind(null, membership.id)}
@@ -151,7 +158,7 @@ export default async function MembershipsPage({
                   </div>
                 )}
 
-                {membership && !membership.cancelAtPeriodEnd && membership.status === "cancelled" && (
+                {membership && !membership.cancelAt && membership.status === "cancelled" && (
                   <div className="flex flex-col gap-4">
                     <div>
                       <p className="font-heading font-bold text-black">{membership.plan.name}</p>
@@ -162,7 +169,7 @@ export default async function MembershipsPage({
                 )}
 
                 {membership &&
-                  !membership.cancelAtPeriodEnd &&
+                  !membership.cancelAt &&
                   membership.status !== "cancelled" && (
                     <div className="flex flex-col gap-4">
                       <div>
@@ -212,11 +219,11 @@ export default async function MembershipsPage({
                           <CancelMembershipFlow
                             athleteMembershipId={membership.id}
                             planName={membership.plan.name}
-                            effectiveDateLabel={
-                              membership.renewalDate
-                                ? formatDate(membership.renewalDate)
-                                : "the end of your current period"
-                            }
+                            effectiveDateLabel={formatDate(cancelPreviewDate)}
+                            mayRenewBeforeThat={Boolean(
+                              membership.renewalDate &&
+                                membership.renewalDate.getTime() <= cancelPreviewDate.getTime()
+                            )}
                           />
                         </>
                       ) : (
