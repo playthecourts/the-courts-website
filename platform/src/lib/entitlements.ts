@@ -62,17 +62,27 @@ export async function getBookingEligibility(
     include: { plan: { include: { entitlements: true } } },
   });
 
-  // 1. class_credit: N sessions of this program included per billing period —
-  // or every session, if the entitlement row exists with quantityPerPeriod
-  // left null. That's the convention for "Unlimited Group Training": the row
-  // marks the benefit as granted without claiming a specific number, so no
-  // separate "unlimited" enum value was needed. Computed dynamically by
-  // counting the athlete's own bookings within the current period rather
-  // than a stored balance — see the Credit model's doc comment for why
-  // that's the right call for this specific benefit type.
+  // 1. class_credit: N sessions included per billing period — or every
+  // session, if the entitlement row exists with quantityPerPeriod left null
+  // (the "Unlimited Group Training" convention: the row marks the benefit as
+  // granted without claiming a specific number, so no separate "unlimited"
+  // enum value was needed).
+  //
+  // programId: null means the allowance is SHARED across every program
+  // (e.g. one pool of 4 sessions usable on either Basketball or Volleyball
+  // Development, not 4 of each separately) — same convention member_pricing
+  // already uses below, extended to class_credit. A plan that wants a
+  // program-specific allowance (Full Court's 2 Dr. Dish sessions/month) still
+  // sets a real programId and is counted against only that program.
+  //
+  // Computed dynamically by counting the athlete's own bookings within the
+  // current period rather than a stored balance — see the Credit model's doc
+  // comment for why that's the right call for this specific benefit type.
   for (const membership of memberships) {
     const entitlement = membership.plan.entitlements.find(
-      (e) => e.benefitType === "class_credit" && e.programId === session.programId
+      (e) =>
+        e.benefitType === "class_credit" &&
+        (e.programId === null || e.programId === session.programId)
     );
     if (!entitlement) continue;
     if (entitlement.quantityPerPeriod === null) {
@@ -83,7 +93,10 @@ export async function getBookingEligibility(
       where: {
         athleteId,
         status: { not: "cancelled" },
-        session: { programId: session.programId, startTime: { gte: start, lt: end } },
+        session: {
+          ...(entitlement.programId ? { programId: entitlement.programId } : {}),
+          startTime: { gte: start, lt: end },
+        },
       },
     });
     if (usedThisPeriod < entitlement.quantityPerPeriod) {
