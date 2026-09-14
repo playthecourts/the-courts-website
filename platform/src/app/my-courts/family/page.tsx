@@ -112,12 +112,15 @@ export default async function FamilyProfilePage() {
                         {b.membershipPlanName}
                       </p>
                       <p className="font-body text-[13px] text-gray-dark">
-                        {b.quantityPerPeriod - b.usedThisPeriod} of {b.quantityPerPeriod} sessions
-                        remaining
+                        {b.quantityPerPeriod === null
+                          ? "Unlimited sessions"
+                          : `${b.quantityPerPeriod - b.usedThisPeriod} of ${b.quantityPerPeriod} sessions remaining`}
                       </p>
-                      <p className="font-body text-[12px] text-gray-dark/70">
-                        Resets {formatDate(b.periodEnd)}
-                      </p>
+                      {b.quantityPerPeriod !== null && (
+                        <p className="font-body text-[12px] text-gray-dark/70">
+                          Resets {formatDate(b.periodEnd)}
+                        </p>
+                      )}
                     </div>
                   ))}
                   {athleteCredits.map((c) => (

@@ -68,8 +68,9 @@ export default async function AthleteProgramsPage({ params }: { params: Promise<
             )}
             {balances[0] && (
               <p className="mt-1 font-body text-[13.5px] text-gray-dark">
-                {balances[0].quantityPerPeriod - balances[0].usedThisPeriod} of{" "}
-                {balances[0].quantityPerPeriod} sessions remaining
+                {balances[0].quantityPerPeriod === null
+                  ? "Unlimited sessions"
+                  : `${balances[0].quantityPerPeriod - balances[0].usedThisPeriod} of ${balances[0].quantityPerPeriod} sessions remaining`}
               </p>
             )}
           </div>

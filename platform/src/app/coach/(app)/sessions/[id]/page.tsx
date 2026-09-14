@@ -78,11 +78,13 @@ export default async function CoachSessionPage(props: PageProps<"/coach/sessions
       mediaLabel: staffMediaLabel(b.athlete.mediaConsent?.status ?? null),
       mediaNeedsCare: needsPhotographerAttention(b.athlete.mediaConsent?.status ?? null),
       planLabel:
-        plan?.kind === "covered"
-          ? `${plan.remaining} of ${plan.total} left`
-          : plan?.kind === "exhausted"
-            ? "Session not covered"
-            : null,
+        plan?.kind === "unlimited"
+          ? "Unlimited"
+          : plan?.kind === "covered"
+            ? `${plan.remaining} of ${plan.total} left`
+            : plan?.kind === "exhausted"
+              ? "Session not covered"
+              : null,
     };
   });
 

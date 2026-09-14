@@ -62,26 +62,32 @@ export async function getBookingEligibility(
     include: { plan: { include: { entitlements: true } } },
   });
 
-  // 1. class_credit: N sessions of this program included per billing period.
-  // Computed dynamically by counting the athlete's own bookings within the
-  // current period rather than a stored balance — see the Credit model's doc
-  // comment for why that's the right call for this specific benefit type.
+  // 1. class_credit: N sessions of this program included per billing period —
+  // or every session, if the entitlement row exists with quantityPerPeriod
+  // left null. That's the convention for "Unlimited Group Training": the row
+  // marks the benefit as granted without claiming a specific number, so no
+  // separate "unlimited" enum value was needed. Computed dynamically by
+  // counting the athlete's own bookings within the current period rather
+  // than a stored balance — see the Credit model's doc comment for why
+  // that's the right call for this specific benefit type.
   for (const membership of memberships) {
     const entitlement = membership.plan.entitlements.find(
       (e) => e.benefitType === "class_credit" && e.programId === session.programId
     );
-    if (entitlement?.quantityPerPeriod) {
-      const { start, end } = entitlementPeriodBounds(membership, session.startTime);
-      const usedThisPeriod = await prisma.booking.count({
-        where: {
-          athleteId,
-          status: { not: "cancelled" },
-          session: { programId: session.programId, startTime: { gte: start, lt: end } },
-        },
-      });
-      if (usedThisPeriod < entitlement.quantityPerPeriod) {
-        return { type: "included", membershipPlanName: membership.plan.name };
-      }
+    if (!entitlement) continue;
+    if (entitlement.quantityPerPeriod === null) {
+      return { type: "included", membershipPlanName: membership.plan.name };
+    }
+    const { start, end } = entitlementPeriodBounds(membership, session.startTime);
+    const usedThisPeriod = await prisma.booking.count({
+      where: {
+        athleteId,
+        status: { not: "cancelled" },
+        session: { programId: session.programId, startTime: { gte: start, lt: end } },
+      },
+    });
+    if (usedThisPeriod < entitlement.quantityPerPeriod) {
+      return { type: "included", membershipPlanName: membership.plan.name };
     }
   }
 
@@ -108,7 +114,9 @@ export async function getBookingEligibility(
 
 export type SessionBalance = {
   membershipPlanName: string;
-  quantityPerPeriod: number;
+  // null means unlimited (see getBookingEligibility's class_credit comment)
+  // — usedThisPeriod is not meaningful in that case and isn't computed.
+  quantityPerPeriod: number | null;
   usedThisPeriod: number;
   periodEnd: Date;
 };
@@ -130,7 +138,17 @@ export async function getSessionBalances(athleteId: string): Promise<SessionBala
   for (const membership of memberships) {
     const { start, end } = entitlementPeriodBounds(membership, now);
     for (const entitlement of membership.plan.entitlements) {
-      if (entitlement.benefitType !== "class_credit" || !entitlement.quantityPerPeriod) continue;
+      if (entitlement.benefitType !== "class_credit") continue;
+
+      if (entitlement.quantityPerPeriod === null) {
+        balances.push({
+          membershipPlanName: membership.plan.name,
+          quantityPerPeriod: null,
+          usedThisPeriod: 0,
+          periodEnd: end,
+        });
+        continue;
+      }
 
       const usedThisPeriod = await prisma.booking.count({
         where: {

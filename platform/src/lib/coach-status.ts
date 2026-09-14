@@ -41,12 +41,13 @@ export function registrationStatusFor(
 }
 
 export type TrainingPlanStatus =
+  | { kind: "unlimited"; planName: string }
   | { kind: "covered"; planName: string; remaining: number; total: number }
   | { kind: "exhausted"; planName: string; total: number }
   | { kind: "none" };
 
 /**
- * "Training Plan — 2 sessions remaining" / "Session Not Covered".
+ * "Training Plan — 2 sessions remaining" / "Session Not Covered" / "Unlimited".
  *
  * Reuses getSessionBalances() rather than recomputing entitlement math, so
  * the Coach App and the Parent App can never disagree about how many
@@ -56,7 +57,11 @@ export async function trainingPlanStatusFor(athleteId: string): Promise<Training
   const balances = await getSessionBalances(athleteId);
   if (balances.length === 0) return { kind: "none" };
 
-  const best = balances.reduce((a, b) =>
+  const unlimited = balances.find((b) => b.quantityPerPeriod === null);
+  if (unlimited) return { kind: "unlimited", planName: unlimited.membershipPlanName };
+
+  const finite = balances as (typeof balances[number] & { quantityPerPeriod: number })[];
+  const best = finite.reduce((a, b) =>
     b.quantityPerPeriod - b.usedThisPeriod > a.quantityPerPeriod - a.usedThisPeriod ? b : a
   );
   const remaining = best.quantityPerPeriod - best.usedThisPeriod;
