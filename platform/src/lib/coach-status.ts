@@ -1,6 +1,6 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
-import { getWeeklySessionBalances } from "@/lib/entitlements";
+import { getSessionBalances } from "@/lib/entitlements";
 
 // ---------------------------------------------------------------------------
 // Operational status, translated into Courts terms.
@@ -46,20 +46,20 @@ export type TrainingPlanStatus =
   | { kind: "none" };
 
 /**
- * "Weekly Training Plan — 2 sessions remaining" / "Session Not Covered".
+ * "Training Plan — 2 sessions remaining" / "Session Not Covered".
  *
- * Reuses getWeeklySessionBalances() rather than recomputing entitlement math,
- * so the Coach App and the Parent App can never disagree about how many
- * sessions a family has left this week.
+ * Reuses getSessionBalances() rather than recomputing entitlement math, so
+ * the Coach App and the Parent App can never disagree about how many
+ * sessions a family has left in their current billing period.
  */
 export async function trainingPlanStatusFor(athleteId: string): Promise<TrainingPlanStatus> {
-  const balances = await getWeeklySessionBalances(athleteId);
+  const balances = await getSessionBalances(athleteId);
   if (balances.length === 0) return { kind: "none" };
 
   const best = balances.reduce((a, b) =>
-    b.quantityPerPeriod - b.usedThisWeek > a.quantityPerPeriod - a.usedThisWeek ? b : a
+    b.quantityPerPeriod - b.usedThisPeriod > a.quantityPerPeriod - a.usedThisPeriod ? b : a
   );
-  const remaining = best.quantityPerPeriod - best.usedThisWeek;
+  const remaining = best.quantityPerPeriod - best.usedThisPeriod;
 
   if (remaining <= 0) {
     return { kind: "exhausted", planName: best.membershipPlanName, total: best.quantityPerPeriod };

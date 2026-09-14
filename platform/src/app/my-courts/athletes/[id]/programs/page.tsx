@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getGuardianAthleteOrNull } from "@/lib/athlete-profile";
 import { prisma } from "@/lib/prisma";
-import { getWeeklySessionBalances } from "@/lib/entitlements";
+import { getSessionBalances } from "@/lib/entitlements";
 import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { getCurrentGuardian } from "@/lib/dal";
 
@@ -23,7 +23,7 @@ export default async function AthleteProgramsPage({ params }: { params: Promise<
       where: { athleteId: athlete.id, status: { in: ["active", "past_due"] } },
       include: { plan: true },
     }),
-    getWeeklySessionBalances(athlete.id),
+    getSessionBalances(athlete.id),
     getUnsignedRequiredWaivers(guardian.id, athlete.id),
     prisma.registration.findMany({
       where: { athleteId: athlete.id, status: { not: "cancelled" } },
@@ -68,8 +68,8 @@ export default async function AthleteProgramsPage({ params }: { params: Promise<
             )}
             {balances[0] && (
               <p className="mt-1 font-body text-[13.5px] text-gray-dark">
-                {balances[0].quantityPerPeriod - balances[0].usedThisWeek} of{" "}
-                {balances[0].quantityPerPeriod} sessions remaining this week
+                {balances[0].quantityPerPeriod - balances[0].usedThisPeriod} of{" "}
+                {balances[0].quantityPerPeriod} sessions remaining
               </p>
             )}
           </div>

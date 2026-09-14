@@ -37,7 +37,7 @@ async function main() {
   if (error) throw new Error(`Supabase signUp failed: ${error.message}`);
   if (!data.user) throw new Error("Supabase signUp returned no user.");
 
-  const weeklyBasketball = await prisma.membershipPlan.findFirstOrThrow({ where: { name: "Weekly Basketball" } });
+  const weeklyBasketball = await prisma.membershipPlan.findFirstOrThrow({ where: { name: "Weekly Membership" } });
   const basketballDev = await prisma.program.findFirstOrThrow({ where: { name: "Basketball Development" } });
   const fallLeague = await prisma.program.findFirstOrThrow({ where: { name: "Fall 2026 Basketball League" } });
   const requiredWaiver = await prisma.waiver.findFirstOrThrow({ where: { required: true } });

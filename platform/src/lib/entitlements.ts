@@ -6,21 +6,43 @@ export type BookingEligibility =
   | { type: "member_price"; priceCents: number | null; membershipPlanName: string }
   | { type: "full_price"; priceCents: number | null };
 
-// Sunday-anchored week, matching the day-of-week convention used by the
-// recurring session generator (0 = Sunday). UTC throughout, consistent with
-// how session times are stored (see admin/programs/actions.ts).
-function startOfWeekUTC(date: Date) {
-  const d = new Date(date);
-  d.setUTCHours(0, 0, 0, 0);
-  d.setUTCDate(d.getUTCDate() - d.getUTCDay());
-  return d;
-}
+/**
+ * The bounds of the billing period a session/booking falls into, anchored to
+ * the day-of-month the membership actually started — NOT a calendar week or
+ * calendar month. A family that subscribed on the 14th gets periods that run
+ * 14th-to-14th, matching what Stripe actually bills them for, so "4 sessions
+ * this period" means 4 sessions usable any time before their next renewal,
+ * not reset every Sunday regardless of when they signed up.
+ *
+ * `annual` plans get the same anchor-day logic stepped by 12 months instead
+ * of 1 — no plan uses that today, but nothing here assumes monthly.
+ */
+export function entitlementPeriodBounds(
+  membership: { startDate: Date; plan: { billingInterval: string } },
+  referenceDate: Date
+): { start: Date; end: Date } {
+  const anchorDay = membership.startDate.getUTCDate();
+  const monthsPerPeriod = membership.plan.billingInterval === "annual" ? 12 : 1;
 
-function endOfWeekUTC(date: Date) {
-  const start = startOfWeekUTC(date);
-  const end = new Date(start);
-  end.setUTCDate(end.getUTCDate() + 7);
-  return end;
+  // Clamps the anchor day to however many days that particular month
+  // actually has (e.g. an anchor of the 31st lands on Feb 28/29 in a month
+  // that short), so the period never drifts across months with fewer days.
+  function periodStart(year: number, month: number): Date {
+    const daysInMonth = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+    const day = Math.min(anchorDay, daysInMonth);
+    return new Date(Date.UTC(year, month, day, 0, 0, 0, 0));
+  }
+
+  const year = referenceDate.getUTCFullYear();
+  let month = referenceDate.getUTCMonth();
+  let start = periodStart(year, month);
+  if (start > referenceDate) {
+    month -= monthsPerPeriod;
+    start = periodStart(year, month);
+  }
+  const end = periodStart(year, month + monthsPerPeriod);
+
+  return { start, end };
 }
 
 // The core "is this booking included, discounted, or full price" decision —
@@ -40,25 +62,24 @@ export async function getBookingEligibility(
     include: { plan: { include: { entitlements: true } } },
   });
 
-  // 1. class_credit: N sessions of this program included per week. Computed
-  // dynamically by counting the athlete's own bookings in the current week
-  // rather than a stored balance — see the Credit model's doc comment for
-  // why that's the right call for this specific benefit type.
+  // 1. class_credit: N sessions of this program included per billing period.
+  // Computed dynamically by counting the athlete's own bookings within the
+  // current period rather than a stored balance — see the Credit model's doc
+  // comment for why that's the right call for this specific benefit type.
   for (const membership of memberships) {
     const entitlement = membership.plan.entitlements.find(
       (e) => e.benefitType === "class_credit" && e.programId === session.programId
     );
     if (entitlement?.quantityPerPeriod) {
-      const weekStart = startOfWeekUTC(session.startTime);
-      const weekEnd = endOfWeekUTC(session.startTime);
-      const usedThisWeek = await prisma.booking.count({
+      const { start, end } = entitlementPeriodBounds(membership, session.startTime);
+      const usedThisPeriod = await prisma.booking.count({
         where: {
           athleteId,
           status: { not: "cancelled" },
-          session: { programId: session.programId, startTime: { gte: weekStart, lt: weekEnd } },
+          session: { programId: session.programId, startTime: { gte: start, lt: end } },
         },
       });
-      if (usedThisWeek < entitlement.quantityPerPeriod) {
+      if (usedThisPeriod < entitlement.quantityPerPeriod) {
         return { type: "included", membershipPlanName: membership.plan.name };
       }
     }
@@ -85,38 +106,39 @@ export async function getBookingEligibility(
   return { type: "full_price", priceCents: session.program.priceCents };
 }
 
-export type WeeklySessionBalance = {
+export type SessionBalance = {
   membershipPlanName: string;
   quantityPerPeriod: number;
-  usedThisWeek: number;
+  usedThisPeriod: number;
+  periodEnd: Date;
 };
 
-// Powers the Home dashboard's "2 of 4 sessions remaining" line and the
-// Training Plan page's session-balance card. Same class_credit accounting
-// as getBookingEligibility above, but summed across all of an athlete's
-// class_credit entitlements rather than checked against one session.
-export async function getWeeklySessionBalances(athleteId: string): Promise<WeeklySessionBalance[]> {
+// Powers the Home dashboard's "2 of 4 sessions remaining" line, the Family
+// Account page's session-balance card, and the Coach App's roster label. Same
+// class_credit accounting as getBookingEligibility above, but summed across
+// all of an athlete's class_credit entitlements rather than checked against
+// one session.
+export async function getSessionBalances(athleteId: string): Promise<SessionBalance[]> {
   const memberships = await prisma.athleteMembership.findMany({
     where: { athleteId, status: "active" },
     include: { plan: { include: { entitlements: true } } },
   });
 
   const now = new Date();
-  const weekStart = startOfWeekUTC(now);
-  const weekEnd = endOfWeekUTC(now);
 
-  const balances: WeeklySessionBalance[] = [];
+  const balances: SessionBalance[] = [];
   for (const membership of memberships) {
+    const { start, end } = entitlementPeriodBounds(membership, now);
     for (const entitlement of membership.plan.entitlements) {
       if (entitlement.benefitType !== "class_credit" || !entitlement.quantityPerPeriod) continue;
 
-      const usedThisWeek = await prisma.booking.count({
+      const usedThisPeriod = await prisma.booking.count({
         where: {
           athleteId,
           status: { not: "cancelled" },
           session: {
             ...(entitlement.programId ? { programId: entitlement.programId } : {}),
-            startTime: { gte: weekStart, lt: weekEnd },
+            startTime: { gte: start, lt: end },
           },
         },
       });
@@ -124,7 +146,8 @@ export async function getWeeklySessionBalances(athleteId: string): Promise<Weekl
       balances.push({
         membershipPlanName: membership.plan.name,
         quantityPerPeriod: entitlement.quantityPerPeriod,
-        usedThisWeek,
+        usedThisPeriod,
+        periodEnd: end,
       });
     }
   }

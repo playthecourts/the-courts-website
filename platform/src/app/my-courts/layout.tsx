@@ -8,8 +8,9 @@ import NavLink, { SignOutNavItem } from "./nav-link";
 const NAV_ITEMS = [
   { href: "/my-courts", label: "Home", icon: "home" as const },
   { href: "/my-courts/schedule", label: "Schedule", icon: "schedule" as const },
+  { href: "/my-courts/explore", label: "Explore", icon: "explore" as const },
   { href: "/my-courts/athletes", label: "My Athletes", icon: "athletes" as const },
-  { href: "/my-courts/memberships", label: "Your Training Plan", icon: "training" as const },
+  { href: "/my-courts/memberships", label: "Membership", icon: "training" as const },
   { href: "/my-courts/league", label: "Fall League", icon: "league" as const },
   { href: "/my-courts/payments", label: "Payments", icon: "payments" as const },
   { href: "/my-courts/waivers", label: "Waivers", icon: "waivers" as const },
@@ -23,8 +24,10 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-light md:flex-row">
-      {/* Desktop sidebar */}
-      <aside className="hidden w-64 shrink-0 flex-col border-r border-gray-mid bg-white md:flex">
+      {/* Desktop sidebar — sticky + its own height/scroll, so it stays
+          pinned to the viewport (account widget included) instead of
+          stretching to match a tall <main> and getting pushed off-screen. */}
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-gray-mid bg-white md:sticky md:top-0 md:flex md:h-screen md:overflow-y-auto">
         <div className="flex items-center gap-3 px-6 py-6">
           <Link href="/my-courts">
             <Image

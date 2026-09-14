@@ -53,6 +53,7 @@ export default async function CoachTeamPage(props: PageProps<"/coach/teams/[id]"
     : [];
   const going = rsvps.filter((r) => r.rsvpStatus === "going");
   const notGoing = rsvps.filter((r) => r.rsvpStatus === "not_going");
+  const notSure = rsvps.filter((r) => r.rsvpStatus === "not_sure");
   const noReply = rsvps.filter((r) => !r.rsvpStatus);
 
   const rosterCount = team.members.length;
@@ -105,6 +106,7 @@ export default async function CoachTeamPage(props: PageProps<"/coach/teams/[id]"
               <Pill tone={notGoing.length > 0 ? "alert" : "neutral"}>
                 {notGoing.length} Can&apos;t Make It
               </Pill>
+              {notSure.length > 0 && <Pill tone="warn">{notSure.length} Not Sure</Pill>}
               <Pill tone={noReply.length > 0 ? "warn" : "neutral"}>{noReply.length} No Reply</Pill>
             </div>
             {notGoing.length > 0 && (

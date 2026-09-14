@@ -15,17 +15,9 @@ import { prisma } from "@/lib/prisma";
 //      rule in words before a family commits.
 // ---------------------------------------------------------------------------
 
+import { entitlementPeriodBounds } from "@/lib/entitlements";
 import type { BookingRule } from "./pricing-types";
 export type { BookingRule };
-
-/// Sunday-anchored, matching lib/entitlements.ts so the two accountings of a
-/// weekly allowance can never disagree.
-function startOfWeekUTC(date: Date) {
-  const d = new Date(date);
-  d.setUTCHours(0, 0, 0, 0);
-  d.setUTCDate(d.getUTCDate() - d.getUTCDay());
-  return d;
-}
 
 /// The rule for one athlete booking one occurrence of one offering. This is the
 /// single place that decides, and both the Parent App and the admin booking
@@ -80,16 +72,14 @@ export async function resolveBookingRule(
         );
         if (!ent?.quantityPerPeriod) continue;
 
-        const weekStart = startOfWeekUTC(sessionStart);
-        const weekEnd = new Date(weekStart);
-        weekEnd.setUTCDate(weekEnd.getUTCDate() + 7);
+        const { start: periodStart, end: periodEnd } = entitlementPeriodBounds(m, sessionStart);
         const used = await prisma.booking.count({
           where: {
             athleteId,
             status: { not: "cancelled" },
             session: {
               programId: offering.programId,
-              startTime: { gte: weekStart, lt: weekEnd },
+              startTime: { gte: periodStart, lt: periodEnd },
             },
           },
         });
@@ -102,14 +92,14 @@ export async function resolveBookingRule(
             remaining,
           };
         }
-        // Allowance spent for the week. Say so explicitly rather than quietly
-        // falling through to a charge the family didn't expect.
+        // Allowance spent for this billing period. Say so explicitly rather
+        // than quietly falling through to a charge the family didn't expect.
         //
         // A member price of 0 is NOT honoured here. "Uses a credit" and "free
         // for members" are contradictory configurations — if the sessions were
         // free there would be nothing for the credit to buy — so a zero member
         // price is read as "unset" and the standard price applies once the
-        // weekly allowance is gone. Otherwise a plan capped at N sessions would
+        // period's allowance is gone. Otherwise a plan capped at N sessions would
         // silently grant unlimited ones, which is the expensive direction to be
         // wrong in. An intentional free-after-allowance benefit should be
         // configured as creditRule = included.

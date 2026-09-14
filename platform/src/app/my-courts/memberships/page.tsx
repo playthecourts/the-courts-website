@@ -91,7 +91,7 @@ export default async function MembershipsPage({
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between gap-4">
-        <h1 className="font-display text-2xl font-black text-black">Your Training Plan</h1>
+        <h1 className="font-display text-2xl font-black text-black">Membership</h1>
         {guardian.stripeCustomerId && (
           <form action={startBillingPortalSession}>
             <button

@@ -2,22 +2,11 @@ import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { familyCrewInitials, familyCrewName } from "@/lib/family";
-import { getWeeklySessionBalances } from "@/lib/entitlements";
+import { getSessionBalances } from "@/lib/entitlements";
 import { displayName } from "@/lib/athlete";
 
 function formatDate(date: Date) {
   return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", timeZone: "UTC" }).format(date);
-}
-
-// Next Sunday at 00:00 UTC — when class_credit balances actually reset.
-// Deliberately NOT the membership's billing renewalDate: those are two
-// different clocks (see lib/entitlements.ts), and showing the wrong one
-// would tell a parent their sessions refill on a date they don't.
-function nextWeeklyReset(now: Date) {
-  const d = new Date(now);
-  d.setUTCHours(0, 0, 0, 0);
-  d.setUTCDate(d.getUTCDate() + (7 - d.getUTCDay()));
-  return d;
 }
 
 const ACCOUNT_LINKS = [
@@ -34,7 +23,6 @@ export default async function FamilyProfilePage() {
   const initials = familyCrewInitials(family?.name);
   const athletes = family?.athletes ?? [];
   const now = new Date();
-  const resetDate = formatDate(nextWeeklyReset(now));
 
   // A guardian can belong to more than one family in the schema, but the
   // Parent App only ever shows the first — same assumption the rest of
@@ -62,7 +50,7 @@ export default async function FamilyProfilePage() {
 
   const membershipRows = await Promise.all(
     athleteMemberships.map(async (m) => {
-      const balances = await getWeeklySessionBalances(m.athleteId);
+      const balances = await getSessionBalances(m.athleteId);
       const memberPricing = m.plan.entitlements.filter((e) => e.benefitType === "member_pricing");
       const athleteCredits = credits.filter((c) => c.athleteId === m.athleteId);
       return { membership: m, balances, memberPricing, athleteCredits };
@@ -124,10 +112,12 @@ export default async function FamilyProfilePage() {
                         {b.membershipPlanName}
                       </p>
                       <p className="font-body text-[13px] text-gray-dark">
-                        {b.quantityPerPeriod - b.usedThisWeek} of {b.quantityPerPeriod} sessions
+                        {b.quantityPerPeriod - b.usedThisPeriod} of {b.quantityPerPeriod} sessions
                         remaining
                       </p>
-                      <p className="font-body text-[12px] text-gray-dark/70">Resets {resetDate}</p>
+                      <p className="font-body text-[12px] text-gray-dark/70">
+                        Resets {formatDate(b.periodEnd)}
+                      </p>
                     </div>
                   ))}
                   {athleteCredits.map((c) => (

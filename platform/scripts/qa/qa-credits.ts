@@ -24,7 +24,7 @@ async function main() {
     where: { name: { startsWith: "[QA] 3rd–5th" } },
     include: { sessions: { where: { status: "scheduled" }, orderBy: { startTime: "asc" } } },
   });
-  const plan = await prisma.membershipPlan.findFirstOrThrow({ where: { name: "Weekly Basketball" } });
+  const plan = await prisma.membershipPlan.findFirstOrThrow({ where: { name: "Weekly Membership" } });
   const membership = await prisma.athleteMembership.findFirstOrThrow({
     where: { membershipPlanId: plan.id, status: "active" },
   });

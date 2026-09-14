@@ -51,20 +51,16 @@ export default async function MyCourtsSchedulePage() {
       {bookings.length === 0 ? (
         <div className="rounded-2xl border border-gray-mid bg-white p-8 text-center">
           <p className="font-display text-xl font-black text-black md:text-2xl">
-            We&rsquo;re Excited Too.
-          </p>
-          <p className="mt-2 font-body text-sm text-gray-dark">
-            Schedules and bookings are coming soon.
+            Nothing On the Calendar Yet.
           </p>
           <p className="mx-auto mt-3 max-w-[42ch] font-body text-sm text-gray-dark">
-            Get your athlete profile set up now, and you&rsquo;ll be ready to hit the court when
-            booking opens.
+            Browse classes and find a session that works for your family.
           </p>
           <Link
-            href="/my-courts/athletes"
+            href="/my-courts/explore"
             className="mt-5 inline-flex items-center gap-2 rounded-full bg-orange px-6 py-3 font-sport text-xs font-bold uppercase tracking-wide text-white"
           >
-            Set Up Your Athlete &rarr;
+            Explore Classes &rarr;
           </Link>
         </div>
       ) : (
