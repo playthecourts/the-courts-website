@@ -21,7 +21,7 @@ export default async function LeaguePage() {
   const leaguePrograms = await prisma.program.findMany({ where: { programType: "league", active: true } });
   const leagueProgramIds = leaguePrograms.map((p) => p.id);
 
-  const [evalBookings, teamMemberships, credits] = await Promise.all([
+  const [evalBookings, teamMemberships] = await Promise.all([
     prisma.booking.findMany({
       where: { athleteId: { in: athleteIds }, session: { programId: { in: leagueProgramIds }, team: null } },
       include: { session: true, athlete: true },
@@ -42,7 +42,6 @@ export default async function LeaguePage() {
         },
       },
     }),
-    prisma.credit.findMany({ where: { athleteId: { in: athleteIds }, creditType: "fall_league_eval_credit" } }),
   ]);
 
   if (leaguePrograms.length === 0) {
@@ -64,7 +63,6 @@ export default async function LeaguePage() {
       {athletes.map((athlete) => {
         const evalBooking = evalBookings.find((b) => b.athleteId === athlete.id);
         const membership = teamMemberships.find((tm) => tm.athleteId === athlete.id);
-        const credit = credits.find((c) => c.athleteId === athlete.id);
         const upcomingTeamSessions = membership?.team.sessions ?? [];
 
         if (!evalBooking && !membership) return null;
@@ -80,12 +78,6 @@ export default async function LeaguePage() {
                   {evalBooking?.status === "attended" ? "Complete" : evalBooking ? "Registered" : "Not Registered"}
                 </span>
               </div>
-              {credit && (
-                <div className="flex items-center justify-between">
-                  <span className="font-body text-sm text-gray-dark">${(credit.balance / 100).toFixed(0)} League Credit</span>
-                  <span className="font-sport text-xs font-bold uppercase tracking-wide text-orange">On File</span>
-                </div>
-              )}
               <div className="flex items-center justify-between">
                 <span className="font-body text-sm text-gray-dark">Team</span>
                 <span className="font-sport text-xs font-bold uppercase tracking-wide text-black">
