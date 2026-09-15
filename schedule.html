@@ -663,7 +663,7 @@
 
     days.forEach(function (day) {
       if (day === 'Thursday') {
-        var showThursday = state.type === 'all' && (state.sport === 'all' || state.sport === 'basketball');
+        var showThursday = (state.type === 'all' || state.type === 'team') && (state.sport === 'all' || state.sport === 'basketball');
         if (!showThursday) return;
         anyContent = true;
         html += '<div class="sch-day-group">';
