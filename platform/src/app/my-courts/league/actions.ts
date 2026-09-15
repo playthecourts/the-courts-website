@@ -36,7 +36,7 @@ export async function startLeagueRegistration(athleteId: string) {
   // would too (same underlying gap, not fixed here).
   const unsigned = await getUnsignedRequiredWaivers(guardian.id, athleteId);
   if (unsigned.length > 0) {
-    redirect("/my-courts/waivers?required=league");
+    redirect("/my-courts/waivers?required=league&back=%2Fmy-courts%2Fleague");
   }
 
   const offering = await prisma.offering.findFirstOrThrow({

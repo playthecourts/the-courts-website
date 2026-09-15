@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { bookAthleteIntoSession, cancelBookingById, cancelWaitlistEntryById } from "@/lib/booking";
-import { assertWaiversSigned } from "@/lib/waivers";
+import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { acceptOffer, declineOffer } from "@/lib/programs/waitlist";
 
 async function assertOwnsAthlete(athleteId: string) {
@@ -19,9 +19,19 @@ async function assertOwnsAthlete(athleteId: string) {
   return guardian;
 }
 
+// A thrown error here crashes the whole page instead of showing a message —
+// the same real production bug this pattern already caused once on League
+// registration (Vercel error digest 4060215026). Redirect to sign it instead.
+async function requireWaiversOrRedirect(guardianId: string, athleteId: string, backTo: string) {
+  const unsigned = await getUnsignedRequiredWaivers(guardianId, athleteId);
+  if (unsigned.length > 0) {
+    redirect(`/my-courts/waivers?required=booking&back=${encodeURIComponent(backTo)}`);
+  }
+}
+
 export async function bookSession(athleteId: string, sessionId: string) {
   const guardian = await assertOwnsAthlete(athleteId);
-  await assertWaiversSigned(guardian.id, athleteId);
+  await requireWaiversOrRedirect(guardian.id, athleteId, "/my-courts/explore");
   const result = await bookAthleteIntoSession(sessionId, athleteId, guardian.id);
   revalidatePath("/my-courts/bookings");
   revalidatePath("/my-courts/schedule");
@@ -83,7 +93,7 @@ export async function setRsvp(bookingId: string, rsvpStatus: "going" | "not_goin
 
 export async function acceptWaitlistOffer(waitlistEntryId: string, athleteId: string) {
   const guardian = await assertOwnsAthlete(athleteId);
-  await assertWaiversSigned(guardian.id, athleteId);
+  await requireWaiversOrRedirect(guardian.id, athleteId, "/my-courts/explore");
 
   // Returns void so it can be used directly as a <form action>. A refusal
   // (offer expired, session filled first) is reflected by the re-rendered page

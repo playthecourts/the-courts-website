@@ -3,12 +3,20 @@ import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { SignForm } from "./sign-form";
 
+const BACK_LABELS: Record<string, string> = {
+  "/my-courts/league": "Fall League",
+  "/my-courts/explore": "Explore",
+};
+
 export default async function WaiversPage({
   searchParams,
 }: {
-  searchParams: Promise<{ required?: string }>;
+  searchParams: Promise<{ required?: string; back?: string }>;
 }) {
-  const { required } = await searchParams;
+  const { required, back } = await searchParams;
+  // Only ever redirect within the app — never trust this as an open redirect target.
+  const backHref = back && back.startsWith("/my-courts/") ? back : null;
+  const backLabel = backHref ? (BACK_LABELS[backHref] ?? "where you were") : null;
   const guardian = await getCurrentGuardian();
   const athletes = guardian.families.flatMap((fg) => fg.family.athletes);
 
@@ -28,13 +36,13 @@ export default async function WaiversPage({
         Required waivers must be signed before booking a session.
       </p>
 
-      {required === "league" && (
+      {required && backHref && (
         <div className="mb-6 rounded-lg border border-orange bg-orange/5 p-4 text-sm text-neutral-800">
-          Sign the waiver below before registering for Fall League — once it&rsquo;s signed, head back to{" "}
-          <Link href="/my-courts/league" className="font-semibold text-orange underline">
-            Fall League
+          Sign the waiver below to continue — once it&rsquo;s signed, head back to{" "}
+          <Link href={backHref} className="font-semibold text-orange underline">
+            {backLabel}
           </Link>{" "}
-          to finish registering.
+          to finish {required === "league" ? "registering" : "booking"}.
         </div>
       )}
 
