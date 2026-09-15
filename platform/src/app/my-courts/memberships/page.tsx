@@ -48,12 +48,11 @@ function planBenefits(plan: PlanWithEntitlements): { headline: string | null; al
       ? "Unlimited Group Training"
       : `${groupTraining.quantityPerPeriod} Group Training Session${groupTraining.quantityPerPeriod === 1 ? "" : "s"}`;
 
+  // Program-specific class_credit entitlements (Full Court's Private
+  // Training/Dr. Dish sessions) are deliberately NOT repeated here — the
+  // plan's description sentence already spells those out, and restating
+  // them in this line was pure duplication.
   const alsoIncludes: string[] = [];
-  for (const e of plan.entitlements) {
-    if (e.benefitType === "class_credit" && e.program && e.quantityPerPeriod != null) {
-      alsoIncludes.push(`${e.quantityPerPeriod} ${e.program.name} session${e.quantityPerPeriod === 1 ? "" : "s"} each billing cycle`);
-    }
-  }
   const memberPricePrograms = plan.entitlements
     .filter((e) => e.benefitType === "member_pricing" && e.program)
     .map((e) => e.program!.name);
