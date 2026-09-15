@@ -142,7 +142,7 @@ export default async function LeaguePage({
               <div className="flex items-center justify-between">
                 <span className="font-body text-sm text-gray-dark">Evaluation</span>
                 <span className="font-sport text-xs font-bold uppercase tracking-wide text-orange">
-                  {evalBooking?.status === "attended" ? "Complete" : evalBooking ? "Registered" : "Not Registered"}
+                  {evalBooking?.status === "attended" ? "Attended" : "Not Attended"}
                 </span>
               </div>
               <div className="flex items-center justify-between">
