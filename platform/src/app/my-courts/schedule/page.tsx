@@ -52,18 +52,26 @@ export default async function MyCourtsSchedulePage() {
       <h1 className="font-display text-2xl font-black text-black">Schedule</h1>
 
       {bookings.length === 0 ? (
-        <div className="rounded-2xl border border-gray-mid bg-white p-8 text-center">
-          <p className="font-display text-xl font-black text-black md:text-2xl">
-            Nothing On the Calendar Yet.
+        <div className="rounded-2xl border border-gray-mid bg-white p-6 text-center md:p-8">
+          <p className="font-display text-lg font-black text-black md:text-xl">
+            A First Look at What&rsquo;s Coming
           </p>
-          <p className="mx-auto mt-3 max-w-[42ch] font-body text-sm text-gray-dark">
-            Browse classes and find a session that works for your family.
+          <p className="mx-auto mt-2 max-w-[46ch] font-body text-sm text-gray-dark">
+            We&rsquo;re still putting the finishing touches on the schedule, but wanted to share what
+            we&rsquo;re planning for opening.
+          </p>
+          <p className="mx-auto mt-2 max-w-[46ch] rounded-lg bg-orange/5 px-3 py-2 font-body text-[13px] text-gray-dark">
+            This is a sample schedule and may shift as we finalize coaches, age groups, and
+            registrations.
+          </p>
+          <p className="mt-3 font-heading text-[15px] font-bold text-near-black">
+            See something you&rsquo;re excited about? So are we.
           </p>
           <Link
             href="/my-courts/explore"
             className="mt-5 inline-flex items-center gap-2 rounded-full bg-orange px-6 py-3 font-sport text-xs font-bold uppercase tracking-wide text-white"
           >
-            Explore Classes &rarr;
+            View the Schedule &rarr;
           </Link>
         </div>
       ) : (
