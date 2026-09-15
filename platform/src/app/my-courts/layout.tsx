@@ -66,7 +66,7 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
         <AccountMenu crewName={crewName} initials={initials} variant="mobile" />
       </header>
 
-      <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-24 pt-6 md:px-10 md:pb-10 md:pt-8">
+      <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-24 pt-10 md:px-10 md:pb-10 md:pt-14">
         {children}
       </main>
 
