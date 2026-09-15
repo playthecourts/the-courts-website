@@ -89,6 +89,64 @@ export async function startMembershipCheckout(athleteId: string, membershipPlanI
   redirect(session.url);
 }
 
+/// Family Unlimited covers two athletes under one subscription — this is the
+/// only plan that does, so it's the only checkout that needs a second
+/// athlete picked first. One real Stripe subscription still gets created
+/// (billed to the first athlete); the webhook creates a second, unbilled
+/// AthleteMembership row for the covered sibling once payment confirms.
+export async function startFamilyMembershipCheckout(formData: FormData) {
+  const athleteId = String(formData.get("athleteId") ?? "");
+  const membershipPlanId = String(formData.get("membershipPlanId") ?? "");
+  const secondAthleteId = String(formData.get("secondAthleteId") ?? "");
+
+  const guardian = await getCurrentGuardian();
+  const familyAthleteIds = guardian.families.flatMap((fg) => fg.family.athletes.map((a) => a.id));
+  if (!familyAthleteIds.includes(athleteId)) {
+    throw new Error("Not authorized to act on this athlete.");
+  }
+  if (!secondAthleteId) {
+    throw new Error("Choose which athlete Family Unlimited also covers.");
+  }
+  if (!familyAthleteIds.includes(secondAthleteId) || secondAthleteId === athleteId) {
+    throw new Error("Not authorized to act on that athlete.");
+  }
+
+  const plan = await prisma.membershipPlan.findUniqueOrThrow({ where: { id: membershipPlanId } });
+  if (!plan.stripePriceId) {
+    throw new Error("This plan isn't available for online checkout yet.");
+  }
+
+  let customerId = guardian.stripeCustomerId;
+  if (!customerId) {
+    const customer = await stripe.customers.create({
+      email: guardian.email ?? undefined,
+      name: guardian.name,
+      metadata: { guardianId: guardian.id },
+    });
+    customerId = customer.id;
+    await prisma.guardian.update({ where: { id: guardian.id }, data: { stripeCustomerId: customerId } });
+  }
+
+  const origin = await getOrigin();
+  const session = await stripe.checkout.sessions.create({
+    mode: "subscription",
+    customer: customerId,
+    line_items: [{ price: plan.stripePriceId, quantity: 1 }],
+    success_url: `${origin}/my-courts/memberships?checkout=success`,
+    cancel_url: `${origin}/my-courts/memberships?checkout=cancelled`,
+    metadata: { athleteId, membershipPlanId, secondAthleteId, guardianId: guardian.id },
+    subscription_data: {
+      metadata: { athleteId, membershipPlanId, secondAthleteId, guardianId: guardian.id },
+    },
+  });
+
+  if (!session.url) {
+    throw new Error("Stripe did not return a checkout URL.");
+  }
+
+  redirect(session.url);
+}
+
 /// Guardian-level, not athlete-level — a Stripe Customer (and so the Billing
 /// Portal) belongs to the guardian, covering every athlete's subscriptions
 /// billed to that same customer.

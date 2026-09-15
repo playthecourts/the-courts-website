@@ -7,6 +7,7 @@ import {
   startBillingPortalSession,
   startMembershipCheckout,
 } from "./actions";
+import { FamilyPlanSelector } from "./family-plan-selector";
 import { CancelMembershipFlow } from "./cancel-flow";
 
 function formatPrice(cents: number, interval: string) {
@@ -24,77 +25,69 @@ const STATUS_LABEL: Record<string, string> = {
   past_due: "Payment didn't go through — update billing",
 };
 
-type PlanWithEntitlements = {
-  id: string;
-  name: string;
-  priceCents: number;
-  billingInterval: string;
-  description: string | null;
-  entitlements: {
-    benefitType: string;
-    quantityPerPeriod: number | null;
-    program: { name: string } | null;
-  }[];
+const FAMILY_PLAN_NAME = "Family Unlimited Membership";
+
+const PLAN_COPY: Record<string, { tagline: string; description: string; mostPopular?: boolean }> = {
+  "Weekly Membership": {
+    tagline: "Your schedule. Your four.",
+    description: "4 group training sessions per billing cycle. Unused sessions don't roll over.",
+  },
+  "Unlimited Membership": {
+    tagline: "Come a lot.",
+    description: "Unlimited group training, plus quarterly progress updates.",
+    mostPopular: true,
+  },
+  "Full Court Membership": {
+    tagline: "Okay. You're serious.",
+    description:
+      "Unlimited group training and quarterly progress updates, plus 1 private training session and 2 Dr. Dish sessions each billing cycle.",
+  },
+  [FAMILY_PLAN_NAME]: {
+    tagline: "Bring the whole crew.",
+    description: "Unlimited group training and quarterly progress updates for 2 athletes. Add more for $100/mo each.",
+  },
 };
 
-// Derives what a plan actually grants from its real PlanEntitlement rows —
-// never hand-typed per plan, so this can never drift from what checkout
-// (and the pricing engine) actually enforces.
-function planBenefits(plan: PlanWithEntitlements): { headline: string | null; alsoIncludes: string[] } {
-  const groupTraining = plan.entitlements.find((e) => e.benefitType === "class_credit" && !e.program);
-  const headline = !groupTraining
-    ? null
-    : groupTraining.quantityPerPeriod === null
-      ? "Unlimited Group Training"
-      : `${groupTraining.quantityPerPeriod} Group Training Session${groupTraining.quantityPerPeriod === 1 ? "" : "s"}`;
+type PlanRow = { id: string; name: string; priceCents: number; billingInterval: string };
 
-  // Program-specific class_credit entitlements (Full Court's Private
-  // Training/Dr. Dish sessions) are deliberately NOT repeated here — the
-  // plan's description sentence already spells those out, and restating
-  // them in this line was pure duplication.
-  const alsoIncludes: string[] = [];
-  const memberPricePrograms = plan.entitlements
-    .filter((e) => e.benefitType === "member_pricing" && e.program)
-    .map((e) => e.program!.name);
-  if (memberPricePrograms.length > 0) {
-    alsoIncludes.push(`Member pricing on ${memberPricePrograms.join(", ")}`);
-  }
-
-  return { headline, alsoIncludes };
-}
-
-function PlanCard({
-  plan,
-  cta,
-  compact = false,
-}: {
-  plan: PlanWithEntitlements;
-  cta: ReactNode;
-  compact?: boolean;
-}) {
-  const { headline, alsoIncludes } = planBenefits(plan);
+function PlanCard({ plan, cta }: { plan: PlanRow; cta: ReactNode }) {
   const shortName = plan.name.replace(/\s+Membership$/, "");
+  const copy = PLAN_COPY[plan.name];
 
   return (
     <div className="rounded-lg border border-gray-mid bg-white p-4">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="font-heading font-bold text-black">{shortName}</p>
-          <p className="font-body text-sm text-gray-dark">{formatPrice(plan.priceCents, plan.billingInterval)}</p>
-        </div>
+      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+        <p className="font-heading font-bold text-black">{shortName}</p>
+        <p className="font-body text-sm text-gray-dark">{formatPrice(plan.priceCents, plan.billingInterval)}</p>
+        {copy?.mostPopular && (
+          <span className="rounded-full bg-orange/10 px-2 py-0.5 font-sport text-[10px] font-bold uppercase tracking-wide text-orange">
+            Most Popular
+          </span>
+        )}
       </div>
-      {headline && (
-        <p className="mt-2 font-heading text-[14px] font-bold text-orange">{headline}</p>
-      )}
-      {!compact && plan.description && (
-        <p className="mt-1 font-body text-[13.5px] leading-snug text-gray-dark">{plan.description}</p>
-      )}
-      {alsoIncludes.length > 0 && (
-        <p className="mt-1 font-body text-[12.5px] leading-snug text-gray-dark">
-          Also includes: {alsoIncludes.join(" · ")}
-        </p>
+      {copy && (
+        <>
+          <p className="mt-1.5 font-body text-[13.5px] italic text-gray-dark">{copy.tagline}</p>
+          <p className="mt-1 font-body text-[13.5px] leading-snug text-gray-dark">{copy.description}</p>
+        </>
       )}
       <div className="mt-3">{cta}</div>
+    </div>
+  );
+}
+
+function PlansIntro({ athleteFirstName }: { athleteFirstName: string }) {
+  return (
+    <div className="mb-1">
+      <p className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">
+        Plans for {athleteFirstName}
+      </p>
+      <p className="mt-1 font-body text-[12.5px] leading-snug text-gray-dark">
+        All plans include member pricing on Private Training, Dr. Dish (basketball only), and Camps.
+      </p>
+      <p className="font-body text-[12.5px] leading-snug text-gray-dark">
+        No long-term commitment. Cancel with 30 days&rsquo; notice.
+      </p>
     </div>
   );
 }
@@ -112,12 +105,11 @@ export default async function MembershipsPage({
   const [memberships, plans] = await Promise.all([
     prisma.athleteMembership.findMany({
       where: { athleteId: { in: athletes.map((a) => a.id) } },
-      include: { plan: { include: { entitlements: { include: { program: true } } } } },
+      include: { plan: true },
       orderBy: { createdAt: "desc" },
     }),
     prisma.membershipPlan.findMany({
       where: { active: true, stripePriceId: { not: null } },
-      include: { entitlements: { include: { program: true } } },
       orderBy: { priceCents: "asc" },
     }),
   ]);
@@ -136,6 +128,28 @@ export default async function MembershipsPage({
   // same moment is more honest than each one drifting by milliseconds.
   const now = new Date();
   const cancelPreviewDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+
+  function planCta(athleteId: string, plan: PlanRow) {
+    if (plan.name === FAMILY_PLAN_NAME) {
+      return (
+        <FamilyPlanSelector
+          athleteId={athleteId}
+          membershipPlanId={plan.id}
+          otherAthletes={athletes.filter((a) => a.id !== athleteId).map((a) => ({ id: a.id, firstName: a.firstName }))}
+        />
+      );
+    }
+    return (
+      <form action={startMembershipCheckout.bind(null, athleteId, plan.id)}>
+        <button
+          type="submit"
+          className="min-h-[36px] rounded-full bg-black px-4 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange"
+        >
+          Select Plan
+        </button>
+      </form>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -188,28 +202,11 @@ export default async function MembershipsPage({
 
                 {!membership && (
                   <div className="flex flex-col gap-3">
-                    <p className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">
-                      Available Plans
-                    </p>
+                    <PlansIntro athleteFirstName={athlete.firstName} />
                     {plans.length === 0 ? (
                       <p className="font-body text-sm text-gray-dark">No plans available for checkout yet.</p>
                     ) : (
-                      plans.map((plan) => (
-                        <PlanCard
-                          key={plan.id}
-                          plan={plan}
-                          cta={
-                            <form action={startMembershipCheckout.bind(null, athlete.id, plan.id)}>
-                              <button
-                                type="submit"
-                                className="min-h-[36px] rounded-full bg-black px-4 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange"
-                              >
-                                Select Plan
-                              </button>
-                            </form>
-                          }
-                        />
-                      ))
+                      plans.map((plan) => <PlanCard key={plan.id} plan={plan} cta={planCta(athlete.id, plan)} />)
                     )}
                   </div>
                 )}
@@ -246,24 +243,9 @@ export default async function MembershipsPage({
                       </p>
                       <p className="font-body text-sm text-gray-dark">{STATUS_LABEL.cancelled}</p>
                     </div>
-                    <p className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">
-                      Available Plans
-                    </p>
+                    <PlansIntro athleteFirstName={athlete.firstName} />
                     {plans.map((plan) => (
-                      <PlanCard
-                        key={plan.id}
-                        plan={plan}
-                        cta={
-                          <form action={startMembershipCheckout.bind(null, athlete.id, plan.id)}>
-                            <button
-                              type="submit"
-                              className="min-h-[36px] rounded-full bg-black px-4 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange"
-                            >
-                              Select Plan
-                            </button>
-                          </form>
-                        }
-                      />
+                      <PlanCard key={plan.id} plan={plan} cta={planCta(athlete.id, plan)} />
                     ))}
                   </div>
                 )}
@@ -300,7 +282,6 @@ export default async function MembershipsPage({
                                 <PlanCard
                                   key={plan.id}
                                   plan={plan}
-                                  compact
                                   cta={
                                     <form action={changeMembershipTier.bind(null, membership!.id, plan.id)}>
                                       <button

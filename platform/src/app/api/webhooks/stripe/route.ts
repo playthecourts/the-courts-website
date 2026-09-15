@@ -70,6 +70,27 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       stripeSubscriptionId: subscriptionId,
     },
   });
+
+  // Family Unlimited covers a second athlete under this same subscription —
+  // no separate Stripe object for them, same pattern as any other
+  // manually-assigned (no stripeSubscriptionId) membership.
+  const secondAthleteId = session.metadata?.secondAthleteId;
+  if (secondAthleteId) {
+    const alreadyCovered = await prisma.athleteMembership.findFirst({
+      where: { athleteId: secondAthleteId, membershipPlanId, status: { in: ["active", "past_due"] } },
+    });
+    if (!alreadyCovered) {
+      await prisma.athleteMembership.create({
+        data: {
+          athleteId: secondAthleteId,
+          membershipPlanId,
+          status: mapStatus(subscription.status),
+          startDate: new Date(),
+          renewalDate: renewalDateFrom(subscription),
+        },
+      });
+    }
+  }
 }
 
 // A real per-session/per-offering booking payment — see src/lib/booking.ts'
