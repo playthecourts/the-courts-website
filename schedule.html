@@ -39,10 +39,15 @@
   .sch-tab:hover { border-color: var(--orange); color: var(--black); }
   .sch-tab.active { background: var(--orange); border-color: var(--orange); color: var(--white); }
 
+  .sch-launch-pill-wrap { max-width: 900px; margin: 0 auto; text-align: center; }
+  .sch-launch-pill { display: inline-flex; align-items: center; font-family: var(--font-sport); font-weight: 800; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); background: var(--orange); border-radius: 999px; padding: 14px 32px; margin-bottom: 18px; }
   .sch-preview { max-width: 900px; margin: 0 auto 28px; padding: 22px 24px; background: var(--warm-stone); border-radius: var(--radius-md); border-left: 3px solid var(--orange); }
   .sch-preview h2 { font-family: var(--font-display); font-weight: 900; font-size: 19px; margin: 0 0 10px; letter-spacing: -0.01em; }
   .sch-preview p { font-size: 14px; line-height: 1.55; color: var(--gray-dark); margin: 0 0 10px; }
   .sch-preview p:last-child { margin-bottom: 0; }
+  @media (min-width: 640px) {
+    .sch-launch-pill { font-size: 17px; padding: 16px 40px; }
+  }
 
   .sch-filters { display: flex; flex-direction: column; gap: 10px; max-width: 900px; margin: 0 auto 32px; padding: 16px 18px; background: var(--warm-stone); border-radius: var(--radius-md); }
   .sch-filter-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -309,16 +314,19 @@
 
 <section class="sch-section" id="weekly-programs">
   <div class="container">
+    <div class="sch-launch-pill-wrap">
+      <span class="sch-launch-pill">Opening October 1</span>
+    </div>
+
     <div class="sch-preview">
       <h2>A First Look at the Schedule</h2>
       <p>We&rsquo;re still putting the finishing touches on the schedule, but wanted to give you an early look at what we&rsquo;re planning for opening.</p>
-      <p>Think of this as our sample schedule for now. Class times, age groups, and availability may shift a little as we finalize coaches, memberships, and registrations.</p>
-      <p>We&rsquo;ll keep this page updated as everything gets locked in.</p>
+      <p>This is a sample schedule and may shift as we finalize coaches, age groups, and registrations. Check back here for the latest as we get closer to opening.</p>
       <p>See something you&rsquo;re excited about? So are we.</p>
     </div>
 
     <div class="sch-tabs" id="schTabs">
-      <button type="button" class="sch-tab active" data-tab="upcoming">Upcoming: Opening October 1</button>
+      <button type="button" class="sch-tab active" data-tab="upcoming">Upcoming</button>
     </div>
 
     <div class="sch-filters">
