@@ -7,6 +7,7 @@ import NavLink, { SignOutNavItem } from "./nav-link";
 
 const NAV_ITEMS = [
   { href: "/my-courts", label: "Home", icon: "home" as const },
+  { href: "/my-courts/schedule", label: "Schedule", icon: "schedule" as const },
   { href: "/my-courts/explore", label: "Explore", icon: "explore" as const },
   { href: "/my-courts/athletes", label: "My Athletes", icon: "athletes" as const },
   { href: "/my-courts/memberships", label: "Membership", icon: "training" as const },
