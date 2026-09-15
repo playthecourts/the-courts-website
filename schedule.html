@@ -527,10 +527,10 @@
 
   var DATA = [
     { day:"Monday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Skills + Game Play", time:"5:00 PM", dur:"60 min", title:"Volleyball Development", coach:"Justin Frank", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Monday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Advanced Development", time:"6:00 PM", dur:"60 min", title:"Volleyball Performance", coach:"Justin Frank", included:"Weekly, Unlimited + Full Court", cta:"book" },
+    { day:"Monday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Advanced Development", time:"6:00 PM", dur:"60 min", title:"Volleyball Performance", coach:"Justin Frank", included:"Weekly, Unlimited + Full Court", cta:"soon" },
 
     { day:"Tuesday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Skills + Game Play", time:"5:00 PM", dur:"60 min", title:"Volleyball Development", coach:"Kenya", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Tuesday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Advanced Development", time:"6:00 PM", dur:"60 min", title:"Volleyball Performance", coach:"Kenya", included:"Weekly, Unlimited + Full Court", cta:"book" },
+    { day:"Tuesday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Advanced Development", time:"6:00 PM", dur:"60 min", title:"Volleyball Performance", coach:"Kenya", included:"Weekly, Unlimited + Full Court", cta:"soon" },
 
     { day:"Wednesday", sport:"volleyball", type:"training", age:["4-7"], ageLabel:"Ages 4&ndash;7", desc:"New to the Game", time:"4:00 PM", dur:"60 min", title:"Volleyball Basics", coach:"Kenya", included:"Weekly, Unlimited + Full Court", cta:"book" },
     { day:"Wednesday", sport:"basketball", type:"training", age:["6-10"], ageLabel:"Ages 6&ndash;10", desc:"Skills + Game Play", time:"5:00 PM", dur:"60 min", title:"Basketball Development", coach:"Johnny", included:"Weekly, Unlimited + Full Court", cta:"book" },
@@ -574,6 +574,8 @@
     var tagLabel = s.tagLabel || (s.type === 'team' ? 'Team Practice' : (s.type === 'open' ? 'Open Court' : 'Group Training'));
     var cta = s.cta === 'book'
       ? '<a href="' + BOOK_HREF + '" class="sch-btn sch-btn-primary" target="_blank" rel="noopener">Book &rarr;</a>'
+      : s.cta === 'soon'
+      ? '<span class="sch-btn sch-btn-locked">Coming Soon</span>'
       : '<span class="sch-btn sch-btn-locked">Team Only</span>';
     var included = s.included ? '<p class="sch-included">Included with <strong>' + s.included + '</strong></p>' : '';
     var step = s.step ? '<span class="sch-step">' + s.step + '</span>' : '';
