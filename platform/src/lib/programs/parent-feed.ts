@@ -135,7 +135,7 @@ export async function loadParentFeed(
       // computing a Training Plan rule for a child who isn't eligible.
       const ruleText =
         check.eligible && !hasSeat
-          ? describeBookingRule(await resolveBookingRule(athlete.id, o.id, s.startTime))
+          ? describeBookingRule(await resolveBookingRule(athlete.id, o.id, s.startTime, s._count.bookings))
           : "";
 
       perAthlete.push({

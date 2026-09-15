@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useActionState } from "react";
+import { useSearchParams } from "next/navigation";
 import { signup } from "@/app/actions/auth";
 
 type AthleteRow = { key: number };
@@ -13,6 +14,8 @@ const inputClass =
   "rounded-md border border-gray-mid px-3 py-2 font-body text-base font-normal normal-case tracking-normal text-black focus:border-orange focus:outline-none";
 
 export function SignupForm() {
+  const searchParams = useSearchParams();
+  const next = searchParams.get("next") || "/my-courts";
   const [state, formAction, pending] = useActionState(signup, undefined);
   const [athletes, setAthletes] = useState<AthleteRow[]>([{ key: 0 }]);
 
@@ -39,6 +42,7 @@ export function SignupForm() {
   return (
     <form action={formAction} className="flex flex-col gap-6">
       <input type="hidden" name="athleteCount" value={athletes.length} />
+      <input type="hidden" name="next" value={next} />
 
       <div className="flex flex-col gap-4">
         <h2 className="font-sport text-xs font-bold uppercase tracking-widest text-orange">

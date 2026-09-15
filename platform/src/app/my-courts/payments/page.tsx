@@ -84,7 +84,18 @@ export default async function PaymentsPage() {
                   <p className="font-heading text-sm font-bold text-black">{b.session.program.name}</p>
                   <p className="font-body text-xs text-gray-dark">{b.athlete.firstName}</p>
                 </div>
-                <p className="font-body text-sm text-black">{formatPrice(b.priceChargedCents!)} &middot; Paid</p>
+                <p className="font-body text-sm text-black">
+                  {formatPrice(b.priceChargedCents!)} &middot;{" "}
+                  {b.paymentStatus === "paid"
+                    ? "Paid"
+                    : b.paymentStatus === "pending"
+                      ? "Payment due"
+                      : b.paymentStatus === "failed"
+                        ? "Payment failed"
+                        : b.paymentStatus === "refunded"
+                          ? "Refunded"
+                          : "Paid"}
+                </p>
               </div>
             ))}
           </div>

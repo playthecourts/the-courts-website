@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
 import { loadParentFeed } from "@/lib/programs/parent-feed";
 import { PARENT_CATEGORIES } from "@/lib/programs/types";
+import { expireStalePendingBookings } from "@/lib/booking";
 import { OfferingSessionCard } from "./offering-session-card";
 
 // Explore, filtered the way a parent thinks.
@@ -57,6 +58,9 @@ export default async function ExplorePage({
   searchParams: Promise<{ athlete?: string; cat?: string; when?: string }>;
 }) {
   const { athlete: athleteParam, cat, when } = await searchParams;
+  // A family that opened Checkout and abandoned it must not hold a seat
+  // forever — sweep before computing availability below.
+  await expireStalePendingBookings();
   const guardian = await getCurrentGuardian();
   const allAthletes = guardian.families.flatMap((fg) => fg.family.athletes);
 

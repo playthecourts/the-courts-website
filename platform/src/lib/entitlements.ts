@@ -92,7 +92,7 @@ export async function getBookingEligibility(
     const usedThisPeriod = await prisma.booking.count({
       where: {
         athleteId,
-        status: { not: "cancelled" },
+        OR: [{ status: { not: "cancelled" } }, { status: "cancelled", creditRestored: false, creditSource: { not: null } }],
         session: {
           ...(entitlement.programId ? { programId: entitlement.programId } : {}),
           startTime: { gte: start, lt: end },
@@ -163,10 +163,14 @@ export async function getSessionBalances(athleteId: string): Promise<SessionBala
         continue;
       }
 
+      // A cancelled booking still counts unless its credit was actually
+      // restored (cancelled >= the refund cutoff before the session started
+      // — see cancelBookingById in lib/booking.ts). Kept in sync with the
+      // same rule resolveBookingRule uses for the live booking decision.
       const usedThisPeriod = await prisma.booking.count({
         where: {
           athleteId,
-          status: { not: "cancelled" },
+          OR: [{ status: { not: "cancelled" } }, { status: "cancelled", creditRestored: false, creditSource: { not: null } }],
           session: {
             ...(entitlement.programId ? { programId: entitlement.programId } : {}),
             startTime: { gte: start, lt: end },

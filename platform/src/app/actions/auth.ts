@@ -137,7 +137,8 @@ export async function signup(_prevState: unknown, formData: FormData) {
   }
 
   if (data.session) {
-    redirect("/my-courts");
+    const next = (formData.get("next") as string) || "/my-courts";
+    redirect(next);
   }
 
   return { success: "Check your email to confirm your account, then sign in." };

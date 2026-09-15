@@ -223,6 +223,7 @@
           <a href="about#partner">Partner With Us</a>
         </div>
       </div>
+      <div class="nav-item"><a href="schedule">Schedule</a></div>
       <div class="nav-item"><a href="contact">Contact</a></div>
     </nav>
     <div class="nav-cta">
@@ -284,6 +285,7 @@
       <a href="about#partner">Partner With Us</a>
     </div>
   </div>
+  <a href="schedule">Schedule</a>
   <a href="contact">Contact</a>
   <a href="member-portal" class="nav-cta-link">Parent Login</a>
   <a href="membership#plan-selector" class="btn btn-primary btn-block">Become a Member</a>
@@ -334,7 +336,7 @@
     </div>
 
     <div id="schBody"></div>
-    <p class="sch-note" id="schEmpty" hidden style="text-align:center; margin-top:20px;">Nothing matches those filters yet. Volleyball and more session types are coming soon.</p>
+    <p class="sch-note" id="schEmpty" hidden style="text-align:center; margin-top:20px;">Nothing matches those filters. Try a different combination, or check back — more session types are coming soon.</p>
   </div>
 </section>
 
@@ -523,6 +525,13 @@
   var BOOK_PRESET = 'Programs + Membership';
 
   var DATA = [
+    { day:"Monday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Skills + Game Play", time:"5:00 PM", dur:"60 min", title:"Volleyball Development", coach:"Justin Frank", included:"Weekly, Unlimited + Full Court", cta:"book" },
+    { day:"Monday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Advanced Training", time:"6:00 PM", dur:"60 min", title:"Volleyball Performance", coach:"Justin Frank", included:"Weekly, Unlimited + Full Court", cta:"book" },
+
+    { day:"Tuesday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Skills + Game Play", time:"5:00 PM", dur:"60 min", title:"Volleyball Development", coach:"Kenya", included:"Weekly, Unlimited + Full Court", cta:"book" },
+    { day:"Tuesday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Advanced Training", time:"6:00 PM", dur:"60 min", title:"Volleyball Performance", coach:"Kenya", included:"Weekly, Unlimited + Full Court", cta:"book" },
+
+    { day:"Wednesday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Introductory Session", time:"4:00 PM", dur:"60 min", title:"Volleyball Foundations", coach:"Kenya", included:"Weekly, Unlimited + Full Court", cta:"book" },
     { day:"Wednesday", sport:"basketball", type:"training", age:["6-10"], ageLabel:"Ages 6&ndash;10", desc:"Skills + Game Play", time:"5:00 PM", dur:"60 min", title:"Basketball Development", coach:"Johnny Coles", included:"Weekly, Unlimited + Full Court", cta:"book" },
     { day:"Wednesday", sport:"basketball", type:"team", age:["9-14","11-plus"], ageLabel:null, desc:null, time:"6:00 PM", dur:"75 min", title:"Fall Basketball League Practice", coach:"Johnny Coles", included:null, cta:"locked" },
     { day:"Wednesday", sport:"basketball", type:"training", age:["9-14","11-plus"], ageLabel:"Ages 11+", desc:"Advanced Development", time:"7:30 PM", dur:"60 min", title:"Basketball Performance", coach:"Johnny Coles", included:"Weekly, Unlimited + Full Court", cta:"book" },
@@ -541,6 +550,8 @@
   ];
 
   var DAY_TAGLINES = {
+    Monday: "Get Back To It.",
+    Tuesday: "Keep Building.",
     Wednesday: "Work Day.",
     Thursday: "Put It to Work.",
     Friday: "Game On.",
@@ -618,7 +629,7 @@
   function render() {
     var root = document.getElementById('schBody');
     if (!root) return;
-    var days = ['Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     var html = '';
     var anyContent = false;
 
@@ -629,9 +640,15 @@
       var items = rows.map(function (s) { return { sortMin: timeToMinutes(s.time), html: sessionRow(s) }; });
       items.sort(function (a, b) { return a.sortMin - b.sortMin; });
 
+      var sportsToday = rows.reduce(function (list, s) {
+        var label = s.sport === 'basketball' ? 'Basketball' : (s.sport === 'volleyball' ? 'Volleyball' : s.sport);
+        if (list.indexOf(label) === -1) list.push(label);
+        return list;
+      }, []);
+
       anyContent = true;
       html += '<div class="sch-day-group">';
-      html += '<div class="sch-day-head"><h3>' + day + '</h3><span class="sch-day-tagline">' + DAY_TAGLINES[day] + '</span><span class="sch-day-sub">Basketball</span></div>';
+      html += '<div class="sch-day-head"><h3>' + day + '</h3><span class="sch-day-tagline">' + DAY_TAGLINES[day] + '</span><span class="sch-day-sub">' + sportsToday.join(' + ') + '</span></div>';
       items.forEach(function (it) { html += it.html; });
       html += '</div>';
     });

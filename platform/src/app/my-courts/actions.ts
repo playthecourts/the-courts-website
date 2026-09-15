@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { bookAthleteIntoSession, cancelBookingById, cancelWaitlistEntryById } from "@/lib/booking";
@@ -21,9 +22,16 @@ async function assertOwnsAthlete(athleteId: string) {
 export async function bookSession(athleteId: string, sessionId: string) {
   const guardian = await assertOwnsAthlete(athleteId);
   await assertWaiversSigned(guardian.id, athleteId);
-  await bookAthleteIntoSession(sessionId, athleteId, guardian.id);
+  const result = await bookAthleteIntoSession(sessionId, athleteId, guardian.id);
   revalidatePath("/my-courts/bookings");
   revalidatePath("/my-courts/schedule");
+  revalidatePath("/my-courts/explore");
+  // A paid booking's seat is already held (see bookAthleteIntoSession) — this
+  // redirect just sends the family to pay for it. redirect() throws, so
+  // nothing after this line runs when it fires.
+  if (result.status === "booked" && "checkoutUrl" in result && result.checkoutUrl) {
+    redirect(result.checkoutUrl);
+  }
 }
 
 export async function cancelBooking(bookingId: string) {

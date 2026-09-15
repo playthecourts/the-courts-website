@@ -26,7 +26,13 @@ export type { BookingRule };
 export async function resolveBookingRule(
   athleteId: string,
   offeringId: string,
-  sessionStart: Date
+  sessionStart: Date,
+  /// Non-cancelled bookings already on this specific session, BEFORE this
+  /// athlete's own booking. When the offering has a companionPriceCents set
+  /// and this is >= 1, that flat rate replaces the normal price/member price
+  /// below — a "bring a teammate" companion, not a membership discount, so it
+  /// applies to full_price and member_price alike.
+  currentBookedCount = 0
 ): Promise<BookingRule> {
   const offering = await prisma.offering.findUniqueOrThrow({
     where: { id: offeringId },
@@ -34,6 +40,7 @@ export async function resolveBookingRule(
       programId: true,
       priceCents: true,
       memberPriceCents: true,
+      companionPriceCents: true,
       creditRule: true,
       creditsPerBooking: true,
       pricingModel: true,
@@ -42,13 +49,15 @@ export async function resolveBookingRule(
 
   if (offering.pricingModel === "free" || offering.creditRule === "free") return { kind: "free" };
 
+  const isCompanion = offering.companionPriceCents !== null && currentBookedCount >= 1;
+
   const memberships = await prisma.athleteMembership.findMany({
     where: { athleteId, status: "active" },
     include: { plan: { include: { entitlements: true } } },
   });
 
   if (memberships.length === 0) {
-    return { kind: "full_price", priceCents: offering.priceCents };
+    return { kind: "full_price", priceCents: isCompanion ? offering.companionPriceCents : offering.priceCents };
   }
 
   switch (offering.creditRule) {
@@ -62,7 +71,7 @@ export async function resolveBookingRule(
       );
       return m
         ? { kind: "included", planName: m.plan.name }
-        : { kind: "full_price", priceCents: offering.priceCents };
+        : { kind: "full_price", priceCents: isCompanion ? offering.companionPriceCents : offering.priceCents };
     }
 
     case "uses_credit": {
@@ -73,10 +82,14 @@ export async function resolveBookingRule(
         if (!ent?.quantityPerPeriod) continue;
 
         const { start: periodStart, end: periodEnd } = entitlementPeriodBounds(m, sessionStart);
+        // A cancelled booking still counts unless its credit was actually
+        // restored (cancelled >= REFUND_CUTOFF_HOURS before start — see
+        // cancelBookingById in lib/booking.ts). A late cancellation still
+        // spends the allowance, same as skipping the class outright.
         const used = await prisma.booking.count({
           where: {
             athleteId,
-            status: { not: "cancelled" },
+            OR: [{ status: { not: "cancelled" } }, { status: "cancelled", creditRestored: false, creditSource: { not: null } }],
             session: {
               programId: offering.programId,
               startTime: { gte: periodStart, lt: periodEnd },
@@ -123,14 +136,14 @@ export async function resolveBookingRule(
       return m
         ? {
             kind: "member_price",
-            priceCents: offering.memberPriceCents ?? offering.priceCents,
+            priceCents: isCompanion ? offering.companionPriceCents : offering.memberPriceCents ?? offering.priceCents,
             planName: m.plan.name,
           }
-        : { kind: "full_price", priceCents: offering.priceCents };
+        : { kind: "full_price", priceCents: isCompanion ? offering.companionPriceCents : offering.priceCents };
     }
 
     case "separate_payment":
     default:
-      return { kind: "full_price", priceCents: offering.priceCents };
+      return { kind: "full_price", priceCents: isCompanion ? offering.companionPriceCents : offering.priceCents };
   }
 }

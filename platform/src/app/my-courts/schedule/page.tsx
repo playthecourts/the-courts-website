@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
+import { CancelBookingButton } from "./cancel-booking-button";
+
+const REFUND_CUTOFF_HOURS = 12;
 
 function formatDateHeading(date: Date) {
   return new Intl.DateTimeFormat("en-US", {
@@ -34,7 +37,7 @@ export default async function MyCourtsSchedulePage() {
       session: { startTime: { gte: new Date() } },
     },
     orderBy: { session: { startTime: "asc" } },
-    include: { session: { include: { program: true } }, athlete: true },
+    include: { session: { include: { program: true, offering: true } }, athlete: true },
   });
 
   const byDay = new Map<string, typeof bookings>();
@@ -71,26 +74,38 @@ export default async function MyCourtsSchedulePage() {
                 {formatDateHeading(dayBookings[0].session.startTime)}
               </h2>
               <div className="flex flex-col divide-y divide-gray-mid rounded-lg border border-gray-mid bg-white">
-                {dayBookings.map((booking) => (
-                  <div key={booking.id} className="flex items-center justify-between px-4 py-3">
-                    <div>
-                      <span className="font-heading font-bold text-black">{booking.session.program.name}</span>
-                      <span className="ml-2 font-body text-sm text-gray-dark">{booking.athlete.firstName}</span>
+                {dayBookings.map((booking) => {
+                  const hoursUntilStart = (booking.session.startTime.getTime() - Date.now()) / (1000 * 60 * 60);
+                  const isDropIn = booking.session.offering?.registrationMode === "session";
+                  const hasMoneyOrCredit =
+                    (booking.paymentStatus === "paid" && !!booking.priceChargedCents) || !!booking.creditSource;
+                  const willRefund = isDropIn && hoursUntilStart >= REFUND_CUTOFF_HOURS && hasMoneyOrCredit;
+
+                  return (
+                    <div key={booking.id} className="flex items-center justify-between px-4 py-3">
+                      <div>
+                        <span className="font-heading font-bold text-black">{booking.session.program.name}</span>
+                        <span className="ml-2 font-body text-sm text-gray-dark">{booking.athlete.firstName}</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="font-body text-sm text-gray-dark">
+                          {formatTime(booking.session.startTime)}–{formatTime(booking.session.endTime)}
+                        </span>
+                        <a
+                          href={`/my-courts/calendar/${booking.id}`}
+                          className="font-sport text-[10px] font-bold uppercase tracking-wide text-orange"
+                          title="Add to Calendar"
+                        >
+                          + Cal
+                        </a>
+                        <CancelBookingButton
+                          bookingId={booking.id}
+                          isPaid={hasMoneyOrCredit && !willRefund}
+                        />
+                      </div>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <span className="font-body text-sm text-gray-dark">
-                        {formatTime(booking.session.startTime)}–{formatTime(booking.session.endTime)}
-                      </span>
-                      <a
-                        href={`/my-courts/calendar/${booking.id}`}
-                        className="font-sport text-[10px] font-bold uppercase tracking-wide text-orange"
-                        title="Add to Calendar"
-                      >
-                        + Cal
-                      </a>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           ))}

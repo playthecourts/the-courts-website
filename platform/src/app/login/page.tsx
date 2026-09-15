@@ -4,7 +4,13 @@ import { Suspense } from "react";
 import { AuthToggle } from "../auth-toggle";
 import { LoginForm } from "./login-form";
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string }>;
+}) {
+  const { next } = await searchParams;
+  const signupHref = next ? `/signup?next=${encodeURIComponent(next)}` : "/signup";
   return (
     <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center px-6">
       <Image
@@ -29,7 +35,7 @@ export default function LoginPage() {
 
       <p className="mt-6 text-center font-body text-sm text-gray-dark">
         New here?{" "}
-        <Link href="/signup" className="font-semibold text-orange hover:text-orange-hover">
+        <Link href={signupHref} className="font-semibold text-orange hover:text-orange-hover">
           Create an account
         </Link>
       </p>

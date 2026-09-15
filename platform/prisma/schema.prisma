@@ -431,6 +431,12 @@ model Offering {
   memberPriceCents    Int? @map("member_price_cents")
   singleDayPriceCents Int? @map("single_day_price_cents")
   depositCents        Int? @map("deposit_cents")
+  /// Price charged to a second-or-later athlete booked into an already-
+  /// occupied session of this offering ("bring a teammate"), instead of the
+  /// normal price/memberPriceCents. Null everywhere except offerings that
+  /// explicitly support this (Dr. Dish Self-Serve). Applies regardless of
+  /// membership status — it's a companion rate, not a member discount.
+  companionPriceCents Int? @map("companion_price_cents")
 
   stripeProductId        String? @map("stripe_product_id")
   stripePriceId          String? @map("stripe_price_id")
@@ -740,6 +746,17 @@ model Booking {
   rsvpStatus         RsvpStatus?   @map("rsvp_status")
   priceChargedCents  Int?          @map("price_charged_cents")
   bookedAt           DateTime      @default(now()) @map("booked_at")
+
+  /// Whether the priceChargedCents above has actually been collected. `none`
+  /// for free/included/credit bookings, which never involve Stripe. A paid
+  /// booking is created `pending` and only counts as `paid` once the
+  /// checkout.session.completed webhook confirms it — the seat is held
+  /// (status stays `booked`, so capacity counts it) the whole time either way.
+  paymentStatus         PaymentStatus @default(none) @map("payment_status")
+  stripeCheckoutSessionId String?     @unique @map("stripe_checkout_session_id")
+  /// Mirrors the Stripe Checkout Session's own expiry. A sweep cancels any
+  /// booking still `pending` past this time, freeing the seat.
+  checkoutExpiresAt      DateTime?   @map("checkout_expires_at")
 
   /// The master Registration this seat belongs to, for programs registered
   /// at the program level (camps, leagues, multi-week clinics). Null for a

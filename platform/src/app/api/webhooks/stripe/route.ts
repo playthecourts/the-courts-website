@@ -30,6 +30,15 @@ function renewalDateFrom(subscription: Stripe.Subscription): Date | null {
 }
 
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
+  if (session.mode === "payment") {
+    if (session.metadata?.registrationId) {
+      await handleRegistrationCheckoutCompleted(session);
+    } else {
+      await handleBookingCheckoutCompleted(session);
+    }
+    return;
+  }
+
   if (session.mode !== "subscription" || !session.subscription) return;
 
   const subscriptionId =
@@ -59,6 +68,42 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       renewalDate: renewalDateFrom(subscription),
       stripeSubscriptionId: subscriptionId,
     },
+  });
+}
+
+// A real per-session/per-offering booking payment — see src/lib/booking.ts'
+// createBookingCheckout, which creates the Checkout Session this confirms.
+async function handleBookingCheckoutCompleted(session: Stripe.Checkout.Session) {
+  const bookingId = session.metadata?.bookingId;
+  if (!bookingId) {
+    console.error("Stripe checkout.session.completed (payment mode) missing bookingId metadata", session.id);
+    return;
+  }
+
+  const booking = await prisma.booking.findUnique({ where: { id: bookingId } });
+  if (!booking) return; // Booking was cancelled/expired before payment confirmed.
+  if (booking.paymentStatus === "paid") return; // Idempotent against webhook retries.
+
+  await prisma.booking.update({
+    where: { id: bookingId },
+    data: { paymentStatus: "paid" },
+  });
+}
+
+// Whole-offering registration payment (Fall League today) — see
+// src/app/my-courts/league/actions.ts' startLeagueRegistration, which
+// creates the Checkout Session this confirms.
+async function handleRegistrationCheckoutCompleted(session: Stripe.Checkout.Session) {
+  const registrationId = session.metadata?.registrationId;
+  if (!registrationId) return;
+
+  const registration = await prisma.registration.findUnique({ where: { id: registrationId } });
+  if (!registration) return; // Registration was cancelled before payment confirmed.
+  if (registration.paymentStatus === "paid") return; // Idempotent against webhook retries.
+
+  await prisma.registration.update({
+    where: { id: registrationId },
+    data: { status: "registered", paymentStatus: "paid" },
   });
 }
 

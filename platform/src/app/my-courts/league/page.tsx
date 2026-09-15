@@ -1,6 +1,12 @@
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { RsvpButtons } from "./rsvp-buttons";
+import { RegisterButton } from "./register-button";
+import { CancelRegistrationButton } from "./cancel-registration-button";
+
+function formatPrice(cents: number) {
+  return `$${(cents / 100).toFixed(0)}`;
+}
 
 function formatSessionTime(date: Date) {
   return new Intl.DateTimeFormat("en-US", {
@@ -21,7 +27,9 @@ export default async function LeaguePage() {
   const leaguePrograms = await prisma.program.findMany({ where: { programType: "league", active: true } });
   const leagueProgramIds = leaguePrograms.map((p) => p.id);
 
-  const [evalBookings, teamMemberships] = await Promise.all([
+  const leagueOffering = await prisma.offering.findFirst({ where: { name: "Fall 2026 Basketball League" } });
+
+  const [evalBookings, teamMemberships, registrations] = await Promise.all([
     prisma.booking.findMany({
       where: { athleteId: { in: athleteIds }, session: { programId: { in: leagueProgramIds }, team: null } },
       include: { session: true, athlete: true },
@@ -42,6 +50,11 @@ export default async function LeaguePage() {
         },
       },
     }),
+    leagueOffering
+      ? prisma.registration.findMany({
+          where: { offeringId: leagueOffering.id, athleteId: { in: athleteIds }, status: { not: "cancelled" } },
+        })
+      : Promise.resolve([]),
   ]);
 
   if (leaguePrograms.length === 0) {
@@ -63,15 +76,42 @@ export default async function LeaguePage() {
       {athletes.map((athlete) => {
         const evalBooking = evalBookings.find((b) => b.athleteId === athlete.id);
         const membership = teamMemberships.find((tm) => tm.athleteId === athlete.id);
+        const registration = registrations.find((r) => r.athleteId === athlete.id);
         const upcomingTeamSessions = membership?.team.sessions ?? [];
 
-        if (!evalBooking && !membership) return null;
+        if (!evalBooking && !membership && !registration) {
+          if (!leagueOffering || !leagueOffering.stripePriceId) return null;
+          return (
+            <section key={athlete.id} className="rounded-lg border border-gray-mid bg-white p-5">
+              <h2 className="font-heading text-lg font-bold text-black">{athlete.firstName} {athlete.lastName}</h2>
+              <p className="mt-1 font-body text-sm text-gray-dark">Not registered for Fall League yet.</p>
+              <div className="mt-4 flex items-center justify-between border-t border-gray-mid pt-4">
+                <span className="font-heading text-base font-bold text-black">
+                  {formatPrice(leagueOffering.priceCents ?? 37500)}
+                </span>
+                <RegisterButton athleteId={athlete.id} />
+              </div>
+              <p className="mt-2 font-body text-xs text-gray-dark">No refunds after registration.</p>
+            </section>
+          );
+        }
 
         return (
           <section key={athlete.id} className="rounded-lg border border-gray-mid bg-white p-5">
             <h2 className="font-heading text-lg font-bold text-black">{athlete.firstName} {athlete.lastName}</h2>
 
             <div className="mt-3 flex flex-col gap-2">
+              {registration && (
+                <div className="flex items-center justify-between">
+                  <span className="font-body text-sm text-gray-dark">Registration</span>
+                  <span className="flex items-center gap-2">
+                    <span className="font-sport text-xs font-bold uppercase tracking-wide text-orange">
+                      {registration.paymentStatus === "paid" ? "Registered" : "Payment Pending"}
+                    </span>
+                    <CancelRegistrationButton athleteId={athlete.id} />
+                  </span>
+                </div>
+              )}
               <div className="flex items-center justify-between">
                 <span className="font-body text-sm text-gray-dark">Evaluation</span>
                 <span className="font-sport text-xs font-bold uppercase tracking-wide text-orange">

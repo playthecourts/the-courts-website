@@ -284,6 +284,7 @@
           <a href="about#partner">Partner With Us</a>
         </div>
       </div>
+      <div class="nav-item"><a href="schedule">Schedule</a></div>
       <div class="nav-item"><a href="contact">Contact</a></div>
     </nav>
     <div class="nav-cta">
@@ -345,6 +346,7 @@
       <a href="about#partner">Partner With Us</a>
     </div>
   </div>
+  <a href="schedule">Schedule</a>
   <a href="contact">Contact</a>
   <a href="member-portal" class="nav-cta-link">Parent Login</a>
   <a href="membership#plan-selector" class="btn btn-primary btn-block">Become a Member</a>
@@ -467,73 +469,14 @@
       </div>
 
       <div class="lg-eval-form-wrap">
-
-        <div class="lg-eval-form-panel is-open" id="evalFormPanel">
-        <form id="evalForm" novalidate>
+        <div class="lg-eval-form-panel is-open">
           <h3 class="lg-eval-form-title">Register for Fall League.</h3>
-
-          <div class="lg-eval-fgroup">
-            <span class="lg-eval-fgroup-label">Parent / Guardian</span>
-            <div class="form-grid-2">
-              <div class="form-row"><label for="ev-parent-name">Parent / Guardian Name</label><input type="text" id="ev-parent-name" name="parent_name" required><span class="field-error"></span></div>
-              <div class="form-row"><label for="ev-email">Email</label><input type="email" id="ev-email" name="email" required><span class="field-error"></span></div>
-            </div>
-            <div class="form-row"><label for="ev-phone">Phone</label><input type="tel" id="ev-phone" name="phone" required><span class="field-error"></span></div>
-            <div class="form-row"><label for="ev-referral">How did you hear about us? <span class="form-optional-tag">Optional</span></label><select id="ev-referral" name="referral_source"><option value="">Select one</option><option>Website</option><option>Email</option><option>Phone</option><option>Walk-In</option><option>Coach Referral</option><option>Parent Referral</option><option>Social Media</option><option>NextGen Rollover</option><option>Other</option></select></div>
+          <p class="lg-eval-lede" style="margin-top:0;">Registration now happens in the Courts portal — sign in or create a free account, pick your athlete, and pay securely. Your spot isn&rsquo;t confirmed until payment is complete.</p>
+          <div class="ctas" style="margin-top:24px; flex-direction:column; align-items:stretch;">
+            <a href="https://app.playthecourts.com/login?next=/my-courts/league" class="btn btn-primary btn-block" target="_blank" rel="noopener">Sign In &amp; Register &rarr;</a>
           </div>
-
-          <div class="lg-eval-rest" id="evalRest">
-          <div class="lg-eval-fgroup">
-            <span class="lg-eval-fgroup-label">Athlete</span>
-            <div class="form-row"><label for="ev-player-name">Athlete Name</label><input type="text" id="ev-player-name" name="player_name" required><span class="field-error"></span></div>
-            <div class="form-grid-2">
-              <div class="form-row"><label for="ev-player-gender">Player Gender</label><select id="ev-player-gender" name="player_gender" required><option value="">Select one</option><option>Boy</option><option>Girl</option></select><span class="field-error"></span></div>
-              <div class="form-row"><label for="ev-player-grade">Current Grade <span class="form-optional-tag">2026&ndash;27 School Year</span></label><select id="ev-player-grade" name="player_grade" required><option value="">Select one</option><option>3rd</option><option>4th</option><option>5th</option><option>6th</option><option>7th</option><option>8th</option><option>Other</option></select><span class="field-error"></span></div>
-            </div>
-            <div class="form-row"><label for="ev-school">School <span class="form-optional-tag">Optional</span></label><input type="text" id="ev-school" name="school"></div>
-
-            <div class="lg-eval-extra-athlete" id="evExtraAthlete2" hidden>
-              <div class="lg-eval-extra-athlete-head">
-                <span>2nd Athlete</span>
-                <button type="button" class="lg-eval-remove-athlete" id="evRemoveAthlete2">Remove</button>
-              </div>
-              <div class="form-row"><label for="ev-player-name-2">Athlete Name</label><input type="text" id="ev-player-name-2" name="player_name_2"><span class="field-error"></span></div>
-              <div class="form-grid-2">
-                <div class="form-row"><label for="ev-player-gender-2">Player Gender</label><select id="ev-player-gender-2" name="player_gender_2"><option value="">Select one</option><option>Boy</option><option>Girl</option></select><span class="field-error"></span></div>
-                <div class="form-row"><label for="ev-player-grade-2">Current Grade</label><select id="ev-player-grade-2" name="player_grade_2"><option value="">Select one</option><option>3rd</option><option>4th</option><option>5th</option><option>6th</option><option>7th</option><option>8th</option><option>Other</option></select><span class="field-error"></span></div>
-              </div>
-            </div>
-
-            <div class="lg-eval-extra-athlete" id="evExtraAthlete3" hidden>
-              <div class="lg-eval-extra-athlete-head">
-                <span>3rd Athlete</span>
-                <button type="button" class="lg-eval-remove-athlete" id="evRemoveAthlete3">Remove</button>
-              </div>
-              <div class="form-row"><label for="ev-player-name-3">Athlete Name</label><input type="text" id="ev-player-name-3" name="player_name_3"><span class="field-error"></span></div>
-              <div class="form-grid-2">
-                <div class="form-row"><label for="ev-player-gender-3">Player Gender</label><select id="ev-player-gender-3" name="player_gender_3"><option value="">Select one</option><option>Boy</option><option>Girl</option></select><span class="field-error"></span></div>
-                <div class="form-row"><label for="ev-player-grade-3">Current Grade</label><select id="ev-player-grade-3" name="player_grade_3"><option value="">Select one</option><option>3rd</option><option>4th</option><option>5th</option><option>6th</option><option>7th</option><option>8th</option><option>Other</option></select><span class="field-error"></span></div>
-              </div>
-            </div>
-
-            <button type="button" class="lg-eval-add-athlete" id="evAddAthlete">+ Add Another Athlete</button>
-          </div>
-
-          <div class="lg-eval-fgroup">
-            <span class="lg-eval-fgroup-label">Team Placement</span>
-            <div class="form-row"><label for="ev-placement">Is there a specific athlete you&rsquo;d like to be placed with? <span class="form-optional-tag">Optional</span></label><textarea id="ev-placement" name="placement_request"></textarea><span class="lg-eval-hint">Final team placement will be based on grade, skill level, roster balance, and overall registration.</span></div>
-            <div class="form-row"><label for="ev-conflicts">Any scheduling conflicts we should know about? <span class="form-optional-tag">Optional</span></label><textarea id="ev-conflicts" name="scheduling_conflicts"></textarea><span class="lg-eval-hint">Heads up: team practices are on Thursdays &mdash; 6 PM for 3rd/4th grade, 7:30 PM for 6th/7th grade.</span></div>
-            <div class="form-row"><label for="ev-notes">Anything else we should know about your athlete? <span class="form-optional-tag">Optional</span></label><textarea id="ev-notes" name="additional_notes"></textarea></div>
-          </div>
-
-          <input type="hidden" name="source" value="Website - Fall League Registration">
-          <input type="hidden" name="signup_page" class="lg-eval-signup-page" value="">
-
-          <button type="submit" class="btn btn-primary btn-block" id="evalFormSubmit">Continue to Payment →</button>
-          <p class="lg-eval-form-note"><strong style="color:var(--black);">Your spot isn&rsquo;t confirmed until payment on the next screen is complete.</strong></p>
-          </div>
-          <p class="lg-eval-form-error" id="evalFormError" hidden>That didn&rsquo;t go through. Give it another try.</p>
-        </form>
+          <p style="font-size:14.5px; margin-top:18px;"><strong style="color:var(--black);">New to The Courts?</strong> <a href="https://app.playthecourts.com/signup?next=/my-courts/league" target="_blank" rel="noopener" style="color:var(--orange); font-weight:700;">Create an account &rarr;</a></p>
+          <p class="lg-eval-form-note" style="margin-top:20px;">Heads up: team practices are on Thursdays &mdash; 6 PM for 3rd/4th grade, 7:30 PM for 6th/7th grade. Final team placement is based on grade, skill level, and roster balance &mdash; our coaching team will follow up after you register.</p>
         </div>
       </div>
     </div>
