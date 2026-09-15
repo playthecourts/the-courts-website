@@ -128,7 +128,9 @@ export default async function LeaguePage({
                     {registration.paymentStatus !== "paid" && canRegister && (
                       <RegisterButton athleteId={athlete.id} label="Complete Payment →" />
                     )}
-                    <CancelRegistrationButton athleteId={athlete.id} />
+                    {registration.paymentStatus !== "paid" && (
+                      <CancelRegistrationButton athleteId={athlete.id} />
+                    )}
                   </span>
                 ) : canRegister ? (
                   <span className="flex items-center gap-2">

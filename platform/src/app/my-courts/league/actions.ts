@@ -23,10 +23,10 @@ async function getOrigin() {
 /// placement").
 export async function startLeagueRegistration(athleteId: string) {
   const guardian = await getCurrentGuardian();
-  const ownsAthlete = guardian.families.some((fg) =>
-    fg.family.athletes.some((a) => a.id === athleteId)
-  );
-  if (!ownsAthlete) {
+  const athlete = guardian.families
+    .flatMap((fg) => fg.family.athletes)
+    .find((a) => a.id === athleteId);
+  if (!athlete) {
     throw new Error("Not authorized to act on this athlete.");
   }
 
@@ -86,6 +86,10 @@ export async function startLeagueRegistration(athleteId: string) {
     success_url: `${origin}/my-courts/league?checkout=success`,
     cancel_url: `${origin}/my-courts/league?checkout=cancelled`,
     metadata: { registrationId: registration.id, athleteId, guardianId: guardian.id },
+    payment_intent_data: {
+      description: `Fall League Registration — ${athlete.firstName} ${athlete.lastName}`,
+      metadata: { registrationId: registration.id, athleteId, guardianId: guardian.id },
+    },
   });
 
   if (!checkoutSession.url) {
@@ -100,10 +104,10 @@ export async function startLeagueRegistration(athleteId: string) {
   redirect(checkoutSession.url);
 }
 
-/// Withdraws a League registration. League never refunds, at any point —
-/// unlike drop-in classes, there's no cancellation window here at all. This
-/// just marks the seat given up so staff know not to expect the athlete; a
-/// paid registration's payment is never touched.
+/// Withdraws a League registration — only before payment. Once paid,
+/// registration is locked in: League never refunds, so "withdrawing" a paid
+/// registration would give up the seat for nothing. This just lets a family
+/// back out of a registration they started but haven't paid for yet.
 export async function cancelLeagueRegistration(athleteId: string) {
   const guardian = await getCurrentGuardian();
   const ownsAthlete = guardian.families.some((fg) =>
@@ -118,7 +122,12 @@ export async function cancelLeagueRegistration(athleteId: string) {
   });
 
   await prisma.registration.updateMany({
-    where: { offeringId: offering.id, athleteId, status: { not: "cancelled" } },
+    where: {
+      offeringId: offering.id,
+      athleteId,
+      status: { not: "cancelled" },
+      paymentStatus: { not: "paid" },
+    },
     data: { status: "cancelled", cancelledAt: new Date() },
   });
 

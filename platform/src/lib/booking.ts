@@ -162,7 +162,7 @@ async function createBookingCheckout(
 
   const booking = await prisma.booking.findUniqueOrThrow({
     where: { id: bookingId },
-    include: { session: { include: { offering: true, program: true } } },
+    include: { session: { include: { offering: true, program: true } }, athlete: true },
   });
   const offering = booking.session.offering;
 
@@ -187,6 +187,10 @@ async function createBookingCheckout(
     cancel_url: `${origin}/my-courts/explore?checkout=cancelled`,
     expires_at: Math.floor(Date.now() / 1000) + CHECKOUT_EXPIRY_MINUTES * 60,
     metadata: { bookingId, athleteId, guardianId },
+    payment_intent_data: {
+      description: `${booking.session.program.name} — ${booking.athlete.firstName} ${booking.athlete.lastName}`,
+      metadata: { bookingId, athleteId, guardianId },
+    },
   });
 
   if (!checkoutSession.url) {
