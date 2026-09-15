@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getGuardianAthleteOrNull } from "@/lib/athlete-profile";
+import { getCurrentGuardian } from "@/lib/dal";
+import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { signedPhotoUrl } from "@/lib/athlete-photo";
 import { AthleteAvatar } from "@/components/athlete/avatar";
 import { displayName, fullName, completeness } from "@/lib/athlete";
@@ -36,6 +38,13 @@ export default async function AthleteProfileLayout({
     },
     athlete.id
   );
+
+  // One-line status, not its own tab — Waivers + Permissions is signed from
+  // the real destination (/my-courts/waivers), so this just says whether
+  // there's anything to go do there for this athlete specifically.
+  const guardian = await getCurrentGuardian();
+  const unsignedWaivers = await getUnsignedRequiredWaivers(guardian.id, athlete.id);
+  const waiversComplete = unsignedWaivers.length === 0 && !!athlete.mediaConsent;
 
   return (
     <div>
@@ -79,6 +88,20 @@ export default async function AthleteProfileLayout({
           </span>
         </Link>
       )}
+
+      <Link
+        href="/my-courts/waivers"
+        className="mb-5 flex items-center justify-between gap-3 rounded-xl border border-gray-mid bg-white px-4 py-3"
+      >
+        <span className="font-heading text-[13.5px] font-bold text-near-black">Waivers + Permissions</span>
+        <span
+          className={`shrink-0 font-sport text-[11px] font-bold uppercase tracking-[0.1em] ${
+            waiversComplete ? "text-success" : "text-orange"
+          }`}
+        >
+          {waiversComplete ? "All Set ✓" : "Action Needed →"}
+        </span>
+      </Link>
 
       <ProfileTabs athleteId={athlete.id} />
       {children}

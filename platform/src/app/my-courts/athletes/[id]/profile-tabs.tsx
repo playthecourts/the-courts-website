@@ -3,19 +3,21 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// Four tabs, no generic "More" junk drawer.
+// Three tabs, no generic "More" junk drawer.
 //
 // Each tab is one kind of thing: Player Card is who this athlete is and how
-// to coach them, Progress is coach-written development notes, Family +
-// Safety is household/emergency logistics, and Waivers + Permissions is the
-// consent/legal record. Nothing here is a page waiting for a use — Schedule
-// and Programs join once there's something live to book or enroll in.
+// to coach them, Progress is coach-written development notes, and Family +
+// Safety is household/emergency logistics. Waivers + Permissions isn't a
+// tab here — it's a one-line status link above the tabs (see layout.tsx),
+// since the actual signing happens on the real /my-courts/waivers page, not
+// a second copy of it nested under the athlete. Nothing here is a page
+// waiting for a use — Schedule and Programs join once there's something
+// live to book or enroll in.
 
 const TABS = [
   { slug: "", label: "Player Card" },
   { slug: "progress", label: "Progress" },
   { slug: "family-safety", label: "Family + Safety" },
-  { slug: "waivers", label: "Waivers + Permissions" },
 ];
 
 export default function ProfileTabs({ athleteId }: { athleteId: string }) {

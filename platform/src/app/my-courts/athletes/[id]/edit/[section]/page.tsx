@@ -39,11 +39,9 @@ export default async function EditSectionPage({
   const name = displayName(athlete);
   const back = `/my-courts/athletes/${athlete.id}`;
   const done =
-    section === "player-card"
+    section === "player-card" || section === "privacy"
       ? back
-      : section === "privacy"
-        ? `${back}/waivers`
-        : `${back}/family-safety`;
+      : `${back}/family-safety`;
 
   const guardianRows = athlete.family.guardians.map((fg) => ({
     id: fg.guardian.id,

@@ -51,7 +51,7 @@ export async function signAthleteWaiver(waiverId: string, athleteId: string, for
     },
   });
   revalidatePath("/my-courts/waivers");
-  revalidatePath(`/my-courts/athletes/${athleteId}/waivers`);
+  revalidatePath(`/my-courts/athletes/${athleteId}`);
 }
 
 /// Family-scope waivers: one signing EVENT explicitly covers exactly the
@@ -91,6 +91,6 @@ export async function signFamilyWaiver(waiverId: string, formData: FormData) {
   });
   revalidatePath("/my-courts/waivers");
   for (const athleteId of athleteIds) {
-    revalidatePath(`/my-courts/athletes/${athleteId}/waivers`);
+    revalidatePath(`/my-courts/athletes/${athleteId}`);
   }
 }
