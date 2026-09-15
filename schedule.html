@@ -39,6 +39,11 @@
   .sch-tab:hover { border-color: var(--orange); color: var(--black); }
   .sch-tab.active { background: var(--orange); border-color: var(--orange); color: var(--white); }
 
+  .sch-preview { max-width: 900px; margin: 0 auto 28px; padding: 22px 24px; background: var(--warm-stone); border-radius: var(--radius-md); border-left: 3px solid var(--orange); }
+  .sch-preview h2 { font-family: var(--font-display); font-weight: 900; font-size: 19px; margin: 0 0 10px; letter-spacing: -0.01em; }
+  .sch-preview p { font-size: 14px; line-height: 1.55; color: var(--gray-dark); margin: 0 0 10px; }
+  .sch-preview p:last-child { margin-bottom: 0; }
+
   .sch-filters { display: flex; flex-direction: column; gap: 10px; max-width: 900px; margin: 0 auto 32px; padding: 16px 18px; background: var(--warm-stone); border-radius: var(--radius-md); }
   .sch-filter-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .sch-filter-label { font-family: var(--font-sport); font-weight: 800; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); opacity: 0.7; width: 64px; flex-shrink: 0; }
@@ -304,6 +309,14 @@
 
 <section class="sch-section" id="weekly-programs">
   <div class="container">
+    <div class="sch-preview">
+      <h2>A First Look at the Schedule</h2>
+      <p>We&rsquo;re still putting the finishing touches on the schedule, but wanted to give you an early look at what we&rsquo;re planning for opening.</p>
+      <p>Think of this as our sample schedule for now. Class times, age groups, and availability may shift a little as we finalize coaches, memberships, and registrations.</p>
+      <p>We&rsquo;ll keep this page updated as everything gets locked in.</p>
+      <p>See something you&rsquo;re excited about? So are we.</p>
+    </div>
+
     <div class="sch-tabs" id="schTabs">
       <button type="button" class="sch-tab active" data-tab="upcoming">Upcoming: Opening October 1</button>
     </div>
