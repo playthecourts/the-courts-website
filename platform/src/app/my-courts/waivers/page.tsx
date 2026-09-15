@@ -63,7 +63,7 @@ export default async function WaiversPage({
 
   return (
     <div className="flex flex-col gap-8">
-      <div>
+      <div className="pt-8 md:pt-12">
         <h1 className="font-display text-2xl font-black text-black">Waivers + Permissions</h1>
         <p className="mt-1 font-body text-sm text-gray-dark">
           Required forms are signed once and cover the athletes you select — add a new athlete later and
