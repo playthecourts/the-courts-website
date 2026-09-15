@@ -330,6 +330,17 @@
 
     <div class="sch-filters">
       <div class="sch-filter-row">
+        <span class="sch-filter-label">Day</span>
+        <button type="button" class="sch-chip active" data-filter="day" data-value="all">All</button>
+        <button type="button" class="sch-chip" data-filter="day" data-value="Monday">Mon</button>
+        <button type="button" class="sch-chip" data-filter="day" data-value="Tuesday">Tue</button>
+        <button type="button" class="sch-chip" data-filter="day" data-value="Wednesday">Wed</button>
+        <button type="button" class="sch-chip" data-filter="day" data-value="Thursday">Thu</button>
+        <button type="button" class="sch-chip" data-filter="day" data-value="Friday">Fri</button>
+        <button type="button" class="sch-chip" data-filter="day" data-value="Saturday">Sat</button>
+        <button type="button" class="sch-chip" data-filter="day" data-value="Sunday">Sun</button>
+      </div>
+      <div class="sch-filter-row">
         <span class="sch-filter-label">Sport</span>
         <button type="button" class="sch-chip active" data-filter="sport" data-value="all">All</button>
         <button type="button" class="sch-chip" data-filter="sport" data-value="basketball">Basketball</button>
@@ -593,7 +604,7 @@
     ]
   };
 
-  var state = { tab: 'upcoming', sport: 'all', type: 'all', age: 'all' };
+  var state = { tab: 'upcoming', day: 'all', sport: 'all', type: 'all', age: 'all' };
 
   function sessionRow(s) {
     var tagClass = s.type === 'team' ? 'sch-tag--team' : (s.type === 'open' ? 'sch-tag--open' : 'sch-tag--training');
@@ -647,6 +658,7 @@
   }
 
   function matchesFilters(s) {
+    if (state.day !== 'all' && s.day !== state.day) return false;
     if (state.sport !== 'all' && s.sport !== state.sport) return false;
     if (state.type !== 'all' && s.type !== state.type) return false;
     if (state.age !== 'all' && s.age.indexOf(state.age) === -1) return false;
@@ -662,7 +674,7 @@
 
     days.forEach(function (day) {
       if (day === 'Thursday') {
-        var showThursday = (state.type === 'all' || state.type === 'team') && (state.sport === 'all' || state.sport === 'basketball');
+        var showThursday = (state.day === 'all' || state.day === 'Thursday') && (state.type === 'all' || state.type === 'team') && (state.sport === 'all' || state.sport === 'basketball');
         if (!showThursday) return;
         anyContent = true;
         html += '<div class="sch-day-group">';
@@ -691,7 +703,7 @@
       html += '</div>';
     });
 
-    var showSunday = state.type === 'all' && (state.sport === 'all' || state.sport === 'basketball');
+    var showSunday = (state.day === 'all' || state.day === 'Sunday') && state.type === 'all' && (state.sport === 'all' || state.sport === 'basketball');
     if (showSunday) {
       anyContent = true;
       html += '<div class="sch-day-group">';
