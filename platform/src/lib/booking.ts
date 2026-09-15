@@ -208,6 +208,23 @@ async function createBookingCheckout(
   return checkoutSession.url;
 }
 
+// Re-opens Checkout for a booking whose original session expired (or was
+// simply abandoned) without the family paying — the seat is still held
+// (status stays "booked"), so this only needs a fresh Checkout Session
+// against the same booking, never a new booking row (bookAthleteIntoSession
+// isn't reusable here: sessionId+athleteId is unique, so calling it again
+// for the same seat would just hit that constraint).
+export async function resumeBookingCheckout(bookingId: string): Promise<string> {
+  const booking = await prisma.booking.findUniqueOrThrow({ where: { id: bookingId } });
+  if (booking.paymentStatus !== "pending" || booking.status === "cancelled") {
+    throw new Error("This booking no longer has a payment waiting.");
+  }
+  if (!booking.priceChargedCents) {
+    throw new Error("This booking has no price to charge.");
+  }
+  return createBookingCheckout(bookingId, booking.athleteId, booking.bookedByGuardianId, booking.priceChargedCents);
+}
+
 /// Cancels any booking still `pending` payment past its Checkout Session's
 /// expiry — a family that opens Checkout and abandons it must not hold a seat
 /// forever. Mirrors expireStaleOffers' role for the waitlist.

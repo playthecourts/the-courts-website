@@ -223,45 +223,42 @@ export default async function WaiversPage({
             </p>
             {athletes.map((athlete) => {
               const consent = mediaConsents.find((mc) => mc.athleteId === athlete.id);
-              return (
-                <div key={athlete.id} className="rounded-xl border border-gray-mid bg-white p-4">
-                  {consent ? (
-                    <details>
-                      <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
-                        <div>
-                          <p className="font-heading text-[15px] font-bold text-near-black">
-                            {athlete.firstName} {athlete.lastName}
-                          </p>
-                          <p className="mt-0.5 font-body text-[13px] text-gray-dark">
-                            Photo + Video Permission: {consent.status === "media_ok" ? "Allowed" : "Not Allowed"}
-                          </p>
-                        </div>
-                        <span className="shrink-0 font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
-                          Change &rarr;
-                        </span>
-                      </summary>
-                      <div className="mt-4">
-                        <PrivacyForm
-                          athlete={{ id: athlete.id }}
-                          displayName={`${athlete.firstName} ${athlete.lastName}`}
-                          currentStatus={consent.status}
-                          nextHref="/my-courts/waivers"
-                        />
-                      </div>
-                    </details>
-                  ) : (
-                    <div>
-                      <p className="mb-2 font-sport text-[10.5px] font-bold tracking-wide text-orange uppercase">
-                        Action Needed — {athlete.firstName} {athlete.lastName}
-                      </p>
+              return consent ? (
+                <div key={athlete.id} className="rounded-xl border border-gray-mid bg-white px-4 py-3.5">
+                  <p className="font-heading text-[15px] font-bold text-near-black">
+                    {athlete.firstName} {athlete.lastName}
+                  </p>
+                  <p className="mt-0.5 font-body text-[13px] text-gray-dark">
+                    &#10003; {consent.status === "media_ok" ? "Allowed" : "Not Allowed"}
+                  </p>
+                  <details className="mt-2">
+                    <summary className="cursor-pointer font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
+                      Change &rarr;
+                    </summary>
+                    <div className="mt-3">
                       <PrivacyForm
                         athlete={{ id: athlete.id }}
                         displayName={`${athlete.firstName} ${athlete.lastName}`}
-                        currentStatus={null}
+                        currentStatus={consent.status}
                         nextHref="/my-courts/waivers"
                       />
                     </div>
-                  )}
+                  </details>
+                </div>
+              ) : (
+                <div key={athlete.id} className="rounded-xl border border-orange/40 bg-orange/5 p-4">
+                  <p className="mb-1 font-sport text-[10.5px] font-bold tracking-wide text-orange uppercase">
+                    Action Needed
+                  </p>
+                  <p className="mb-3 font-heading text-[16px] font-bold text-near-black">
+                    Photo + Video Permission — {athlete.firstName} {athlete.lastName}
+                  </p>
+                  <PrivacyForm
+                    athlete={{ id: athlete.id }}
+                    displayName={`${athlete.firstName} ${athlete.lastName}`}
+                    currentStatus={null}
+                    nextHref="/my-courts/waivers"
+                  />
                 </div>
               );
             })}

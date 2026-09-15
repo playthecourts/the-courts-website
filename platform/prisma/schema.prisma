@@ -758,6 +758,9 @@ model Booking {
   /// Mirrors the Stripe Checkout Session's own expiry. A sweep cancels any
   /// booking still `pending` past this time, freeing the seat.
   checkoutExpiresAt      DateTime?   @map("checkout_expires_at")
+  /// Stripe's own hosted receipt for the completed payment, fetched once at
+  /// webhook time.
+  receiptUrl             String?     @map("receipt_url")
 
   /// The master Registration this seat belongs to, for programs registered
   /// at the program level (camps, leagues, multi-week clinics). Null for a
@@ -1724,6 +1727,10 @@ model Registration {
   /// Pointers only — never card data, never a cached Stripe object.
   stripeCheckoutSessionId String? @unique @map("stripe_checkout_session_id")
   stripePaymentIntentId   String? @unique @map("stripe_payment_intent_id")
+  /// Stripe's own hosted receipt for the completed payment — fetched once at
+  /// webhook time (via the PaymentIntent's charge) rather than live on every
+  /// page render.
+  receiptUrl        String? @map("receipt_url")
   promoCodeId       String? @map("promo_code_id")
   creditAppliedCents Int?   @map("credit_applied_cents")
 

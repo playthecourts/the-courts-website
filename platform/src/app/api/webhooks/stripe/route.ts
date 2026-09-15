@@ -74,6 +74,22 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 
 // A real per-session/per-offering booking payment — see src/lib/booking.ts'
 // createBookingCheckout, which creates the Checkout Session this confirms.
+// Best-effort — a receipt link is a nice-to-have, never worth failing (and
+// therefore retrying) the payment-confirmation webhook over.
+async function receiptUrlFor(session: Stripe.Checkout.Session): Promise<string | null> {
+  const paymentIntentId =
+    typeof session.payment_intent === "string" ? session.payment_intent : session.payment_intent?.id;
+  if (!paymentIntentId) return null;
+  try {
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId, { expand: ["latest_charge"] });
+    const charge = paymentIntent.latest_charge;
+    return typeof charge === "string" ? null : (charge?.receipt_url ?? null);
+  } catch (err) {
+    console.error("Failed to fetch Stripe receipt URL for", session.id, err);
+    return null;
+  }
+}
+
 async function handleBookingCheckoutCompleted(session: Stripe.Checkout.Session) {
   const bookingId = session.metadata?.bookingId;
   if (!bookingId) {
@@ -85,9 +101,11 @@ async function handleBookingCheckoutCompleted(session: Stripe.Checkout.Session) 
   if (!booking) return; // Booking was cancelled/expired before payment confirmed.
   if (booking.paymentStatus === "paid") return; // Idempotent against webhook retries.
 
+  const receiptUrl = await receiptUrlFor(session);
+
   await prisma.booking.update({
     where: { id: bookingId },
-    data: { paymentStatus: "paid" },
+    data: { paymentStatus: "paid", receiptUrl },
   });
 }
 
@@ -102,9 +120,29 @@ async function handleRegistrationCheckoutCompleted(session: Stripe.Checkout.Sess
   if (!registration) return; // Registration was cancelled before payment confirmed.
   if (registration.paymentStatus === "paid") return; // Idempotent against webhook retries.
 
+  // amountCents is documented as "what the family was actually charged,
+  // after member pricing/promo" — session.amount_total is the only place
+  // that's actually known (a promo code is entered inside Stripe's own
+  // Checkout UI, invisible to us until the session completes).
+  const amountCents = session.amount_total ?? registration.amountCents;
+  const creditAppliedCents =
+    session.amount_subtotal != null && session.amount_total != null && session.amount_subtotal > session.amount_total
+      ? session.amount_subtotal - session.amount_total
+      : null;
+  const receiptUrl = await receiptUrlFor(session);
+  const stripePaymentIntentId =
+    typeof session.payment_intent === "string" ? session.payment_intent : (session.payment_intent?.id ?? null);
+
   await prisma.registration.update({
     where: { id: registrationId },
-    data: { status: "registered", paymentStatus: "paid" },
+    data: {
+      status: "registered",
+      paymentStatus: "paid",
+      amountCents,
+      creditAppliedCents,
+      receiptUrl,
+      stripePaymentIntentId,
+    },
   });
 
   // Best-effort — sendEmail swallows its own errors, never blocks this webhook.

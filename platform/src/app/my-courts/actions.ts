@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
-import { bookAthleteIntoSession, cancelBookingById, cancelWaitlistEntryById } from "@/lib/booking";
+import { bookAthleteIntoSession, cancelBookingById, cancelWaitlistEntryById, resumeBookingCheckout } from "@/lib/booking";
 import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { acceptOffer, declineOffer } from "@/lib/programs/waitlist";
 
@@ -61,6 +61,27 @@ export async function cancelBooking(bookingId: string) {
   await cancelBookingById(bookingId);
   revalidatePath("/my-courts/bookings");
   revalidatePath("/my-courts/schedule");
+}
+
+/// Resumes payment on a booking that's still holding its seat but never
+/// completed Checkout — used by the Payments Due section (and anywhere else
+/// a "Pay →" CTA needs to send a family back to Stripe for a seat they
+/// already have).
+export async function payBooking(bookingId: string) {
+  const guardian = await getCurrentGuardian();
+  const booking = await prisma.booking.findUniqueOrThrow({
+    where: { id: bookingId },
+    include: { athlete: true },
+  });
+  const ownsAthlete = guardian.families.some((fg) =>
+    fg.family.athletes.some((a) => a.id === booking.athlete.id)
+  );
+  if (!ownsAthlete) {
+    throw new Error("Not authorized to act on this booking.");
+  }
+
+  const checkoutUrl = await resumeBookingCheckout(bookingId);
+  redirect(checkoutUrl);
 }
 
 export async function cancelWaitlistEntry(waitlistEntryId: string, athleteId: string) {
