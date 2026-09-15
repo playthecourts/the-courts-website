@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { signedPhotoUrls } from "@/lib/athlete-photo";
 import { AthleteAvatar } from "@/components/athlete/avatar";
 import { displayName, completeness } from "@/lib/athlete";
+import { formatGrade } from "@/lib/coach-format";
 
 export default async function AthletesPage() {
   const guardian = await getCurrentGuardian();
@@ -81,7 +82,7 @@ export default async function AthletesPage() {
                       {displayName(athlete)}
                     </span>
                     <span className="mt-0.5 block font-body text-[13.5px] text-gray-dark">
-                      {[athlete.grade ? `${athlete.grade} Grade` : null, athlete.sports.join(" · ") || null]
+                      {[formatGrade(athlete.grade), athlete.sports.join(" · ") || null]
                         .filter(Boolean)
                         .join(" · ") || "Profile started"}
                     </span>

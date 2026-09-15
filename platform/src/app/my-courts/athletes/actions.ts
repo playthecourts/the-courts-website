@@ -361,37 +361,124 @@ export async function saveSafety(_prev: ActionState, formData: FormData): Promis
   return OK;
 }
 
-export async function saveCustody(_prev: ActionState, formData: FormData): Promise<ActionState> {
+/// The full Safety + Emergency page — one Save for health information, the
+/// primary AND backup emergency contact, and pickup/custody restrictions,
+/// instead of the three separate saves this used to take. Distinct from
+/// saveSafety above, which stays as the lighter primary-contact-only step in
+/// first-run setup (never asks for a backup — that page's whole design is
+/// "answer one thing, move on").
+export async function saveFamilySafety(_prev: ActionState, formData: FormData): Promise<ActionState> {
   const athleteId = str(formData, "athleteId");
   const { athlete, guardianId, guardianName } = await requireGuardianAthlete(athleteId);
+  const familyGuardianIds = new Set(athlete.family.guardians.map((fg) => fg.guardian.id));
+
+  const hasMedicalInfo = str(formData, "hasMedicalInfo") === "yes";
+  const medicalNotes = hasMedicalInfo ? optional(formData, "medicalNotes") : null;
 
   const hasCustodyRestrictions = str(formData, "hasCustodyRestrictions") === "yes";
-  const custodyRestrictions = hasCustodyRestrictions
-    ? optional(formData, "custodyRestrictions")
-    : null;
+  const custodyRestrictions = hasCustodyRestrictions ? optional(formData, "custodyRestrictions") : null;
 
-  if (hasCustodyRestrictions && !custodyRestrictions) {
-    return { ok: false, errors: { custodyRestrictions: "Tell us what our staff needs to know." } };
+  function readContact(prefix: "primary" | "backup") {
+    const useGuardianId = optional(formData, `${prefix}GuardianId`);
+    if (useGuardianId && familyGuardianIds.has(useGuardianId)) {
+      const g = athlete.family.guardians.find((fg) => fg.guardian.id === useGuardianId)!.guardian;
+      return { name: g.name, relationship: "Parent/Guardian", phone: g.phone ?? "", guardianId: g.id };
+    }
+    return {
+      name: str(formData, `${prefix}Name`),
+      relationship: str(formData, `${prefix}Relationship`),
+      phone: str(formData, `${prefix}Phone`),
+      guardianId: null as string | null,
+    };
   }
 
-  await prisma.athlete.update({
-    where: { id: athlete.id },
-    data: {
-      hasCustodyRestrictions,
-      custodyRestrictions,
-      // Clearing the restriction clears the coach-facing instruction with it —
-      // an instruction that outlives its reason is worse than none.
-      custodyStaffInstruction: hasCustodyRestrictions ? athlete.custodyStaffInstruction : null,
-    },
+  const primary = readContact("primary");
+  const backup = readContact("backup");
+
+  const errors: Record<string, string> = {};
+  if (hasMedicalInfo && !medicalNotes) errors.medicalNotes = "Tell us what our staff should know.";
+  if (hasCustodyRestrictions && !custodyRestrictions) {
+    errors.custodyRestrictions = "Tell us what our staff needs to know.";
+  }
+  if (!primary.name) errors.primaryName = "We need a name.";
+  if (!primary.relationship) errors.primaryRelationship = "How are they related?";
+  if (!primary.phone) errors.primaryPhone = "We need a phone number.";
+  // Backup is always required, not gated behind a Yes/No — there is no
+  // "no backup contact" answer, only "haven't told us yet".
+  if (!backup.name) errors.backupName = "We need a name.";
+  if (!backup.relationship) errors.backupRelationship = "How are they related?";
+  if (!backup.phone) errors.backupPhone = "We need a phone number.";
+  if (Object.keys(errors).length > 0) return { ok: false, errors };
+
+  const actor: ProfileChangeActor = { type: "guardian", id: guardianId, label: guardianName };
+  const existingPrimary = athlete.emergencyContacts.find((c) => c.role === "primary");
+  const existingBackup = athlete.emergencyContacts.find((c) => c.role === "backup");
+
+  await prisma.$transaction(async (tx) => {
+    await tx.athlete.update({
+      where: { id: athlete.id },
+      data: {
+        hasMedicalInfo,
+        medicalNotes,
+        hasCustodyRestrictions,
+        custodyRestrictions,
+        // Clearing the restriction clears the coach-facing instruction with
+        // it — an instruction that outlives its reason is worse than none.
+        custodyStaffInstruction: hasCustodyRestrictions ? athlete.custodyStaffInstruction : null,
+      },
+    });
+
+    for (const [role, contact, existing, sortOrder] of [
+      ["primary", primary, existingPrimary, 0],
+      ["backup", backup, existingBackup, 1],
+    ] as const) {
+      const data = {
+        name: contact.name,
+        relationship: contact.relationship,
+        phone: contact.phone,
+        guardianId: contact.guardianId,
+      };
+      if (existing) {
+        await tx.emergencyContact.update({ where: { id: existing.id }, data });
+      } else {
+        await tx.emergencyContact.create({
+          data: { athleteId: athlete.id, role, sortOrder, ...data },
+        });
+      }
+    }
   });
 
   await recordIfChanged({
     athleteId: athlete.id,
-    actor: { type: "guardian", id: guardianId, label: guardianName },
+    actor,
+    category: "medical",
+    field: "medical_information",
+    before: athlete.medicalNotes,
+    after: medicalNotes,
+  });
+  await recordIfChanged({
+    athleteId: athlete.id,
+    actor,
     category: "custody",
     field: "custody_restrictions",
     before: athlete.custodyRestrictions,
     after: custodyRestrictions,
+  });
+  await recordProfileChange({
+    athleteId: athlete.id,
+    actor,
+    category: "emergency",
+    field: "primary_emergency_contact",
+    oldValue: existingPrimary?.name ?? null,
+    newValue: primary.name,
+  });
+  await recordProfileChange({
+    athleteId: athlete.id,
+    actor,
+    category: "emergency",
+    field: "backup_emergency_contact",
+    oldValue: existingBackup?.name ?? null,
+    newValue: backup.name,
   });
 
   revalidateAthlete(athlete.id);

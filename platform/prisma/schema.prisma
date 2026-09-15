@@ -2225,9 +2225,18 @@ enum RegistrationSelection {
 /// Who to call when something happens. Structured rather than the old free-text
 /// column so the front desk can actually dial it, and so "same as Mom" doesn't
 /// mean retyping a phone number that then drifts out of date.
+/// Which order staff should call in — explicit rather than left to infer from
+/// list position, so "who do we call first" never depends on sortOrder being
+/// read correctly.
+enum EmergencyContactRole {
+  primary
+  backup
+}
+
 model EmergencyContact {
-  id           String   @id @default(uuid())
-  athleteId    String   @map("athlete_id")
+  id           String               @id @default(uuid())
+  athleteId    String               @map("athlete_id")
+  role         EmergencyContactRole @default(primary)
   name         String
   relationship String
   phone        String
@@ -2242,6 +2251,9 @@ model EmergencyContact {
   athlete  Athlete   @relation(fields: [athleteId], references: [id], onDelete: Cascade)
   guardian Guardian? @relation(fields: [guardianId], references: [id], onDelete: SetNull)
 
+  /// Exactly one primary and one backup per athlete — a second "primary" would
+  /// be the exact undifferentiated-duplicate this role field exists to prevent.
+  @@unique([athleteId, role])
   @@index([athleteId, sortOrder])
   @@map("emergency_contacts")
 }

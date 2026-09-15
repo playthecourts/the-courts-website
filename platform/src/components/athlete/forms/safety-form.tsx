@@ -67,7 +67,7 @@ export default function SafetyForm({
   /// "Same as Parent / Guardian" copies the values in rather than storing a
   /// pointer alone — the front desk needs a number to dial without a join, and
   /// the parent can still edit it afterwards.
-  function useGuardian(id: string) {
+  function applyGuardianContact(id: string) {
     const g = guardians.find((x) => x.id === id);
     if (!g) return;
     setContact({
@@ -114,7 +114,7 @@ export default function SafetyForm({
             <button
               key={g.id}
               type="button"
-              onClick={() => useGuardian(g.id)}
+              onClick={() => applyGuardianContact(g.id)}
               className="min-h-[42px] rounded-full border border-gray-mid bg-white px-4 font-body text-[14px] text-near-black hover:border-orange"
             >
               Same as {g.name.split(" ")[0]}

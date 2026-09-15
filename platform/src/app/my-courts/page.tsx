@@ -119,7 +119,14 @@ export default async function MyCourtsHomePage() {
       },
       athlete.id
     );
-    if (nextStep) {
+    if (nextStep?.key === "emergency-backup") {
+      attentionItems.push({
+        athleteName: athlete.firstName,
+        message: "needs a Backup Emergency Contact — someone we can call if the primary guardian can't be reached",
+        href: nextStep.href,
+        cta: "Add Contact",
+      });
+    } else if (nextStep) {
       attentionItems.push({ athleteName: athlete.firstName, message: `Finish their Player Card — next: ${nextStep.label}`, href: nextStep.href, cta: "Continue" });
     }
   }

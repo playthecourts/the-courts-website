@@ -5,8 +5,7 @@ import { signedPhotoUrl } from "@/lib/athlete-photo";
 import { displayName } from "@/lib/athlete";
 import PhotoPicker from "@/components/athlete/photo-picker";
 import AboutForm from "@/components/athlete/forms/about-form";
-import SafetyForm from "@/components/athlete/forms/safety-form";
-import CustodyForm from "@/components/athlete/forms/custody-form";
+import FamilySafetyForm from "@/components/athlete/forms/family-safety-form";
 import GuardiansForm from "@/components/athlete/forms/guardians-form";
 import PickupForm from "@/components/athlete/forms/pickup-form";
 import PrivacyForm from "@/components/athlete/forms/privacy-form";
@@ -93,16 +92,13 @@ export default async function EditSectionPage({
 
         {section === "safety" && (
           <>
-            <SafetyForm
+            <StepHeader title="Safety + Emergency" />
+            <FamilySafetyForm
               athlete={athlete}
               displayName={name}
               guardians={guardianRows}
               nextHref={done}
-              title="Safety + Emergency"
-              submitLabel="Save"
             />
-            <div className="my-8 border-t border-gray-mid pt-2" />
-            <CustodyForm athlete={athlete} nextHref={done} />
           </>
         )}
 

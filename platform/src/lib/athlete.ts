@@ -137,9 +137,15 @@ export function completeness(a: CompletenessInput, athleteId: string): {
       href: `${base}/edit/player-card`,
     },
     {
-      key: "emergency",
-      label: "Emergency contact",
+      key: "emergency-primary",
+      label: "Primary emergency contact",
       done: a.emergencyContactCount > 0,
+      href: `${base}/edit/safety`,
+    },
+    {
+      key: "emergency-backup",
+      label: "Backup emergency contact",
+      done: a.emergencyContactCount > 1,
       href: `${base}/edit/safety`,
     },
   ];

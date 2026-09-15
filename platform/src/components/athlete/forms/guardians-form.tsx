@@ -68,11 +68,9 @@ export default function GuardiansForm({
                 <p className="mt-0.5 font-body text-[13.5px] text-gray-dark">
                   {[g.relationship, g.phone, g.email].filter(Boolean).join(" · ") || "No contact details yet"}
                 </p>
-                {!g.hasLogin && (
-                  <p className="mt-1 font-body text-[12.5px] text-gray-dark">
-                    No account yet — they can sign up with this email any time.
-                  </p>
-                )}
+                <p className="mt-1 font-body text-[12.5px] text-gray-dark">
+                  {g.hasLogin ? "Has portal access" : "No portal access yet — they can sign up with this email any time."}
+                </p>
               </div>
             </div>
 
@@ -165,7 +163,7 @@ export default function GuardiansForm({
             href={nextHref}
             className="flex min-h-[52px] w-full items-center justify-center rounded-lg bg-orange px-5 font-sport text-[15px] font-bold uppercase tracking-wide text-white hover:bg-orange-hover"
           >
-            Done
+            Back to Family + Safety →
           </a>
         </div>
       )}

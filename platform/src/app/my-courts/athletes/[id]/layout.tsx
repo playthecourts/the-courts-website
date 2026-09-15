@@ -4,6 +4,7 @@ import { getGuardianAthleteOrNull } from "@/lib/athlete-profile";
 import { signedPhotoUrl } from "@/lib/athlete-photo";
 import { AthleteAvatar } from "@/components/athlete/avatar";
 import { displayName, fullName, completeness } from "@/lib/athlete";
+import { formatGrade } from "@/lib/coach-format";
 import ProfileTabs from "./profile-tabs";
 
 // The athlete header + tabs, shared by every tab below it.
@@ -52,7 +53,7 @@ export default async function AthleteProfileLayout({
             {name}
           </h1>
           <p className="mt-0.5 font-body text-[14px] text-gray-dark">
-            {[fullName(athlete) !== name ? fullName(athlete) : null, athlete.grade ? `${athlete.grade} Grade` : null]
+            {[fullName(athlete) !== name ? fullName(athlete) : null, formatGrade(athlete.grade)]
               .filter(Boolean)
               .join(" · ")}
           </p>
@@ -70,11 +71,11 @@ export default async function AthleteProfileLayout({
               Finish {name}&rsquo;s profile
             </p>
             <p className="mt-0.5 font-body text-[13px] text-gray-dark">
-              Next: {progress.nextStep.label} · {progress.done} of {progress.total} done
+              Next: {progress.nextStep.label}
             </p>
           </div>
-          <span className="font-sport text-[11px] font-bold uppercase tracking-[0.1em] text-orange">
-            Continue
+          <span className="shrink-0 font-sport text-[11px] font-bold uppercase tracking-[0.1em] text-orange">
+            Continue &rarr;
           </span>
         </Link>
       )}

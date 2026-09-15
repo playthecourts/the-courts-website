@@ -18,13 +18,18 @@ export default async function FamilySafetyPage({ params }: { params: Promise<{ i
     athlete.family.guardians.filter((g) => g.authorizedForPickup).length +
     athlete.authorizedPickups.length;
 
+  const primaryContact = athlete.emergencyContacts.find((c) => c.role === "primary");
+  const backupContact = athlete.emergencyContacts.find((c) => c.role === "backup");
+
   const sections = [
     {
       href: `${base}/safety`,
-      label: "Emergency + Safety",
-      detail: athlete.emergencyContacts[0]
-        ? `${athlete.emergencyContacts[0].name} · ${athlete.emergencyContacts[0].phone}`
-        : "No emergency contact yet",
+      label: "Safety + Emergency",
+      detail: !primaryContact
+        ? "No emergency contact yet"
+        : !backupContact
+          ? `${primaryContact.name} · Backup contact needed`
+          : `${primaryContact.name} · Complete`,
     },
     {
       href: `${base}/guardians`,
