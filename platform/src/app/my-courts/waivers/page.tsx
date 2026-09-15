@@ -1,8 +1,14 @@
+import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { SignForm } from "./sign-form";
 
-export default async function WaiversPage() {
+export default async function WaiversPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ required?: string }>;
+}) {
+  const { required } = await searchParams;
   const guardian = await getCurrentGuardian();
   const athletes = guardian.families.flatMap((fg) => fg.family.athletes);
 
@@ -21,6 +27,16 @@ export default async function WaiversPage() {
       <p className="mb-6 text-sm text-neutral-600">
         Required waivers must be signed before booking a session.
       </p>
+
+      {required === "league" && (
+        <div className="mb-6 rounded-lg border border-orange bg-orange/5 p-4 text-sm text-neutral-800">
+          Sign the waiver below before registering for Fall League — once it&rsquo;s signed, head back to{" "}
+          <Link href="/my-courts/league" className="font-semibold text-orange underline">
+            Fall League
+          </Link>{" "}
+          to finish registering.
+        </div>
+      )}
 
       {waivers.length === 0 ? (
         <p className="text-sm text-neutral-500">No waivers on file.</p>

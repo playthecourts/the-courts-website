@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
-import { assertWaiversSigned } from "@/lib/waivers";
+import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { stripe } from "@/lib/stripe";
 
 async function getOrigin() {
@@ -30,7 +30,14 @@ export async function startLeagueRegistration(athleteId: string) {
     throw new Error("Not authorized to act on this athlete.");
   }
 
-  await assertWaiversSigned(guardian.id, athleteId);
+  // A crashed page (thrown uncaught) is worse than a redirect — send the
+  // guardian to sign what's missing instead of letting startLeagueRegistration
+  // blow up the whole request the way bookSession's assertWaiversSigned
+  // would too (same underlying gap, not fixed here).
+  const unsigned = await getUnsignedRequiredWaivers(guardian.id, athleteId);
+  if (unsigned.length > 0) {
+    redirect("/my-courts/waivers?required=league");
+  }
 
   const offering = await prisma.offering.findFirstOrThrow({
     where: { name: "Fall 2026 Basketball League" },
