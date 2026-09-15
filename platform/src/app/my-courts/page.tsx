@@ -162,7 +162,6 @@ export default async function MyCourtsHomePage() {
 
   const ACCOUNT_LINKS = [
     { href: "/my-courts/payments", label: "Payments" },
-    { href: "/my-courts/payments", label: "Payment Methods + Billing History" },
     { href: "/my-courts/settings", label: "Family Settings" },
   ];
 
