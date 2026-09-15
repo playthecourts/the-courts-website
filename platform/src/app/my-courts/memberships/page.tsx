@@ -156,7 +156,7 @@ export default async function MembershipsPage({
       {required === "league" && requiredForAthlete && (
         <div className="rounded-lg border border-orange bg-orange/5 p-4 font-body text-sm text-neutral-800">
           Fall League requires a Weekly membership or higher. Choose a plan for{" "}
-          <strong>{requiredForAthlete.firstName}</strong> to finish registering.
+          <strong>{requiredForAthlete.firstName}</strong>.
         </div>
       )}
 

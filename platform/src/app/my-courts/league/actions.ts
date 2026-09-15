@@ -89,12 +89,23 @@ export async function startLeagueRegistration(athleteId: string) {
     await prisma.guardian.update({ where: { id: guardian.id }, data: { stripeCustomerId: customerId } });
   }
 
+  // The $25 evaluation credit (EVAL25) applies to every League registration
+  // — leagues.html has always advertised it as a blanket credit, not
+  // something a family has to prove eligibility for. Applying it directly
+  // rather than via allow_promotion_codes means the amount shown on
+  // Payments always matches what Stripe actually charges, instead of
+  // depending on the family remembering to type a code themselves.
+  const evalCredit = await stripe.promotionCodes.list({ code: "EVAL25", active: true, limit: 1 });
+  const evalPromoCodeId = evalCredit.data[0]?.id;
+
   const origin = await getOrigin();
   const checkoutSession = await stripe.checkout.sessions.create({
     mode: "payment",
     customer: customerId,
     line_items: [{ price: offering.stripePriceId, quantity: 1 }],
-    allow_promotion_codes: true,
+    ...(evalPromoCodeId
+      ? { discounts: [{ promotion_code: evalPromoCodeId }] }
+      : { allow_promotion_codes: true }),
     success_url: `${origin}/my-courts/league?checkout=success`,
     cancel_url: `${origin}/my-courts/league?checkout=cancelled`,
     metadata: { registrationId: registration.id, athleteId, guardianId: guardian.id },
