@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
-import { AuthToggle } from "../auth-toggle";
 import { SignupForm } from "./signup-form";
 
 export default async function SignupPage({
@@ -21,7 +20,6 @@ export default async function SignupPage({
         className="mb-6"
         priority
       />
-      <AuthToggle active="signup" />
       <h1 className="mb-1 font-display text-2xl font-black uppercase tracking-tight text-black">
         Create Your Account
       </h1>
