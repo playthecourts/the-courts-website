@@ -342,6 +342,8 @@
         <button type="button" class="sch-chip" data-filter="type" data-value="training">Training</button>
         <button type="button" class="sch-chip" data-filter="type" data-value="team">Team Practice</button>
         <button type="button" class="sch-chip" data-filter="type" data-value="open">Open Court</button>
+        <a href="camps" class="sch-chip">Camps</a>
+        <a href="events" class="sch-chip">See Events Page →</a>
       </div>
       <div class="sch-filter-row">
         <span class="sch-filter-label">Age</span>
@@ -715,7 +717,7 @@
     });
   }
 
-  document.querySelectorAll('.sch-chip').forEach(function (chip) {
+  document.querySelectorAll('.sch-chip[data-filter]').forEach(function (chip) {
     chip.addEventListener('click', function () {
       var group = chip.getAttribute('data-filter');
       document.querySelectorAll('.sch-chip[data-filter="' + group + '"]').forEach(function (c) { c.classList.remove('active'); });
