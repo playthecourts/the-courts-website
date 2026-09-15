@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
 import { familyCrewInitials, familyCrewName } from "@/lib/family";
 import { AccountMenu } from "./account-menu";
-import NavLink, { SignOutNavItem } from "./nav-link";
+import NavLink from "./nav-link";
 
 const NAV_ITEMS = [
   { href: "/my-courts", label: "Home", icon: "home" as const },
@@ -45,7 +45,6 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
               {item.label}
             </NavLink>
           ))}
-          <SignOutNavItem variant="sidebar" />
         </nav>
         <div className="border-t border-gray-mid px-4 py-3">
           <AccountMenu crewName={crewName} initials={initials} variant="sidebar" />
@@ -78,7 +77,6 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
             {item.label}
           </NavLink>
         ))}
-        <SignOutNavItem variant="bottom" />
       </nav>
     </div>
   );

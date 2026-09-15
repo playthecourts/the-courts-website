@@ -13,6 +13,7 @@ type IconName =
   | "league"
   | "payments"
   | "waivers"
+  | "messages"
   | "signout";
 
 export function Icon({ name, active }: { name: IconName; active: boolean }) {
@@ -88,6 +89,13 @@ export function Icon({ name, active }: { name: IconName; active: boolean }) {
           <path d="M7 3h7l4 4v14H7Z" />
           <path d="M14 3v4h4" />
           <path d="M9.5 13.5l2 2 4-4" />
+        </svg>
+      );
+    case "messages":
+      return (
+        <svg {...common} aria-hidden="true">
+          <path d="M4 5.5h16a1 1 0 0 1 1 1V16a1 1 0 0 1-1 1H8l-4 4V6.5a1 1 0 0 1 1-1Z" />
+          <path d="M8 9.5h9M8 13h6" />
         </svg>
       );
     case "signout":

@@ -10,11 +10,8 @@ import { logout } from "@/app/actions/auth";
 // mobile header (mobile variant, opens downward).
 
 const MENU_ITEMS = [
-  { href: "/my-courts/athletes", label: "My Athletes" },
-  { href: "/my-courts/memberships", label: "Membership" },
-  { href: "/my-courts/messages", label: "Messages" },
-  { href: "/my-courts/payments", label: "Payment Methods" },
-  { href: "/my-courts/settings", label: "Settings" },
+  { href: "/my-courts", label: "Family Profile" },
+  { href: "/my-courts/settings", label: "Account Settings" },
 ];
 
 export function AccountMenu({
