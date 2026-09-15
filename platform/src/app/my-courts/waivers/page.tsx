@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getWaiverCoverageSummaries } from "@/lib/waivers";
 import { AthleteSignForm, FamilySignForm } from "./sign-form";
 import PrivacyForm from "@/components/athlete/forms/privacy-form";
+import { RELEASE_BODY, RELEASE_CHANNELS } from "@/lib/media-consent";
 import Link from "next/link";
 
 // Waivers + Permissions — the one place a family signs what's required and
@@ -231,6 +232,16 @@ export default async function WaiversPage({
                   <p className="mt-0.5 font-body text-[13px] text-gray-dark">
                     &#10003; {consent.status === "media_ok" ? "Allowed" : "Not Allowed"}
                   </p>
+                  <details className="mt-2">
+                    <summary className="cursor-pointer font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
+                      View &rarr;
+                    </summary>
+                    <div className="mt-3 max-h-48 overflow-y-auto whitespace-pre-wrap rounded-md bg-gray-light p-3 font-body text-xs text-gray-dark">
+                      {RELEASE_BODY.join("\n\n")}
+                      {"\n\nChannels this may appear on:\n"}
+                      {RELEASE_CHANNELS.map((c) => `• ${c}`).join("\n")}
+                    </div>
+                  </details>
                   <details className="mt-2">
                     <summary className="cursor-pointer font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
                       Change &rarr;
