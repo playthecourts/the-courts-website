@@ -39,6 +39,18 @@ export async function startLeagueRegistration(athleteId: string) {
     redirect("/my-courts/waivers?required=league&back=%2Fmy-courts%2Fleague");
   }
 
+  // League athletes must carry an active Courts membership (Weekly or
+  // higher — and Weekly is the floor, so any active plan qualifies) for the
+  // season, per the FAQ's own stated policy. Catching this before payment
+  // means a family never pays $375 only to learn afterward they're not
+  // eligible yet.
+  const activeMembership = await prisma.athleteMembership.findFirst({
+    where: { athleteId, status: "active" },
+  });
+  if (!activeMembership) {
+    redirect(`/my-courts/memberships?required=league&athlete=${athleteId}`);
+  }
+
   const offering = await prisma.offering.findFirstOrThrow({
     where: { name: "Fall 2026 Basketball League" },
   });

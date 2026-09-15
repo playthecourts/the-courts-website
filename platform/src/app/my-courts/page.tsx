@@ -137,6 +137,32 @@ export default async function MyCourtsHomePage() {
     attentionItems.push({ athleteName: m.athlete.firstName, message: `${m.plan.name} — payment didn't go through`, href: "/my-courts/memberships" });
   }
 
+  // League requires an active Courts membership (Weekly or higher — and
+  // Weekly is the floor, so any active plan qualifies) per the FAQ's own
+  // policy. A family can be mid-registration (or even paid, if they
+  // registered before this check existed) without one — flag it plainly
+  // rather than let them find out only when league actually starts.
+  const activeMembershipAthleteIds = new Set(athleteMemberships.map((m) => m.athleteId));
+  const leagueRegistrations = athleteIds.length
+    ? await prisma.registration.findMany({
+        where: {
+          athleteId: { in: athleteIds },
+          status: { not: "cancelled" },
+          offering: { name: "Fall 2026 Basketball League" },
+        },
+        include: { athlete: { select: { firstName: true, id: true } } },
+      })
+    : [];
+  for (const r of leagueRegistrations) {
+    if (activeMembershipAthleteIds.has(r.athlete.id)) continue;
+    attentionItems.push({
+      athleteName: r.athlete.firstName,
+      message: "Fall League requires a Weekly membership or higher — choose a plan to stay eligible",
+      href: `/my-courts/memberships?required=league&athlete=${r.athlete.id}`,
+      cta: "Choose Plan",
+    });
+  }
+
   // Waivers + Permissions family-level roll-up — a direct consequence of the
   // same per-athlete checks the dedicated section/dashboard strip already
   // make, computed once here as a plain boolean rather than a new status

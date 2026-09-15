@@ -102,11 +102,12 @@ function PlanCard({
 export default async function MembershipsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ checkout?: string }>;
+  searchParams: Promise<{ checkout?: string; required?: string; athlete?: string }>;
 }) {
-  const { checkout } = await searchParams;
+  const { checkout, required, athlete: requiredAthleteId } = await searchParams;
   const guardian = await getCurrentGuardian();
   const athletes = guardian.families.flatMap((fg) => fg.family.athletes);
+  const requiredForAthlete = requiredAthleteId ? athletes.find((a) => a.id === requiredAthleteId) : null;
 
   const [memberships, plans] = await Promise.all([
     prisma.athleteMembership.findMany({
@@ -151,6 +152,13 @@ export default async function MembershipsPage({
           </form>
         )}
       </div>
+
+      {required === "league" && requiredForAthlete && (
+        <div className="rounded-lg border border-orange bg-orange/5 p-4 font-body text-sm text-neutral-800">
+          Fall League requires a Weekly membership or higher. Choose a plan for{" "}
+          <strong>{requiredForAthlete.firstName}</strong> to finish registering.
+        </div>
+      )}
 
       {checkout === "success" && (
         <p className="rounded-lg border border-orange bg-white px-4 py-3 font-body text-sm text-black">
