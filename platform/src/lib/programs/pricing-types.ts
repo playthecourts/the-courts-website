@@ -5,5 +5,5 @@ export type BookingRule =
   | { kind: "credit_exhausted"; planName: string; priceCents: number | null }
   | { kind: "included"; planName: string }
   | { kind: "member_price"; priceCents: number | null; planName: string }
-  | { kind: "full_price"; priceCents: number | null }
+  | { kind: "full_price"; priceCents: number | null; memberPriceCents?: number | null }
   | { kind: "free" };

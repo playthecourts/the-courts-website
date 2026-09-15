@@ -57,7 +57,11 @@ export async function resolveBookingRule(
   });
 
   if (memberships.length === 0) {
-    return { kind: "full_price", priceCents: isCompanion ? offering.companionPriceCents : offering.priceCents };
+    return {
+      kind: "full_price",
+      priceCents: isCompanion ? offering.companionPriceCents : offering.priceCents,
+      memberPriceCents: isCompanion ? null : offering.memberPriceCents,
+    };
   }
 
   switch (offering.creditRule) {
@@ -71,7 +75,11 @@ export async function resolveBookingRule(
       );
       return m
         ? { kind: "included", planName: m.plan.name }
-        : { kind: "full_price", priceCents: isCompanion ? offering.companionPriceCents : offering.priceCents };
+        : {
+            kind: "full_price",
+            priceCents: isCompanion ? offering.companionPriceCents : offering.priceCents,
+            memberPriceCents: isCompanion ? null : offering.memberPriceCents,
+          };
     }
 
     case "uses_credit": {
@@ -122,7 +130,7 @@ export async function resolveBookingRule(
             : offering.priceCents;
         return { kind: "credit_exhausted", planName: m.plan.name, priceCents: memberPrice };
       }
-      return { kind: "full_price", priceCents: offering.priceCents };
+      return { kind: "full_price", priceCents: offering.priceCents, memberPriceCents: offering.memberPriceCents };
     }
 
     case "member_price": {
@@ -139,11 +147,19 @@ export async function resolveBookingRule(
             priceCents: isCompanion ? offering.companionPriceCents : offering.memberPriceCents ?? offering.priceCents,
             planName: m.plan.name,
           }
-        : { kind: "full_price", priceCents: isCompanion ? offering.companionPriceCents : offering.priceCents };
+        : {
+            kind: "full_price",
+            priceCents: isCompanion ? offering.companionPriceCents : offering.priceCents,
+            memberPriceCents: isCompanion ? null : offering.memberPriceCents,
+          };
     }
 
     case "separate_payment":
     default:
-      return { kind: "full_price", priceCents: isCompanion ? offering.companionPriceCents : offering.priceCents };
+      return {
+        kind: "full_price",
+        priceCents: isCompanion ? offering.companionPriceCents : offering.priceCents,
+        memberPriceCents: isCompanion ? null : offering.memberPriceCents,
+      };
   }
 }

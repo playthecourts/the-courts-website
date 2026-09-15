@@ -3,7 +3,7 @@ import { getCurrentGuardian } from "@/lib/dal";
 import { loadParentFeed } from "@/lib/programs/parent-feed";
 import { PARENT_CATEGORIES } from "@/lib/programs/types";
 import { expireStalePendingBookings } from "@/lib/booking";
-import { OfferingSessionCard } from "./offering-session-card";
+import { GroupedOfferingCard, type Card } from "./offering-session-card";
 
 // Explore, filtered the way a parent thinks.
 //
@@ -39,6 +39,22 @@ function Chip({
       {children}
     </Link>
   );
+}
+
+// Same offering, same calendar day (Dr. Dish's 30-min self-serve slots,
+// mainly) collapse into one group so the list reads as one block per day
+// instead of a wall of near-identical cards — booking itself is untouched,
+// each slot is still its own session underneath.
+function groupByOfferingAndDay(cards: Card[]): Card[][] {
+  const groups = new Map<string, Card[]>();
+  for (const card of cards) {
+    const day = card.startTime.slice(0, 10);
+    const key = `${card.offeringId}-${day}`;
+    const existing = groups.get(key);
+    if (existing) existing.push(card);
+    else groups.set(key, [card]);
+  }
+  return [...groups.values()];
 }
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
@@ -149,6 +165,18 @@ export default async function ExplorePage({
         </Row>
       </div>
 
+      <details className="rounded-lg border border-gray-mid bg-white px-4 py-3">
+        <summary className="cursor-pointer font-sport text-[11px] font-bold uppercase tracking-wide text-gray-dark">
+          Booking Policy
+        </summary>
+        <p className="mt-2 font-body text-sm text-gray-dark">
+          Plans change, and that&rsquo;s okay. Cancel a drop-in class or Dr. Dish session at least 12 hours before
+          it starts and we&rsquo;ll refund your payment or restore your credit — no questions asked. Inside that
+          12-hour window, we&rsquo;re not able to offer a refund. Camps and Fall League are final once you
+          register.
+        </p>
+      </details>
+
       {cards.length === 0 ? (
         <div className="rounded-lg border border-gray-mid bg-white p-6 text-center">
           <p className="font-display text-lg font-black text-black">Nothing on the Board.</p>
@@ -175,8 +203,8 @@ export default async function ExplorePage({
         </div>
       ) : (
         <div className="flex flex-col gap-3">
-          {cards.map((card) => (
-            <OfferingSessionCard key={card.sessionId} card={JSON.parse(JSON.stringify(card))} />
+          {groupByOfferingAndDay(cards.map((c) => JSON.parse(JSON.stringify(c)) as Card)).map((group) => (
+            <GroupedOfferingCard key={`${group[0].offeringId}-${group[0].sessionId}`} cards={group} />
           ))}
         </div>
       )}
