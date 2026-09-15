@@ -42,7 +42,8 @@ export type AuditAction =
   | "view_custody_restrictions"
   | "edit_athlete_profile"
   | "set_pickup_instruction"
-  | "resolve_media_follow_up";
+  | "resolve_media_follow_up"
+  | "export_athlete_roster";
 
 export async function auditLog(
   staffUserId: string,

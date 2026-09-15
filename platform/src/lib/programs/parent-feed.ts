@@ -19,6 +19,11 @@ export type ParentSessionCard = {
   sessionId: string;
   offeringId: string;
   offeringName: string;
+  /// Governs the cancellation policy note shown at booking time: only
+  /// "session" (drop-in classes, Dr. Dish) can ever refund. Camps
+  /// ("offering"/"multi_day") and League ("season") never do, regardless of
+  /// timing — see cancelBookingById in lib/booking.ts.
+  registrationMode: string;
   programType: string;
   programTypeLabel: string;
   /// Parent-facing bucket, not the admin type.
@@ -158,6 +163,7 @@ export async function loadParentFeed(
       sessionId: s.id,
       offeringId: o.id,
       offeringName: s.title ?? o.name,
+      registrationMode: o.registrationMode,
       programType: o.program.programType,
       programTypeLabel: def.label,
       category: parentCategoryFor(o.program.programType),

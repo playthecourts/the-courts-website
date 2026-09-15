@@ -8,6 +8,7 @@ import { ConfirmSubmitButton } from "./confirm-submit-button";
 type Card = {
   sessionId: string;
   offeringName: string;
+  registrationMode: string;
   programTypeLabel: string;
   sport: string | null;
   shortDescription: string | null;
@@ -82,6 +83,12 @@ export function OfferingSessionCard({ card }: { card: Card }) {
 
       {card.availability.state === "waitlist" ? (
         <p className="mb-3 font-body text-sm text-gray-dark">This session is full.</p>
+      ) : null}
+
+      {card.registrationMode === "session" ? (
+        <p className="mb-3 font-body text-xs text-gray-dark">
+          Cancel at least 12 hours before start for a refund or credit back — no refund after that.
+        </p>
       ) : null}
 
       <div className="flex flex-col gap-2">
