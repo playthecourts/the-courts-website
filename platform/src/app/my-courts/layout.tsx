@@ -13,7 +13,7 @@ const NAV_ITEMS = [
   { href: "/my-courts/memberships", label: "Membership", icon: "training" as const },
   { href: "/my-courts/league", label: "Fall League", icon: "league" as const },
   { href: "/my-courts/payments", label: "Payments", icon: "payments" as const },
-  { href: "/my-courts/waivers", label: "Waivers", icon: "waivers" as const },
+  { href: "/my-courts/waivers", label: "Waivers + Permissions", icon: "waivers" as const },
 ];
 
 export default async function MyCourtsLayout({ children }: { children: React.ReactNode }) {

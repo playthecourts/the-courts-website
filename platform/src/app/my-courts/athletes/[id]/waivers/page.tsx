@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getGuardianAthleteOrNull } from "@/lib/athlete-profile";
 import { getCurrentGuardian } from "@/lib/dal";
-import { prisma } from "@/lib/prisma";
+import { getWaiverCoverageSummaries } from "@/lib/waivers";
 
 function formatDate(date: Date) {
   return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(date);
@@ -21,15 +21,9 @@ export default async function AthleteWaiversPage({ params }: { params: Promise<{
 
   const guardian = await getCurrentGuardian();
 
-  const waivers = await prisma.waiver.findMany({
-    where: { required: true },
-    orderBy: { waiverType: "asc" },
-    include: {
-      signatures: {
-        where: { guardianId: guardian.id, OR: [{ athleteId: null }, { athleteId: athlete.id }] },
-      },
-    },
-  });
+  const summaries = (await getWaiverCoverageSummaries(guardian.id, [athlete.id])).filter(
+    (s) => s.waiver.required
+  );
 
   const mediaConsent = athlete.mediaConsent;
   const editBase = `/my-courts/athletes/${athlete.id}/edit`;
@@ -41,24 +35,24 @@ export default async function AthleteWaiversPage({ params }: { params: Promise<{
           Waivers
         </p>
         <div className="flex flex-col gap-2.5">
-          {waivers.map((waiver) => {
-            const signature = waiver.signatures[0];
-            return signature ? (
+          {summaries.map((s) => {
+            const isSigned = s.uncoveredAthleteIds.size === 0;
+            return isSigned ? (
               <div
-                key={waiver.id}
+                key={s.waiver.id}
                 className="rounded-xl border border-gray-mid bg-white px-4 py-3.5"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <p className="font-heading text-[15px] font-bold text-near-black">
-                      {waiver.waiverType}
+                      {s.waiver.waiverType}
                     </p>
                     <p className="mt-0.5 font-body text-[13px] text-gray-dark">
-                      &#10003; Signed {formatDate(signature.signedAt)}
+                      &#10003; Signed {s.mostRecentSignedAt ? formatDate(s.mostRecentSignedAt) : ""}
                     </p>
                   </div>
                   <Link
-                    href={`/my-courts/waivers#waiver-${waiver.id}`}
+                    href={`/my-courts/waivers#waiver-${s.waiver.id}`}
                     className="shrink-0 font-sport text-[11px] font-bold tracking-wide text-orange uppercase"
                   >
                     View &rarr;
@@ -67,7 +61,7 @@ export default async function AthleteWaiversPage({ params }: { params: Promise<{
               </div>
             ) : (
               <Link
-                key={waiver.id}
+                key={s.waiver.id}
                 href="/my-courts/waivers"
                 className="flex items-center justify-between gap-3 rounded-xl border border-orange/40 bg-orange/5 px-4 py-3.5"
               >
@@ -76,7 +70,7 @@ export default async function AthleteWaiversPage({ params }: { params: Promise<{
                     Action Needed
                   </p>
                   <p className="mt-0.5 font-heading text-[15px] font-bold text-near-black">
-                    {waiver.waiverType}
+                    {s.waiver.waiverType}
                   </p>
                 </div>
                 <span className="shrink-0 font-sport text-[11px] font-bold tracking-wide text-orange uppercase">

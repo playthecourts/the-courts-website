@@ -163,6 +163,7 @@ model Athlete {
   credits          Credit[]
   teamMemberships  TeamMember[]
   waiverSignatures WaiverSignature[]
+  waiverSignatureCoverage WaiverSignatureAthlete[]
   coachNotes       CoachNote[]
   evaluations      Evaluation[]
   flags            AthleteFlag[]
@@ -1115,26 +1116,61 @@ enum WaiverScope {
   athlete
 }
 
-/// athleteId is null for a family-scope signature (the guardian signed once,
-/// covering the whole family) and set for an athlete-scope one. No DB
-/// uniqueness constraint on (waiverId, guardianId, athleteId) — Postgres
-/// unique constraints don't treat NULL athleteId values as equal to each
-/// other, so it couldn't actually prevent duplicate family-scope signatures
-/// anyway; the signing action checks for an existing signature first instead.
+/// One signing EVENT. For an athlete-scope waiver, athleteId names the one
+/// athlete it covers directly (unchanged, unambiguous). For a family-scope
+/// waiver, athleteId is null and coverage instead comes from the
+/// WaiverSignatureAthlete rows below — a guardian explicitly picks which of
+/// their athletes this particular signing covers. This is deliberately NOT
+/// "every current and future athlete": an athlete added to the account later
+/// is not silently covered by an earlier signature, and shows up in Action
+/// Needed until a guardian signs (or re-signs) covering them specifically.
+///
+/// A new signature is always INSERTED, never updated in place — re-signing
+/// (e.g. to cover a newly added athlete) is its own new row, so the family's
+/// full signing history stays intact rather than being overwritten.
+///
+/// acceptedVersion/acceptedContent snapshot the Waiver's version/content at
+/// the moment of signing, so editing the waiver's live text later can never
+/// silently re-characterize what was actually agreed to — the same guarantee
+/// lib/media-consent.ts's RELEASE_VERSION comment describes, made concrete
+/// here as a real snapshot rather than a version-label convention.
 model WaiverSignature {
-  id         String   @id @default(uuid())
-  guardianId String   @map("guardian_id")
-  athleteId  String?  @map("athlete_id")
-  waiverId   String   @map("waiver_id")
-  signedName String   @map("signed_name")
-  signedAt   DateTime @default(now()) @map("signed_at")
-  ipAddress  String?  @map("ip_address")
+  id              String   @id @default(uuid())
+  guardianId      String   @map("guardian_id")
+  athleteId       String?  @map("athlete_id")
+  waiverId        String   @map("waiver_id")
+  signedName      String   @map("signed_name")
+  signedAt        DateTime @default(now()) @map("signed_at")
+  ipAddress       String?  @map("ip_address")
+  /// Nullable only because real historical rows predate this field and never
+  /// captured it — every signature created going forward always sets both
+  /// (enforced in the signing action, not just here).
+  acceptedVersion String?  @map("accepted_version")
+  acceptedContent String?  @map("accepted_content")
 
   guardian Guardian @relation(fields: [guardianId], references: [id], onDelete: Cascade)
   athlete  Athlete? @relation(fields: [athleteId], references: [id], onDelete: Cascade)
   waiver   Waiver   @relation(fields: [waiverId], references: [id], onDelete: Cascade)
+  coveredAthletes WaiverSignatureAthlete[]
 
+  @@index([guardianId, waiverId])
   @@map("waiver_signatures")
+}
+
+/// Explicit coverage for a family-scope WaiverSignature: which athletes THIS
+/// signing event covers. Never touched after creation — a newly added
+/// athlete gets covered by a NEW signature (and its own new rows here), not
+/// by mutating an old one.
+model WaiverSignatureAthlete {
+  waiverSignatureId String @map("waiver_signature_id")
+  athleteId         String @map("athlete_id")
+
+  waiverSignature WaiverSignature @relation(fields: [waiverSignatureId], references: [id], onDelete: Cascade)
+  athlete         Athlete         @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+
+  @@id([waiverSignatureId, athleteId])
+  @@index([athleteId])
+  @@map("waiver_signature_athletes")
 }
 
 // ---------------------------------------------------------------------------
