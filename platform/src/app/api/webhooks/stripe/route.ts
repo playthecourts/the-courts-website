@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
+import { sendRegistrationStaffAlert } from "@/lib/registration-notifications";
 import type { MembershipStatus } from "@/generated/prisma/enums";
 
 // Stripe subscription statuses -> our MembershipStatus. `incomplete`/`incomplete_expired`
@@ -105,6 +106,9 @@ async function handleRegistrationCheckoutCompleted(session: Stripe.Checkout.Sess
     where: { id: registrationId },
     data: { status: "registered", paymentStatus: "paid" },
   });
+
+  // Best-effort — sendEmail swallows its own errors, never blocks this webhook.
+  await sendRegistrationStaffAlert(registrationId);
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
