@@ -1,9 +1,11 @@
 "use server";
 
+import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
+import { stripe } from "@/lib/stripe";
 import { bookAthleteIntoSession, cancelBookingById, cancelWaitlistEntryById, resumeBookingCheckout } from "@/lib/booking";
 import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { acceptOffer, declineOffer } from "@/lib/programs/waitlist";
@@ -131,4 +133,44 @@ export async function declineWaitlistOffer(waitlistEntryId: string, athleteId: s
   await declineOffer(waitlistEntryId, null);
   revalidatePath("/my-courts/explore");
   revalidatePath("/my-courts/bookings");
+}
+
+// --- Dr. Dish 10-pack --------------------------------------------------
+//
+// The real Stripe Product/Price for this — $250, one-time, non-member rate
+// only (a member already gets the cheaper $20/session member price and has
+// no reason to buy a pack of the non-member rate).
+const DR_DISH_TEN_PACK_PRICE_ID = "price_1UG8J7KqZ4a13U826eCUM3EV";
+
+export async function purchaseDrDishTenPack(athleteId: string) {
+  const guardian = await assertOwnsAthlete(athleteId);
+
+  let customerId = guardian.stripeCustomerId;
+  if (!customerId) {
+    const customer = await stripe.customers.create({
+      email: guardian.email ?? undefined,
+      name: guardian.name,
+      metadata: { guardianId: guardian.id },
+    });
+    customerId = customer.id;
+    await prisma.guardian.update({ where: { id: guardian.id }, data: { stripeCustomerId: customerId } });
+  }
+
+  const requestHeaders = await headers();
+  const host = requestHeaders.get("host") ?? "localhost:3000";
+  const origin = `${host.startsWith("localhost") ? "http" : "https"}://${host}`;
+
+  const session = await stripe.checkout.sessions.create({
+    mode: "payment",
+    customer: customerId,
+    line_items: [{ price: DR_DISH_TEN_PACK_PRICE_ID, quantity: 1 }],
+    success_url: `${origin}/my-courts/explore?checkout=success`,
+    cancel_url: `${origin}/my-courts/explore?checkout=cancelled`,
+    metadata: { type: "dr_dish_ten_pack", athleteId, guardianId: guardian.id },
+  });
+
+  if (!session.url) {
+    throw new Error("Stripe did not return a checkout URL.");
+  }
+  redirect(session.url);
 }
