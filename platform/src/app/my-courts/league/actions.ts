@@ -101,11 +101,17 @@ export async function createLeaguePaymentIntent(athleteId: string) {
   // The $25 evaluation credit (EVAL25) applies to every League registration
   // — leagues.html has always advertised it as a blanket credit, not
   // something a family has to prove eligibility for.
+  //
+  // This account's Stripe API version nests the coupon as
+  // promotion.coupon — a coupon ID string, not the coupon object directly
+  // (an older/different API-version shape this code originally assumed,
+  // which silently zeroed the credit for every real registration — found
+  // and fixed after a live check showed $375 due with no credit applied).
   const evalCredit = await stripe.promotionCodes.list({ code: "EVAL25", active: true, limit: 1 });
-  // Stripe's response always includes the nested coupon object, but this
-  // SDK version's types omit it from the base PromotionCode shape.
-  const evalCoupon = evalCredit.data[0] as unknown as { coupon?: { amount_off?: number | null } } | undefined;
-  const evalAmountOff = evalCoupon?.coupon?.amount_off ?? 0;
+  const evalPromo = evalCredit.data[0] as unknown as { promotion?: { coupon?: string } } | undefined;
+  const evalCouponId = evalPromo?.promotion?.coupon;
+  const evalCoupon = evalCouponId ? await stripe.coupons.retrieve(evalCouponId) : null;
+  const evalAmountOff = evalCoupon?.amount_off ?? 0;
   const base = offering.priceCents ?? 0;
   const total = Math.max(base - evalAmountOff, 0);
 
