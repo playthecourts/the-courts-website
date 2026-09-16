@@ -44,6 +44,7 @@ export async function resolveBookingRule(
       creditRule: true,
       creditsPerBooking: true,
       pricingModel: true,
+      program: { select: { programType: true } },
     },
   });
 
@@ -55,6 +56,27 @@ export async function resolveBookingRule(
     where: { athleteId, status: "active" },
     include: { plan: { include: { entitlements: true } } },
   });
+
+  // A non-member who'd otherwise pay full price for Dr. Dish self-serve may
+  // have a purchased 10-pack to draw from instead. Checked before the
+  // membership switch below, not as part of it — the pack is a separate
+  // purchase, not a Training Plan benefit, and applies only to the solo
+  // non-member rate (a "bring a teammate" companion still pays the flat
+  // companion price, not a pack credit).
+  if (offering.program.programType === "self_serve_dr_dish" && !isCompanion) {
+    const hasMemberPricing = memberships.some((m) =>
+      m.plan.entitlements.some(
+        (e) => e.benefitType === "member_pricing" && (e.programId === null || e.programId === offering.programId)
+      )
+    );
+    if (!hasMemberPricing) {
+      const pack = await prisma.credit.findFirst({
+        where: { athleteId, creditType: "dr_dish_ten_pack", status: "issued", balance: { gt: 0 } },
+        orderBy: { createdAt: "asc" },
+      });
+      if (pack) return { kind: "uses_pack_credit", creditId: pack.id, remaining: pack.balance };
+    }
+  }
 
   if (memberships.length === 0) {
     return {

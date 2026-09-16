@@ -8,6 +8,13 @@ import { stripe } from "@/lib/stripe";
 
 const CHECKOUT_EXPIRY_MINUTES = 30;
 
+// The facility opens Oct 1, 2026. Regular group training is the one program
+// type deliberately not sold before then — matches GROUP_TRAINING_BOOKING_OPENS
+// in offering-session-card.tsx, which hides the Book button for the same
+// reason. This check is the one that actually matters: a hidden button is a
+// UX nicety, not protection against a crafted request.
+const GROUP_TRAINING_BOOKING_OPENS = new Date("2026-10-01T05:00:00.000Z");
+
 async function getOrigin() {
   const requestHeaders = await headers();
   const host = requestHeaders.get("host") ?? "localhost:3000";
@@ -30,7 +37,27 @@ export async function bookAthleteIntoSession(
   // capacity check is committed is an acceptable staleness window (worst
   // case: a slightly wrong charged price to fix manually) — unlike the
   // capacity check itself, which must never be stale.
-  const session = await prisma.session.findUniqueOrThrow({ where: { id: sessionId } });
+  const session = await prisma.session.findUniqueOrThrow({
+    where: { id: sessionId },
+    include: { offering: { include: { program: true } } },
+  });
+
+  // A per-session Book button only ever means "buy this one occurrence."
+  // Camps sold as a package (multi_day/offering) and League (season) are
+  // registered through their own dedicated flows — booking them one session
+  // at a time here would charge the full package price per session, with
+  // nothing stopping a family from doing it more than once for the same
+  // camp. See GROUP_TRAINING_BOOKING_OPENS below for the other gate.
+  if (session.offeringId && session.offering && session.offering.registrationMode !== "session") {
+    throw new Error("This isn't booked one session at a time — contact us to register.");
+  }
+  if (
+    session.offeringId &&
+    session.offering?.program.programType === "group_training" &&
+    new Date() < GROUP_TRAINING_BOOKING_OPENS
+  ) {
+    throw new Error("Booking opens October 1, 2026 — check back then.");
+  }
 
   let priceChargedCents: number | null;
   let needsPayment: boolean;
@@ -46,6 +73,10 @@ export async function bookAthleteIntoSession(
     needsPayment = rule.kind === "full_price" || rule.kind === "member_price" || rule.kind === "credit_exhausted";
     priceChargedCents = "priceCents" in rule ? rule.priceCents : 0;
     if (rule.kind === "uses_credit") creditSource = rule.planName;
+    // Stored as the Credit row's own id, not a display string — nothing
+    // renders creditSource as text to a parent, and this is what lets
+    // cancellation find the exact pack to restore a unit to.
+    if (rule.kind === "uses_pack_credit") creditSource = rule.creditId;
   } else {
     // Legacy pre-Offering sessions: no Offering row to price against, so
     // fall back to the old Program-level eligibility check. These never
@@ -100,6 +131,40 @@ export async function bookAthleteIntoSession(
           },
         });
       }
+
+      // Spend the pack credit in the same transaction as the booking — if
+      // capacity had run out above, this line never runs and nothing is
+      // spent. A row lock on the credit itself (not just the session)
+      // prevents two concurrent bookings from both reading balance=1 and
+      // both succeeding.
+      if (!existing?.creditSource && creditSource && priceChargedCents === 0 && needsPayment === false) {
+        const isPackCredit = await tx.credit.findFirst({
+          where: { id: creditSource, creditType: "dr_dish_ten_pack" },
+          select: { id: true },
+        });
+        if (isPackCredit) {
+          await tx.$executeRaw`SELECT id FROM credits WHERE id = ${creditSource} FOR UPDATE`;
+          const credit = await tx.credit.findUniqueOrThrow({ where: { id: creditSource } });
+          if (credit.balance < 1) {
+            throw new Error("That 10-pack was just used up — refresh and try a different option.");
+          }
+          const balanceAfter = credit.balance - 1;
+          await tx.credit.update({
+            where: { id: creditSource },
+            data: { balance: balanceAfter, status: balanceAfter === 0 ? "used" : "issued" },
+          });
+          await tx.creditLedgerEntry.create({
+            data: {
+              creditId: creditSource,
+              delta: -1,
+              balanceAfter,
+              reason: "Dr. Dish self-serve booking",
+              sessionId,
+            },
+          });
+        }
+      }
+
       return { status: "booked" as const, booking, needsPayment };
     }
 
