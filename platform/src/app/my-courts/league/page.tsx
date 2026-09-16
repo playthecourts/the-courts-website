@@ -76,11 +76,12 @@ export default async function LeaguePage({
 
   const leagueOffering = await prisma.offering.findFirst({ where: { name: "Fall 2026 Basketball League" } });
 
-  const [evalBookings, teamMemberships, registrations] = await Promise.all([
+  const [evalBookings, evalAttendanceRecords, teamMemberships, registrations] = await Promise.all([
     prisma.booking.findMany({
       where: { athleteId: { in: athleteIds }, session: { programId: { in: leagueProgramIds }, team: null } },
       include: { session: true, athlete: true },
     }),
+    prisma.evalAttendanceRecord.findMany({ where: { matchedAthleteId: { in: athleteIds } } }),
     prisma.teamMember.findMany({
       where: { athleteId: { in: athleteIds } },
       include: {
@@ -162,7 +163,9 @@ export default async function LeaguePage({
 
       {athletes.map((athlete) => {
         const evalBooking = evalBookings.find((b) => b.athleteId === athlete.id);
-        const attended = evalBooking?.status === "attended";
+        const attended =
+          evalBooking?.status === "attended" ||
+          evalAttendanceRecords.some((r) => r.matchedAthleteId === athlete.id);
         const membership = teamMemberships.find((tm) => tm.athleteId === athlete.id);
         const registration = registrations.find((r) => r.athleteId === athlete.id);
         const upcomingTeamSessions = membership?.team.sessions ?? [];

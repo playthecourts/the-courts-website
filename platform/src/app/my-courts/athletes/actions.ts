@@ -13,6 +13,7 @@ import {
 } from "@/lib/athlete-profile";
 import { uploadAthletePhoto, deleteAthletePhoto } from "@/lib/athlete-photo";
 import { RELEASE_VERSION } from "@/lib/media-consent";
+import { matchEvalAttendanceForNewAthlete } from "@/lib/eval-attendance";
 import type { MediaConsentStatus, CompetitiveMeter } from "@/generated/prisma/enums";
 
 // ---------------------------------------------------------------------------
@@ -132,6 +133,8 @@ export async function createAthlete(
     field: "athlete_created",
     newValue: `${firstName} ${lastName}`,
   });
+
+  await matchEvalAttendanceForNewAthlete(athlete.id, firstName, lastName);
 
   revalidateAthlete(athlete.id);
   return { ok: true, athleteId: athlete.id };

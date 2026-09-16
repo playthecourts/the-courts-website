@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
+import { matchEvalAttendanceForNewAthlete } from "@/lib/eval-attendance";
 
 async function getOrigin() {
   const requestHeaders = await headers();
@@ -130,6 +131,7 @@ export async function signup(_prevState: unknown, formData: FormData) {
     };
   }
 
+  let newAthleteIds: string[] = [];
   try {
     await prisma.$transaction(async (tx) => {
       const guardian = await tx.guardian.create({
@@ -152,16 +154,21 @@ export async function signup(_prevState: unknown, formData: FormData) {
       await tx.familyGuardian.create({
         data: { familyId: family.id, guardianId: guardian.id, isPrimary: true },
       });
-      await tx.athlete.createMany({
-        data: touchedAthletes.map((a) => ({
-          familyId: family.id,
-          firstName: a.firstName,
-          lastName: a.lastName,
-          dob: new Date(`${a.dob}T00:00:00Z`),
-          grade: a.grade,
-          gender: a.gender,
-        })),
-      });
+      const createdAthletes = await Promise.all(
+        touchedAthletes.map((a) =>
+          tx.athlete.create({
+            data: {
+              familyId: family.id,
+              firstName: a.firstName,
+              lastName: a.lastName,
+              dob: new Date(`${a.dob}T00:00:00Z`),
+              grade: a.grade,
+              gender: a.gender,
+            },
+          })
+        )
+      );
+      newAthleteIds = createdAthletes.map((a) => a.id);
     });
   } catch {
     return {
@@ -169,6 +176,12 @@ export async function signup(_prevState: unknown, formData: FormData) {
         "Your account was created, but we couldn't finish setting up your family. Contact us and we'll fix it.",
     };
   }
+
+  // Best-effort — links a family that attended League evals before ever
+  // creating an account (see lib/eval-attendance.ts). Never blocks signup.
+  await Promise.all(
+    touchedAthletes.map((a, i) => matchEvalAttendanceForNewAthlete(newAthleteIds[i], a.firstName, a.lastName))
+  );
 
   if (data.session) {
     // An explicit destination (e.g. a League registration link) always wins

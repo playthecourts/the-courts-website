@@ -250,8 +250,40 @@ model Athlete {
   progressReports   ProgressReport[]
   profileChanges    AthleteProfileChange[]
   featuredApprovals      FeaturedContentApproval[]
+  evalAttendanceRecord   EvalAttendanceRecord?
 
   @@map("athletes")
+}
+
+/// Staged import of who actually attended a League evaluation, matched to a
+/// real Athlete by first+last name — either at import time (if the athlete
+/// already exists) or the moment a matching athlete profile gets created
+/// later (see lib/eval-attendance.ts), since a family who attended evals may
+/// not have a Courts account yet. Distinct from Evaluation above, which is a
+/// coach's internal skill scoring of an athlete that already has to exist —
+/// this is just "were they there," recorded from Melissa's sign-in sheet.
+model EvalAttendanceRecord {
+  id            String   @id @default(uuid())
+  firstName     String   @map("first_name")
+  lastName      String   @map("last_name")
+  grade         String?
+  gender        String?
+  school        String?
+  guardianName  String?  @map("guardian_name")
+  guardianEmail String?  @map("guardian_email")
+  guardianPhone String?  @map("guardian_phone")
+  /// Freeform — e.g. "$25 eval fee paid, confirmed by Melissa 9/6".
+  notes         String?
+  /// One real athlete at most — once matched, permanent (mirrors
+  /// NextGenRecord's linking, never re-surfaced as unmatched afterward).
+  matchedAthleteId String?  @unique @map("matched_athlete_id")
+  matchedAt        DateTime? @map("matched_at")
+  source        String?
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  matchedAthlete Athlete? @relation(fields: [matchedAthleteId], references: [id])
+
+  @@map("eval_attendance_records")
 }
 
 /// How an athlete likes to be pushed. A PERSONALITY preference the coach reads
