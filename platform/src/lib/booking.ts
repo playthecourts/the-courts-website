@@ -244,6 +244,12 @@ async function createBookingCheckout(
   const origin = await getOrigin();
   const checkoutSession = await stripe.checkout.sessions.create({
     mode: "payment",
+    // Card only — same reasoning as the Dr. Dish 10-pack checkout: this
+    // webhook confirms the seat/credit the moment checkout.session.completed
+    // fires, which isn't safe for a payment method that can still fail days
+    // later. ACH stays enabled account-wide for membership subscriptions,
+    // which already handle that delay correctly.
+    payment_method_types: ["card"],
     customer: customerId,
     line_items: [
       {

@@ -104,12 +104,15 @@ export async function createLeaguePaymentIntent(athleteId: string) {
     // (or a later "finish setting up membership" retry) can charge it
     // off-session — the guardian only enters their card once.
     setup_future_usage: "off_session",
-    // Card only, confirmed entirely in-page via the Payment Element — no
-    // return_url is wired up for redirect-based methods (Klarna, Cashapp,
-    // Amazon Pay), so those must stay off or confirmPayment() fails. This
-    // does NOT affect 3D Secure — that's an in-page challenge Stripe.js
-    // handles itself, not a redirect in this sense.
-    automatic_payment_methods: { enabled: true, allow_redirects: "never" },
+    // Card only, explicitly. Two independent reasons: no return_url is wired
+    // up for redirect-based methods (Klarna, Cashapp, Amazon Pay) — those
+    // need automatic_payment_methods + allow_redirects, which this
+    // deliberately doesn't use. And separately, this webhook confirms the
+    // League seat the moment stripe.confirmPayment() reports success — a
+    // payment method that can still fail days later (ACH, now enabled
+    // account-wide for membership subscriptions) isn't safe here without
+    // handling that delay, which this flow doesn't have yet.
+    payment_method_types: ["card"],
     description: `Fall League Registration — ${athlete.firstName} ${athlete.lastName}`,
     metadata: {
       registrationId: registration.id,

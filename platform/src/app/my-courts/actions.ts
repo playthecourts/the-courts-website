@@ -153,6 +153,12 @@ export async function purchaseDrDishTenPack(athleteId: string) {
 
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
+    // Card only, deliberately — a one-time payment whose webhook grants
+    // access (the 10-pack credits) the moment checkout.session.completed
+    // fires. ACH settles days later and can still fail after that; this
+    // flow doesn't yet handle that delay, so it stays off here even though
+    // it's enabled account-wide for membership subscriptions.
+    payment_method_types: ["card"],
     customer: customerId,
     line_items: [{ price: DR_DISH_TEN_PACK_PRICE_ID, quantity: 1 }],
     success_url: `${origin}/my-courts/explore?checkout=success`,

@@ -1,5 +1,6 @@
 "use server";
 
+import type Stripe from "stripe";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
@@ -8,6 +9,20 @@ import { prisma } from "@/lib/prisma";
 import { stripe, getOrCreateStripeCustomer } from "@/lib/stripe";
 import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { CANCELLATION_REASONS } from "./constants";
+
+// ACH costs a small flat fee (capped low) instead of card's ~3% — worth
+// making available for recurring membership billing without removing card
+// as a choice. Array order here does NOT control which one Stripe's hosted
+// Checkout page shows first or pre-selects (confirmed live — Stripe applies
+// its own ordering regardless); this only controls which methods are
+// offered at all. Subscriptions handle ACH's few-day settlement delay
+// safely already: an unpaid first invoice just shows the membership as
+// "past_due" until it clears, via the existing customer.subscription.updated
+// sync — never granted before it's paid.
+const MEMBERSHIP_PAYMENT_METHODS: Stripe.Checkout.SessionCreateParams.PaymentMethodType[] = [
+  "us_bank_account",
+  "card",
+];
 
 // Oct 1, 2026, 12:00 AM Central — matches MEMBERSHIP_START in
 // league/actions.ts exactly. A membership bought here, standalone, gets the
@@ -107,6 +122,7 @@ export async function startMembershipCheckout(athleteId: string, membershipPlanI
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       customer: customerId,
+      payment_method_types: MEMBERSHIP_PAYMENT_METHODS,
       line_items: [{ price: plan.stripePriceId, quantity: 1 }],
       success_url: `${origin}/my-courts/memberships?checkout=success&amount=${plan.priceCents}&plan=${encodeURIComponent(plan.name)}`,
       cancel_url: `${origin}/my-courts/memberships?checkout=cancelled`,
@@ -185,6 +201,7 @@ export async function startNextGenLegacyCheckout(athleteId: string) {
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       customer: customerId,
+      payment_method_types: MEMBERSHIP_PAYMENT_METHODS,
       line_items: [
         {
           price_data: {
@@ -263,6 +280,7 @@ export async function startFamilyMembershipCheckout(formData: FormData) {
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       customer: customerId,
+      payment_method_types: MEMBERSHIP_PAYMENT_METHODS,
       line_items: [{ price: plan.stripePriceId, quantity: 1 }],
       success_url: `${origin}/my-courts/memberships?checkout=success&amount=${plan.priceCents}&plan=${encodeURIComponent(plan.name)}`,
       cancel_url: `${origin}/my-courts/memberships?checkout=cancelled`,

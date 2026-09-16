@@ -118,6 +118,9 @@ function PlansIntro({ athleteFirstName }: { athleteFirstName: string }) {
       <p className="font-body text-[12.5px] leading-snug text-gray-dark">
         No long-term commitment. Cancel with 30 days&rsquo; notice.
       </p>
+      <p className="mt-1 font-body text-[12.5px] leading-snug text-gray-dark">
+        At checkout, <strong>bank account (ACH)</strong> is our preferred payment method — same price, lower fees for us.
+      </p>
     </div>
   );
 }
