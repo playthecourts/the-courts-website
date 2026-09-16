@@ -15,6 +15,13 @@ const CHECKOUT_EXPIRY_MINUTES = 30;
 // UX nicety, not protection against a crafted request.
 const GROUP_TRAINING_BOOKING_OPENS = new Date("2026-10-01T05:00:00.000Z");
 
+// creditSource holds a plan name string for a membership entitlement booking,
+// or a real Credit row id for a pack-credit booking (see resolveBookingRule's
+// uses_pack_credit case) — the two are told apart by shape, not a second
+// column, so anything not UUID-shaped is never even sent to the credits
+// table as an id (Postgres would reject it outright rather than just miss).
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 async function getOrigin() {
   const requestHeaders = await headers();
   const host = requestHeaders.get("host") ?? "localhost:3000";
@@ -136,8 +143,11 @@ export async function bookAthleteIntoSession(
       // capacity had run out above, this line never runs and nothing is
       // spent. A row lock on the credit itself (not just the session)
       // prevents two concurrent bookings from both reading balance=1 and
-      // both succeeding.
-      if (!existing?.creditSource && creditSource && priceChargedCents === 0 && needsPayment === false) {
+      // both succeeding. The isPackCredit lookup below is what actually
+      // disambiguates this from a membership uses_credit booking (whose
+      // creditSource is a plan name, never a real Credit id) — harmless to
+      // check both here rather than threading a separate flag through.
+      if (creditSource && UUID_RE.test(creditSource) && priceChargedCents === 0 && needsPayment === false) {
         const isPackCredit = await tx.credit.findFirst({
           where: { id: creditSource, creditType: "dr_dish_ten_pack" },
           select: { id: true },
@@ -349,6 +359,34 @@ export async function cancelBookingById(bookingId: string) {
         ...(shouldRestoreCredit ? { creditRestored: true } : {}),
       },
     });
+
+    // A membership entitlement's "remaining" count is derived (see
+    // uses_credit in pricing.ts) — creditRestored:true above is the whole
+    // restoration. A 10-pack's balance is a real stored counter, so it needs
+    // an actual increment back, same lock discipline as spending it.
+    if (shouldRestoreCredit && found.creditSource && UUID_RE.test(found.creditSource)) {
+      await tx.$executeRaw`SELECT id FROM credits WHERE id = ${found.creditSource} FOR UPDATE`;
+      const pack = await tx.credit.findFirst({
+        where: { id: found.creditSource, creditType: "dr_dish_ten_pack" },
+      });
+      if (pack) {
+        const balanceAfter = pack.balance + 1;
+        await tx.credit.update({
+          where: { id: pack.id },
+          data: { balance: balanceAfter, status: "issued" },
+        });
+        await tx.creditLedgerEntry.create({
+          data: {
+            creditId: pack.id,
+            delta: 1,
+            balanceAfter,
+            reason: "Cancelled in time — pack credit restored",
+            sessionId: found.sessionId,
+          },
+        });
+      }
+    }
+
     return found;
   });
 
