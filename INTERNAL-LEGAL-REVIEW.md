@@ -60,6 +60,28 @@ Also confirm before publishing further: whether "We do not sell personal informa
 remains accurate once the advertising/analytics stack is finalized. Do not publish
 COPPA/GDPR/CCPA compliance claims until specifically reviewed.
 
+## Membership Policies (membership-policies.html)
+
+Pulled off the live page during the pre-launch audit — same reason as the terms.html/privacy.html/accessibility.html items above (internal drafting notes, not customer-facing copy). Still need to be finalized:
+- Exact billing-date logic (join-date anniversary vs. 1st of month) and how partial first months are handled.
+- How the 30-day cancellation notice lines up with the next billing date, exactly how cancellation requests are submitted, and when cancellation formally takes effect.
+- Whether membership pauses/freezes (injury, travel, off-season) are offered — if so, the process, notice, and any limits. No "Pauses / Freezes" section exists on the page at all right now (removed rather than left empty) until this is decided.
+- Retry schedule and grace period for a failed membership payment, and what happens to registrations if it isn't resolved.
+- Refund/credit policy for billing errors, facility closures, or other exceptions.
+
+One item was resolved and published, not left pending: the 12-hour group-training/Dr.-Dish cancellation policy already lived on faq.html but was missing from this page — added here now, matching the real REFUND_CUTOFF_HOURS behavior already built into the app.
+
+Fall League and camp refund policies still have no specific published terms anywhere on the site (only a generic blanket line in terms.html) — not yet drafted at all, not just pulled from this page.
+
+## Facility Policies (facility-policies.html)
+
+Also pulled off the live page during the pre-launch audit:
+- Age-specific drop-off / parent-presence requirements — to be finalized separately.
+- Whether younger athletes require a parent/guardian to remain on-site during their session, and at what age that changes. No "Parent / Guardian Presence" section exists on the page at all right now (removed rather than left empty) until this is decided.
+- Standard late-pickup policy, including any applicable fee, before publishing. No "Late Pickup" section exists on the page at all right now, same reason.
+
+The "Weather / Facility Closures" section on this page currently only commits to notifying affected families — it does not say what happens to a paid/scheduled session (credit, make-up, refund). That's the same open decision as the "facility closures" line item in the Refunds + Credits gap above, not a separate one.
+
 ## Accessibility (accessibility.html)
 
 No formal accessibility audit or verification has been completed for

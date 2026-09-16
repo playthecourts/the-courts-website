@@ -286,10 +286,7 @@
     var type = params.get('type');
     var titleEl = document.getElementById('rcTitle');
     var subEl = document.getElementById('rcSub');
-    if (type === 'evaluation') {
-      titleEl.textContent = "You're Registered for Evaluations.";
-      subEl.textContent = "We'll see you Saturday, September 12. Bring your gear and get ready to compete.";
-    } else if (type === 'registration') {
+    if (type === 'registration') {
       titleEl.textContent = "You're Registered for Fall League.";
       subEl.textContent = "Our coaching team will follow up directly about team placement.";
     }

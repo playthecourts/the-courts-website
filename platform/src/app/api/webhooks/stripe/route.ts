@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
-import { sendRegistrationStaffAlert } from "@/lib/registration-notifications";
+import { sendRegistrationStaffAlert, sendRegistrationPaymentFailedAlert } from "@/lib/registration-notifications";
 import type { MembershipStatus } from "@/generated/prisma/enums";
 
 // Stripe subscription statuses -> our MembershipStatus. `incomplete`/`incomplete_expired`
@@ -62,12 +62,19 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
+  // billing_cycle_anchor is Stripe's own record of when this subscription's
+  // first real charge lands — reading it back here (rather than re-deriving
+  // "was this before Oct 1" locally) means startDate is correct regardless
+  // of which checkout path anchored it, standalone or League-bundled.
+  const anchorMs = subscription.billing_cycle_anchor * 1000;
+  const startDate = anchorMs > Date.now() ? new Date(anchorMs) : new Date();
+
   await prisma.athleteMembership.create({
     data: {
       athleteId,
       membershipPlanId,
       status: mapStatus(subscription.status),
-      startDate: new Date(),
+      startDate,
       renewalDate: renewalDateFrom(subscription),
       stripeSubscriptionId: subscriptionId,
     },
@@ -87,7 +94,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
           athleteId: secondAthleteId,
           membershipPlanId,
           status: mapStatus(subscription.status),
-          startDate: new Date(),
+          startDate,
           renewalDate: renewalDateFrom(subscription),
         },
       });
@@ -129,6 +136,39 @@ async function handleBookingCheckoutCompleted(session: Stripe.Checkout.Session) 
   await prisma.booking.update({
     where: { id: bookingId },
     data: { paymentStatus: "paid", receiptUrl },
+  });
+}
+
+// Dr. Dish 10-pack — see purchaseDrDishTenPack in my-courts/actions.ts, which
+// creates the Checkout Session this confirms. Idempotent on the Checkout
+// Session id itself, since a pack purchase has no other row to check against
+// before this webhook creates the first one.
+async function handleDrDishPackCheckoutCompleted(session: Stripe.Checkout.Session) {
+  const athleteId = session.metadata?.athleteId;
+  if (!athleteId) {
+    console.error("Stripe checkout.session.completed (dr_dish_ten_pack) missing athleteId metadata", session.id);
+    return;
+  }
+
+  const existing = await prisma.credit.findFirst({
+    where: { athleteId, creditType: "dr_dish_ten_pack", source: session.id },
+  });
+  if (existing) return; // Idempotent against webhook retries.
+
+  const program = await prisma.program.findFirst({ where: { programType: "self_serve_dr_dish" } });
+
+  const credit = await prisma.credit.create({
+    data: {
+      athleteId,
+      creditType: "dr_dish_ten_pack",
+      balance: 10,
+      source: session.id,
+      eligibleProgramId: program?.id ?? null,
+      status: "issued",
+    },
+  });
+  await prisma.creditLedgerEntry.create({
+    data: { creditId: credit.id, delta: 10, balanceAfter: 10, reason: "Dr. Dish Non-Member 10-Pack purchased" },
   });
 }
 
@@ -191,6 +231,28 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
     where: { id: registrationId },
     data: { status: "registered", paymentStatus: "paid" },
   });
+}
+
+// A declined League card leaves the registration row stuck at "pending"
+// otherwise, with no staff-visible trace that a family even tried — the
+// client-side confirmPayment() error handling shows the family the decline
+// in the moment, but nothing server-side recorded it before this existed.
+async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent) {
+  const registrationId = paymentIntent.metadata?.registrationId;
+  if (!registrationId) return; // Not a League PaymentIntent — ignore.
+
+  const registration = await prisma.registration.findUnique({ where: { id: registrationId } });
+  if (!registration || registration.paymentStatus === "paid") return; // Already resolved.
+
+  await prisma.registration.update({
+    where: { id: registrationId },
+    data: { paymentStatus: "failed" },
+  });
+
+  await sendRegistrationPaymentFailedAlert(
+    registrationId,
+    paymentIntent.last_payment_error?.message ?? null
+  );
 }
 
 // Same safety-net role as handlePaymentIntentSucceeded, for the bundled
@@ -299,6 +361,9 @@ export async function POST(request: Request) {
       break;
     case "payment_intent.succeeded":
       await handlePaymentIntentSucceeded(event.data.object);
+      break;
+    case "payment_intent.payment_failed":
+      await handlePaymentIntentFailed(event.data.object);
       break;
     case "customer.subscription.created":
       await handleSubscriptionCreated(event.data.object);

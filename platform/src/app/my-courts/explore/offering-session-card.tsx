@@ -1,4 +1,10 @@
-import { bookSession, cancelWaitlistEntry, acceptWaitlistOffer, declineWaitlistOffer } from "@/app/my-courts/actions";
+import {
+  bookSession,
+  cancelWaitlistEntry,
+  acceptWaitlistOffer,
+  declineWaitlistOffer,
+  purchaseDrDishTenPack,
+} from "@/app/my-courts/actions";
 import { ConfirmSubmitButton } from "./confirm-submit-button";
 
 // One published session, and what each athlete in this family can do with it.
@@ -135,6 +141,27 @@ function PerAthleteRow({ card, a }: { card: Card; a: Card["perAthlete"][number] 
   );
 }
 
+// Once per card, not once per athlete-row: a Dr. Dish day-group renders one
+// PerAthleteRow per 30-min slot per athlete, so a link that lived there would
+// repeat a dozen times over. Buying a pack isn't tied to any one slot anyway
+// — it banks credits for whichever Dr. Dish visit the family books next.
+function TenPackLinks({ card }: { card: Card }) {
+  if (card.programTypeLabel !== "Self-Service Dr. Dish") return null;
+  const notYetIn = card.perAthlete.filter((a) => a.eligible && !a.hasSeat);
+  if (notYetIn.length === 0) return null;
+  return (
+    <div className="mb-3 flex flex-wrap gap-x-4 gap-y-1">
+      {notYetIn.map((a) => (
+        <form key={a.athleteId} action={purchaseDrDishTenPack.bind(null, a.athleteId)}>
+          <button type="submit" className="font-body text-xs font-bold text-orange underline">
+            Buy {a.athleteName}&rsquo;s 10-Pack — $250
+          </button>
+        </form>
+      ))}
+    </div>
+  );
+}
+
 function CardChrome({ card, timeLabel }: { card: Card; timeLabel: string }) {
   return (
     <div className="mb-2 flex items-baseline justify-between gap-3">
@@ -171,6 +198,8 @@ export function OfferingSessionCard({ card }: { card: Card }) {
       {card.availability.state === "waitlist" ? (
         <p className="mb-3 font-body text-sm text-gray-dark">This session is full.</p>
       ) : null}
+
+      <TenPackLinks card={card} />
 
       <div className="flex flex-col gap-2">
         {card.perAthlete.map((a) => (
@@ -211,6 +240,8 @@ export function GroupedOfferingCard({ cards }: { cards: Card[] }) {
       {first.shortDescription ? (
         <p className="mb-3 font-body text-sm text-gray-dark">{first.shortDescription}</p>
       ) : null}
+
+      <TenPackLinks card={first} />
 
       <div className="flex flex-col gap-3">
         {cards.map((card) => (

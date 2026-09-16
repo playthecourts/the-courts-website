@@ -6,7 +6,17 @@ import { revalidatePath } from "next/cache";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
+import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { CANCELLATION_REASONS } from "./constants";
+
+// Oct 1, 2026, 12:00 AM Central — matches MEMBERSHIP_START in
+// league/actions.ts exactly. A membership bought here, standalone, gets the
+// same "pay nothing until Oct 1, then bill monthly" treatment as one bundled
+// with League — this was the one purchase path that didn't, before now.
+const MEMBERSHIP_START = new Date("2026-10-01T05:00:00.000Z");
+function isBeforeMembershipStart() {
+  return Date.now() < MEMBERSHIP_START.getTime();
+}
 
 async function getOrigin() {
   const requestHeaders = await headers();
@@ -44,6 +54,14 @@ export async function startMembershipCheckout(athleteId: string, membershipPlanI
     throw new Error("Not authorized to act on this athlete.");
   }
 
+  // Every other purchase path (League, session booking) requires this first
+  // — standalone membership checkout was the one gap. redirect() throws, so
+  // this has to happen before the try/catch below, not inside it.
+  const unsigned = await getUnsignedRequiredWaivers(guardian.id, athleteId);
+  if (unsigned.length > 0) {
+    redirect(`/my-courts/waivers?required=membership&back=${encodeURIComponent("/my-courts/memberships")}`);
+  }
+
   const plan = await prisma.membershipPlan.findUniqueOrThrow({
     where: { id: membershipPlanId },
   });
@@ -69,24 +87,35 @@ export async function startMembershipCheckout(athleteId: string, membershipPlanI
   }
 
   const origin = await getOrigin();
+  const beforeStart = isBeforeMembershipStart();
 
-  const session = await stripe.checkout.sessions.create({
-    mode: "subscription",
-    customer: customerId,
-    line_items: [{ price: plan.stripePriceId, quantity: 1 }],
-    success_url: `${origin}/my-courts/memberships?checkout=success`,
-    cancel_url: `${origin}/my-courts/memberships?checkout=cancelled`,
-    metadata: { athleteId, membershipPlanId, guardianId: guardian.id },
-    subscription_data: {
+  let checkoutUrl: string;
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      customer: customerId,
+      line_items: [{ price: plan.stripePriceId, quantity: 1 }],
+      success_url: `${origin}/my-courts/memberships?checkout=success`,
+      cancel_url: `${origin}/my-courts/memberships?checkout=cancelled`,
       metadata: { athleteId, membershipPlanId, guardianId: guardian.id },
-    },
-  });
-
-  if (!session.url) {
-    throw new Error("Stripe did not return a checkout URL.");
+      subscription_data: {
+        metadata: { athleteId, membershipPlanId, guardianId: guardian.id },
+        ...(beforeStart
+          ? { billing_cycle_anchor: Math.floor(MEMBERSHIP_START.getTime() / 1000), proration_behavior: "none" }
+          : {}),
+      },
+    });
+    if (!session.url) throw new Error("Stripe did not return a checkout URL.");
+    checkoutUrl = session.url;
+  } catch (err) {
+    // A thrown error here crashes the whole page instead of showing a
+    // message — the exact bug already fixed once on League registration and
+    // once on waiver signing. A Stripe hiccup shouldn't be worse than either.
+    console.error("startMembershipCheckout failed", { athleteId, membershipPlanId }, err);
+    redirect("/my-courts/memberships?checkout=error");
   }
 
-  redirect(session.url);
+  redirect(checkoutUrl);
 }
 
 /// Family Unlimited covers two athletes under one subscription — this is the
@@ -111,6 +140,16 @@ export async function startFamilyMembershipCheckout(formData: FormData) {
     throw new Error("Not authorized to act on that athlete.");
   }
 
+  // Both athletes end up covered by this plan, so both need waivers signed
+  // — same gap this had in common with startMembershipCheckout above.
+  const [unsignedFirst, unsignedSecond] = await Promise.all([
+    getUnsignedRequiredWaivers(guardian.id, athleteId),
+    getUnsignedRequiredWaivers(guardian.id, secondAthleteId),
+  ]);
+  if (unsignedFirst.length > 0 || unsignedSecond.length > 0) {
+    redirect(`/my-courts/waivers?required=membership&back=${encodeURIComponent("/my-courts/memberships")}`);
+  }
+
   const plan = await prisma.membershipPlan.findUniqueOrThrow({ where: { id: membershipPlanId } });
   if (!plan.stripePriceId) {
     throw new Error("This plan isn't available for online checkout yet.");
@@ -128,23 +167,32 @@ export async function startFamilyMembershipCheckout(formData: FormData) {
   }
 
   const origin = await getOrigin();
-  const session = await stripe.checkout.sessions.create({
-    mode: "subscription",
-    customer: customerId,
-    line_items: [{ price: plan.stripePriceId, quantity: 1 }],
-    success_url: `${origin}/my-courts/memberships?checkout=success`,
-    cancel_url: `${origin}/my-courts/memberships?checkout=cancelled`,
-    metadata: { athleteId, membershipPlanId, secondAthleteId, guardianId: guardian.id },
-    subscription_data: {
-      metadata: { athleteId, membershipPlanId, secondAthleteId, guardianId: guardian.id },
-    },
-  });
+  const beforeStart = isBeforeMembershipStart();
 
-  if (!session.url) {
-    throw new Error("Stripe did not return a checkout URL.");
+  let checkoutUrl: string;
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      customer: customerId,
+      line_items: [{ price: plan.stripePriceId, quantity: 1 }],
+      success_url: `${origin}/my-courts/memberships?checkout=success`,
+      cancel_url: `${origin}/my-courts/memberships?checkout=cancelled`,
+      metadata: { athleteId, membershipPlanId, secondAthleteId, guardianId: guardian.id },
+      subscription_data: {
+        metadata: { athleteId, membershipPlanId, secondAthleteId, guardianId: guardian.id },
+        ...(beforeStart
+          ? { billing_cycle_anchor: Math.floor(MEMBERSHIP_START.getTime() / 1000), proration_behavior: "none" }
+          : {}),
+      },
+    });
+    if (!session.url) throw new Error("Stripe did not return a checkout URL.");
+    checkoutUrl = session.url;
+  } catch (err) {
+    console.error("startFamilyMembershipCheckout failed", { athleteId, membershipPlanId, secondAthleteId }, err);
+    redirect("/my-courts/memberships?checkout=error");
   }
 
-  redirect(session.url);
+  redirect(checkoutUrl);
 }
 
 /// Guardian-level, not athlete-level — a Stripe Customer (and so the Billing

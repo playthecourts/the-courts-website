@@ -79,3 +79,44 @@ export async function sendMembershipSetupFailedAlert(registrationId: string, err
 
   await sendEmail({ to: STAFF_INBOX, subject, html, text });
 }
+
+// Fires on payment_intent.payment_failed for a League PaymentIntent — the
+// registration row already exists (created before Checkout by
+// createLeaguePaymentIntent) but never moves past paymentStatus "pending" on
+// its own. Without this, a declined card during League registration leaves
+// no record anywhere that the attempt happened, if the family's browser
+// session drops before confirmLeagueRegistration's client-side error
+// handling can react.
+export async function sendRegistrationPaymentFailedAlert(registrationId: string, declineReason: string | null) {
+  const registration = await prisma.registration.findUnique({
+    where: { id: registrationId },
+    select: {
+      amountCents: true,
+      athlete: { select: { firstName: true, lastName: true, family: { select: { name: true } } } },
+      offering: { select: { name: true, priceCents: true } },
+    },
+  });
+  if (!registration) return;
+
+  const { athlete, offering } = registration;
+  const athleteName = `${athlete.firstName} ${athlete.lastName}`;
+  const amount = formatCents(registration.amountCents ?? offering.priceCents);
+  const registrationsUrl = "https://app.playthecourts.com/os/registrations";
+  const reason = declineReason ?? "Card declined";
+  const subject = `Payment failed: ${athleteName} — ${offering.name}`;
+  const text = `${athleteName} (${athlete.family.name})'s card was declined registering for ${offering.name} (${amount}).\n\nReason: ${reason}\n\nThe family sees this in the app and can retry — this is just so you know if they don't.\n\nView in Courts OS: ${registrationsUrl}`;
+
+  const html = `
+<div style="font-family:Arial,Helvetica,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;color:#0D0D0D;">
+  <p style="font-size:16px;font-weight:700;margin:0 0 4px;">Payment failed: ${athleteName}</p>
+  <p style="font-size:13px;color:#343434;margin:0 0 16px;">${offering.name} · ${athlete.family.name} · ${amount}</p>
+  <p style="font-size:15px;line-height:1.6;margin:0 0 20px;color:#1A1A1A;background:#FDE7F0;border-left:3px solid #E0369D;padding:12px 16px;border-radius:6px;">
+    ${reason}
+  </p>
+  <a href="${registrationsUrl}" style="display:inline-block;background:#DE5019;color:#FFFFFF;font-weight:700;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;text-decoration:none;padding:12px 24px;border-radius:999px;">
+    View in Courts OS &rarr;
+  </a>
+</div>`.trim();
+
+  await sendEmail({ to: STAFF_INBOX, subject, html, text });
+}

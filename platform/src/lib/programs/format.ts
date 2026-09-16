@@ -24,6 +24,8 @@ export function describeBookingRule(rule: BookingRule): string {
       return `${rule.planName} sessions used up this week · ${formatCents(rule.priceCents)}`;
     case "member_price":
       return `${formatCents(rule.priceCents)} with ${rule.planName}`;
+    case "uses_pack_credit":
+      return `Uses 1 session from your 10-Pack · ${rule.remaining} left`;
     case "full_price":
       return rule.memberPriceCents && rule.memberPriceCents > 0
         ? `${formatCents(rule.priceCents)} · Members pay ${formatCents(rule.memberPriceCents)}`

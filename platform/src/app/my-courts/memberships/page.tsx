@@ -83,7 +83,7 @@ function PlansIntro({ athleteFirstName }: { athleteFirstName: string }) {
         Plans for {athleteFirstName}
       </p>
       <p className="mt-1 font-body text-[12.5px] leading-snug text-gray-dark">
-        All plans include member pricing on Private Training, Dr. Dish (basketball only), and Camps.
+        All plans include member pricing on Private Training, Dr. Dish, and Camps.
       </p>
       <p className="font-body text-[12.5px] leading-snug text-gray-dark">
         No long-term commitment. Cancel with 30 days&rsquo; notice.
@@ -182,6 +182,12 @@ export default async function MembershipsPage({
       {checkout === "cancelled" && (
         <p className="rounded-lg border border-gray-mid bg-white px-4 py-3 font-body text-sm text-gray-dark">
           Checkout was cancelled — no charge was made.
+        </p>
+      )}
+      {checkout === "error" && (
+        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 font-body text-sm text-red-700">
+          Something went wrong setting up checkout — nothing was charged. Try again, or contact us if it keeps
+          happening.
         </p>
       )}
 
