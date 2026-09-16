@@ -258,7 +258,7 @@ async function createBookingCheckout(
         quantity: 1,
       },
     ],
-    success_url: `${origin}/my-courts/schedule?checkout=success`,
+    success_url: `${origin}/my-courts/schedule?checkout=success&amount=${priceCents}&item=${encodeURIComponent(booking.session.program.name)}&txn=${bookingId}`,
     cancel_url: `${origin}/my-courts/explore?checkout=cancelled`,
     expires_at: Math.floor(Date.now() / 1000) + CHECKOUT_EXPIRY_MINUTES * 60,
     metadata: { bookingId, athleteId, guardianId },

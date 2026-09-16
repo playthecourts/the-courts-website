@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { login } from "@/app/actions/auth";
 
 export function LoginForm() {
@@ -34,6 +35,10 @@ export function LoginForm() {
           className="rounded-md border border-gray-mid px-3 py-2 font-body text-base font-normal normal-case tracking-normal text-black focus:border-orange focus:outline-none"
         />
       </label>
+
+      <Link href="/forgot-password" className="-mt-2 self-start font-body text-sm text-orange hover:text-orange-hover">
+        Forgot password?
+      </Link>
 
       {state?.error && (
         <p className="font-body text-sm text-red-600" role="alert">

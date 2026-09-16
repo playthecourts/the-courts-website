@@ -1,6 +1,7 @@
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { CancelBookingButton } from "./cancel-booking-button";
+import { GaConversionEvent } from "@/components/ga-conversion-event";
 
 const REFUND_CUTOFF_HOURS = 12;
 
@@ -21,7 +22,12 @@ function formatTime(date: Date) {
   }).format(date);
 }
 
-export default async function MyCourtsSchedulePage() {
+export default async function MyCourtsSchedulePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ checkout?: string; amount?: string; item?: string; txn?: string }>;
+}) {
+  const { checkout, amount, item, txn } = await searchParams;
   const guardian = await getCurrentGuardian();
   const athletes = guardian.families.flatMap((fg) => fg.family.athletes);
   const athleteIds = athletes.map((a) => a.id);
@@ -49,6 +55,20 @@ export default async function MyCourtsSchedulePage() {
   return (
     <div className="flex flex-col gap-6">
       <h1 className="font-display text-2xl font-black text-black">Schedule</h1>
+
+      {checkout === "success" && (
+        <>
+          <GaConversionEvent
+            event="purchase"
+            valueCents={amount ? Number(amount) : null}
+            itemName={item ?? "Session"}
+            transactionId={txn ?? null}
+          />
+          <p className="rounded-lg border border-orange bg-white px-4 py-3 font-body text-sm text-black">
+            You&rsquo;re booked — see you then.
+          </p>
+        </>
+      )}
 
       {bookings.length === 0 ? (
         <div className="rounded-2xl border border-gray-mid bg-white p-6 text-center md:p-8">

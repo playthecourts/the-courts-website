@@ -11,6 +11,7 @@ import { logout } from "@/app/actions/auth";
 
 const MENU_ITEMS = [
   { href: "/my-courts", label: "Family Profile" },
+  { href: "/my-courts/payments", label: "Payment Methods" },
   { href: "/my-courts/settings", label: "Account Settings" },
 ];
 

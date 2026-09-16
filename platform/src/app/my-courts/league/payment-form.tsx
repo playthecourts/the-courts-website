@@ -9,6 +9,7 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { createLeaguePaymentIntent, confirmLeagueRegistration } from "./actions";
+import { GaConversionEvent } from "@/components/ga-conversion-event";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -91,6 +92,12 @@ export function LeaguePaymentForm({ athleteId }: { athleteId: string }) {
   if (result) {
     return (
       <div className="rounded-lg border border-green-600 bg-green-50 p-4 font-body text-sm text-green-800">
+        <GaConversionEvent
+          event="purchase"
+          valueCents={review?.totalCents ?? null}
+          transactionId={review?.registrationId ?? null}
+          itemName="Fall League Registration"
+        />
         <p className="font-bold">You&rsquo;re registered — thanks!</p>
         {result.membershipSetupNeeded && (
           <p className="mt-1 text-[13px]">

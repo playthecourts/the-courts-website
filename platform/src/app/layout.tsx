@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Archivo, Archivo_Black, Inter, Barlow_Condensed } from "next/font/google";
 import "./globals.css";
+
+// Same GA4 property as the marketing site (playthecourts.com) — one
+// property, two properties' worth of traffic, so a family's path from
+// browsing the site to actually completing a purchase here is one
+// continuous story instead of two disconnected ones.
+const GA_MEASUREMENT_ID = "G-4LQK4EB1C3";
 
 const archivo = Archivo({
   variable: "--font-archivo",
@@ -45,7 +52,21 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${archivo.variable} ${archivoBlack.variable} ${inter.variable} ${barlowCondensed.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
+        {children}
+      </body>
     </html>
   );
 }

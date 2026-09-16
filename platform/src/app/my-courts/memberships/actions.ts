@@ -95,7 +95,7 @@ export async function startMembershipCheckout(athleteId: string, membershipPlanI
       mode: "subscription",
       customer: customerId,
       line_items: [{ price: plan.stripePriceId, quantity: 1 }],
-      success_url: `${origin}/my-courts/memberships?checkout=success`,
+      success_url: `${origin}/my-courts/memberships?checkout=success&amount=${plan.priceCents}&plan=${encodeURIComponent(plan.name)}`,
       cancel_url: `${origin}/my-courts/memberships?checkout=cancelled`,
       metadata: { athleteId, membershipPlanId, guardianId: guardian.id },
       subscription_data: {
@@ -175,7 +175,7 @@ export async function startFamilyMembershipCheckout(formData: FormData) {
       mode: "subscription",
       customer: customerId,
       line_items: [{ price: plan.stripePriceId, quantity: 1 }],
-      success_url: `${origin}/my-courts/memberships?checkout=success`,
+      success_url: `${origin}/my-courts/memberships?checkout=success&amount=${plan.priceCents}&plan=${encodeURIComponent(plan.name)}`,
       cancel_url: `${origin}/my-courts/memberships?checkout=cancelled`,
       metadata: { athleteId, membershipPlanId, secondAthleteId, guardianId: guardian.id },
       subscription_data: {

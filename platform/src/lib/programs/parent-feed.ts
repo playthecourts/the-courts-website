@@ -6,6 +6,13 @@ import { resolveBookingRule } from "./pricing";
 import { describeBookingRule } from "./format";
 import { programTypeDef, gradeRangeLabel, parentCategoryFor, typesInCategory } from "./types";
 
+// Matches GROUP_TRAINING_BOOKING_OPENS in lib/booking.ts exactly — that's the
+// hard gate; this is what makes the card render as locked ("Coming Soon", no
+// Book button) instead of showing a live button that would hit the gate and
+// throw. Same literal value in both places rather than a shared import, to
+// avoid pulling the write-side booking module into this read-only feed path.
+const GROUP_TRAINING_BOOKING_OPENS = new Date("2026-10-01T05:00:00.000Z");
+
 // ---------------------------------------------------------------------------
 // What the Parent App shows.
 //
@@ -111,6 +118,15 @@ export async function loadParentFeed(
 
   for (const s of sessions) {
     const o = s.offering!;
+
+    // A per-session Book button only ever means "buy this one occurrence" —
+    // see the matching hard gate in bookAthleteIntoSession (lib/booking.ts).
+    // Camps sold as a package and League register through their own
+    // dedicated flows; surfacing a Book button here that then throws on
+    // click is a worse experience than the session simply not appearing in
+    // this feed.
+    if (o.registrationMode !== "session") continue;
+
     const def = programTypeDef(o.program.programType);
 
     const availability = availabilityFor(
@@ -126,6 +142,18 @@ export async function loadParentFeed(
       },
       now
     );
+
+    // Group Training isn't sold before the facility opens — reusing the
+    // existing "coming_soon" state (rather than a new flag) means every
+    // surface that already renders availability correctly locks this down
+    // for free: no Book button, the same "Coming Soon" label a real
+    // registrationOpensAt date would produce.
+    if (o.program.programType === "group_training" && now < GROUP_TRAINING_BOOKING_OPENS) {
+      availability.state = "coming_soon";
+      availability.label = "Booking Opens Oct 1";
+      availability.canRegister = false;
+      availability.canJoinWaitlist = false;
+    }
 
     const perAthlete = [];
     for (const athlete of athletes) {

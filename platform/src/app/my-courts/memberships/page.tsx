@@ -9,6 +9,7 @@ import {
 } from "./actions";
 import { FamilyPlanSelector } from "./family-plan-selector";
 import { CancelMembershipFlow } from "./cancel-flow";
+import { GaConversionEvent } from "@/components/ga-conversion-event";
 
 function formatPrice(cents: number, interval: string) {
   return `$${(cents / 100).toFixed(2)}/${interval === "monthly" ? "mo" : "yr"}`;
@@ -95,9 +96,9 @@ function PlansIntro({ athleteFirstName }: { athleteFirstName: string }) {
 export default async function MembershipsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ checkout?: string; required?: string; athlete?: string }>;
+  searchParams: Promise<{ checkout?: string; required?: string; athlete?: string; amount?: string; plan?: string }>;
 }) {
-  const { checkout, required, athlete: requiredAthleteId } = await searchParams;
+  const { checkout, required, athlete: requiredAthleteId, amount, plan: purchasedPlanName } = await searchParams;
   const guardian = await getCurrentGuardian();
   const athletes = guardian.families.flatMap((fg) => fg.family.athletes);
   const requiredForAthlete = requiredAthleteId ? athletes.find((a) => a.id === requiredAthleteId) : null;
@@ -175,9 +176,16 @@ export default async function MembershipsPage({
       )}
 
       {checkout === "success" && (
-        <p className="rounded-lg border border-orange bg-white px-4 py-3 font-body text-sm text-black">
-          You&rsquo;re in — your Training Plan is active.
-        </p>
+        <>
+          <GaConversionEvent
+            event="purchase"
+            valueCents={amount ? Number(amount) : null}
+            itemName={purchasedPlanName ?? "Membership"}
+          />
+          <p className="rounded-lg border border-orange bg-white px-4 py-3 font-body text-sm text-black">
+            You&rsquo;re in — your Training Plan is active.
+          </p>
+        </>
       )}
       {checkout === "cancelled" && (
         <p className="rounded-lg border border-gray-mid bg-white px-4 py-3 font-body text-sm text-gray-dark">
