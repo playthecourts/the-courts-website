@@ -199,12 +199,10 @@ const FRONT_DESK: Capability[] = [
   "os.access",
   "families.view",
   "families.edit",
-  /// Front desk holds the safety half of the record deliberately. They are who
-  /// a parent reaches at the door, who reads an allergy before a camp, and who
-  /// refuses a pickup. Withholding emergency contacts and custody restrictions
-  /// from the desk would make the desk unable to do the one job only it can do.
+  /// Custody restrictions are owner/admin-only by deliberate choice — no
+  /// front_desk staffer exists today, and when one is hired this should be
+  /// revisited rather than assumed back on.
   "families.viewSensitive",
-  "athletes.viewCustody",
   "athletes.viewMediaStatus",
   "athletes.view",
   "programs.view",

@@ -139,12 +139,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://playthecourts.com/start-here</loc>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://playthecourts.com/terms</loc>
     <lastmod>2026-09-04</lastmod>
     <changefreq>yearly</changefreq>

@@ -265,6 +265,8 @@
             <option value="Private Training">Private Training</option>
             <option value="Basketball Leagues">Basketball Leagues</option>
             <option value="Court Rentals + Parties">Court Rentals + Parties</option>
+            <option value="Dr. Dish / Team Time">Dr. Dish / Team Time</option>
+            <option value="Pickleball">Pickleball</option>
             <option value="The Coach Collective">The Coach Collective</option>
             <option value="Current Member Support">Current Member Support</option>
             <option value="Coaching Opportunities">Coaching Opportunities</option>
@@ -496,6 +498,27 @@
           <div class="cf-subgroup" data-show-if="ev-planning:Recurring group or activity|Something else" hidden>
             <div class="form-row"><label for="ev-other-extra">Anything else we should know? <span class="form-optional-tag">Optional</span></label><textarea id="ev-other-extra"></textarea></div>
           </div>
+        </div>
+
+        <div class="cf-group" data-cat="Dr. Dish / Team Time" hidden>
+          <div class="form-row"><label for="dd-planning">What are you planning?*</label><select id="dd-planning" required><option value="">Select one</option><option>Team shooting session</option><option>Private Dr. Dish time</option><option>Recurring team time</option><option>Not sure yet</option></select></div>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="dd-date">Preferred date*</label><input type="text" id="dd-date" placeholder="MM/DD/YYYY" required></div>
+            <div class="form-row"><label for="dd-time">Preferred start time*</label><input type="text" id="dd-time" required></div>
+          </div>
+          <div class="form-row"><label for="dd-groupsize">Estimated group size*</label><input type="number" id="dd-groupsize" min="1" required></div>
+          <div class="form-row"><label for="dd-team">Team / organization name <span class="form-optional-tag">Optional</span></label><input type="text" id="dd-team"></div>
+          <div class="form-row"><label for="dd-details">Anything else we should know? <span class="form-optional-tag">Optional</span></label><textarea id="dd-details"></textarea></div>
+        </div>
+
+        <div class="cf-group" data-cat="Pickleball" hidden>
+          <div class="form-row"><label for="pb-planning">What are you planning?*</label><select id="pb-planning" required><option value="">Select one</option><option>Open play</option><option>Private / group session</option><option>Lessons</option><option>League or tournament interest</option><option>Not sure yet</option></select></div>
+          <div class="form-grid-2">
+            <div class="form-row"><label for="pb-date">Preferred date <span class="form-optional-tag">Optional</span></label><input type="text" id="pb-date" placeholder="MM/DD/YYYY"></div>
+            <div class="form-row"><label for="pb-time">Preferred time <span class="form-optional-tag">Optional</span></label><input type="text" id="pb-time"></div>
+          </div>
+          <div class="form-row"><label for="pb-groupsize">Estimated group size <span class="form-optional-tag">Optional</span></label><input type="number" id="pb-groupsize" min="1"></div>
+          <div class="form-row"><label for="pb-details">Anything else we should know? <span class="form-optional-tag">Optional</span></label><textarea id="pb-details"></textarea></div>
         </div>
 
         <div class="cf-group" data-cat="The Coach Collective" hidden>

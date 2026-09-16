@@ -159,8 +159,8 @@ export default function PickupForm({
           <Question label="Tell us what we need to know" error={custodyErrors.custodyRestrictions}>
             <TextArea name="custodyRestrictions" defaultValue={custodyRestrictions ?? ""} rows={4} />
             <p className="mt-2 font-body text-[12.5px] leading-snug text-gray-dark">
-              Only our owner, admin and front-desk staff can see this. Coaches are given only the
-              specific instruction they need at pickup — never the details.
+              Only our owner can see this. Coaches are given only the specific instruction they
+              need at pickup — never the details.
             </p>
           </Question>
         )}
