@@ -140,6 +140,12 @@ export async function signup(_prevState: unknown, formData: FormData) {
           phone: values.phone || null,
           nextGenStatus: values.nextGenStatus === "new" ? null : (values.nextGenStatus as "former_nextgen" | "current_nextgen"),
           nextGenVerification: values.nextGenStatus === "new" ? null : "unverified",
+          // Current NextGen members automatically qualify as Founders — no
+          // 25-cap, no admin gate on the LABEL. Only their actual legacy
+          // RATE still needs admin assignment (legacyRateCents stays null
+          // here). Former NextGen only earns isFounder once admin
+          // verifies/links/approves them (os/nextgen/actions.ts).
+          isFounder: values.nextGenStatus === "current_nextgen",
         },
       });
       const family = await tx.family.create({ data: { name: values.familyName } });

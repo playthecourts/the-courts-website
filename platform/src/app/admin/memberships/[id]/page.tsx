@@ -12,12 +12,18 @@ export default async function MembershipPlanDetailPage(props: PageProps<"/admin/
   const [plan, programs] = await Promise.all([
     prisma.membershipPlan.findUnique({
       where: { id },
-      include: { entitlements: { include: { program: true } } },
+      include: {
+        entitlements: { include: { program: true } },
+        entitlementsFromPlan: { include: { entitlements: { include: { program: true } } } },
+      },
     }),
     prisma.program.findMany({ where: { active: true }, orderBy: { name: "asc" } }),
   ]);
 
   if (!plan) notFound();
+
+  const inheritedFrom = plan.entitlementsFromPlan;
+  const displayedEntitlements = inheritedFrom ? inheritedFrom.entitlements : plan.entitlements;
 
   const updateAction = updateMembershipPlan.bind(null, plan.id);
 
@@ -90,13 +96,34 @@ export default async function MembershipPlanDetailPage(props: PageProps<"/admin/
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-neutral-500">
           Entitlements
         </h2>
+        {inheritedFrom && (
+          <p className="mb-3 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800">
+            Inherits entitlements from <strong>{inheritedFrom.name}</strong> — editing that
+            plan&apos;s benefits changes this plan&apos;s benefits too. Add or remove entitlements on{" "}
+            <strong>{inheritedFrom.name}</strong> instead.
+          </p>
+        )}
         <div className="mb-4 rounded-lg border border-neutral-200">
-          {plan.entitlements.length === 0 ? (
+          {displayedEntitlements.length === 0 ? (
             <p className="px-4 py-3 text-sm text-neutral-500">
               No entitlements yet — this plan doesn&apos;t unlock anything until you add one.
             </p>
+          ) : inheritedFrom ? (
+            displayedEntitlements.map((entitlement) => {
+              const label =
+                entitlement.benefitType === "class_credit"
+                  ? `${entitlement.quantityPerPeriod ?? "?"}× ${entitlement.program?.name ?? "any program"} per week — included`
+                  : entitlement.benefitType === "member_pricing"
+                    ? `Member pricing — ${entitlement.program?.name ?? "all programs"}`
+                    : `League eligibility — ${entitlement.program?.name ?? "any league"}`;
+              return (
+                <div key={entitlement.id} className="border-b border-neutral-200 px-4 py-3 text-sm last:border-b-0">
+                  {label}
+                </div>
+              );
+            })
           ) : (
-            plan.entitlements.map((entitlement) => (
+            displayedEntitlements.map((entitlement) => (
               <EntitlementRow
                 key={entitlement.id}
                 entitlementId={entitlement.id}
@@ -108,7 +135,7 @@ export default async function MembershipPlanDetailPage(props: PageProps<"/admin/
             ))
           )}
         </div>
-        <AddEntitlementForm planId={plan.id} programs={programs} />
+        {!inheritedFrom && <AddEntitlementForm planId={plan.id} programs={programs} />}
       </section>
     </div>
   );

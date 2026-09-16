@@ -50,9 +50,12 @@ const PLAN_COPY: Record<string, { tagline: string; description: string; mostPopu
   },
   "Founders Membership": {
     tagline: "You were here first.",
-    description: "The same access as Unlimited — unlimited group training, plus member pricing on Private Training, Dr. Dish, and Camps.",
+    description: "Everything in Unlimited, at your Founding Member rate.",
   },
 };
+
+const FOUNDERS_ELIGIBILITY_NOTE =
+  "Exclusive to qualifying current and former NextGen families. Eligibility will be confirmed after signup.";
 
 type PlanRow = { id: string; name: string; priceCents: number; billingInterval: string };
 
@@ -61,17 +64,19 @@ function PlanCard({
   cta,
   badge,
   priceOverrideCents,
+  note,
 }: {
   plan: PlanRow;
   cta: ReactNode;
-  /// Overrides the "Most Popular" pill when set — used to recommend Founders
-  /// Membership to a former_nextgen guardian without touching the plan's own
-  /// static copy (which stays guardian-independent).
+  /// Overrides the "Most Popular" pill when set.
   badge?: string;
   /// The "NextGen Legacy Rate" placeholder plan's priceCents is always 0 —
   /// the real amount lives on Guardian.legacyRateCents, threaded in here so
   /// it displays correctly instead of "$0.00/mo".
   priceOverrideCents?: number;
+  /// A small print line under the description — used for Founders'
+  /// eligibility disclaimer while verification runs on the honor system.
+  note?: string;
 }) {
   const shortName = plan.name.replace(/\s+Membership$/, "");
   const copy = PLAN_COPY[plan.name];
@@ -95,6 +100,7 @@ function PlanCard({
           <p className="mt-1 font-body text-[13.5px] leading-snug text-gray-dark">{copy.description}</p>
         </>
       )}
+      {note && <p className="mt-1.5 font-body text-[11.5px] leading-snug text-gray-dark/80">{note}</p>}
       <div className="mt-3">{cta}</div>
     </div>
   );
@@ -161,10 +167,10 @@ export default async function MembershipsPage({
   const athletes = guardian.families.flatMap((fg) => fg.family.athletes);
   const requiredForAthlete = requiredAthleteId ? athletes.find((a) => a.id === requiredAthleteId) : null;
 
-  const [memberships, plans] = await Promise.all([
+  const [memberships, allPlans] = await Promise.all([
     prisma.athleteMembership.findMany({
       where: { athleteId: { in: athletes.map((a) => a.id) } },
-      include: { plan: true },
+      include: { plan: true, linkedMembership: { include: { athlete: true } } },
       orderBy: { createdAt: "desc" },
     }),
     prisma.membershipPlan.findMany({
@@ -172,6 +178,14 @@ export default async function MembershipsPage({
       orderBy: { priceCents: "asc" },
     }),
   ]);
+
+  // Founders isn't a publicly available plan — current/former NextGen
+  // families see it, a plain "New to The Courts" signup never does. Filtered
+  // once, here, so both the main picker and "Change Plan" inherit the rule
+  // automatically instead of needing the same check twice.
+  const eligibleForFounders =
+    guardian.nextGenStatus === "current_nextgen" || guardian.nextGenStatus === "former_nextgen";
+  const plans = eligibleForFounders ? allPlans : allPlans.filter((p) => p.name !== "Founders Membership");
 
   // Most recent row per athlete wins — an athlete can accumulate more than
   // one AthleteMembership over time (cancelled, then later resubscribed),
@@ -241,7 +255,9 @@ export default async function MembershipsPage({
             itemName={purchasedPlanName ?? "Membership"}
           />
           <p className="rounded-lg border border-orange bg-white px-4 py-3 font-body text-sm text-black">
-            You&rsquo;re in — your Membership is active.
+            {purchasedPlanName === "Founders Membership" || purchasedPlanName === "NextGen Legacy Rate"
+              ? "You're in — your Founders Membership is active. We'll confirm your NextGen Founding Member status behind the scenes. If we need anything from you, we'll reach out."
+              : "You're in — your Membership is active."}
           </p>
         </>
       )}
@@ -287,11 +303,8 @@ export default async function MembershipsPage({
                           key={plan.id}
                           plan={plan}
                           cta={planCta(athlete.id, plan)}
-                          badge={
-                            guardian.nextGenStatus === "former_nextgen" && plan.name === "Founders Membership"
-                              ? "Recommended for NextGen Families"
-                              : undefined
-                          }
+                          badge={plan.name === "Founders Membership" ? "Founding Member Rate" : undefined}
+                          note={plan.name === "Founders Membership" ? FOUNDERS_ELIGIBILITY_NOTE : undefined}
                         />
                       ))
                     )}
@@ -340,11 +353,8 @@ export default async function MembershipsPage({
                             key={plan.id}
                             plan={plan}
                             cta={planCta(athlete.id, plan)}
-                            badge={
-                              guardian.nextGenStatus === "former_nextgen" && plan.name === "Founders Membership"
-                                ? "Recommended for NextGen Families"
-                                : undefined
-                            }
+                            badge={plan.name === "Founders Membership" ? "Founding Member Rate" : undefined}
+                            note={plan.name === "Founders Membership" ? FOUNDERS_ELIGIBILITY_NOTE : undefined}
                           />
                         ))}
                       </>
@@ -388,6 +398,12 @@ export default async function MembershipsPage({
                       );
                     })()}
 
+                    {membership!.linkedMembership && (
+                      <p className="-mt-2 font-body text-[12.5px] text-gray-dark">
+                        Also covers: <strong>{membership!.linkedMembership.athlete.firstName}</strong>
+                      </p>
+                    )}
+
                     {/* Manually-assigned memberships (no stripeSubscriptionId) aren't
                         self-service — there's no subscription to switch or cancel from
                         this side, so those controls only appear for online-billed ones. */}
@@ -403,6 +419,8 @@ export default async function MembershipsPage({
                                 <PlanCard
                                   key={plan.id}
                                   plan={plan}
+                                  badge={plan.name === "Founders Membership" ? "Founding Member Rate" : undefined}
+                                  note={plan.name === "Founders Membership" ? FOUNDERS_ELIGIBILITY_NOTE : undefined}
                                   cta={
                                     <form action={changeMembershipTier.bind(null, membership!.id, plan.id)}>
                                       <button

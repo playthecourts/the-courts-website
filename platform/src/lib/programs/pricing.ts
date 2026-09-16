@@ -15,7 +15,7 @@ import { prisma } from "@/lib/prisma";
 //      rule in words before a family commits.
 // ---------------------------------------------------------------------------
 
-import { entitlementPeriodBounds } from "@/lib/entitlements";
+import { entitlementPeriodBounds, effectiveEntitlements } from "@/lib/entitlements";
 import type { BookingRule } from "./pricing-types";
 export type { BookingRule };
 
@@ -61,7 +61,7 @@ export async function resolveBookingRule(
 
   const memberships = await prisma.athleteMembership.findMany({
     where: { athleteId, status: "active" },
-    include: { plan: { include: { entitlements: true } } },
+    include: { plan: { include: { entitlements: true, entitlementsFromPlan: { include: { entitlements: true } } } } },
   });
 
   // A non-member who'd otherwise pay full price for Dr. Dish self-serve may
@@ -72,7 +72,7 @@ export async function resolveBookingRule(
   // companion price, not a pack credit).
   if (offering.program.programType === "self_serve_dr_dish" && !isCompanion) {
     const hasMemberPricing = memberships.some((m) =>
-      m.plan.entitlements.some(
+      effectiveEntitlements(m.plan).some(
         (e) => e.benefitType === "member_pricing" && (e.programId === null || e.programId === offering.programId)
       )
     );
@@ -96,7 +96,7 @@ export async function resolveBookingRule(
   switch (offering.creditRule) {
     case "included": {
       const m = memberships.find((mm) =>
-        mm.plan.entitlements.some(
+        effectiveEntitlements(mm.plan).some(
           (e) =>
             (e.benefitType === "class_credit" || e.benefitType === "member_pricing") &&
             (e.programId === null || e.programId === offering.programId)
@@ -113,7 +113,7 @@ export async function resolveBookingRule(
 
     case "uses_credit": {
       for (const m of memberships) {
-        const ent = m.plan.entitlements.find(
+        const ent = effectiveEntitlements(m.plan).find(
           (e) => e.benefitType === "class_credit" && e.programId === offering.programId
         );
         if (!ent?.quantityPerPeriod) continue;
@@ -164,7 +164,7 @@ export async function resolveBookingRule(
 
     case "member_price": {
       const m = memberships.find((mm) =>
-        mm.plan.entitlements.some(
+        effectiveEntitlements(mm.plan).some(
           (e) =>
             e.benefitType === "member_pricing" &&
             (e.programId === null || e.programId === offering.programId)

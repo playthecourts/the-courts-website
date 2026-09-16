@@ -50,8 +50,12 @@ model Guardian {
   /// constrained to the 4 standard plan prices. Null means "not yet known,"
   /// which is what gates startNextGenLegacyCheckout.
   legacyRateCents     Int?                 @map("legacy_rate_cents")
+  /// Free-text admin note for the "Request More Information" case — no
+  /// billing consequence, just a reminder of where reconciliation stands.
+  nextGenNotes        String?              @map("next_gen_notes")
 
   families         FamilyGuardian[]
+  matchedNextGenRecords NextGenRecord[]
   bookings         Booking[]
   waiverSignatures WaiverSignature[]
   communicationsReceived CommunicationRecipient[]
@@ -75,6 +79,40 @@ enum NextGenVerification {
   unverified
   verified
   not_eligible
+  /// "Approve as Founder Anyway" — a manual override with no matching
+  /// historical record. Functionally identical to `verified` (keeps the
+  /// $165 rate, no billing change) but tracked separately so admin can see
+  /// HOW someone was confirmed: matched against the official list, or a
+  /// judgment call.
+  admin_approved
+}
+
+/// One row per person on an imported historical NextGen list (name/email,
+/// and — once richer exports exist — phone/athlete info). Never gates
+/// eligibility or Stripe activity by itself; it's evidence for admin's
+/// manual "link" decision, since a family may sign up at The Courts under a
+/// different email than the one NextGen has on file for them.
+model NextGenRecord {
+  id              String    @id @default(uuid())
+  name            String
+  email           String
+  phone           String?
+  athleteName     String?   @map("athlete_name")
+  athleteDob      DateTime? @map("athlete_dob") @db.Date
+  /// The rate this record confirms, in cents — informational until an admin
+  /// links it to a real Guardian, at which point it's copied onto
+  /// Guardian.legacyRateCents.
+  legacyRateCents Int?      @map("legacy_rate_cents")
+  matchedGuardianId String? @map("matched_guardian_id")
+  matchedAt       DateTime? @map("matched_at")
+  /// Which import this came from, e.g. "165_list_2026-09-16" — lets more
+  /// than one historical export coexist without ambiguity about origin.
+  source          String?
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  matchedGuardian Guardian? @relation(fields: [matchedGuardianId], references: [id])
+
+  @@map("next_gen_records")
 }
 
 /// The household unit. Athletes belong to exactly one family;
@@ -887,6 +925,15 @@ model MembershipPlan {
   stripePriceId   String?         @unique @map("stripe_price_id")
   createdAt       DateTime        @default(now()) @map("created_at")
 
+  /// When set, this plan owns NO PlanEntitlement rows of its own — every
+  /// consumer resolves benefits through the referenced plan instead (see
+  /// effectiveEntitlements() in lib/entitlements.ts). Used so Founders can
+  /// share Unlimited's entitlements structurally: editing Unlimited's
+  /// benefits changes Founders' too, with no second place to remember.
+  entitlementsFromPlanId String? @map("entitlements_from_plan_id")
+  entitlementsFromPlan   MembershipPlan?  @relation("PlanEntitlementSource", fields: [entitlementsFromPlanId], references: [id])
+  entitlementInheritors  MembershipPlan[] @relation("PlanEntitlementSource")
+
   entitlements PlanEntitlement[]
   memberships  AthleteMembership[]
 
@@ -926,6 +973,13 @@ model AthleteMembership {
   /// Free-text follow-up, only ever collected when cancellationReason is
   /// "Didn't meet expectations".
   cancellationFeedback String?   @map("cancellation_feedback")
+
+  /// Set by the webhook on BOTH rows when a Family Unlimited checkout
+  /// creates the second, unbilled sibling membership — lets the memberships
+  /// page show "Also covers: Rhys" instead of two unrelated-looking cards.
+  linkedMembershipId String? @map("linked_membership_id")
+  linkedMembership    AthleteMembership?  @relation("FamilyLink", fields: [linkedMembershipId], references: [id])
+  linkedFrom          AthleteMembership[] @relation("FamilyLink")
 
   athlete Athlete        @relation(fields: [athleteId], references: [id], onDelete: Cascade)
   plan    MembershipPlan @relation(fields: [membershipPlanId], references: [id])

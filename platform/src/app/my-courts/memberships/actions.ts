@@ -25,6 +25,23 @@ async function getOrigin() {
   return `${protocol}://${host}`;
 }
 
+/// Every checkout path calls this before creating a new Stripe Checkout
+/// Session. The picker UI already hides plan cards once an athlete has a
+/// membership, but nothing server-side enforced it — two tabs, or a retried
+/// checkout after an abandoned one, could otherwise create two real
+/// subscriptions for the same athlete. Throws a plain Error (caught by each
+/// caller's own try/catch, same as any other Stripe hiccup) rather than
+/// redirecting directly, since callers differ on whether they're already
+/// inside a try block.
+async function assertNoActiveMembership(athleteId: string) {
+  const existing = await prisma.athleteMembership.findFirst({
+    where: { athleteId, status: { in: ["active", "past_due"] } },
+  });
+  if (existing) {
+    throw new Error("This athlete already has an active membership.");
+  }
+}
+
 /// Every membership-mutating action below re-resolves the membership THROUGH
 /// the signed-in guardian's athletes, the same shape as requireGuardianAthlete()
 /// in athlete-profile.ts — a guardian can never act on another family's
@@ -69,11 +86,23 @@ export async function startMembershipCheckout(athleteId: string, membershipPlanI
     throw new Error("This plan isn't available for online checkout yet.");
   }
 
+  // Defense in depth: Founders is hidden from the picker for anyone who
+  // isn't a self-reported current/former NextGen guardian, but a stale page
+  // or a crafted request could still try to post this plan id directly.
+  if (
+    plan.name === "Founders Membership" &&
+    guardian.nextGenStatus !== "current_nextgen" &&
+    guardian.nextGenStatus !== "former_nextgen"
+  ) {
+    throw new Error("This plan isn't available for your account.");
+  }
+
   const origin = await getOrigin();
   const beforeStart = isBeforeMembershipStart();
 
   let checkoutUrl: string;
   try {
+    await assertNoActiveMembership(athleteId);
     const customerId = await getOrCreateStripeCustomer(guardian);
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
@@ -151,6 +180,7 @@ export async function startNextGenLegacyCheckout(athleteId: string) {
       throw new Error("NextGen legacy checkout isn't configured yet.");
     }
 
+    await assertNoActiveMembership(athleteId);
     const customerId = await getOrCreateStripeCustomer(guardian);
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
@@ -228,6 +258,7 @@ export async function startFamilyMembershipCheckout(formData: FormData) {
 
   let checkoutUrl: string;
   try {
+    await Promise.all([assertNoActiveMembership(athleteId), assertNoActiveMembership(secondAthleteId)]);
     const customerId = await getOrCreateStripeCustomer(guardian);
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",

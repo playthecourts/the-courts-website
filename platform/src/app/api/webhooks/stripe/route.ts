@@ -69,7 +69,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   const anchorMs = subscription.billing_cycle_anchor * 1000;
   const startDate = anchorMs > Date.now() ? new Date(anchorMs) : new Date();
 
-  await prisma.athleteMembership.create({
+  const primaryMembership = await prisma.athleteMembership.create({
     data: {
       athleteId,
       membershipPlanId,
@@ -82,21 +82,28 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 
   // Family Unlimited covers a second athlete under this same subscription —
   // no separate Stripe object for them, same pattern as any other
-  // manually-assigned (no stripeSubscriptionId) membership.
+  // manually-assigned (no stripeSubscriptionId) membership. linkedMembershipId
+  // is set on BOTH rows so the memberships page can show "Also covers: X"
+  // instead of two unrelated-looking cards.
   const secondAthleteId = session.metadata?.secondAthleteId;
   if (secondAthleteId) {
     const alreadyCovered = await prisma.athleteMembership.findFirst({
       where: { athleteId: secondAthleteId, membershipPlanId, status: { in: ["active", "past_due"] } },
     });
     if (!alreadyCovered) {
-      await prisma.athleteMembership.create({
+      const siblingMembership = await prisma.athleteMembership.create({
         data: {
           athleteId: secondAthleteId,
           membershipPlanId,
           status: mapStatus(subscription.status),
           startDate,
           renewalDate: renewalDateFrom(subscription),
+          linkedMembershipId: primaryMembership.id,
         },
+      });
+      await prisma.athleteMembership.update({
+        where: { id: primaryMembership.id },
+        data: { linkedMembershipId: siblingMembership.id },
       });
     }
   }

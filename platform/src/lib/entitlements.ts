@@ -1,5 +1,18 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
+import type { PlanEntitlement } from "@/generated/prisma/client";
+
+/// A plan can point at another plan for its entitlements (Founders → Unlimited)
+/// so benefits can never accidentally diverge — editing Unlimited's rows
+/// changes what an inheriting plan grants too. Every real consumer of
+/// `membership.plan.entitlements` should go through this instead of reading
+/// the relation directly.
+export function effectiveEntitlements(plan: {
+  entitlements: PlanEntitlement[];
+  entitlementsFromPlan?: { entitlements: PlanEntitlement[] } | null;
+}): PlanEntitlement[] {
+  return plan.entitlementsFromPlan?.entitlements ?? plan.entitlements;
+}
 
 export type BookingEligibility =
   | { type: "included"; membershipPlanName: string }
@@ -59,7 +72,7 @@ export async function getBookingEligibility(
 
   const memberships = await prisma.athleteMembership.findMany({
     where: { athleteId, status: "active" },
-    include: { plan: { include: { entitlements: true } } },
+    include: { plan: { include: { entitlements: true, entitlementsFromPlan: { include: { entitlements: true } } } } },
   });
 
   // 1. class_credit: N sessions included per billing period — or every
@@ -79,7 +92,7 @@ export async function getBookingEligibility(
   // current period rather than a stored balance — see the Credit model's doc
   // comment for why that's the right call for this specific benefit type.
   for (const membership of memberships) {
-    const entitlement = membership.plan.entitlements.find(
+    const entitlement = effectiveEntitlements(membership.plan).find(
       (e) =>
         e.benefitType === "class_credit" &&
         (e.programId === null || e.programId === session.programId)
@@ -107,7 +120,7 @@ export async function getBookingEligibility(
   // 2. member_pricing: applies to a specific program, or every program when
   // the entitlement's programId is null.
   for (const membership of memberships) {
-    const entitlement = membership.plan.entitlements.find(
+    const entitlement = effectiveEntitlements(membership.plan).find(
       (e) =>
         e.benefitType === "member_pricing" &&
         (e.programId === null || e.programId === session.programId)
@@ -142,7 +155,7 @@ export type SessionBalance = {
 export async function getSessionBalances(athleteId: string): Promise<SessionBalance[]> {
   const memberships = await prisma.athleteMembership.findMany({
     where: { athleteId, status: "active" },
-    include: { plan: { include: { entitlements: true } } },
+    include: { plan: { include: { entitlements: true, entitlementsFromPlan: { include: { entitlements: true } } } } },
   });
 
   const now = new Date();
@@ -150,7 +163,7 @@ export async function getSessionBalances(athleteId: string): Promise<SessionBala
   const balances: SessionBalance[] = [];
   for (const membership of memberships) {
     const { start, end } = entitlementPeriodBounds(membership, now);
-    for (const entitlement of membership.plan.entitlements) {
+    for (const entitlement of effectiveEntitlements(membership.plan)) {
       if (entitlement.benefitType !== "class_credit") continue;
 
       if (entitlement.quantityPerPeriod === null) {
