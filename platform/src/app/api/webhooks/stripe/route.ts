@@ -32,7 +32,9 @@ function renewalDateFrom(subscription: Stripe.Subscription): Date | null {
 
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   if (session.mode === "payment") {
-    if (session.metadata?.registrationId) {
+    if (session.metadata?.type === "dr_dish_ten_pack") {
+      await handleDrDishPackCheckoutCompleted(session);
+    } else if (session.metadata?.registrationId) {
       await handleRegistrationCheckoutCompleted(session);
     } else {
       await handleBookingCheckoutCompleted(session);
