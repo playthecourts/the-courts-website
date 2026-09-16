@@ -102,7 +102,8 @@ export async function signup(_prevState: unknown, formData: FormData) {
   const existing = await prisma.guardian.findUnique({ where: { email: values.email } });
   if (existing) {
     return {
-      error: "An account with this email already exists. Try signing in instead.",
+      error: "Looks like you already have an account with this email.",
+      existingAccount: true,
       values,
     };
   }
@@ -123,7 +124,8 @@ export async function signup(_prevState: unknown, formData: FormData) {
   // already belongs to an existing account, to avoid revealing which emails are registered.
   if (data.user.identities?.length === 0) {
     return {
-      error: "An account with this email already exists. Try signing in instead.",
+      error: "Looks like you already have an account with this email.",
+      existingAccount: true,
       values,
     };
   }

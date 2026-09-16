@@ -21,10 +21,11 @@ export default async function SignupPage({
         priority
       />
       <h1 className="mb-1 font-display text-2xl font-black uppercase tracking-tight text-black">
-        Create Your Account
+        Create Your Courts Account
       </h1>
+      <p className="mb-1 font-heading text-sm font-bold text-orange">Your home court starts here.</p>
       <p className="mb-6 font-body text-sm text-gray-dark">
-        Set up your family so you can book classes, sign waivers, and manage membership.
+        Set up your family to book classes, manage memberships, sign waivers, and get on the court.
       </p>
 
       <Suspense fallback={null}>

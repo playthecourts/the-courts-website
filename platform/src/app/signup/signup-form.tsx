@@ -2,7 +2,9 @@
 
 import { useState, useEffect, useActionState } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { signup } from "@/app/actions/auth";
+import { ChoiceCard, CardStack } from "@/components/athlete/form-ui";
 
 type AthleteRow = { key: number };
 
@@ -90,7 +92,7 @@ export function SignupForm() {
           />
         </label>
         <label className={labelClass}>
-          Family Name
+          Family Last Name
           <input
             type="text"
             name="familyName"
@@ -104,41 +106,38 @@ export function SignupForm() {
 
       <div className="flex flex-col gap-3">
         <h2 className="font-sport text-xs font-bold uppercase tracking-widest text-orange">
-          NextGen Family?
+          Were You Part of NextGen?
         </h2>
         <p className="font-body text-[13px] normal-case tracking-normal text-gray-dark">
-          NextGen is closing October 1, 2026, and The Courts is taking over. Let us know which applies to you.
+          As NextGen transitions to The Courts on October 1, let us know which best describes your family so we can
+          get you set up correctly.
         </p>
-        <div className="flex flex-col gap-2">
+        <CardStack>
           {(
             [
-              { value: "new", label: "New to The Courts" },
-              { value: "former_nextgen", label: "I was a NextGen member or family (not currently enrolled)" },
-              { value: "current_nextgen", label: "I'm a current NextGen member right now" },
+              { value: "new", label: "We're new to The Courts" },
+              { value: "former_nextgen", label: "We were part of NextGen, but aren't currently members" },
+              { value: "current_nextgen", label: "We're current NextGen members" },
             ] as const
           ).map((option) => (
-            <label
+            <ChoiceCard
               key={option.value}
-              className="flex items-center gap-2.5 rounded-md border border-gray-mid px-3 py-2.5 font-body text-sm font-normal normal-case tracking-normal text-black"
-            >
-              <input
-                type="radio"
-                name="nextGenStatus"
-                value={option.value}
-                required
-                defaultChecked={values?.nextGenStatus === option.value}
-                className="h-4 w-4 accent-orange"
-              />
-              {option.label}
-            </label>
+              name="nextGenStatus"
+              value={option.value}
+              headline={option.label}
+              defaultChecked={values?.nextGenStatus === option.value}
+            />
           ))}
-        </div>
+        </CardStack>
       </div>
 
       <div className="flex flex-col gap-4">
         <h2 className="font-sport text-xs font-bold uppercase tracking-widest text-orange">
-          Athletes
+          Add Your Athlete(s)
         </h2>
+        <p className="-mt-2 font-body text-[13px] normal-case tracking-normal text-gray-dark">
+          Add everyone in your family who&rsquo;ll be getting on the court.
+        </p>
         {athletes.map((athlete, i) => (
           <div key={athlete.key} className="flex flex-col gap-3 rounded-md border border-gray-mid p-4">
             {athletes.length > 1 && (
@@ -229,6 +228,14 @@ export function SignupForm() {
       {state?.error && (
         <p className="font-body text-sm text-red-600" role="alert">
           {state.error}
+          {state.existingAccount && (
+            <>
+              {" "}
+              <Link href={`/login?next=${encodeURIComponent(next)}`} className="font-semibold underline">
+                Sign in instead.
+              </Link>
+            </>
+          )}
         </p>
       )}
 
@@ -237,7 +244,7 @@ export function SignupForm() {
         disabled={pending}
         className="rounded-full bg-orange px-5 py-2.5 font-heading text-sm font-bold text-white transition-colors hover:bg-orange-hover disabled:opacity-50"
       >
-        {pending ? "Creating account…" : "Create Account →"}
+        {pending ? "Creating account…" : "Create My Account →"}
       </button>
     </form>
   );
