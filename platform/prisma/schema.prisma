@@ -30,6 +30,27 @@ model Guardian {
   stripeCustomerId String?  @unique @map("stripe_customer_id")
   createdAt        DateTime @default(now()) @map("created_at")
 
+  /// Self-reported at signup. Null means "New to The Courts" or a
+  /// pre-existing account from before the NextGen transition feature — both
+  /// read identically as "not applicable," never a default implying
+  /// eligibility either way.
+  nextGenStatus       NextGenStatus?       @map("next_gen_status")
+  /// Admin reconciliation outcome against NextGen's official member list.
+  /// Only meaningful when nextGenStatus is set — starts "unverified" the
+  /// moment a guardian self-reports at signup. This is a record-keeping/audit
+  /// state, never a checkout gate: a former_nextgen guardian can self-serve
+  /// checkout at the Founders rate immediately, verification happens after.
+  nextGenVerification NextGenVerification? @map("next_gen_verification")
+  /// True once admin verifies a former_nextgen guardian as one of the first
+  /// 25 real Founders. Reporting/tracking only — never enforced live at
+  /// checkout, and never auto-cleared if their subscription later lapses.
+  isFounder           Boolean              @default(false) @map("is_founder")
+  /// Admin-entered, current_nextgen only. The real legacy monthly rate in
+  /// cents once the official list confirms it — deliberately not
+  /// constrained to the 4 standard plan prices. Null means "not yet known,"
+  /// which is what gates startNextGenLegacyCheckout.
+  legacyRateCents     Int?                 @map("legacy_rate_cents")
+
   families         FamilyGuardian[]
   bookings         Booking[]
   waiverSignatures WaiverSignature[]
@@ -43,6 +64,17 @@ model Guardian {
   featuredDecisions      FeaturedContentApproval[]
 
   @@map("guardians")
+}
+
+enum NextGenStatus {
+  current_nextgen
+  former_nextgen
+}
+
+enum NextGenVerification {
+  unverified
+  verified
+  not_eligible
 }
 
 /// The household unit. Athletes belong to exactly one family;

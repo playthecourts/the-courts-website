@@ -6,6 +6,7 @@ import {
   reverseScheduledCancellation,
   startBillingPortalSession,
   startMembershipCheckout,
+  startNextGenLegacyCheckout,
 } from "./actions";
 import { FamilyPlanSelector } from "./family-plan-selector";
 import { CancelMembershipFlow } from "./cancel-flow";
@@ -47,22 +48,44 @@ const PLAN_COPY: Record<string, { tagline: string; description: string; mostPopu
     tagline: "Bring the whole crew.",
     description: "Unlimited group training and quarterly progress updates for 2 athletes. Add more for $100/mo each.",
   },
+  "Founders Membership": {
+    tagline: "You were here first.",
+    description: "The same access as Unlimited — unlimited group training, plus member pricing on Private Training, Dr. Dish, and Camps.",
+  },
 };
 
 type PlanRow = { id: string; name: string; priceCents: number; billingInterval: string };
 
-function PlanCard({ plan, cta }: { plan: PlanRow; cta: ReactNode }) {
+function PlanCard({
+  plan,
+  cta,
+  badge,
+  priceOverrideCents,
+}: {
+  plan: PlanRow;
+  cta: ReactNode;
+  /// Overrides the "Most Popular" pill when set — used to recommend Founders
+  /// Membership to a former_nextgen guardian without touching the plan's own
+  /// static copy (which stays guardian-independent).
+  badge?: string;
+  /// The "NextGen Legacy Rate" placeholder plan's priceCents is always 0 —
+  /// the real amount lives on Guardian.legacyRateCents, threaded in here so
+  /// it displays correctly instead of "$0.00/mo".
+  priceOverrideCents?: number;
+}) {
   const shortName = plan.name.replace(/\s+Membership$/, "");
   const copy = PLAN_COPY[plan.name];
+  const displayPriceCents = priceOverrideCents ?? plan.priceCents;
+  const badgeText = badge ?? (copy?.mostPopular ? "Most Popular" : null);
 
   return (
     <div className="rounded-lg border border-gray-mid bg-white p-4">
       <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
         <p className="font-heading font-bold text-black">{shortName}</p>
-        <p className="font-body text-sm text-gray-dark">{formatPrice(plan.priceCents, plan.billingInterval)}</p>
-        {copy?.mostPopular && (
+        <p className="font-body text-sm text-gray-dark">{formatPrice(displayPriceCents, plan.billingInterval)}</p>
+        {badgeText && (
           <span className="rounded-full bg-orange/10 px-2 py-0.5 font-sport text-[10px] font-bold uppercase tracking-wide text-orange">
-            Most Popular
+            {badgeText}
           </span>
         )}
       </div>
@@ -89,6 +112,41 @@ function PlansIntro({ athleteFirstName }: { athleteFirstName: string }) {
       <p className="font-body text-[12.5px] leading-snug text-gray-dark">
         No long-term commitment. Cancel with 30 days&rsquo; notice.
       </p>
+    </div>
+  );
+}
+
+type TransferGuardian = { nextGenVerification: string | null; legacyRateCents: number | null };
+
+function NextGenTransferState({ guardian, athlete }: { guardian: TransferGuardian; athlete: { id: string } }) {
+  if (guardian.nextGenVerification !== "verified" || guardian.legacyRateCents == null) {
+    return (
+      <div className="rounded-lg border border-orange bg-orange/5 p-4">
+        <p className="font-heading font-bold text-black">NextGen Membership Transfer Pending</p>
+        <p className="mt-1 font-body text-sm text-gray-dark">
+          We&rsquo;re confirming your account against NextGen&rsquo;s official member list. Once verified, your real
+          rate will appear here and you&rsquo;ll be able to complete checkout yourself — no action needed from you
+          right now.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-lg border border-orange bg-orange/5 p-4">
+      <p className="font-heading font-bold text-black">Your NextGen Rate Is Confirmed</p>
+      <p className="mt-1 font-body text-sm text-gray-dark">
+        ${(guardian.legacyRateCents / 100).toFixed(2)}/mo, same as your NextGen rate. Complete checkout to start your
+        membership at The Courts.
+      </p>
+      <form action={startNextGenLegacyCheckout.bind(null, athlete.id)} className="mt-3">
+        <button
+          type="submit"
+          className="min-h-[36px] rounded-full bg-orange px-4 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange-hover"
+        >
+          Complete Your Transfer — ${(guardian.legacyRateCents / 100).toFixed(2)}/mo
+        </button>
+      </form>
     </div>
   );
 }
@@ -214,13 +272,28 @@ export default async function MembershipsPage({
                   {athlete.firstName} {athlete.lastName}
                 </h2>
 
-                {!membership && (
+                {!membership && guardian.nextGenStatus === "current_nextgen" && (
+                  <NextGenTransferState guardian={guardian} athlete={athlete} />
+                )}
+
+                {!membership && guardian.nextGenStatus !== "current_nextgen" && (
                   <div className="flex flex-col gap-3">
                     <PlansIntro athleteFirstName={athlete.firstName} />
                     {plans.length === 0 ? (
                       <p className="font-body text-sm text-gray-dark">No plans available for checkout yet.</p>
                     ) : (
-                      plans.map((plan) => <PlanCard key={plan.id} plan={plan} cta={planCta(athlete.id, plan)} />)
+                      plans.map((plan) => (
+                        <PlanCard
+                          key={plan.id}
+                          plan={plan}
+                          cta={planCta(athlete.id, plan)}
+                          badge={
+                            guardian.nextGenStatus === "former_nextgen" && plan.name === "Founders Membership"
+                              ? "Recommended for NextGen Families"
+                              : undefined
+                          }
+                        />
+                      ))
                     )}
                   </div>
                 )}
@@ -257,10 +330,25 @@ export default async function MembershipsPage({
                       </p>
                       <p className="font-body text-sm text-gray-dark">{STATUS_LABEL.cancelled}</p>
                     </div>
-                    <PlansIntro athleteFirstName={athlete.firstName} />
-                    {plans.map((plan) => (
-                      <PlanCard key={plan.id} plan={plan} cta={planCta(athlete.id, plan)} />
-                    ))}
+                    {guardian.nextGenStatus === "current_nextgen" ? (
+                      <NextGenTransferState guardian={guardian} athlete={athlete} />
+                    ) : (
+                      <>
+                        <PlansIntro athleteFirstName={athlete.firstName} />
+                        {plans.map((plan) => (
+                          <PlanCard
+                            key={plan.id}
+                            plan={plan}
+                            cta={planCta(athlete.id, plan)}
+                            badge={
+                              guardian.nextGenStatus === "former_nextgen" && plan.name === "Founders Membership"
+                                ? "Recommended for NextGen Families"
+                                : undefined
+                            }
+                          />
+                        ))}
+                      </>
+                    )}
                   </div>
                 )}
 
@@ -276,6 +364,9 @@ export default async function MembershipsPage({
                       return (
                         <PlanCard
                           plan={membership!.plan}
+                          priceOverrideCents={
+                            membership!.plan.name === "NextGen Legacy Rate" ? (guardian.legacyRateCents ?? 0) : undefined
+                          }
                           cta={
                             <div className="flex flex-wrap items-center gap-2">
                               <span

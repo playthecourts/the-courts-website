@@ -34,12 +34,15 @@ type AthleteInput = {
   gender: string;
 };
 
+type NextGenAnswer = "new" | "former_nextgen" | "current_nextgen";
+
 type SignupValues = {
   name: string;
   email: string;
   phone: string;
   familyName: string;
   athletes: AthleteInput[];
+  nextGenStatus: NextGenAnswer | "";
 };
 
 function readSignupValues(formData: FormData): SignupValues {
@@ -54,12 +57,18 @@ function readSignupValues(formData: FormData): SignupValues {
       gender: (formData.get(`athlete_${i}_gender`) as string)?.trim() || "",
     });
   }
+  const nextGenStatusRaw = (formData.get("nextGenStatus") as string) || "";
+  const nextGenStatus: NextGenAnswer | "" =
+    nextGenStatusRaw === "new" || nextGenStatusRaw === "former_nextgen" || nextGenStatusRaw === "current_nextgen"
+      ? nextGenStatusRaw
+      : "";
   return {
     name: (formData.get("name") as string)?.trim() || "",
     email: (formData.get("email") as string)?.trim() || "",
     phone: (formData.get("phone") as string)?.trim() || "",
     familyName: (formData.get("familyName") as string)?.trim() || "",
     athletes,
+    nextGenStatus,
   };
 }
 
@@ -69,6 +78,9 @@ export async function signup(_prevState: unknown, formData: FormData) {
 
   if (!values.name || !values.email || !password || !values.familyName) {
     return { error: "Fill in all required fields.", values };
+  }
+  if (!values.nextGenStatus) {
+    return { error: "Let us know whether you're a NextGen family.", values };
   }
   if (password.length < 8) {
     return { error: "Password must be at least 8 characters.", values };
@@ -119,7 +131,14 @@ export async function signup(_prevState: unknown, formData: FormData) {
   try {
     await prisma.$transaction(async (tx) => {
       const guardian = await tx.guardian.create({
-        data: { authId: data.user!.id, name: values.name, email: values.email, phone: values.phone || null },
+        data: {
+          authId: data.user!.id,
+          name: values.name,
+          email: values.email,
+          phone: values.phone || null,
+          nextGenStatus: values.nextGenStatus === "new" ? null : (values.nextGenStatus as "former_nextgen" | "current_nextgen"),
+          nextGenVerification: values.nextGenStatus === "new" ? null : "unverified",
+        },
       });
       const family = await tx.family.create({ data: { name: values.familyName } });
       await tx.familyGuardian.create({
@@ -144,8 +163,17 @@ export async function signup(_prevState: unknown, formData: FormData) {
   }
 
   if (data.session) {
-    const next = (formData.get("next") as string) || "/my-courts";
-    redirect(next);
+    // An explicit destination (e.g. a League registration link) always wins
+    // — only when there isn't one does the NextGen answer pick the default
+    // landing page.
+    const next = (formData.get("next") as string) || "";
+    if (next) {
+      redirect(next);
+    }
+    if (values.nextGenStatus === "former_nextgen") {
+      redirect("/my-courts/memberships");
+    }
+    redirect("/my-courts");
   }
 
   return { success: "Check your email to confirm your account, then sign in." };

@@ -102,6 +102,87 @@ export async function startMembershipCheckout(athleteId: string, membershipPlanI
   redirect(checkoutUrl);
 }
 
+/// For a verified Current-NextGen guardian only — their real legacy rate is
+/// admin-entered (any dollar amount, not one of the 4 standard plans) and
+/// charged via an ad-hoc Stripe price_data line item rather than a fixed
+/// Price, same pattern already used for per-session Dr. Dish/booking
+/// checkout in lib/booking.ts. This is the ONLY place a Current-NextGen
+/// subscription gets created — admin verification never touches Stripe
+/// itself (see os/nextgen/actions.ts), since these guardians never entered a
+/// card at signup and stripe.subscriptions.create() needs one on file.
+export async function startNextGenLegacyCheckout(athleteId: string) {
+  const guardian = await getCurrentGuardian();
+
+  const ownsAthlete = guardian.families.some((fg) =>
+    fg.family.athletes.some((a) => a.id === athleteId)
+  );
+  if (!ownsAthlete) {
+    throw new Error("Not authorized to act on this athlete.");
+  }
+
+  if (
+    guardian.nextGenStatus !== "current_nextgen" ||
+    guardian.nextGenVerification !== "verified" ||
+    guardian.legacyRateCents == null
+  ) {
+    throw new Error("Your NextGen transfer isn't ready for checkout yet.");
+  }
+
+  const unsigned = await getUnsignedRequiredWaivers(guardian.id, athleteId);
+  if (unsigned.length > 0) {
+    redirect(`/my-courts/waivers?required=membership&back=${encodeURIComponent("/my-courts/memberships")}`);
+  }
+
+  const legacyPlan = await prisma.membershipPlan.findFirstOrThrow({
+    where: { name: "NextGen Legacy Rate" },
+  });
+
+  const productId = process.env.NEXTGEN_LEGACY_STRIPE_PRODUCT_ID;
+  if (!productId) {
+    throw new Error("NextGen legacy checkout isn't configured yet.");
+  }
+
+  const origin = await getOrigin();
+  const beforeStart = isBeforeMembershipStart();
+  const legacyRateCents = guardian.legacyRateCents;
+
+  let checkoutUrl: string;
+  try {
+    const customerId = await getOrCreateStripeCustomer(guardian);
+    const session = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      customer: customerId,
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            unit_amount: legacyRateCents,
+            recurring: { interval: "month" },
+            product: productId,
+          },
+          quantity: 1,
+        },
+      ],
+      success_url: `${origin}/my-courts/memberships?checkout=success&amount=${legacyRateCents}&plan=${encodeURIComponent("NextGen Legacy Rate")}`,
+      cancel_url: `${origin}/my-courts/memberships?checkout=cancelled`,
+      metadata: { athleteId, membershipPlanId: legacyPlan.id, guardianId: guardian.id },
+      subscription_data: {
+        metadata: { athleteId, membershipPlanId: legacyPlan.id, guardianId: guardian.id },
+        ...(beforeStart
+          ? { billing_cycle_anchor: Math.floor(MEMBERSHIP_START.getTime() / 1000), proration_behavior: "none" }
+          : {}),
+      },
+    });
+    if (!session.url) throw new Error("Stripe did not return a checkout URL.");
+    checkoutUrl = session.url;
+  } catch (err) {
+    console.error("startNextGenLegacyCheckout failed", { athleteId }, err);
+    redirect("/my-courts/memberships?checkout=error");
+  }
+
+  redirect(checkoutUrl);
+}
+
 /// Family Unlimited covers two athletes under one subscription — this is the
 /// only plan that does, so it's the only checkout that needs a second
 /// athlete picked first. One real Stripe subscription still gets created

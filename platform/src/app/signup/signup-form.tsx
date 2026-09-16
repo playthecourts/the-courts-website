@@ -102,6 +102,39 @@ export function SignupForm() {
         </label>
       </div>
 
+      <div className="flex flex-col gap-3">
+        <h2 className="font-sport text-xs font-bold uppercase tracking-widest text-orange">
+          NextGen Family?
+        </h2>
+        <p className="font-body text-[13px] normal-case tracking-normal text-gray-dark">
+          NextGen is closing October 1, 2026, and The Courts is taking over. Let us know which applies to you.
+        </p>
+        <div className="flex flex-col gap-2">
+          {(
+            [
+              { value: "new", label: "New to The Courts" },
+              { value: "former_nextgen", label: "I was a NextGen member or family (not currently enrolled)" },
+              { value: "current_nextgen", label: "I'm a current NextGen member right now" },
+            ] as const
+          ).map((option) => (
+            <label
+              key={option.value}
+              className="flex items-center gap-2.5 rounded-md border border-gray-mid px-3 py-2.5 font-body text-sm font-normal normal-case tracking-normal text-black"
+            >
+              <input
+                type="radio"
+                name="nextGenStatus"
+                value={option.value}
+                required
+                defaultChecked={values?.nextGenStatus === option.value}
+                className="h-4 w-4 accent-orange"
+              />
+              {option.label}
+            </label>
+          ))}
+        </div>
+      </div>
+
       <div className="flex flex-col gap-4">
         <h2 className="font-sport text-xs font-bold uppercase tracking-widest text-orange">
           Athletes

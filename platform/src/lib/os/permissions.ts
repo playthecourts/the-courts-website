@@ -107,6 +107,12 @@ export const CAPABILITIES = [
   "audit.view",
   "staff.manage",
   "export.data",
+
+  /// NextGen transfer reconciliation — verifying former/current NextGen
+  /// families and assigning legacy billing rates. Deliberately NOT granted
+  /// to front_desk (unlike families.edit) — this is real billing-rate
+  /// assignment, a financial/business decision, not day-to-day data entry.
+  "nextgen.verify",
 ] as const;
 
 export type Capability = (typeof CAPABILITIES)[number];

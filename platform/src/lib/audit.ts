@@ -43,7 +43,11 @@ export type AuditAction =
   | "edit_athlete_profile"
   | "set_pickup_instruction"
   | "resolve_media_follow_up"
-  | "export_athlete_roster";
+  | "export_athlete_roster"
+  // --- NextGen transfer reconciliation ---
+  | "verify_nextgen_founder"
+  | "mark_nextgen_not_eligible"
+  | "set_nextgen_legacy_rate";
 
 export async function auditLog(
   staffUserId: string,
