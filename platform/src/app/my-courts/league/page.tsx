@@ -127,7 +127,7 @@ export default async function LeaguePage({
           Weekly team practices. Saturday games. Real teammates, real competition, and the start of something new.
         </p>
         {leagueOffering?.registrationClosesAt && (
-          <p className="mt-2 font-sport text-[11px] font-bold uppercase tracking-wide text-gray-dark">
+          <p className="mt-2 font-sport text-sm font-bold uppercase tracking-wide text-orange">
             Registration closes {formatDeadline(leagueOffering.registrationClosesAt)}
           </p>
         )}
