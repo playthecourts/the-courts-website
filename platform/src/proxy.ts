@@ -46,6 +46,16 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
+  // Messaging is hidden sitewide for now — every nav link and in-app button
+  // to it is already removed, but a bookmarked or guessed URL could still
+  // reach the page/route handlers directly without this. Blocked here
+  // (rather than a notFound() call inside each page) so a bare, unconditional
+  // "never returns" call doesn't wreck TypeScript's null-narrowing for the
+  // rest of those files — confirmed the hard way.
+  if (path.startsWith("/my-courts/messages") || path.startsWith("/os/communications")) {
+    return NextResponse.rewrite(new URL("/messaging-is-not-a-real-page-404", request.url));
+  }
+
   return response;
 }
 

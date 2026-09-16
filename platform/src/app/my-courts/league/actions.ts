@@ -6,7 +6,11 @@ import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { stripe } from "@/lib/stripe";
-import { sendMembershipSetupFailedAlert } from "@/lib/registration-notifications";
+import {
+  sendMembershipSetupFailedAlert,
+  sendRegistrationStaffAlert,
+  sendRegistrationConfirmationEmail,
+} from "@/lib/registration-notifications";
 
 // Oct 1, 2026, 12:00 AM Central (CDT, UTC-5 — DST is still in effect on this
 // date). Both the billing anchor for a bundled membership and the cutoff
@@ -185,6 +189,12 @@ export async function confirmLeagueRegistration(
     where: { id: registrationId },
     data: { status: "registered", paymentStatus: "paid" },
   });
+
+  // The durable success fact — everything after this (the bundled
+  // membership) can still fail without undoing the League seat, so both
+  // emails fire from right here rather than waiting on what happens next.
+  await sendRegistrationConfirmationEmail(registrationId);
+  await sendRegistrationStaffAlert(registrationId);
 
   const needsMembership = paymentIntent.metadata.needsMembership === "1";
   const membershipPlanId = paymentIntent.metadata.membershipPlanId || null;
