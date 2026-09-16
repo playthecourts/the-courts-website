@@ -19,6 +19,19 @@ import {
 const MEMBERSHIP_START = new Date("2026-10-01T05:00:00.000Z");
 const WEEKLY_PLAN_NAME = "Weekly Membership";
 
+// A standalone Stripe payment method configuration (card only — no ACH, no
+// wallets), separate from the account default. Using this instead of a raw
+// payment_method_types array puts the PaymentIntent back in Stripe's
+// "dynamic" mode, which is what Stripe.js's Payment Element needs to
+// reliably fetch its element-session config and actually render card
+// fields — a fixed payment_method_types array was confirmed (via real
+// stuck PaymentIntents for real families) to leave the Payment Element
+// silently unmounted, with no error, no card fields, and no way to pay.
+// This keeps the original ACH-safety intent (see the payment_method_types
+// comment this replaced) without going back to automatic_payment_methods,
+// which would pull ACH back in now that it's on account-wide.
+const CARD_ONLY_PAYMENT_METHOD_CONFIGURATION = "pmc_1UGN0qKqZ4a13U82pgk1s4MD";
+
 function isBeforeMembershipStart() {
   return Date.now() < MEMBERSHIP_START.getTime();
 }
@@ -104,15 +117,13 @@ export async function createLeaguePaymentIntent(athleteId: string) {
     // (or a later "finish setting up membership" retry) can charge it
     // off-session — the guardian only enters their card once.
     setup_future_usage: "off_session",
-    // Card only, explicitly. Two independent reasons: no return_url is wired
-    // up for redirect-based methods (Klarna, Cashapp, Amazon Pay) — those
-    // need automatic_payment_methods + allow_redirects, which this
-    // deliberately doesn't use. And separately, this webhook confirms the
-    // League seat the moment stripe.confirmPayment() reports success — a
-    // payment method that can still fail days later (ACH, now enabled
-    // account-wide for membership subscriptions) isn't safe here without
-    // handling that delay, which this flow doesn't have yet.
-    payment_method_types: ["card"],
+    // Card only, via a dedicated configuration rather than a fixed
+    // payment_method_types array — see the constant's comment above. This
+    // still keeps out redirect-based methods (no return_url handling here)
+    // and ACH (this webhook confirms the seat the moment confirmPayment()
+    // reports success, which isn't safe for a payment method that can still
+    // fail days later).
+    payment_method_configuration: CARD_ONLY_PAYMENT_METHOD_CONFIGURATION,
     description: `Fall League Registration — ${athlete.firstName} ${athlete.lastName}`,
     metadata: {
       registrationId: registration.id,
