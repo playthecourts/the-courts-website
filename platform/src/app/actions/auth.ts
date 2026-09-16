@@ -1,8 +1,15 @@
 "use server";
 
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
+
+async function getOrigin() {
+  const requestHeaders = await headers();
+  const host = requestHeaders.get("host") ?? "localhost:3000";
+  return `${host.startsWith("localhost") ? "http" : "https"}://${host}`;
+}
 
 export async function login(_prevState: unknown, formData: FormData) {
   const email = formData.get("email") as string;
