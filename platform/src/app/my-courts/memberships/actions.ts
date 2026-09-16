@@ -137,17 +137,20 @@ export async function startNextGenLegacyCheckout(athleteId: string) {
     where: { name: "NextGen Legacy Rate" },
   });
 
-  const productId = process.env.NEXTGEN_LEGACY_STRIPE_PRODUCT_ID;
-  if (!productId) {
-    throw new Error("NextGen legacy checkout isn't configured yet.");
-  }
-
   const origin = await getOrigin();
   const beforeStart = isBeforeMembershipStart();
   const legacyRateCents = guardian.legacyRateCents;
 
   let checkoutUrl: string;
   try {
+    // A missing config value is exactly the kind of thing that should show
+    // this family a normal "something went wrong" message, not crash the
+    // page — same reasoning as every other error in this try block.
+    const productId = process.env.NEXTGEN_LEGACY_STRIPE_PRODUCT_ID;
+    if (!productId) {
+      throw new Error("NextGen legacy checkout isn't configured yet.");
+    }
+
     const customerId = await getOrCreateStripeCustomer(guardian);
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
