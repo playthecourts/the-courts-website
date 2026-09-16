@@ -160,6 +160,26 @@
     .pt-coach-photo { aspect-ratio: 4/2.8; }
   }
 
+  /* ---------- Drop-in pricing row (reused from membership.html's Drop-In Options) ---------- */
+  .dropin-list { border-top: 1px solid rgba(255,255,255,0.14); max-width: 980px; margin: 0 auto; }
+  .dropin-row { display: grid; grid-template-columns: 1fr 1.5fr 1fr; align-items: center; gap: 24px; padding: 32px 0; border-bottom: 1px solid rgba(255,255,255,0.14); }
+  .dropin-name { font-family: var(--font-display); font-size: clamp(20px, 2.2vw, 27px); color: var(--white); margin: 0; }
+  .dropin-name-sub { display: block; font-family: var(--font-body); font-weight: 500; font-size: 13px; letter-spacing: 0; text-transform: none; color: rgba(255,255,255,0.55); margin-top: 4px; }
+  .dropin-rates { display: flex; flex-direction: column; gap: 6px; }
+  .dropin-rate { display: flex; align-items: baseline; gap: 8px; }
+  .dropin-rate-label { font-family: var(--font-sport); font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.65); min-width: 108px; }
+  .dropin-rate-value { font-family: var(--font-display); font-weight: 900; font-size: 20px; color: var(--white); }
+  .dropin-rate--member .dropin-rate-value { color: var(--orange); }
+  .dropin-info { font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.5; grid-column: 2; grid-row: 2; margin: -6px 0 0; }
+  .dropin-cta { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--white); text-align: right; white-space: nowrap; grid-column: 3; grid-row: 1; }
+  .dropin-cta .arrow { color: var(--orange); display: inline-block; transition: transform 0.2s var(--ease); }
+  .dropin-row:hover .dropin-cta .arrow { transform: translateX(4px); }
+  @media (max-width: 760px) {
+    .dropin-row { grid-template-columns: 1fr; gap: 10px; padding: 26px 0; }
+    .dropin-info, .dropin-cta { grid-column: auto; grid-row: auto; }
+    .dropin-cta { text-align: left; margin-top: 6px; }
+  }
+
 </style>
 <script type="application/ld+json">
 {
@@ -407,10 +427,16 @@
 
 <section class="pt-avail">
   <p reveal="true">Individual <span>+</span> Small-Group Training Available</p>
-  <div class="pt-avail-price">
-    <span class="pt-avail-price-label">Private Training Starts At</span>
-    <span class="pt-avail-price-amount">$85 <span class="pt-avail-price-unit">/ session</span></span>
-    <span class="pt-avail-price-note">Members receive preferred pricing.</span>
+  <div class="dropin-list" style="border-top:none;">
+    <div class="dropin-row">
+      <h3 class="dropin-name">Private Training<span class="dropin-name-sub">50-Minute Sessions</span></h3>
+      <div class="dropin-rates">
+        <div class="dropin-rate"><span class="dropin-rate-label">Members</span><span class="dropin-rate-value" style="color:rgba(255,255,255,0.9);">Starts at $85 / session</span></div>
+        <div class="dropin-rate dropin-rate--member"><span class="dropin-rate-label">Non-Members</span><span class="dropin-rate-value">Starts at $100 / session</span></div>
+      </div>
+      <p class="dropin-info">Basketball + volleyball. Individual + small-group sessions available.<br>Subject to coach and court availability.</p>
+      <a href="contact?interest=Private%20Training#contact-form" class="dropin-cta" data-preset="Private Training">Request Private Training <span class="arrow">→</span></a>
+    </div>
   </div>
 </section>
 
@@ -521,7 +547,6 @@
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand-col">
-        <img class="footer-cmark" src="images/brand/icon-mark-color.png" alt="" aria-hidden="true">
         <div class="footer-brand-inner">
           <a href="/"><img class="footer-brand-logo" src="images/brand/icon-mark-color.png" alt="The Courts"></a>
           <p class="footer-brand-statement">Great Coaching.<br>Real Development.</p>
