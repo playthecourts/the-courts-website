@@ -91,7 +91,10 @@ export async function startMembershipCheckout(athleteId: string, membershipPlanI
   // this has to happen before the try/catch below, not inside it.
   const unsigned = await getUnsignedRequiredWaivers(guardian.id, athleteId);
   if (unsigned.length > 0) {
-    redirect(`/my-courts/waivers?required=membership&back=${encodeURIComponent("/my-courts/memberships")}`);
+    redirect(
+      `/my-courts/waivers?required=membership&back=${encodeURIComponent("/my-courts/memberships")}` +
+        `&checkoutKind=standard&checkoutAthleteId=${encodeURIComponent(athleteId)}&checkoutPlanId=${encodeURIComponent(membershipPlanId)}`
+    );
   }
 
   const plan = await prisma.membershipPlan.findUniqueOrThrow({
@@ -175,7 +178,10 @@ export async function startNextGenLegacyCheckout(athleteId: string) {
 
   const unsigned = await getUnsignedRequiredWaivers(guardian.id, athleteId);
   if (unsigned.length > 0) {
-    redirect(`/my-courts/waivers?required=membership&back=${encodeURIComponent("/my-courts/memberships")}`);
+    redirect(
+      `/my-courts/waivers?required=membership&back=${encodeURIComponent("/my-courts/memberships")}` +
+        `&checkoutKind=nextgen_legacy&checkoutAthleteId=${encodeURIComponent(athleteId)}`
+    );
   }
 
   const legacyPlan = await prisma.membershipPlan.findFirstOrThrow({
@@ -262,7 +268,11 @@ export async function startFamilyMembershipCheckout(formData: FormData) {
     getUnsignedRequiredWaivers(guardian.id, secondAthleteId),
   ]);
   if (unsignedFirst.length > 0 || unsignedSecond.length > 0) {
-    redirect(`/my-courts/waivers?required=membership&back=${encodeURIComponent("/my-courts/memberships")}`);
+    redirect(
+      `/my-courts/waivers?required=membership&back=${encodeURIComponent("/my-courts/memberships")}` +
+        `&checkoutKind=family&checkoutAthleteId=${encodeURIComponent(athleteId)}` +
+        `&checkoutPlanId=${encodeURIComponent(membershipPlanId)}&checkoutSecondAthleteId=${encodeURIComponent(secondAthleteId)}`
+    );
   }
 
   const plan = await prisma.membershipPlan.findUniqueOrThrow({ where: { id: membershipPlanId } });

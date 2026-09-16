@@ -1,7 +1,7 @@
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { getWaiverCoverageSummaries } from "@/lib/waivers";
-import { AthleteSignForm, FamilySignForm } from "./sign-form";
+import { AthleteSignForm, FamilySignForm, type ResumeCheckout } from "./sign-form";
 import PrivacyForm from "@/components/athlete/forms/privacy-form";
 import { RELEASE_BODY, RELEASE_CHANNELS } from "@/lib/media-consent";
 import Link from "next/link";
@@ -27,16 +27,44 @@ function formatDate(date: Date) {
 const BACK_LABELS: Record<string, string> = {
   "/my-courts/league": "Fall League",
   "/my-courts/explore": "Explore",
+  "/my-courts/memberships": "Memberships",
 };
 
 export default async function WaiversPage({
   searchParams,
 }: {
-  searchParams: Promise<{ required?: string; back?: string }>;
+  searchParams: Promise<{
+    required?: string;
+    back?: string;
+    checkoutKind?: string;
+    checkoutAthleteId?: string;
+    checkoutPlanId?: string;
+    checkoutSecondAthleteId?: string;
+  }>;
 }) {
-  const { required, back } = await searchParams;
+  const { required, back, checkoutKind, checkoutAthleteId, checkoutPlanId, checkoutSecondAthleteId } =
+    await searchParams;
   const backHref = back && back.startsWith("/my-courts/") ? back : null;
   const backLabel = backHref ? (BACK_LABELS[backHref] ?? "where you were") : null;
+
+  // Only meaningful when this page was reached because it blocked a
+  // membership checkout — lets the last sign action redirect straight into
+  // Stripe instead of leaving the family to click back and Subscribe again.
+  let resumeCheckout: ResumeCheckout | undefined;
+  if (required === "membership" && checkoutAthleteId) {
+    if (checkoutKind === "standard" && checkoutPlanId) {
+      resumeCheckout = { kind: "standard", athleteId: checkoutAthleteId, membershipPlanId: checkoutPlanId };
+    } else if (checkoutKind === "family" && checkoutPlanId && checkoutSecondAthleteId) {
+      resumeCheckout = {
+        kind: "family",
+        athleteId: checkoutAthleteId,
+        membershipPlanId: checkoutPlanId,
+        secondAthleteId: checkoutSecondAthleteId,
+      };
+    } else if (checkoutKind === "nextgen_legacy") {
+      resumeCheckout = { kind: "nextgen_legacy", athleteId: checkoutAthleteId };
+    }
+  }
 
   const guardian = await getCurrentGuardian();
   const athletes = guardian.families.flatMap((fg) => fg.family.athletes);
@@ -115,11 +143,18 @@ export default async function WaiversPage({
               <FamilySignForm
                 waiverId={s.waiver.id}
                 uncoveredAthletes={[...s.uncoveredAthleteIds].map((id) => ({ id, name: athleteName(id) }))}
+                resume={resumeCheckout}
               />
             ) : (
               <div className="flex flex-col gap-3">
                 {[...s.uncoveredAthleteIds].map((id) => (
-                  <AthleteSignForm key={id} waiverId={s.waiver.id} athleteId={id} label={athleteName(id)} />
+                  <AthleteSignForm
+                    key={id}
+                    waiverId={s.waiver.id}
+                    athleteId={id}
+                    label={athleteName(id)}
+                    resume={resumeCheckout}
+                  />
                 ))}
               </div>
             )}
@@ -141,11 +176,17 @@ export default async function WaiversPage({
 
       {required && backHref && (
         <div className="rounded-lg border border-orange bg-orange/5 p-4 font-body text-sm text-neutral-800">
-          Sign the waiver below to continue — once it&rsquo;s signed, head back to{" "}
-          <Link href={backHref} className="font-semibold text-orange underline">
-            {backLabel}
-          </Link>{" "}
-          to finish {required === "league" ? "registering" : "booking"}.
+          {resumeCheckout ? (
+            <>Sign the waiver(s) below to continue — you&rsquo;ll be taken straight to checkout once they&rsquo;re signed.</>
+          ) : (
+            <>
+              Sign the waiver below to continue — once it&rsquo;s signed, head back to{" "}
+              <Link href={backHref} className="font-semibold text-orange underline">
+                {backLabel}
+              </Link>{" "}
+              to finish {required === "league" ? "registering" : "booking"}.
+            </>
+          )}
         </div>
       )}
 

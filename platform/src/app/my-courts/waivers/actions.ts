@@ -5,8 +5,49 @@ import { headers } from "next/headers";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import type { ActionState } from "@/app/my-courts/athletes/actions";
+import {
+  startMembershipCheckout,
+  startFamilyMembershipCheckout,
+  startNextGenLegacyCheckout,
+} from "@/app/my-courts/memberships/actions";
 
 const OK: ActionState = { ok: true };
+
+/// A membership checkout that got gated on an unsigned waiver carries its
+/// target (athlete/plan) here as hidden fields. Once a sign action clears the
+/// gate, this resumes the SAME checkout function that redirected here in the
+/// first place — it re-checks getUnsignedRequiredWaivers itself, so if
+/// another required waiver still blocks it (multi-waiver case), it just
+/// redirects back to this page with the same resume fields intact for the
+/// next signature, and only reaches Stripe once everything is clear.
+async function tryResumeCheckout(formData: FormData) {
+  const kind = formData.get("resumeKind");
+  if (kind !== "standard" && kind !== "family" && kind !== "nextgen_legacy") return;
+
+  const athleteId = String(formData.get("resumeAthleteId") ?? "");
+  if (!athleteId) return;
+
+  if (kind === "nextgen_legacy") {
+    await startNextGenLegacyCheckout(athleteId);
+    return;
+  }
+
+  const membershipPlanId = String(formData.get("resumePlanId") ?? "");
+  if (!membershipPlanId) return;
+
+  if (kind === "standard") {
+    await startMembershipCheckout(athleteId, membershipPlanId);
+    return;
+  }
+
+  const secondAthleteId = String(formData.get("resumeSecondAthleteId") ?? "");
+  if (!secondAthleteId) return;
+  const resumeData = new FormData();
+  resumeData.set("athleteId", athleteId);
+  resumeData.set("membershipPlanId", membershipPlanId);
+  resumeData.set("secondAthleteId", secondAthleteId);
+  await startFamilyMembershipCheckout(resumeData);
+}
 
 async function getIpAddress() {
   const requestHeaders = await headers();
@@ -67,6 +108,7 @@ export async function signAthleteWaiver(
   });
   revalidatePath("/my-courts/waivers");
   revalidatePath(`/my-courts/athletes/${athleteId}`);
+  await tryResumeCheckout(formData);
   return OK;
 }
 
@@ -116,5 +158,6 @@ export async function signFamilyWaiver(
   for (const athleteId of athleteIds) {
     revalidatePath(`/my-courts/athletes/${athleteId}`);
   }
+  await tryResumeCheckout(formData);
   return OK;
 }
