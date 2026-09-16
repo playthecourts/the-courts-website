@@ -4,12 +4,9 @@ import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { formatGrade } from "@/lib/coach-format";
 import { RsvpButtons } from "./rsvp-buttons";
-import { RegisterButton } from "./register-button";
+import { LeaguePaymentForm } from "./payment-form";
 import { CancelRegistrationButton } from "./cancel-registration-button";
-
-function formatPrice(cents: number) {
-  return `$${(cents / 100).toFixed(0)}`;
-}
+import { FinishMembershipSetupButton } from "./finish-membership-setup-button";
 
 function formatSessionTime(date: Date) {
   return new Intl.DateTimeFormat("en-US", {
@@ -187,9 +184,8 @@ export default async function LeaguePage({
                   <p className="font-heading text-base font-bold text-black">{athlete.firstName} Isn&rsquo;t Registered Yet</p>
                   <p className="mt-0.5 font-body text-sm text-gray-dark">Want in for Fall?</p>
                   {canRegister ? (
-                    <div className="mt-3 flex items-center gap-3">
-                      <RegisterButton athleteId={athlete.id} label={`Register ${athlete.firstName} →`} />
-                      <span className="font-body text-sm text-gray-dark">{formatPrice(leagueOffering!.priceCents ?? 37500)}</span>
+                    <div className="mt-3">
+                      <LeaguePaymentForm athleteId={athlete.id} />
                     </div>
                   ) : (
                     <p className="mt-3 font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">Not Open Yet</p>
@@ -233,12 +229,33 @@ export default async function LeaguePage({
                         : "Your spot is almost locked in. Complete payment to finish registration."}
                     </p>
                     {!isPaid && canRegister && (
-                      <div className="mt-2 flex items-center gap-3">
-                        <RegisterButton athleteId={athlete.id} label="Complete Payment →" />
+                      <div className="mt-2 flex flex-col gap-3">
+                        <LeaguePaymentForm athleteId={athlete.id} />
                         <CancelRegistrationButton athleteId={athlete.id} />
                       </div>
                     )}
                   </div>
+
+                  {/* Membership setup — only shown for the rare case where the
+                      League payment succeeded but the bundled membership
+                      subscription failed to create (see registration.
+                      membershipSetupNeeded). The League seat is already paid
+                      for either way. */}
+                  {registration.membershipSetupNeeded && (
+                    <div className="border-t border-gray-mid pt-4">
+                      <div className="flex items-center justify-between gap-3">
+                        <p className="font-sport text-[11px] font-bold uppercase tracking-wide text-gray-dark">Membership</p>
+                        <Pill tone="pending">Setup Needed</Pill>
+                      </div>
+                      <p className="mt-1 font-body text-sm text-gray-dark">
+                        {athlete.firstName}&rsquo;s League payment went through, but we hit a snag setting up the
+                        membership it requires. No new card needed — we&rsquo;ll use the one already on file.
+                      </p>
+                      <div className="mt-2">
+                        <FinishMembershipSetupButton registrationId={registration.id} />
+                      </div>
+                    </div>
+                  )}
 
                   {/* Evaluation */}
                   <div className="border-t border-gray-mid pt-4">

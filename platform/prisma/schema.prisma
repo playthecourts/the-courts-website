@@ -1727,6 +1727,13 @@ model Registration {
   /// Pointers only — never card data, never a cached Stripe object.
   stripeCheckoutSessionId String? @unique @map("stripe_checkout_session_id")
   stripePaymentIntentId   String? @unique @map("stripe_payment_intent_id")
+  /// Set true if this registration's payment succeeded but the bundled
+  /// membership subscription (see startLeagueRegistration) failed to create
+  /// right after — the League seat is never rolled back for this, but the
+  /// family still needs a membership before the season. Drives the "Finish
+  /// setting up [Name]'s membership" Action Needed item. Cleared once a
+  /// membership is successfully created for the athlete.
+  membershipSetupNeeded   Boolean @default(false) @map("membership_setup_needed")
   /// Stripe's own hosted receipt for the completed payment — fetched once at
   /// webhook time (via the PaymentIntent's charge) rather than live on every
   /// page render.

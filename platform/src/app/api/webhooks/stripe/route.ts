@@ -170,6 +170,85 @@ async function handleRegistrationCheckoutCompleted(session: Stripe.Checkout.Sess
   await sendRegistrationStaffAlert(registrationId);
 }
 
+// Safety-net for the League+Membership bundle (src/app/my-courts/league/actions.ts):
+// confirmLeagueRegistration already marks the Registration paid synchronously
+// right after stripe.confirmPayment() resolves client-side, so this is almost
+// always a no-op — it exists for the case where that write never happened
+// (the server crashed between the charge succeeding and the DB write), which
+// is exactly the gap "don't rely on the redirect alone" is about even though
+// this flow has no redirect to lose track of.
+async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent) {
+  const registrationId = paymentIntent.metadata?.registrationId;
+  if (!registrationId) return; // Not a League PaymentIntent (e.g. a booking payment) — ignore.
+
+  const registration = await prisma.registration.findUnique({ where: { id: registrationId } });
+  if (!registration) return;
+  if (registration.paymentStatus === "paid") return; // Idempotent — already handled.
+
+  await prisma.registration.update({
+    where: { id: registrationId },
+    data: { status: "registered", paymentStatus: "paid" },
+  });
+}
+
+// Same safety-net role as handlePaymentIntentSucceeded, for the bundled
+// membership subscription side — createBundledMembershipSubscription
+// already writes the AthleteMembership row synchronously on success.
+async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
+  if (subscription.metadata?.source !== "league_bundle") return;
+
+  const existing = await prisma.athleteMembership.findUnique({
+    where: { stripeSubscriptionId: subscription.id },
+  });
+  if (existing) return; // Already written by createBundledMembershipSubscription.
+
+  const athleteId = subscription.metadata.athleteId;
+  const membershipPlanId = subscription.metadata.membershipPlanId;
+  if (!athleteId || !membershipPlanId) return;
+
+  await prisma.athleteMembership.create({
+    data: {
+      athleteId,
+      membershipPlanId,
+      status: mapStatus(subscription.status),
+      startDate: new Date(subscription.billing_cycle_anchor * 1000),
+      renewalDate: renewalDateFrom(subscription),
+      stripeSubscriptionId: subscription.id,
+    },
+  });
+}
+
+// invoice.paid fires for every subscription renewal, including the first
+// real Oct 1 charge for a bundled membership — this is what keeps
+// renewalDate accurate going forward (handleSubscriptionUpdated also fires
+// around the same time, but an invoice event is the more direct signal that
+// a specific charge actually landed).
+async function handleInvoicePaid(invoice: Stripe.Invoice) {
+  const subscriptionId =
+    typeof (invoice as unknown as { subscription?: string | Stripe.Subscription | null }).subscription === "string"
+      ? (invoice as unknown as { subscription: string }).subscription
+      : (invoice as unknown as { subscription?: Stripe.Subscription | null }).subscription?.id;
+  if (!subscriptionId) return;
+
+  await prisma.athleteMembership.updateMany({
+    where: { stripeSubscriptionId: subscriptionId },
+    data: { status: "active" },
+  });
+}
+
+async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
+  const subscriptionId =
+    typeof (invoice as unknown as { subscription?: string | Stripe.Subscription | null }).subscription === "string"
+      ? (invoice as unknown as { subscription: string }).subscription
+      : (invoice as unknown as { subscription?: Stripe.Subscription | null }).subscription?.id;
+  if (!subscriptionId) return;
+
+  await prisma.athleteMembership.updateMany({
+    where: { stripeSubscriptionId: subscriptionId },
+    data: { status: "past_due" },
+  });
+}
+
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   // subscription.cancel_at is how a scheduled cancellation shows up (set by
   // cancelMembership below, or by anyone cancelling directly in the Stripe
@@ -216,11 +295,23 @@ export async function POST(request: Request) {
     case "checkout.session.completed":
       await handleCheckoutCompleted(event.data.object);
       break;
+    case "payment_intent.succeeded":
+      await handlePaymentIntentSucceeded(event.data.object);
+      break;
+    case "customer.subscription.created":
+      await handleSubscriptionCreated(event.data.object);
+      break;
     case "customer.subscription.updated":
       await handleSubscriptionUpdated(event.data.object);
       break;
     case "customer.subscription.deleted":
       await handleSubscriptionDeleted(event.data.object);
+      break;
+    case "invoice.paid":
+      await handleInvoicePaid(event.data.object);
+      break;
+    case "invoice.payment_failed":
+      await handleInvoicePaymentFailed(event.data.object);
       break;
   }
 

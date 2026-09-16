@@ -1,8 +1,8 @@
+import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { payBooking } from "../actions";
 import { startBillingPortalSession } from "../memberships/actions";
-import { startLeagueRegistration } from "../league/actions";
 
 const LEAGUE_OFFERING_NAME = "Fall 2026 Basketball League";
 const LEAGUE_DISPLAY_NAME = "Fall League 2026";
@@ -24,6 +24,10 @@ export default async function PaymentsPage() {
   const guardian = await getCurrentGuardian();
   const athletes = guardian.families.flatMap((fg) => fg.family.athletes);
   const athleteIds = athletes.map((a) => a.id);
+  // Computed once, not inline in render — a bundled membership's startDate
+  // (see league/actions.ts) is compared against this to show "first charge"
+  // vs. "next charge".
+  const now = new Date();
 
   const [allMemberships, duePendingRegistrations, dueBookings, paidRegistrations, paidBookings] = await Promise.all([
     prisma.athleteMembership.findMany({
@@ -118,9 +122,11 @@ export default async function PaymentsPage() {
                 ? "payment didn't go through"
                 : m.cancelAt
                   ? `cancels ${formatDate(m.cancelAt)}`
-                  : m.renewalDate
-                    ? `next charge ${formatDate(m.renewalDate)}`
-                    : null}
+                  : m.startDate.getTime() > now.getTime()
+                    ? `first charge ${formatDate(m.startDate)}`
+                    : m.renewalDate
+                      ? `next charge ${formatDate(m.renewalDate)}`
+                      : null}
             </p>
           ))}
         </div>
@@ -190,14 +196,12 @@ export default async function PaymentsPage() {
                           <span>{formatPrice(total)}</span>
                         </div>
                       </div>
-                      <form action={startLeagueRegistration.bind(null, r.athleteId)} className="mt-3">
-                        <button
-                          type="submit"
-                          className="rounded-full bg-orange px-4 py-2 font-sport text-[11px] font-bold uppercase tracking-wide text-white"
-                        >
-                          Pay {formatPrice(total)} &rarr;
-                        </button>
-                      </form>
+                      <Link
+                        href="/my-courts/league"
+                        className="mt-3 inline-block rounded-full bg-orange px-4 py-2 font-sport text-[11px] font-bold uppercase tracking-wide text-white"
+                      >
+                        Pay {formatPrice(total)} &rarr;
+                      </Link>
                     </div>
                   );
                 })}

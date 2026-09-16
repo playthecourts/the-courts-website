@@ -252,20 +252,36 @@ export default async function MembershipsPage({
 
                 {hasCurrentPlan && !membership!.cancelAt && (
                   <div className="flex flex-col gap-4">
-                    <PlanCard
-                      plan={membership!.plan}
-                      cta={
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="inline-block rounded-full bg-green-100 px-2.5 py-1 font-sport text-[10.5px] font-bold uppercase tracking-wide text-green-800">
-                            Current Plan
-                          </span>
-                          <span className="font-body text-[12.5px] text-gray-dark">
-                            {STATUS_LABEL[membership!.status] ?? membership!.status}
-                            {membership!.renewalDate && ` · Renews ${formatDate(membership!.renewalDate)}`}
-                          </span>
-                        </div>
-                      }
-                    />
+                    {(() => {
+                      // A membership bundled in through League checkout can have
+                      // status "active" in Stripe's sense (the subscription
+                      // exists and is scheduled) while its startDate is still in
+                      // the future — Oct 1. Show that distinctly rather than
+                      // claiming it's already active today.
+                      const startsInFuture = membership!.startDate.getTime() > now.getTime();
+                      return (
+                        <PlanCard
+                          plan={membership!.plan}
+                          cta={
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span
+                                className={`inline-block rounded-full px-2.5 py-1 font-sport text-[10.5px] font-bold uppercase tracking-wide ${
+                                  startsInFuture ? "bg-orange/10 text-orange" : "bg-green-100 text-green-800"
+                                }`}
+                              >
+                                {startsInFuture ? `Starts ${formatDate(membership!.startDate)}` : "Current Plan"}
+                              </span>
+                              <span className="font-body text-[12.5px] text-gray-dark">
+                                {startsInFuture ? "You're In ✓" : (STATUS_LABEL[membership!.status] ?? membership!.status)}
+                                {!startsInFuture &&
+                                  membership!.renewalDate &&
+                                  ` · Renews ${formatDate(membership!.renewalDate)}`}
+                              </span>
+                            </div>
+                          }
+                        />
+                      );
+                    })()}
 
                     {/* Manually-assigned memberships (no stripeSubscriptionId) aren't
                         self-service — there's no subscription to switch or cancel from

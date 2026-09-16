@@ -151,6 +151,20 @@ export default async function MyCourtsHomePage() {
       })
     : [];
   for (const r of leagueRegistrations) {
+    // A League payment that succeeded but couldn't finish setting up the
+    // bundled membership (see confirmLeagueRegistration) takes priority over
+    // the generic "no membership" check below — the seat and payment are
+    // real, only the subscription needs finishing, and "Choose Plan" would
+    // send them through checkout again for something they already paid for.
+    if (r.membershipSetupNeeded) {
+      attentionItems.push({
+        athleteName: r.athlete.firstName,
+        message: `Finish setting up ${r.athlete.firstName}'s membership`,
+        href: "/my-courts/league",
+        cta: "Finish Setup",
+      });
+      continue;
+    }
     if (activeMembershipAthleteIds.has(r.athlete.id)) continue;
     attentionItems.push({
       athleteName: r.athlete.firstName,
