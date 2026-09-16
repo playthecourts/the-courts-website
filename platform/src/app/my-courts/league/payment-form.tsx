@@ -8,7 +8,7 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
-import { createLeaguePaymentIntent, confirmLeagueRegistration } from "./actions";
+import { createLeaguePaymentIntent, confirmLeagueRegistration, applyLeaguePromoCode } from "./actions";
 import { GaConversionEvent } from "@/components/ga-conversion-event";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
@@ -83,6 +83,54 @@ function PayForm({ review, onDone }: { review: ReviewData; onDone: (result: { me
   );
 }
 
+// Families enter their own code (e.g. EVAL25) — nothing is applied
+// automatically. Re-fetching the PaymentIntent's amount happens server-side
+// in applyLeaguePromoCode; this just reflects the result back into review
+// state so the displayed total and the amount Stripe actually confirms stay
+// in sync.
+function PromoCodeField({ review, onApplied }: { review: ReviewData; onApplied: (updated: ReviewData) => void }) {
+  const [code, setCode] = useState("");
+  const [applying, setApplying] = useState(false);
+  const [message, setMessage] = useState<{ text: string; ok: boolean } | null>(null);
+
+  if (review.creditCents > 0) return null;
+
+  return (
+    <div className="flex flex-col gap-1.5">
+      <div className="flex gap-2">
+        <input
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          placeholder="Promo code"
+          className="min-w-0 flex-1 rounded-lg border border-gray-mid bg-white px-3 py-2 font-body text-sm text-near-black focus:border-orange focus:outline-none focus:ring-2 focus:ring-orange/25"
+        />
+        <button
+          type="button"
+          disabled={applying || !code.trim()}
+          onClick={async () => {
+            setApplying(true);
+            setMessage(null);
+            const result = await applyLeaguePromoCode(review.registrationId, code);
+            setApplying(false);
+            if (!result.ok) {
+              setMessage({ text: result.error, ok: false });
+              return;
+            }
+            setMessage({ text: "Promo code applied.", ok: true });
+            onApplied({ ...review, totalCents: result.totalCents, creditCents: result.creditCents });
+          }}
+          className="shrink-0 rounded-lg border border-gray-mid px-3 py-2 font-sport text-xs font-bold uppercase tracking-wide text-near-black transition-colors hover:border-orange hover:text-orange disabled:opacity-50"
+        >
+          {applying ? "Applying…" : "Apply"}
+        </button>
+      </div>
+      {message && (
+        <p className={`font-body text-[12.5px] ${message.ok ? "text-green-700" : "text-red-700"}`}>{message.text}</p>
+      )}
+    </div>
+  );
+}
+
 export function LeaguePaymentForm({ athleteId }: { athleteId: string }) {
   const [review, setReview] = useState<ReviewData | null>(null);
   const [loading, setLoading] = useState(false);
@@ -154,6 +202,7 @@ export function LeaguePaymentForm({ athleteId }: { athleteId: string }) {
           </p>
         )}
       </div>
+      <PromoCodeField review={review} onApplied={setReview} />
       <Elements stripe={stripePromise} options={{ clientSecret: review.clientSecret }}>
         <PayForm review={review} onDone={setResult} />
       </Elements>

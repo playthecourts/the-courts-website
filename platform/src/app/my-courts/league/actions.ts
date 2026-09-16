@@ -98,22 +98,11 @@ export async function createLeaguePaymentIntent(athleteId: string) {
 
   const customerId = await getOrCreateStripeCustomer(guardian);
 
-  // The $25 evaluation credit (EVAL25) applies to every League registration
-  // — leagues.html has always advertised it as a blanket credit, not
-  // something a family has to prove eligibility for.
-  //
-  // This account's Stripe API version nests the coupon as
-  // promotion.coupon — a coupon ID string, not the coupon object directly
-  // (an older/different API-version shape this code originally assumed,
-  // which silently zeroed the credit for every real registration — found
-  // and fixed after a live check showed $375 due with no credit applied).
-  const evalCredit = await stripe.promotionCodes.list({ code: "EVAL25", active: true, limit: 1 });
-  const evalPromo = evalCredit.data[0] as unknown as { promotion?: { coupon?: string } } | undefined;
-  const evalCouponId = evalPromo?.promotion?.coupon;
-  const evalCoupon = evalCouponId ? await stripe.coupons.retrieve(evalCouponId) : null;
-  const evalAmountOff = evalCoupon?.amount_off ?? 0;
+  // No automatic EVAL25 discount here — families are responsible for
+  // entering their own promo code (Melissa emailed it out directly), not
+  // having it silently applied. See applyLeaguePromoCode below.
   const base = offering.priceCents ?? 0;
-  const total = Math.max(base - evalAmountOff, 0);
+  const total = base;
 
   const paymentIntent = await stripe.paymentIntents.create({
     amount: total,
@@ -142,7 +131,7 @@ export async function createLeaguePaymentIntent(athleteId: string) {
 
   await prisma.registration.update({
     where: { id: registration.id },
-    data: { stripePaymentIntentId: paymentIntent.id, amountCents: total, creditAppliedCents: evalAmountOff || null },
+    data: { stripePaymentIntentId: paymentIntent.id, amountCents: total, creditAppliedCents: null },
   });
 
   return {
@@ -150,13 +139,66 @@ export async function createLeaguePaymentIntent(athleteId: string) {
     registrationId: registration.id,
     athleteFirstName: athlete.firstName,
     baseAmountCents: base,
-    creditCents: evalAmountOff,
+    creditCents: 0,
     totalCents: total,
     needsMembership,
     membershipPlanName: weeklyPlan?.name ?? null,
     membershipPriceCents: weeklyPlan?.priceCents ?? null,
     membershipStartsToday: !isBeforeMembershipStart(),
   };
+}
+
+/// Applies a promo code the guardian typed in themselves (e.g. EVAL25) to an
+/// already-created, not-yet-paid PaymentIntent — lowers its amount directly
+/// via the Stripe API, so whatever the family actually confirms is the
+/// discounted total. Re-checks ownership and payment status the same as
+/// every other action here; safe to call more than once (re-validates and
+/// re-applies against the current base price each time, doesn't stack).
+export async function applyLeaguePromoCode(
+  registrationId: string,
+  rawCode: string
+): Promise<{ ok: true; totalCents: number; creditCents: number } | { ok: false; error: string }> {
+  const guardian = await getCurrentGuardian();
+  const registration = await prisma.registration.findUnique({
+    where: { id: registrationId },
+    include: { offering: true },
+  });
+  if (!registration) throw new Error("Registration not found.");
+  const ownsAthlete = guardian.families.some((fg) =>
+    fg.family.athletes.some((a) => a.id === registration.athleteId)
+  );
+  if (!ownsAthlete) throw new Error("Not authorized to act on this athlete.");
+  if (!registration.stripePaymentIntentId) {
+    return { ok: false, error: "Start registration before applying a code." };
+  }
+  if (registration.paymentStatus === "paid") {
+    return { ok: false, error: "This registration is already paid." };
+  }
+
+  const code = rawCode.trim().toUpperCase();
+  if (!code) return { ok: false, error: "Enter a promo code." };
+
+  // Same account-specific shape as the fix above: promotion.coupon is a
+  // coupon id, not the coupon object.
+  const matches = await stripe.promotionCodes.list({ code, active: true, limit: 1 });
+  const promo = matches.data[0] as unknown as { promotion?: { coupon?: string } } | undefined;
+  const couponId = promo?.promotion?.coupon;
+  if (!promo || !couponId) {
+    return { ok: false, error: "That promo code isn't valid." };
+  }
+  const coupon = await stripe.coupons.retrieve(couponId);
+
+  const base = registration.offering.priceCents ?? 0;
+  const amountOff = coupon.amount_off ?? (coupon.percent_off ? Math.round((base * coupon.percent_off) / 100) : 0);
+  const total = Math.max(base - amountOff, 0);
+
+  await stripe.paymentIntents.update(registration.stripePaymentIntentId, { amount: total });
+  await prisma.registration.update({
+    where: { id: registrationId },
+    data: { amountCents: total, creditAppliedCents: amountOff || null },
+  });
+
+  return { ok: true, totalCents: total, creditCents: amountOff };
 }
 
 /// Step 2: called client-side right after stripe.confirmPayment() resolves.
