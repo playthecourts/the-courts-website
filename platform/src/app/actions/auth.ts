@@ -156,3 +156,55 @@ export async function logout() {
   await supabase.auth.signOut();
   redirect("/login");
 }
+
+// Always the same message regardless of whether the email exists — same
+// reason signup's "email already exists" check can't be echoed back here:
+// confirming or denying an email is registered is exactly what a password
+// reset form should never reveal.
+const RESET_REQUESTED_MESSAGE = "If an account exists for that email, we've sent a link to reset your password.";
+
+export async function requestPasswordReset(_prevState: unknown, formData: FormData) {
+  const email = (formData.get("email") as string)?.trim();
+  if (!email) {
+    return { error: "Enter your email address." };
+  }
+
+  const supabase = await createClient();
+  const origin = await getOrigin();
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${origin}/auth/callback?next=/reset-password`,
+  });
+  // A real send failure (bad email format Supabase itself rejects, rate
+  // limit) is worth surfacing — silently swallowing every error here would
+  // hide a genuine "this can never work" case behind the generic message.
+  if (error && error.code !== "email_not_confirmed") {
+    return { error: "Something went wrong. Try again in a moment." };
+  }
+
+  return { success: RESET_REQUESTED_MESSAGE };
+}
+
+export async function updatePassword(_prevState: unknown, formData: FormData) {
+  const password = formData.get("password") as string;
+  if (!password || password.length < 8) {
+    return { error: "Password must be at least 8 characters." };
+  }
+
+  const supabase = await createClient();
+  // Only reachable with a valid recovery session — exchanged for one by
+  // /auth/callback right before landing here. No session means the link was
+  // invalid or already used, not that the password is wrong.
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { error: "This reset link has expired or was already used. Request a new one." };
+  }
+
+  const { error } = await supabase.auth.updateUser({ password });
+  if (error) {
+    return { error: "Something went wrong. Try again." };
+  }
+
+  redirect("/my-courts");
+}
