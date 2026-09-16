@@ -69,17 +69,6 @@ export default function EmergencyInfo({ athleteId }: { athleteId: string }) {
               </dd>
             </div>
           )}
-
-          {data.authorizedPickups.length > 0 && (
-            <div>
-              <dt className="font-sport text-[10px] font-bold uppercase tracking-wide text-danger">
-                Authorized Pickup
-              </dt>
-              <dd className="font-body text-sm text-near-black">
-                {data.authorizedPickups.map((p) => `${p.name} (${p.relationship})`).join(" · ")}
-              </dd>
-            </div>
-          )}
         </dl>
 
         <p className="mt-2 font-body text-[11px] text-danger">

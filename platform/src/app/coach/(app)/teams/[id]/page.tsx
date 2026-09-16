@@ -199,9 +199,7 @@ export default async function CoachTeamPage(props: PageProps<"/coach/teams/[id]"
         </section>
       )}
 
-      <div className="pb-2">
-        <ActionLink href={`/coach/messages/new?teamId=${team.id}`}>Message This Team</ActionLink>
-      </div>
+      {/* "Message This Team" hidden for now — /coach/messages route untouched. */}
     </div>
   );
 }

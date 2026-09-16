@@ -101,8 +101,6 @@ export default function FamilySafetyForm({
     id: string;
     hasMedicalInfo: boolean;
     medicalNotes: string | null;
-    hasCustodyRestrictions: boolean;
-    custodyRestrictions: string | null;
     emergencyContacts: { role: "primary" | "backup"; name: string; relationship: string; phone: string; guardianId: string | null }[];
   };
   displayName: string;
@@ -113,9 +111,6 @@ export default function FamilySafetyForm({
   const [state, formAction] = useActionState<ActionState, FormData>(saveFamilySafety, { ok: false });
   const [hasMedical, setHasMedical] = useState<"yes" | "no" | null>(
     athlete.hasMedicalInfo ? "yes" : athlete.medicalNotes === null && !athlete.hasMedicalInfo ? null : "no"
-  );
-  const [hasCustody, setHasCustody] = useState<"yes" | "no" | null>(
-    athlete.hasCustodyRestrictions ? "yes" : null
   );
 
   useEffect(() => {
@@ -177,26 +172,6 @@ export default function FamilySafetyForm({
           initial={backupContact ?? emptyContact}
           errors={errors}
         />
-      </section>
-
-      <div className="my-7 border-t border-gray-mid" />
-
-      <section>
-        <p className="mb-3 font-sport text-[11px] font-bold uppercase tracking-wide text-orange">
-          Pickup + Custody
-        </p>
-        <Question label={`Are there any custody, contact, or pickup restrictions we should know about for ${displayName}?`}>
-          <YesNo name="hasCustodyRestrictions" defaultValue={hasCustody} onChangeValue={setHasCustody} />
-        </Question>
-        {hasCustody === "yes" && (
-          <Question label="Tell us what we need to know" error={errors.custodyRestrictions}>
-            <TextArea name="custodyRestrictions" defaultValue={athlete.custodyRestrictions ?? ""} rows={4} />
-            <p className="mt-2 font-body text-[12.5px] leading-snug text-gray-dark">
-              Only our owner, admin and front-desk staff can see this. Coaches are given only the
-              specific instruction they need at pickup — never the details.
-            </p>
-          </Question>
-        )}
       </section>
 
       <div className="mt-7">

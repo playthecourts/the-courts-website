@@ -183,10 +183,6 @@ export async function revealEmergencyInfo(athleteId: string) {
         orderBy: { sortOrder: "asc" },
         select: { name: true, relationship: true, phone: true },
       },
-      authorizedPickups: {
-        where: { active: true },
-        select: { name: true, relationship: true, phone: true },
-      },
     },
   });
 
@@ -203,7 +199,6 @@ export async function revealEmergencyInfo(athleteId: string) {
     medicalNotes: athlete.medicalNotes,
     hasMedicalInfo: athlete.hasMedicalInfo,
     pickupInstruction: athlete.custodyStaffInstruction,
-    authorizedPickups: athlete.authorizedPickups,
   };
 }
 

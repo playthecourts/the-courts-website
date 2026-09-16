@@ -8,7 +8,8 @@ import NavLink from "./nav-link";
 const NAV_ITEMS = [
   { href: "/my-courts", label: "Home", icon: "home" as const },
   { href: "/my-courts/schedule", label: "Schedule", icon: "schedule" as const },
-  { href: "/my-courts/explore", label: "Explore", icon: "explore" as const },
+  // "Explore" tab hidden for now — /my-courts/explore and its real booking
+  // flow are untouched, just not linked from the sidebar/bottom nav.
   { href: "/my-courts/athletes", label: "My Athletes", icon: "athletes" as const },
   { href: "/my-courts/memberships", label: "Membership", icon: "training" as const },
   { href: "/my-courts/league", label: "Fall League", icon: "league" as const },

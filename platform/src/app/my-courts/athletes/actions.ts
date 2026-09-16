@@ -489,6 +489,49 @@ export async function saveFamilySafety(_prev: ActionState, formData: FormData): 
 // Guardians + pickup
 // ---------------------------------------------------------------------------
 
+// Split out of saveFamilySafety: custody/pickup restrictions live on the
+// Authorized Pickup screen now, not Safety + Emergency, so they need their
+// own save action — saveFamilySafety also requires primary/backup emergency
+// contact fields that this screen doesn't collect.
+export async function saveCustodyRestrictions(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const athleteId = str(formData, "athleteId");
+  const { athlete, guardianId, guardianName } = await requireGuardianAthlete(athleteId);
+
+  const hasCustodyRestrictions = str(formData, "hasCustodyRestrictions") === "yes";
+  const custodyRestrictions = hasCustodyRestrictions ? optional(formData, "custodyRestrictions") : null;
+
+  const errors: Record<string, string> = {};
+  if (hasCustodyRestrictions && !custodyRestrictions) {
+    errors.custodyRestrictions = "Tell us what our staff needs to know.";
+  }
+  if (Object.keys(errors).length > 0) return { ok: false, errors };
+
+  const actor: ProfileChangeActor = { type: "guardian", id: guardianId, label: guardianName };
+
+  await prisma.athlete.update({
+    where: { id: athlete.id },
+    data: {
+      hasCustodyRestrictions,
+      custodyRestrictions,
+      // Clearing the restriction clears the coach-facing instruction with
+      // it — an instruction that outlives its reason is worse than none.
+      custodyStaffInstruction: hasCustodyRestrictions ? athlete.custodyStaffInstruction : null,
+    },
+  });
+
+  await recordIfChanged({
+    athleteId: athlete.id,
+    actor,
+    category: "custody",
+    field: "custody_restrictions",
+    before: athlete.custodyRestrictions,
+    after: custodyRestrictions,
+  });
+
+  revalidateAthlete(athlete.id);
+  return OK;
+}
+
 export async function addGuardian(_prev: ActionState, formData: FormData): Promise<ActionState> {
   const athleteId = str(formData, "athleteId");
   const { athlete, guardianId, guardianName } = await requireGuardianAthlete(athleteId);

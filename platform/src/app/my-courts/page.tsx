@@ -6,7 +6,6 @@ import { getSessionBalances } from "@/lib/entitlements";
 import { signedPhotoUrls } from "@/lib/athlete-photo";
 import { completeness } from "@/lib/athlete";
 import { familyCrewName, familyCrewInitials } from "@/lib/family";
-import { unreadCountForFamily } from "@/lib/messaging";
 import { AthleteAvatar } from "@/components/athlete/avatar";
 import { ActionNeededStrip, AthleteRow, WhatsHappening } from "./dashboard-sections";
 
@@ -56,7 +55,6 @@ export default async function MyCourtsHomePage() {
     emergencyContactCounts,
     athleteMemberships,
     mediaConsents,
-    unreadCount,
   ] = await Promise.all([
     athleteIds.length
       ? prisma.booking.findMany({
@@ -85,7 +83,6 @@ export default async function MyCourtsHomePage() {
     athleteIds.length
       ? prisma.mediaConsent.findMany({ where: { athleteId: { in: athleteIds } }, select: { athleteId: true } })
       : Promise.resolve([]),
-    family ? unreadCountForFamily(guardian.id, [family.id]) : Promise.resolve(0),
   ]);
 
   const emergencyContactCountByAthlete = new Map(emergencyContactCounts.map((row) => [row.athleteId, row._count.athleteId]));
@@ -287,7 +284,7 @@ export default async function MyCourtsHomePage() {
           ))}
         </div>
         {athletes[0] && (
-          <Link href={`/my-courts/athletes/${athletes[0].id}/family-safety/guardians`} className="mt-2 inline-block font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
+          <Link href={`/my-courts/athletes/${athletes[0].id}/edit/guardians`} className="mt-2 inline-block font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
             Manage Guardians &rarr;
           </Link>
         )}
@@ -339,25 +336,10 @@ export default async function MyCourtsHomePage() {
         )}
       </section>
 
-      {/* 7. Messages */}
-      <section>
-        <Link
-          href="/my-courts/messages"
-          className="flex items-center justify-between gap-3 rounded-2xl border border-gray-mid bg-white px-5 py-4 transition-colors hover:border-orange"
-        >
-          <div>
-            <p className="font-sport text-[13px] font-bold tracking-wide text-orange uppercase">Messages</p>
-            <p className="mt-1 font-body text-[13.5px] text-near-black">
-              {unreadCount > 0
-                ? `${unreadCount} New Repl${unreadCount === 1 ? "y" : "ies"}`
-                : "Questions about your athlete, membership, registration, schedule, or anything else?"}
-            </p>
-          </div>
-          <span className="shrink-0 font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
-            View Messages &rarr;
-          </span>
-        </Link>
-      </section>
+      {/* 7. Messages — hidden for now, not deleted. See also: my-courts/nav-link.tsx
+          ("messages" icon case, unused), lib/os/nav.ts (Communications nav entry,
+          hidden), coach app "Message This Team/Group/Family" buttons (hidden).
+          Underlying routes, schema, and lib/messaging.ts are untouched. */}
 
       <WhatsHappening items={happeningItems} />
     </div>

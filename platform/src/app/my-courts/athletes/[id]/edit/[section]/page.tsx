@@ -115,6 +115,8 @@ export default async function EditSectionPage({
               displayName={name}
               guardianPickups={guardianRows}
               people={athlete.authorizedPickups}
+              hasCustodyRestrictions={athlete.hasCustodyRestrictions}
+              custodyRestrictions={athlete.custodyRestrictions}
             />
           </>
         )}

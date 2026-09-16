@@ -435,9 +435,7 @@ export default async function CoachAthletePage(props: PageProps<"/coach/athletes
       </section>
 
       <div className="flex flex-col gap-2 pb-2">
-        <ActionLink href={`/coach/messages/new?familyId=${athlete.family.id}`} variant="secondary">
-          Message This Family
-        </ActionLink>
+        {/* "Message This Family" hidden for now — /coach/messages route untouched. */}
         {isLeadership(actor) && (
           <ActionLink href={`/coach/incidents/new?athleteId=${athlete.id}`} variant="secondary">
             Report an Incident

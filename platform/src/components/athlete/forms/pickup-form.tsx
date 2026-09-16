@@ -2,8 +2,13 @@
 
 import { useActionState, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { addPickupPerson, removePickupPerson, type ActionState } from "@/app/my-courts/athletes/actions";
-import { Question, TextInput, SubmitButton, SecondaryButton } from "@/components/athlete/form-ui";
+import {
+  addPickupPerson,
+  removePickupPerson,
+  saveCustodyRestrictions,
+  type ActionState,
+} from "@/app/my-courts/athletes/actions";
+import { Question, TextInput, TextArea, YesNo, SubmitButton, SecondaryButton } from "@/components/athlete/form-ui";
 
 // Authorized pickup.
 //
@@ -17,15 +22,27 @@ export default function PickupForm({
   displayName,
   guardianPickups,
   people,
+  hasCustodyRestrictions,
+  custodyRestrictions,
 }: {
   athleteId: string;
   displayName: string;
   guardianPickups: { id: string; name: string; relationship: string | null; authorizedForPickup: boolean }[];
   people: { id: string; name: string; relationship: string; phone: string; note: string | null }[];
+  hasCustodyRestrictions: boolean;
+  custodyRestrictions: string | null;
 }) {
   const router = useRouter();
   const [state, formAction] = useActionState<ActionState, FormData>(addPickupPerson, { ok: false });
   const [adding, setAdding] = useState(false);
+
+  const [custodyState, saveCustodyAction] = useActionState<ActionState, FormData>(saveCustodyRestrictions, {
+    ok: false,
+  });
+  const [hasCustody, setHasCustody] = useState<"yes" | "no" | null>(
+    hasCustodyRestrictions ? "yes" : null
+  );
+  const custodyErrors = custodyState.errors ?? {};
 
   useEffect(() => {
     if (state.ok) {
@@ -127,6 +144,30 @@ export default function PickupForm({
           + Add Another Authorized Pickup Person
         </SecondaryButton>
       )}
+
+      <div className="my-7 border-t border-gray-mid" />
+
+      <form action={saveCustodyAction}>
+        <input type="hidden" name="athleteId" value={athleteId} />
+        <p className="mb-3 font-sport text-[11px] font-bold uppercase tracking-wide text-orange">
+          Custody + Pickup Restrictions
+        </p>
+        <Question label={`Are there any custody, contact, or pickup restrictions we should know about for ${displayName}?`}>
+          <YesNo name="hasCustodyRestrictions" defaultValue={hasCustody} onChangeValue={setHasCustody} />
+        </Question>
+        {hasCustody === "yes" && (
+          <Question label="Tell us what we need to know" error={custodyErrors.custodyRestrictions}>
+            <TextArea name="custodyRestrictions" defaultValue={custodyRestrictions ?? ""} rows={4} />
+            <p className="mt-2 font-body text-[12.5px] leading-snug text-gray-dark">
+              Only our owner, admin and front-desk staff can see this. Coaches are given only the
+              specific instruction they need at pickup — never the details.
+            </p>
+          </Question>
+        )}
+        <div className="mt-4">
+          <SubmitButton>Save Restrictions</SubmitButton>
+        </div>
+      </form>
     </div>
   );
 }

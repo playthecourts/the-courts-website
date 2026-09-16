@@ -34,11 +34,8 @@ export const PRIMARY_NAV: NavItem[] = [
   { label: "Progress Reports", href: "/os/progress", capability: "athletes.view" },
   { label: "Photos + Video", href: "/os/media", capability: "athletes.viewMediaStatus" },
   { label: "Facility", href: "/os/facility", capability: "facility.view" },
-  {
-    label: "Communications",
-    href: "/os/communications",
-    capability: "communications.view",
-  },
+  // Communications nav entry hidden for now — /os/communications and its
+  // capability gate are untouched, just not linked from the sidebar.
   { label: "Payments", href: "/os/payments", capability: "payments.view" },
   { label: "Reports", href: "/os/reports", capability: "reports.view" },
   { label: "Content", href: "/os/content", capability: "content.manage" },
@@ -63,7 +60,7 @@ export const QUICK_ACTIONS: QuickAction[] = [
   { label: "Add Session", href: "/os/schedule/new", capability: "schedule.edit" },
   { label: "Register Athlete", href: "/os/registrations/new", capability: "registrations.create" },
   { label: "Add Family", href: "/os/families/new", capability: "families.edit" },
-  { label: "Send Update", href: "/os/communications/new", capability: "communications.send" },
+  // "Send Update" quick action hidden alongside the Communications nav entry.
   { label: "Block Court", href: "/os/facility/block", capability: "facility.block" },
   { label: "Add Coach", href: "/os/coaches/new", capability: "coaches.manage" },
 ];

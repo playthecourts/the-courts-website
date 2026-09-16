@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { CancelBookingButton } from "./cancel-booking-button";
@@ -67,12 +66,14 @@ export default async function MyCourtsSchedulePage() {
           <p className="mt-3 font-heading text-[15px] font-bold text-near-black">
             See something you&rsquo;re excited about? So are we.
           </p>
-          <Link
-            href="/my-courts/explore"
+          <a
+            href="https://playthecourts.com/schedule"
+            target="_blank"
+            rel="noopener"
             className="mt-5 inline-flex items-center gap-2 rounded-full bg-orange px-6 py-3 font-sport text-xs font-bold uppercase tracking-wide text-white"
           >
             View the Schedule &rarr;
-          </Link>
+          </a>
         </div>
       ) : (
         <div className="flex flex-col gap-6">

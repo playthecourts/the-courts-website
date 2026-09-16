@@ -224,9 +224,7 @@ export default async function CoachSessionPage(props: PageProps<"/coach/sessions
       </section>
 
       <section className="mb-6 flex flex-col gap-2">
-        <ActionLink href={`/coach/messages/new?sessionId=${session.id}`} variant="secondary">
-          Message This Group
-        </ActionLink>
+        {/* "Message This Group" hidden for now — /coach/messages route untouched. */}
         <ActionLink href={`/coach/incidents/new?sessionId=${session.id}`} variant="secondary">
           Report an Incident
         </ActionLink>
