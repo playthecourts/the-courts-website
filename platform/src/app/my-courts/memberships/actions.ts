@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
-import { stripe } from "@/lib/stripe";
+import { stripe, getOrCreateStripeCustomer } from "@/lib/stripe";
 import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { CANCELLATION_REASONS } from "./constants";
 
@@ -69,28 +69,12 @@ export async function startMembershipCheckout(athleteId: string, membershipPlanI
     throw new Error("This plan isn't available for online checkout yet.");
   }
 
-  let customerId = guardian.stripeCustomerId;
-  if (!customerId) {
-    const customer = await stripe.customers.create({
-      // Guardian.email is nullable — a guardian added to a family by another
-      // parent may have no login and no address on file yet. Only the signed-in
-      // guardian reaches checkout, so this is defensive rather than expected.
-      email: guardian.email ?? undefined,
-      name: guardian.name,
-      metadata: { guardianId: guardian.id },
-    });
-    customerId = customer.id;
-    await prisma.guardian.update({
-      where: { id: guardian.id },
-      data: { stripeCustomerId: customerId },
-    });
-  }
-
   const origin = await getOrigin();
   const beforeStart = isBeforeMembershipStart();
 
   let checkoutUrl: string;
   try {
+    const customerId = await getOrCreateStripeCustomer(guardian);
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       customer: customerId,
@@ -155,22 +139,12 @@ export async function startFamilyMembershipCheckout(formData: FormData) {
     throw new Error("This plan isn't available for online checkout yet.");
   }
 
-  let customerId = guardian.stripeCustomerId;
-  if (!customerId) {
-    const customer = await stripe.customers.create({
-      email: guardian.email ?? undefined,
-      name: guardian.name,
-      metadata: { guardianId: guardian.id },
-    });
-    customerId = customer.id;
-    await prisma.guardian.update({ where: { id: guardian.id }, data: { stripeCustomerId: customerId } });
-  }
-
   const origin = await getOrigin();
   const beforeStart = isBeforeMembershipStart();
 
   let checkoutUrl: string;
   try {
+    const customerId = await getOrCreateStripeCustomer(guardian);
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       customer: customerId,
@@ -205,8 +179,9 @@ export async function startBillingPortalSession() {
   }
 
   const origin = await getOrigin();
+  const customerId = await getOrCreateStripeCustomer(guardian);
   const session = await stripe.billingPortal.sessions.create({
-    customer: guardian.stripeCustomerId,
+    customer: customerId,
     return_url: `${origin}/my-courts/memberships`,
   });
 

@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
-import { stripe } from "@/lib/stripe";
+import { stripe, getOrCreateStripeCustomer } from "@/lib/stripe";
 import { bookAthleteIntoSession, cancelBookingById, cancelWaitlistEntryById, resumeBookingCheckout } from "@/lib/booking";
 import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { acceptOffer, declineOffer } from "@/lib/programs/waitlist";
@@ -145,16 +145,7 @@ const DR_DISH_TEN_PACK_PRICE_ID = "price_1UG8J7KqZ4a13U826eCUM3EV";
 export async function purchaseDrDishTenPack(athleteId: string) {
   const guardian = await assertOwnsAthlete(athleteId);
 
-  let customerId = guardian.stripeCustomerId;
-  if (!customerId) {
-    const customer = await stripe.customers.create({
-      email: guardian.email ?? undefined,
-      name: guardian.name,
-      metadata: { guardianId: guardian.id },
-    });
-    customerId = customer.id;
-    await prisma.guardian.update({ where: { id: guardian.id }, data: { stripeCustomerId: customerId } });
-  }
+  const customerId = await getOrCreateStripeCustomer(guardian);
 
   const requestHeaders = await headers();
   const host = requestHeaders.get("host") ?? "localhost:3000";

@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getBookingEligibility } from "@/lib/entitlements";
 import { resolveBookingRule } from "@/lib/programs/pricing";
 import { offerNextSpot } from "@/lib/programs/waitlist";
-import { stripe } from "@/lib/stripe";
+import { stripe, getOrCreateStripeCustomer } from "@/lib/stripe";
 
 const CHECKOUT_EXPIRY_MINUTES = 30;
 
@@ -233,17 +233,7 @@ async function createBookingCheckout(
     throw new Error("A paid booking needs a guardian on file to check out.");
   }
   const guardian = await prisma.guardian.findUniqueOrThrow({ where: { id: guardianId } });
-
-  let customerId = guardian.stripeCustomerId;
-  if (!customerId) {
-    const customer = await stripe.customers.create({
-      email: guardian.email ?? undefined,
-      name: guardian.name,
-      metadata: { guardianId: guardian.id },
-    });
-    customerId = customer.id;
-    await prisma.guardian.update({ where: { id: guardian.id }, data: { stripeCustomerId: customerId } });
-  }
+  const customerId = await getOrCreateStripeCustomer(guardian);
 
   const booking = await prisma.booking.findUniqueOrThrow({
     where: { id: bookingId },

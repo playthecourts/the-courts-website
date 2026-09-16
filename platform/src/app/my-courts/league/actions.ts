@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { getUnsignedRequiredWaivers } from "@/lib/waivers";
-import { stripe } from "@/lib/stripe";
+import { stripe, getOrCreateStripeCustomer } from "@/lib/stripe";
 import {
   sendMembershipSetupFailedAlert,
   sendRegistrationStaffAlert,
@@ -83,16 +83,7 @@ export async function createLeaguePaymentIntent(athleteId: string) {
     },
   });
 
-  let customerId = guardian.stripeCustomerId;
-  if (!customerId) {
-    const customer = await stripe.customers.create({
-      email: guardian.email ?? undefined,
-      name: guardian.name,
-      metadata: { guardianId: guardian.id },
-    });
-    customerId = customer.id;
-    await prisma.guardian.update({ where: { id: guardian.id }, data: { stripeCustomerId: customerId } });
-  }
+  const customerId = await getOrCreateStripeCustomer(guardian);
 
   // The $25 evaluation credit (EVAL25) applies to every League registration
   // — leagues.html has always advertised it as a blanket credit, not
