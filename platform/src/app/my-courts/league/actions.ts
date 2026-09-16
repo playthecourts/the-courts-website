@@ -60,24 +60,11 @@ export async function createLeaguePaymentIntent(athleteId: string) {
     where: { name: "Fall 2026 Basketball League" },
   });
 
-  // League athletes need an active Weekly-or-higher membership for the
-  // season. Rather than blocking checkout on that (the old behavior — see
-  // git history), this flow bundles a new Weekly subscription into the same
-  // payment when one doesn't already exist, billed starting Oct 1 so a
-  // family never pays for a September they can't use yet.
-  const activeMembership = await prisma.athleteMembership.findFirst({
-    where: { athleteId, status: "active" },
-  });
-  const needsMembership = !activeMembership;
-
-  let weeklyPlan: { id: string; name: string; priceCents: number; stripePriceId: string | null } | null = null;
-  if (needsMembership) {
-    weeklyPlan = await prisma.membershipPlan.findFirstOrThrow({ where: { name: WEEKLY_PLAN_NAME } });
-    if (!weeklyPlan.stripePriceId) {
-      throw new Error("Weekly membership isn't connected to Stripe yet.");
-    }
-  }
-
+  // League registration and membership are separate purchases — no bundled
+  // subscription gets created here (see git history for the prior bundled
+  // flow, removed because it forced every League family onto card-only
+  // billing with no ACH option, even for families who'd otherwise pay
+  // membership by bank transfer).
   const registration = await prisma.registration.upsert({
     where: { offeringId_athleteId: { offeringId: offering.id, athleteId } },
     create: {
@@ -124,8 +111,6 @@ export async function createLeaguePaymentIntent(athleteId: string) {
       registrationId: registration.id,
       athleteId,
       guardianId: guardian.id,
-      needsMembership: needsMembership ? "1" : "0",
-      membershipPlanId: weeklyPlan?.id ?? "",
     },
   });
 
@@ -141,10 +126,6 @@ export async function createLeaguePaymentIntent(athleteId: string) {
     baseAmountCents: base,
     creditCents: 0,
     totalCents: total,
-    needsMembership,
-    membershipPlanName: weeklyPlan?.name ?? null,
-    membershipPriceCents: weeklyPlan?.priceCents ?? null,
-    membershipStartsToday: !isBeforeMembershipStart(),
   };
 }
 
@@ -203,13 +184,9 @@ export async function applyLeaguePromoCode(
 
 /// Step 2: called client-side right after stripe.confirmPayment() resolves.
 /// Never trusts the client's word that payment succeeded — re-checks the
-/// PaymentIntent with Stripe directly before writing anything. All-or-nothing
-/// between the League charge and the bundled subscription: if the charge
-/// failed, nothing is written at all. If the charge succeeded but the
-/// subscription create throws, the League registration stays paid (the seat
-/// is real, already charged for) and membershipSetupNeeded is set instead —
-/// see the "Finish setting up membership" Action Needed item on the home
-/// dashboard, and sendMembershipSetupFailedAlert for the staff-side alert.
+/// PaymentIntent with Stripe directly before writing anything. League and
+/// membership are separate purchases (no bundling — see git history), so
+/// this just confirms the League charge and stops.
 export async function confirmLeagueRegistration(
   registrationId: string,
   paymentIntentId: string
@@ -243,36 +220,11 @@ export async function confirmLeagueRegistration(
     data: { status: "registered", paymentStatus: "paid" },
   });
 
-  // The durable success fact — everything after this (the bundled
-  // membership) can still fail without undoing the League seat, so both
-  // emails fire from right here rather than waiting on what happens next.
   await sendRegistrationConfirmationEmail(registrationId);
   await sendRegistrationStaffAlert(registrationId);
 
-  const needsMembership = paymentIntent.metadata.needsMembership === "1";
-  const membershipPlanId = paymentIntent.metadata.membershipPlanId || null;
-  if (!needsMembership || !membershipPlanId) {
-    revalidatePath("/my-courts/league");
-    return { ok: true, membershipSetupNeeded: false };
-  }
-
-  try {
-    await createBundledMembershipSubscription({
-      guardianId: guardian.id,
-      athleteId: registration.athleteId,
-      membershipPlanId,
-      paymentIntentId,
-    });
-    revalidatePath("/my-courts/league");
-    revalidatePath("/my-courts/memberships");
-    return { ok: true, membershipSetupNeeded: false };
-  } catch (err) {
-    const message = err instanceof Error ? err.message : "Unknown error creating the subscription.";
-    await prisma.registration.update({ where: { id: registrationId }, data: { membershipSetupNeeded: true } });
-    await sendMembershipSetupFailedAlert(registrationId, message);
-    revalidatePath("/my-courts/league");
-    return { ok: true, membershipSetupNeeded: true };
-  }
+  revalidatePath("/my-courts/league");
+  return { ok: true, membershipSetupNeeded: false };
 }
 
 async function createBundledMembershipSubscription({

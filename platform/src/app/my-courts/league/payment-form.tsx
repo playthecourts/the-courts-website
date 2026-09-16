@@ -195,12 +195,6 @@ export function LeaguePaymentForm({ athleteId }: { athleteId: string }) {
             {formatPrice(review.baseAmountCents)} &middot; ${(review.creditCents / 100).toFixed(0)} evaluation credit applied
           </p>
         )}
-        {review.needsMembership && review.membershipPriceCents != null && (
-          <p className="mt-1 font-body text-[13px] text-gray-dark">
-            Then <span className="font-bold text-black">{formatPrice(review.membershipPriceCents)}/mo</span>{" "}
-            {review.membershipStartsToday ? "starting today." : "starting October 1."}
-          </p>
-        )}
       </div>
       <PromoCodeField review={review} onApplied={setReview} />
       <Elements stripe={stripePromise} options={{ clientSecret: review.clientSecret }}>
