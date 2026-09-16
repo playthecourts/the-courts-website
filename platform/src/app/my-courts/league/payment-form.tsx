@@ -100,6 +100,10 @@ function PromoCodeField({ review, onApplied }: { review: ReviewData; onApplied: 
 
   return (
     <div className="flex flex-col gap-1.5">
+      <p className="font-body text-[12.5px] text-gray-dark">
+        Attended evaluations on Sept 12? Use code <span className="font-semibold text-near-black">EVAL25</span> for
+        a $25 credit.
+      </p>
       <div className="flex gap-2">
         <input
           value={code}
