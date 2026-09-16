@@ -140,16 +140,31 @@ export function ChoiceCard({
   type?: "radio" | "checkbox";
   defaultChecked?: boolean;
 }) {
+  const indicatorShape = type === "checkbox" ? "rounded-md" : "rounded-full";
+
   return (
-    <label className="cursor-pointer">
-      <input
-        type={type}
-        name={name}
-        value={value}
-        defaultChecked={defaultChecked}
-        className="peer sr-only"
-      />
-      <span className="flex flex-col rounded-xl border border-gray-mid bg-white p-4 transition-colors peer-checked:border-orange peer-checked:bg-orange/5 peer-focus-visible:ring-2 peer-focus-visible:ring-orange/40">
+    <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-gray-mid bg-white p-4 transition-colors has-[:checked]:border-orange has-[:checked]:bg-orange/5 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-orange/40">
+      {/* Explicit checkbox/radio indicator — without this, an unchecked
+          card looks identical to plain, non-interactive text, and nothing
+          signals it needs to be tapped to select. The input lives INSIDE
+          the indicator span (not beside it) so has-[:checked] can see it
+          as a descendant at every level that needs to react to it — the
+          checkmark uses the classic peer-checked sibling instead, since it
+          and the input are true siblings right here. */}
+      <span
+        className={`relative flex h-5 w-5 shrink-0 items-center justify-center border-2 border-gray-mid ${indicatorShape} transition-colors has-[:checked]:border-orange has-[:checked]:bg-orange`}
+        aria-hidden="true"
+      >
+        <input type={type} name={name} value={value} defaultChecked={defaultChecked} className="peer sr-only" />
+        <svg
+          viewBox="0 0 16 16"
+          fill="none"
+          className="h-3 w-3 text-white opacity-0 peer-checked:opacity-100"
+        >
+          <path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </span>
+      <span className="flex flex-col">
         <span className="font-heading text-[15px] font-bold text-near-black">{headline}</span>
         {detail && (
           <span className="mt-1 font-body text-[13.5px] leading-snug text-gray-dark">{detail}</span>
