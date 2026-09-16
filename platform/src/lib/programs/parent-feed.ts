@@ -6,12 +6,14 @@ import { resolveBookingRule } from "./pricing";
 import { describeBookingRule } from "./format";
 import { programTypeDef, gradeRangeLabel, parentCategoryFor, typesInCategory } from "./types";
 
-// Matches GROUP_TRAINING_BOOKING_OPENS in lib/booking.ts exactly — that's the
-// hard gate; this is what makes the card render as locked ("Coming Soon", no
-// Book button) instead of showing a live button that would hit the gate and
-// throw. Same literal value in both places rather than a shared import, to
-// avoid pulling the write-side booking module into this read-only feed path.
-const GROUP_TRAINING_BOOKING_OPENS = new Date("2026-10-01T05:00:00.000Z");
+// Matches GROUP_TRAINING_BOOKING_OPENS/GATED_PROGRAM_TYPES in lib/booking.ts
+// exactly — that's the hard gate; this is what makes the card render as
+// locked ("Coming Soon", no Book button) instead of showing a live button
+// that would hit the gate and throw. Same literal values in both places
+// rather than a shared import, to avoid pulling the write-side booking
+// module into this read-only feed path.
+const GROUP_TRAINING_BOOKING_OPENS = new Date("2026-09-24T05:00:00.000Z");
+const GATED_PROGRAM_TYPES = new Set(["group_training", "self_serve_dr_dish"]);
 
 // ---------------------------------------------------------------------------
 // What the Parent App shows.
@@ -147,14 +149,14 @@ export async function loadParentFeed(
       now
     );
 
-    // Group Training isn't sold before the facility opens — reusing the
-    // existing "coming_soon" state (rather than a new flag) means every
-    // surface that already renders availability correctly locks this down
-    // for free: no Book button, the same "Coming Soon" label a real
-    // registrationOpensAt date would produce.
-    if (o.program.programType === "group_training" && now < GROUP_TRAINING_BOOKING_OPENS) {
+    // Group Training and self-serve Dr. Dish aren't sold before booking
+    // opens — reusing the existing "coming_soon" state (rather than a new
+    // flag) means every surface that already renders availability correctly
+    // locks this down for free: no Book button, the same "Coming Soon"
+    // label a real registrationOpensAt date would produce.
+    if (GATED_PROGRAM_TYPES.has(o.program.programType) && now < GROUP_TRAINING_BOOKING_OPENS) {
       availability.state = "coming_soon";
-      availability.label = "Booking Opens Oct 1";
+      availability.label = "Booking Opens Sept 24";
       availability.canRegister = false;
       availability.canJoinWaitlist = false;
     }

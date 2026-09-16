@@ -8,12 +8,14 @@ import { stripe } from "@/lib/stripe";
 
 const CHECKOUT_EXPIRY_MINUTES = 30;
 
-// The facility opens Oct 1, 2026. Regular group training is the one program
-// type deliberately not sold before then — matches GROUP_TRAINING_BOOKING_OPENS
-// in offering-session-card.tsx, which hides the Book button for the same
-// reason. This check is the one that actually matters: a hidden button is a
-// UX nicety, not protection against a crafted request.
-const GROUP_TRAINING_BOOKING_OPENS = new Date("2026-10-01T05:00:00.000Z");
+// The facility opens Oct 1, 2026, but booking itself opens earlier, Sept 24.
+// Group Training and self-serve Dr. Dish are the two program types
+// deliberately not sold before then — matches GROUP_TRAINING_BOOKING_OPENS
+// in parent-feed.ts, which hides the Book button for the same reason. This
+// check is the one that actually matters: a hidden button is a UX nicety,
+// not protection against a crafted request.
+const GROUP_TRAINING_BOOKING_OPENS = new Date("2026-09-24T05:00:00.000Z");
+const GATED_PROGRAM_TYPES = new Set(["group_training", "self_serve_dr_dish"]);
 
 // creditSource holds a plan name string for a membership entitlement booking,
 // or a real Credit row id for a pack-credit booking (see resolveBookingRule's
@@ -60,10 +62,11 @@ export async function bookAthleteIntoSession(
   }
   if (
     session.offeringId &&
-    session.offering?.program.programType === "group_training" &&
+    session.offering &&
+    GATED_PROGRAM_TYPES.has(session.offering.program.programType) &&
     new Date() < GROUP_TRAINING_BOOKING_OPENS
   ) {
-    throw new Error("Booking opens October 1, 2026 — check back then.");
+    throw new Error("Booking opens September 24, 2026 — check back then.");
   }
 
   let priceChargedCents: number | null;

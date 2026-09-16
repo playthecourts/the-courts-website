@@ -337,12 +337,6 @@ body.has-announce .nav { top: var(--announce-h, 88px); }
   position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; z-index: 3; transform: translateX(-50%);
   background: linear-gradient(180deg, transparent 0%, var(--orange) 18%, var(--orange) 82%, transparent 100%);
 }
-.pick-split-seam::before {
-  content: 'VS'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: 58px; height: 58px; border-radius: 50%; background: var(--orange); color: var(--white);
-  display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 900;
-  font-size: 15px; letter-spacing: 0.02em; border: 3px solid var(--black); box-shadow: 0 10px 26px rgba(222, 80, 25,0.5);
-}
 .pick-panel { position: relative; overflow: hidden; display: flex; align-items: flex-end; padding: 56px; transition: flex-grow 0.4s var(--ease); }
 .pick-panel .photo { position: absolute; inset: 0; transition: transform 0.5s var(--ease); }
 .pick-panel .photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(23,23,23,0.18) 20%, rgba(23,23,23,0.92) 100%); }
