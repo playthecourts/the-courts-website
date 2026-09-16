@@ -189,3 +189,45 @@ export async function sendRegistrationConfirmationEmail(registrationId: string) 
 
   await Promise.all(recipients.map((to) => sendEmail({ to, subject, html: confirmHtml, text })));
 }
+
+// Fires once, right after a new guardian account is created (src/app/actions
+// /auth.ts's signup()) — same best-effort/staff-inbox pattern as the alert
+// above, since otherwise staff has no way to know a family signed up short of
+// checking /os/families.
+export async function sendNewAccountStaffAlert(guardianId: string) {
+  const guardian = await prisma.guardian.findUnique({
+    where: { id: guardianId },
+    include: { families: { include: { family: { include: { athletes: true } } } } },
+  });
+  if (!guardian) return;
+
+  const athleteNames = guardian.families.flatMap((fg) =>
+    fg.family.athletes.map((a) => `${a.firstName} ${a.lastName}`)
+  );
+  const nextGenLabel =
+    guardian.nextGenStatus === "current_nextgen"
+      ? "Current NextGen"
+      : guardian.nextGenStatus === "former_nextgen"
+        ? "Former NextGen"
+        : "New to The Courts";
+  const familiesUrl = "https://app.playthecourts.com/os/families";
+
+  const subject = `New account: ${guardian.name}`;
+  const text = `${guardian.name} (${guardian.email}) created a Courts account.\nAthlete(s): ${
+    athleteNames.join(", ") || "none yet"
+  }\nNextGen: ${nextGenLabel}\n\nView in Courts OS: ${familiesUrl}`;
+
+  const html = `
+<div style="font-family:Arial,Helvetica,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;color:#0D0D0D;">
+  <p style="font-size:16px;font-weight:700;margin:0 0 4px;">New account: ${guardian.name}</p>
+  <p style="font-size:13px;color:#343434;margin:0 0 16px;">${guardian.email} &middot; ${nextGenLabel}</p>
+  <p style="font-size:15px;line-height:1.6;margin:0 0 20px;color:#1A1A1A;background:#F2EDE7;border-left:3px solid #DE5019;padding:12px 16px;border-radius:6px;">
+    Athlete(s): ${athleteNames.join(", ") || "none yet"}
+  </p>
+  <a href="${familiesUrl}" style="display:inline-block;background:#DE5019;color:#FFFFFF;font-weight:700;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;text-decoration:none;padding:12px 24px;border-radius:999px;">
+    View in Courts OS &rarr;
+  </a>
+</div>`.trim();
+
+  await sendEmail({ to: STAFF_INBOX, subject, html, text });
+}

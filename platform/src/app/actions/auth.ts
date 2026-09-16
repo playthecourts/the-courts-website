@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 import { matchEvalAttendanceForNewAthlete } from "@/lib/eval-attendance";
+import { sendNewAccountStaffAlert } from "@/lib/registration-notifications";
 
 async function getOrigin() {
   const requestHeaders = await headers();
@@ -132,6 +133,7 @@ export async function signup(_prevState: unknown, formData: FormData) {
   }
 
   let newAthleteIds: string[] = [];
+  let newGuardianId: string | null = null;
   try {
     await prisma.$transaction(async (tx) => {
       const guardian = await tx.guardian.create({
@@ -169,6 +171,7 @@ export async function signup(_prevState: unknown, formData: FormData) {
         )
       );
       newAthleteIds = createdAthletes.map((a) => a.id);
+      newGuardianId = guardian.id;
     });
   } catch {
     return {
@@ -182,6 +185,12 @@ export async function signup(_prevState: unknown, formData: FormData) {
   await Promise.all(
     touchedAthletes.map((a, i) => matchEvalAttendanceForNewAthlete(newAthleteIds[i], a.firstName, a.lastName))
   );
+
+  // Best-effort staff notification — never blocks signup on a failed send
+  // (sendEmail already swallows its own errors).
+  if (newGuardianId) {
+    await sendNewAccountStaffAlert(newGuardianId);
+  }
 
   if (data.session) {
     // An explicit destination (e.g. a League registration link) always wins
