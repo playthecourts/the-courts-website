@@ -4,7 +4,7 @@ import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
-  PaymentElement,
+  CardElement,
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
@@ -19,9 +19,16 @@ function formatPrice(cents: number) {
 
 type ReviewData = Awaited<ReturnType<typeof createLeaguePaymentIntent>>;
 
-// Card entry uses Stripe's own Payment Element throughout — no custom card
-// fields, no custom 3D Secure handling. stripe.confirmPayment() below is
-// what pops the bank's challenge automatically when a card requires it.
+// Card entry uses Stripe's classic CardElement, not the newer dynamic
+// PaymentElement — the account rejects the /v1/elements/sessions call that
+// PaymentElement (and any clientSecret-driven elements() init) needs to
+// fetch its dynamic config, with a 401 "Invalid API Key" error, even though
+// the same publishable key works fine everywhere else (confirmed directly:
+// a plain elements().create('card') mounts and works, elements({clientSecret})
+// doesn't). CardElement + confirmCardPayment() never calls that endpoint, so
+// it sidesteps whatever the account-level issue is. stripe.confirmCardPayment
+// still pops the bank's 3D Secure challenge in-page automatically when a card
+// requires it.
 function PayForm({ review, onDone }: { review: ReviewData; onDone: (result: { membershipSetupNeeded: boolean }) => void }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -30,19 +37,13 @@ function PayForm({ review, onDone }: { review: ReviewData; onDone: (result: { me
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!stripe || !elements) return;
+    const card = elements?.getElement(CardElement);
+    if (!stripe || !card) return;
     setSubmitting(true);
     setError(null);
 
-    const { error: confirmError, paymentIntent } = await stripe.confirmPayment({
-      elements,
-      // allow_redirects: "never" on the PaymentIntent (server side) means
-      // this never actually redirects — return_url is required by the SDK's
-      // types regardless, and redirect: "if_required" keeps the guardian on
-      // this page for the whole flow, including any 3D Secure challenge,
-      // which Stripe.js pops in-page rather than navigating away for.
-      confirmParams: { return_url: window.location.href },
-      redirect: "if_required",
+    const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(review.clientSecret, {
+      payment_method: { card },
     });
 
     if (confirmError) {
@@ -70,7 +71,9 @@ function PayForm({ review, onDone }: { review: ReviewData; onDone: (result: { me
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <PaymentElement />
+      <div className="rounded-lg border border-gray-mid px-3 py-3">
+        <CardElement options={{ style: { base: { fontSize: "16px" } } }} />
+      </div>
       {error && <p className="font-body text-sm text-red-700">{error}</p>}
       <button
         type="submit"
@@ -197,7 +200,7 @@ export function LeaguePaymentForm({ athleteId }: { athleteId: string }) {
         )}
       </div>
       <PromoCodeField review={review} onApplied={setReview} />
-      <Elements stripe={stripePromise} options={{ clientSecret: review.clientSecret }}>
+      <Elements stripe={stripePromise}>
         <PayForm review={review} onDone={setResult} />
       </Elements>
     </div>
