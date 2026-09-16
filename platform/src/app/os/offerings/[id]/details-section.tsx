@@ -141,7 +141,7 @@ export function DetailsSection({
             <div className="sm:col-span-2 flex flex-col gap-2">
               <label className="flex items-center gap-2 text-sm">
                 <input type="checkbox" name="requiresTrainingPlan" defaultChecked={offering.requiresTrainingPlan} disabled={ro} />
-                Requires an active Training Plan to register
+                Requires an active Membership Plan to register
               </label>
               <label className="flex items-center gap-2 text-sm">
                 <input type="checkbox" name="inviteOnly" defaultChecked={offering.inviteOnly} disabled={ro} />

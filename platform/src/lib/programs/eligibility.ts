@@ -145,7 +145,7 @@ export async function checkEligibility(
     if (active === 0) {
       return {
         eligible: false,
-        reason: "A Training Plan is required for this program.",
+        reason: "A Membership Plan is required for this program.",
         parentFacing: true,
       };
     }

@@ -73,10 +73,17 @@ export async function bookAthleteIntoSession(
   // Null for a free/paid booking, which never touched a credit.
   let creditSource: string | null = null;
   if (session.offeringId) {
-    const currentBookedCount = await prisma.booking.count({
+    const firstBooking = await prisma.booking.findFirst({
       where: { sessionId, status: { not: "cancelled" } },
+      orderBy: { bookedAt: "asc" },
+      select: { priceChargedCents: true },
     });
-    const rule = await resolveBookingRule(athleteId, session.offeringId, session.startTime, currentBookedCount);
+    const rule = await resolveBookingRule(
+      athleteId,
+      session.offeringId,
+      session.startTime,
+      firstBooking?.priceChargedCents ?? null
+    );
     needsPayment = rule.kind === "full_price" || rule.kind === "member_price" || rule.kind === "credit_exhausted";
     priceChargedCents = "priceCents" in rule ? rule.priceCents : 0;
     if (rule.kind === "uses_credit") creditSource = rule.planName;

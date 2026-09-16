@@ -565,7 +565,7 @@ function SessionRowView({
           </div>
           <div className="mt-3 flex flex-col gap-1.5 text-sm text-danger">
             <label className="flex items-center gap-2">
-              <input type="checkbox" name="restoreCredits" defaultChecked /> Restore Training Plan session credits
+              <input type="checkbox" name="restoreCredits" defaultChecked /> Restore Membership Plan session credits
             </label>
             <label className="flex items-center gap-2">
               <input type="checkbox" name="notifyFamilies" defaultChecked /> I&apos;ll tell the families

@@ -54,7 +54,7 @@ export default async function AthleteProgramsPage({ params }: { params: Promise<
 
       <section>
         <p className="mb-2 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-gray-dark">
-          Training Plan
+          Membership Plan
         </p>
         {membership ? (
           <div className="rounded-xl border border-gray-mid bg-white p-4">
@@ -76,7 +76,7 @@ export default async function AthleteProgramsPage({ params }: { params: Promise<
           </div>
         ) : (
           <div className="rounded-xl border border-gray-mid bg-white p-4">
-            <p className="font-body text-[14px] text-gray-dark">No active Training Plan.</p>
+            <p className="font-body text-[14px] text-gray-dark">No active Membership Plan.</p>
             <Link
               href="/my-courts/memberships"
               className="mt-2 inline-block font-sport text-[12px] font-bold uppercase tracking-wide text-orange"

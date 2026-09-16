@@ -31,10 +31,10 @@ type Offering = {
 const dollars = (c: number | null) => (c === null ? "" : (c / 100).toFixed(2));
 
 const CREDIT_RULE_COPY: Record<string, string> = {
-  uses_credit: "Booking consumes session credits from the family's Training Plan.",
-  included: "Included with a Training Plan at no credit cost.",
-  member_price: "Training Plan members pay the member price; everyone else pays full price.",
-  separate_payment: "Training Plans grant nothing here — everyone pays.",
+  uses_credit: "Booking consumes session credits from the family's Membership Plan.",
+  included: "Included with a Membership Plan at no credit cost.",
+  member_price: "Membership Plan members pay the member price; everyone else pays full price.",
+  separate_payment: "Membership Plans grant nothing here — everyone pays.",
   free: "Free for everyone.",
 };
 
@@ -78,7 +78,7 @@ export function PricingSection({
                 <option value="one_time">One-time</option>
                 <option value="per_session">Per session</option>
                 <option value="multi_day_package">Multi-day package</option>
-                <option value="training_plan">Covered by Training Plan</option>
+                <option value="training_plan">Covered by Membership Plan</option>
                 <option value="deposit">Deposit</option>
               </select>
             </Field>
@@ -87,7 +87,7 @@ export function PricingSection({
                 <Field label="Standard price" htmlFor="priceCents" hint="Dollars.">
                   <input id="priceCents" name="priceCents" type="number" step="0.01" min="0" defaultValue={dollars(offering.priceCents)} className={INPUT} disabled={!canEdit} />
                 </Field>
-                <Field label="Training Plan member price" htmlFor="memberPriceCents" hint="Only if that benefit genuinely exists.">
+                <Field label="Membership Plan member price" htmlFor="memberPriceCents" hint="Only if that benefit genuinely exists.">
                   <input id="memberPriceCents" name="memberPriceCents" type="number" step="0.01" min="0" defaultValue={dollars(offering.memberPriceCents)} className={INPUT} disabled={!canEdit} />
                 </Field>
                 {offering.allowSingleDay ? (
@@ -104,9 +104,9 @@ export function PricingSection({
         </Card>
 
         <Card>
-          <CardHeader title="Training Plan rule" />
+          <CardHeader title="Membership Plan rule" />
           <div className="grid gap-4 p-4 sm:grid-cols-2">
-            <Field label="How Training Plans apply" htmlFor="creditRule">
+            <Field label="How Membership Plans apply" htmlFor="creditRule">
               <select id="creditRule" name="creditRule" value={creditRule} onChange={(e) => setCreditRule(e.target.value)} className={SELECT} disabled={!canEdit}>
                 <option value="separate_payment">Not included — everyone pays</option>
                 <option value="uses_credit">Uses session credits</option>

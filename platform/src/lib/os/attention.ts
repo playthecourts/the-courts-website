@@ -48,7 +48,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
           items.push({
             key: "plan-past-due",
             severity: "critical",
-            title: `${n} failed Training Plan ${n === 1 ? "payment" : "payments"}`,
+            title: `${n} failed Membership Plan ${n === 1 ? "payment" : "payments"}`,
             detail: "Stripe reported the subscription payment did not go through.",
             href: "/os/plans?status=past_due",
             count: n,

@@ -43,7 +43,7 @@ export const PRIMARY_NAV: NavItem[] = [
 
 export const MORE_NAV: NavItem[] = [
   { label: "Leads", href: "/os/leads", capability: "leads.view" },
-  { label: "Training Plans", href: "/os/plans", capability: "plans.view" },
+  { label: "Membership Plans", href: "/os/plans", capability: "plans.view" },
   { label: "Promo Codes + Credits", href: "/os/promos", capability: "payments.promo" },
   { label: "Camps", href: "/os/camps", capability: "programs.view" },
   { label: "Rentals + Parties", href: "/os/rentals", capability: "facility.view" },

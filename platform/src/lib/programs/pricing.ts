@@ -27,12 +27,16 @@ export async function resolveBookingRule(
   athleteId: string,
   offeringId: string,
   sessionStart: Date,
-  /// Non-cancelled bookings already on this specific session, BEFORE this
-  /// athlete's own booking. When the offering has a companionPriceCents set
-  /// and this is >= 1, that flat rate replaces the normal price/member price
-  /// below — a "bring a teammate" companion, not a membership discount, so it
-  /// applies to full_price and member_price alike.
-  currentBookedCount = 0
+  /// What the FIRST non-cancelled booking on this specific session actually
+  /// paid, or null if there isn't one — this athlete would be the first.
+  /// When the offering has a companionPriceCents set and this isn't null,
+  /// `companionPriceCents` is read as the FLAT TOTAL for both people
+  /// together, not this person's own price: the companion is charged
+  /// whatever's left of that total after the first booker's own charge, so
+  /// e.g. Dr. Dish's real "$50 total, same for members and non-members"
+  /// promise holds exactly regardless of which of the two is a member. This
+  /// overrides full_price/member_price alike, same as before.
+  firstBookingPriceCents: number | null = null
 ): Promise<BookingRule> {
   const offering = await prisma.offering.findUniqueOrThrow({
     where: { id: offeringId },
@@ -50,7 +54,10 @@ export async function resolveBookingRule(
 
   if (offering.pricingModel === "free" || offering.creditRule === "free") return { kind: "free" };
 
-  const isCompanion = offering.companionPriceCents !== null && currentBookedCount >= 1;
+  const isCompanion = offering.companionPriceCents !== null && firstBookingPriceCents !== null;
+  const companionChargeCents = isCompanion
+    ? Math.max(0, offering.companionPriceCents! - firstBookingPriceCents!)
+    : null;
 
   const memberships = await prisma.athleteMembership.findMany({
     where: { athleteId, status: "active" },
@@ -81,7 +88,7 @@ export async function resolveBookingRule(
   if (memberships.length === 0) {
     return {
       kind: "full_price",
-      priceCents: isCompanion ? offering.companionPriceCents : offering.priceCents,
+      priceCents: isCompanion ? companionChargeCents : offering.priceCents,
       memberPriceCents: isCompanion ? null : offering.memberPriceCents,
     };
   }
@@ -99,7 +106,7 @@ export async function resolveBookingRule(
         ? { kind: "included", planName: m.plan.name }
         : {
             kind: "full_price",
-            priceCents: isCompanion ? offering.companionPriceCents : offering.priceCents,
+            priceCents: isCompanion ? companionChargeCents : offering.priceCents,
             memberPriceCents: isCompanion ? null : offering.memberPriceCents,
           };
     }
@@ -166,12 +173,12 @@ export async function resolveBookingRule(
       return m
         ? {
             kind: "member_price",
-            priceCents: isCompanion ? offering.companionPriceCents : offering.memberPriceCents ?? offering.priceCents,
+            priceCents: isCompanion ? companionChargeCents : offering.memberPriceCents ?? offering.priceCents,
             planName: m.plan.name,
           }
         : {
             kind: "full_price",
-            priceCents: isCompanion ? offering.companionPriceCents : offering.priceCents,
+            priceCents: isCompanion ? companionChargeCents : offering.priceCents,
             memberPriceCents: isCompanion ? null : offering.memberPriceCents,
           };
     }
@@ -180,7 +187,7 @@ export async function resolveBookingRule(
     default:
       return {
         kind: "full_price",
-        priceCents: isCompanion ? offering.companionPriceCents : offering.priceCents,
+        priceCents: isCompanion ? companionChargeCents : offering.priceCents,
         memberPriceCents: isCompanion ? null : offering.memberPriceCents,
       };
   }

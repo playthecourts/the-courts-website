@@ -102,9 +102,13 @@ export async function loadParentFeed(
       offering: { include: { program: true } },
       resource: { select: { name: true } },
       coaches: { include: { staff: { select: { name: true } } } },
+      // Not filtered to this family's athletes: a "bring a teammate" price
+      // needs to know what the FIRST booker on the session paid, and that
+      // first booker is very often a different family entirely.
       bookings: {
-        where: { athleteId: { in: athleteIds }, status: { not: "cancelled" } },
-        select: { athleteId: true },
+        where: { status: { not: "cancelled" } },
+        select: { athleteId: true, priceChargedCents: true, bookedAt: true },
+        orderBy: { bookedAt: "asc" },
       },
       waitlistEntries: {
         where: { athleteId: { in: athleteIds }, status: { in: ["waiting", "offered"] } },
@@ -168,7 +172,9 @@ export async function loadParentFeed(
       // computing a Training Plan rule for a child who isn't eligible.
       const ruleText =
         check.eligible && !hasSeat
-          ? describeBookingRule(await resolveBookingRule(athlete.id, o.id, s.startTime, s._count.bookings))
+          ? describeBookingRule(
+              await resolveBookingRule(athlete.id, o.id, s.startTime, s.bookings[0]?.priceChargedCents ?? null)
+            )
           : "";
 
       perAthlete.push({

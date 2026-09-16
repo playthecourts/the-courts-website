@@ -183,7 +183,7 @@ export default async function MembershipsPage({
             itemName={purchasedPlanName ?? "Membership"}
           />
           <p className="rounded-lg border border-orange bg-white px-4 py-3 font-body text-sm text-black">
-            You&rsquo;re in — your Training Plan is active.
+            You&rsquo;re in — your Membership is active.
           </p>
         </>
       )}
