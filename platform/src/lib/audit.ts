@@ -47,7 +47,9 @@ export type AuditAction =
   // --- NextGen transfer reconciliation ---
   | "verify_nextgen_founder"
   | "mark_nextgen_not_eligible"
-  | "set_nextgen_legacy_rate";
+  | "set_nextgen_legacy_rate"
+  // --- Training plan credits ---
+  | "grant_drop_in_credits";
 
 export async function auditLog(
   staffUserId: string,

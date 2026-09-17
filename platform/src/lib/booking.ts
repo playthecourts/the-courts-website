@@ -159,14 +159,14 @@ export async function bookAthleteIntoSession(
       // check both here rather than threading a separate flag through.
       if (creditSource && UUID_RE.test(creditSource) && priceChargedCents === 0 && needsPayment === false) {
         const isPackCredit = await tx.credit.findFirst({
-          where: { id: creditSource, creditType: "dr_dish_ten_pack" },
-          select: { id: true },
+          where: { id: creditSource, creditType: { in: ["dr_dish_ten_pack", "drop_in_pack"] } },
+          select: { id: true, creditType: true },
         });
         if (isPackCredit) {
           await tx.$executeRaw`SELECT id FROM credits WHERE id = ${creditSource} FOR UPDATE`;
           const credit = await tx.credit.findUniqueOrThrow({ where: { id: creditSource } });
           if (credit.balance < 1) {
-            throw new Error("That 10-pack was just used up — refresh and try a different option.");
+            throw new Error("That credit pack was just used up — refresh and try a different option.");
           }
           const balanceAfter = credit.balance - 1;
           await tx.credit.update({
@@ -178,7 +178,8 @@ export async function bookAthleteIntoSession(
               creditId: creditSource,
               delta: -1,
               balanceAfter,
-              reason: "Dr. Dish self-serve booking",
+              reason:
+                isPackCredit.creditType === "dr_dish_ten_pack" ? "Dr. Dish self-serve booking" : "Drop-in class booking",
               sessionId,
             },
           });
@@ -373,7 +374,7 @@ export async function cancelBookingById(bookingId: string) {
     if (shouldRestoreCredit && found.creditSource && UUID_RE.test(found.creditSource)) {
       await tx.$executeRaw`SELECT id FROM credits WHERE id = ${found.creditSource} FOR UPDATE`;
       const pack = await tx.credit.findFirst({
-        where: { id: found.creditSource, creditType: "dr_dish_ten_pack" },
+        where: { id: found.creditSource, creditType: { in: ["dr_dish_ten_pack", "drop_in_pack"] } },
       });
       if (pack) {
         const balanceAfter = pack.balance + 1;

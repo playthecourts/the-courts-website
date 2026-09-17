@@ -17,6 +17,7 @@ import {
 import { quarterLabel } from "@/lib/quarters";
 import { PageHeader, Card, CardHeader, Pill, EmptyState } from "../../_components/ui";
 import PickupInstructionForm from "./pickup-instruction-form";
+import DropInCreditsForm from "./drop-in-credits-form";
 
 export const dynamic = "force-dynamic";
 
@@ -53,6 +54,7 @@ export default async function OsAthletePage({ params }: { params: Promise<{ id: 
   const seeSensitive = can(actor, "families.viewSensitive");
   const seeCustody = can(actor, "athletes.viewCustody");
   const seeAudit = can(actor, "audit.view");
+  const manageCredits = can(actor, "plans.adjustCredits");
 
   const athlete = await prisma.athlete.findUniqueOrThrow({
     where: { id },
@@ -79,6 +81,14 @@ export default async function OsAthletePage({ params }: { params: Promise<{ id: 
   if (seeCustody && athlete.hasCustodyRestrictions) {
     await auditLog(actor.id, "view_custody_restrictions", "athlete", athlete.id);
   }
+
+  const dropInCredits = manageCredits
+    ? await prisma.credit.findMany({
+        where: { athleteId: athlete.id, creditType: "drop_in_pack" },
+        orderBy: { createdAt: "desc" },
+      })
+    : [];
+  const dropInBalance = dropInCredits.reduce((sum, c) => sum + (c.status === "issued" ? c.balance : 0), 0);
 
   const photoUrl = await signedPhotoUrl(athlete.photoPath);
   const prefs = coachingPreferenceLabels(athlete.coachingPreferences);
@@ -189,6 +199,45 @@ export default async function OsAthletePage({ params }: { params: Promise<{ id: 
           ))
         )}
       </Card>
+
+      {manageCredits && (
+        <Card>
+          <CardHeader
+            title="Drop-In Credits"
+            action={
+              <span className="font-body text-[13px] font-bold text-near-black">
+                {dropInBalance} remaining
+              </span>
+            }
+          />
+          <p className="border-t border-gray-mid px-4 py-3 font-body text-[12.5px] leading-snug text-gray-dark">
+            Comped sessions for a non-member family — draws down automatically the same way a
+            membership credit does when they book any regular drop-in class (not Dr. Dish, which
+            has its own pack).
+          </p>
+          <DropInCreditsForm athleteId={athlete.id} />
+          {dropInCredits.length > 0 && (
+            <div className="border-t border-gray-mid">
+              {dropInCredits.map((c) => (
+                <div
+                  key={c.id}
+                  className="flex items-center justify-between gap-3 border-t border-gray-mid px-4 py-2.5 first:border-t-0"
+                >
+                  <span className="min-w-0 font-body text-[13px] text-near-black">
+                    {c.source ?? "Grant"}
+                    <span className="block font-body text-[12px] text-gray-dark">
+                      {c.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    </span>
+                  </span>
+                  <Pill tone={c.status === "issued" ? "success" : "neutral"}>
+                    {c.balance} left · {c.status}
+                  </Pill>
+                </div>
+              ))}
+            </div>
+          )}
+        </Card>
+      )}
 
       {seeSensitive && (
         <Card>

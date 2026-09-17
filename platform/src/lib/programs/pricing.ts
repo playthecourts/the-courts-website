@@ -86,6 +86,19 @@ export async function resolveBookingRule(
   }
 
   if (memberships.length === 0) {
+    // Staff-granted drop-in credits (see os/athletes/[id]'s "Drop-In
+    // Credits" section) — a non-member family comped a fixed number of
+    // sessions across any regular drop-in class, same pack-credit mechanic
+    // as the Dr. Dish 10-pack above, just not scoped to one program. Skipped
+    // for Dr. Dish itself (that program keeps its own separate pack type)
+    // and for a companion booking (flat companion pricing always wins).
+    if (offering.program.programType !== "self_serve_dr_dish" && !isCompanion) {
+      const pack = await prisma.credit.findFirst({
+        where: { athleteId, creditType: "drop_in_pack", status: "issued", balance: { gt: 0 } },
+        orderBy: { createdAt: "asc" },
+      });
+      if (pack) return { kind: "uses_pack_credit", creditId: pack.id, remaining: pack.balance };
+    }
     return {
       kind: "full_price",
       priceCents: isCompanion ? companionChargeCents : offering.priceCents,

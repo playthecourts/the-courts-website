@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { getOsActor, assertAthleteAccess, OsAccessError } from "@/lib/os/dal";
+import { getOsActor, assertAthleteAccess, requireCapability, OsAccessError } from "@/lib/os/dal";
 import { can } from "@/lib/os/permissions";
 import { auditLog } from "@/lib/audit";
 import { recordProfileChange } from "@/lib/athlete-profile";
@@ -50,4 +50,46 @@ export async function setPickupInstruction(athleteId: string, formData: FormData
 
   revalidatePath(`/os/athletes/${athleteId}`);
   revalidatePath(`/coach/athletes/${athleteId}`);
+}
+
+/**
+ * Comps a fixed number of drop-in class sessions to an athlete who has no
+ * membership — same pack-credit mechanic already used for the Dr. Dish
+ * 10-pack (see lib/programs/pricing.ts's uses_pack_credit case and
+ * lib/booking.ts's consumption/restoration logic), just not scoped to one
+ * program. Each grant is its own Credit row (never topped into an existing
+ * one) so the ledger stays one entry per real decision to comp someone.
+ */
+export async function grantDropInCredits(athleteId: string, formData: FormData) {
+  const actor = await requireCapability("plans.adjustCredits");
+  await assertAthleteAccess(actor, athleteId);
+
+  const quantity = Number(formData.get("quantity"));
+  if (!Number.isInteger(quantity) || quantity <= 0 || quantity > 100) {
+    throw new Error("Enter a whole number of credits between 1 and 100.");
+  }
+  const note = String(formData.get("note") ?? "").trim();
+
+  const credit = await prisma.credit.create({
+    data: {
+      athleteId,
+      creditType: "drop_in_pack",
+      balance: quantity,
+      status: "issued",
+      source: note ? `Granted by ${actor.name} — ${note}` : `Granted by ${actor.name}`,
+    },
+  });
+
+  await prisma.creditLedgerEntry.create({
+    data: {
+      creditId: credit.id,
+      delta: quantity,
+      balanceAfter: quantity,
+      reason: note ? `Staff grant — ${note}` : "Staff grant",
+      staffUserId: actor.id,
+    },
+  });
+
+  await auditLog(actor.id, "grant_drop_in_credits", "athlete", athleteId, { quantity, note: note || null });
+  revalidatePath(`/os/athletes/${athleteId}`);
 }
