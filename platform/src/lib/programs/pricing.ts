@@ -81,7 +81,7 @@ export async function resolveBookingRule(
         where: { athleteId, creditType: "dr_dish_ten_pack", status: "issued", balance: { gt: 0 } },
         orderBy: { createdAt: "asc" },
       });
-      if (pack) return { kind: "uses_pack_credit", creditId: pack.id, remaining: pack.balance };
+      if (pack) return { kind: "uses_pack_credit", creditId: pack.id, remaining: pack.balance, packLabel: "10-Pack" };
     }
   }
 
@@ -97,7 +97,7 @@ export async function resolveBookingRule(
         where: { athleteId, creditType: "drop_in_pack", status: "issued", balance: { gt: 0 } },
         orderBy: { createdAt: "asc" },
       });
-      if (pack) return { kind: "uses_pack_credit", creditId: pack.id, remaining: pack.balance };
+      if (pack) return { kind: "uses_pack_credit", creditId: pack.id, remaining: pack.balance, packLabel: "Drop-In Credits" };
     }
     return {
       kind: "full_price",
