@@ -80,6 +80,19 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     },
   });
 
+  // A Current-NextGen family's legacy-rate subscription (startNextGenLegacyCheckout)
+  // keeps its self-reported rate only through Dec 31, 2026 — after that they're
+  // real Founders Membership customers at Founders' standard price. Converting
+  // the plain subscription into a 2-phase schedule right after Checkout creates
+  // it means Stripe enforces that date change on its own; nothing here has to
+  // remember to do it later.
+  const plan = await prisma.membershipPlan.findUnique({ where: { id: membershipPlanId } });
+  if (plan?.name === "NextGen Legacy Rate") {
+    await scheduleNextGenLegacyTransition(subscriptionId, subscription).catch((err) => {
+      console.error("Failed to schedule NextGen legacy → Founders transition", subscriptionId, err);
+    });
+  }
+
   // Family Unlimited covers a second athlete under this same subscription —
   // no separate Stripe object for them, same pattern as any other
   // manually-assigned (no stripeSubscriptionId) membership. linkedMembershipId
@@ -107,6 +120,54 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       });
     }
   }
+}
+
+// Dec 31, 2026, 11:59:59 PM Central (CDT, UTC-5) → Jan 1, 2027 00:00 Central.
+// The one-time cutoff every Current-NextGen legacy rate transitions at.
+const NEXTGEN_LEGACY_CUTOFF = new Date("2027-01-01T06:00:00.000Z");
+
+/// Converts a just-created legacy-rate subscription into a 3-phase schedule:
+/// the pre-anchor stub Stripe already creates when billing_cycle_anchor is in
+/// the future (unchanged, still no charge), the real legacy-rate period
+/// through Dec 31, then Founders Membership's real, standard price from Jan 1
+/// onward with no end date — Stripe just keeps renewing at that price once
+/// the schedule releases, same as any other subscription. proration_behavior
+/// "none" on every phase matches the anchor idiom used everywhere else in
+/// this app: no surprise mid-cycle charge at either boundary.
+async function scheduleNextGenLegacyTransition(subscriptionId: string, subscription: Stripe.Subscription) {
+  const foundersPlan = await prisma.membershipPlan.findFirst({ where: { name: "Founders Membership" } });
+  if (!foundersPlan?.stripePriceId) {
+    console.error("Founders Membership plan has no stripePriceId — cannot schedule NextGen transition", subscriptionId);
+    return;
+  }
+
+  const legacyItem = subscription.items.data[0];
+  if (!legacyItem) return;
+  const legacyPriceId = typeof legacyItem.price === "string" ? legacyItem.price : legacyItem.price.id;
+  const anchor = subscription.billing_cycle_anchor;
+  const cutoff = Math.floor(NEXTGEN_LEGACY_CUTOFF.getTime() / 1000);
+
+  const schedule = await stripe.subscriptionSchedules.create({ from_subscription: subscriptionId });
+  const stubStart = schedule.phases[0]?.start_date ?? anchor;
+
+  // Only keep the pre-anchor stub phase when there really is one (checkout
+  // happened before Oct 1, so billing_cycle_anchor was still in the future).
+  // A legacy checkout completed after Oct 1 has no future anchor at all —
+  // from_subscription then returns a single phase whose start already equals
+  // "now", and inserting a second zero-length phase on top of it would be
+  // invalid.
+  const legacyPhase = { items: [{ price: legacyPriceId, quantity: 1 }], start_date: anchor, end_date: cutoff, proration_behavior: "none" as const };
+  const foundersPhase = { items: [{ price: foundersPlan.stripePriceId, quantity: 1 }], start_date: cutoff, proration_behavior: "none" as const };
+  const phases =
+    stubStart < anchor
+      ? [
+          { items: [{ price: legacyPriceId, quantity: 1 }], start_date: stubStart, end_date: anchor, proration_behavior: "none" as const },
+          legacyPhase,
+          foundersPhase,
+        ]
+      : [legacyPhase, foundersPhase];
+
+  await stripe.subscriptionSchedules.update(schedule.id, { end_behavior: "release", phases });
 }
 
 // A real per-session/per-offering booking payment — see src/lib/booking.ts'
@@ -321,6 +382,20 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
+  // Which local plan this subscription's CURRENT price actually matches, if
+  // any — the signal that a scheduled phase transition (see
+  // scheduleNextGenLegacyTransition above) has taken effect on Stripe's
+  // side. An ad-hoc price_data price (the legacy rate itself) never matches
+  // a real catalog plan, so this only fires once Stripe has actually moved
+  // the subscription onto Founders' real Price — never speculatively.
+  const currentItem = subscription.items.data[0];
+  const currentPriceId = currentItem
+    ? typeof currentItem.price === "string" ? currentItem.price : currentItem.price.id
+    : null;
+  const matchedPlan = currentPriceId
+    ? await prisma.membershipPlan.findFirst({ where: { stripePriceId: currentPriceId } })
+    : null;
+
   // subscription.cancel_at is how a scheduled cancellation shows up (set by
   // cancelMembership below, or by anyone cancelling directly in the Stripe
   // Dashboard) — `status` stays "active" for the whole notice window, so
@@ -333,6 +408,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
       status: mapStatus(subscription.status),
       renewalDate: renewalDateFrom(subscription),
       cancelAt: subscription.cancel_at ? new Date(subscription.cancel_at * 1000) : null,
+      ...(matchedPlan ? { membershipPlanId: matchedPlan.id } : {}),
     },
   });
 }
