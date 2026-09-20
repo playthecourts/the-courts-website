@@ -20,6 +20,13 @@ export function SignupForm() {
   const next = searchParams.get("next") || "/my-courts";
   const [state, formAction, pending] = useActionState(signup, undefined);
   const [athletes, setAthletes] = useState<AthleteRow[]>([{ key: 0 }]);
+  // Set on mount (not render) so it reflects when a person actually opened
+  // the form; the server rejects submissions that arrive implausibly fast or
+  // without it. Kept in state so it survives React resetting the form after
+  // a failed submission.
+  const [openedAt, setOpenedAt] = useState(0);
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- must be a client-only timestamp (server render time would be wrong on hydration)
+  useEffect(() => setOpenedAt(Date.now()), []);
 
   // On a failed submission, the server hands back what was typed — re-sync the
   // athlete row count so defaultValue below can actually restore each one.
@@ -45,6 +52,13 @@ export function SignupForm() {
     <form action={formAction} className="flex flex-col gap-6">
       <input type="hidden" name="athleteCount" value={athletes.length} />
       <input type="hidden" name="next" value={next} />
+      <input type="hidden" name="form_opened_at" value={openedAt} />
+      <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" }}>
+        <label>
+          Leave this field empty
+          <input type="text" name="hp_field" tabIndex={-1} autoComplete="off" />
+        </label>
+      </div>
 
       <div className="flex flex-col gap-4">
         <h2 className="font-sport text-xs font-bold uppercase tracking-widest text-orange">

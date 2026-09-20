@@ -74,9 +74,29 @@ function readSignupValues(formData: FormData): SignupValues {
   };
 }
 
+// Two cheap bot tells, checked before anything is created (no Supabase user,
+// no Guardian, no staff alert email): a hidden field real people never see or
+// fill, and a form-opened timestamp a script that posts straight at this
+// action won't have — or will submit faster than a person can fill in a
+// whole family. Rejections get the same generic message either way so a bot
+// learns nothing about which check it tripped.
+const MIN_FORM_SECONDS = 3;
+
+function looksLikeBot(formData: FormData): boolean {
+  if (String(formData.get("hp_field") ?? "").trim() !== "") return true;
+  const openedAt = Number(formData.get("form_opened_at"));
+  if (!Number.isFinite(openedAt) || openedAt <= 0) return true;
+  return Date.now() - openedAt < MIN_FORM_SECONDS * 1000;
+}
+
 export async function signup(_prevState: unknown, formData: FormData) {
   const values = readSignupValues(formData);
   const password = formData.get("password") as string;
+
+  if (looksLikeBot(formData)) {
+    console.warn("[signup] rejected as likely bot", { email: values.email });
+    return { error: "Something went wrong. Please refresh the page and try again.", values };
+  }
 
   if (!values.name || !values.email || !password || !values.familyName) {
     return { error: "Fill in all required fields.", values };
