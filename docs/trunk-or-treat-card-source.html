@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Trunk or Treat — event card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --orange:#DE5019; --black:#0D0D0D; --white:#FFFFFF; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1600px; height: 900px; background: var(--black); overflow: hidden; }
+  .card { position: relative; width: 1600px; height: 900px; background: var(--black); overflow: hidden; }
+  .court { position: absolute; inset: 0; }
+  .ball { position: absolute; inset: 0; }
+
+  .partners {
+    position: absolute; left: 72px; top: 58px;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 36px;
+    letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.88);
+  }
+  .partners .x { color: var(--orange); padding: 0 .35em; }
+
+  .headline {
+    position: absolute; left: 66px; top: 118px;
+    font-family: 'Archivo Black', sans-serif; font-size: 178px; line-height: .86;
+    letter-spacing: -.012em; color: var(--white); text-transform: uppercase;
+  }
+  .headline .or { color: var(--orange); }
+
+  .stamp {
+    position: absolute; left: 790px; top: 108px; transform: rotate(-5deg);
+    background: var(--orange); color: var(--black); padding: 10px 20px 12px;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800; text-transform: uppercase;
+    box-shadow: 6px 6px 0 var(--white);
+  }
+  .stamp .big { display: block; font-size: 46px; line-height: .92; letter-spacing: .01em; }
+  .stamp .small { display: block; margin-top: 6px; padding-top: 6px; border-top: 3px solid var(--black);
+    font-size: 24px; letter-spacing: .16em; }
+
+  .date {
+    position: absolute; left: 72px; top: 500px;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 100px; line-height: 1;
+    letter-spacing: .015em; text-transform: uppercase; color: var(--white);
+    padding-bottom: 14px; border-bottom: 10px solid var(--orange);
+  }
+  .date em { font-style: normal; color: var(--orange); }
+
+  .band { position: absolute; left: 0; right: 0; bottom: 0; height: 158px; background: var(--orange);
+    display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; padding: 0 72px; }
+  .act { display: flex; align-items: center; gap: 14px; height: 84px; padding: 0 18px;
+    border-left: 4px solid var(--black); }
+  .act:first-child { border-left: 0; padding-left: 0; }
+  .act svg { flex: none; width: 66px; height: 66px; }
+  .act span { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 43px; line-height: .92;
+    text-transform: uppercase; color: var(--black); letter-spacing: .01em; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- graphic court lines -->
+  <svg class="court" viewBox="0 0 1600 900" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="6">
+    <path d="M 800 900 A 600 600 0 0 1 2000 900"/>
+    <rect x="1230" y="440" width="320" height="480"/>
+    <path d="M 1230 440 A 160 160 0 0 1 1550 440"/>
+    <path d="M 1230 440 A 160 160 0 0 0 1550 440" stroke-dasharray="14 16"/>
+    <line x1="0" y1="640" x2="1600" y2="640"/>
+  </svg>
+
+  <!-- basketball jack-o'-lantern + spilled candy -->
+  <svg class="ball" viewBox="0 0 1600 900"><g transform="translate(1390 365) scale(.92) translate(-1290 -395)">
+    <defs><clipPath id="clipBall"><circle cx="1290" cy="395" r="185"/></clipPath></defs>
+    <!-- offset sticker ring -->
+    <circle cx="1310" cy="415" r="185" fill="#0D0D0D" stroke="#fff" stroke-width="6"/>
+    <circle cx="1290" cy="395" r="185" fill="#DE5019"/>
+    <g clip-path="url(#clipBall)" stroke="#8E2F08" stroke-width="9" fill="none" stroke-linecap="round">
+      <line x1="1290" y1="200" x2="1290" y2="600"/>
+      <line x1="1090" y1="395" x2="1490" y2="395"/>
+      <path d="M 1170 255 Q 1250 395 1170 535"/>
+      <path d="M 1410 255 Q 1330 395 1410 535"/>
+    </g>
+    <!-- carved face -->
+    <g fill="#0D0D0D">
+      <polygon points="1180,365 1250,365 1215,300"/>
+      <polygon points="1330,365 1400,365 1365,300"/>
+      <polygon points="1276,405 1304,405 1290,378"/>
+      <polygon points="1175,435 1405,435 1370,505 1335,483 1305,513 1275,485 1245,513 1210,483"/>
+    </g>
+    <!-- stem -->
+    <polygon points="1276,218 1282,150 1314,156 1308,214" fill="#0D0D0D" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+
+    </g>
+    <!-- candy spilling along the court line -->
+    <g stroke-linejoin="round" stroke-width="4">
+      <g transform="translate(1052 690) rotate(-22)"><polygon points="-30,0 -54,-16 -54,16" fill="#fff" stroke="#0D0D0D"/><polygon points="30,0 54,-16 54,16" fill="#fff" stroke="#0D0D0D"/><rect x="-30" y="-17" width="60" height="34" rx="15" fill="#DE5019" stroke="#fff"/></g>
+      <g transform="translate(1176 716) rotate(14)"><polygon points="-30,0 -54,-16 -54,16" fill="#fff"/><polygon points="30,0 54,-16 54,16" fill="#fff"/><rect x="-30" y="-17" width="60" height="34" rx="15" fill="#fff" stroke="#0D0D0D"/><line x1="-8" y1="-15" x2="-14" y2="15" stroke="#DE5019"/><line x1="8" y1="-15" x2="2" y2="15" stroke="#DE5019"/></g>
+      <g transform="translate(1290 690) rotate(-8)"><polygon points="-30,0 -54,-16 -54,16" fill="#fff"/><polygon points="30,0 54,-16 54,16" fill="#fff"/><rect x="-30" y="-17" width="60" height="34" rx="15" fill="#0D0D0D" stroke="#fff"/></g>
+      <g transform="translate(1398 720) rotate(24)"><polygon points="-30,0 -54,-16 -54,16" fill="#fff" stroke="#0D0D0D"/><polygon points="30,0 54,-16 54,16" fill="#fff" stroke="#0D0D0D"/><rect x="-30" y="-17" width="60" height="34" rx="15" fill="#DE5019" stroke="#fff"/></g>
+      <g transform="translate(1500 686) rotate(-16)"><polygon points="-30,0 -54,-16 -54,16" fill="#fff"/><polygon points="30,0 54,-16 54,16" fill="#fff"/><rect x="-30" y="-17" width="60" height="34" rx="15" fill="#fff" stroke="#0D0D0D"/><line x1="-8" y1="-15" x2="-14" y2="15" stroke="#DE5019"/><line x1="8" y1="-15" x2="2" y2="15" stroke="#DE5019"/></g>
+    </g>
+  </svg>
+
+  <div class="partners">The Courts<span class="x">×</span>Summit Sports</div>
+
+  <div class="headline">Trunk<br><span class="or">or</span> Treat</div>
+
+  <div class="stamp">
+    <span class="big">A Community<br>Event</span>
+    <span class="small">at The Courts</span>
+  </div>
+
+  <div class="date">Saturday, <em>October 24</em></div>
+
+  <div class="band">
+    <div class="act">
+      <svg viewBox="0 0 64 64" fill="none" stroke="#0D0D0D" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><rect x="17" y="21" width="30" height="22" rx="11"/><polygon points="17,32 4,22 4,42"/><polygon points="47,32 60,22 60,42"/></svg>
+      <span>Trunk<br>or Treat</span>
+    </div>
+    <div class="act">
+      <svg viewBox="0 0 64 64" fill="none" stroke="#0D0D0D" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><rect x="10" y="6" width="44" height="26" rx="2"/><rect x="24" y="16" width="16" height="12"/><path d="M22 36 h20 M24 36 l4 20 M40 36 l-4 20 M32 36 v20"/></svg>
+      <span>Open<br>Gym</span>
+    </div>
+    <div class="act">
+      <svg viewBox="0 0 64 64" fill="none" stroke="#0D0D0D" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path d="M14 8 h36 v14 a18 18 0 0 1 -36 0 z"/><path d="M14 14 h-8 a8 10 0 0 0 10 14 M50 14 h8 a8 10 0 0 1 -10 14"/><path d="M32 40 v10 M20 56 h24"/></svg>
+      <span>Costume<br>Contest</span>
+    </div>
+    <div class="act">
+      <svg viewBox="0 0 64 64" fill="none" stroke="#0D0D0D" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path d="M4 18 h34 v26 h-34 z"/><path d="M38 26 h12 l10 10 v8 h-22"/><circle cx="17" cy="47" r="6" fill="#DE5019"/><circle cx="48" cy="47" r="6" fill="#DE5019"/></svg>
+      <span>Food<br>Trucks</span>
+    </div>
+    <div class="act">
+      <svg viewBox="0 0 64 64" fill="none" stroke="#0D0D0D" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path d="M6 24 L14 8 h36 l8 16 z"/><path d="M6 24 q6 8 13 0 q6 8 13 0 q6 8 13 0 q6 8 13 0"/><path d="M12 30 v26 M52 30 v26 M12 56 h40"/></svg>
+      <span>Local<br>Vendors</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
