@@ -254,6 +254,22 @@ export default async function OsAthletePage({ params }: { params: Promise<{ id: 
                 ))
               : (athlete.emergencyContact ?? "None on file")}
           </Row>
+          <Row label="Primary Doctor">
+            {athlete.primaryDoctorName || athlete.primaryDoctorPhone ? (
+              <>
+                {athlete.primaryDoctorName ?? "Name not given"}
+                {athlete.primaryDoctorPhone ? ` · ${athlete.primaryDoctorPhone}` : ""}
+                {athlete.primaryDoctorNotes && <span className="block text-gray-dark">{athlete.primaryDoctorNotes}</span>}
+              </>
+            ) : (
+              "None on file"
+            )}
+          </Row>
+          <Row label="Preferred Hospital">
+            {athlete.preferredHospital
+              ? `${athlete.preferredHospital}${athlete.preferredHospitalLocation ? ` · ${athlete.preferredHospitalLocation}` : ""} (preference only)`
+              : "None on file"}
+          </Row>
           {seeCustody && (
             <>
               <Row label="Custody / Contact Restrictions">

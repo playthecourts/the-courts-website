@@ -205,6 +205,16 @@ model Athlete {
   /// read as a fallback when an athlete has no structured contact yet.
   emergencyContact String?  @map("emergency_contact")
 
+  /// Per-athlete, never shared across siblings unless the parent copies it
+  /// explicitly in the form. Deliberately minimal — not a medical record.
+  primaryDoctorName      String? @map("primary_doctor_name")
+  primaryDoctorPhone     String? @map("primary_doctor_phone")
+  primaryDoctorNotes     String? @map("primary_doctor_notes")
+  /// A preference shared with responders when appropriate — never a promise
+  /// of where an athlete is taken.
+  preferredHospital         String? @map("preferred_hospital")
+  preferredHospitalLocation String? @map("preferred_hospital_location")
+
   hasCustodyRestrictions Boolean @default(false) @map("has_custody_restrictions")
   /// HIGHLY RESTRICTED. Owner/admin/front desk only — never rendered in the
   /// Coach App, at any role.

@@ -378,8 +378,11 @@ export async function saveFamilySafety(_prev: ActionState, formData: FormData): 
   const hasMedicalInfo = str(formData, "hasMedicalInfo") === "yes";
   const medicalNotes = hasMedicalInfo ? optional(formData, "medicalNotes") : null;
 
-  const hasCustodyRestrictions = str(formData, "hasCustodyRestrictions") === "yes";
-  const custodyRestrictions = hasCustodyRestrictions ? optional(formData, "custodyRestrictions") : null;
+  const primaryDoctorName = optional(formData, "primaryDoctorName");
+  const primaryDoctorPhone = optional(formData, "primaryDoctorPhone");
+  const primaryDoctorNotes = optional(formData, "primaryDoctorNotes");
+  const preferredHospital = optional(formData, "preferredHospital");
+  const preferredHospitalLocation = optional(formData, "preferredHospitalLocation");
 
   function readContact(prefix: "primary" | "backup") {
     const useGuardianId = optional(formData, `${prefix}GuardianId`);
@@ -400,9 +403,6 @@ export async function saveFamilySafety(_prev: ActionState, formData: FormData): 
 
   const errors: Record<string, string> = {};
   if (hasMedicalInfo && !medicalNotes) errors.medicalNotes = "Tell us what our staff should know.";
-  if (hasCustodyRestrictions && !custodyRestrictions) {
-    errors.custodyRestrictions = "Tell us what our staff needs to know.";
-  }
   if (!primary.name) errors.primaryName = "We need a name.";
   if (!primary.relationship) errors.primaryRelationship = "How are they related?";
   if (!primary.phone) errors.primaryPhone = "We need a phone number.";
@@ -423,11 +423,11 @@ export async function saveFamilySafety(_prev: ActionState, formData: FormData): 
       data: {
         hasMedicalInfo,
         medicalNotes,
-        hasCustodyRestrictions,
-        custodyRestrictions,
-        // Clearing the restriction clears the coach-facing instruction with
-        // it — an instruction that outlives its reason is worse than none.
-        custodyStaffInstruction: hasCustodyRestrictions ? athlete.custodyStaffInstruction : null,
+        primaryDoctorName,
+        primaryDoctorPhone,
+        primaryDoctorNotes,
+        preferredHospital,
+        preferredHospitalLocation,
       },
     });
 
@@ -459,13 +459,21 @@ export async function saveFamilySafety(_prev: ActionState, formData: FormData): 
     before: athlete.medicalNotes,
     after: medicalNotes,
   });
-  await recordIfChanged({
+  await recordProfileChange({
     athleteId: athlete.id,
     actor,
-    category: "custody",
-    field: "custody_restrictions",
-    before: athlete.custodyRestrictions,
-    after: custodyRestrictions,
+    category: "emergency",
+    field: "primary_doctor",
+    oldValue: athlete.primaryDoctorName,
+    newValue: primaryDoctorName,
+  });
+  await recordProfileChange({
+    athleteId: athlete.id,
+    actor,
+    category: "emergency",
+    field: "preferred_hospital",
+    oldValue: athlete.preferredHospital,
+    newValue: preferredHospital,
   });
   await recordProfileChange({
     athleteId: athlete.id,

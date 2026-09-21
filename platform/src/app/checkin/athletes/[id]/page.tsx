@@ -59,6 +59,11 @@ export default async function CheckinAthletePage({
       custodyRestrictions: true,
       custodyStaffInstruction: true,
       emergencyContact: true,
+      primaryDoctorName: true,
+      primaryDoctorPhone: true,
+      primaryDoctorNotes: true,
+      preferredHospital: true,
+      preferredHospitalLocation: true,
       emergencyContacts: { orderBy: { sortOrder: "asc" } },
       authorizedPickups: { where: { active: true } },
       mediaConsent: { select: { status: true } },
@@ -156,6 +161,29 @@ export default async function CheckinAthletePage({
           ) : (
             <span>{athlete.emergencyContact || "None on file."}</span>
           )}
+        </Row>
+
+        <Row label="Primary Doctor">
+          {athlete.primaryDoctorName || athlete.primaryDoctorPhone ? (
+            <>
+              {athlete.primaryDoctorName ?? "Name not given"}
+              {athlete.primaryDoctorPhone && (
+                <>
+                  {" · "}
+                  <Phone value={athlete.primaryDoctorPhone} />
+                </>
+              )}
+              {athlete.primaryDoctorNotes && <span className="block">{athlete.primaryDoctorNotes}</span>}
+            </>
+          ) : (
+            "None on file."
+          )}
+        </Row>
+
+        <Row label="Preferred Hospital">
+          {athlete.preferredHospital
+            ? `${athlete.preferredHospital}${athlete.preferredHospitalLocation ? ` · ${athlete.preferredHospitalLocation}` : ""} (preference only; responders decide)`
+            : "None on file."}
         </Row>
 
         <Row label="Parents + Guardians">

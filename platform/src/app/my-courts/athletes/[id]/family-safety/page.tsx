@@ -29,7 +29,9 @@ export default async function FamilySafetyPage({ params }: { params: Promise<{ i
         ? "No emergency contact yet"
         : !backupContact
           ? `${primaryContact.name} · Backup contact needed`
-          : `${primaryContact.name} · Complete`,
+          : athlete.primaryDoctorName || athlete.preferredHospital
+            ? `${primaryContact.name} · Complete`
+            : `${primaryContact.name} · Add doctor + hospital (optional)`,
     },
     {
       href: `${base}/guardians`,

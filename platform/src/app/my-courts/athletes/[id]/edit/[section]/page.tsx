@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getGuardianAthleteOrNull } from "@/lib/athlete-profile";
 import { signedPhotoUrl } from "@/lib/athlete-photo";
 import { displayName } from "@/lib/athlete";
+import { prisma } from "@/lib/prisma";
 import PhotoPicker from "@/components/athlete/photo-picker";
 import AboutForm from "@/components/athlete/forms/about-form";
 import FamilySafetyForm from "@/components/athlete/forms/family-safety-form";
@@ -54,6 +55,24 @@ export default async function EditSectionPage({
     hasLogin: Boolean(fg.guardian.authId),
   }));
 
+  // Siblings' provider info feeds the explicit "use the same as…" button only.
+  const siblingRows =
+    section === "safety"
+      ? (
+          await prisma.athlete.findMany({
+            where: { familyId: athlete.familyId, id: { not: athlete.id } },
+            orderBy: { createdAt: "asc" },
+          })
+        ).map((sb) => ({
+          id: sb.id,
+          name: displayName(sb),
+          doctorName: sb.primaryDoctorName ?? "",
+          doctorPhone: sb.primaryDoctorPhone ?? "",
+          hospital: sb.preferredHospital ?? "",
+          hospitalLocation: sb.preferredHospitalLocation ?? "",
+        }))
+      : [];
+
   return (
     <div>
       <Link
@@ -95,6 +114,7 @@ export default async function EditSectionPage({
               athlete={athlete}
               displayName={name}
               guardians={guardianRows}
+              siblings={siblingRows}
               nextHref={done}
             />
           </>
