@@ -1,10 +1,8 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
-import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { stripe, getOrCreateStripeCustomer } from "@/lib/stripe";
 import {
   sendMembershipSetupFailedAlert,
@@ -51,10 +49,7 @@ export async function createLeaguePaymentIntent(athleteId: string) {
     throw new Error("Not authorized to act on this athlete.");
   }
 
-  const unsigned = await getUnsignedRequiredWaivers(guardian.id, athleteId);
-  if (unsigned.length > 0) {
-    redirect("/my-courts/waivers?required=league&back=%2Fmy-courts%2Fleague");
-  }
+  // Waivers are intentionally not required for League registration.
 
   const offering = await prisma.offering.findFirstOrThrow({
     where: { name: "Fall 2026 Basketball League" },
