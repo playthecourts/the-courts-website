@@ -1,0 +1,145 @@
+import { requireCapability } from "@/lib/os/dal";
+import { can } from "@/lib/os/permissions";
+import { prisma } from "@/lib/prisma";
+import { displayName } from "@/lib/athlete";
+import { PageHeader, Card, CardHeader, EmptyState, Pill, BTN, INPUT, SELECT, PAYMENT_TONE } from "../_components/ui";
+import { autoPlaceByGrade, createLeagueTeam, placeOnTeam, removeFromTeam } from "./actions";
+
+export const dynamic = "force-dynamic";
+
+// Fall League placement: registered players on the left, team rosters below.
+// Placing a player writes the same TeamMember row the parent's League page
+// reads, so a family sees "Team Orange" the moment it's saved.
+
+export default async function LeaguesPage() {
+  const actor = await requireCapability("leagues.view");
+  const canManage = can(actor, "leagues.manage");
+
+  const offering = await prisma.offering.findFirst({ where: { name: "Fall 2026 Basketball League" } });
+  if (!offering) {
+    return (
+      <>
+        <PageHeader title="Leagues + Teams" />
+        <EmptyState headline="No league set up" detail="The Fall 2026 Basketball League offering wasn't found." />
+      </>
+    );
+  }
+
+  const [teams, regRows] = await Promise.all([
+    prisma.team.findMany({
+      where: { offeringId: offering.id },
+      orderBy: { createdAt: "asc" },
+      include: { members: { include: { athlete: true }, orderBy: { joinedAt: "asc" } } },
+    }),
+    prisma.registration.findMany({
+      where: { offeringId: offering.id, status: { in: ["registered", "admin_review", "incomplete"] } },
+    }),
+  ]);
+  const athletes = await prisma.athlete.findMany({ where: { id: { in: regRows.map((r) => r.athleteId) } } });
+  const athleteById = new Map(athletes.map((a) => [a.id, a]));
+  const registrations = regRows
+    .map((r) => ({ ...r, athlete: athleteById.get(r.athleteId)! }))
+    .filter((r) => r.athlete)
+    .sort((a, b) => a.athlete.lastName.localeCompare(b.athlete.lastName));
+
+  const placedIds = new Set(teams.flatMap((t) => t.members.map((m) => m.athleteId)));
+  const unplaced = registrations.filter((r) => !placedIds.has(r.athleteId));
+  const teamOf = new Map(teams.flatMap((t) => t.members.map((m) => [m.athleteId, t.name] as const)));
+
+  return (
+    <>
+      <PageHeader
+        eyebrow="Fall League"
+        title="Leagues + Teams"
+        subtitle={`${registrations.length} registered · ${placedIds.size} placed · ${unplaced.length} waiting for a team`}
+      />
+
+      {canManage && unplaced.length > 0 && (
+        <form action={autoPlaceByGrade} className="mb-5">
+          <button className={BTN.secondary}>Auto-place by grade (3rd/4th split Orange + Black, 6th/7th White)</button>
+        </form>
+      )}
+
+      <div className="grid gap-5 lg:grid-cols-3">
+        {teams.map((t) => (
+          <Card key={t.id}>
+            <CardHeader title={t.name} count={t.members.length} />
+            {t.division && <p className="px-4 pt-3 text-sm text-gray-dark">{t.division}</p>}
+            <ul className="divide-y divide-gray-mid">
+              {t.members.length === 0 && <li className="px-4 py-4 text-sm text-gray-dark">No players yet.</li>}
+              {t.members.map((m) => (
+                <li key={m.athleteId} className="flex items-center justify-between gap-3 px-4 py-3">
+                  <span className="text-sm text-near-black">
+                    {displayName(m.athlete)} {m.athlete.lastName}
+                    <span className="ml-2 text-gray-dark">Grade {m.athlete.grade ?? "—"}</span>
+                  </span>
+                  {canManage && (
+                    <form action={removeFromTeam}>
+                      <input type="hidden" name="athleteId" value={m.athleteId} />
+                      <input type="hidden" name="teamId" value={t.id} />
+                      <button className="text-xs font-bold uppercase tracking-wide text-gray-dark hover:text-danger">
+                        Remove
+                      </button>
+                    </form>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </Card>
+        ))}
+      </div>
+
+      <Card className="mt-5">
+        <CardHeader title="Registered — Needs a Team" count={unplaced.length} />
+        {unplaced.length === 0 ? (
+          <p className="px-4 py-4 text-sm text-gray-dark">Everyone registered has a team.</p>
+        ) : (
+          <ul className="divide-y divide-gray-mid">
+            {unplaced.map((r) => (
+              <li key={r.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
+                <span className="text-sm text-near-black">
+                  {displayName(r.athlete)} {r.athlete.lastName}
+                  <span className="ml-2 text-gray-dark">Grade {r.athlete.grade ?? "—"}</span>
+                  <span className="ml-2">
+                    <Pill tone={PAYMENT_TONE[r.paymentStatus] ?? "neutral"}>{r.paymentStatus}</Pill>
+                  </span>
+                </span>
+                {canManage && (
+                  <form action={placeOnTeam} className="flex items-center gap-2">
+                    <input type="hidden" name="athleteId" value={r.athleteId} />
+                    <select name="teamId" required defaultValue="" className={SELECT}>
+                      <option value="" disabled>Choose team…</option>
+                      {teams.map((t) => (
+                        <option key={t.id} value={t.id}>{t.name}</option>
+                      ))}
+                    </select>
+                    <button className={BTN.primary}>Place</button>
+                  </form>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card>
+
+      {registrations.some((r) => teamOf.has(r.athleteId)) && null}
+
+      {canManage && (
+        <Card className="mt-5">
+          <CardHeader title="Add a Team" />
+          <form action={createLeagueTeam} className="flex flex-wrap items-end gap-3 px-4 py-4">
+            <label className="flex flex-col gap-1 text-xs font-bold uppercase tracking-wide text-gray-dark">
+              Team name
+              <input name="name" required placeholder="Team Blue" className={INPUT} />
+            </label>
+            <label className="flex flex-col gap-1 text-xs font-bold uppercase tracking-wide text-gray-dark">
+              Division
+              <input name="division" placeholder="3rd/4th Grade" className={INPUT} />
+            </label>
+            <button className={BTN.secondary}>Add Team</button>
+          </form>
+        </Card>
+      )}
+    </>
+  );
+}
