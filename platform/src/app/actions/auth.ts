@@ -284,5 +284,8 @@ export async function updatePassword(_prevState: unknown, formData: FormData) {
     return { error: "Something went wrong. Try again." };
   }
 
-  redirect("/my-courts");
+  // Staff-only accounts (no parent profile) would bounce off /my-courts back
+  // to the login page, which reads like the new password didn't work.
+  const isParent = await prisma.guardian.findUnique({ where: { authId: user.id }, select: { id: true } });
+  redirect(isParent ? "/my-courts" : "/os");
 }
