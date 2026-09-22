@@ -168,6 +168,30 @@ async function scheduleNextGenLegacyTransition(subscriptionId: string, subscript
       : [legacyPhase, foundersPhase];
 
   await stripe.subscriptionSchedules.update(schedule.id, { end_behavior: "release", phases });
+
+  // Defensive verification: a real case (Daniel Gwydir, Sept 2026) showed
+  // Stripe can silently keep the ALREADY-STARTED phase's original item price
+  // instead of the one we just set, even though this update call reported
+  // success and every later phase was correct. Rather than trust the
+  // response, re-read the live subscription and force-correct the current
+  // item if it doesn't match what phases[0] actually asked for — cheap,
+  // and it's the only way to guarantee a family's real bill matches what
+  // this function just configured.
+  const expectedCurrentPriceId = phases[0].items[0].price;
+  const verify = await stripe.subscriptions.retrieve(subscriptionId);
+  const actualCurrentPriceId =
+    typeof verify.items.data[0].price === "string" ? verify.items.data[0].price : verify.items.data[0].price.id;
+  if (actualCurrentPriceId !== expectedCurrentPriceId) {
+    console.error(
+      "NextGen legacy schedule left the live subscription on the wrong price — correcting",
+      { subscriptionId, expected: expectedCurrentPriceId, was: actualCurrentPriceId }
+    );
+    const itemId = verify.items.data[0].id;
+    await stripe.subscriptions.update(subscriptionId, {
+      items: [{ id: itemId, price: expectedCurrentPriceId }],
+      proration_behavior: "none",
+    });
+  }
 }
 
 // A real per-session/per-offering booking payment — see src/lib/booking.ts'
