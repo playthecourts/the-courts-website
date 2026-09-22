@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireCapability, OsAccessError, assertOfferingAccess } from "@/lib/os/dal";
 import { canForSport } from "@/lib/os/permissions";
-import { auditLog } from "@/lib/audit";
 import { syncOfferingToStripe } from "@/lib/programs/stripe-link";
 import { checkReadiness } from "@/lib/programs/publish";
 import { cloneOffering, captureTemplate } from "@/lib/programs/templates";
@@ -36,7 +35,7 @@ function touch(offeringId: string) {
 /* ------------------------------------------------------------------ details */
 
 export async function updateOfferingDetails(offeringId: string, formData: FormData) {
-  const { actor } = await loadForEdit(offeringId, "programs.edit");
+  await loadForEdit(offeringId, "programs.edit");
 
   await prisma.offering.update({
     where: { id: offeringId },
@@ -80,7 +79,6 @@ export async function updateOfferingDetails(offeringId: string, formData: FormDa
     },
   });
 
-  await auditLog(actor.id, "publish_offering", "offering", offeringId, { field: "details" });
   touch(offeringId);
   return { ok: true as const };
 }
@@ -90,12 +88,7 @@ export async function updateOfferingDetails(offeringId: string, formData: FormDa
 export async function updateOfferingPricing(offeringId: string, formData: FormData) {
   // Pricing is its own capability. Marketing may edit copy and images; it may
   // not change what a family is charged.
-  const { actor, offering } = await loadForEdit(offeringId, "programs.edit");
-
-  const before = await prisma.offering.findUniqueOrThrow({
-    where: { id: offeringId },
-    select: { priceCents: true, memberPriceCents: true },
-  });
+  await loadForEdit(offeringId, "programs.edit");
 
   const priceCents = cents(formData, "priceCents");
   const memberPriceCents = cents(formData, "memberPriceCents");
@@ -115,29 +108,13 @@ export async function updateOfferingPricing(offeringId: string, formData: FormDa
     },
   });
 
-  if (before.priceCents !== priceCents || before.memberPriceCents !== memberPriceCents) {
-    await auditLog(actor.id, "change_price", "offering", offeringId, {
-      previousPriceCents: before.priceCents,
-      newPriceCents: priceCents,
-      previousMemberPriceCents: before.memberPriceCents,
-      newMemberPriceCents: memberPriceCents,
-      offering: offering.id,
-    });
-  }
-
   touch(offeringId);
   return { ok: true as const };
 }
 
 export async function connectStripe(offeringId: string) {
-  const { actor } = await loadForEdit(offeringId, "programs.publish");
+  await loadForEdit(offeringId, "programs.publish");
   const result = await syncOfferingToStripe(offeringId);
-  if (result.ok) {
-    await auditLog(actor.id, "link_stripe", "offering", offeringId, {
-      productId: result.productId,
-      priceId: result.priceId,
-    });
-  }
   touch(offeringId);
   return result;
 }
@@ -145,7 +122,7 @@ export async function connectStripe(offeringId: string) {
 /* ---------------------------------------------------------------- visibility */
 
 export async function updateVisibility(offeringId: string, formData: FormData) {
-  const { actor } = await loadForEdit(offeringId, "programs.edit");
+  await loadForEdit(offeringId, "programs.edit");
   await prisma.offering.update({
     where: { id: offeringId },
     data: {
@@ -155,7 +132,6 @@ export async function updateVisibility(offeringId: string, formData: FormData) {
       internalOnly: bool(formData, "internalOnly"),
     },
   });
-  await auditLog(actor.id, "publish_offering", "offering", offeringId, { field: "visibility" });
   touch(offeringId);
   return { ok: true as const };
 }
@@ -337,24 +313,22 @@ export async function publishOffering(offeringId: string) {
     await tx.program.update({ where: { id: offering.programId }, data: { active: true } });
   });
 
-  await auditLog(actor.id, "publish_offering", "offering", offeringId, {});
   touch(offeringId);
   return { ok: true as const };
 }
 
-export async function unpublishOffering(offeringId: string, reason: string) {
-  const { actor } = await loadForEdit(offeringId, "programs.publish");
+export async function unpublishOffering(offeringId: string, _reason: string) {
+  await loadForEdit(offeringId, "programs.publish");
   await prisma.offering.update({
     where: { id: offeringId },
     data: { status: "draft", publishedAt: null },
   });
-  await auditLog(actor.id, "unpublish_offering", "offering", offeringId, { reason });
   touch(offeringId);
   return { ok: true as const };
 }
 
 export async function setOfferingStatus(offeringId: string, status: string) {
-  const { actor } = await loadForEdit(offeringId, "programs.publish");
+  await loadForEdit(offeringId, "programs.publish");
   await prisma.offering.update({
     where: { id: offeringId },
     data: {
@@ -362,7 +336,6 @@ export async function setOfferingStatus(offeringId: string, status: string) {
       ...(status === "archived" ? { archivedAt: new Date() } : {}),
     },
   });
-  await auditLog(actor.id, status === "archived" ? "archive_offering" : "publish_offering", "offering", offeringId, { status });
   touch(offeringId);
   return { ok: true as const };
 }
@@ -376,7 +349,6 @@ export async function cloneSeason(offeringId: string, formData: FormData) {
     seasonLabel: str(formData, "seasonLabel"),
     createdById: actor.id,
   });
-  await auditLog(actor.id, "clone_offering", "offering", clone.id, { from: offeringId });
   revalidatePath("/os/programs");
   return { ok: true as const, offeringId: clone.id };
 }
@@ -404,12 +376,6 @@ export async function offerWaitlistSpot(sessionId: string) {
   await expireStaleOffers();
   const result = await offerNextSpot(sessionId, actor.id);
 
-  if (result.kind === "offered") {
-    await auditLog(actor.id, "offer_waitlist_spot", "session", sessionId, {
-      athlete: result.athleteName,
-      expiresAt: result.expiresAt.toISOString(),
-    });
-  }
   touch(session.offeringId!);
 
   switch (result.kind) {

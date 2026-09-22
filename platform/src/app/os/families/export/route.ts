@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { requireCapability, OsAccessError } from "@/lib/os/dal";
 import { can } from "@/lib/os/permissions";
 import { listAthleteRoster, type RosterFilters } from "@/lib/os/roster";
-import { auditLog } from "@/lib/audit";
 
 // The CSV export half of the athlete roster (see ../page.tsx). A bulk export
 // of potentially-sensitive data is a higher-risk action than viewing one
@@ -83,11 +82,6 @@ export async function GET(request: Request) {
     );
   }
 
-  await auditLog(actor.id, "export_athlete_roster", "athlete_roster", null, {
-    rowCount: rows.length,
-    filters,
-    includedSensitiveFields: seeSensitive,
-  });
 
   const csv = lines.join("\r\n");
   const date = new Date().toISOString().slice(0, 10);

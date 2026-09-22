@@ -2,7 +2,6 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { getOsActor, assertAthleteAccess } from "@/lib/os/dal";
 import { can } from "@/lib/os/permissions";
-import { auditLog } from "@/lib/audit";
 import { signedPhotoUrl } from "@/lib/athlete-photo";
 import { AthleteAvatar } from "@/components/athlete/avatar";
 import { MediaStatusBadge } from "@/components/athlete/badges";
@@ -80,10 +79,6 @@ export default async function CheckinAthletePage({
     },
   });
 
-  await auditLog(actor.id, "view_emergency_info", "athlete", athlete.id, { surface: "front_desk" });
-  if (athlete.hasCustodyRestrictions && can(actor, "athletes.viewCustody")) {
-    await auditLog(actor.id, "view_custody_restrictions", "athlete", athlete.id);
-  }
 
   const pickupGuardians = athlete.family.guardians.filter((g) => g.authorizedForPickup);
   const notAuthorized = athlete.family.guardians.filter((g) => !g.authorizedForPickup);

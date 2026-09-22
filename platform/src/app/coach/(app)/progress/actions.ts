@@ -10,7 +10,6 @@ import {
   canManageSport,
   type CoachActor,
 } from "@/lib/coach-dal";
-import { auditLog } from "@/lib/audit";
 import { participationFor, participationEligibility } from "@/lib/progress";
 import { reportingQuarter, type Quarter } from "@/lib/quarters";
 import { metricsForSport } from "@/lib/progress-metrics";
@@ -141,10 +140,6 @@ export async function saveProgressReport(formData: FormData) {
     return saved;
   });
 
-  await auditLog(actor.id, submit ? "submit_progress_report" : "save_progress_report", "progress_report", report.id, {
-    athleteId,
-    quarter: `${q.year}Q${q.quarter}`,
-  });
 
   revalidatePath(`/coach/athletes/${athleteId}`);
   revalidatePath("/coach/progress");
@@ -177,9 +172,6 @@ export async function publishProgressReport(reportId: string) {
     },
   });
 
-  await auditLog(actor.id, "publish_progress_report", "progress_report", reportId, {
-    athleteId: report.athleteId,
-  });
 
   revalidatePath(`/coach/progress/${reportId}`);
   revalidatePath(`/my-courts/athletes/${report.athleteId}/progress`);
@@ -195,9 +187,6 @@ export async function returnProgressReport(reportId: string) {
   }
 
   await prisma.progressReport.update({ where: { id: reportId }, data: { status: "draft" } });
-  await auditLog(actor.id, "return_progress_report", "progress_report", reportId, {
-    athleteId: report.athleteId,
-  });
   revalidatePath(`/coach/progress/${reportId}`);
 }
 

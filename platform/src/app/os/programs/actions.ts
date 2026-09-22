@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireCapability, OsAccessError } from "@/lib/os/dal";
 import { canForSport } from "@/lib/os/permissions";
-import { auditLog } from "@/lib/audit";
 import { programTypeDef } from "@/lib/programs/types";
 import type { ProgramType } from "@/generated/prisma/enums";
 import { str, reqStr } from "@/lib/programs/actions-shared";
@@ -70,7 +69,6 @@ export async function createOffering(_prev: unknown, formData: FormData) {
     });
   });
 
-  await auditLog(actor.id, "create_sessions", "offering", offering.id, { created: true, name });
   revalidatePath("/os/programs");
   redirect(`/os/offerings/${offering.id}`);
 }

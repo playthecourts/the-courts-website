@@ -2,7 +2,6 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { getOsActor, assertAthleteAccess } from "@/lib/os/dal";
 import { can } from "@/lib/os/permissions";
-import { auditLog } from "@/lib/audit";
 import { signedPhotoUrl } from "@/lib/athlete-photo";
 import { AthleteAvatar } from "@/components/athlete/avatar";
 import { MediaStatusBadge } from "@/components/athlete/badges";
@@ -76,12 +75,6 @@ export default async function OsAthletePage({ params }: { params: Promise<{ id: 
     },
   });
 
-  if (seeSensitive) {
-    await auditLog(actor.id, "view_emergency_info", "athlete", athlete.id, { surface: "os" });
-  }
-  if (seeCustody && athlete.hasCustodyRestrictions) {
-    await auditLog(actor.id, "view_custody_restrictions", "athlete", athlete.id);
-  }
 
   const dropInCredits = manageCredits
     ? await prisma.credit.findMany({

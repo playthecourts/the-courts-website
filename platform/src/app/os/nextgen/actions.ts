@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { requireCapability } from "@/lib/os/dal";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
-import { auditLog } from "@/lib/audit";
 
 /// A manual override with no matching historical record — distinct from
 /// `linkNextGenRecord` (a real data match) so admin's table can see HOW
@@ -12,7 +11,7 @@ import { auditLog } from "@/lib/audit";
 /// no billing change. Never touches Stripe — a former_nextgen guardian
 /// already self-served checkout at signup with their price already known.
 export async function approveAsFounderAnyway(guardianId: string) {
-  const actor = await requireCapability("nextgen.verify");
+  await requireCapability("nextgen.verify");
 
   const guardian = await prisma.guardian.findUniqueOrThrow({ where: { id: guardianId } });
   if (guardian.nextGenStatus === null) {
@@ -24,7 +23,6 @@ export async function approveAsFounderAnyway(guardianId: string) {
     data: { nextGenVerification: "admin_approved", isFounder: true },
   });
 
-  await auditLog(actor.id, "verify_nextgen_founder", "guardian", guardianId, { via: "admin_approved" });
   revalidatePath("/os/nextgen");
 }
 
@@ -32,7 +30,7 @@ export async function approveAsFounderAnyway(guardianId: string) {
 /// change, no billing consequence. Just keeps the follow-up visible in the
 /// admin table instead of living in someone's head.
 export async function requestMoreInfo(guardianId: string, formData: FormData) {
-  const actor = await requireCapability("nextgen.verify");
+  await requireCapability("nextgen.verify");
   const note = String(formData.get("note") ?? "").trim();
 
   await prisma.guardian.update({
@@ -40,7 +38,6 @@ export async function requestMoreInfo(guardianId: string, formData: FormData) {
     data: { nextGenNotes: note || null },
   });
 
-  await auditLog(actor.id, "set_nextgen_legacy_rate", "guardian", guardianId, { note, action: "request_more_info" });
   revalidatePath("/os/nextgen");
 }
 
@@ -90,21 +87,20 @@ async function switchGuardianToUnlimited(guardianId: string) {
 }
 
 export async function moveToUnlimited(guardianId: string) {
-  const actor = await requireCapability("nextgen.verify");
+  await requireCapability("nextgen.verify");
 
   const guardian = await prisma.guardian.findUniqueOrThrow({ where: { id: guardianId } });
   if (guardian.nextGenStatus === null) {
     throw new Error("This guardian never self-reported a NextGen status.");
   }
 
-  const movedSubscription = await switchGuardianToUnlimited(guardianId);
+  await switchGuardianToUnlimited(guardianId);
 
   await prisma.guardian.update({
     where: { id: guardianId },
     data: { nextGenVerification: "not_eligible" },
   });
 
-  await auditLog(actor.id, "mark_nextgen_not_eligible", "guardian", guardianId, { movedSubscription });
   revalidatePath("/os/nextgen");
 }
 
@@ -117,24 +113,20 @@ export async function moveToUnlimited(guardianId: string) {
 /// denied, this still swaps them to Unlimited with no proration, same as
 /// moveToUnlimited — never a refund or a claw-back.
 export async function denyLegacyRate(guardianId: string) {
-  const actor = await requireCapability("nextgen.verify");
+  await requireCapability("nextgen.verify");
 
   const guardian = await prisma.guardian.findUniqueOrThrow({ where: { id: guardianId } });
   if (guardian.nextGenStatus !== "current_nextgen") {
     throw new Error("This guardian isn't a current NextGen self-report.");
   }
 
-  const movedSubscription = await switchGuardianToUnlimited(guardianId);
+  await switchGuardianToUnlimited(guardianId);
 
   await prisma.guardian.update({
     where: { id: guardianId },
     data: { nextGenVerification: "not_eligible", legacyRateCents: null, isFounder: false },
   });
 
-  await auditLog(actor.id, "mark_nextgen_not_eligible", "guardian", guardianId, {
-    via: "deny_rate",
-    movedSubscription,
-  });
   revalidatePath("/os/nextgen");
 }
 
@@ -147,7 +139,7 @@ export async function denyLegacyRate(guardianId: string) {
 /// no NextGenRecord match exists — linkNextGenRecord below is preferred
 /// whenever a real historical record can be found.
 export async function setLegacyRate(guardianId: string, formData: FormData) {
-  const actor = await requireCapability("nextgen.verify");
+  await requireCapability("nextgen.verify");
 
   const guardian = await prisma.guardian.findUniqueOrThrow({ where: { id: guardianId } });
   if (guardian.nextGenStatus !== "current_nextgen") {
@@ -165,7 +157,6 @@ export async function setLegacyRate(guardianId: string, formData: FormData) {
     data: { legacyRateCents, nextGenVerification: "verified" },
   });
 
-  await auditLog(actor.id, "set_nextgen_legacy_rate", "guardian", guardianId, { legacyRateCents });
   revalidatePath("/os/nextgen");
 }
 
@@ -176,7 +167,7 @@ export async function setLegacyRate(guardianId: string, formData: FormData) {
 /// guardian's legacy rate is set from the record and verification flips to
 /// "verified" — per the business rule, they're never asked to re-verify.
 export async function linkNextGenRecord(recordId: string, guardianId: string) {
-  const actor = await requireCapability("nextgen.verify");
+  await requireCapability("nextgen.verify");
 
   const [record, guardian] = await Promise.all([
     prisma.nextGenRecord.findUniqueOrThrow({ where: { id: recordId } }),
@@ -201,7 +192,6 @@ export async function linkNextGenRecord(recordId: string, guardianId: string) {
     }),
   ]);
 
-  await auditLog(actor.id, "verify_nextgen_founder", "guardian", guardianId, { via: "linked_record", recordId });
   revalidatePath("/os/nextgen");
 }
 
@@ -211,14 +201,14 @@ export async function linkNextGenRecord(recordId: string, guardianId: string) {
 /// swapped to Unlimited with no proration (never a refund or claw-back),
 /// same as denyLegacyRate/moveToUnlimited.
 export async function unlinkNextGenRecord(recordId: string, guardianId: string) {
-  const actor = await requireCapability("nextgen.verify");
+  await requireCapability("nextgen.verify");
 
   const record = await prisma.nextGenRecord.findUniqueOrThrow({ where: { id: recordId } });
   if (record.matchedGuardianId !== guardianId) {
     throw new Error("This record isn't linked to that account.");
   }
 
-  const movedSubscription = await switchGuardianToUnlimited(guardianId);
+  await switchGuardianToUnlimited(guardianId);
 
   await prisma.$transaction([
     prisma.nextGenRecord.update({ where: { id: recordId }, data: { matchedGuardianId: null, matchedAt: null } }),
@@ -228,11 +218,6 @@ export async function unlinkNextGenRecord(recordId: string, guardianId: string) 
     }),
   ]);
 
-  await auditLog(actor.id, "mark_nextgen_not_eligible", "guardian", guardianId, {
-    via: "unlink_record",
-    recordId,
-    movedSubscription,
-  });
   revalidatePath("/os/nextgen");
 }
 
@@ -241,7 +226,7 @@ export async function unlinkNextGenRecord(recordId: string, guardianId: string) 
 /// again for this record. The record stays in "Unmatched" for other
 /// candidates or a future import to catch.
 export async function dismissNextGenCandidate(recordId: string, guardianId: string) {
-  const actor = await requireCapability("nextgen.verify");
+  await requireCapability("nextgen.verify");
 
   const record = await prisma.nextGenRecord.findUniqueOrThrow({ where: { id: recordId } });
   if (!record.rejectedGuardianIds.includes(guardianId)) {
@@ -251,10 +236,6 @@ export async function dismissNextGenCandidate(recordId: string, guardianId: stri
     });
   }
 
-  await auditLog(actor.id, "set_nextgen_legacy_rate", "guardian", guardianId, {
-    action: "dismiss_candidate",
-    recordId,
-  });
   revalidatePath("/os/nextgen");
 }
 
@@ -266,7 +247,7 @@ const NEXTGEN_RATES = [16500, 18500, 20000] as const;
 /// Jenkins — approved as Founder while still billed at Unlimited). Staff
 /// pick the real number; this makes it true everywhere at once.
 export async function setNextGenApprovedRate(guardianId: string, formData: FormData) {
-  const actor = await requireCapability("nextgen.verify");
+  await requireCapability("nextgen.verify");
 
   const rateCents = Number(formData.get("rateCents"));
   if (!NEXTGEN_RATES.includes(rateCents as (typeof NEXTGEN_RATES)[number])) {
@@ -294,7 +275,6 @@ export async function setNextGenApprovedRate(guardianId: string, formData: FormD
     },
   });
 
-  let movedSubscription = false;
   if (membership?.stripeSubscriptionId) {
     let targetPriceId = targetPlan.stripePriceId;
     if (rateCents === 16500) {
@@ -326,7 +306,6 @@ export async function setNextGenApprovedRate(guardianId: string, formData: FormD
       where: { id: membership.id },
       data: { membershipPlanId: targetPlan.id },
     });
-    movedSubscription = true;
   }
 
   await prisma.guardian.update({
@@ -338,10 +317,5 @@ export async function setNextGenApprovedRate(guardianId: string, formData: FormD
     },
   });
 
-  await auditLog(actor.id, "set_nextgen_legacy_rate", "guardian", guardianId, {
-    action: "set_approved_rate",
-    rateCents,
-    movedSubscription,
-  });
   revalidatePath("/os/nextgen");
 }

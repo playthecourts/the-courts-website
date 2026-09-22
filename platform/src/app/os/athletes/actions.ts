@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getOsActor, assertAthleteAccess, requireCapability, OsAccessError } from "@/lib/os/dal";
 import { can } from "@/lib/os/permissions";
-import { auditLog } from "@/lib/audit";
 import { recordProfileChange } from "@/lib/athlete-profile";
 
 /**
@@ -38,7 +37,6 @@ export async function setPickupInstruction(athleteId: string, formData: FormData
     data: { custodyStaffInstruction: instruction },
   });
 
-  await auditLog(actor.id, "set_pickup_instruction", "athlete", athleteId);
   await recordProfileChange({
     athleteId,
     actor: { type: "staff", id: actor.id, label: actor.name },
@@ -90,6 +88,5 @@ export async function grantDropInCredits(athleteId: string, formData: FormData) 
     },
   });
 
-  await auditLog(actor.id, "grant_drop_in_credits", "athlete", athleteId, { quantity, note: note || null });
   revalidatePath(`/os/athletes/${athleteId}`);
 }

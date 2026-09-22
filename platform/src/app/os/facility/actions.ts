@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireCapability } from "@/lib/os/dal";
-import { auditLog } from "@/lib/audit";
 import { localDateTime, str } from "@/lib/programs/actions-shared";
 
 // Closing the facility is consequential: it can invalidate sessions families
@@ -59,10 +58,6 @@ export async function createFacilityBlock(_prev: unknown, formData: FormData) {
     orderBy: { startTime: "asc" },
   });
 
-  await auditLog(actor.id, "block_facility", "facility_block", block.id, {
-    reason,
-    affectedSessions: affected.length,
-  });
 
   revalidatePath("/os/facility");
   revalidatePath("/os/schedule");
@@ -81,9 +76,8 @@ export async function createFacilityBlock(_prev: unknown, formData: FormData) {
 }
 
 export async function removeFacilityBlock(blockId: string) {
-  const actor = await requireCapability("facility.block");
+  await requireCapability("facility.block");
   await prisma.facilityBlock.delete({ where: { id: blockId } });
-  await auditLog(actor.id, "block_facility", "facility_block", blockId, { removed: true });
   revalidatePath("/os/facility");
   revalidatePath("/os/schedule");
 }

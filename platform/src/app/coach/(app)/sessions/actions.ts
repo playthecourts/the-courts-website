@@ -9,7 +9,6 @@ import {
   canManageCapacity,
   denyUnlessManagesSport,
 } from "@/lib/coach-dal";
-import { auditLog } from "@/lib/audit";
 import type { AttendanceStatus, NoteVisibility } from "@/generated/prisma/enums";
 
 // Every action re-runs getCurrentCoach() + the relevant assert*. Server actions
@@ -92,10 +91,6 @@ export async function markAllHere(sessionId: string) {
     }),
   ]);
 
-  await auditLog(actor.id, "record_attendance", "session", sessionId, {
-    bulk: true,
-    count: bookings.length,
-  });
   revalidatePath(`/coach/sessions/${sessionId}`);
   return { ok: true as const, count: bookings.length };
 }
@@ -137,7 +132,7 @@ export async function saveCoachNote(sessionId: string | null, formData: FormData
   const requested = formData.get("visibility");
   const visibility: NoteVisibility = requested === "parent_shared" ? "parent_shared" : "staff_private";
 
-  const note = await prisma.coachNote.create({
+  await prisma.coachNote.create({
     data: {
       athleteId,
       staffUserId: actor.id,
@@ -151,16 +146,12 @@ export async function saveCoachNote(sessionId: string | null, formData: FormData
     },
   });
 
-  if (visibility === "parent_shared") {
-    await auditLog(actor.id, "share_note_with_parent", "coach_note", note.id, { athleteId });
-  }
-
   if (sessionId) revalidatePath(`/coach/sessions/${sessionId}`);
   revalidatePath(`/coach/athletes/${athleteId}`);
 }
 
 /**
- * Revealing emergency/medical info is allowed but always recorded.
+ * Revealing emergency/medical info is allowed for any coach on the roster.
  *
  * Note what is NOT returned: custodyRestrictions. A coach gets
  * custodyStaffInstruction — the minimum-necessary operational line staff wrote
@@ -185,11 +176,6 @@ export async function revealEmergencyInfo(athleteId: string) {
       },
     },
   });
-
-  await auditLog(actor.id, "view_emergency_info", "athlete", athleteId);
-  if (athlete.medicalNotes) {
-    await auditLog(actor.id, "view_medical_notes", "athlete", athleteId);
-  }
 
   return {
     // Structured contacts first; the legacy free-text column is the fallback
@@ -306,10 +292,6 @@ export async function updateCapacity(sessionId: string, formData: FormData) {
   if (!Number.isFinite(capacity) || capacity < 0) return;
 
   await prisma.session.update({ where: { id: sessionId }, data: { capacity } });
-  await auditLog(actor.id, "change_capacity", "session", sessionId, {
-    from: session.capacity,
-    to: capacity,
-  });
   revalidatePath(`/coach/sessions/${sessionId}`);
 }
 
@@ -349,7 +331,6 @@ export async function offerWaitlistSpot(sessionId: string, entryId: string) {
     await tx.waitlistEntry.update({ where: { id: entry.id }, data: { status: "converted" } });
   });
 
-  await auditLog(actor.id, "offer_waitlist_spot", "session", sessionId, { athleteId: entry.athleteId });
   revalidatePath(`/coach/sessions/${sessionId}`);
   return { ok: true as const };
 }

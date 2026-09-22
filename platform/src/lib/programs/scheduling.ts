@@ -2,7 +2,6 @@ import "server-only";
 import { prisma } from "@/lib/prisma";
 import { expandSchedule, findSelfOverlaps, type Occurrence, type ScheduleSpec } from "./recurrence";
 import { assertResourcesFree, findConflicts, type Conflict } from "./conflicts";
-import { auditLog } from "@/lib/audit";
 
 // ---------------------------------------------------------------------------
 // Creating and changing scheduled sessions.
@@ -158,10 +157,6 @@ export async function createSessions(input: CreateSessionsInput) {
     return created;
   });
 
-  await auditLog(input.actorId, "create_sessions", "offering", offering.id, {
-    count: result.length,
-    offering: offering.name,
-  });
   return result;
 }
 
@@ -266,10 +261,6 @@ export async function moveSession(params: {
       });
     }
 
-    await auditLog(params.actorId, "move_session", "session", params.sessionId, {
-      scope: params.scope,
-      count: targets.length,
-    });
 
     return { moved: targets.length };
   });
@@ -370,12 +361,6 @@ export async function cancelSession(params: {
       });
     }
 
-    await auditLog(params.actorId, "cancel_session", "session", params.sessionId, {
-      scope: params.scope,
-      count: targetIds.length,
-      reason: params.reason,
-      creditsRestored,
-    });
 
     return { cancelled: targetIds.length, creditsRestored };
   });

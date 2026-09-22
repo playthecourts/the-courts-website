@@ -1,6 +1,5 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
-import { auditLog } from "@/lib/audit";
 import { sendReplyNotification, sendNewThreadStaffAlert } from "@/lib/message-notifications";
 
 // ---------------------------------------------------------------------------
@@ -138,9 +137,6 @@ export async function sendStaffMessage(params: {
     return message;
   });
 
-  await auditLog(params.staffUserId, "send_communication", "message_thread", params.threadId, {
-    resolved: !!params.resolve,
-  });
 
   // Best-effort notification — never lets an email problem block a staff
   // reply from landing in the portal, which is the system of record.

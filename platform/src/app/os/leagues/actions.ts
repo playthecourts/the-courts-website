@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { requireCapability } from "@/lib/os/dal";
 import { prisma } from "@/lib/prisma";
-import { auditLog } from "@/lib/audit";
 
 const LEAGUE_NAME = "Fall 2026 Basketball League";
 
@@ -12,23 +11,22 @@ async function leagueOffering() {
 }
 
 export async function createLeagueTeam(formData: FormData) {
-  const actor = await requireCapability("leagues.manage");
+  await requireCapability("leagues.manage");
   const name = String(formData.get("name") ?? "").trim();
   const division = String(formData.get("division") ?? "").trim();
   if (!name) return;
 
   const offering = await leagueOffering();
-  const team = await prisma.team.create({
+  await prisma.team.create({
     data: { programId: offering.programId, offeringId: offering.id, name, division: division || null },
   });
-  await auditLog(actor.id, "assign_team_member", "team", team.id, { created: name });
   revalidatePath("/os/leagues");
 }
 
 // A player belongs to one League team at a time: placing them elsewhere moves
 // them rather than leaving them on two rosters.
 export async function placeOnTeam(formData: FormData) {
-  const actor = await requireCapability("leagues.manage");
+  await requireCapability("leagues.manage");
   const athleteId = String(formData.get("athleteId") ?? "");
   const teamId = String(formData.get("teamId") ?? "");
   if (!athleteId || !teamId) return;
@@ -40,17 +38,15 @@ export async function placeOnTeam(formData: FormData) {
     prisma.teamMember.deleteMany({ where: { athleteId, team: { offeringId: offering.id } } }),
     prisma.teamMember.create({ data: { teamId: team.id, athleteId } }),
   ]);
-  await auditLog(actor.id, "assign_team_member", "athlete", athleteId, { team: team.name });
   revalidatePath("/os/leagues");
   revalidatePath("/my-courts/league");
 }
 
 export async function removeFromTeam(formData: FormData) {
-  const actor = await requireCapability("leagues.manage");
+  await requireCapability("leagues.manage");
   const athleteId = String(formData.get("athleteId") ?? "");
   const teamId = String(formData.get("teamId") ?? "");
   await prisma.teamMember.deleteMany({ where: { athleteId, teamId } });
-  await auditLog(actor.id, "remove_team_member", "athlete", athleteId, { teamId });
   revalidatePath("/os/leagues");
   revalidatePath("/my-courts/league");
 }
@@ -58,13 +54,12 @@ export async function removeFromTeam(formData: FormData) {
 const JERSEY_SIZES = ["Youth Small", "Youth Medium", "Youth Large", "Youth XL", "Adult Small", "Adult Medium", "Adult Large"];
 
 export async function setJerseySize(formData: FormData) {
-  const actor = await requireCapability("leagues.manage");
+  await requireCapability("leagues.manage");
   const athleteId = String(formData.get("athleteId") ?? "");
   const jerseySize = String(formData.get("jerseySize") ?? "").trim() || null;
   if (!athleteId) return;
   if (jerseySize && !JERSEY_SIZES.includes(jerseySize)) return;
 
   await prisma.athlete.update({ where: { id: athleteId }, data: { jerseySize } });
-  await auditLog(actor.id, "assign_team_member", "athlete", athleteId, { jerseySize });
   revalidatePath("/os/leagues");
 }

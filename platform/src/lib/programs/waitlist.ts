@@ -1,6 +1,5 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
-import { auditLog } from "@/lib/audit";
 
 // ---------------------------------------------------------------------------
 // Waitlist promotion.
@@ -134,7 +133,6 @@ export async function declineOffer(waitlistEntryId: string, actorId: string | nu
     data: { status: "declined", respondedAt: new Date() },
     select: { sessionId: true },
   });
-  if (actorId) await auditLog(actorId, "decline_waitlist", "waitlist_entry", waitlistEntryId);
   // The seat is free again — move to the next family.
   return offerNextSpot(entry.sessionId, actorId);
 }
