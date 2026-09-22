@@ -27,12 +27,6 @@ function formatTime(date: Date) {
   return new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "UTC" }).format(date);
 }
 
-function formatDeadline(date: Date) {
-  const day = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", timeZone: "UTC" }).format(date);
-  const time = formatTime(date);
-  return `${day} at ${time}`;
-}
-
 function Pill({ tone, children }: { tone: "in" | "pending" | "placed" | "neutral"; children: ReactNode }) {
   const toneClasses: Record<string, string> = {
     in: "bg-green-100 text-green-800",
@@ -123,15 +117,6 @@ export default async function LeaguePage({
     <div className="flex flex-col gap-8">
       <div>
         <h1 className="font-display text-3xl font-black text-black sm:text-4xl">2026 Fall Basketball League</h1>
-        <p className="mt-1 font-heading text-base font-bold text-orange">With West Nashville Sports League. Coached by Coach Johnny. 🏀</p>
-        <p className="mt-2 font-body text-sm text-gray-dark">
-          Weekly team practices. Saturday games. Real teammates, real competition, and the start of something new.
-        </p>
-        {leagueOffering?.registrationClosesAt && (
-          <p className="mt-2 font-sport text-sm font-bold uppercase tracking-wide text-orange">
-            Registration closes {formatDeadline(leagueOffering.registrationClosesAt)}
-          </p>
-        )}
       </div>
 
       {checkout === "success" && (
