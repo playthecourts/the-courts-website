@@ -60,12 +60,7 @@ export default async function LeaguesPage() {
         {teams.map((t) => (
           <Card key={t.id}>
             <div className="flex items-center justify-between gap-3 border-b border-gray-mid px-4 py-3">
-              <div>
-                <p className="font-display text-xl font-black text-near-black sm:text-2xl">
-                  {t.division ?? t.name}
-                </p>
-                <p className="mt-0.5 os-eyebrow text-gray-dark">{t.name}</p>
-              </div>
+              <p className="font-display text-base font-bold text-near-black">{t.division ?? t.name}</p>
               <span className="shrink-0 text-neutral">{t.members.length}</span>
             </div>
             <ul className="divide-y divide-gray-mid">
