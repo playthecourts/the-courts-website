@@ -2081,6 +2081,10 @@ model Task {
   title       String
   detail      String?
   status      TaskStatus @default(open)
+  /// Which horizontal list this sits in on the Tasks board — a free-text
+  /// label, not an enum, so a new list doesn't need a migration.
+  category    String     @default("Operations")
+  priority    TaskPriority @default(medium)
   dueDate     DateTime?  @map("due_date") @db.Date
   assignedToId String?   @map("assigned_to_id")
   createdById  String?   @map("created_by_id")
@@ -2105,6 +2109,12 @@ enum TaskStatus {
   open
   done
   cancelled
+}
+
+enum TaskPriority {
+  low
+  medium
+  high
 }
 
 /// Frequently-changing marketing content, editable without a deploy. Slot-based
