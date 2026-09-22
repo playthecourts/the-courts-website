@@ -257,3 +257,91 @@ export async function dismissNextGenCandidate(recordId: string, guardianId: stri
   });
   revalidatePath("/os/nextgen");
 }
+
+const NEXTGEN_RATES = [16500, 18500, 20000] as const;
+
+/// Every approve/deny outcome funnels through here now, so the label a
+/// guardian carries and what their real Stripe subscription charges can
+/// never drift apart again (that gap is exactly what happened to Jeremy
+/// Jenkins — approved as Founder while still billed at Unlimited). Staff
+/// pick the real number; this makes it true everywhere at once.
+export async function setNextGenApprovedRate(guardianId: string, formData: FormData) {
+  const actor = await requireCapability("nextgen.verify");
+
+  const rateCents = Number(formData.get("rateCents"));
+  if (!NEXTGEN_RATES.includes(rateCents as (typeof NEXTGEN_RATES)[number])) {
+    throw new Error("Pick a valid rate.");
+  }
+
+  const guardian = await prisma.guardian.findUniqueOrThrow({ where: { id: guardianId } });
+  if (guardian.nextGenStatus === null) {
+    throw new Error("This guardian never self-reported a NextGen status.");
+  }
+
+  const [founders, unlimited, legacy] = await Promise.all([
+    prisma.membershipPlan.findFirstOrThrow({ where: { name: "Founders Membership" } }),
+    prisma.membershipPlan.findFirstOrThrow({ where: { name: "Unlimited Membership" } }),
+    prisma.membershipPlan.findFirstOrThrow({ where: { name: "NextGen Legacy Rate" } }),
+  ]);
+
+  const targetPlan = rateCents === 18500 ? founders : rateCents === 20000 ? unlimited : legacy;
+
+  const membership = await prisma.athleteMembership.findFirst({
+    where: {
+      status: { in: ["active", "past_due"] },
+      stripeSubscriptionId: { not: null },
+      athlete: { family: { guardians: { some: { guardianId } } } },
+    },
+  });
+
+  let movedSubscription = false;
+  if (membership?.stripeSubscriptionId) {
+    let targetPriceId = targetPlan.stripePriceId;
+    if (rateCents === 16500) {
+      // $165 has no fixed catalog Price (it's ad-hoc per family at
+      // checkout) — for an already-active subscription being corrected onto
+      // it, mint a real one-off Price against the same NextGen product so
+      // the subscription item has something real to point at.
+      const productId = process.env.NEXTGEN_LEGACY_STRIPE_PRODUCT_ID;
+      if (!productId) throw new Error("NextGen legacy checkout isn't configured yet.");
+      const price = await stripe.prices.create({
+        product: productId,
+        currency: "usd",
+        unit_amount: rateCents,
+        recurring: { interval: "month" },
+      });
+      targetPriceId = price.id;
+    }
+    if (!targetPriceId) throw new Error(`${targetPlan.name} has no Stripe price configured.`);
+
+    const subscription = await stripe.subscriptions.retrieve(membership.stripeSubscriptionId);
+    const itemId = subscription.items.data[0]?.id;
+    if (!itemId) throw new Error("Couldn't find the billed item on this subscription.");
+
+    await stripe.subscriptions.update(membership.stripeSubscriptionId, {
+      items: [{ id: itemId, price: targetPriceId }],
+      proration_behavior: "none",
+    });
+    await prisma.athleteMembership.update({
+      where: { id: membership.id },
+      data: { membershipPlanId: targetPlan.id },
+    });
+    movedSubscription = true;
+  }
+
+  await prisma.guardian.update({
+    where: { id: guardianId },
+    data: {
+      nextGenVerification: rateCents === 20000 ? "not_eligible" : "admin_approved",
+      isFounder: rateCents !== 20000,
+      legacyRateCents: rateCents === 16500 ? rateCents : null,
+    },
+  });
+
+  await auditLog(actor.id, "set_nextgen_legacy_rate", "guardian", guardianId, {
+    action: "set_approved_rate",
+    rateCents,
+    movedSubscription,
+  });
+  revalidatePath("/os/nextgen");
+}

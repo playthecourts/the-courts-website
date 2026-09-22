@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requireCapability } from "@/lib/os/dal";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, EmptyState, Pill, Metric, TableWrap, Th, Td } from "../_components/ui";
-import { approveAsFounderAnyway, requestMoreInfo, moveToUnlimited, denyLegacyRate, setLegacyRate, linkNextGenRecord, unlinkNextGenRecord, dismissNextGenCandidate } from "./actions";
+import { requestMoreInfo, setNextGenApprovedRate, linkNextGenRecord, unlinkNextGenRecord, dismissNextGenCandidate } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -181,6 +181,7 @@ export default async function NextGenPage({
             <table>
               <thead>
                 <tr>
+                  <Th>Actions</Th>
                   <Th>Guardian</Th>
                   <Th>Athlete(s)</Th>
                   <Th>Status</Th>
@@ -195,7 +196,6 @@ export default async function NextGenPage({
                   <Th>Next Billing</Th>
                   <Th>Sub Status</Th>
                   <Th>Notes</Th>
-                  <Th>Actions</Th>
                 </tr>
               </thead>
               <tbody>
@@ -207,6 +207,55 @@ export default async function NextGenPage({
 
                   return (
                     <tr key={g.id}>
+                      <Td>
+                        <div className="flex flex-col gap-1.5">
+                          <form action={setNextGenApprovedRate.bind(null, g.id)} className="flex items-center gap-1">
+                            <select
+                              name="rateCents"
+                              defaultValue={g.legacyRateCents === 16500 ? "16500" : g.isFounder ? "18500" : ""}
+                              className="min-h-9 rounded-lg border border-gray-mid bg-white px-1.5 text-xs"
+                            >
+                              <option value="" disabled>
+                                Approve at…
+                              </option>
+                              <option value="16500">$165</option>
+                              <option value="18500">$185</option>
+                              <option value="20000">$200</option>
+                            </select>
+                            <button
+                              type="submit"
+                              className="os-heading min-h-9 rounded-lg border border-gray-mid bg-white px-2 text-xs uppercase tracking-wide hover:border-near-black"
+                            >
+                              Approve
+                            </button>
+                          </form>
+                          {linkedRecordByGuardian.has(g.id) && (
+                            <form action={unlinkNextGenRecord.bind(null, linkedRecordByGuardian.get(g.id)!.id, g.id)}>
+                              <button
+                                type="submit"
+                                className="os-heading min-h-9 w-full rounded-lg border border-gray-mid bg-white px-2 text-xs uppercase tracking-wide text-danger hover:border-danger"
+                              >
+                                Unlink ({linkedRecordByGuardian.get(g.id)!.name})
+                              </button>
+                            </form>
+                          )}
+                          <form action={requestMoreInfo.bind(null, g.id)} className="flex items-center gap-1">
+                            <input
+                              type="text"
+                              name="note"
+                              placeholder="Note…"
+                              defaultValue={g.nextGenNotes ?? ""}
+                              className="min-h-9 w-20 rounded-lg border border-gray-mid bg-white px-2 text-xs focus:border-orange focus:outline-none"
+                            />
+                            <button
+                              type="submit"
+                              className="os-heading min-h-9 rounded-lg border border-gray-mid bg-white px-2 text-xs uppercase tracking-wide hover:border-near-black"
+                            >
+                              Save
+                            </button>
+                          </form>
+                        </div>
+                      </Td>
                       <Td>
                         <span className="font-medium text-near-black">{g.name}</span>
                         <br />
@@ -245,84 +294,6 @@ export default async function NextGenPage({
                       </Td>
                       <Td className="text-neutral">{membership?.status ?? "—"}</Td>
                       <Td className="max-w-[160px] text-neutral">{g.nextGenNotes ?? "—"}</Td>
-                      <Td>
-                        <div className="flex flex-wrap gap-2">
-                          {g.nextGenVerification !== "verified" && g.nextGenVerification !== "admin_approved" && (
-                            <form action={approveAsFounderAnyway.bind(null, g.id)}>
-                              <button
-                                type="submit"
-                                className="os-heading min-h-9 rounded-lg border border-gray-mid bg-white px-3 text-xs uppercase tracking-wide hover:border-near-black"
-                              >
-                                Approve as Founder Anyway
-                              </button>
-                            </form>
-                          )}
-                          {g.nextGenStatus !== "current_nextgen" && g.nextGenVerification !== "not_eligible" && (
-                            <form action={moveToUnlimited.bind(null, g.id)}>
-                              <button
-                                type="submit"
-                                className="os-heading min-h-9 rounded-lg border border-gray-mid bg-white px-3 text-xs uppercase tracking-wide text-danger hover:border-danger"
-                              >
-                                Move to Unlimited
-                              </button>
-                            </form>
-                          )}
-                          {g.nextGenStatus === "current_nextgen" && g.nextGenVerification !== "not_eligible" && (
-                            <form action={denyLegacyRate.bind(null, g.id)}>
-                              <button
-                                type="submit"
-                                className="os-heading min-h-9 rounded-lg border border-gray-mid bg-white px-3 text-xs uppercase tracking-wide text-danger hover:border-danger"
-                              >
-                                Deny Rate
-                              </button>
-                            </form>
-                          )}
-                          {linkedRecordByGuardian.has(g.id) && (
-                            <form action={unlinkNextGenRecord.bind(null, linkedRecordByGuardian.get(g.id)!.id, g.id)}>
-                              <button
-                                type="submit"
-                                className="os-heading min-h-9 rounded-lg border border-gray-mid bg-white px-3 text-xs uppercase tracking-wide text-danger hover:border-danger"
-                              >
-                                Unlink ({linkedRecordByGuardian.get(g.id)!.name})
-                              </button>
-                            </form>
-                          )}
-                          <form action={requestMoreInfo.bind(null, g.id)} className="flex items-center gap-1">
-                            <input
-                              type="text"
-                              name="note"
-                              placeholder="Note…"
-                              defaultValue={g.nextGenNotes ?? ""}
-                              className="min-h-9 w-28 rounded-lg border border-gray-mid bg-white px-2 text-xs focus:border-orange focus:outline-none"
-                            />
-                            <button
-                              type="submit"
-                              className="os-heading min-h-9 rounded-lg border border-gray-mid bg-white px-2 text-xs uppercase tracking-wide hover:border-near-black"
-                            >
-                              Save Note
-                            </button>
-                          </form>
-                          {g.nextGenStatus === "current_nextgen" && (
-                            <form action={setLegacyRate.bind(null, g.id)} className="flex items-center gap-1">
-                              <input
-                                type="number"
-                                name="legacyRate"
-                                step="0.01"
-                                min="0"
-                                placeholder="Rate $"
-                                defaultValue={g.legacyRateCents != null ? (g.legacyRateCents / 100).toFixed(2) : ""}
-                                className="min-h-9 w-20 rounded-lg border border-gray-mid bg-white px-2 text-xs focus:border-orange focus:outline-none"
-                              />
-                              <button
-                                type="submit"
-                                className="os-heading min-h-9 rounded-lg border border-gray-mid bg-white px-2 text-xs uppercase tracking-wide hover:border-near-black"
-                              >
-                                Approve Rate
-                              </button>
-                            </form>
-                          )}
-                        </div>
-                      </Td>
                     </tr>
                   );
                 })}
