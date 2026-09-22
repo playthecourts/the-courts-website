@@ -3,6 +3,7 @@ import { can } from "@/lib/os/permissions";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, INPUT, SELECT } from "../_components/ui";
 import { createLead, setLeadStage, addLeadNote, deleteLead } from "./actions";
+import { AutoSubmitSelect } from "../_components/auto-submit-select";
 
 export const dynamic = "force-dynamic";
 
@@ -132,16 +133,11 @@ export default async function LeadsPage() {
                       <div className="mt-2 flex flex-col gap-1.5">
                         <form action={setLeadStage} className="flex items-center">
                           <input type="hidden" name="id" value={l.id} />
-                          <select
-                            name="stage"
-                            defaultValue={l.stage}
-                            onChange={(e) => e.currentTarget.form?.requestSubmit()}
-                            className={`${SELECT} min-h-7 w-full text-[11px]`}
-                          >
+                          <AutoSubmitSelect name="stage" defaultValue={l.stage} className={`${SELECT} min-h-7 w-full text-[11px]`}>
                             {STAGES.map((s) => (
                               <option key={s.key} value={s.key}>Move to: {s.label}</option>
                             ))}
-                          </select>
+                          </AutoSubmitSelect>
                         </form>
                         <form action={addLeadNote} className="flex items-center gap-1">
                           <input type="hidden" name="id" value={l.id} />

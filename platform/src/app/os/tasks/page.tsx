@@ -3,6 +3,7 @@ import { can } from "@/lib/os/permissions";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Pill, INPUT, SELECT } from "../_components/ui";
 import { createTask, toggleTaskDone, setTaskPriority, deleteTask } from "./actions";
+import { AutoSubmitSelect } from "../_components/auto-submit-select";
 
 export const dynamic = "force-dynamic";
 
@@ -87,10 +88,9 @@ export default async function TasksPage() {
                       {canManage ? (
                         <form action={setTaskPriority} className="flex items-center">
                           <input type="hidden" name="id" value={t.id} />
-                          <select
+                          <AutoSubmitSelect
                             name="priority"
                             defaultValue={t.priority}
-                            onChange={(e) => e.currentTarget.form?.requestSubmit()}
                             className={`min-h-6 rounded-full border-0 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
                               t.priority === "high" ? "bg-danger-bg text-danger" : t.priority === "medium" ? "bg-orange/10 text-orange" : "bg-warm-stone text-gray-dark"
                             }`}
@@ -98,7 +98,7 @@ export default async function TasksPage() {
                             <option value="high">High</option>
                             <option value="medium">Medium</option>
                             <option value="low">Low</option>
-                          </select>
+                          </AutoSubmitSelect>
                         </form>
                       ) : (
                         <Pill tone={PRIORITY_TONE[t.priority]}>{t.priority}</Pill>
