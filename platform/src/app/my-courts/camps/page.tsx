@@ -1,0 +1,163 @@
+import { getCurrentGuardian } from "@/lib/dal";
+import { prisma } from "@/lib/prisma";
+import { gradeRangeLabel } from "@/lib/programs/types";
+import { startCampRegistration, cancelCampRegistration } from "./actions";
+
+export const dynamic = "force-dynamic";
+
+// Whole-camp registration (Fall Break, Thanksgiving, Winter Break — anything
+// with registrationMode "offering" or "multi_day"). Single-day camps
+// (Early Release, Day Off Game On) are registrationMode "session" and are
+// booked through Explore instead, same as any other single session.
+
+function formatCents(cents: number) {
+  return `$${(cents / 100).toFixed(2)}`;
+}
+
+function formatDate(d: Date) {
+  return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(d);
+}
+
+export default async function CampsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ checkout?: string }>;
+}) {
+  const guardian = await getCurrentGuardian();
+  const sp = await searchParams;
+  const athletes = guardian.families.flatMap((fg) => fg.family.athletes);
+  const athleteIds = athletes.map((a) => a.id);
+
+  const camps = await prisma.offering.findMany({
+    where: {
+      status: "published",
+      internalOnly: false,
+      visibleParentApp: true,
+      registrationMode: { in: ["offering", "multi_day"] },
+    },
+    include: {
+      sessions: { orderBy: { startTime: "asc" } },
+      registrations: { where: { athleteId: { in: athleteIds } } },
+    },
+    orderBy: { sessions: { _count: "asc" } },
+  });
+  // Sort by first session date — Prisma can't order by a nested aggregate
+  // field here, so it's done in memory on the small result set instead.
+  camps.sort((a, b) => (a.sessions[0]?.startTime.getTime() ?? 0) - (b.sessions[0]?.startTime.getTime() ?? 0));
+
+  return (
+    <div className="flex flex-col gap-6">
+      <div>
+        <h1 className="font-display text-3xl font-black text-black sm:text-4xl">Camps</h1>
+        <p className="mt-1 font-body text-sm text-gray-dark">
+          Fall break, holiday break, and no-school-day camps. Weekly drop-in classes and League are elsewhere —
+          this is just the multi-day and whole-week programs.
+        </p>
+      </div>
+
+      {sp.checkout === "success" && (
+        <div className="rounded-xl border border-green-600/30 bg-green-50 px-4 py-3 text-sm text-green-800">
+          Registered! We&rsquo;ll see you there.
+        </div>
+      )}
+      {sp.checkout === "error" && (
+        <div className="rounded-xl border border-danger/30 bg-danger-bg px-4 py-3 text-sm text-danger">
+          Something went wrong starting checkout. Try again, or contact us if it keeps happening.
+        </div>
+      )}
+
+      {athletes.length === 0 ? (
+        <div className="rounded-xl border border-gray-mid bg-white p-6 text-center">
+          <p className="font-body text-sm text-gray-dark">Add an athlete to your family before registering for a camp.</p>
+        </div>
+      ) : (
+        camps.map((camp) => {
+          const first = camp.sessions[0];
+          const last = camp.sessions[camp.sessions.length - 1];
+          const dateLabel =
+            first && last && first.id !== last.id ? `${formatDate(first.startTime)}–${formatDate(last.startTime)}` : first ? formatDate(first.startTime) : "Dates TBD";
+          const gradeLabel = gradeRangeLabel(camp.gradeMin, camp.gradeMax);
+
+          return (
+            <div key={camp.id} className="overflow-hidden rounded-xl border border-gray-mid bg-white">
+              <div className="border-b border-gray-mid bg-warm-stone px-4 py-3">
+                <p className="font-sport text-[11px] font-bold uppercase tracking-wide text-orange">{dateLabel}</p>
+                <h2 className="font-display text-lg font-black text-black">{camp.name}</h2>
+                <p className="mt-0.5 font-body text-sm text-gray-dark">
+                  {formatCents(camp.priceCents ?? 0)}
+                  {camp.registrationMode === "multi_day" && camp.allowSingleDay && camp.singleDayPriceCents
+                    ? ` full week · ${formatCents(camp.singleDayPriceCents)}/day`
+                    : ""}
+                  {gradeLabel ? ` · ${gradeLabel}` : ""}
+                </p>
+              </div>
+
+              <ul className="divide-y divide-gray-mid">
+                {athletes.map((athlete) => {
+                  const reg = camp.registrations.find((r) => r.athleteId === athlete.id);
+                  const paid = reg?.paymentStatus === "paid";
+                  const pending = reg && reg.status !== "cancelled" && !paid;
+
+                  return (
+                    <li key={athlete.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3.5">
+                      <span className="font-body text-sm font-medium text-near-black">{athlete.firstName}</span>
+
+                      {paid ? (
+                        <span className="rounded-full bg-green-50 px-3 py-1 font-sport text-xs font-bold uppercase tracking-wide text-green-800">
+                          Registered — {reg?.selection === "single_day" ? "1 Day" : "Full Camp"}
+                        </span>
+                      ) : (
+                        <div className="flex flex-wrap items-center gap-2">
+                          {pending && (
+                            <form action={cancelCampRegistration}>
+                              <input type="hidden" name="athleteId" value={athlete.id} />
+                              <input type="hidden" name="offeringId" value={camp.id} />
+                              <button className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark hover:text-danger">
+                                Cancel
+                              </button>
+                            </form>
+                          )}
+                          <form action={startCampRegistration} className="flex items-center gap-2">
+                            <input type="hidden" name="athleteId" value={athlete.id} />
+                            <input type="hidden" name="offeringId" value={camp.id} />
+                            {camp.registrationMode === "multi_day" && camp.allowSingleDay ? (
+                              <select
+                                name="dayChoice"
+                                defaultValue="full"
+                                className="min-h-9 rounded-lg border border-gray-mid bg-white px-2 text-xs"
+                              >
+                                <option value="full">Full week — {formatCents(camp.priceCents ?? 0)}</option>
+                                {camp.sessions.map((s) => (
+                                  <option key={s.id} value={s.id}>
+                                    {formatDate(s.startTime)} only — {formatCents(camp.singleDayPriceCents ?? camp.priceCents ?? 0)}
+                                  </option>
+                                ))}
+                              </select>
+                            ) : null}
+                            <button className="rounded-full bg-orange px-4 py-2 font-heading text-xs font-bold uppercase tracking-wide text-white hover:bg-orange-hover">
+                              Register
+                            </button>
+                          </form>
+                        </div>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+
+              <p className="border-t border-gray-mid px-4 py-2.5 font-body text-[12.5px] text-gray-dark">
+                No refunds after registration.
+              </p>
+            </div>
+          );
+        })
+      )}
+
+      {camps.length === 0 && athletes.length > 0 && (
+        <div className="rounded-xl border border-gray-mid bg-white p-6 text-center">
+          <p className="font-body text-sm text-gray-dark">No camps open for registration right now.</p>
+        </div>
+      )}
+    </div>
+  );
+}

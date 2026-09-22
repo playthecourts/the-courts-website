@@ -11,6 +11,7 @@ type IconName =
   | "athletes"
   | "training"
   | "league"
+  | "camps"
   | "payments"
   | "waivers"
   | "messages"
@@ -73,6 +74,14 @@ export function Icon({ name, active }: { name: IconName; active: boolean }) {
           <path d="M8 4h8v4a4 4 0 0 1-8 0V4Z" />
           <path d="M8 5H5a3 3 0 0 0 3 5M16 5h3a3 3 0 0 1-3 5" />
           <path d="M12 12v3M9 19h6M10.5 15h3l.5 4h-4l.5-4Z" />
+        </svg>
+      );
+    case "camps":
+      return (
+        <svg {...common} aria-hidden="true">
+          <path d="M3 20L12 5l9 15H3Z" />
+          <path d="M9.5 11.5L12 5l2.5 6.5" />
+          <path d="M12 5v2" />
         </svg>
       );
     case "payments":
