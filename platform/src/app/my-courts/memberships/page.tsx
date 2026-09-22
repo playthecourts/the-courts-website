@@ -389,8 +389,8 @@ export default async function MembershipsPage({
                               >
                                 {startsInFuture ? `Starts ${formatDate(membership!.startDate)}` : "Current Plan"}
                               </span>
-                              <span className="font-body text-[12.5px] text-gray-dark">
-                                {startsInFuture ? "You're In ✓" : (STATUS_LABEL[membership!.status] ?? membership!.status)}
+                              <span className={startsInFuture ? "font-heading text-[13px] font-bold text-orange" : "font-body text-[12.5px] text-gray-dark"}>
+                                {startsInFuture ? "You're In! 🎉🏀" : (STATUS_LABEL[membership!.status] ?? membership!.status)}
                                 {!startsInFuture &&
                                   membership!.renewalDate &&
                                   ` · Renews ${formatDate(membership!.renewalDate)}`}
