@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requireCapability } from "@/lib/os/dal";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, EmptyState, Pill, Metric, TableWrap, Th, Td } from "../_components/ui";
-import { approveAsFounderAnyway, requestMoreInfo, moveToUnlimited, setLegacyRate, linkNextGenRecord } from "./actions";
+import { approveAsFounderAnyway, requestMoreInfo, moveToUnlimited, denyLegacyRate, setLegacyRate, linkNextGenRecord } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -254,13 +254,23 @@ export default async function NextGenPage({
                               </button>
                             </form>
                           )}
-                          {g.nextGenVerification !== "not_eligible" && (
+                          {g.nextGenStatus !== "current_nextgen" && g.nextGenVerification !== "not_eligible" && (
                             <form action={moveToUnlimited.bind(null, g.id)}>
                               <button
                                 type="submit"
                                 className="os-heading min-h-9 rounded-lg border border-gray-mid bg-white px-3 text-xs uppercase tracking-wide text-danger hover:border-danger"
                               >
                                 Move to Unlimited
+                              </button>
+                            </form>
+                          )}
+                          {g.nextGenStatus === "current_nextgen" && g.nextGenVerification !== "not_eligible" && (
+                            <form action={denyLegacyRate.bind(null, g.id)}>
+                              <button
+                                type="submit"
+                                className="os-heading min-h-9 rounded-lg border border-gray-mid bg-white px-3 text-xs uppercase tracking-wide text-danger hover:border-danger"
+                              >
+                                Deny Rate
                               </button>
                             </form>
                           )}
@@ -294,7 +304,7 @@ export default async function NextGenPage({
                                 type="submit"
                                 className="os-heading min-h-9 rounded-lg border border-gray-mid bg-white px-2 text-xs uppercase tracking-wide hover:border-near-black"
                               >
-                                Save Rate
+                                Approve Rate
                               </button>
                             </form>
                           )}

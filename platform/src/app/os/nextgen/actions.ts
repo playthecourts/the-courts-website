@@ -52,6 +52,43 @@ export async function requestMoreInfo(guardianId: string, formData: FormData) {
 /// current paid period is untouched, only the NEXT invoice reflects the new
 /// price. Works for either a Founders ($165 fixed) or NextGen Legacy Rate
 /// (ad-hoc-priced) subscription — whichever this guardian actually has.
+/// Shared by moveToUnlimited (former_nextgen, usually already subscribed)
+/// and denyLegacyRate (current_nextgen, usually pre-checkout): if a real
+/// paid subscription exists on the Founders/Legacy price, swap it to
+/// Unlimited with no proration — the current paid period is untouched, only
+/// the next invoice reflects the new price. If no subscription exists yet,
+/// there's nothing in Stripe to touch.
+async function switchGuardianToUnlimited(guardianId: string) {
+  const membership = await prisma.athleteMembership.findFirst({
+    where: {
+      status: { in: ["active", "past_due"] },
+      stripeSubscriptionId: { not: null },
+      plan: { name: { in: ["Founders Membership", "NextGen Legacy Rate"] } },
+      athlete: { family: { guardians: { some: { guardianId } } } },
+    },
+  });
+  if (!membership?.stripeSubscriptionId) return false;
+
+  const unlimitedPlan = await prisma.membershipPlan.findFirstOrThrow({ where: { name: "Unlimited Membership" } });
+  if (!unlimitedPlan.stripePriceId) {
+    throw new Error("Unlimited Membership has no Stripe price configured.");
+  }
+
+  const subscription = await stripe.subscriptions.retrieve(membership.stripeSubscriptionId);
+  const itemId = subscription.items.data[0]?.id;
+  if (!itemId) throw new Error("Couldn't find the billed item on this subscription.");
+
+  await stripe.subscriptions.update(membership.stripeSubscriptionId, {
+    items: [{ id: itemId, price: unlimitedPlan.stripePriceId }],
+    proration_behavior: "none",
+  });
+  await prisma.athleteMembership.update({
+    where: { id: membership.id },
+    data: { membershipPlanId: unlimitedPlan.id },
+  });
+  return true;
+}
+
 export async function moveToUnlimited(guardianId: string) {
   const actor = await requireCapability("nextgen.verify");
 
@@ -60,44 +97,43 @@ export async function moveToUnlimited(guardianId: string) {
     throw new Error("This guardian never self-reported a NextGen status.");
   }
 
-  const membership = await prisma.athleteMembership.findFirst({
-    where: {
-      status: { in: ["active", "past_due"] },
-      stripeSubscriptionId: { not: null },
-      plan: { name: { in: ["Founders Membership", "NextGen Legacy Rate"] } },
-      athlete: { family: { guardians: { some: { guardianId } } } },
-    },
-    include: { plan: true },
-  });
-
-  const unlimitedPlan = await prisma.membershipPlan.findFirstOrThrow({ where: { name: "Unlimited Membership" } });
-  if (!unlimitedPlan.stripePriceId) {
-    throw new Error("Unlimited Membership has no Stripe price configured.");
-  }
-
-  if (membership?.stripeSubscriptionId) {
-    const subscription = await stripe.subscriptions.retrieve(membership.stripeSubscriptionId);
-    const itemId = subscription.items.data[0]?.id;
-    if (!itemId) throw new Error("Couldn't find the billed item on this subscription.");
-
-    await stripe.subscriptions.update(membership.stripeSubscriptionId, {
-      items: [{ id: itemId, price: unlimitedPlan.stripePriceId }],
-      proration_behavior: "none",
-    });
-
-    await prisma.athleteMembership.update({
-      where: { id: membership.id },
-      data: { membershipPlanId: unlimitedPlan.id },
-    });
-  }
+  const movedSubscription = await switchGuardianToUnlimited(guardianId);
 
   await prisma.guardian.update({
     where: { id: guardianId },
     data: { nextGenVerification: "not_eligible" },
   });
 
+  await auditLog(actor.id, "mark_nextgen_not_eligible", "guardian", guardianId, { movedSubscription });
+  revalidatePath("/os/nextgen");
+}
+
+/// The "Deny" half of the approve/deny pair on a Current NextGen guardian's
+/// proposed rate. Distinct from moveToUnlimited (worded for an already-
+/// subscribed Founder) because most Current NextGen guardians haven't
+/// checked out yet — there's usually nothing in Stripe to move, just a
+/// proposed rate to clear so it doesn't linger in the "Rate $" field. If
+/// they'd already subscribed on a Founders/Legacy price before being
+/// denied, this still swaps them to Unlimited with no proration, same as
+/// moveToUnlimited — never a refund or a claw-back.
+export async function denyLegacyRate(guardianId: string) {
+  const actor = await requireCapability("nextgen.verify");
+
+  const guardian = await prisma.guardian.findUniqueOrThrow({ where: { id: guardianId } });
+  if (guardian.nextGenStatus !== "current_nextgen") {
+    throw new Error("This guardian isn't a current NextGen self-report.");
+  }
+
+  const movedSubscription = await switchGuardianToUnlimited(guardianId);
+
+  await prisma.guardian.update({
+    where: { id: guardianId },
+    data: { nextGenVerification: "not_eligible", legacyRateCents: null, isFounder: false },
+  });
+
   await auditLog(actor.id, "mark_nextgen_not_eligible", "guardian", guardianId, {
-    movedSubscription: Boolean(membership?.stripeSubscriptionId),
+    via: "deny_rate",
+    movedSubscription,
   });
   revalidatePath("/os/nextgen");
 }
