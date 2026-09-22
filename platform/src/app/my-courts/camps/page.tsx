@@ -1,8 +1,10 @@
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { gradeRangeLabel } from "@/lib/programs/types";
+import { effectiveEntitlements } from "@/lib/entitlements";
 import { startCampRegistration, cancelCampRegistration } from "./actions";
 import { CampFilterBar } from "./filter-bar";
+import { AchCallout } from "../ach-callout";
 
 export const dynamic = "force-dynamic";
 
@@ -54,6 +56,24 @@ export default async function CampsPage({
   // field here, so it's done in memory on the small result set instead.
   camps.sort((a, b) => (a.sessions[0]?.startTime.getTime() ?? 0) - (b.sessions[0]?.startTime.getTime() ?? 0));
 
+  // Same member_pricing/class_credit entitlement check the checkout action
+  // charges against (see hasMemberPricing in ./actions) — computed once per
+  // athlete here so the price shown matches what they'd actually pay,
+  // instead of always showing the flat non-member rate.
+  const memberships = await prisma.athleteMembership.findMany({
+    where: { athleteId: { in: athleteIds }, status: "active" },
+    include: { plan: { include: { entitlements: true, entitlementsFromPlan: { include: { entitlements: true } } } } },
+  });
+  function isMemberFor(athleteId: string, programId: string) {
+    return memberships.some(
+      (m) =>
+        m.athleteId === athleteId &&
+        effectiveEntitlements(m.plan).some(
+          (e) => (e.benefitType === "member_pricing" || e.benefitType === "class_credit") && (e.programId === null || e.programId === programId)
+        )
+    );
+  }
+
   return (
     <div className="flex flex-col gap-6">
       <div>
@@ -74,6 +94,8 @@ export default async function CampsPage({
           Something went wrong starting checkout. Try again, or contact us if it keeps happening.
         </div>
       )}
+
+      <AchCallout />
 
       {athletes.length === 0 ? (
         <div className="rounded-xl border border-gray-mid bg-white p-6 text-center">
@@ -100,10 +122,11 @@ export default async function CampsPage({
           const node = (
             <div className="overflow-hidden rounded-xl border border-gray-mid bg-white">
               <div className="border-b border-gray-mid bg-warm-stone px-4 py-3">
-                <p className="font-sport text-base font-bold uppercase tracking-wide text-orange">{dateLabel}</p>
+                <p className="font-sport text-sm font-bold uppercase tracking-wide text-orange">{dateLabel}</p>
                 <h2 className="font-display text-lg font-black text-black">{camp.name}</h2>
                 <p className="mt-0.5 font-body text-sm text-gray-dark">
                   {formatCents(camp.priceCents ?? 0)}
+                  {camp.memberPriceCents != null ? ` · Members ${formatCents(camp.memberPriceCents)}` : ""}
                   {camp.registrationMode === "multi_day" && camp.allowSingleDay && camp.singleDayPriceCents
                     ? ` full week · ${formatCents(camp.singleDayPriceCents)}/day`
                     : ""}
@@ -116,10 +139,15 @@ export default async function CampsPage({
                   const reg = camp.registrations.find((r) => r.athleteId === athlete.id);
                   const paid = reg?.paymentStatus === "paid";
                   const pending = reg && reg.status !== "cancelled" && !paid;
+                  const isMember = isMemberFor(athlete.id, camp.programId);
+                  const fullWeekPrice = isMember && camp.memberPriceCents != null ? camp.memberPriceCents : camp.priceCents ?? 0;
 
                   return (
                     <li key={athlete.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3.5">
-                      <span className="font-body text-sm font-medium text-near-black">{athlete.firstName}</span>
+                      <span className="font-body text-sm font-medium text-near-black">
+                        {athlete.firstName}
+                        {isMember && <span className="ml-2 text-xs font-bold uppercase tracking-wide text-orange">Member</span>}
+                      </span>
 
                       {paid ? (
                         <span className="rounded-full bg-green-50 px-3 py-1 font-sport text-xs font-bold uppercase tracking-wide text-green-800">
@@ -145,16 +173,16 @@ export default async function CampsPage({
                                 defaultValue="full"
                                 className="min-h-9 rounded-lg border border-gray-mid bg-white px-2 text-xs"
                               >
-                                <option value="full">Full week — {formatCents(camp.priceCents ?? 0)}</option>
+                                <option value="full">Full — {formatCents(fullWeekPrice)}</option>
                                 {camp.sessions.map((s) => (
                                   <option key={s.id} value={s.id}>
-                                    {formatWeekday(s.startTime)}, {formatDate(s.startTime)} only — {formatCents(camp.singleDayPriceCents ?? camp.priceCents ?? 0)}
+                                    {formatWeekday(s.startTime)}, {formatDate(s.startTime)} — {formatCents(camp.singleDayPriceCents ?? camp.priceCents ?? 0)}
                                   </option>
                                 ))}
                               </select>
                             ) : null}
                             <button className="rounded-full bg-orange px-4 py-2 font-heading text-xs font-bold uppercase tracking-wide text-white hover:bg-orange-hover">
-                              Register
+                              Register{camp.registrationMode === "offering" ? ` — ${formatCents(fullWeekPrice)}` : ""}
                             </button>
                           </form>
                         </div>

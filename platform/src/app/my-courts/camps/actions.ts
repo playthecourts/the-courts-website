@@ -7,6 +7,24 @@ import { prisma } from "@/lib/prisma";
 import { stripe, getOrCreateStripeCustomer } from "@/lib/stripe";
 import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { sendRegistrationStaffAlert } from "@/lib/registration-notifications";
+import { effectiveEntitlements } from "@/lib/entitlements";
+
+/// Same "does this athlete's active membership carry a member_pricing (or
+/// class_credit) entitlement for this program" check used for per-session
+/// bookings (lib/programs/pricing.ts) — camps read off the same
+/// PlanEntitlement rows rather than a second, possibly-diverging notion of
+/// "member" for whole-camp registration.
+async function hasMemberPricing(athleteId: string, programId: string): Promise<boolean> {
+  const memberships = await prisma.athleteMembership.findMany({
+    where: { athleteId, status: "active" },
+    include: { plan: { include: { entitlements: true, entitlementsFromPlan: { include: { entitlements: true } } } } },
+  });
+  return memberships.some((m) =>
+    effectiveEntitlements(m.plan).some(
+      (e) => (e.benefitType === "member_pricing" || e.benefitType === "class_credit") && (e.programId === null || e.programId === programId)
+    )
+  );
+}
 
 async function getOrigin() {
   const requestHeaders = await headers();
@@ -62,7 +80,16 @@ export async function startCampRegistration(formData: FormData) {
   }
 
   const selection = singleDay ? "single_day" : "all_sessions";
-  const amountCents = singleDay ? (offering.singleDayPriceCents ?? offering.priceCents) : offering.priceCents;
+  // Member pricing only ever applies to the whole-camp price — a single day
+  // of a multi_day camp has no separate member rate configured (Fall Break's
+  // own pricing intentionally has no member discount at all), so a member
+  // booking a single day still pays the plain single-day rate.
+  const isMember = singleDay ? false : await hasMemberPricing(athleteId, offering.programId);
+  const amountCents = singleDay
+    ? (offering.singleDayPriceCents ?? offering.priceCents)
+    : isMember && offering.memberPriceCents != null
+      ? offering.memberPriceCents
+      : offering.priceCents;
   if (amountCents == null) {
     throw new Error("This camp isn't priced yet.");
   }

@@ -11,6 +11,7 @@ import {
 import { FamilyPlanSelector } from "./family-plan-selector";
 import { CancelMembershipFlow } from "./cancel-flow";
 import { GaConversionEvent } from "@/components/ga-conversion-event";
+import { AchCallout } from "../ach-callout";
 
 function formatPrice(cents: number, interval: string) {
   return `$${(cents / 100).toFixed(2)}/${interval === "monthly" ? "mo" : "yr"}`;
@@ -102,20 +103,6 @@ function PlanCard({
       )}
       {note && <p className="mt-1.5 font-body text-[11.5px] leading-snug text-gray-dark/80">{note}</p>}
       <div className="mt-3">{cta}</div>
-    </div>
-  );
-}
-
-function AchCallout() {
-  return (
-    <div className="mb-4 rounded-lg border border-orange bg-orange/5 px-5 py-5">
-      <p className="font-sport text-base font-bold uppercase tracking-wide text-orange">
-        Help Us Keep More on the Court
-      </p>
-      <p className="mt-2 font-body text-[15px] leading-relaxed text-near-black">
-        Choose bank account (ACH) at checkout when you can. Same price for you, lower processing fees for us, and
-        more going back into The Courts. Thanks for helping us keep more on the court!
-      </p>
     </div>
   );
 }
