@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { requireCapability } from "@/lib/os/dal";
 import { prisma } from "@/lib/prisma";
 import { auditLog } from "@/lib/audit";
-import { autoPlaceLeague } from "@/lib/league-placement";
 
 const LEAGUE_NAME = "Fall 2026 Basketball League";
 
@@ -52,15 +51,6 @@ export async function removeFromTeam(formData: FormData) {
   const teamId = String(formData.get("teamId") ?? "");
   await prisma.teamMember.deleteMany({ where: { athleteId, teamId } });
   await auditLog(actor.id, "remove_team_member", "athlete", athleteId, { teamId });
-  revalidatePath("/os/leagues");
-  revalidatePath("/my-courts/league");
-}
-
-export async function autoPlaceByGrade() {
-  const actor = await requireCapability("leagues.manage");
-  const offering = await leagueOffering();
-  const { assigned } = await autoPlaceLeague(prisma, offering.id);
-  await auditLog(actor.id, "assign_team_member", "offering", offering.id, { autoPlaced: assigned.length });
   revalidatePath("/os/leagues");
   revalidatePath("/my-courts/league");
 }

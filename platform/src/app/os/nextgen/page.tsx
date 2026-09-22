@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requireCapability } from "@/lib/os/dal";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, EmptyState, Pill, Metric, TableWrap, Th, Td } from "../_components/ui";
-import { approveAsFounderAnyway, requestMoreInfo, moveToUnlimited, denyLegacyRate, setLegacyRate, linkNextGenRecord } from "./actions";
+import { approveAsFounderAnyway, requestMoreInfo, moveToUnlimited, denyLegacyRate, setLegacyRate, linkNextGenRecord, unlinkNextGenRecord, dismissNextGenCandidate } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -116,6 +116,9 @@ export default async function NextGenPage({
     }),
     prisma.nextGenRecord.findMany({ where: { matchedGuardianId: null }, orderBy: { createdAt: "asc" } }),
   ]);
+
+  const linkedRecords = await prisma.nextGenRecord.findMany({ where: { matchedGuardianId: { not: null } } });
+  const linkedRecordByGuardian = new Map(linkedRecords.map((r) => [r.matchedGuardianId as string, r]));
 
   const hasFilters = Boolean(statusFilter || verificationFilter);
 
@@ -274,6 +277,16 @@ export default async function NextGenPage({
                               </button>
                             </form>
                           )}
+                          {linkedRecordByGuardian.has(g.id) && (
+                            <form action={unlinkNextGenRecord.bind(null, linkedRecordByGuardian.get(g.id)!.id, g.id)}>
+                              <button
+                                type="submit"
+                                className="os-heading min-h-9 rounded-lg border border-gray-mid bg-white px-3 text-xs uppercase tracking-wide text-danger hover:border-danger"
+                              >
+                                Unlink ({linkedRecordByGuardian.get(g.id)!.name})
+                              </button>
+                            </form>
+                          )}
                           <form action={requestMoreInfo.bind(null, g.id)} className="flex items-center gap-1">
                             <input
                               type="text"
@@ -327,7 +340,9 @@ export default async function NextGenPage({
           <div className="flex flex-col divide-y divide-gray-mid">
             {await Promise.all(
               unmatchedRecords.map(async (record) => {
-                const candidates = await findCandidateGuardians(record);
+                const candidates = (await findCandidateGuardians(record)).filter(
+                  ({ guardian }) => !record.rejectedGuardianIds.includes(guardian.id)
+                );
                 return (
                   <div key={record.id} className="px-4 py-3">
                     <p className="text-sm">
@@ -352,6 +367,14 @@ export default async function NextGenPage({
                                 className="os-heading min-h-7 rounded-lg border border-gray-mid bg-white px-2 uppercase tracking-wide hover:border-near-black"
                               >
                                 Link this account
+                              </button>
+                            </form>
+                            <form action={dismissNextGenCandidate.bind(null, record.id, guardian.id)}>
+                              <button
+                                type="submit"
+                                className="os-heading min-h-7 rounded-lg border border-gray-mid bg-white px-2 uppercase tracking-wide text-gray-dark hover:border-near-black"
+                              >
+                                Not a Match
                               </button>
                             </form>
                           </div>

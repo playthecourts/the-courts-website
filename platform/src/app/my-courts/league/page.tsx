@@ -122,8 +122,8 @@ export default async function LeaguePage({
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h1 className="font-display text-2xl font-black text-black">Fall Basketball League</h1>
-        <p className="mt-1 font-heading text-base font-bold text-orange">The First Season at The Courts. 🏀</p>
+        <h1 className="font-display text-3xl font-black text-black sm:text-4xl">2026 Fall Basketball League</h1>
+        <p className="mt-1 font-heading text-base font-bold text-orange">With West Nashville Sports League. Coached by Coach Johnny. 🏀</p>
         <p className="mt-2 font-body text-sm text-gray-dark">
           Weekly team practices. Saturday games. Real teammates, real competition, and the start of something new.
         </p>

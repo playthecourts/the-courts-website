@@ -204,3 +204,56 @@ export async function linkNextGenRecord(recordId: string, guardianId: string) {
   await auditLog(actor.id, "verify_nextgen_founder", "guardian", guardianId, { via: "linked_record", recordId });
   revalidatePath("/os/nextgen");
 }
+
+/// Undoes linkNextGenRecord: sends the record back to "Unmatched" and the
+/// guardian back to unverified — the plain undo for a link made in error.
+/// If a real paid subscription already exists on the linked price, it's
+/// swapped to Unlimited with no proration (never a refund or claw-back),
+/// same as denyLegacyRate/moveToUnlimited.
+export async function unlinkNextGenRecord(recordId: string, guardianId: string) {
+  const actor = await requireCapability("nextgen.verify");
+
+  const record = await prisma.nextGenRecord.findUniqueOrThrow({ where: { id: recordId } });
+  if (record.matchedGuardianId !== guardianId) {
+    throw new Error("This record isn't linked to that account.");
+  }
+
+  const movedSubscription = await switchGuardianToUnlimited(guardianId);
+
+  await prisma.$transaction([
+    prisma.nextGenRecord.update({ where: { id: recordId }, data: { matchedGuardianId: null, matchedAt: null } }),
+    prisma.guardian.update({
+      where: { id: guardianId },
+      data: { nextGenVerification: "unverified", isFounder: false, legacyRateCents: null },
+    }),
+  ]);
+
+  await auditLog(actor.id, "mark_nextgen_not_eligible", "guardian", guardianId, {
+    via: "unlink_record",
+    recordId,
+    movedSubscription,
+  });
+  revalidatePath("/os/nextgen");
+}
+
+/// The "no" on a suggested candidate pairing, without linking or resolving
+/// the record — it just stops that specific guardian from being suggested
+/// again for this record. The record stays in "Unmatched" for other
+/// candidates or a future import to catch.
+export async function dismissNextGenCandidate(recordId: string, guardianId: string) {
+  const actor = await requireCapability("nextgen.verify");
+
+  const record = await prisma.nextGenRecord.findUniqueOrThrow({ where: { id: recordId } });
+  if (!record.rejectedGuardianIds.includes(guardianId)) {
+    await prisma.nextGenRecord.update({
+      where: { id: recordId },
+      data: { rejectedGuardianIds: { push: guardianId } },
+    });
+  }
+
+  await auditLog(actor.id, "set_nextgen_legacy_rate", "guardian", guardianId, {
+    action: "dismiss_candidate",
+    recordId,
+  });
+  revalidatePath("/os/nextgen");
+}

@@ -108,6 +108,9 @@ model NextGenRecord {
   /// Which import this came from, e.g. "165_list_2026-09-16" — lets more
   /// than one historical export coexist without ambiguity about origin.
   source          String?
+  /// Guardian candidates staff explicitly said do NOT match this record —
+  /// keeps a rejected suggestion from resurfacing every time this page loads.
+  rejectedGuardianIds String[] @default([]) @map("rejected_guardian_ids")
   createdAt       DateTime  @default(now()) @map("created_at")
 
   matchedGuardian Guardian? @relation(fields: [matchedGuardianId], references: [id])

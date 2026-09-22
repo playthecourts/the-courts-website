@@ -3,7 +3,7 @@ import { can } from "@/lib/os/permissions";
 import { prisma } from "@/lib/prisma";
 import { displayName } from "@/lib/athlete";
 import { PageHeader, Card, CardHeader, EmptyState, Pill, BTN, INPUT, SELECT, PAYMENT_TONE } from "../_components/ui";
-import { autoPlaceByGrade, createLeagueTeam, placeOnTeam, removeFromTeam } from "./actions";
+import { createLeagueTeam, placeOnTeam, removeFromTeam } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -53,12 +53,6 @@ export default async function LeaguesPage() {
         title="Leagues + Teams"
         subtitle={`${registrations.length} registered · ${placedIds.size} placed · ${unplaced.length} waiting for a team`}
       />
-
-      {canManage && unplaced.length > 0 && (
-        <form action={autoPlaceByGrade} className="mb-5">
-          <button className={BTN.secondary}>Auto-place by grade (3rd/4th split Orange + Black, 6th/7th White)</button>
-        </form>
-      )}
 
       <div className="grid gap-5 lg:grid-cols-3">
         {teams.map((t) => (
