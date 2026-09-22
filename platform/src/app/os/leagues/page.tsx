@@ -2,6 +2,8 @@ import { requireCapability } from "@/lib/os/dal";
 import { can } from "@/lib/os/permissions";
 import { prisma } from "@/lib/prisma";
 import { displayName } from "@/lib/athlete";
+import { signedPhotoUrls } from "@/lib/athlete-photo";
+import { AthleteAvatar } from "@/components/athlete/avatar";
 import { PageHeader, Card, CardHeader, EmptyState, Pill, BTN, INPUT, SELECT, PAYMENT_TONE } from "../_components/ui";
 import { createLeagueTeam, placeOnTeam, removeFromTeam, setJerseySize } from "./actions";
 
@@ -74,6 +76,9 @@ export default async function LeaguesPage() {
   const unplaced = registrations.filter((r) => !placedIds.has(r.athleteId));
   const teamOf = new Map(teams.flatMap((t) => t.members.map((m) => [m.athleteId, t.name] as const)));
 
+  const allAthletesOnPage = [...teams.flatMap((t) => t.members.map((m) => m.athlete)), ...registrations.map((r) => r.athlete)];
+  const photoUrls = await signedPhotoUrls(allAthletesOnPage.map((a) => a.photoPath));
+
   return (
     <>
       <PageHeader
@@ -93,13 +98,17 @@ export default async function LeaguesPage() {
               {t.members.length === 0 && <li className="px-4 py-4 text-sm text-gray-dark">No players yet.</li>}
               {t.members.map((m) => (
                 <li key={m.athleteId} className="flex flex-wrap items-center justify-between gap-2 px-4 py-3">
-                  <span className="text-sm text-near-black">
+                  <span className="flex items-center gap-2.5 text-sm text-near-black">
+                    <AthleteAvatar athlete={m.athlete} photoUrl={m.athlete.photoPath ? (photoUrls.get(m.athlete.photoPath) ?? null) : null} size="sm" />
+                    <span>
                     {displayName(m.athlete)} {m.athlete.lastName}
                     {guardianPhones(m.athlete).map((g) => (
-                      <span key={g.name} className="ml-2 block text-xs font-normal text-gray-dark sm:inline">
-                        {g.name}: {g.phone}
+                      <span key={g.name} className="mt-0.5 block text-xs font-normal text-gray-dark">
+                        {g.name}
+                        <span className="block">{g.phone}</span>
                       </span>
                     ))}
+                    </span>
                   </span>
                   <div className="flex items-center gap-2">
                     {canManage ? (
@@ -153,16 +162,20 @@ export default async function LeaguesPage() {
           <ul className="divide-y divide-gray-mid">
             {unplaced.map((r) => (
               <li key={r.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
-                <span className="text-sm text-near-black">
+                <span className="flex items-center gap-2.5 text-sm text-near-black">
+                  <AthleteAvatar athlete={r.athlete} photoUrl={r.athlete.photoPath ? (photoUrls.get(r.athlete.photoPath) ?? null) : null} size="sm" />
+                  <span>
                   {displayName(r.athlete)} {r.athlete.lastName}
                   <span className="ml-2">
                     <Pill tone={PAYMENT_TONE[r.paymentStatus] ?? "neutral"}>{r.paymentStatus}</Pill>
                   </span>
                   {guardianPhones(r.athlete).map((g) => (
-                    <span key={g.name} className="ml-2 block text-xs font-normal text-gray-dark sm:inline">
-                      {g.name}: {g.phone}
+                    <span key={g.name} className="mt-0.5 block text-xs font-normal text-gray-dark">
+                      {g.name}
+                      <span className="block">{g.phone}</span>
                     </span>
                   ))}
+                  </span>
                 </span>
                 {canManage && (
                   <form action={placeOnTeam} className="flex items-center gap-2">
