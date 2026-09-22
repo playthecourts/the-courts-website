@@ -60,12 +60,13 @@ async function findCandidateGuardians(record: { name: string; email: string }) {
 export default async function NextGenPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string; verification?: string }>;
+  searchParams: Promise<{ status?: string; verification?: string; sortStatus?: string }>;
 }) {
   await requireCapability("nextgen.verify");
 
   const sp = await searchParams;
   const statusFilter = sp.status === "former_nextgen" || sp.status === "current_nextgen" ? sp.status : undefined;
+  const statusSortDir = sp.sortStatus === "desc" ? "desc" : sp.sortStatus === "asc" ? "asc" : null;
   const verificationFilter =
     sp.verification === "unverified" ||
     sp.verification === "verified" ||
@@ -121,6 +122,22 @@ export default async function NextGenPage({
   const linkedRecordByGuardian = new Map(linkedRecords.map((r) => [r.matchedGuardianId as string, r]));
 
   const hasFilters = Boolean(statusFilter || verificationFilter);
+
+  if (statusSortDir) {
+    const rank = (s: string | null) => (s === "current_nextgen" ? 0 : 1);
+    guardians.sort((a, b) => {
+      const diff = rank(a.nextGenStatus) - rank(b.nextGenStatus);
+      return statusSortDir === "asc" ? diff : -diff;
+    });
+  }
+
+  const statusSortHref = (() => {
+    const params = new URLSearchParams();
+    if (statusFilter) params.set("status", statusFilter);
+    if (verificationFilter) params.set("verification", verificationFilter);
+    params.set("sortStatus", statusSortDir === "asc" ? "desc" : "asc");
+    return `/os/nextgen?${params.toString()}`;
+  })();
 
   return (
     <div>
@@ -184,7 +201,12 @@ export default async function NextGenPage({
                   <Th>Actions</Th>
                   <Th>Guardian</Th>
                   <Th>Athlete(s)</Th>
-                  <Th>Status</Th>
+                  <Th>
+                    <Link href={statusSortHref} className="flex items-center gap-1 hover:text-near-black">
+                      Status
+                      <span aria-hidden="true">{statusSortDir === "asc" ? "▲" : statusSortDir === "desc" ? "▼" : "↕"}</span>
+                    </Link>
+                  </Th>
                   <Th>Verification</Th>
                   <Th>Founder</Th>
                   <Th>Legacy Rate</Th>
