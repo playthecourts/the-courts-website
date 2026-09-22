@@ -69,7 +69,6 @@ export default async function LeaguesPage() {
                 <li key={m.athleteId} className="flex flex-wrap items-center justify-between gap-2 px-4 py-3">
                   <span className="text-sm text-near-black">
                     {displayName(m.athlete)} {m.athlete.lastName}
-                    <span className="ml-2 text-gray-dark">Grade {m.athlete.grade ?? "—"}</span>
                   </span>
                   <div className="flex items-center gap-2">
                     {canManage ? (
@@ -115,7 +114,6 @@ export default async function LeaguesPage() {
               <li key={r.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
                 <span className="text-sm text-near-black">
                   {displayName(r.athlete)} {r.athlete.lastName}
-                  <span className="ml-2 text-gray-dark">Grade {r.athlete.grade ?? "—"}</span>
                   <span className="ml-2">
                     <Pill tone={PAYMENT_TONE[r.paymentStatus] ?? "neutral"}>{r.paymentStatus}</Pill>
                   </span>
