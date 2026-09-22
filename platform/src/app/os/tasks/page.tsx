@@ -82,7 +82,7 @@ export default async function TasksPage() {
                         </form>
                       )}
                     </div>
-                    {t.detail && <p className="mt-1 pl-6 text-xs text-gray-dark">{t.detail}</p>}
+                    {t.detail && <p className="mt-1 whitespace-pre-line pl-6 text-xs text-gray-dark">{t.detail}</p>}
                     <div className="mt-2 flex flex-wrap items-center gap-2 pl-6">
                       {canManage ? (
                         <form action={setTaskPriority} className="flex items-center">
