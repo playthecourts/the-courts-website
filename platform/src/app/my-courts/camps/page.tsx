@@ -2,6 +2,7 @@ import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { gradeRangeLabel } from "@/lib/programs/types";
 import { startCampRegistration, cancelCampRegistration } from "./actions";
+import { CampFilterBar } from "./filter-bar";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +17,14 @@ function formatCents(cents: number) {
 
 function formatDate(d: Date) {
   return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(d);
+}
+
+function formatWeekday(d: Date) {
+  return new Intl.DateTimeFormat("en-US", { weekday: "short", timeZone: "UTC" }).format(d);
+}
+
+function formatMonth(d: Date) {
+  return new Intl.DateTimeFormat("en-US", { month: "short", timeZone: "UTC" }).format(d);
 }
 
 export default async function CampsPage({
@@ -71,17 +80,27 @@ export default async function CampsPage({
           <p className="font-body text-sm text-gray-dark">Add an athlete to your family before registering for a camp.</p>
         </div>
       ) : (
-        camps.map((camp) => {
+        (() => {
+          const months = [
+            ...new Set(camps.map((c) => (c.sessions[0] ? formatMonth(c.sessions[0].startTime) : null)).filter((m): m is string => Boolean(m))),
+          ];
+          const items = camps.map((camp) => {
           const first = camp.sessions[0];
           const last = camp.sessions[camp.sessions.length - 1];
           const dateLabel =
-            first && last && first.id !== last.id ? `${formatDate(first.startTime)}–${formatDate(last.startTime)}` : first ? formatDate(first.startTime) : "Dates TBD";
+            first && last && first.id !== last.id
+              ? `${formatWeekday(first.startTime)}–${formatWeekday(last.startTime)}, ${formatDate(first.startTime)}–${formatDate(last.startTime)}`
+              : first
+                ? `${formatWeekday(first.startTime)}, ${formatDate(first.startTime)}`
+                : "Dates TBD";
           const gradeLabel = gradeRangeLabel(camp.gradeMin, camp.gradeMax);
+          const sport = /volleyball/i.test(camp.name) ? "volleyball" : /basketball/i.test(camp.name) ? "basketball" : "other";
+          const month = first ? formatMonth(first.startTime) : "other";
 
-          return (
-            <div key={camp.id} className="overflow-hidden rounded-xl border border-gray-mid bg-white">
+          const node = (
+            <div className="overflow-hidden rounded-xl border border-gray-mid bg-white">
               <div className="border-b border-gray-mid bg-warm-stone px-4 py-3">
-                <p className="font-sport text-[11px] font-bold uppercase tracking-wide text-orange">{dateLabel}</p>
+                <p className="font-sport text-base font-bold uppercase tracking-wide text-orange">{dateLabel}</p>
                 <h2 className="font-display text-lg font-black text-black">{camp.name}</h2>
                 <p className="mt-0.5 font-body text-sm text-gray-dark">
                   {formatCents(camp.priceCents ?? 0)}
@@ -129,7 +148,7 @@ export default async function CampsPage({
                                 <option value="full">Full week — {formatCents(camp.priceCents ?? 0)}</option>
                                 {camp.sessions.map((s) => (
                                   <option key={s.id} value={s.id}>
-                                    {formatDate(s.startTime)} only — {formatCents(camp.singleDayPriceCents ?? camp.priceCents ?? 0)}
+                                    {formatWeekday(s.startTime)}, {formatDate(s.startTime)} only — {formatCents(camp.singleDayPriceCents ?? camp.priceCents ?? 0)}
                                   </option>
                                 ))}
                               </select>
@@ -150,7 +169,12 @@ export default async function CampsPage({
               </p>
             </div>
           );
-        })
+
+          return { id: camp.id, sport, month, node } as const;
+          });
+
+          return <CampFilterBar items={items} months={months} />;
+        })()
       )}
 
       {camps.length === 0 && athletes.length > 0 && (
