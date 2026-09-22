@@ -78,10 +78,6 @@ export default async function CampsPage({
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="font-display text-3xl font-black text-black sm:text-4xl">Camps</h1>
-        <p className="mt-1 font-body text-sm text-gray-dark">
-          Fall break, holiday break, and no-school-day camps. Weekly drop-in classes and League are elsewhere —
-          this is just the multi-day and whole-week programs.
-        </p>
       </div>
 
       {sp.checkout === "success" && (
