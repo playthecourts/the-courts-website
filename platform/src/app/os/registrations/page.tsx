@@ -2,6 +2,7 @@ import Link from "next/link";
 import { requireCapability } from "@/lib/os/dal";
 import { registrationScope } from "@/lib/os/dal";
 import { prisma } from "@/lib/prisma";
+import { formatGrade } from "@/lib/coach-format";
 import { expireStaleOffers } from "@/lib/programs/waitlist";
 import { formatCents } from "@/lib/programs/format";
 import { gradeRangeLabel, PROGRAM_TYPE_LABELS } from "@/lib/programs/types";
@@ -211,7 +212,7 @@ export default async function RegistrationsPage({ searchParams }: PageProps<"/os
                       <span className="font-medium text-near-black">
                         {r.athlete.firstName} {r.athlete.lastName}
                       </span>
-                      {r.athlete.grade ? <span className="ml-2 text-xs text-neutral">{r.athlete.grade}</span> : null}
+                      {r.athlete.grade ? <span className="ml-2 text-xs text-neutral">{formatGrade(r.athlete.grade)}</span> : null}
                     </Td>
                     <Td>
                       <Link href={`/os/offerings/${r.offering.id}`} className="text-near-black underline underline-offset-2">

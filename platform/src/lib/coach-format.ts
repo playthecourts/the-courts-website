@@ -64,35 +64,18 @@ export function relativeDayLabel(date: Date, now: Date) {
   return formatShortDate(date);
 }
 
-/** Grade shown compactly on roster rows: "4th Grade". */
-function ordinalSuffix(n: number): string {
-  const mod100 = n % 100;
-  if (mod100 >= 11 && mod100 <= 13) return "th";
-  switch (n % 10) {
-    case 1:
-      return "st";
-    case 2:
-      return "nd";
-    case 3:
-      return "rd";
-    default:
-      return "th";
-  }
-}
-
-// Real stored values are a mix of eras: some already carry an ordinal
-// ("3rd"), some are bare numbers ("3") from older signups. Both should read
-// the same in the UI — normalize to the number's own correct ordinal rather
-// than trusting whatever suffix (or lack of one) is already stored.
+// Real stored values are a mix of eras: some carry an ordinal ("3rd"), some
+// are bare numbers ("3") from older signups. Both should read the same in
+// the UI — normalize to "Grade N" regardless of how it's stored.
 export function formatGrade(grade: string | null) {
   if (!grade) return null;
   if (/grade/i.test(grade)) return grade;
   const match = grade.match(/^(\d+)(?:st|nd|rd|th)?$/i);
   if (match) {
     const n = parseInt(match[1], 10);
-    return `${n}${ordinalSuffix(n)} Grade`;
+    return `Grade ${n}`;
   }
-  return `${grade} Grade`;
+  return grade;
 }
 
 export function initials(firstName: string, lastName: string) {

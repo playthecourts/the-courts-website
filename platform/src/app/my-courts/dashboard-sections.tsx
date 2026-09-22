@@ -3,6 +3,7 @@ import { CourtArc } from "./court-lines";
 import { ArrowGlyph } from "./glyphs";
 import { AthleteAvatar } from "@/components/athlete/avatar";
 import { displayName } from "@/lib/athlete";
+import { formatGrade } from "@/lib/coach-format";
 
 // ---------------------------------------------------------------------------
 // Welcome — launch-focused: pre-October 1, the dashboard's job is to get a
@@ -130,7 +131,7 @@ export function AthleteRow({
                 {displayName(athlete)}
               </p>
               <p className="mt-0.5 font-body text-[12.5px] text-gray-dark">
-                {[athlete.grade ? `Grade ${athlete.grade}` : null, athlete.nextActivity ? `Next: ${athlete.nextActivity}` : null]
+                {[formatGrade(athlete.grade), athlete.nextActivity ? `Next: ${athlete.nextActivity}` : null]
                   .filter(Boolean)
                   .join(" · ") || "Profile started"}
               </p>

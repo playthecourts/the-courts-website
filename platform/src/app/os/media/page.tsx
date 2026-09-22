@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireCapability } from "@/lib/os/dal";
 import { prisma } from "@/lib/prisma";
+import { formatGrade } from "@/lib/coach-format";
 import { listMediaPermissions, openMediaFollowUps, canSeeConsentDetail, offeringMediaRoster } from "@/lib/media-roster";
 import { staffMediaLabel, RELEASE_VERSION, REVIEW_PENDING } from "@/lib/media-consent";
 import { PageHeader, Card, CardHeader, EmptyState, Pill, TableWrap, Th, Td, type Tone } from "../_components/ui";
@@ -248,7 +249,7 @@ export default async function MediaPage({ searchParams }: PageProps<"/os/media">
                   return (
                     <tr key={a.id}>
                       <Td>{a.firstName} {a.lastName}</Td>
-                      <Td className="text-neutral">{a.grade ?? "—"}</Td>
+                      <Td className="text-neutral">{formatGrade(a.grade) ?? "—"}</Td>
                       <Td>
                         <Pill tone={TONE[st ?? "unanswered"]}>{staffMediaLabel(st)}</Pill>
                       </Td>

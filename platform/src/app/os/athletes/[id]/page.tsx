@@ -15,6 +15,7 @@ import {
   competitiveMeterLabel,
 } from "@/lib/athlete";
 import { quarterLabel } from "@/lib/quarters";
+import { formatGrade } from "@/lib/coach-format";
 import { PageHeader, Card, CardHeader, Pill, EmptyState } from "../../_components/ui";
 import PickupInstructionForm from "./pickup-instruction-form";
 import DropInCreditsForm from "./drop-in-credits-form";
@@ -100,7 +101,7 @@ export default async function OsAthletePage({ params }: { params: Promise<{ id: 
         title={fullName(athlete)}
         subtitle={[
           athlete.nickname ? `Goes by ${displayName(athlete)}` : null,
-          athlete.grade ? `${athlete.grade} Grade` : null,
+          formatGrade(athlete.grade),
           athlete.sports.join(" · ") || null,
         ]
           .filter(Boolean)
@@ -127,7 +128,7 @@ export default async function OsAthletePage({ params }: { params: Promise<{ id: 
             ? `${athlete.dob.toISOString().slice(0, 10)} · age ${ageFrom(athlete.dob)}`
             : `Age ${ageFrom(athlete.dob)} · born ${birthdayMonth(athlete.dob)}`}
         </Row>
-        <Row label="Grade">{athlete.grade ?? "—"}</Row>
+        <Row label="Grade">{formatGrade(athlete.grade) ?? "—"}</Row>
         <Row label="School">{athlete.school ?? "—"}</Row>
         <Row label="Sports">{athlete.sports.join(" · ") || "—"}</Row>
         {athlete.favoriteSport && <Row label="Favorite Sport">{athlete.favoriteSport}</Row>}

@@ -3,6 +3,7 @@ import { requireCapability } from "@/lib/os/dal";
 import { can } from "@/lib/os/permissions";
 import { listAthleteRoster, type RosterFilters } from "@/lib/os/roster";
 import { MediaStatusBadge } from "@/components/athlete/badges";
+import { formatGrade } from "@/lib/coach-format";
 import { PageHeader, Card, CardHeader, EmptyState, Pill, TableWrap, Th, Td } from "../_components/ui";
 
 export const dynamic = "force-dynamic";
@@ -158,7 +159,7 @@ export default async function FamiliesPage({ searchParams }: PageProps<"/os/fami
                       <span className="font-medium text-near-black">{r.firstName} {r.lastName}</span>
                     </Td>
                     <Td className="text-neutral">{r.familyName}</Td>
-                    <Td>{r.grade ?? "—"}</Td>
+                    <Td>{formatGrade(r.grade) ?? "—"}</Td>
                     <Td>{r.gender ?? "—"}</Td>
                     <Td>{r.sports.join(", ") || "—"}</Td>
                     <Td className="os-num">{r.age}</Td>
