@@ -59,8 +59,15 @@ export default async function LeaguesPage() {
       <div className="grid gap-5 lg:grid-cols-3">
         {teams.map((t) => (
           <Card key={t.id}>
-            <CardHeader title={t.name} count={t.members.length} />
-            {t.division && <p className="px-4 pt-3 text-sm text-gray-dark">{t.division}</p>}
+            <div className="flex items-center justify-between gap-3 border-b border-gray-mid px-4 py-3">
+              <div>
+                <p className="font-display text-xl font-black text-near-black sm:text-2xl">
+                  {t.division ?? t.name}
+                </p>
+                <p className="mt-0.5 os-eyebrow text-gray-dark">{t.name}</p>
+              </div>
+              <span className="shrink-0 text-neutral">{t.members.length}</span>
+            </div>
             <ul className="divide-y divide-gray-mid">
               {t.members.length === 0 && <li className="px-4 py-4 text-sm text-gray-dark">No players yet.</li>}
               {t.members.map((m) => (
