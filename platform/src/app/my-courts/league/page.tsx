@@ -43,7 +43,7 @@ function Pill({ tone, children }: { tone: "in" | "pending" | "placed" | "neutral
 
 const WHATS_AHEAD = (
   <div className="flex flex-col gap-1.5 font-body text-sm text-gray-dark">
-    <p><span className="font-bold text-black">Practices begin the week of October 5.</span> Practices are on Thursdays.</p>
+    <p><span className="font-bold text-black">Practices begin Thursday, October 8.</span> Practices are on Thursdays.</p>
     <p><span className="font-bold text-black">First games: October 24.</span> Saturday games are played at WNSL locations throughout West Nashville and Brentwood.</p>
   </div>
 );
