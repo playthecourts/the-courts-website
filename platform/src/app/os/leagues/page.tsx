@@ -9,6 +9,22 @@ export const dynamic = "force-dynamic";
 
 const JERSEY_SIZES = ["Youth Small", "Youth Medium", "Youth Large", "Youth XL", "Adult Small", "Adult Medium", "Adult Large"];
 
+function formatPhone(raw: string | null) {
+  if (!raw) return null;
+  const digits = raw.replace(/\D/g, "");
+  if (digits.length !== 10) return raw;
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+}
+
+// One line per guardian on file, so it can be copied straight into a group
+// text — the whole reason this is shown here instead of just linking out
+// to the family record.
+function guardianPhones(athlete: { family: { guardians: { guardian: { name: string; phone: string | null } }[] } }) {
+  return athlete.family.guardians
+    .map((fg) => ({ name: fg.guardian.name, phone: formatPhone(fg.guardian.phone) }))
+    .filter((g) => g.phone);
+}
+
 // Fall League placement: registered players on the left, team rosters below.
 // Placing a player writes the same TeamMember row the parent's League page
 // reads, so a family sees "Team Orange" the moment it's saved.
@@ -31,13 +47,23 @@ export default async function LeaguesPage() {
     prisma.team.findMany({
       where: { offeringId: offering.id },
       orderBy: { createdAt: "asc" },
-      include: { members: { include: { athlete: true }, orderBy: { joinedAt: "asc" } } },
+      include: {
+        members: {
+          include: {
+            athlete: { include: { family: { include: { guardians: { include: { guardian: true } } } } } },
+          },
+          orderBy: { joinedAt: "asc" },
+        },
+      },
     }),
     prisma.registration.findMany({
       where: { offeringId: offering.id, status: { in: ["registered", "admin_review", "incomplete"] } },
     }),
   ]);
-  const athletes = await prisma.athlete.findMany({ where: { id: { in: regRows.map((r) => r.athleteId) } } });
+  const athletes = await prisma.athlete.findMany({
+    where: { id: { in: regRows.map((r) => r.athleteId) } },
+    include: { family: { include: { guardians: { include: { guardian: true } } } } },
+  });
   const athleteById = new Map(athletes.map((a) => [a.id, a]));
   const registrations = regRows
     .map((r) => ({ ...r, athlete: athleteById.get(r.athleteId)! }))
@@ -69,12 +95,25 @@ export default async function LeaguesPage() {
                 <li key={m.athleteId} className="flex flex-wrap items-center justify-between gap-2 px-4 py-3">
                   <span className="text-sm text-near-black">
                     {displayName(m.athlete)} {m.athlete.lastName}
+                    {guardianPhones(m.athlete).map((g) => (
+                      <span key={g.name} className="ml-2 block text-xs font-normal text-gray-dark sm:inline">
+                        {g.name}: {g.phone}
+                      </span>
+                    ))}
                   </span>
                   <div className="flex items-center gap-2">
                     {canManage ? (
                       <form action={setJerseySize} className="flex items-center gap-1">
                         <input type="hidden" name="athleteId" value={m.athleteId} />
-                        <select name="jerseySize" defaultValue={m.athlete.jerseySize ?? ""} className="min-h-8 rounded-lg border border-gray-mid bg-white px-1.5 text-xs">
+                        <select
+                          name="jerseySize"
+                          defaultValue={m.athlete.jerseySize ?? ""}
+                          className={`min-h-8 rounded-lg border px-1.5 text-xs ${
+                            m.athlete.jerseySize
+                              ? "border-green-600 bg-green-50 text-green-800 font-bold"
+                              : "border-gray-mid bg-white"
+                          }`}
+                        >
                           <option value="">Jersey size…</option>
                           {JERSEY_SIZES.map((sz) => (
                             <option key={sz} value={sz}>{sz}</option>
@@ -85,7 +124,9 @@ export default async function LeaguesPage() {
                         </button>
                       </form>
                     ) : (
-                      <span className="text-xs text-gray-dark">{m.athlete.jerseySize ?? "No jersey size"}</span>
+                      <span className={`text-xs ${m.athlete.jerseySize ? "font-bold text-green-800" : "text-gray-dark"}`}>
+                        {m.athlete.jerseySize ?? "No jersey size"}
+                      </span>
                     )}
                     {canManage && (
                       <form action={removeFromTeam}>
@@ -117,6 +158,11 @@ export default async function LeaguesPage() {
                   <span className="ml-2">
                     <Pill tone={PAYMENT_TONE[r.paymentStatus] ?? "neutral"}>{r.paymentStatus}</Pill>
                   </span>
+                  {guardianPhones(r.athlete).map((g) => (
+                    <span key={g.name} className="ml-2 block text-xs font-normal text-gray-dark sm:inline">
+                      {g.name}: {g.phone}
+                    </span>
+                  ))}
                 </span>
                 {canManage && (
                   <form action={placeOnTeam} className="flex items-center gap-2">

@@ -645,6 +645,11 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     ]
   };
 
+  var THURSDAY_ROWS = [
+    { time: "6:00 PM", dur: "75 min", title: "League Team Practice", ageLabel: "3rd + 4th Grade Teams", coach: "Johnny", type: "team", cta: "locked" },
+    { time: "7:30 PM", dur: "90 min", title: "League Team Practice", ageLabel: "6th + 7th Grade Team", coach: "Johnny", type: "team", cta: "locked" }
+  ];
+
   var state = { tab: 'upcoming', day: 'all', sport: 'all', type: 'all', age: 'all' };
 
   function sessionRow(s) {
@@ -752,6 +757,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
         anyContent = true;
         html += '<div class="sch-day-group">';
         html += '<div class="sch-day-head"><h3>Thursday</h3><span class="sch-day-tagline">' + DAY_TAGLINES.Thursday + '</span><span class="sch-day-sub">Fall League</span></div>';
+        THURSDAY_ROWS.forEach(function (s) { html += sessionRow(s); });
         html += promoCard(THURSDAY_CARD);
         html += '</div>';
         return;
