@@ -33,6 +33,17 @@ function isBeforeMembershipStart() {
   return Date.now() < MEMBERSHIP_START.getTime();
 }
 
+/// A Current-NextGen family whose existing NextGen billing already lands on
+/// a known day of month (staff-entered, from NextGen's own billing export)
+/// keeps that same day for their Courts anchor instead of the flat Oct 1
+/// everyone else gets — October has 31 days, so any day 1-31 lands validly
+/// inside it. Falls back to the flat MEMBERSHIP_START anchor when unset.
+function nextGenLegacyAnchor(legacyBillingAnchorDay: number | null): Date {
+  if (legacyBillingAnchorDay == null) return MEMBERSHIP_START;
+  const day = String(legacyBillingAnchorDay).padStart(2, "0");
+  return new Date(`2026-10-${day}T05:00:00.000Z`);
+}
+
 async function getOrigin() {
   const requestHeaders = await headers();
   const host = requestHeaders.get("host") ?? "localhost:3000";
@@ -189,7 +200,8 @@ export async function startNextGenLegacyCheckout(athleteId: string) {
   });
 
   const origin = await getOrigin();
-  const beforeStart = isBeforeMembershipStart();
+  const anchor = nextGenLegacyAnchor(guardian.legacyBillingAnchorDay);
+  const beforeStart = Date.now() < anchor.getTime();
   const legacyRateCents = guardian.legacyRateCents;
 
   let checkoutUrl: string;
@@ -224,9 +236,7 @@ export async function startNextGenLegacyCheckout(athleteId: string) {
       metadata: { athleteId, membershipPlanId: legacyPlan.id, guardianId: guardian.id },
       subscription_data: {
         metadata: { athleteId, membershipPlanId: legacyPlan.id, guardianId: guardian.id },
-        ...(beforeStart
-          ? { billing_cycle_anchor: Math.floor(MEMBERSHIP_START.getTime() / 1000), proration_behavior: "none" }
-          : {}),
+        ...(beforeStart ? { billing_cycle_anchor: Math.floor(anchor.getTime() / 1000), proration_behavior: "none" } : {}),
       },
     });
     if (!session.url) throw new Error("Stripe did not return a checkout URL.");

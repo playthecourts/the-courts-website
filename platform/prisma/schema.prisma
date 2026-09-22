@@ -53,6 +53,11 @@ model Guardian {
   /// Free-text admin note for the "Request More Information" case — no
   /// billing consequence, just a reminder of where reconciliation stands.
   nextGenNotes        String?              @map("next_gen_notes")
+  /// Day of month (1-31) their existing NextGen billing already lands on —
+  /// given by staff so the Courts $165 legacy subscription keeps the same
+  /// monthly billing day instead of a flat Oct 1 anchor for everyone.
+  /// Null falls back to the flat MEMBERSHIP_START anchor.
+  legacyBillingAnchorDay Int? @map("legacy_billing_anchor_day")
 
   families         FamilyGuardian[]
   matchedNextGenRecords NextGenRecord[]
