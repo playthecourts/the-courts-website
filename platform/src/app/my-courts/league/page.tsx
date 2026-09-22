@@ -267,8 +267,7 @@ export default async function LeaguePage({
                     {membership ? (
                       <div className="mt-1 font-body text-sm text-gray-dark">
                         <p className="font-bold text-black">
-                          {membership.team.name}
-                          {membership.team.division ? ` — ${membership.team.division}` : ""}
+                          {membership.team.division ?? membership.team.name}
                         </p>
                         {nextTeamSession && (
                           <>
