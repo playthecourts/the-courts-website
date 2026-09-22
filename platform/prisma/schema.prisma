@@ -555,6 +555,9 @@ model Offering {
   priceCents          Int? @map("price_cents")
   memberPriceCents    Int? @map("member_price_cents")
   singleDayPriceCents Int? @map("single_day_price_cents")
+  /// Member rate for a single day of a multi_day camp — separate from
+  /// singleDayPriceCents (non-member) since not every camp offers one.
+  singleDayMemberPriceCents Int? @map("single_day_member_price_cents")
   depositCents        Int? @map("deposit_cents")
   /// Price charged to a second-or-later athlete booked into an already-
   /// occupied session of this offering ("bring a teammate"), instead of the

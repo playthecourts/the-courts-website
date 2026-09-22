@@ -80,13 +80,11 @@ export async function startCampRegistration(formData: FormData) {
   }
 
   const selection = singleDay ? "single_day" : "all_sessions";
-  // Member pricing only ever applies to the whole-camp price — a single day
-  // of a multi_day camp has no separate member rate configured (Fall Break's
-  // own pricing intentionally has no member discount at all), so a member
-  // booking a single day still pays the plain single-day rate.
-  const isMember = singleDay ? false : await hasMemberPricing(athleteId, offering.programId);
+  const isMember = await hasMemberPricing(athleteId, offering.programId);
   const amountCents = singleDay
-    ? (offering.singleDayPriceCents ?? offering.priceCents)
+    ? isMember && offering.singleDayMemberPriceCents != null
+      ? offering.singleDayMemberPriceCents
+      : (offering.singleDayPriceCents ?? offering.priceCents)
     : isMember && offering.memberPriceCents != null
       ? offering.memberPriceCents
       : offering.priceCents;

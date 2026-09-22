@@ -141,12 +141,18 @@ export default async function CampsPage({
                   const pending = reg && reg.status !== "cancelled" && !paid;
                   const isMember = isMemberFor(athlete.id, camp.programId);
                   const fullWeekPrice = isMember && camp.memberPriceCents != null ? camp.memberPriceCents : camp.priceCents ?? 0;
+                  const singleDayPrice =
+                    isMember && camp.singleDayMemberPriceCents != null
+                      ? camp.singleDayMemberPriceCents
+                      : (camp.singleDayPriceCents ?? camp.priceCents ?? 0);
 
                   return (
                     <li key={athlete.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3.5">
                       <span className="font-body text-sm font-medium text-near-black">
                         {athlete.firstName}
-                        {isMember && <span className="ml-2 text-xs font-bold uppercase tracking-wide text-orange">Member</span>}
+                        <span className={`ml-2 text-xs font-bold uppercase tracking-wide ${isMember ? "text-orange" : "text-gray-dark"}`}>
+                          {isMember ? "Member" : "Non-Member"}
+                        </span>
                       </span>
 
                       {paid ? (
@@ -176,7 +182,7 @@ export default async function CampsPage({
                                 <option value="full">Full — {formatCents(fullWeekPrice)}</option>
                                 {camp.sessions.map((s) => (
                                   <option key={s.id} value={s.id}>
-                                    {formatWeekday(s.startTime)}, {formatDate(s.startTime)} — {formatCents(camp.singleDayPriceCents ?? camp.priceCents ?? 0)}
+                                    {formatWeekday(s.startTime)}, {formatDate(s.startTime)} — {formatCents(singleDayPrice)}
                                   </option>
                                 ))}
                               </select>
