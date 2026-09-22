@@ -612,8 +612,8 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     { day:"Saturday", sport:"basketball", type:"training", age:["4-7"], ageLabel:"Ages 4&ndash;7", desc:"New to the Game", time:"9:00 AM", dur:"50 min", title:"Basketball Basics", coach:"Johnny", included:"Weekly, Unlimited + Full Court", cta:"soon" },
     { day:"Saturday", sport:"basketball", type:"training", age:["6-10"], ageLabel:"Ages 6&ndash;10", desc:"Skills + Game Play", time:"10:00 AM", dur:"60 min", title:"Basketball Development", coach:"Johnny", included:"Weekly, Unlimited + Full Court", cta:"soon" },
     { day:"Saturday", sport:"basketball", type:"training", age:["9-14","11-plus"], ageLabel:"Ages 11+", desc:"Advanced Development", time:"11:00 AM", dur:"60 min", title:"Basketball Performance", coach:"Johnny", included:"Weekly, Unlimited + Full Court", cta:"soon" },
-    { day:"Saturday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Skills + Game Play", time:"4:00 PM", dur:"60 min", title:"Volleyball Development", coach:"Kenya", included:"Weekly, Unlimited + Full Court", cta:"soon" },
-    { day:"Saturday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Advanced Development", time:"5:00 PM", dur:"60 min", title:"Volleyball Performance", coach:"Kenya", included:"Weekly, Unlimited + Full Court", cta:"soon" },
+    { day:"Saturday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Skills + Game Play", time:"4:00 PM", dur:"60 min", title:"Volleyball Development", coach:"TBC", included:"Weekly, Unlimited + Full Court", cta:"soon" },
+    { day:"Saturday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Advanced Development", time:"5:00 PM", dur:"60 min", title:"Volleyball Performance", coach:"TBC", included:"Weekly, Unlimited + Full Court", cta:"soon" },
     { day:"Saturday", type:"premium", title:"Performance Lab: Speed + Movement", gradeLabel:"Grades 3&ndash;5", time:"12:00 PM", dur:"75 min", coach:"Spencer Richardson", premiumDesc:"Build quickness, coordination, balance, footwork, reaction, and body control through high-energy small-group training.", premiumTags:"Speed &middot; Agility &middot; Coordination &middot; Movement" },
     { day:"Saturday", type:"premium", title:"Performance Lab: Power + Performance", gradeLabel:"Grades 6&ndash;8", time:"1:30 PM", dur:"90 min", coach:"Spencer Richardson", premiumDesc:"Advanced performance training focused on acceleration, change of direction, explosiveness, reaction, power, and game-speed movement.", premiumTags:"Speed &middot; Power &middot; Agility &middot; Reaction" }
   ];
@@ -662,7 +662,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       : '<span class="sch-btn sch-btn-locked">Team Only</span>';
     var included = s.included ? '<p class="sch-included">Included with <strong>' + s.included + '</strong></p>' : '';
     var step = s.step ? '<span class="sch-step">' + s.step + '</span>' : '';
-    var ageText = s.ageLabel ? (s.desc ? s.ageLabel + ' &middot; ' + s.desc : s.ageLabel) : s.desc;
+    var ageText = s.desc;
     var ageRow = ageText ? '<div class="sch-age-row">' + ageText + '</div>' : '';
     return '' +
       '<div class="sch-row">' +
