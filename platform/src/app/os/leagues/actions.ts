@@ -54,3 +54,17 @@ export async function removeFromTeam(formData: FormData) {
   revalidatePath("/os/leagues");
   revalidatePath("/my-courts/league");
 }
+
+const JERSEY_SIZES = ["Youth Small", "Youth Medium", "Youth Large", "Youth XL", "Adult Small", "Adult Medium", "Adult Large"];
+
+export async function setJerseySize(formData: FormData) {
+  const actor = await requireCapability("leagues.manage");
+  const athleteId = String(formData.get("athleteId") ?? "");
+  const jerseySize = String(formData.get("jerseySize") ?? "").trim() || null;
+  if (!athleteId) return;
+  if (jerseySize && !JERSEY_SIZES.includes(jerseySize)) return;
+
+  await prisma.athlete.update({ where: { id: athleteId }, data: { jerseySize } });
+  await auditLog(actor.id, "assign_team_member", "athlete", athleteId, { jerseySize });
+  revalidatePath("/os/leagues");
+}

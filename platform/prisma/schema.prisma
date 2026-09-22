@@ -171,6 +171,10 @@ model Athlete {
   /// age and birthday MONTH are derived from it at render time (lib/athlete.ts).
   dob              DateTime @db.Date
   grade            String?
+  /// Team jersey size, entered by staff as families report it (not the
+  /// same as apparel sizing anywhere else). Free text so "Youth Large",
+  /// "YL", or a brand-specific size all work.
+  jerseySize       String?  @map("jersey_size")
   school           String?
   gender           String?
   /// ["Basketball"], ["Volleyball"], or both. Array rather than an enum so an

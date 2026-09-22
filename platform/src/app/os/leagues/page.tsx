@@ -3,9 +3,11 @@ import { can } from "@/lib/os/permissions";
 import { prisma } from "@/lib/prisma";
 import { displayName } from "@/lib/athlete";
 import { PageHeader, Card, CardHeader, EmptyState, Pill, BTN, INPUT, SELECT, PAYMENT_TONE } from "../_components/ui";
-import { createLeagueTeam, placeOnTeam, removeFromTeam } from "./actions";
+import { createLeagueTeam, placeOnTeam, removeFromTeam, setJerseySize } from "./actions";
 
 export const dynamic = "force-dynamic";
+
+const JERSEY_SIZES = ["Youth Small", "Youth Medium", "Youth Large", "Youth XL", "Adult Small", "Adult Medium", "Adult Large"];
 
 // Fall League placement: registered players on the left, team rosters below.
 // Placing a player writes the same TeamMember row the parent's League page
@@ -62,20 +64,38 @@ export default async function LeaguesPage() {
             <ul className="divide-y divide-gray-mid">
               {t.members.length === 0 && <li className="px-4 py-4 text-sm text-gray-dark">No players yet.</li>}
               {t.members.map((m) => (
-                <li key={m.athleteId} className="flex items-center justify-between gap-3 px-4 py-3">
+                <li key={m.athleteId} className="flex flex-wrap items-center justify-between gap-2 px-4 py-3">
                   <span className="text-sm text-near-black">
                     {displayName(m.athlete)} {m.athlete.lastName}
                     <span className="ml-2 text-gray-dark">Grade {m.athlete.grade ?? "—"}</span>
                   </span>
-                  {canManage && (
-                    <form action={removeFromTeam}>
-                      <input type="hidden" name="athleteId" value={m.athleteId} />
-                      <input type="hidden" name="teamId" value={t.id} />
-                      <button className="text-xs font-bold uppercase tracking-wide text-gray-dark hover:text-danger">
-                        Remove
-                      </button>
-                    </form>
-                  )}
+                  <div className="flex items-center gap-2">
+                    {canManage ? (
+                      <form action={setJerseySize} className="flex items-center gap-1">
+                        <input type="hidden" name="athleteId" value={m.athleteId} />
+                        <select name="jerseySize" defaultValue={m.athlete.jerseySize ?? ""} className="min-h-8 rounded-lg border border-gray-mid bg-white px-1.5 text-xs">
+                          <option value="">Jersey size…</option>
+                          {JERSEY_SIZES.map((sz) => (
+                            <option key={sz} value={sz}>{sz}</option>
+                          ))}
+                        </select>
+                        <button className="os-heading min-h-8 rounded-lg border border-gray-mid bg-white px-2 text-xs uppercase tracking-wide hover:border-near-black">
+                          Save
+                        </button>
+                      </form>
+                    ) : (
+                      <span className="text-xs text-gray-dark">{m.athlete.jerseySize ?? "No jersey size"}</span>
+                    )}
+                    {canManage && (
+                      <form action={removeFromTeam}>
+                        <input type="hidden" name="athleteId" value={m.athleteId} />
+                        <input type="hidden" name="teamId" value={t.id} />
+                        <button className="text-xs font-bold uppercase tracking-wide text-gray-dark hover:text-danger">
+                          Remove
+                        </button>
+                      </form>
+                    )}
+                  </div>
                 </li>
               ))}
             </ul>
