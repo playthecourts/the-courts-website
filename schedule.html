@@ -393,13 +393,6 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
         <button type="button" class="sch-chip" data-filter="type" data-value="camp">Camps</button>
         <button type="button" class="sch-chip" data-filter="type" data-value="event">Events</button>
       </div>
-      <div class="sch-filter-row">
-        <span class="sch-filter-label">Age</span>
-        <button type="button" class="sch-chip active" data-filter="age" data-value="all">All</button>
-        <button type="button" class="sch-chip" data-filter="age" data-value="4-7">Ages 4&ndash;7</button>
-        <button type="button" class="sch-chip" data-filter="age" data-value="6-10">Ages 6&ndash;10</button>
-        <button type="button" class="sch-chip" data-filter="age" data-value="11-plus">Ages 11+</button>
-      </div>
     </div>
 
     <div id="schBody"></div>
@@ -651,7 +644,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     { time: "7:30 PM", dur: "90 min", title: "League Team Practice", ageLabel: "6th + 7th Grade Team", coach: "Johnny", type: "team", cta: "locked" }
   ];
 
-  var state = { tab: 'upcoming', day: 'all', sport: 'all', type: 'all', age: 'all' };
+  var state = { tab: 'upcoming', day: 'all', sport: 'all', type: 'all' };
 
   function sessionRow(s) {
     var tagClass = s.type === 'team' ? 'sch-tag--team' : (s.type === 'open' ? 'sch-tag--open' : 'sch-tag--training');
@@ -734,12 +727,10 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   function matchesFilters(s) {
     if (state.day !== 'all' && s.day !== state.day) return false;
     if (state.type !== 'all' && s.type !== state.type) return false;
-    // Premium add-ons are cross-sport and grade-labeled, not age-bucketed —
-    // the Sport/Age filters don't apply to them the way they do to regular
-    // group training.
+    // Premium add-ons are cross-sport — the Sport filter doesn't apply to
+    // them the way it does to regular group training.
     if (s.type === 'premium') return true;
     if (state.sport !== 'all' && s.sport !== state.sport) return false;
-    if (state.age !== 'all' && s.age.indexOf(state.age) === -1) return false;
     return true;
   }
 
