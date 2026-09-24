@@ -122,12 +122,12 @@ export default async function MyCourtsSchedulePage({
                         <span className="font-heading font-bold text-black">{booking.session.program.name}</span>
                         <span className="ml-2 font-body text-sm text-gray-dark">{booking.athlete.firstName}</span>
                         {booking.paymentStatus === "pending" && (
-                          <span className="ml-2 inline-flex items-center justify-center rounded-full bg-orange/10 px-2.5 py-1 font-sport text-[10px] font-bold uppercase tracking-wide text-orange">
+                          <span className="ml-2 inline-flex items-center justify-center rounded-full bg-orange/10 px-2.5 py-1 font-sport text-[11.5px] font-bold uppercase tracking-wide text-orange">
                             Payment Pending
                           </span>
                         )}
                         {booking.paymentStatus === "failed" && (
-                          <span className="ml-2 inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-1 font-sport text-[10px] font-bold uppercase tracking-wide text-red-600">
+                          <span className="ml-2 inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-1 font-sport text-[11.5px] font-bold uppercase tracking-wide text-red-600">
                             Payment Failed
                           </span>
                         )}
@@ -138,7 +138,7 @@ export default async function MyCourtsSchedulePage({
                         </span>
                         <a
                           href={`/my-courts/calendar/${booking.id}`}
-                          className="font-sport text-[10px] font-bold uppercase tracking-wide text-orange"
+                          className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-orange"
                           title="Add to Apple/Outlook Calendar"
                         >
                           + Cal
@@ -147,7 +147,7 @@ export default async function MyCourtsSchedulePage({
                           href={googleCalendarUrl(booking)}
                           target="_blank"
                           rel="noopener"
-                          className="font-sport text-[10px] font-bold uppercase tracking-wide text-orange"
+                          className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-orange"
                           title="Add to Google Calendar"
                         >
                           + Google

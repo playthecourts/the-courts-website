@@ -14,7 +14,7 @@ export default function PickupInstructionForm({
     <form action={setPickupInstruction.bind(null, athleteId)} className="px-4 py-3">
       <label
         htmlFor="instruction"
-        className="mb-1.5 block font-sport text-[10.5px] font-bold uppercase tracking-[0.12em] text-gray-dark"
+        className="mb-1.5 block font-sport text-[11.5px] font-bold uppercase tracking-[0.12em] text-gray-dark"
       >
         Instruction coaches see
       </label>

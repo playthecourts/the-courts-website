@@ -62,7 +62,7 @@ export default function PickupForm({
 
       {authorizedGuardians.length > 0 && (
         <div className="mb-4">
-          <p className="mb-2 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-gray-dark">
+          <p className="mb-2 font-sport text-xs font-bold uppercase tracking-[0.14em] text-gray-dark">
             Parents + Guardians
           </p>
           <ul className="flex flex-col gap-2">
@@ -84,7 +84,7 @@ export default function PickupForm({
         </div>
       )}
 
-      <p className="mb-2 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-gray-dark">
+      <p className="mb-2 font-sport text-xs font-bold uppercase tracking-[0.14em] text-gray-dark">
         Other Authorized Adults
       </p>
       {people.length === 0 ? (
@@ -106,7 +106,7 @@ export default function PickupForm({
                 <form action={removePickupPerson.bind(null, athleteId, p.id)}>
                   <button
                     type="submit"
-                    className="font-sport text-[11px] font-bold uppercase tracking-[0.1em] text-gray-dark hover:text-danger"
+                    className="font-sport text-xs font-bold uppercase tracking-[0.1em] text-gray-dark hover:text-danger"
                   >
                     Remove
                   </button>
@@ -149,7 +149,7 @@ export default function PickupForm({
 
       <form action={saveCustodyAction}>
         <input type="hidden" name="athleteId" value={athleteId} />
-        <p className="mb-3 font-sport text-[11px] font-bold uppercase tracking-wide text-orange">
+        <p className="mb-3 font-sport text-xs font-bold uppercase tracking-wide text-orange">
           Custody + Pickup Restrictions
         </p>
         <Question label={`Are there any custody, contact, or pickup restrictions we should know about for ${displayName}?`}>

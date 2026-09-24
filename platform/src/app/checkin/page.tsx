@@ -104,7 +104,7 @@ export default async function CheckinPage(props: {
           {query.length >= 2 && (
             <Link
               href="/checkin"
-              className="font-sport text-[11px] font-bold uppercase tracking-[0.12em] text-gray-dark hover:text-orange"
+              className="font-sport text-xs font-bold uppercase tracking-[0.12em] text-gray-dark hover:text-orange"
             >
               Clear
             </Link>

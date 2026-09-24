@@ -91,7 +91,7 @@ export default function CoachNav({ items }: { items: CoachNavItem[] }) {
             {active && <span className="absolute inset-x-3 top-0 h-[3px] rounded-b bg-orange" />}
             <Icon name={item.icon} active={active} />
             <span
-              className={`font-sport text-[10.5px] font-bold uppercase tracking-wide ${
+              className={`font-sport text-[11.5px] font-bold uppercase tracking-wide ${
                 active ? "text-orange" : "text-gray-dark"
               }`}
             >

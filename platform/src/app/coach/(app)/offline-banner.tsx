@@ -25,7 +25,7 @@ export default function OfflineBanner() {
   return (
     <p
       role="status"
-      className="bg-amber-300 px-4 py-2 text-center font-sport text-[11px] font-bold uppercase tracking-wide text-amber-950"
+      className="bg-amber-300 px-4 py-2 text-center font-sport text-xs font-bold uppercase tracking-wide text-amber-950"
     >
       No connection — changes will save when you&apos;re back online
     </p>

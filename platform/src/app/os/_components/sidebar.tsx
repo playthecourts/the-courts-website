@@ -110,7 +110,7 @@ export function Sidebar({
       <div className="border-t border-white/10 px-4 py-3">
         <p className="os-heading text-xs uppercase tracking-wide text-white">{actorName}</p>
         <p className="os-eyebrow mt-1 text-white/50">{actorRole}</p>
-        {scopeNote ? <p className="mt-1 text-[11px] text-white/50">{scopeNote}</p> : null}
+        {scopeNote ? <p className="mt-1 text-xs text-white/50">{scopeNote}</p> : null}
         <div className="mt-2">{signOut}</div>
       </div>
     </>

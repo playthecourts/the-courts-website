@@ -90,7 +90,7 @@ function PlanCard({
         <p className="font-heading font-bold text-black">{shortName}</p>
         <p className="font-body text-sm text-gray-dark">{formatPrice(displayPriceCents, plan.billingInterval)}</p>
         {badgeText && (
-          <span className="rounded-full bg-orange/10 px-2 py-0.5 font-sport text-[10px] font-bold uppercase tracking-wide text-orange">
+          <span className="rounded-full bg-orange/10 px-2.5 py-1 font-sport text-[11.5px] font-bold uppercase tracking-wide text-orange">
             {badgeText}
           </span>
         )}
@@ -319,7 +319,7 @@ export default async function MembershipsPage({
                     <PlanCard
                       plan={membership.plan}
                       cta={
-                        <span className="inline-block rounded-full bg-orange/10 px-2.5 py-1 font-sport text-[10.5px] font-bold uppercase tracking-wide text-orange">
+                        <span className="inline-block rounded-full bg-orange/10 px-2.5 py-1 font-sport text-[11.5px] font-bold uppercase tracking-wide text-orange">
                           Cancels {formatDate(membership.cancelAt)}
                         </span>
                       }
@@ -383,7 +383,7 @@ export default async function MembershipsPage({
                           cta={
                             <div className="flex flex-wrap items-center gap-2">
                               <span
-                                className={`inline-block rounded-full px-2.5 py-1 font-sport text-[10.5px] font-bold uppercase tracking-wide ${
+                                className={`inline-block rounded-full px-2.5 py-1 font-sport text-[11.5px] font-bold uppercase tracking-wide ${
                                   startsInFuture ? "bg-orange/10 text-orange" : "bg-green-100 text-green-800"
                                 }`}
                               >

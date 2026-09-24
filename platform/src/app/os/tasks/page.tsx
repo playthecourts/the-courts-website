@@ -91,7 +91,7 @@ export default async function TasksPage() {
                           <AutoSubmitSelect
                             name="priority"
                             defaultValue={t.priority}
-                            className={`min-h-6 rounded-full border-0 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+                            className={`min-h-6 rounded-full border-0 px-2 py-0.5 text-[11.5px] font-bold uppercase tracking-wide ${
                               t.priority === "high" ? "bg-danger-bg text-danger" : t.priority === "medium" ? "bg-orange/10 text-orange" : "bg-warm-stone text-gray-dark"
                             }`}
                           >
@@ -103,7 +103,7 @@ export default async function TasksPage() {
                       ) : (
                         <Pill tone={PRIORITY_TONE[t.priority]}>{t.priority}</Pill>
                       )}
-                      {t.dueDate && <span className="text-[11px] text-gray-dark">Due {formatDue(t.dueDate)}</span>}
+                      {t.dueDate && <span className="text-xs text-gray-dark">Due {formatDue(t.dueDate)}</span>}
                     </div>
                   </div>
                 ))}

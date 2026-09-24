@@ -135,7 +135,7 @@ export default function SessionRoster({
   return (
     <div>
       <div className="mb-2 flex items-center justify-between gap-3">
-        <h2 className="font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-gray-dark">
+        <h2 className="font-sport text-xs font-bold uppercase tracking-[0.14em] text-gray-dark">
           Roster · {markedCount}/{rows.length} marked
         </h2>
         {rows.length > 0 && (
@@ -143,7 +143,7 @@ export default function SessionRoster({
             type="button"
             onClick={allHere}
             disabled={pending}
-            className="flex min-h-[36px] items-center justify-center rounded-full border border-near-black bg-white px-3 font-sport text-[11px] font-bold uppercase tracking-wide text-near-black hover:bg-near-black hover:text-white disabled:opacity-50"
+            className="flex min-h-[36px] items-center justify-center rounded-full border border-near-black bg-white px-3 font-sport text-xs font-bold uppercase tracking-wide text-near-black hover:bg-near-black hover:text-white disabled:opacity-50"
           >
             Mark All Here
           </button>
@@ -208,14 +208,14 @@ export default function SessionRoster({
                     {r.flags.map((f) => (
                       <span
                         key={f}
-                        className="rounded bg-orange px-1.5 py-0.5 font-sport text-[9.5px] font-bold uppercase tracking-wide text-white"
+                        className="rounded bg-orange px-2 py-0.5 font-sport text-[11px] font-bold uppercase tracking-wide text-white"
                       >
                         {FLAG_LABELS[f] ?? f}
                       </span>
                     ))}
                     {showRsvp && r.rsvp && (
                       <span
-                        className={`rounded px-1.5 py-0.5 font-sport text-[9.5px] font-bold uppercase tracking-wide ${
+                        className={`rounded px-2 py-0.5 font-sport text-[11px] font-bold uppercase tracking-wide ${
                           r.rsvp === "going"
                             ? "bg-emerald-100 text-emerald-800"
                             : r.rsvp === "not_going"
@@ -227,7 +227,7 @@ export default function SessionRoster({
                       </span>
                     )}
                     {isUnsynced && (
-                      <span className="rounded bg-amber-200 px-1.5 py-0.5 font-sport text-[9.5px] font-bold uppercase text-amber-950">
+                      <span className="rounded bg-amber-200 px-2 py-0.5 font-sport text-[11px] font-bold uppercase text-amber-950">
                         Not Synced
                       </span>
                     )}

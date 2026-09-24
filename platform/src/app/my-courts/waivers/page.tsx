@@ -112,7 +112,7 @@ export default async function WaiversPage({
               </p>
             )}
             <details className="mt-2">
-              <summary className="cursor-pointer font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
+              <summary className="cursor-pointer font-sport text-xs font-bold tracking-wide text-orange uppercase">
                 View &rarr;
               </summary>
               <div className="mt-3 max-h-48 overflow-y-auto whitespace-pre-wrap rounded-md bg-gray-light p-3 font-body text-xs text-gray-dark">
@@ -122,12 +122,12 @@ export default async function WaiversPage({
           </div>
         ) : (
           <div className="rounded-xl border border-orange/40 bg-orange/5 p-4">
-            <p className="mb-1 font-sport text-[10.5px] font-bold tracking-wide text-orange uppercase">
+            <p className="mb-1 font-sport text-[11.5px] font-bold tracking-wide text-orange uppercase">
               Action Needed
             </p>
             <p className="mb-2 font-heading text-[16px] font-bold text-near-black">{s.waiver.waiverType}</p>
             <details className="mb-3">
-              <summary className="cursor-pointer font-sport text-[11px] font-bold tracking-wide text-gray-dark uppercase">
+              <summary className="cursor-pointer font-sport text-xs font-bold tracking-wide text-gray-dark uppercase">
                 Read full text
               </summary>
               <div className="mt-3 max-h-48 overflow-y-auto whitespace-pre-wrap rounded-md bg-white p-3 font-body text-xs text-gray-dark">
@@ -220,7 +220,7 @@ export default async function WaiversPage({
                     &#10003; {consent.status === "media_ok" ? "Allowed" : "Not Allowed"}
                   </p>
                   <details className="mt-2">
-                    <summary className="cursor-pointer font-sport text-[11px] font-bold tracking-wide text-gray-dark uppercase">
+                    <summary className="cursor-pointer font-sport text-xs font-bold tracking-wide text-gray-dark uppercase">
                       Read full text
                     </summary>
                     <div className="mt-3 max-h-48 overflow-y-auto whitespace-pre-wrap rounded-md bg-gray-light p-3 font-body text-xs text-gray-dark">
@@ -230,7 +230,7 @@ export default async function WaiversPage({
                     </div>
                   </details>
                   <details className="mt-2">
-                    <summary className="cursor-pointer font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
+                    <summary className="cursor-pointer font-sport text-xs font-bold tracking-wide text-orange uppercase">
                       Change &rarr;
                     </summary>
                     <div className="mt-3">
@@ -245,14 +245,14 @@ export default async function WaiversPage({
                 </div>
               ) : (
                 <div key={athlete.id} className="rounded-xl border border-orange/40 bg-orange/5 p-4">
-                  <p className="mb-1 font-sport text-[10.5px] font-bold tracking-wide text-orange uppercase">
+                  <p className="mb-1 font-sport text-[11.5px] font-bold tracking-wide text-orange uppercase">
                     Action Needed
                   </p>
                   <p className="mb-3 font-heading text-[16px] font-bold text-near-black">
                     Photo + Video Permission — {athlete.firstName} {athlete.lastName}
                   </p>
                   <details className="mb-3">
-                    <summary className="cursor-pointer font-sport text-[11px] font-bold tracking-wide text-gray-dark uppercase">
+                    <summary className="cursor-pointer font-sport text-xs font-bold tracking-wide text-gray-dark uppercase">
                       Read full text
                     </summary>
                     <div className="mt-3 max-h-48 overflow-y-auto whitespace-pre-wrap rounded-md bg-white p-3 font-body text-xs text-gray-dark">
@@ -301,7 +301,7 @@ export default async function WaiversPage({
                       </div>
                     ) : (
                       <div className="rounded-xl border border-orange/40 bg-orange/5 p-4">
-                        <p className="mb-1 font-sport text-[10.5px] font-bold tracking-wide text-orange uppercase">
+                        <p className="mb-1 font-sport text-[11.5px] font-bold tracking-wide text-orange uppercase">
                           Action Needed
                         </p>
                         <p className="mb-2 font-heading text-[15px] font-bold text-near-black">

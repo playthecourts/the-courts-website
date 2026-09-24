@@ -232,7 +232,7 @@ export default async function MyCourtsHomePage() {
                       {membership.plan.billingInterval === "annual" ? "yr" : "mo"}
                     </p>
                   </div>
-                  <span className="shrink-0 rounded-full bg-orange/10 px-2.5 py-1 font-sport text-[10.5px] font-bold tracking-wide text-orange uppercase">
+                  <span className="shrink-0 rounded-full bg-orange/10 px-2.5 py-1 font-sport text-[11.5px] font-bold tracking-wide text-orange uppercase">
                     {membership.status === "active" ? "Active" : membership.status.replace("_", " ")}
                   </span>
                 </div>
@@ -258,7 +258,7 @@ export default async function MyCourtsHomePage() {
                     </p>
                   )}
                 </div>
-                <Link href="/my-courts/memberships" className="mt-4 inline-block font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
+                <Link href="/my-courts/memberships" className="mt-4 inline-block font-sport text-xs font-bold tracking-wide text-orange uppercase">
                   Manage Membership &rarr;
                 </Link>
               </div>
@@ -268,7 +268,7 @@ export default async function MyCourtsHomePage() {
           <div className="rounded-2xl border border-gray-mid bg-white px-5 py-5">
             <p className="font-heading text-[15px] font-bold text-near-black">No Active Membership Yet</p>
             <p className="mt-1 font-body text-sm text-gray-dark">Choose a membership to get started.</p>
-            <Link href="/my-courts/memberships" className="mt-3 inline-flex items-center gap-2 rounded-full bg-orange px-5 py-2.5 font-sport text-[11px] font-bold tracking-wide text-white uppercase">
+            <Link href="/my-courts/memberships" className="mt-3 inline-flex items-center gap-2 rounded-full bg-orange px-5 py-2.5 font-sport text-xs font-bold tracking-wide text-white uppercase">
               View Memberships &rarr;
             </Link>
           </div>
@@ -278,7 +278,7 @@ export default async function MyCourtsHomePage() {
       {/* 3. Athletes */}
       <AthleteRow athletes={athleteCards} />
       {athletes.length > 0 && (
-        <Link href="/my-courts/athletes/new" className="-mt-4 self-start font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
+        <Link href="/my-courts/athletes/new" className="-mt-4 self-start font-sport text-xs font-bold tracking-wide text-orange uppercase">
           + Add Athlete
         </Link>
       )}
@@ -298,7 +298,7 @@ export default async function MyCourtsHomePage() {
           ))}
         </div>
         {athletes[0] && (
-          <Link href={`/my-courts/athletes/${athletes[0].id}/edit/guardians`} className="mt-2 inline-block font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
+          <Link href={`/my-courts/athletes/${athletes[0].id}/edit/guardians`} className="mt-2 inline-block font-sport text-xs font-bold tracking-wide text-orange uppercase">
             Manage Guardians &rarr;
           </Link>
         )}
@@ -326,7 +326,7 @@ export default async function MyCourtsHomePage() {
               </>
             )}
           </div>
-          <span className="shrink-0 font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
+          <span className="shrink-0 font-sport text-xs font-bold tracking-wide text-orange uppercase">
             View Waivers + Permissions &rarr;
           </span>
         </Link>

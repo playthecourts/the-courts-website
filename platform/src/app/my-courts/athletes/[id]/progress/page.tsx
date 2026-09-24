@@ -47,7 +47,7 @@ export default async function ProgressPage({ params }: { params: Promise<{ id: s
                 <p className="font-display text-[18px] font-black tracking-tight text-near-black">
                   {quarterLabel(report)}
                 </p>
-                <p className="font-sport text-[11px] font-bold uppercase tracking-[0.12em] text-gray-dark">
+                <p className="font-sport text-xs font-bold uppercase tracking-[0.12em] text-gray-dark">
                   {report.sport}
                 </p>
               </div>

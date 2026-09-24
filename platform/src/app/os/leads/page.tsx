@@ -112,28 +112,28 @@ export default async function LeadsPage() {
                     {l.activities.length > 0 && (
                       <div className="mt-1.5 flex flex-col gap-1 border-t border-gray-mid pt-1.5">
                         {l.activities.map((a) => (
-                          <p key={a.id} className="text-[11px] text-gray-dark">
+                          <p key={a.id} className="text-xs text-gray-dark">
                             <span className="font-bold">{formatDate(a.createdAt)}:</span> {a.note}
                           </p>
                         ))}
                       </div>
                     )}
                     <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                      <span className="rounded-full bg-warm-stone px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-gray-dark">
+                      <span className="rounded-full bg-warm-stone px-2 py-0.5 text-[11.5px] font-bold uppercase tracking-wide text-gray-dark">
                         {SOURCE_LABEL[l.source] ?? l.source}
                       </span>
                       {l.sport && (
-                        <span className="rounded-full bg-warm-stone px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-gray-dark">
+                        <span className="rounded-full bg-warm-stone px-2 py-0.5 text-[11.5px] font-bold uppercase tracking-wide text-gray-dark">
                           {l.sport}
                         </span>
                       )}
-                      <span className="text-[11px] text-gray-dark">{formatDate(l.createdAt)}</span>
+                      <span className="text-xs text-gray-dark">{formatDate(l.createdAt)}</span>
                     </div>
                     {canManage && (
                       <div className="mt-2 flex flex-col gap-1.5">
                         <form action={setLeadStage} className="flex items-center">
                           <input type="hidden" name="id" value={l.id} />
-                          <AutoSubmitSelect name="stage" defaultValue={l.stage} className={`${SELECT} min-h-7 w-full text-[11px]`}>
+                          <AutoSubmitSelect name="stage" defaultValue={l.stage} className={`${SELECT} min-h-7 w-full text-xs`}>
                             {STAGES.map((s) => (
                               <option key={s.key} value={s.key}>Move to: {s.label}</option>
                             ))}
@@ -141,8 +141,8 @@ export default async function LeadsPage() {
                         </form>
                         <form action={addLeadNote} className="flex items-center gap-1">
                           <input type="hidden" name="id" value={l.id} />
-                          <input name="note" placeholder="Add a note…" className={`${INPUT} min-h-7 flex-1 text-[11px]`} />
-                          <button className="os-heading min-h-7 rounded-lg border border-gray-mid bg-white px-2 text-[10px] uppercase tracking-wide hover:border-near-black">
+                          <input name="note" placeholder="Add a note…" className={`${INPUT} min-h-7 flex-1 text-xs`} />
+                          <button className="os-heading min-h-7 rounded-lg border border-gray-mid bg-white px-2 text-[12px] uppercase tracking-wide hover:border-near-black">
                             Save
                           </button>
                         </form>

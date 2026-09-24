@@ -18,7 +18,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               height={64}
               priority
             />
-            <span className="font-sport text-[10px] font-bold uppercase tracking-widest text-orange">
+            <span className="font-sport text-[12px] font-bold uppercase tracking-widest text-orange">
               Admin
             </span>
           </Link>

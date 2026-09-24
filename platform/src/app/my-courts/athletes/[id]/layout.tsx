@@ -83,7 +83,7 @@ export default async function AthleteProfileLayout({
               Next: {progress.nextStep.label}
             </p>
           </div>
-          <span className="shrink-0 font-sport text-[11px] font-bold uppercase tracking-[0.1em] text-orange">
+          <span className="shrink-0 font-sport text-xs font-bold uppercase tracking-[0.1em] text-orange">
             Continue &rarr;
           </span>
         </Link>
@@ -95,7 +95,7 @@ export default async function AthleteProfileLayout({
       >
         <span className="font-heading text-[13.5px] font-bold text-near-black">Waivers + Permissions</span>
         <span
-          className={`shrink-0 font-sport text-[11px] font-bold uppercase tracking-[0.1em] ${
+          className={`shrink-0 font-sport text-xs font-bold uppercase tracking-[0.1em] ${
             waiversComplete ? "text-success" : "text-orange"
           }`}
         >

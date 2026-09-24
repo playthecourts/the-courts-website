@@ -151,7 +151,7 @@ export default async function PaymentsPage() {
                     <form action={startBillingPortalSession} className="mt-3">
                       <button
                         type="submit"
-                        className="rounded-full bg-black px-4 py-2 font-sport text-[11px] font-bold uppercase tracking-wide text-white hover:bg-orange"
+                        className="rounded-full bg-black px-4 py-2 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange"
                       >
                         Update Payment Method &rarr;
                       </button>
@@ -198,7 +198,7 @@ export default async function PaymentsPage() {
                       </div>
                       <Link
                         href="/my-courts/league"
-                        className="mt-3 inline-block rounded-full bg-orange px-4 py-2 font-sport text-[11px] font-bold uppercase tracking-wide text-white"
+                        className="mt-3 inline-block rounded-full bg-orange px-4 py-2 font-sport text-xs font-bold uppercase tracking-wide text-white"
                       >
                         Pay {formatPrice(total)} &rarr;
                       </Link>
@@ -214,7 +214,7 @@ export default async function PaymentsPage() {
                     <form action={payBooking.bind(null, b.id)} className="mt-3">
                       <button
                         type="submit"
-                        className="rounded-full bg-orange px-4 py-2 font-sport text-[11px] font-bold uppercase tracking-wide text-white"
+                        className="rounded-full bg-orange px-4 py-2 font-sport text-xs font-bold uppercase tracking-wide text-white"
                       >
                         Pay {formatPrice(b.priceChargedCents ?? 0)} &rarr;
                       </button>
@@ -252,7 +252,7 @@ export default async function PaymentsPage() {
                           href={item.receiptUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="font-sport text-[10.5px] font-bold tracking-wide text-orange uppercase"
+                          className="font-sport text-[11.5px] font-bold tracking-wide text-orange uppercase"
                         >
                           View Receipt &rarr;
                         </a>

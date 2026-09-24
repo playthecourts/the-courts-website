@@ -93,7 +93,7 @@ export default async function CoachAthletesPage(props: PageProps<"/coach/athlete
                 {(flags.get(a.id) ?? []).map((f) => (
                   <span
                     key={f}
-                    className="rounded bg-orange px-1.5 py-0.5 font-sport text-[9.5px] font-bold uppercase tracking-wide text-white"
+                    className="rounded bg-orange px-2 py-0.5 font-sport text-[11px] font-bold uppercase tracking-wide text-white"
                   >
                     {FLAG_LABELS[f] ?? f}
                   </span>

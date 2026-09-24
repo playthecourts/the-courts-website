@@ -13,7 +13,7 @@ export function Eyebrow({
   className?: string;
 }) {
   return (
-    <p className={`font-sport text-[11px] font-bold uppercase tracking-[0.14em] ${className}`}>
+    <p className={`font-sport text-xs font-bold uppercase tracking-[0.14em] ${className}`}>
       {children}
     </p>
   );
@@ -54,7 +54,7 @@ export function Card({
 
 export function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="mb-2 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-gray-dark">
+    <h2 className="mb-2 font-sport text-xs font-bold uppercase tracking-[0.14em] text-gray-dark">
       {children}
     </h2>
   );
@@ -80,7 +80,7 @@ export function Pill({
   } as const;
   return (
     <span
-      className={`inline-flex items-center rounded-full px-2 py-0.5 font-sport text-[10.5px] font-bold uppercase tracking-wide ${tones[tone]}`}
+      className={`inline-flex items-center rounded-full px-2 py-0.5 font-sport text-[12px] font-bold uppercase tracking-wide ${tones[tone]}`}
     >
       {children}
     </span>
@@ -161,7 +161,7 @@ export function Stat({
 }) {
   return (
     <div className="rounded-lg border border-gray-mid bg-white px-3 py-2.5">
-      <p className="font-sport text-[10px] font-bold uppercase tracking-[0.12em] text-gray-dark">
+      <p className="font-sport text-[12px] font-bold uppercase tracking-[0.12em] text-gray-dark">
         {label}
       </p>
       <p
@@ -179,7 +179,7 @@ export function BackLink({ href, children }: { href: Route; children: React.Reac
   return (
     <Link
       href={href}
-      className="mb-3 inline-flex min-h-[36px] items-center gap-1 font-sport text-[11px] font-bold uppercase tracking-wide text-gray-dark hover:text-orange"
+      className="mb-3 inline-flex min-h-[36px] items-center gap-1 font-sport text-xs font-bold uppercase tracking-wide text-gray-dark hover:text-orange"
     >
       <span aria-hidden="true">←</span> {children}
     </Link>

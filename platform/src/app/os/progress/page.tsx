@@ -127,7 +127,7 @@ export default async function OsProgressPage({
             <Link
               key={f.key}
               href={`/os/progress?${params.toString()}`}
-              className={`flex min-h-[38px] items-center rounded-full border px-3.5 font-sport text-[11px] font-bold uppercase tracking-[0.1em] ${
+              className={`flex min-h-[38px] items-center rounded-full border px-3.5 font-sport text-[12px] font-bold uppercase tracking-[0.1em] ${
                 active
                   ? "border-orange bg-orange text-white"
                   : "border-gray-mid bg-white text-gray-dark hover:border-orange"

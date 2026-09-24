@@ -166,11 +166,13 @@ function CardChrome({ card, timeLabel }: { card: Card; timeLabel: string }) {
   return (
     <div className="mb-2 flex items-baseline justify-between gap-3">
       <div className="min-w-0">
-        <p className="font-body text-[10.5px] font-medium uppercase tracking-wide text-gray-dark">
+        {/* When it is comes first — that's the question someone scanning a
+            list of sessions is actually asking, before what it's called. */}
+        <p className="font-sport text-sm font-bold text-black">{timeLabel}</p>
+        <h2 className="font-heading font-bold text-black">{card.offeringName}</h2>
+        <p className="font-body text-[11.5px] font-medium uppercase tracking-wide text-gray-dark">
           {[card.sport, card.programTypeLabel].filter(Boolean).join(" · ")}
         </p>
-        <h2 className="font-heading font-bold text-black">{card.offeringName}</h2>
-        <p className="font-body text-sm text-gray-dark">{timeLabel}</p>
         <p className="font-body text-xs text-gray-dark">
           {[card.gradeLabel, card.resourceName, card.coachNames[0]].filter(Boolean).join(" · ")}
         </p>
@@ -249,7 +251,7 @@ export function GroupedOfferingCard({ cards }: { cards: Card[] }) {
             <div className="mb-2 flex items-center justify-between gap-2">
               <span className="font-heading text-[13px] font-bold text-black">{fmtTimeOnly(card.startTime)}</span>
               <span
-                className={`font-sport text-[10.5px] font-bold uppercase tracking-wide ${
+                className={`font-sport text-[11.5px] font-bold uppercase tracking-wide ${
                   AVAILABILITY_TONE[card.availability.state] ?? "text-gray-dark"
                 }`}
               >

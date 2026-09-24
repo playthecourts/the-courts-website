@@ -60,7 +60,7 @@ export default function GuardiansForm({
                 <p className="font-heading text-[15px] font-bold text-near-black">
                   {g.name}
                   {g.isPrimary && (
-                    <span className="ml-2 rounded-full bg-orange/10 px-2 py-0.5 font-sport text-[10px] font-bold uppercase tracking-[0.1em] text-orange">
+                    <span className="ml-2 rounded-full bg-orange/10 px-2 py-0.5 font-sport text-[12px] font-bold uppercase tracking-[0.1em] text-orange">
                       Primary
                     </span>
                   )}
@@ -84,7 +84,7 @@ export default function GuardiansForm({
               >
                 <span className="font-body text-[14px] text-near-black">Authorized for pickup</span>
                 <span
-                  className={`font-sport text-[11px] font-bold uppercase tracking-[0.1em] ${
+                  className={`font-sport text-xs font-bold uppercase tracking-[0.1em] ${
                     g.authorizedForPickup ? "text-success" : "text-gray-dark"
                   }`}
                 >

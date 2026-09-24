@@ -29,7 +29,7 @@ export function CancelBookingButton({
     return (
       <div className="flex flex-col items-end gap-1.5 rounded-lg border border-gray-mid bg-white p-2.5">
         {policyText && (
-          <p className="max-w-[220px] text-right font-body text-[11px] leading-snug text-gray-dark">
+          <p className="max-w-[220px] text-right font-body text-xs leading-snug text-gray-dark">
             {policyText}
           </p>
         )}
@@ -37,7 +37,7 @@ export function CancelBookingButton({
           <button
             type="button"
             onClick={() => setConfirming(false)}
-            className="font-sport text-[10px] font-bold uppercase tracking-wide text-gray-dark"
+            className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark"
           >
             Never Mind
           </button>
@@ -45,7 +45,7 @@ export function CancelBookingButton({
             type="button"
             disabled={isPending}
             onClick={() => startTransition(() => cancelBooking(bookingId))}
-            className="font-sport text-[10px] font-bold uppercase tracking-wide text-red-600 disabled:opacity-50"
+            className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-red-600 disabled:opacity-50"
           >
             {isPending ? "Cancelling…" : "Yes, Cancel"}
           </button>
@@ -58,7 +58,7 @@ export function CancelBookingButton({
     <button
       type="button"
       onClick={() => setConfirming(true)}
-      className="font-sport text-[10px] font-bold uppercase tracking-wide text-gray-dark hover:text-red-600"
+      className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark hover:text-red-600"
     >
       Cancel
     </button>

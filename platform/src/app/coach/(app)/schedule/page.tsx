@@ -90,7 +90,7 @@ export default async function CoachSchedulePage(props: PageProps<"/coach/schedul
                 key={opt.key}
                 href={`/coach/schedule?scope=${encodeURIComponent(opt.key)}` as Route}
                 aria-current={active ? "true" : undefined}
-                className={`flex min-h-[40px] shrink-0 items-center rounded-full border px-3.5 font-sport text-[11px] font-bold uppercase tracking-wide transition-colors ${
+                className={`flex min-h-[40px] shrink-0 items-center rounded-full border px-3.5 font-sport text-xs font-bold uppercase tracking-wide transition-colors ${
                   active
                     ? "border-near-black bg-near-black text-white"
                     : "border-gray-mid bg-white text-gray-dark hover:border-near-black"
@@ -116,7 +116,7 @@ export default async function CoachSchedulePage(props: PageProps<"/coach/schedul
         <div className="flex flex-col gap-5">
           {[...days.entries()].map(([key, daySessions]) => (
             <section key={key}>
-              <h2 className="mb-2 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-orange">
+              <h2 className="mb-2 font-sport text-xs font-bold uppercase tracking-[0.14em] text-orange">
                 {relativeDayLabel(new Date(key), now)}
               </h2>
               <Card>

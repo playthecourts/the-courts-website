@@ -60,7 +60,7 @@ export default function ReportForm({
         <div className="mb-5 rounded-xl border border-gray-mid bg-warm-stone/60 px-4 py-3.5">
           {athleteGoal && (
             <div className="mb-2.5">
-              <p className="font-sport text-[10px] font-bold uppercase tracking-[0.14em] text-gray-dark">
+              <p className="font-sport text-[11.5px] font-bold uppercase tracking-[0.14em] text-gray-dark">
                 Athlete Goal
               </p>
               <p className="mt-0.5 font-body text-sm text-near-black">{athleteGoal}</p>
@@ -68,7 +68,7 @@ export default function ReportForm({
           )}
           {coachingStyle.length > 0 && (
             <div>
-              <p className="font-sport text-[10px] font-bold uppercase tracking-[0.14em] text-gray-dark">
+              <p className="font-sport text-[11.5px] font-bold uppercase tracking-[0.14em] text-gray-dark">
                 Coaching Style
               </p>
               <p className="mt-0.5 font-body text-sm text-near-black">{coachingStyle.join(" · ")}</p>
@@ -78,7 +78,7 @@ export default function ReportForm({
       )}
 
       <section className="mb-6">
-        <h2 className="mb-2 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-gray-dark">
+        <h2 className="mb-2 font-sport text-xs font-bold uppercase tracking-[0.14em] text-gray-dark">
           Skill Snapshot
         </h2>
         <p className="mb-3 font-body text-[13px] text-gray-dark">
@@ -93,7 +93,7 @@ export default function ReportForm({
                 <div className="mb-2 flex items-baseline justify-between gap-2">
                   <span className="font-heading text-sm font-bold text-near-black">{m.label}</span>
                   {level && (
-                    <span className="font-sport text-[10px] font-bold uppercase tracking-[0.1em] text-orange">
+                    <span className="font-sport text-[11.5px] font-bold uppercase tracking-[0.1em] text-orange">
                       {DEVELOPMENT_SCALE.find((s) => s.level === level)?.label}
                     </span>
                   )}
@@ -150,7 +150,7 @@ export default function ReportForm({
       </section>
 
       <section className="mb-6">
-        <h2 className="mb-2 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-gray-dark">
+        <h2 className="mb-2 font-sport text-xs font-bold uppercase tracking-[0.14em] text-gray-dark">
           What We&rsquo;re Working On
         </h2>
         <div className="flex flex-col gap-2">
@@ -167,7 +167,7 @@ export default function ReportForm({
       </section>
 
       <section className="mb-6">
-        <h2 className="mb-2 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-gray-dark">
+        <h2 className="mb-2 font-sport text-xs font-bold uppercase tracking-[0.14em] text-gray-dark">
           Coach&rsquo;s Take
         </h2>
         <textarea
@@ -180,7 +180,7 @@ export default function ReportForm({
       </section>
 
       <section className="mb-6">
-        <h2 className="mb-2 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-gray-dark">
+        <h2 className="mb-2 font-sport text-xs font-bold uppercase tracking-[0.14em] text-gray-dark">
           Up Next
         </h2>
         <div className="flex flex-col gap-2">

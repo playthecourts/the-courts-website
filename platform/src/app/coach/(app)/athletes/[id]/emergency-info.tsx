@@ -25,13 +25,13 @@ export default function EmergencyInfo({ athleteId }: { athleteId: string }) {
     const contacts = data.contacts;
     return (
       <div className="rounded-xl border border-danger/40 bg-danger-bg px-4 py-3">
-        <p className="font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-danger">
+        <p className="font-sport text-xs font-bold uppercase tracking-[0.14em] text-danger">
           Emergency Information
         </p>
 
         <dl className="mt-2 grid gap-2.5">
           <div>
-            <dt className="font-sport text-[10px] font-bold uppercase tracking-wide text-danger">
+            <dt className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-danger">
               Emergency Contact
             </dt>
             <dd className="font-body text-sm text-near-black">
@@ -51,7 +51,7 @@ export default function EmergencyInfo({ athleteId }: { athleteId: string }) {
           </div>
 
           <div>
-            <dt className="font-sport text-[10px] font-bold uppercase tracking-wide text-danger">
+            <dt className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-danger">
               Medical Notes
             </dt>
             <dd className="font-body text-sm text-near-black">
@@ -61,7 +61,7 @@ export default function EmergencyInfo({ athleteId }: { athleteId: string }) {
 
           {data.pickupInstruction && (
             <div>
-              <dt className="font-sport text-[10px] font-bold uppercase tracking-wide text-danger">
+              <dt className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-danger">
                 At Pickup
               </dt>
               <dd className="font-body text-sm font-bold text-near-black">
@@ -71,7 +71,7 @@ export default function EmergencyInfo({ athleteId }: { athleteId: string }) {
           )}
         </dl>
 
-        <p className="mt-2 font-body text-[11px] text-danger">
+        <p className="mt-2 font-body text-xs text-danger">
           This view was recorded in the staff audit log.
         </p>
       </div>
@@ -90,7 +90,7 @@ export default function EmergencyInfo({ athleteId }: { athleteId: string }) {
           setLoading(false);
         }
       }}
-      className="min-h-[48px] w-full rounded-xl border border-danger/40 bg-white px-4 font-sport text-[11px] font-bold uppercase tracking-wide text-danger hover:bg-danger-bg disabled:opacity-50"
+      className="min-h-[48px] w-full rounded-xl border border-danger/40 bg-white px-4 font-sport text-xs font-bold uppercase tracking-wide text-danger hover:bg-danger-bg disabled:opacity-50"
     >
       {loading ? "Opening…" : "Show Emergency Info"}
     </button>

@@ -178,7 +178,7 @@ export default async function CoachAthletePage(props: PageProps<"/coach/athletes
             goes through the platform (see /coach/messages). */}
         {guardianNames.length > 0 && (
           <p className="mt-3 font-body text-sm text-gray-dark">
-            <span className="font-sport text-[10px] font-bold uppercase tracking-wide text-gray-dark">
+            <span className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark">
               Parent / Guardian
             </span>
             <br />
@@ -219,7 +219,7 @@ export default async function CoachAthletePage(props: PageProps<"/coach/athletes
                   {coachingPrefs.map((p) => (
                     <span
                       key={p}
-                      className="rounded bg-warm-stone px-1.5 py-0.5 font-sport text-[10px] font-bold uppercase tracking-wide text-charcoal"
+                      className="rounded bg-warm-stone px-2 py-0.5 font-sport text-[11.5px] font-bold uppercase tracking-wide text-charcoal"
                     >
                       {p}
                     </span>
@@ -397,13 +397,13 @@ export default async function CoachAthletePage(props: PageProps<"/coach/athletes
                 </div>
                 {n.focus && (
                   <p className="font-body text-sm text-near-black">
-                    <span className="font-sport text-[10px] uppercase text-gray-dark">Focus </span>
+                    <span className="font-sport text-[11.5px] uppercase text-gray-dark">Focus </span>
                     {n.focus}
                   </p>
                 )}
                 {n.workingOn && (
                   <p className="font-body text-sm text-near-black">
-                    <span className="font-sport text-[10px] uppercase text-gray-dark">
+                    <span className="font-sport text-[11.5px] uppercase text-gray-dark">
                       Working On{" "}
                     </span>
                     {n.workingOn}
@@ -412,7 +412,7 @@ export default async function CoachAthletePage(props: PageProps<"/coach/athletes
                 {n.body && <p className="mt-1 font-body text-sm text-near-black">{n.body}</p>}
                 {n.nextRecommendation && (
                   <p className="mt-1 font-body text-sm text-near-black">
-                    <span className="font-sport text-[10px] uppercase text-gray-dark">Next </span>
+                    <span className="font-sport text-[11.5px] uppercase text-gray-dark">Next </span>
                     {n.nextRecommendation}
                   </p>
                 )}
@@ -421,7 +421,7 @@ export default async function CoachAthletePage(props: PageProps<"/coach/athletes
                     {n.tags.map((t) => (
                       <span
                         key={t}
-                        className="rounded bg-warm-stone px-1.5 py-0.5 font-sport text-[10px] font-bold uppercase tracking-wide text-charcoal"
+                        className="rounded bg-warm-stone px-2 py-0.5 font-sport text-[11.5px] font-bold uppercase tracking-wide text-charcoal"
                       >
                         {t}
                       </span>

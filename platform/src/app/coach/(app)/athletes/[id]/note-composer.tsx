@@ -35,7 +35,7 @@ export default function NoteComposer({
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
-        className="flex min-h-[52px] w-full items-center justify-between px-4 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-near-black"
+        className="flex min-h-[52px] w-full items-center justify-between px-4 font-sport text-xs font-bold uppercase tracking-[0.14em] text-near-black"
       >
         Add a Note
         <span aria-hidden="true" className="text-gray-dark">
@@ -56,14 +56,14 @@ export default function NoteComposer({
 
           {tags.length > 0 && (
             <fieldset className="mb-3">
-              <legend className="mb-1.5 font-sport text-[10px] font-bold uppercase tracking-wide text-gray-dark">
+              <legend className="mb-1.5 font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark">
                 Quick Tags
               </legend>
               <div className="flex flex-wrap gap-1.5">
                 {tags.map((tag) => (
                   <label
                     key={tag}
-                    className="cursor-pointer has-[:checked]:border-orange has-[:checked]:bg-orange has-[:checked]:text-white flex min-h-[40px] items-center rounded-full border border-gray-mid bg-white px-3 font-sport text-[11px] font-bold uppercase tracking-wide text-gray-dark"
+                    className="cursor-pointer has-[:checked]:border-orange has-[:checked]:bg-orange has-[:checked]:text-white flex min-h-[40px] items-center rounded-full border border-gray-mid bg-white px-3 font-sport text-xs font-bold uppercase tracking-wide text-gray-dark"
                   >
                     <input type="checkbox" name="tags" value={tag} className="sr-only" />
                     {tag}
@@ -75,7 +75,7 @@ export default function NoteComposer({
 
           <div className="mb-3 grid gap-2">
             <label className="flex flex-col gap-1">
-              <span className="font-sport text-[10px] font-bold uppercase tracking-wide text-gray-dark">
+              <span className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark">
                 Focus
               </span>
               <input
@@ -85,7 +85,7 @@ export default function NoteComposer({
               />
             </label>
             <label className="flex flex-col gap-1">
-              <span className="font-sport text-[10px] font-bold uppercase tracking-wide text-gray-dark">
+              <span className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark">
                 Working On
               </span>
               <input
@@ -95,7 +95,7 @@ export default function NoteComposer({
               />
             </label>
             <label className="flex flex-col gap-1">
-              <span className="font-sport text-[10px] font-bold uppercase tracking-wide text-gray-dark">
+              <span className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark">
                 Coach Note
               </span>
               <textarea
@@ -106,7 +106,7 @@ export default function NoteComposer({
               />
             </label>
             <label className="flex flex-col gap-1">
-              <span className="font-sport text-[10px] font-bold uppercase tracking-wide text-gray-dark">
+              <span className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark">
                 Next Recommendation
               </span>
               <input
@@ -118,7 +118,7 @@ export default function NoteComposer({
           </div>
 
           <fieldset className="mb-3">
-            <legend className="mb-1.5 font-sport text-[10px] font-bold uppercase tracking-wide text-gray-dark">
+            <legend className="mb-1.5 font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark">
               Who can see this?
             </legend>
             <div className="grid grid-cols-2 gap-2">
@@ -135,10 +135,10 @@ export default function NoteComposer({
                   onChange={() => setShared(false)}
                   className="sr-only"
                 />
-                <span className="font-sport text-[11px] font-bold uppercase tracking-wide">
+                <span className="font-sport text-xs font-bold uppercase tracking-wide">
                   Staff Only
                 </span>
-                <span className={`font-body text-[11px] ${!shared ? "text-white/70" : "text-gray-dark"}`}>
+                <span className={`font-body text-xs ${!shared ? "text-white/70" : "text-gray-dark"}`}>
                   Parents never see it
                 </span>
               </label>
@@ -155,10 +155,10 @@ export default function NoteComposer({
                   onChange={() => setShared(true)}
                   className="sr-only"
                 />
-                <span className="font-sport text-[11px] font-bold uppercase tracking-wide">
+                <span className="font-sport text-xs font-bold uppercase tracking-wide">
                   Share with Parent
                 </span>
-                <span className={`font-body text-[11px] ${shared ? "text-white/80" : "text-gray-dark"}`}>
+                <span className={`font-body text-xs ${shared ? "text-white/80" : "text-gray-dark"}`}>
                   Shows in the Parent App
                 </span>
               </label>

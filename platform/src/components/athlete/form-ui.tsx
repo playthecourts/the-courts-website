@@ -21,7 +21,7 @@ export function StepHeader({
   return (
     <div className="mb-6">
       {eyebrow && (
-        <p className="mb-1.5 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-orange">
+        <p className="mb-1.5 font-sport text-xs font-bold uppercase tracking-[0.14em] text-orange">
           {eyebrow}
         </p>
       )}

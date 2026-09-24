@@ -15,7 +15,7 @@ export function CancelRegistrationButton({ athleteId }: { athleteId: string }) {
           startTransition(() => cancelLeagueRegistration(athleteId));
         }
       }}
-      className="font-sport text-[10px] font-bold uppercase tracking-wide text-gray-dark underline decoration-gray-mid underline-offset-2 hover:text-red-600 disabled:opacity-50"
+      className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark underline decoration-gray-mid underline-offset-2 hover:text-red-600 disabled:opacity-50"
     >
       {isPending ? "Withdrawing…" : "Withdraw"}
     </button>

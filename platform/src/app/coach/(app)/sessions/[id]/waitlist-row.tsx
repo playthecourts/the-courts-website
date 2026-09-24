@@ -35,13 +35,13 @@ export default function WaitlistRow({
             <button
               type="submit"
               disabled={pending}
-              className="min-h-[40px] rounded-lg border border-near-black px-3 font-sport text-[11px] font-bold uppercase tracking-wide text-near-black hover:bg-near-black hover:text-white disabled:opacity-50"
+              className="min-h-[40px] rounded-lg border border-near-black px-3 font-sport text-xs font-bold uppercase tracking-wide text-near-black hover:bg-near-black hover:text-white disabled:opacity-50"
             >
               {pending ? "Moving…" : "Move In"}
             </button>
           </form>
         ) : (
-          <span className="font-sport text-[10px] uppercase text-gray-dark">Waiting</span>
+          <span className="font-sport text-[11.5px] uppercase text-gray-dark">Waiting</span>
         )}
       </div>
       {state && !state.ok && state.error && (

@@ -88,7 +88,7 @@ export default async function AthletesPage() {
                     </span>
                   </span>
                   {progress.nextStep && (
-                    <span className="shrink-0 font-sport text-[10.5px] font-bold uppercase tracking-[0.1em] text-orange">
+                    <span className="shrink-0 font-sport text-[11.5px] font-bold uppercase tracking-[0.1em] text-orange">
                       {progress.done}/{progress.total}
                     </span>
                   )}

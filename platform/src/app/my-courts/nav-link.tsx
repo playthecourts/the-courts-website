@@ -140,7 +140,7 @@ export default function NavLink({
       >
         <Icon name={icon} active={active} />
         <span
-          className={`font-sport text-[10.5px] font-bold uppercase tracking-wide ${
+          className={`font-sport text-[11.5px] font-bold uppercase tracking-wide ${
             active ? "text-orange" : "text-gray-dark"
           }`}
         >
@@ -172,7 +172,7 @@ export function SignOutNavItem({ variant }: { variant: "bottom" | "sidebar" }) {
           className="flex flex-1 flex-col items-center justify-center gap-0.5 py-1"
         >
           <Icon name="signout" active={false} />
-          <span className="font-sport text-[10.5px] font-bold uppercase tracking-wide text-gray-dark">
+          <span className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark">
             Sign Out
           </span>
         </button>

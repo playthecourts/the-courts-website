@@ -158,19 +158,19 @@ export function WeekGrid({
                           SPORT_ACCENT[card.sport ?? "General"] ?? "border-l-neutral"
                         } ${cancelled ? "opacity-45 line-through" : ""} ${isDraft ? "border-dashed" : ""}`}
                       >
-                        <p className="os-num text-[10px] leading-tight text-neutral">
+                        <p className="os-num text-[11.5px] leading-tight text-neutral">
                           {fmtTime(card.start)}–{fmtTime(card.end)}
                         </p>
-                        <p className="os-heading truncate text-[11px] leading-tight text-near-black">
+                        <p className="os-heading truncate text-[12px] leading-tight text-near-black">
                           {card.title ?? card.offeringName}
                         </p>
                         {height > 44 ? (
-                          <p className="truncate text-[10px] leading-tight text-gray-dark">
+                          <p className="truncate text-[11.5px] leading-tight text-gray-dark">
                             {[card.coachNames[0], card.resourceNames[0]].filter(Boolean).join(" · ")}
                           </p>
                         ) : null}
                         {height > 58 ? (
-                          <p className={`os-num text-[10px] leading-tight ${full ? "text-danger" : "text-neutral"}`}>
+                          <p className={`os-num text-[11.5px] leading-tight ${full ? "text-danger" : "text-neutral"}`}>
                             {card.booked}/{card.capacity}
                             {card.waitlist > 0 ? ` · ${card.waitlist} waiting` : ""}
                             {isDraft ? " · draft" : ""}

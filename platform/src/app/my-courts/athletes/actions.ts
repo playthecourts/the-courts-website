@@ -411,6 +411,20 @@ export async function saveFamilySafety(_prev: ActionState, formData: FormData): 
   if (!backup.name) errors.backupName = "We need a name.";
   if (!backup.relationship) errors.backupRelationship = "How are they related?";
   if (!backup.phone) errors.backupPhone = "We need a phone number.";
+  // The same person can't be both the 1st-call and 2nd-call contact — a
+  // backup that's identical to the primary defeats the point of having one.
+  // Checked here too (not just client-side) since a guardianId can be
+  // matched exactly, and a typed name+phone pair is a reasonable proxy for
+  // "the same human" even without a guardian record behind it.
+  const samePerson =
+    (primary.guardianId && primary.guardianId === backup.guardianId) ||
+    (!primary.guardianId &&
+      !backup.guardianId &&
+      primary.phone.replace(/\D/g, "") === backup.phone.replace(/\D/g, "") &&
+      primary.phone.replace(/\D/g, "").length > 0);
+  if (samePerson) {
+    errors.backupName = "This is the same person as your 1st-call contact — pick someone else for backup.";
+  }
   if (Object.keys(errors).length > 0) return { ok: false, errors };
 
   const actor: ProfileChangeActor = { type: "guardian", id: guardianId, label: guardianName };

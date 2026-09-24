@@ -29,6 +29,6 @@ export function describeBookingRule(rule: BookingRule): string {
     case "full_price":
       return rule.memberPriceCents && rule.memberPriceCents > 0
         ? `${formatCents(rule.priceCents)} · Members pay ${formatCents(rule.memberPriceCents)}`
-        : formatCents(rule.priceCents);
+        : `${formatCents(rule.priceCents)} · Non-Member`;
   }
 }

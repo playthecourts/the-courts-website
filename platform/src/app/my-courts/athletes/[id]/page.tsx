@@ -23,7 +23,7 @@ import {
 function CardRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="border-t border-gray-mid px-4 py-3.5 first:border-t-0">
-      <p className="mb-1 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-gray-dark">
+      <p className="mb-1 font-sport text-xs font-bold uppercase tracking-[0.14em] text-gray-dark">
         {label}
       </p>
       <div className="font-body text-[15px] leading-snug text-near-black">{children}</div>
@@ -54,7 +54,7 @@ export default async function PlayerCardPage({ params }: { params: Promise<{ id:
           <p className="font-body text-[13.5px] leading-snug text-near-black">
             Makes it easier for coaches to put names to faces.
           </p>
-          <span className="shrink-0 font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
+          <span className="shrink-0 font-sport text-xs font-bold tracking-wide text-orange uppercase">
             Add Photo
           </span>
         </Link>

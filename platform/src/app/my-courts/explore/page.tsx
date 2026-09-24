@@ -60,7 +60,7 @@ function groupByOfferingAndDay(cards: Card[]): Card[][] {
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <span className="w-12 shrink-0 font-sport text-[11px] font-bold uppercase tracking-widest text-gray-dark">
+      <span className="w-12 shrink-0 font-sport text-xs font-bold uppercase tracking-widest text-gray-dark">
         {label}
       </span>
       {children}
@@ -71,9 +71,9 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 export default async function ExplorePage({
   searchParams,
 }: {
-  searchParams: Promise<{ athlete?: string; cat?: string; when?: string }>;
+  searchParams: Promise<{ athlete?: string; cat?: string; when?: string; sport?: string; coach?: string }>;
 }) {
-  const { athlete: athleteParam, cat, when } = await searchParams;
+  const { athlete: athleteParam, cat, when, sport, coach } = await searchParams;
   // A family that opened Checkout and abandoned it must not hold a seat
   // forever — sweep before computing availability below.
   await expireStalePendingBookings();
@@ -89,24 +89,47 @@ export default async function ExplorePage({
       ? allAthletes.filter((a) => a.id === athleteParam)
       : allAthletes;
 
-  const cards = await loadParentFeed(selected as never, {
+  const unfilteredCards = await loadParentFeed(selected as never, {
     category: cat,
     from: range.from,
     to: range.to,
   });
 
-  // Only offer a category chip if it would actually lead somewhere.
-  const present = new Set(cards.map((c) => c.category));
+  // Sport/Performance and Coach are applied on top of the athlete/category/
+  // date fetch, not pushed into loadParentFeed's own DB query — the card
+  // already carries both fields, and these two facets are about narrowing
+  // an already-fetched week/anytime view, not fetching a different one.
+  const cards = unfilteredCards.filter((c) => {
+    if (sport && c.sport !== sport) return false;
+    if (coach && !c.coachNames.includes(coach)) return false;
+    return true;
+  });
+
+  // Only offer a category/sport/coach chip if it would actually lead somewhere.
+  const present = new Set(unfilteredCards.map((c) => c.category));
   const categoriesWithSessions = PARENT_CATEGORIES.filter((c) => present.has(c.key));
 
-  function href(next: { athlete?: string | null; cat?: string | null; when?: string | null }) {
+  const presentSports = [...new Set(unfilteredCards.map((c) => c.sport).filter((s): s is string => !!s))].sort();
+  const presentCoaches = [...new Set(unfilteredCards.flatMap((c) => c.coachNames))].sort();
+
+  function href(next: {
+    athlete?: string | null;
+    cat?: string | null;
+    when?: string | null;
+    sport?: string | null;
+    coach?: string | null;
+  }) {
     const params = new URLSearchParams();
     const a = next.athlete !== undefined ? next.athlete : athleteParam;
     const c = next.cat !== undefined ? next.cat : cat;
     const w = next.when !== undefined ? next.when : when;
+    const sp = next.sport !== undefined ? next.sport : sport;
+    const co = next.coach !== undefined ? next.coach : coach;
     if (a) params.set("athlete", a);
     if (c) params.set("cat", c);
     if (w) params.set("when", w);
+    if (sp) params.set("sport", sp);
+    if (co) params.set("coach", co);
     const qs = params.toString();
     return `/my-courts/explore${qs ? `?${qs}` : ""}`;
   }
@@ -155,6 +178,32 @@ export default async function ExplorePage({
           </Row>
         ) : null}
 
+        {presentSports.length > 1 ? (
+          <Row label="Sport">
+            <Chip href={href({ sport: null })} active={!sport}>
+              All
+            </Chip>
+            {presentSports.map((s) => (
+              <Chip key={s} href={href({ sport: s })} active={sport === s}>
+                {s === "All Sports" ? "Performance" : s}
+              </Chip>
+            ))}
+          </Row>
+        ) : null}
+
+        {presentCoaches.length > 1 ? (
+          <Row label="Coach">
+            <Chip href={href({ coach: null })} active={!coach}>
+              All
+            </Chip>
+            {presentCoaches.map((c) => (
+              <Chip key={c} href={href({ coach: c })} active={coach === c}>
+                {c}
+              </Chip>
+            ))}
+          </Row>
+        ) : null}
+
         <Row label="When">
           <Chip href={href({ when: null })} active={when !== "anytime"}>
             This Week
@@ -166,13 +215,13 @@ export default async function ExplorePage({
       </div>
 
       <details className="rounded-lg border border-gray-mid bg-white px-4 py-3">
-        <summary className="cursor-pointer font-sport text-[11px] font-bold uppercase tracking-wide text-gray-dark">
+        <summary className="cursor-pointer font-sport text-sm font-bold uppercase tracking-wide text-orange">
           Booking Policy
         </summary>
         <p className="mt-2 font-body text-sm text-gray-dark">
           Plans change, and that&rsquo;s okay. Cancel a drop-in class or Dr. Dish session at least 12 hours before
           it starts and we&rsquo;ll refund your payment or restore your credit — no questions asked. Inside that
-          12-hour window, we&rsquo;re not able to offer a refund. Camps and Fall League are final once you
+          12-hour window, we&rsquo;re not able to offer a refund. Camps and League are final once you
           register.
         </p>
       </details>

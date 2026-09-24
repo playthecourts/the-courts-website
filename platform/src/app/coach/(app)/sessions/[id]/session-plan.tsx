@@ -78,7 +78,7 @@ export default function SessionPlan({
           className="flex items-end gap-2 border-t border-gray-mid bg-warm-stone/40 px-3 py-2.5"
         >
           <label className="flex flex-col gap-1">
-            <span className="font-sport text-[10px] font-bold uppercase tracking-wide text-gray-dark">
+            <span className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark">
               Min
             </span>
             <input
@@ -92,7 +92,7 @@ export default function SessionPlan({
             />
           </label>
           <label className="flex min-w-0 flex-1 flex-col gap-1">
-            <span className="font-sport text-[10px] font-bold uppercase tracking-wide text-gray-dark">
+            <span className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark">
               Block
             </span>
             <input
@@ -104,7 +104,7 @@ export default function SessionPlan({
           </label>
           <button
             type="submit"
-            className="min-h-[44px] shrink-0 rounded-lg bg-charcoal px-3 font-sport text-[11px] font-bold uppercase tracking-wide text-white hover:bg-near-black"
+            className="min-h-[44px] shrink-0 rounded-lg bg-charcoal px-3 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-near-black"
           >
             Add
           </button>

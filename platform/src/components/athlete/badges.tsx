@@ -23,7 +23,7 @@ function Chip({
   } as const;
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 font-sport text-[10.5px] font-bold uppercase tracking-[0.1em] ${tones[tone]}`}
+      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 font-sport text-[12px] font-bold uppercase tracking-[0.1em] ${tones[tone]}`}
     >
       {children}
     </span>

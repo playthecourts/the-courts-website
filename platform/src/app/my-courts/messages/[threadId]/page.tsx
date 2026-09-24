@@ -54,7 +54,7 @@ export default async function ThreadPage({ params }: PageProps<"/my-courts/messa
                   : "self-end bg-black text-white"
               }`}
             >
-              <p className={`font-sport text-[10px] font-bold uppercase tracking-widest ${fromCourts ? "text-orange" : "text-white/60"}`}>
+              <p className={`font-sport text-[11.5px] font-bold uppercase tracking-widest ${fromCourts ? "text-orange" : "text-white/60"}`}>
                 {fromCourts
                   ? m.authorStaff?.name ?? "The Courts"
                   : m.authorGuardian?.name ?? "You"}

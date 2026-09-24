@@ -30,6 +30,10 @@ function ContactSection({
   athleteFirstName,
   initial,
   errors,
+  useGuardianId,
+  setUseGuardianId,
+  otherGuardianId,
+  otherLabel,
 }: {
   prefix: "primary" | "backup";
   title: string;
@@ -38,8 +42,13 @@ function ContactSection({
   athleteFirstName: string;
   initial: Contact;
   errors: Record<string, string>;
+  useGuardianId: string;
+  setUseGuardianId: (id: string) => void;
+  /// The OTHER section's selected guardian, if any — used so the same
+  /// person can't be picked as both the 1st-call and 2nd-call contact.
+  otherGuardianId: string;
+  otherLabel: string;
 }) {
-  const [useGuardianId, setUseGuardianId] = useState(initial.guardianId ?? "");
   const usingGuardian = Boolean(useGuardianId);
 
   return (
@@ -49,22 +58,30 @@ function ContactSection({
 
       {guardians.length > 0 && (
         <div className="mb-3 flex flex-col gap-2">
-          {guardians.map((g) => (
-            <label
-              key={g.id}
-              className="flex cursor-pointer items-center gap-3 rounded-xl border border-gray-mid bg-white px-4 py-3 has-[:checked]:border-orange has-[:checked]:bg-orange/5"
-            >
-              <input
-                type="checkbox"
-                checked={useGuardianId === g.id}
-                onChange={(e) => setUseGuardianId(e.target.checked ? g.id : "")}
-                className="h-4 w-4 accent-orange"
-              />
-              <span className="font-body text-[14.5px] text-near-black">
-                Use {g.name.split(" ")[0]} as {athleteFirstName}&rsquo;s {title.toLowerCase()}
-              </span>
-            </label>
-          ))}
+          {guardians.map((g) => {
+            const takenByOther = otherGuardianId === g.id;
+            return (
+              <label
+                key={g.id}
+                className={`flex items-center gap-3 rounded-xl border border-gray-mid bg-white px-4 py-3 has-[:checked]:border-orange has-[:checked]:bg-orange/5 ${
+                  takenByOther ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  checked={useGuardianId === g.id}
+                  disabled={takenByOther}
+                  onChange={(e) => setUseGuardianId(e.target.checked ? g.id : "")}
+                  className="h-4 w-4 accent-orange"
+                />
+                <span className="font-body text-[14.5px] text-near-black">
+                  {takenByOther
+                    ? `${g.name.split(" ")[0]} is already ${athleteFirstName}’s ${otherLabel}`
+                    : `Use ${g.name.split(" ")[0]} as ${athleteFirstName}’s ${title.toLowerCase()}`}
+                </span>
+              </label>
+            );
+          })}
         </div>
       )}
 
@@ -152,12 +169,18 @@ export default function FamilySafetyForm({
   const backupContact = athlete.emergencyContacts.find((c) => c.role === "backup");
   const emptyContact: Contact = { name: "", relationship: "", phone: "", guardianId: null };
 
+  // Lifted out of ContactSection so the primary and backup pickers can see
+  // each other — the same guardian can't be the 1st-call AND 2nd-call
+  // contact, per the owner's explicit rule.
+  const [primaryGuardianId, setPrimaryGuardianId] = useState(primaryContact?.guardianId ?? "");
+  const [backupGuardianId, setBackupGuardianId] = useState(backupContact?.guardianId ?? "");
+
   return (
     <form action={formAction}>
       <input type="hidden" name="athleteId" value={athlete.id} />
 
       <section>
-        <p className="mb-3 font-sport text-[11px] font-bold uppercase tracking-wide text-orange">
+        <p className="mb-3 font-sport text-xs font-bold uppercase tracking-wide text-orange">
           Health Information
         </p>
         <Question
@@ -186,21 +209,29 @@ export default function FamilySafetyForm({
       <section className="flex flex-col gap-6">
         <ContactSection
           prefix="primary"
-          title="Primary Emergency Contact"
+          title="Emergency Contact — Call 1st"
           helper="Who should we call first if there's an emergency?"
           guardians={guardians}
           athleteFirstName={displayName}
           initial={primaryContact ?? emptyContact}
           errors={errors}
+          useGuardianId={primaryGuardianId}
+          setUseGuardianId={setPrimaryGuardianId}
+          otherGuardianId={backupGuardianId}
+          otherLabel="2nd-call contact"
         />
         <ContactSection
           prefix="backup"
-          title="Backup Emergency Contact"
-          helper="Who should we call if the primary contact can't be reached?"
+          title="Emergency Contact — Call 2nd"
+          helper="Who should we call if the 1st-call contact can't be reached?"
           guardians={guardians}
           athleteFirstName={displayName}
           initial={backupContact ?? emptyContact}
           errors={errors}
+          useGuardianId={backupGuardianId}
+          setUseGuardianId={setBackupGuardianId}
+          otherGuardianId={primaryGuardianId}
+          otherLabel="1st-call contact"
         />
       </section>
 
@@ -208,7 +239,7 @@ export default function FamilySafetyForm({
 
       <section className="flex flex-col gap-6">
         <div>
-          <p className="mb-3 font-sport text-[11px] font-bold uppercase tracking-wide text-orange">
+          <p className="mb-3 font-sport text-xs font-bold uppercase tracking-wide text-orange">
             Medical Provider + Hospital
           </p>
 
@@ -254,10 +285,10 @@ export default function FamilySafetyForm({
         <div>
           <h3 className="font-heading text-[16px] font-bold text-near-black">Preferred Hospital</h3>
           <p className="mt-0.5 mb-3 font-body text-[13.5px] text-gray-dark">
-            If emergency transport is needed and circumstances allow, which hospital would you prefer?
+            If emergency transport is needed, which hospital would you prefer?
           </p>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <Question label="Preferred Hospital" error={errors.preferredHospital}>
+            <Question label="Hospital Name" error={errors.preferredHospital}>
               <TextInput name="preferredHospital" value={hospital} onChange={(e) => setHospital(e.target.value)} />
             </Question>
             <Question label="City / Location (optional)">

@@ -49,7 +49,7 @@ export default function PrivacyForm({
       />
 
       <div className="mb-6 rounded-xl border border-gray-mid bg-gray-light p-4">
-        <p className="mb-2 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-gray-dark">
+        <p className="mb-2 font-sport text-xs font-bold uppercase tracking-[0.14em] text-gray-dark">
           What this includes
         </p>
         <p className="mb-2 font-body text-[13.5px] leading-relaxed text-near-black">

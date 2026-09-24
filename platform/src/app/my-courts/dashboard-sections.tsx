@@ -85,7 +85,7 @@ export function ActionNeededStrip({
               <span className="font-heading font-bold">{item.athleteName}</span> — {item.message}
             </span>
           </div>
-          <span className="shrink-0 font-sport text-[11px] font-bold tracking-wide text-orange uppercase">
+          <span className="shrink-0 font-sport text-xs font-bold tracking-wide text-orange uppercase">
             {item.cta ?? "Complete"} &rarr;
           </span>
         </Link>
@@ -136,7 +136,7 @@ export function AthleteRow({
                   .join(" · ") || "Profile started"}
               </p>
             </div>
-            <span className="shrink-0 font-sport text-[11px] font-bold tracking-wide text-gray-dark uppercase group-hover:text-orange">
+            <span className="shrink-0 font-sport text-xs font-bold tracking-wide text-gray-dark uppercase group-hover:text-orange">
               View Profile &rarr;
             </span>
           </Link>

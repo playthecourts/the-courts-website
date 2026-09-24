@@ -65,7 +65,7 @@ function LaterRow({ session }: { session: CoachSession }) {
         </span>
         {subtitle && <span className="block truncate font-body text-xs text-gray-dark">{subtitle}</span>}
       </span>
-      <span className="shrink-0 font-sport text-[11px] font-bold uppercase text-gray-dark">
+      <span className="shrink-0 font-sport text-xs font-bold uppercase text-gray-dark">
         {session._count.bookings}/{session.capacity}
       </span>
     </Link>

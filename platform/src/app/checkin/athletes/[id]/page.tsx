@@ -19,7 +19,7 @@ export const dynamic = "force-dynamic";
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="border-t border-gray-mid px-4 py-3.5 first:border-t-0">
-      <p className="mb-1 font-sport text-[10.5px] font-bold uppercase tracking-[0.14em] text-gray-dark">
+      <p className="mb-1 font-sport text-[11.5px] font-bold uppercase tracking-[0.14em] text-gray-dark">
         {label}
       </p>
       <div className="font-body text-[15px] leading-snug text-near-black">{children}</div>
@@ -116,7 +116,7 @@ export default async function CheckinAthletePage({
           does are at the top, not buried under contact details. */}
       {athlete.hasMedicalInfo && (
         <div className="rounded-xl border border-warning/40 bg-warning-bg px-4 py-3.5">
-          <p className="font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-warning">
+          <p className="font-sport text-xs font-bold uppercase tracking-[0.14em] text-warning">
             Important Health Information
           </p>
           <p className="mt-1.5 font-body text-[15px] leading-snug text-near-black">
@@ -127,7 +127,7 @@ export default async function CheckinAthletePage({
 
       {athlete.hasCustodyRestrictions && (
         <div className="rounded-xl border border-danger/40 bg-danger-bg px-4 py-3.5">
-          <p className="font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-danger">
+          <p className="font-sport text-xs font-bold uppercase tracking-[0.14em] text-danger">
             Pickup Restriction
           </p>
           {athlete.custodyStaffInstruction && (

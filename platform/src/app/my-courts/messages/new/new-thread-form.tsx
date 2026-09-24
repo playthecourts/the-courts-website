@@ -15,7 +15,7 @@ export function NewThreadForm({
   return (
     <form action={action} className="flex flex-col gap-4">
       <div>
-        <label htmlFor="subject" className="mb-1.5 block font-sport text-[11px] font-bold uppercase tracking-widest text-gray-dark">
+        <label htmlFor="subject" className="mb-1.5 block font-sport text-xs font-bold uppercase tracking-widest text-gray-dark">
           What&rsquo;s your question about?
         </label>
         <input
@@ -30,7 +30,7 @@ export function NewThreadForm({
 
       {athletes.length > 0 ? (
         <div>
-          <label htmlFor="athleteId" className="mb-1.5 block font-sport text-[11px] font-bold uppercase tracking-widest text-gray-dark">
+          <label htmlFor="athleteId" className="mb-1.5 block font-sport text-xs font-bold uppercase tracking-widest text-gray-dark">
             Which athlete? <span className="font-normal normal-case tracking-normal text-gray-dark">Optional</span>
           </label>
           <select
@@ -48,7 +48,7 @@ export function NewThreadForm({
       ) : null}
 
       <div>
-        <label htmlFor="body" className="mb-1.5 block font-sport text-[11px] font-bold uppercase tracking-widest text-gray-dark">
+        <label htmlFor="body" className="mb-1.5 block font-sport text-xs font-bold uppercase tracking-widest text-gray-dark">
           Your message
         </label>
         <textarea

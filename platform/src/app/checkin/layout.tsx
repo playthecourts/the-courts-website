@@ -33,7 +33,7 @@ export default async function CheckinLayout({ children }: { children: React.Reac
         >
           Front Desk
         </Link>
-        <span className="font-sport text-[11px] font-bold uppercase tracking-[0.12em] text-gray-dark">
+        <span className="font-sport text-xs font-bold uppercase tracking-[0.12em] text-gray-dark">
           {actor.name}
         </span>
       </header>

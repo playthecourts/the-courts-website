@@ -28,7 +28,7 @@ export function CancelMembershipFlow({
       <button
         type="button"
         onClick={() => setStep("reason")}
-        className="font-sport text-[11px] font-bold uppercase tracking-wide text-gray-dark hover:text-orange"
+        className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark hover:text-orange"
       >
         Cancel Membership
       </button>

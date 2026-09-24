@@ -82,7 +82,7 @@ export default async function ProgressReportPage({
                   <span className="font-body text-sm text-near-black">
                     {metricLabel(report.sport, s.metric)}
                   </span>
-                  <span className="font-sport text-[10px] font-bold uppercase tracking-[0.1em] text-gray-dark">
+                  <span className="font-sport text-[11.5px] font-bold uppercase tracking-[0.1em] text-gray-dark">
                     {levelLabel(s.level)}
                   </span>
                 </div>

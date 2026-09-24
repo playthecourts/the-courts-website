@@ -49,7 +49,7 @@ export default async function MessagesPage() {
 
       {threads.length > 0 ? (
         <section>
-          <h2 className="mb-2 font-sport text-[11px] font-bold uppercase tracking-widest text-gray-dark">
+          <h2 className="mb-2 font-sport text-xs font-bold uppercase tracking-widest text-gray-dark">
             Your conversations
           </h2>
           <div className="flex flex-col divide-y divide-gray-mid rounded-lg border border-gray-mid bg-white">
@@ -102,7 +102,7 @@ export default async function MessagesPage() {
 
       {broadcasts.length > 0 ? (
         <section>
-          <h2 className="mb-2 font-sport text-[11px] font-bold uppercase tracking-widest text-gray-dark">
+          <h2 className="mb-2 font-sport text-xs font-bold uppercase tracking-widest text-gray-dark">
             From The Courts
           </h2>
           <div className="flex flex-col divide-y divide-gray-mid rounded-lg border border-gray-mid bg-white">

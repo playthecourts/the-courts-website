@@ -15,7 +15,7 @@ import { displayName } from "@/lib/athlete";
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="mb-2 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-orange">
+      <h2 className="mb-2 font-sport text-xs font-bold uppercase tracking-[0.14em] text-orange">
         {title}
       </h2>
       {children}
@@ -74,7 +74,7 @@ export default async function ReportPage({
                 <span className="font-heading text-[14.5px] font-bold text-near-black">
                   {metricLabel(report.sport, s.metric)}
                 </span>
-                <span className="shrink-0 font-sport text-[11px] font-bold uppercase tracking-[0.12em] text-success">
+                <span className="shrink-0 font-sport text-xs font-bold uppercase tracking-[0.12em] text-success">
                   {levelLabel(s.level)}
                 </span>
               </li>
@@ -107,7 +107,7 @@ export default async function ReportPage({
                   <span className="font-body text-[14.5px] text-near-black">
                     {metricLabel(report.sport, s.metric)}
                   </span>
-                  <span className="shrink-0 font-sport text-[11px] font-bold uppercase tracking-[0.12em] text-gray-dark">
+                  <span className="shrink-0 font-sport text-xs font-bold uppercase tracking-[0.12em] text-gray-dark">
                     {levelLabel(s.level)}
                   </span>
                 </div>
@@ -142,7 +142,7 @@ export default async function ReportPage({
                         </span>
                       )}
                       <span className="font-body text-[13px] text-gray-dark">
-                        <span className="font-sport text-[10.5px] font-bold uppercase tracking-[0.1em]">
+                        <span className="font-sport text-[11.5px] font-bold uppercase tracking-[0.1em]">
                           Q{p.quarter} {p.year}
                         </span>{" "}
                         {levelLabel(p.level)}

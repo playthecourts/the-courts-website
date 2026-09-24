@@ -37,7 +37,7 @@ export default async function AthleteProgramsPage({ params }: { params: Promise<
     <div className="flex flex-col gap-6">
       {unsignedWaivers.length > 0 && (
         <div className="rounded-xl border border-orange bg-white p-4">
-          <p className="font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-orange">
+          <p className="font-sport text-xs font-bold uppercase tracking-[0.14em] text-orange">
             Waiver Needed
           </p>
           <p className="mt-1 font-body text-[14px] text-gray-dark">
@@ -53,7 +53,7 @@ export default async function AthleteProgramsPage({ params }: { params: Promise<
       )}
 
       <section>
-        <p className="mb-2 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-gray-dark">
+        <p className="mb-2 font-sport text-xs font-bold uppercase tracking-[0.14em] text-gray-dark">
           Membership Plan
         </p>
         {membership ? (
@@ -88,7 +88,7 @@ export default async function AthleteProgramsPage({ params }: { params: Promise<
       </section>
 
       <section>
-        <p className="mb-2 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-gray-dark">
+        <p className="mb-2 font-sport text-xs font-bold uppercase tracking-[0.14em] text-gray-dark">
           Registered For
         </p>
         {registrations.length === 0 ? (

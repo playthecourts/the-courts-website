@@ -32,7 +32,7 @@ export const dynamic = "force-dynamic";
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-0.5 border-t border-gray-mid px-4 py-3 first:border-t-0 sm:flex-row sm:gap-4">
-      <span className="font-sport text-[10.5px] font-bold uppercase tracking-[0.12em] text-gray-dark sm:w-48 sm:shrink-0 sm:pt-0.5">
+      <span className="font-sport text-[11.5px] font-bold uppercase tracking-[0.12em] text-gray-dark sm:w-48 sm:shrink-0 sm:pt-0.5">
         {label}
       </span>
       <span className="font-body text-[14.5px] leading-snug text-near-black">{children}</span>
@@ -359,7 +359,7 @@ export default async function OsAthletePage({ params }: { params: Promise<{ id: 
             athlete.profileChanges.map((c) => (
               <div key={c.id} className="border-t border-gray-mid px-4 py-2.5 first:border-t-0">
                 <p className="font-body text-[13.5px] text-near-black">
-                  <span className="font-sport text-[10.5px] font-bold uppercase tracking-[0.1em] text-gray-dark">
+                  <span className="font-sport text-[11.5px] font-bold uppercase tracking-[0.1em] text-gray-dark">
                     {c.category.replace(/_/g, " ")}
                   </span>{" "}
                   {c.field.replace(/_/g, " ")}

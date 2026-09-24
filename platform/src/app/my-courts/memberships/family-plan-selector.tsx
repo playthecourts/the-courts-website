@@ -24,7 +24,7 @@ export function FamilyPlanSelector({
         <p className="font-body text-[13px] text-gray-dark">
           Family Unlimited covers two athletes — add another one first.
         </p>
-        <Link href="/my-courts/athletes/new" className="mt-1 inline-block font-sport text-[11px] font-bold uppercase tracking-wide text-orange">
+        <Link href="/my-courts/athletes/new" className="mt-1 inline-block font-sport text-xs font-bold uppercase tracking-wide text-orange">
           Add an Athlete &rarr;
         </Link>
       </div>

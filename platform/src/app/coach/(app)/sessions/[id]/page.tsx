@@ -200,7 +200,7 @@ export default async function CoachSessionPage(props: PageProps<"/coach/sessions
             />
             <button
               type="submit"
-              className="min-h-[44px] self-start rounded-lg bg-charcoal px-4 font-sport text-[11px] font-bold uppercase tracking-wide text-white hover:bg-near-black"
+              className="min-h-[44px] self-start rounded-lg bg-charcoal px-4 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-near-black"
             >
               Save Note
             </button>
@@ -210,7 +210,7 @@ export default async function CoachSessionPage(props: PageProps<"/coach/sessions
               {session.notes.map((n) => (
                 <li key={n.id} className="mb-2.5 last:mb-0">
                   <p className="font-body text-sm text-near-black">{n.body}</p>
-                  <p className="font-sport text-[10px] uppercase tracking-wide text-gray-dark">
+                  <p className="font-sport text-[11.5px] uppercase tracking-wide text-gray-dark">
                     {n.staff.name}
                   </p>
                 </li>
@@ -233,7 +233,7 @@ export default async function CoachSessionPage(props: PageProps<"/coach/sessions
       {/* Coverage + capacity are secondary; tucked behind a disclosure so they
           don't compete with attendance for attention on a phone. */}
       <details className="mb-4 rounded-xl border border-gray-mid bg-white">
-        <summary className="flex min-h-[48px] cursor-pointer list-none items-center px-4 font-sport text-[11px] font-bold uppercase tracking-[0.14em] text-gray-dark">
+        <summary className="flex min-h-[48px] cursor-pointer list-none items-center px-4 font-sport text-xs font-bold uppercase tracking-[0.14em] text-gray-dark">
           Session Admin
         </summary>
         <div className="border-t border-gray-mid px-4 py-3">
@@ -245,7 +245,7 @@ export default async function CoachSessionPage(props: PageProps<"/coach/sessions
             <form action={requestCoverage.bind(null, session.id)} className="mb-4 flex flex-col gap-2">
               <label
                 htmlFor="coverage-reason"
-                className="font-sport text-[11px] font-bold uppercase tracking-wide text-gray-dark"
+                className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark"
               >
                 Need Coverage
               </label>
@@ -257,7 +257,7 @@ export default async function CoachSessionPage(props: PageProps<"/coach/sessions
               />
               <button
                 type="submit"
-                className="min-h-[44px] self-start rounded-lg border border-near-black px-4 font-sport text-[11px] font-bold uppercase tracking-wide text-near-black hover:bg-near-black hover:text-white"
+                className="min-h-[44px] self-start rounded-lg border border-near-black px-4 font-sport text-xs font-bold uppercase tracking-wide text-near-black hover:bg-near-black hover:text-white"
               >
                 Request Coverage
               </button>
@@ -266,7 +266,7 @@ export default async function CoachSessionPage(props: PageProps<"/coach/sessions
 
           {canManage ? (
             <form action={updateCapacity.bind(null, session.id)} className="flex items-end gap-2">
-              <label className="flex flex-col gap-1 font-sport text-[11px] font-bold uppercase tracking-wide text-gray-dark">
+              <label className="flex flex-col gap-1 font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">
                 Capacity
                 <input
                   type="number"
@@ -278,7 +278,7 @@ export default async function CoachSessionPage(props: PageProps<"/coach/sessions
               </label>
               <button
                 type="submit"
-                className="min-h-[44px] rounded-lg border border-near-black px-4 font-sport text-[11px] font-bold uppercase tracking-wide text-near-black hover:bg-near-black hover:text-white"
+                className="min-h-[44px] rounded-lg border border-near-black px-4 font-sport text-xs font-bold uppercase tracking-wide text-near-black hover:bg-near-black hover:text-white"
               >
                 Update
               </button>

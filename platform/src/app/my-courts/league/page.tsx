@@ -36,7 +36,7 @@ function Pill({ tone, children }: { tone: "in" | "pending" | "placed" | "neutral
     neutral: "bg-gray-light text-gray-dark",
   };
   return (
-    <span className={`inline-block shrink-0 rounded-full px-2.5 py-1 font-sport text-[10.5px] font-bold tracking-wide uppercase ${toneClasses[tone]}`}>
+    <span className={`inline-block shrink-0 rounded-full px-2.5 py-1 font-sport text-[11.5px] font-bold tracking-wide uppercase ${toneClasses[tone]}`}>
       {children}
     </span>
   );
@@ -204,7 +204,7 @@ export default async function LeaguePage({
                 </div>
 
                 <div className="border-t border-gray-mid pt-4">
-                  <p className="mb-2 font-sport text-[11px] font-bold uppercase tracking-wide text-orange">What&rsquo;s Included</p>
+                  <p className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">What&rsquo;s Included</p>
                   <ul className="flex flex-col gap-1 font-body text-sm text-gray-dark">
                     {SEASON_INCLUDES.map((item) => (
                       <li key={item}>• {item}</li>
@@ -213,7 +213,7 @@ export default async function LeaguePage({
                 </div>
 
                 <div className="border-t border-gray-mid pt-4">
-                  <p className="mb-2 font-sport text-[11px] font-bold uppercase tracking-wide text-orange">What&rsquo;s Ahead</p>
+                  <p className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">What&rsquo;s Ahead</p>
                   {WHATS_AHEAD}
                   <p className="mt-1 font-body text-sm text-gray-dark">Practice times are TBD and will be shared after team placement.</p>
                 </div>
@@ -231,7 +231,7 @@ export default async function LeaguePage({
                   {/* Registration */}
                   <div>
                     <div className="flex items-center justify-between gap-3">
-                      <p className="font-sport text-[11px] font-bold uppercase tracking-wide text-gray-dark">Registration</p>
+                      <p className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">Registration</p>
                       <Pill tone={isPaid ? "in" : "pending"}>{isPaid ? "You're In ✓" : "Payment Pending"}</Pill>
                     </div>
                     <p className="mt-1 font-body text-sm text-gray-dark">
@@ -255,7 +255,7 @@ export default async function LeaguePage({
                   {registration.membershipSetupNeeded && (
                     <div className="border-t border-gray-mid pt-4">
                       <div className="flex items-center justify-between gap-3">
-                        <p className="font-sport text-[11px] font-bold uppercase tracking-wide text-gray-dark">Membership</p>
+                        <p className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">Membership</p>
                         <Pill tone="pending">Setup Needed</Pill>
                       </div>
                       <p className="mt-1 font-body text-sm text-gray-dark">
@@ -271,7 +271,7 @@ export default async function LeaguePage({
                   {/* Evaluation */}
                   <div className="border-t border-gray-mid pt-4">
                     <div className="flex items-center justify-between gap-3">
-                      <p className="font-sport text-[11px] font-bold uppercase tracking-wide text-gray-dark">Evaluation</p>
+                      <p className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">Evaluation</p>
                       <Pill tone={attended ? "in" : "neutral"}>{attended ? "Evaluation Complete ✓" : "Not Attended"}</Pill>
                     </div>
                     <p className="mt-1 font-body text-sm text-gray-dark">
@@ -284,7 +284,7 @@ export default async function LeaguePage({
                   {/* Team Placement */}
                   <div className="border-t border-gray-mid pt-4">
                     <div className="flex items-center justify-between gap-3">
-                      <p className="font-sport text-[11px] font-bold uppercase tracking-wide text-gray-dark">Team Placement</p>
+                      <p className="font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">Team Placement</p>
                       <Pill tone={membership ? "placed" : "neutral"}>{membership ? "Placed ✓" : "Pending"}</Pill>
                     </div>
                     {membership ? (
@@ -308,7 +308,7 @@ export default async function LeaguePage({
                 </div>
 
                 <div className="border-t border-gray-mid pt-4">
-                  <p className="mb-2 font-sport text-[11px] font-bold uppercase tracking-wide text-orange">What&rsquo;s Ahead</p>
+                  <p className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">What&rsquo;s Ahead</p>
                   {WHATS_AHEAD}
                   <p className="mt-2 font-body text-xs text-gray-dark">
                     {SEASON_INCLUDES.join(" · ")}

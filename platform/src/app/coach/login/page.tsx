@@ -24,7 +24,7 @@ export default async function CoachLoginPage() {
         className="mb-6 h-14 w-auto"
         priority
       />
-      <p className="mb-1 font-sport text-[11px] font-bold uppercase tracking-[0.18em] text-orange">
+      <p className="mb-1 font-sport text-xs font-bold uppercase tracking-[0.18em] text-orange">
         Coach
       </p>
       <h1 className="mb-1.5 font-display text-3xl font-black uppercase leading-none tracking-tight text-near-black">

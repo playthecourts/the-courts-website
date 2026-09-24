@@ -53,7 +53,7 @@ export default function DrDishBlock({
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <label className="flex flex-col gap-1">
-                  <span className="font-sport text-[10px] font-bold uppercase tracking-wide text-gray-dark">
+                  <span className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark">
                     Workout
                   </span>
                   <input
@@ -64,7 +64,7 @@ export default function DrDishBlock({
                   />
                 </label>
                 <label className="flex flex-col gap-1">
-                  <span className="font-sport text-[10px] font-bold uppercase tracking-wide text-gray-dark">
+                  <span className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark">
                     Focus
                   </span>
                   <input
@@ -75,7 +75,7 @@ export default function DrDishBlock({
                   />
                 </label>
                 <label className="flex flex-col gap-1">
-                  <span className="font-sport text-[10px] font-bold uppercase tracking-wide text-gray-dark">
+                  <span className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark">
                     Makes
                   </span>
                   <input
@@ -87,7 +87,7 @@ export default function DrDishBlock({
                   />
                 </label>
                 <label className="flex flex-col gap-1">
-                  <span className="font-sport text-[10px] font-bold uppercase tracking-wide text-gray-dark">
+                  <span className="font-sport text-[11.5px] font-bold uppercase tracking-wide text-gray-dark">
                     Attempts
                   </span>
                   <input
@@ -101,7 +101,7 @@ export default function DrDishBlock({
               </div>
               <button
                 type="submit"
-                className="mt-2 min-h-[44px] rounded-lg border border-near-black px-4 font-sport text-[11px] font-bold uppercase tracking-wide text-near-black hover:bg-near-black hover:text-white"
+                className="mt-2 min-h-[44px] rounded-lg border border-near-black px-4 font-sport text-xs font-bold uppercase tracking-wide text-near-black hover:bg-near-black hover:text-white"
               >
                 Save
               </button>
