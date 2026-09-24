@@ -39,6 +39,8 @@ export type ParentSessionCard = {
   endTime: Date;
   resourceName: string | null;
   coachNames: string[];
+  capacity: number | null;
+  booked: number;
   availability: Availability;
   /// Per-athlete: whether this athlete may book, and what it costs them.
   perAthlete: {
@@ -194,6 +196,8 @@ export async function loadParentFeed(
       endTime: s.endTime,
       resourceName: s.resource?.name ?? null,
       coachNames: s.coaches.map((c) => c.staff.name),
+      capacity: s.capacity,
+      booked: s._count.bookings,
       availability,
       perAthlete,
     });

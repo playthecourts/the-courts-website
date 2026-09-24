@@ -85,6 +85,21 @@ export default async function MyCourtsHomePage() {
       : Promise.resolve([]),
   ]);
 
+  // Purchased session packs (Dr. Dish 10-pack, a drop-in pack) — a separate
+  // one-time purchase, not a Training Plan benefit, so it's tracked here
+  // rather than folded into the membership balances above.
+  const activeCredits = athleteIds.length
+    ? await prisma.credit.findMany({
+        where: { athleteId: { in: athleteIds }, status: "issued", balance: { gt: 0 } },
+        include: { athlete: { select: { firstName: true } } },
+        orderBy: { createdAt: "asc" },
+      })
+    : [];
+  const CREDIT_TYPE_LABEL: Record<string, string> = {
+    dr_dish_ten_pack: "Dr. Dish 10-Pack",
+    drop_in_pack: "Drop-In Credits",
+  };
+
   const emergencyContactCountByAthlete = new Map(emergencyContactCounts.map((row) => [row.athleteId, row._count.athleteId]));
 
   const athleteCards = athletes.map((athlete) => {
@@ -274,6 +289,26 @@ export default async function MyCourtsHomePage() {
           </div>
         )}
       </section>
+
+      {/* Purchased session packs — a one-time buy, not a membership benefit,
+          so it's its own small block rather than folded into Membership. */}
+      {activeCredits.length > 0 && (
+        <section>
+          <p className="mb-2.5 font-sport text-[13px] font-bold tracking-wide text-orange uppercase">Your Packs</p>
+          <div className="flex flex-col gap-3">
+            {activeCredits.map((credit) => (
+              <div key={credit.id} className="rounded-2xl border border-gray-mid bg-white p-5">
+                <p className="font-heading text-[15px] font-bold text-near-black">
+                  {CREDIT_TYPE_LABEL[credit.creditType] ?? credit.creditType}
+                </p>
+                <p className="font-body text-[13px] text-gray-dark">
+                  {credit.athlete.firstName} &middot; {credit.balance} session{credit.balance === 1 ? "" : "s"} left
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* 3. Athletes */}
       <AthleteRow athletes={athleteCards} />

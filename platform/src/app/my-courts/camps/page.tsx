@@ -118,7 +118,7 @@ export default async function CampsPage({
           const node = (
             <div className="overflow-hidden rounded-xl border border-gray-mid bg-white">
               <div className="border-b border-gray-mid bg-warm-stone px-4 py-3">
-                <p className="font-sport text-sm font-bold uppercase tracking-wide text-orange">{dateLabel}</p>
+                <p className="font-sport text-sm font-bold text-black">{dateLabel}</p>
                 <h2 className="font-display text-lg font-black text-black">{camp.name}</h2>
                 <p className="mt-0.5 font-body text-sm text-gray-dark">
                   {formatCents(camp.priceCents ?? 0)}
@@ -149,6 +149,11 @@ export default async function CampsPage({
                         <span className={`ml-2 text-xs font-bold uppercase tracking-wide ${isMember ? "text-orange" : "text-gray-dark"}`}>
                           {isMember ? "Member" : "Non-Member"}
                         </span>
+                        {pending && (
+                          <span className="ml-2 inline-flex items-center justify-center rounded-full bg-orange/10 px-2.5 py-1 font-sport text-[11.5px] font-bold uppercase tracking-wide text-orange">
+                            Payment Pending
+                          </span>
+                        )}
                       </span>
 
                       {paid ? (

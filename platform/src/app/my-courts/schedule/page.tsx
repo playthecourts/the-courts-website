@@ -71,7 +71,18 @@ export default async function MyCourtsSchedulePage({
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="font-display text-2xl font-black text-black">Schedule</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="font-display text-2xl font-black text-black">Schedule</h1>
+        {/* Always here, not just in the empty state below — once you have
+            even one booking there was previously no way back to Explore
+            to book another class. */}
+        <a
+          href="/my-courts/explore"
+          className="inline-flex items-center gap-2 rounded-full bg-orange px-5 py-2.5 font-sport text-xs font-bold uppercase tracking-wide text-white"
+        >
+          Find a Session &rarr;
+        </a>
+      </div>
 
       {checkout === "success" && (
         <>
@@ -94,12 +105,6 @@ export default async function MyCourtsSchedulePage({
             Group training, open gym, Dr. Dish and more are open for booking now. Find a session and
             grab a spot.
           </p>
-          <a
-            href="/my-courts/explore"
-            className="mt-5 inline-flex items-center gap-2 rounded-full bg-orange px-6 py-3 font-sport text-xs font-bold uppercase tracking-wide text-white"
-          >
-            Find a Session &rarr;
-          </a>
         </div>
       ) : (
         <div className="flex flex-col gap-6">

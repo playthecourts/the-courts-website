@@ -26,6 +26,8 @@ export type Card = {
   endTime: string;
   resourceName: string | null;
   coachNames: string[];
+  capacity: number | null;
+  booked: number;
   availability: {
     state: string;
     label: string;
@@ -177,13 +179,20 @@ function CardChrome({ card, timeLabel }: { card: Card; timeLabel: string }) {
           {[card.gradeLabel, card.resourceName, card.coachNames[0]].filter(Boolean).join(" · ")}
         </p>
       </div>
-      <p
-        className={`whitespace-nowrap font-sport text-xs font-bold uppercase tracking-wide ${
-          AVAILABILITY_TONE[card.availability.state] ?? "text-gray-dark"
-        }`}
-      >
-        {card.availability.state === "waitlist" ? "Packed House" : card.availability.label}
-      </p>
+      <div className="shrink-0 text-right">
+        <p
+          className={`whitespace-nowrap font-sport text-xs font-bold uppercase tracking-wide ${
+            AVAILABILITY_TONE[card.availability.state] ?? "text-gray-dark"
+          }`}
+        >
+          {card.availability.state === "waitlist" ? "Packed House" : card.availability.label}
+        </p>
+        {card.capacity !== null && (
+          <p className="whitespace-nowrap font-body text-[11px] text-gray-dark">
+            {card.booked} of {card.capacity} registered
+          </p>
+        )}
+      </div>
     </div>
   );
 }
@@ -250,12 +259,19 @@ export function GroupedOfferingCard({ cards }: { cards: Card[] }) {
           <div key={card.sessionId} className="rounded-md border border-gray-mid/70 p-2.5">
             <div className="mb-2 flex items-center justify-between gap-2">
               <span className="font-heading text-[13px] font-bold text-black">{fmtTimeOnly(card.startTime)}</span>
-              <span
-                className={`font-sport text-[11.5px] font-bold uppercase tracking-wide ${
-                  AVAILABILITY_TONE[card.availability.state] ?? "text-gray-dark"
-                }`}
-              >
-                {card.availability.state === "waitlist" ? "Packed House" : card.availability.label}
+              <span className="text-right">
+                <span
+                  className={`block font-sport text-[11.5px] font-bold uppercase tracking-wide ${
+                    AVAILABILITY_TONE[card.availability.state] ?? "text-gray-dark"
+                  }`}
+                >
+                  {card.availability.state === "waitlist" ? "Packed House" : card.availability.label}
+                </span>
+                {card.capacity !== null && (
+                  <span className="block font-body text-[10.5px] text-gray-dark">
+                    {card.booked} of {card.capacity} registered
+                  </span>
+                )}
               </span>
             </div>
             <div className="flex flex-col gap-2">
