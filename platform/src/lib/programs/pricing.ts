@@ -192,17 +192,28 @@ export async function resolveBookingRule(
             (e.programId === null || e.programId === offering.programId)
         )
       );
-      return m
-        ? {
-            kind: "member_price",
-            priceCents: isCompanion ? companionChargeCents : offering.memberPriceCents ?? offering.priceCents,
-            planName: m.plan.name,
-          }
-        : {
-            kind: "full_price",
-            priceCents: isCompanion ? companionChargeCents : offering.priceCents,
-            memberPriceCents: isCompanion ? null : offering.memberPriceCents,
-          };
+      if (!m) {
+        return {
+          kind: "full_price",
+          priceCents: isCompanion ? companionChargeCents : offering.priceCents,
+          memberPriceCents: isCompanion ? null : offering.memberPriceCents,
+        };
+      }
+      // A member price of exactly 0 means genuinely free for members, not
+      // "unset" (that convention belongs to the credit_exhausted fallback
+      // above, a different case). Reported as "included" rather than
+      // "member_price: $0" so the checkout flow — which treats every
+      // member_price/full_price kind as needing a real Stripe Checkout
+      // Session — never tries to create a $0 payment-mode session, which
+      // Stripe rejects outright.
+      if (!isCompanion && offering.memberPriceCents === 0) {
+        return { kind: "included", planName: m.plan.name };
+      }
+      return {
+        kind: "member_price",
+        priceCents: isCompanion ? companionChargeCents : offering.memberPriceCents ?? offering.priceCents,
+        planName: m.plan.name,
+      };
     }
 
     case "separate_payment":
