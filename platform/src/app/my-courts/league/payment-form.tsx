@@ -78,7 +78,7 @@ function PayForm({ review, onDone }: { review: ReviewData; onDone: (result: { me
       <button
         type="submit"
         disabled={!stripe || submitting}
-        className="min-h-[44px] rounded-full bg-orange px-6 font-sport text-xs font-bold uppercase tracking-wide text-white transition-colors hover:bg-orange-hover disabled:opacity-50"
+        className="flex min-h-[44px] items-center justify-center rounded-full bg-orange px-6 font-sport text-xs font-bold uppercase tracking-wide text-white transition-colors hover:bg-orange-hover disabled:opacity-50"
       >
         {submitting ? "Processing…" : `Pay ${formatPrice(review.totalCents)} →`}
       </button>
@@ -183,7 +183,7 @@ export function LeaguePaymentForm({ athleteId }: { athleteId: string }) {
               setLoading(false);
             }
           }}
-          className="min-h-[38px] w-fit rounded-full bg-orange px-4 font-sport text-xs font-bold uppercase tracking-wide text-white transition-colors hover:bg-orange-hover disabled:opacity-50"
+          className="flex min-h-[38px] w-fit items-center justify-center rounded-full bg-orange px-4 font-sport text-xs font-bold uppercase tracking-wide text-white transition-colors hover:bg-orange-hover disabled:opacity-50"
         >
           {loading ? "Loading…" : "Register →"}
         </button>

@@ -53,7 +53,7 @@ export function FamilyPlanSelector({
       </div>
       <button
         type="submit"
-        className="mt-1 min-h-[36px] rounded-full bg-black px-4 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange"
+        className="mt-1 flex min-h-[36px] items-center justify-center rounded-full bg-black px-4 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange"
       >
         Select Plan
       </button>

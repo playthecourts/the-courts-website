@@ -30,7 +30,7 @@ function Chip({
     <Link
       href={href}
       aria-current={active ? "true" : undefined}
-      className={`min-h-[38px] rounded-full border px-4 py-1.5 font-sport text-xs font-bold uppercase tracking-wide transition-colors ${
+      className={`flex min-h-[38px] items-center justify-center rounded-full border px-4 py-1.5 font-sport text-xs font-bold uppercase tracking-wide transition-colors ${
         active
           ? "border-black bg-black text-white"
           : "border-gray-mid bg-white text-gray-dark hover:border-orange"

@@ -28,7 +28,7 @@ export function RsvpButtons({
             type="button"
             disabled={isPending}
             onClick={() => startTransition(() => setRsvp(bookingId, opt.value))}
-            className={`min-h-[32px] rounded-full border px-3 font-sport text-[11px] font-bold uppercase tracking-wide disabled:opacity-50 ${
+            className={`flex min-h-[32px] items-center justify-center rounded-full border px-3 font-sport text-[11px] font-bold uppercase tracking-wide disabled:opacity-50 ${
               active ? "border-orange bg-orange text-white" : "border-gray-mid bg-white text-gray-dark"
             }`}
           >

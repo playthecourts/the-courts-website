@@ -52,7 +52,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ boo
   return new NextResponse(ics, {
     headers: {
       "Content-Type": "text/calendar; charset=utf-8",
-      "Content-Disposition": `attachment; filename="the-courts-${athlete.firstName.toLowerCase()}.ics"`,
+      // "inline" (not "attachment") so mobile Safari/Chrome open this straight
+      // into the device's calendar app with an Add Event prompt, instead of
+      // dropping a file into Downloads that still has to be opened by hand.
+      "Content-Disposition": `inline; filename="the-courts-${athlete.firstName.toLowerCase()}.ics"`,
     },
   });
 }

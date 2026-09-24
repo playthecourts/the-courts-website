@@ -149,7 +149,7 @@ function NextGenTransferState({ guardian, athlete }: { guardian: TransferGuardia
       <form action={startNextGenLegacyCheckout.bind(null, athlete.id)} className="mt-3">
         <button
           type="submit"
-          className="min-h-[36px] rounded-full bg-orange px-4 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange-hover"
+          className="flex min-h-[36px] items-center justify-center rounded-full bg-orange px-4 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange-hover"
         >
           Complete Your Transfer — ${(guardian.legacyRateCents / 100).toFixed(2)}/mo
         </button>
@@ -217,7 +217,7 @@ export default async function MembershipsPage({
       <form action={startMembershipCheckout.bind(null, athleteId, plan.id)}>
         <button
           type="submit"
-          className="min-h-[36px] rounded-full bg-black px-4 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange"
+          className="flex min-h-[36px] items-center justify-center rounded-full bg-black px-4 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange"
         >
           Select Plan
         </button>
@@ -233,7 +233,7 @@ export default async function MembershipsPage({
           <form action={startBillingPortalSession}>
             <button
               type="submit"
-              className="min-h-[36px] rounded-full border border-gray-mid px-4 font-sport text-xs font-bold uppercase tracking-wide text-black hover:border-orange hover:text-orange"
+              className="flex min-h-[36px] items-center justify-center rounded-full border border-gray-mid px-4 font-sport text-xs font-bold uppercase tracking-wide text-black hover:border-orange hover:text-orange"
             >
               Manage Billing →
             </button>
@@ -428,7 +428,7 @@ export default async function MembershipsPage({
                                     <form action={changeMembershipTier.bind(null, membership!.id, plan.id)}>
                                       <button
                                         type="submit"
-                                        className="min-h-[36px] rounded-full border border-gray-mid px-4 font-sport text-xs font-bold uppercase tracking-wide text-black hover:border-orange hover:text-orange"
+                                        className="flex min-h-[36px] items-center justify-center rounded-full border border-gray-mid px-4 font-sport text-xs font-bold uppercase tracking-wide text-black hover:border-orange hover:text-orange"
                                       >
                                         Change Plan
                                       </button>

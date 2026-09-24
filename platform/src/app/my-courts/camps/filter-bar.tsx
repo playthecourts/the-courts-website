@@ -26,7 +26,7 @@ function FilterRow({
           key={o.key}
           type="button"
           onClick={() => onChange(o.key)}
-          className={`min-h-8 rounded-full border px-3 text-xs font-bold uppercase tracking-wide ${
+          className={`flex min-h-8 items-center justify-center rounded-full border px-3 text-xs font-bold uppercase tracking-wide ${
             value === o.key
               ? "border-black bg-black text-white"
               : "border-gray-mid bg-white text-gray-dark hover:border-near-black"

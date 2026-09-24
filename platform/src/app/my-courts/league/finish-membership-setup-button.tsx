@@ -19,7 +19,7 @@ export function FinishMembershipSetupButton({ registrationId }: { registrationId
             if (!result.ok) setError(result.error ?? "Still couldn't set it up — we've been notified.");
           })
         }
-        className="min-h-[38px] w-fit rounded-full bg-orange px-4 font-sport text-xs font-bold uppercase tracking-wide text-white transition-colors hover:bg-orange-hover disabled:opacity-50"
+        className="flex min-h-[38px] w-fit items-center justify-center rounded-full bg-orange px-4 font-sport text-xs font-bold uppercase tracking-wide text-white transition-colors hover:bg-orange-hover disabled:opacity-50"
       >
         {isPending ? "Setting Up…" : "Finish Setting Up Membership →"}
       </button>

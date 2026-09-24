@@ -127,9 +127,18 @@ export async function resolveBookingRule(
     case "uses_credit": {
       for (const m of memberships) {
         const ent = effectiveEntitlements(m.plan).find(
-          (e) => e.benefitType === "class_credit" && e.programId === offering.programId
+          (e) =>
+            e.benefitType === "class_credit" &&
+            (e.programId === null || e.programId === offering.programId)
         );
-        if (!ent?.quantityPerPeriod) continue;
+        if (!ent) continue;
+
+        // A null quantityPerPeriod means unlimited (see getBookingEligibility's
+        // matching comment in entitlements.ts) — there's no allowance to count
+        // against, so this is included outright.
+        if (ent.quantityPerPeriod === null) {
+          return { kind: "included", planName: m.plan.name };
+        }
 
         const { start: periodStart, end: periodEnd } = entitlementPeriodBounds(m, sessionStart);
         // A cancelled booking still counts unless its credit was actually

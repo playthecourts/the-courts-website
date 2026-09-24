@@ -22,6 +22,23 @@ function formatTime(date: Date) {
   }).format(date);
 }
 
+function toGCalDate(date: Date) {
+  return date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+}
+
+function googleCalendarUrl(booking: {
+  session: { startTime: Date; endTime: Date; program: { name: string } };
+  athlete: { firstName: string };
+}) {
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: `${booking.session.program.name} — ${booking.athlete.firstName}`,
+    dates: `${toGCalDate(booking.session.startTime)}/${toGCalDate(booking.session.endTime)}`,
+    location: "The Courts, 2011 Johnson Industrial Blvd., Nolensville, TN 37086",
+  });
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
+
 export default async function MyCourtsSchedulePage({
   searchParams,
 }: {
@@ -104,6 +121,16 @@ export default async function MyCourtsSchedulePage({
                       <div>
                         <span className="font-heading font-bold text-black">{booking.session.program.name}</span>
                         <span className="ml-2 font-body text-sm text-gray-dark">{booking.athlete.firstName}</span>
+                        {booking.paymentStatus === "pending" && (
+                          <span className="ml-2 inline-flex items-center justify-center rounded-full bg-orange/10 px-2.5 py-1 font-sport text-[10px] font-bold uppercase tracking-wide text-orange">
+                            Payment Pending
+                          </span>
+                        )}
+                        {booking.paymentStatus === "failed" && (
+                          <span className="ml-2 inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-1 font-sport text-[10px] font-bold uppercase tracking-wide text-red-600">
+                            Payment Failed
+                          </span>
+                        )}
                       </div>
                       <div className="flex items-center gap-3">
                         <span className="font-body text-sm text-gray-dark">
@@ -112,13 +139,24 @@ export default async function MyCourtsSchedulePage({
                         <a
                           href={`/my-courts/calendar/${booking.id}`}
                           className="font-sport text-[10px] font-bold uppercase tracking-wide text-orange"
-                          title="Add to Calendar"
+                          title="Add to Apple/Outlook Calendar"
                         >
                           + Cal
                         </a>
+                        <a
+                          href={googleCalendarUrl(booking)}
+                          target="_blank"
+                          rel="noopener"
+                          className="font-sport text-[10px] font-bold uppercase tracking-wide text-orange"
+                          title="Add to Google Calendar"
+                        >
+                          + Google
+                        </a>
                         <CancelBookingButton
                           bookingId={booking.id}
-                          isPaid={hasMoneyOrCredit && !willRefund}
+                          isDropIn={isDropIn}
+                          hasMoneyOrCredit={hasMoneyOrCredit}
+                          willRefund={willRefund}
                         />
                       </div>
                     </div>

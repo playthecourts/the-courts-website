@@ -81,7 +81,7 @@ export function SessionBookingRow({
           <button
             type="submit"
             aria-label={`${isFull ? "Join waitlist" : "Book"} for ${athleteName}`}
-            className="min-h-[36px] rounded-full bg-black px-4 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange"
+            className="flex min-h-[36px] items-center justify-center rounded-full bg-black px-4 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange"
           >
             {isFull ? "Join Waitlist" : "Book"}
           </button>

@@ -143,7 +143,7 @@ export default function SessionRoster({
             type="button"
             onClick={allHere}
             disabled={pending}
-            className="min-h-[36px] rounded-full border border-near-black bg-white px-3 font-sport text-[11px] font-bold uppercase tracking-wide text-near-black hover:bg-near-black hover:text-white disabled:opacity-50"
+            className="flex min-h-[36px] items-center justify-center rounded-full border border-near-black bg-white px-3 font-sport text-[11px] font-bold uppercase tracking-wide text-near-black hover:bg-near-black hover:text-white disabled:opacity-50"
           >
             Mark All Here
           </button>
