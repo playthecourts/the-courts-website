@@ -590,6 +590,7 @@ body.has-announce .nav { top: var(--announce-h, 88px); }
 /* ---------- Filter pills ---------- */
 .filter-pills { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
 .filter-pill {
+  display: inline-flex; align-items: center; justify-content: center;
   padding: 10px 20px; border-radius: 999px; border: 1.5px solid var(--gray-mid);
   font-family: var(--font-nav); font-weight: 600; font-size: 13.5px; color: var(--gray-dark);
   transition: all 0.2s var(--ease);
