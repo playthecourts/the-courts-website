@@ -7,6 +7,7 @@ import { RsvpButtons } from "./rsvp-buttons";
 import { LeaguePaymentForm } from "./payment-form";
 import { CancelRegistrationButton } from "./cancel-registration-button";
 import { FinishMembershipSetupButton } from "./finish-membership-setup-button";
+import { WinterLeagueInterestForm } from "./winter-interest-form";
 
 function formatSessionTime(date: Date) {
   return new Intl.DateTimeFormat("en-US", {
@@ -70,6 +71,11 @@ export default async function LeaguePage({
 
   const leagueOffering = await prisma.offering.findFirst({ where: { name: "Fall 2026 Basketball League" } });
 
+  const winterInterestLeads = await prisma.lead.findMany({
+    where: { familyId: { in: guardian.families.map((fg) => fg.family.id) }, interest: { startsWith: "Winter League interest" } },
+    select: { name: true },
+  });
+
   const [evalBookings, evalAttendanceRecords, teamMemberships, registrations] = await Promise.all([
     prisma.booking.findMany({
       where: { athleteId: { in: athleteIds }, session: { programId: { in: leagueProgramIds }, team: null } },
@@ -111,7 +117,11 @@ export default async function LeaguePage({
     );
   }
 
-  const canRegister = !!(leagueOffering && leagueOffering.stripePriceId);
+  const canRegister = !!(
+    leagueOffering &&
+    leagueOffering.stripePriceId &&
+    (!leagueOffering.registrationClosesAt || leagueOffering.registrationClosesAt > new Date())
+  );
 
   return (
     <div className="flex flex-col gap-8">
@@ -170,13 +180,26 @@ export default async function LeaguePage({
               <div className="mt-4 flex flex-col gap-5">
                 <div>
                   <p className="font-heading text-base font-bold text-black">{athlete.firstName} Isn&rsquo;t Registered Yet</p>
-                  <p className="mt-0.5 font-body text-sm text-gray-dark">Want in for Fall?</p>
                   {canRegister ? (
-                    <div className="mt-3">
-                      <LeaguePaymentForm athleteId={athlete.id} />
-                    </div>
+                    <>
+                      <p className="mt-0.5 font-body text-sm text-gray-dark">Want in for Fall?</p>
+                      <div className="mt-3">
+                        <LeaguePaymentForm athleteId={athlete.id} />
+                      </div>
+                    </>
                   ) : (
-                    <p className="mt-3 font-sport text-xs font-bold uppercase tracking-wide text-gray-dark">Not Open Yet</p>
+                    <>
+                      <p className="mt-0.5 font-body text-sm text-gray-dark">
+                        Fall League registration has closed. Raise your hand for Winter and we&rsquo;ll be in touch.
+                      </p>
+                      {winterInterestLeads.some((l) => l.name === `${athlete.firstName} ${athlete.lastName}`) ? (
+                        <p className="mt-3 rounded-lg border border-orange bg-white px-4 py-3 font-body text-sm text-black">
+                          You&rsquo;re on the list — we&rsquo;ll reach out with Winter League details.
+                        </p>
+                      ) : (
+                        <WinterLeagueInterestForm athleteId={athlete.id} />
+                      )}
+                    </>
                   )}
                 </div>
 

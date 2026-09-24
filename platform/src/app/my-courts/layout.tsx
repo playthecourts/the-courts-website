@@ -5,15 +5,20 @@ import { familyCrewInitials, familyCrewName } from "@/lib/family";
 import { AccountMenu } from "./account-menu";
 import NavLink from "./nav-link";
 
+// Always shown, not conditional on registration — a family that hasn't
+// registered still sees a real "raise your hand for Winter League" prompt
+// on this page (league/page.tsx) rather than the item just disappearing,
+// which would look like a bug more than a design choice.
 const NAV_ITEMS = [
   { href: "/my-courts", label: "Home", icon: "home" as const },
   { href: "/my-courts/schedule", label: "Schedule", icon: "schedule" as const },
+  { href: "/my-courts/camps", label: "Camps", icon: "camps" as const },
+  { href: "/my-courts/events", label: "Events", icon: "explore" as const },
   // "Explore" tab hidden for now — /my-courts/explore and its real booking
   // flow are untouched, just not linked from the sidebar/bottom nav.
   { href: "/my-courts/athletes", label: "My Athletes", icon: "athletes" as const },
   { href: "/my-courts/memberships", label: "Membership", icon: "training" as const },
-  { href: "/my-courts/league", label: "Fall League", icon: "league" as const },
-  { href: "/my-courts/camps", label: "Camps", icon: "camps" as const },
+  { href: "/my-courts/league", label: "League", icon: "league" as const },
   { href: "/my-courts/payments", label: "Payments", icon: "payments" as const },
   { href: "/my-courts/waivers", label: "Waivers + Permissions", icon: "waivers" as const },
 ];

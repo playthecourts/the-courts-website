@@ -15,17 +15,20 @@ import {
 
 // Step 1 of adding a child. Six questions, four of them one tap.
 //
-// The sport question is asked as Basketball / Volleyball / Both because that is
-// how a parent thinks about it, and translated into the athlete's `sports`
-// array on submit. Favorite Sport only appears if they picked Both, and is
-// never required — plenty of kids genuinely don't have one.
+// Sport(s) is a real multi-select, not a tri-state Basketball/Volleyball/Both
+// choice — "Performance Training" covers a kid who does Speed + Agility or
+// Performance Lab without necessarily playing Basketball or Volleyball, same
+// label already used for those cross-sport offerings on the schedule.
+// Favorite Sport only appears once 2+ are picked, and is never required —
+// plenty of kids genuinely don't have one.
 
 const GRADES = ["K", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th"];
+const SPORT_OPTIONS = ["Basketball", "Volleyball", "Performance Training"] as const;
 
 export default function AddAthleteForm() {
   const router = useRouter();
   const [state, formAction] = useActionState<ActionState, FormData>(createAthlete, { ok: false });
-  const [sportChoice, setSportChoice] = useState<"Basketball" | "Volleyball" | "Both" | null>(null);
+  const [selectedSports, setSelectedSports] = useState<string[]>([]);
 
   useEffect(() => {
     if (state.ok && state.athleteId) {
@@ -83,43 +86,43 @@ export default function AddAthleteForm() {
         <TextInput name="school" autoComplete="off" />
       </Question>
 
-      <Question label="Sport(s)" error={errors.sports}>
+      <Question label="Sport(s)" hint="Pick any that apply." error={errors.sports}>
         <ChipRow>
-          {(["Basketball", "Volleyball", "Both"] as const).map((choice) => (
-            <label key={choice} className="cursor-pointer">
-              <input
-                type="radio"
-                name="sportChoice"
-                value={choice}
-                checked={sportChoice === choice}
-                onChange={() => setSportChoice(choice)}
-                className="peer sr-only"
-              />
-              <span className="flex min-h-[46px] items-center rounded-full border border-gray-mid bg-white px-5 font-body text-[15px] text-near-black transition-colors peer-checked:border-orange peer-checked:bg-orange peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-orange/40">
-                {choice}
-              </span>
-            </label>
-          ))}
+          {SPORT_OPTIONS.map((choice) => {
+            const checked = selectedSports.includes(choice);
+            return (
+              <label key={choice} className="cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="sports"
+                  value={choice}
+                  checked={checked}
+                  onChange={() =>
+                    setSelectedSports((prev) =>
+                      checked ? prev.filter((s) => s !== choice) : [...prev, choice]
+                    )
+                  }
+                  className="peer sr-only"
+                />
+                <span className="flex min-h-[46px] items-center rounded-full border border-gray-mid bg-white px-5 font-body text-[15px] text-near-black transition-colors peer-checked:border-orange peer-checked:bg-orange peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-orange/40">
+                  {choice}
+                </span>
+              </label>
+            );
+          })}
         </ChipRow>
-        {/* The real submitted value — the tri-state choice above is UI. */}
-        {(sportChoice === "Basketball" || sportChoice === "Both") && (
-          <input type="hidden" name="sports" value="Basketball" />
-        )}
-        {(sportChoice === "Volleyball" || sportChoice === "Both") && (
-          <input type="hidden" name="sports" value="Volleyball" />
-        )}
       </Question>
 
-      {sportChoice === "Both" && (
+      {selectedSports.length > 1 && (
         <Question
           label="Favorite Sport"
           hint="Only if they have one — plenty of kids don't."
           optional
         >
           <ChipRow>
-            <ChoiceChip name="favoriteSport" type="radio" value="Basketball" label="Basketball" />
-            <ChoiceChip name="favoriteSport" type="radio" value="Volleyball" label="Volleyball" />
-            <ChoiceChip name="favoriteSport" type="radio" value="Both" label="Both" />
+            {selectedSports.map((sport) => (
+              <ChoiceChip key={sport} name="favoriteSport" type="radio" value={sport} label={sport} />
+            ))}
           </ChipRow>
         </Question>
       )}

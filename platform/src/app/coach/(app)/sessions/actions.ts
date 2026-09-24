@@ -9,6 +9,7 @@ import {
   canManageCapacity,
   denyUnlessManagesSport,
 } from "@/lib/coach-dal";
+import { auditLog } from "@/lib/audit";
 import type { AttendanceStatus, NoteVisibility } from "@/generated/prisma/enums";
 
 // Every action re-runs getCurrentCoach() + the relevant assert*. Server actions
@@ -162,6 +163,7 @@ export async function saveCoachNote(sessionId: string | null, formData: FormData
 export async function revealEmergencyInfo(athleteId: string) {
   const actor = await getCurrentCoach();
   await assertAthleteAccess(actor, athleteId);
+  await auditLog(actor.id, "view_emergency_info", "athlete", athleteId);
 
   const athlete = await prisma.athlete.findUniqueOrThrow({
     where: { id: athleteId },

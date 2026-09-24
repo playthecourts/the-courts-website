@@ -339,3 +339,42 @@ export async function cancelLeagueRegistration(athleteId: string) {
 
   revalidatePath("/my-courts/league");
 }
+
+/// Fall registration is closed — this is what a family reaches instead.
+/// Real data known from their own account (grade, gender, sport) is pulled
+/// straight into the Lead instead of asking them to re-type it; only the
+/// free-text "anything else" is actually theirs to fill in.
+export async function submitWinterLeagueInterest(athleteId: string, formData: FormData) {
+  const guardian = await getCurrentGuardian();
+  const family = guardian.families.find((fg) =>
+    fg.family.athletes.some((a) => a.id === athleteId)
+  );
+  const athlete = family?.family.athletes.find((a) => a.id === athleteId);
+  if (!athlete) {
+    throw new Error("Not authorized to act on this athlete.");
+  }
+
+  const note = String(formData.get("note") ?? "").trim();
+  const details = [
+    athlete.grade ? `Grade: ${athlete.grade}` : null,
+    athlete.gender ? `Gender: ${athlete.gender}` : null,
+    athlete.sports.length > 0 ? `Sports: ${athlete.sports.join(", ")}` : null,
+    note ? `Note: ${note}` : null,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+
+  await prisma.lead.create({
+    data: {
+      name: `${athlete.firstName} ${athlete.lastName}`,
+      email: guardian.email,
+      phone: guardian.phone,
+      source: "website",
+      sport: athlete.sports[0] ?? null,
+      interest: `Winter League interest — ${details || "no additional details"}`,
+      familyId: family!.family.id,
+    },
+  });
+
+  revalidatePath("/my-courts/league");
+}
