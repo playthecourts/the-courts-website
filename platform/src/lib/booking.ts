@@ -8,15 +8,6 @@ import { stripe, getOrCreateStripeCustomer } from "@/lib/stripe";
 
 const CHECKOUT_EXPIRY_MINUTES = 30;
 
-// The facility opens Oct 1, 2026, but booking itself opens earlier, Sept 24.
-// Group Training and self-serve Dr. Dish are the two program types
-// deliberately not sold before then — matches GROUP_TRAINING_BOOKING_OPENS
-// in parent-feed.ts, which hides the Book button for the same reason. This
-// check is the one that actually matters: a hidden button is a UX nicety,
-// not protection against a crafted request.
-const GROUP_TRAINING_BOOKING_OPENS = new Date("2026-09-24T05:00:00.000Z");
-const GATED_PROGRAM_TYPES = new Set(["group_training", "self_serve_dr_dish"]);
-
 // creditSource holds a plan name string for a membership entitlement booking,
 // or a real Credit row id for a pack-credit booking (see resolveBookingRule's
 // uses_pack_credit case) — the two are told apart by shape, not a second
@@ -56,17 +47,9 @@ export async function bookAthleteIntoSession(
   // registered through their own dedicated flows — booking them one session
   // at a time here would charge the full package price per session, with
   // nothing stopping a family from doing it more than once for the same
-  // camp. See GROUP_TRAINING_BOOKING_OPENS below for the other gate.
+  // camp.
   if (session.offeringId && session.offering && session.offering.registrationMode !== "session") {
     throw new Error("This isn't booked one session at a time — contact us to register.");
-  }
-  if (
-    session.offeringId &&
-    session.offering &&
-    GATED_PROGRAM_TYPES.has(session.offering.program.programType) &&
-    new Date() < GROUP_TRAINING_BOOKING_OPENS
-  ) {
-    throw new Error("Booking opens September 24, 2026 — check back then.");
   }
 
   let priceChargedCents: number | null;

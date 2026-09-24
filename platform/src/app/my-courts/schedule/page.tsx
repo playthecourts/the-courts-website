@@ -72,27 +72,16 @@ export default async function MyCourtsSchedulePage({
 
       {bookings.length === 0 ? (
         <div className="rounded-2xl border border-gray-mid bg-white p-6 text-center md:p-8">
-          <p className="font-display text-lg font-black text-black md:text-xl">
-            A First Look at What&rsquo;s Coming
-          </p>
+          <p className="font-display text-lg font-black text-black md:text-xl">Nothing Booked Yet</p>
           <p className="mx-auto mt-2 max-w-[46ch] font-body text-sm text-gray-dark">
-            We&rsquo;re still putting the finishing touches on the schedule, but wanted to share what
-            we&rsquo;re planning for opening.
-          </p>
-          <p className="mx-auto mt-2 max-w-[46ch] rounded-lg bg-orange/5 px-3 py-2 font-body text-[13px] text-gray-dark">
-            This is a sample schedule and may shift as we finalize coaches, age groups, and
-            registrations.
-          </p>
-          <p className="mt-3 font-heading text-[15px] font-bold text-near-black">
-            See something you&rsquo;re excited about? So are we.
+            Group training, open gym, Dr. Dish and more are open for booking now. Find a session and
+            grab a spot.
           </p>
           <a
-            href="https://playthecourts.com/schedule"
-            target="_blank"
-            rel="noopener"
+            href="/my-courts/explore"
             className="mt-5 inline-flex items-center gap-2 rounded-full bg-orange px-6 py-3 font-sport text-xs font-bold uppercase tracking-wide text-white"
           >
-            View the Schedule &rarr;
+            Find a Session &rarr;
           </a>
         </div>
       ) : (
