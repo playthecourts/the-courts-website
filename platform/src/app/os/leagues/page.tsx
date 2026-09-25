@@ -5,7 +5,8 @@ import { displayName } from "@/lib/athlete";
 import { signedPhotoUrls } from "@/lib/athlete-photo";
 import { AthleteAvatar } from "@/components/athlete/avatar";
 import { PageHeader, Card, CardHeader, EmptyState, Pill, BTN, INPUT, SELECT, PAYMENT_TONE } from "../_components/ui";
-import { createLeagueTeam, placeOnTeam, removeFromTeam, setJerseySize } from "./actions";
+import { createLeagueTeam, placeOnTeam, removeFromTeam } from "./actions";
+import { JerseySelect } from "./jersey-select";
 
 export const dynamic = "force-dynamic";
 
@@ -112,26 +113,7 @@ export default async function LeaguesPage() {
                   </span>
                   <div className="flex items-center gap-2">
                     {canManage ? (
-                      <form action={setJerseySize} className="flex items-center gap-1">
-                        <input type="hidden" name="athleteId" value={m.athleteId} />
-                        <select
-                          name="jerseySize"
-                          defaultValue={m.athlete.jerseySize ?? ""}
-                          className={`min-h-8 rounded-lg border px-1.5 text-xs ${
-                            m.athlete.jerseySize
-                              ? "border-green-600 bg-green-50 text-green-800 font-bold"
-                              : "border-gray-mid bg-white"
-                          }`}
-                        >
-                          <option value="">Jersey size…</option>
-                          {JERSEY_SIZES.map((sz) => (
-                            <option key={sz} value={sz}>{sz}</option>
-                          ))}
-                        </select>
-                        <button className="os-heading min-h-8 rounded-lg border border-gray-mid bg-white px-2 text-xs uppercase tracking-wide hover:border-near-black">
-                          Save
-                        </button>
-                      </form>
+                      <JerseySelect athleteId={m.athleteId} sizes={JERSEY_SIZES} value={m.athlete.jerseySize} />
                     ) : (
                       <span className={`text-xs ${m.athlete.jerseySize ? "font-bold text-green-800" : "text-gray-dark"}`}>
                         {m.athlete.jerseySize ?? "No jersey size"}
