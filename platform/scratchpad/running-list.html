@@ -1,0 +1,456 @@
+<title>Melissa's Running List</title>
+<style>
+  :root {
+    --warm-white: #faf8f5;
+    --warm-stone: #f2ede7;
+    --near-black: #17140f;
+    --gray-dark: #5b564d;
+    --gray-mid: #ded6c9;
+    --orange: #de5019;
+    --orange-soft: #f6e3d8;
+    --green: #2e6b45;
+    --green-soft: #e3ede6;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --warm-white: #17140f;
+      --warm-stone: #221e16;
+      --near-black: #f3efe6;
+      --gray-dark: #b6ac9a;
+      --gray-mid: #3a352a;
+      --orange: #ef7842;
+      --orange-soft: #34281f;
+      --green: #6bbf8a;
+      --green-soft: #1e2c21;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --warm-white: #17140f;
+    --warm-stone: #221e16;
+    --near-black: #f3efe6;
+    --gray-dark: #b6ac9a;
+    --gray-mid: #3a352a;
+    --orange: #ef7842;
+    --orange-soft: #34281f;
+    --green: #6bbf8a;
+    --green-soft: #1e2c21;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--warm-white);
+    color: var(--near-black);
+    font-family: "Archivo", -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 28px 16px 64px;
+  }
+  @font-face {
+    font-family: "Archivo";
+    src: local("Archivo");
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+
+  header { margin-bottom: 28px; }
+  .eyebrow {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--orange);
+    display: block;
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-size: clamp(26px, 6vw, 34px);
+    font-weight: 800;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .sub {
+    font-size: 14px;
+    color: var(--gray-dark);
+    margin: 0;
+    max-width: 52ch;
+  }
+
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0 30px;
+    font-family: "Barlow Condensed", sans-serif;
+  }
+  .progress-track {
+    flex: 1;
+    height: 6px;
+    background: var(--gray-mid);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--orange);
+    border-radius: 999px;
+    width: 0%;
+    transition: width 0.25s ease;
+  }
+  .progress-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray-dark);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .section {
+    margin-bottom: 30px;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--near-black);
+  }
+  .section-head h2 {
+    font-size: 17px;
+    font-weight: 800;
+    margin: 0;
+  }
+  .section-count {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gray-dark);
+    white-space: nowrap;
+  }
+
+  .subgroup { margin-bottom: 16px; }
+  .subgroup:last-child { margin-bottom: 0; }
+  .subgroup-title {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin: 0 0 6px;
+  }
+
+  ul { list-style: none; margin: 0; padding: 0; }
+  li {
+    border-bottom: 1px solid var(--gray-mid);
+  }
+  li:last-child { border-bottom: none; }
+
+  label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 2px;
+    cursor: pointer;
+    font-size: 14.5px;
+    line-height: 1.45;
+  }
+  input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    flex: none;
+    width: 19px;
+    height: 19px;
+    margin-top: 1px;
+    border: 2px solid var(--gray-dark);
+    border-radius: 5px;
+    background: var(--warm-white);
+    position: relative;
+    cursor: pointer;
+  }
+  input[type="checkbox"]:checked {
+    background: var(--green);
+    border-color: var(--green);
+  }
+  input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .item-text { flex: 1; }
+  li.done .item-text {
+    color: var(--gray-dark);
+    text-decoration: line-through;
+    text-decoration-color: var(--gray-mid);
+  }
+  .flag {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--orange);
+    background: var(--orange-soft);
+    border-radius: 999px;
+    padding: 2px 8px;
+    vertical-align: middle;
+  }
+  .note {
+    display: block;
+    font-size: 12.5px;
+    color: var(--gray-dark);
+    opacity: 0.85;
+    margin-top: 2px;
+  }
+
+  .filter-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+  .filter-chip {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1.5px solid var(--gray-mid);
+    background: var(--warm-stone);
+    color: var(--near-black);
+    cursor: pointer;
+  }
+  .filter-chip.active {
+    background: var(--near-black);
+    border-color: var(--near-black);
+    color: var(--warm-white);
+  }
+
+  footer {
+    margin-top: 36px;
+    padding-top: 16px;
+    border-top: 1px solid var(--gray-mid);
+    font-size: 12px;
+    color: var(--gray-dark);
+    text-align: center;
+  }
+
+  [hidden] { display: none !important; }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Pinned in Claude</span>
+    <h1>Melissa's Running List</h1>
+    <p class="sub">Personal life-admin, plus everything from The Courts OS Tasks board (copied over 9/23 so it's easy to check from anywhere). Checking a box here doesn't touch the live database.</p>
+  </header>
+
+  <div class="progress-row">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0 / 0 done</div>
+  </div>
+
+  <div class="filter-row">
+    <button class="filter-chip active" data-filter="all">All</button>
+    <button class="filter-chip" data-filter="personal">Personal</button>
+    <button class="filter-chip" data-filter="courts">Courts</button>
+  </div>
+
+  <div id="lists"></div>
+
+  <footer>Stored on this device only. Ask Claude to add, finish, or remove items and it'll update here next time you open the link.</footer>
+</div>
+
+<script>
+(function () {
+  var DATA = [
+    { section: "Personal", group: "personal", items: [
+      "529 Transfer or Spend", "Alterations", "Apple Watch Woom", "Baby books", "Back fka",
+      "Boys credit freeze", "Boys Frequent Flyers", "Cancel car wash subscription (check bank stmt for other one)",
+      "Car Registration", "Counter stools", "Do nails", "Dr Bellau allergist", "Emails to kids",
+      "Experience list", "Family Pics", "Faux plants", "Gentry niv 30 at",
+      "Go through cal Indy fall spread and opening party and haunted forest", "Grass and bushes",
+      "Greenlight + Skylight Sync", { text: "JES - Spirit Wear", flag: "Starred" }, "Lead teacher emails",
+      "Life Insurance", "Melody designer", "Order groceries", "Paramount + Cancel, Hulu via Disney",
+      "Pretty cool card", "Quinn glasses tech ones", "Quinn laser tag", "Rhys - Nike and Dick's Return",
+      "Schedule Quinn Physical", "Schoolwork scrapbook", "Sign up run club", "Soccer follow-up",
+      "Student loan", "Update PCP on Insurance Cards", "Wills", "Dry cleaning", "Shoe repair",
+      "Return Amazon razors", "Return Nike shoes", "Pay Southern Creations"
+    ]},
+    { section: "The Courts — High Priority", group: "courts", items: [
+      { text: "Send rosters to Carly (WNSL) + ask about Coach Johnny's background check", note: "Draft ready in Gmail under “Fall Basketball League”" },
+      { text: "Follow up with Laura Douglass Panfil re: John's party", note: "Due 9/26; still owes the full $300, not just the $150 deposit" },
+      { text: "Sunset Elementary Fall Festival — Sun 9/27, 1–4 PM, booth #3", note: "Send the PTO a COI ASAP. Bring 2 auction baskets (VB + BB) plus a tent, table and chairs. Set up 11:15–12:00." },
+      { text: "Mill Creek Elementary PTO fence banner", note: "Email logo + chosen level to Melissa Cohen before 9/30" },
+      { text: "Amanda Flansbaum — carry over unused NextGen sessions", note: "Daughter Sybil. Once her account signs up, grant 2 sessions." },
+      "Lease update: get back to Michael's questions + texts re: purchase agreement",
+      "Get the asset purchase agreement completed",
+      "Sort out business insurance",
+      "Add name on street sign",
+      "Build out schedule",
+      "Clean the court",
+      "Update camp prices (no comp day)"
+    ]},
+    { section: "The Courts — Member Comms", group: "courts", items: [
+      { text: "Social post: come see us at the Sunset Elementary Fall Festival", note: "Due 9/25" },
+      "White House Sport Psychology (Danielle W): partnership inquiry, set up a call",
+      { text: "Amanda Boone: personal follow-up", note: "5-kid family may come back — once Mike's billing review is done" },
+      "Get back to the FB lady about ways she can help promote",
+      "Chelsea: camp interest (kids 5 & 7), get her contact info"
+    ]},
+    { section: "The Courts — Operations", group: "courts", items: [
+      "Mike: review Amanda Boone's prior billing + duplicate accounts",
+      "Upper Hand: accept billing portal invite",
+      "Tax accountant: Gramling",
+      "American Red Cross CPR + First Aid training (Ronya connecting with a friend)",
+      "Merchology: waiting on merch recommendations from Matt Ellenson",
+      "Opening day: book balloon art, get a flower pot",
+      { text: "Buy/set up equipment", note: "Turf, speaker, scoreboard, storage cabinet, white board, plyo equipment, orange paint, sports decal, swag, music, iPad check-in, lease Wi-Fi" },
+      "Door magnet (order/print), QR code for the bulletin board",
+      "Photo shoot / basketball photos",
+      "Set up Waze listing",
+      "Bring-a-Friend / specials comp research",
+      "Explore an agent for social (Grok); look into Claude connectors",
+      "Ice cream bro"
+    ]},
+    { section: "The Courts — Sponsorships & Purchases", group: "courts", items: [
+      "Follow up on sponsorships (Jordan sign, Nolensville HS coach, elementary)",
+      "JES PTO SOAR sponsor: still owed the website logo/link (followed up 9/22)",
+      "Blaze Pods"
+    ]},
+    { section: "The Courts — Website / Marketing", group: "courts", items: [
+      "Post to FB, start the content calendar, find a tool that drafts posts",
+      "Crowdsourced list of BB/VB courts to play on",
+      "Idea: a “Girls Winter” interest list in the app"
+    ]},
+    { section: "The Courts — Waiting On / FYI", group: "courts", items: [
+      "MC t-shirts (6, Vintage Black): arriving ~9/25",
+      { text: "Subscriptions to check", note: "Claude Pro, Midjourney, ChatGPT, Squarespace and Google Cloud billing (amounts not known yet). Also: Google Workspace ~$42 on 10/1, Vercel Pro ~$22 on ~10/18, Cloudflare domain auto-renews 7/14/2027." }
+    ]}
+  ];
+
+  var STORAGE_KEY = "courts-running-list-v1";
+
+  function loadDone() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    } catch (e) {
+      return {};
+    }
+  }
+  function saveDone(done) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(done));
+    } catch (e) {}
+  }
+
+  var done = loadDone();
+  var listsEl = document.getElementById("lists");
+  var currentFilter = "all";
+  var totalCount = 0;
+
+  function itemId(sectionIdx, itemIdx) {
+    return "s" + sectionIdx + "i" + itemIdx;
+  }
+
+  function render() {
+    listsEl.innerHTML = "";
+    var visibleTotal = 0, visibleDone = 0;
+
+    DATA.forEach(function (section, sIdx) {
+      if (currentFilter !== "all" && section.group !== currentFilter) return;
+
+      var secDiv = document.createElement("div");
+      secDiv.className = "section";
+
+      var sectionDoneCount = 0;
+      section.items.forEach(function (_, iIdx) {
+        if (done[itemId(sIdx, iIdx)]) sectionDoneCount++;
+      });
+
+      var head = document.createElement("div");
+      head.className = "section-head";
+      head.innerHTML = "<h2>" + section.section + "</h2><span class=\"section-count\">" + sectionDoneCount + " / " + section.items.length + "</span>";
+      secDiv.appendChild(head);
+
+      var ul = document.createElement("ul");
+      section.items.forEach(function (item, iIdx) {
+        var id = itemId(sIdx, iIdx);
+        var text = typeof item === "string" ? item : item.text;
+        var flag = typeof item === "object" ? item.flag : null;
+        var note = typeof item === "object" ? item.note : null;
+        var isDone = !!done[id];
+
+        visibleTotal++;
+        if (isDone) visibleDone++;
+
+        var li = document.createElement("li");
+        if (isDone) li.className = "done";
+
+        var label = document.createElement("label");
+        var cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = isDone;
+        cb.setAttribute("id", "cb-" + id);
+        cb.addEventListener("change", function () {
+          if (cb.checked) done[id] = true; else delete done[id];
+          saveDone(done);
+          render();
+        });
+
+        var span = document.createElement("span");
+        span.className = "item-text";
+        span.textContent = text;
+        if (flag) {
+          var flagSpan = document.createElement("span");
+          flagSpan.className = "flag";
+          flagSpan.textContent = flag;
+          span.appendChild(flagSpan);
+        }
+        if (note) {
+          var noteSpan = document.createElement("span");
+          noteSpan.className = "note";
+          noteSpan.textContent = note;
+          span.appendChild(noteSpan);
+        }
+
+        label.appendChild(cb);
+        label.appendChild(span);
+        li.appendChild(label);
+        ul.appendChild(li);
+      });
+
+      secDiv.appendChild(ul);
+      listsEl.appendChild(secDiv);
+    });
+
+    var pct = visibleTotal ? Math.round((visibleDone / visibleTotal) * 100) : 0;
+    document.getElementById("progressFill").style.width = pct + "%";
+    document.getElementById("progressLabel").textContent = visibleDone + " / " + visibleTotal + " done";
+  }
+
+  document.querySelectorAll(".filter-chip").forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      document.querySelectorAll(".filter-chip").forEach(function (c) { c.classList.remove("active"); });
+      chip.classList.add("active");
+      currentFilter = chip.getAttribute("data-filter");
+      render();
+    });
+  });
+
+  render();
+})();
+</script>
