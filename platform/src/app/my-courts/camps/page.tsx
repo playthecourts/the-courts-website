@@ -2,9 +2,12 @@ import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { gradeRangeLabel } from "@/lib/programs/types";
 import { effectiveEntitlements } from "@/lib/entitlements";
+import { loadParentFeed } from "@/lib/programs/parent-feed";
+import { expireStalePendingBookings } from "@/lib/booking";
 import { startCampRegistration, cancelCampRegistration } from "./actions";
 import { CampFilterBar } from "./filter-bar";
 import { AchCallout } from "../ach-callout";
+import { GroupedOfferingCard, type Card } from "../explore/offering-session-card";
 
 export const dynamic = "force-dynamic";
 
@@ -38,6 +41,26 @@ export default async function CampsPage({
   const sp = await searchParams;
   const athletes = guardian.families.flatMap((fg) => fg.family.athletes);
   const athleteIds = athletes.map((a) => a.id);
+
+  // One-day events (Early Release, Day Off/Game On, Open Gym) — real
+  // Offerings with registrationMode "session", booked the same way any
+  // other class is (Explore's booking logic, untouched), just surfaced here
+  // too now that this page is "Camps & Events" rather than only whole-camp
+  // registration. A family that abandoned a Checkout for one of these needs
+  // the same stale-hold sweep Explore runs before computing availability.
+  await expireStalePendingBookings();
+  const oneDayEventCards = await loadParentFeed(athletes as never, { category: "camps", from: new Date() });
+  const oneDayEventGroups = (() => {
+    const groups = new Map<string, Card[]>();
+    for (const raw of oneDayEventCards) {
+      const card = JSON.parse(JSON.stringify(raw)) as Card;
+      const key = `${card.offeringId}-${card.startTime.slice(0, 10)}`;
+      const existing = groups.get(key);
+      if (existing) existing.push(card);
+      else groups.set(key, [card]);
+    }
+    return [...groups.values()];
+  })();
 
   const camps = await prisma.offering.findMany({
     where: {
@@ -77,7 +100,7 @@ export default async function CampsPage({
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="font-display text-3xl font-black text-black sm:text-4xl">Camps</h1>
+        <h1 className="font-display text-3xl font-black text-black sm:text-4xl">Camps &amp; Events</h1>
       </div>
 
       {sp.checkout === "success" && (
@@ -92,6 +115,15 @@ export default async function CampsPage({
       )}
 
       <AchCallout />
+
+      {oneDayEventGroups.length > 0 && (
+        <div className="flex flex-col gap-3">
+          <p className="font-sport text-xs font-bold uppercase tracking-widest text-gray-dark">One-Day Events</p>
+          {oneDayEventGroups.map((group) => (
+            <GroupedOfferingCard key={`${group[0].offeringId}-${group[0].sessionId}`} cards={group} />
+          ))}
+        </div>
+      )}
 
       {athletes.length === 0 ? (
         <div className="rounded-xl border border-gray-mid bg-white p-6 text-center">
@@ -118,6 +150,11 @@ export default async function CampsPage({
           const node = (
             <div className="overflow-hidden rounded-xl border border-gray-mid bg-white">
               <div className="border-b border-gray-mid bg-warm-stone px-4 py-3">
+                {sport !== "other" && (
+                  <p className="font-sport text-xs font-bold uppercase tracking-wide text-orange">
+                    {sport === "volleyball" ? "Volleyball" : "Basketball"}
+                  </p>
+                )}
                 <p className="font-sport text-sm font-bold text-black">{dateLabel}</p>
                 <h2 className="font-display text-lg font-black text-black">{camp.name}</h2>
                 <p className="mt-0.5 font-body text-sm text-gray-dark">
@@ -208,7 +245,14 @@ export default async function CampsPage({
           return { id: camp.id, sport, month, node } as const;
           });
 
-          return <CampFilterBar items={items} months={months} />;
+          return (
+            <div className="flex flex-col gap-3">
+              {camps.length > 0 && oneDayEventGroups.length > 0 && (
+                <p className="font-sport text-xs font-bold uppercase tracking-widest text-gray-dark">Multi-Day Camps</p>
+              )}
+              <CampFilterBar items={items} months={months} />
+            </div>
+          );
         })()
       )}
 

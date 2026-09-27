@@ -15,6 +15,7 @@ type IconName =
   | "payments"
   | "waivers"
   | "messages"
+  | "more"
   | "signout";
 
 export function Icon({ name, active }: { name: IconName; active: boolean }) {
@@ -105,6 +106,14 @@ export function Icon({ name, active }: { name: IconName; active: boolean }) {
         <svg {...common} aria-hidden="true">
           <path d="M4 5.5h16a1 1 0 0 1 1 1V16a1 1 0 0 1-1 1H8l-4 4V6.5a1 1 0 0 1 1-1Z" />
           <path d="M8 9.5h9M8 13h6" />
+        </svg>
+      );
+    case "more":
+      return (
+        <svg {...common} aria-hidden="true">
+          <circle cx="5" cy="12" r="1.6" fill={stroke} stroke="none" />
+          <circle cx="12" cy="12" r="1.6" fill={stroke} stroke="none" />
+          <circle cx="19" cy="12" r="1.6" fill={stroke} stroke="none" />
         </svg>
       );
     case "signout":

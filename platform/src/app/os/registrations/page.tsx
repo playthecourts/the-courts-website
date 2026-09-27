@@ -265,7 +265,7 @@ export default async function RegistrationsPage({ searchParams }: PageProps<"/os
                         </Link>
                         {o.seasonLabel ? <span className="ml-2 text-xs text-neutral">{o.seasonLabel}</span> : null}
                       </Td>
-                      <Td className="text-neutral">{gradeRangeLabel(o.gradeMin, o.gradeMax) ?? "All"}</Td>
+                      <Td className="text-neutral">{gradeRangeLabel(o.gradeMin, o.gradeMax)}</Td>
                       <Td className="os-num">{taken}</Td>
                       <Td className="os-num text-neutral">{seats || "—"}</Td>
                       <Td>

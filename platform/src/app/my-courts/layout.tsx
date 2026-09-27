@@ -9,18 +9,24 @@ import NavLink from "./nav-link";
 // registered still sees a real "raise your hand for Winter League" prompt
 // on this page (league/page.tsx) rather than the item just disappearing,
 // which would look like a bug more than a design choice.
+// Navigation Audit, Option A ("Rename, don't restructure"): "Book" is what
+// used to be labeled "Schedule" (Explore's real browse/filter/book flow —
+// month toggle, sport/coach filters, per-athlete booking, the calendar
+// sidebar). "My Bookings" is promoted from a link buried inside that page to
+// its own tab. Camps now also covers the one-day events (Early Release, Day
+// Off/Game On) that used to only surface through Explore's Camps category —
+// see camps/page.tsx. Payments, Waivers, Messages, and Settings move under
+// "More" so Messages finally has a real way in (it had zero links anywhere
+// before this).
 const NAV_ITEMS = [
   { href: "/my-courts", label: "Home", icon: "home" as const },
-  { href: "/my-courts/schedule", label: "Schedule", icon: "schedule" as const },
-  { href: "/my-courts/camps", label: "Camps", icon: "camps" as const },
-  { href: "/my-courts/events", label: "Events", icon: "explore" as const },
-  // "Explore" tab hidden for now — /my-courts/explore and its real booking
-  // flow are untouched, just not linked from the sidebar/bottom nav.
+  { href: "/my-courts/explore", label: "Book", icon: "schedule" as const },
+  { href: "/my-courts/schedule", label: "My Bookings", icon: "explore" as const },
+  { href: "/my-courts/camps", label: "Camps & Events", icon: "camps" as const },
   { href: "/my-courts/athletes", label: "My Athletes", icon: "athletes" as const },
   { href: "/my-courts/memberships", label: "Membership", icon: "training" as const },
   { href: "/my-courts/league", label: "League", icon: "league" as const },
-  { href: "/my-courts/payments", label: "Payments", icon: "payments" as const },
-  { href: "/my-courts/waivers", label: "Waivers + Permissions", icon: "waivers" as const },
+  { href: "/my-courts/more", label: "More", icon: "more" as const },
 ];
 
 export default async function MyCourtsLayout({ children }: { children: React.ReactNode }) {

@@ -401,7 +401,7 @@ export function gradeLabel(value: number): string {
 /// "3rd–5th Grade", "K–2nd Grade", "6th Grade" — the phrasing used on every
 /// parent-facing surface, generated once here so it can't drift between them.
 export function gradeRangeLabel(min: number | null, max: number | null): string | null {
-  if (min === null && max === null) return null;
+  if (min === null && max === null) return "All Ages";
   if (min !== null && max !== null) {
     return min === max ? `${gradeLabel(min)} Grade` : `${gradeLabel(min)}–${gradeLabel(max)} Grade`;
   }
