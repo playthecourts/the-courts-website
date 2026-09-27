@@ -173,7 +173,7 @@ function CardChrome({ card, timeLabel }: { card: Card; timeLabel: string }) {
       <div className="min-w-0">
         {/* When it is comes first — that's the question someone scanning a
             list of sessions is actually asking, before what it's called. */}
-        <p className="font-sport text-sm font-bold text-black">{timeLabel}</p>
+        <p className="font-sport text-lg font-bold text-orange">{timeLabel}</p>
         <h2 className="font-heading font-bold text-black">{card.offeringName}</h2>
         <p className="font-body text-[11.5px] font-medium uppercase tracking-wide text-gray-dark">
           {[card.sport, card.programTypeLabel].filter(Boolean).join(" · ")}
