@@ -17,6 +17,36 @@ const RANGES: Record<string, () => { from: Date; to?: Date }> = {
   anytime: () => ({ from: new Date() }),
 };
 
+// "When" also offers real calendar months — "This Week"/"Anytime" answer
+// "what's coming up," a month chip answers "what does October look like."
+// Always starts from today (never earlier), and always runs through that
+// month's actual last day, whatever it is (28-31).
+const MONTH_PREFIX = "month:";
+
+function monthRange(monthKey: string): { from: Date; to: Date } {
+  const [y, m] = monthKey.split("-").map(Number);
+  const today = new Date();
+  const monthStart = new Date(Date.UTC(y, m - 1, 1));
+  const from = monthStart > today ? monthStart : today;
+  const to = new Date(Date.UTC(y, m, 1)); // exclusive — first moment of next month
+  return { from, to };
+}
+
+function monthKeyFor(date: Date) {
+  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
+}
+
+function monthLabel(monthKey: string) {
+  const [y, m] = monthKey.split("-").map(Number);
+  return new Intl.DateTimeFormat("en-US", { month: "long", timeZone: "UTC" }).format(new Date(Date.UTC(y, m - 1, 1)));
+}
+
+// Just the current month for now — more months can join this list later
+// once there's actually something to browse further out.
+function upcomingMonthKeys(): string[] {
+  return [monthKeyFor(new Date())];
+}
+
 function Chip({
   href,
   active,
@@ -71,9 +101,9 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 export default async function ExplorePage({
   searchParams,
 }: {
-  searchParams: Promise<{ athlete?: string; cat?: string; when?: string; sport?: string; coach?: string }>;
+  searchParams: Promise<{ cat?: string; when?: string; sport?: string; coach?: string }>;
 }) {
-  const { athlete: athleteParam, cat, when, sport, coach } = await searchParams;
+  const { cat, when, sport, coach } = await searchParams;
   // A family that opened Checkout and abandoned it must not hold a seat
   // forever — sweep before computing availability below.
   await expireStalePendingBookings();
@@ -81,15 +111,12 @@ export default async function ExplorePage({
   const allAthletes = guardian.families.flatMap((fg) => fg.family.athletes);
 
   // Default to this week. "Everything, forever" is a browsing mode, not the
-  // question someone opens the app with.
-  const range = (RANGES[when ?? "week"] ?? RANGES.week)();
+  // question someone opens the app with. A "month:2026-10" value picks a
+  // real calendar month instead.
+  const selectedMonthKey = when?.startsWith(MONTH_PREFIX) ? when.slice(MONTH_PREFIX.length) : null;
+  const range = selectedMonthKey ? monthRange(selectedMonthKey) : (RANGES[when ?? "week"] ?? RANGES.week)();
 
-  const selected =
-    athleteParam && allAthletes.some((a) => a.id === athleteParam)
-      ? allAthletes.filter((a) => a.id === athleteParam)
-      : allAthletes;
-
-  const unfilteredCards = await loadParentFeed(selected as never, {
+  const unfilteredCards = await loadParentFeed(allAthletes as never, {
     category: cat,
     from: range.from,
     to: range.to,
@@ -113,19 +140,16 @@ export default async function ExplorePage({
   const presentCoaches = [...new Set(unfilteredCards.flatMap((c) => c.coachNames))].sort();
 
   function href(next: {
-    athlete?: string | null;
     cat?: string | null;
     when?: string | null;
     sport?: string | null;
     coach?: string | null;
   }) {
     const params = new URLSearchParams();
-    const a = next.athlete !== undefined ? next.athlete : athleteParam;
     const c = next.cat !== undefined ? next.cat : cat;
     const w = next.when !== undefined ? next.when : when;
     const sp = next.sport !== undefined ? next.sport : sport;
     const co = next.coach !== undefined ? next.coach : coach;
-    if (a) params.set("athlete", a);
     if (c) params.set("cat", c);
     if (w) params.set("when", w);
     if (sp) params.set("sport", sp);
@@ -134,10 +158,7 @@ export default async function ExplorePage({
     return `/my-courts/explore${qs ? `?${qs}` : ""}`;
   }
 
-  const who =
-    selected.length === 1
-      ? selected[0].firstName
-      : allAthletes.map((a) => a.firstName).join(" and ");
+  const who = allAthletes.map((a) => a.firstName).join(" and ");
 
   return (
     <div className="flex flex-col gap-6">
@@ -146,25 +167,13 @@ export default async function ExplorePage({
         <p className="mt-1 font-body text-sm text-gray-dark">
           {allAthletes.length === 0
             ? "No athletes on file yet."
-            : `What ${who} can join${when === "anytime" ? "" : " this week"}.`}
+            : `What ${who} can join${
+                selectedMonthKey ? ` in ${monthLabel(selectedMonthKey)}` : when === "anytime" ? "" : " this week"
+              }.`}
         </p>
       </div>
 
       <div className="flex flex-col gap-2.5">
-        {/* The athlete is the primary filter — one tap that means something. */}
-        {allAthletes.length > 1 ? (
-          <Row label="Who">
-            {allAthletes.map((a) => (
-              <Chip key={a.id} href={href({ athlete: a.id })} active={athleteParam === a.id}>
-                {a.firstName}
-              </Chip>
-            ))}
-            <Chip href={href({ athlete: null })} active={!athleteParam}>
-              Both
-            </Chip>
-          </Row>
-        ) : null}
-
         {categoriesWithSessions.length > 1 ? (
           <Row label="What">
             <Chip href={href({ cat: null })} active={!cat}>
@@ -198,19 +207,26 @@ export default async function ExplorePage({
             </Chip>
             {presentCoaches.map((c) => (
               <Chip key={c} href={href({ coach: c })} active={coach === c}>
-                {c}
+                {/* First name only — full staff names (e.g. "Justin Frank",
+                    "Spencer Richardson") read as two coaches at a glance. */}
+                {c.split(" ")[0]}
               </Chip>
             ))}
           </Row>
         ) : null}
 
         <Row label="When">
-          <Chip href={href({ when: null })} active={when !== "anytime"}>
+          <Chip href={href({ when: null })} active={!when}>
             This Week
           </Chip>
           <Chip href={href({ when: "anytime" })} active={when === "anytime"}>
             Anytime
           </Chip>
+          {upcomingMonthKeys().map((mk) => (
+            <Chip key={mk} href={href({ when: `${MONTH_PREFIX}${mk}` })} active={when === `${MONTH_PREFIX}${mk}`}>
+              {monthLabel(mk)}
+            </Chip>
+          ))}
         </Row>
       </div>
 
@@ -232,7 +248,9 @@ export default async function ExplorePage({
           <p className="mt-1 font-body text-sm text-gray-dark">
             {when === "anytime"
               ? "Nothing matches that right now."
-              : `Nothing for ${who} this week.`}
+              : selectedMonthKey
+                ? `Nothing for ${who} in ${monthLabel(selectedMonthKey)}.`
+                : `Nothing for ${who} this week.`}
           </p>
           {when !== "anytime" ? (
             <Link

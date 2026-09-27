@@ -155,10 +155,13 @@ function TenPackLinks({ card }: { card: Card }) {
   const notYetIn = card.perAthlete.filter((a) => a.eligible && !a.hasSeat);
   if (notYetIn.length === 0) return null;
   return (
-    <div className="mb-3 flex flex-wrap gap-x-4 gap-y-1">
+    <div className="mb-3 flex flex-wrap gap-2">
       {notYetIn.map((a) => (
         <form key={a.athleteId} action={purchaseDrDishTenPack.bind(null, a.athleteId)}>
-          <button type="submit" className="font-body text-xs font-bold text-orange underline">
+          <button
+            type="submit"
+            className="min-h-8 rounded-full border border-orange px-3 font-body text-xs font-bold text-orange transition-colors hover:bg-orange hover:text-white"
+          >
             Buy {a.athleteName}&rsquo;s 10-Pack — $250
           </button>
         </form>
@@ -178,9 +181,18 @@ function CardChrome({ card, timeLabel }: { card: Card; timeLabel: string }) {
         <p className="font-body text-[11.5px] font-medium uppercase tracking-wide text-gray-dark">
           {[card.sport, card.programTypeLabel].filter(Boolean).join(" · ")}
         </p>
-        <p className="font-body text-xs text-gray-dark">
-          {[card.gradeLabel, card.resourceName, card.coachNames[0]].filter(Boolean).join(" · ")}
-        </p>
+        {(() => {
+          const meta = [
+            card.gradeLabel,
+            // Skip the resource name when it just repeats what the offering
+            // title already says (Dr. Dish's own title names the machine).
+            card.resourceName && !card.offeringName.includes(card.resourceName) ? card.resourceName : null,
+            card.coachNames[0],
+          ]
+            .filter(Boolean)
+            .join(" · ");
+          return meta ? <p className="font-body text-xs text-gray-dark">{meta}</p> : null;
+        })()}
       </div>
       <div className="shrink-0 text-right">
         <p
@@ -237,12 +249,12 @@ export function OfferingSessionCard({ card }: { card: Card }) {
 // A salon-style time grid: tap a time to pick it, one booking panel opens
 // below for whichever slot is selected — instead of a "few spots" pill.
 const SLOT_TONE: Record<string, string> = {
-  available: "border-gray-mid bg-white text-black hover:border-black",
-  few_spots: "border-orange bg-white text-orange hover:bg-orange/5",
-  waitlist: "border-gray-mid bg-gray-light text-gray-dark hover:border-orange hover:text-orange",
-  full: "border-gray-mid bg-gray-light text-gray-dark",
-  registration_closed: "border-gray-mid bg-gray-light text-gray-dark",
-  coming_soon: "border-gray-mid bg-gray-light text-gray-dark",
+  available: "border-black bg-white text-black hover:bg-black hover:text-white",
+  few_spots: "border-black bg-white text-black hover:bg-black hover:text-white",
+  waitlist: "border-black bg-white text-black hover:bg-black hover:text-white",
+  full: "border-black bg-white text-black hover:bg-black hover:text-white",
+  registration_closed: "border-black bg-white text-black hover:bg-black hover:text-white",
+  coming_soon: "border-black bg-white text-black hover:bg-black hover:text-white",
 };
 
 const SLOT_NOTE: Record<string, string> = {
