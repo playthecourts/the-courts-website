@@ -34,3 +34,22 @@ export async function getCurrentGuardian() {
 
   return guardian;
 }
+
+/// Whether this same login (same Supabase auth id) also has an active
+/// StaffUser record — a Courts parent who's also staff. Drives the "Switch
+/// to Admin" link in the family sidebar; a separate lookup rather than a
+/// field on getCurrentGuardian's return so every existing caller's shape
+/// stays untouched.
+export async function hasActiveStaffAccount(): Promise<boolean> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return false;
+
+  const staff = await prisma.staffUser.findUnique({
+    where: { authId: user.id },
+    select: { active: true },
+  });
+  return staff?.active === true;
+}

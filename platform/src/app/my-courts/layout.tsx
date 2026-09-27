@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getCurrentGuardian } from "@/lib/dal";
+import { getCurrentGuardian, hasActiveStaffAccount } from "@/lib/dal";
 import { familyCrewInitials, familyCrewName } from "@/lib/family";
 import { AccountMenu } from "./account-menu";
 import NavLink from "./nav-link";
@@ -28,6 +28,7 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
   const familyName = guardian.families[0]?.family.name ?? null;
   const crewName = familyCrewName(familyName);
   const initials = familyCrewInitials(familyName);
+  const showAdminSwitch = await hasActiveStaffAccount();
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-light md:flex-row">
@@ -54,7 +55,7 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
           ))}
         </nav>
         <div className="border-t border-gray-mid px-4 py-3">
-          <AccountMenu crewName={crewName} initials={initials} variant="sidebar" />
+          <AccountMenu crewName={crewName} initials={initials} variant="sidebar" showAdminSwitch={showAdminSwitch} />
         </div>
       </aside>
 
@@ -69,7 +70,7 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
             priority
           />
         </Link>
-        <AccountMenu crewName={crewName} initials={initials} variant="mobile" />
+        <AccountMenu crewName={crewName} initials={initials} variant="mobile" showAdminSwitch={showAdminSwitch} />
       </header>
 
       <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-24 pt-10 md:px-10 md:pb-10 md:pt-14">

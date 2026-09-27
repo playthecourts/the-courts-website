@@ -56,6 +56,7 @@ export function Sidebar({
   actorName,
   actorRole,
   scopeNote,
+  familySwitchHref,
   signOut,
 }: {
   primary: NavItem[];
@@ -63,6 +64,7 @@ export function Sidebar({
   actorName: string;
   actorRole: string;
   scopeNote: string | null;
+  familySwitchHref?: string | null;
   signOut: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -111,6 +113,14 @@ export function Sidebar({
         <p className="os-heading text-xs uppercase tracking-wide text-white">{actorName}</p>
         <p className="os-eyebrow mt-1 text-white/50">{actorRole}</p>
         {scopeNote ? <p className="mt-1 text-xs text-white/50">{scopeNote}</p> : null}
+        {familySwitchHref ? (
+          <Link
+            href={familySwitchHref}
+            className="os-eyebrow mt-2 block text-orange hover:text-white"
+          >
+            Switch to Family View →
+          </Link>
+        ) : null}
         <div className="mt-2">{signOut}</div>
       </div>
     </>

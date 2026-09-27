@@ -19,10 +19,12 @@ export function AccountMenu({
   crewName,
   initials,
   variant = "sidebar",
+  showAdminSwitch = false,
 }: {
   crewName: string;
   initials: string;
   variant?: "sidebar" | "mobile";
+  showAdminSwitch?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -93,6 +95,18 @@ export function AccountMenu({
               {item.label}
             </Link>
           ))}
+          {showAdminSwitch && (
+            <>
+              <div className="my-1 border-t border-gray-mid" />
+              <Link
+                href="/os"
+                onClick={() => setOpen(false)}
+                className="block px-4 py-2 font-body text-sm text-orange transition-colors hover:bg-orange/10"
+              >
+                Switch to Admin →
+              </Link>
+            </>
+          )}
           <div className="my-1 border-t border-gray-mid" />
           <form action={logout}>
             <button

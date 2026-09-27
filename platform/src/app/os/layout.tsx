@@ -35,6 +35,7 @@ export default async function OsLayout({ children }: LayoutProps<"/os">) {
         actorName={actor.name}
         actorRole={ROLE_LABELS[actor.role]}
         scopeNote={scopeNote}
+        familySwitchHref={actor.hasFamilyAccount ? "/my-courts" : null}
         signOut={
           <form action={logout}>
             <button

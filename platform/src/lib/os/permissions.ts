@@ -274,6 +274,10 @@ export type OsActor = {
   /// Per-user grants layered on top of the role, for the cases the spec calls
   /// out as configurable ("Admin — financial permissions configurable").
   extraCapabilities?: Capability[];
+  /// Whether this same login (same Supabase auth id) also has a Guardian
+  /// record — a staff member who's also a Courts parent. Drives the
+  /// "Switch to Family View" link; nothing else reads this.
+  hasFamilyAccount: boolean;
 };
 
 export function capabilitiesFor(actor: OsActor): Set<Capability> {

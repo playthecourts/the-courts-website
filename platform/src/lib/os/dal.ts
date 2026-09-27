@@ -28,14 +28,17 @@ export class OsAccessError extends Error {
   }
 }
 
-function toActor(staff: {
-  id: string;
-  name: string;
-  email: string;
-  role: OsActor["role"];
-  sports: string[];
-  active: boolean;
-}): OsActor {
+function toActor(
+  staff: {
+    id: string;
+    name: string;
+    email: string;
+    role: OsActor["role"];
+    sports: string[];
+    active: boolean;
+  },
+  hasFamilyAccount: boolean
+): OsActor {
   return {
     id: staff.id,
     name: staff.name,
@@ -43,6 +46,7 @@ function toActor(staff: {
     role: staff.role,
     sports: staff.sports,
     active: staff.active,
+    hasFamilyAccount,
   };
 }
 
@@ -55,13 +59,16 @@ export async function getOsActor(): Promise<OsActor> {
 
   if (!user) redirect("/login?next=/os");
 
-  const staff = await prisma.staffUser.findUnique({ where: { authId: user.id } });
+  const [staff, guardian] = await Promise.all([
+    prisma.staffUser.findUnique({ where: { authId: user.id } }),
+    prisma.guardian.findUnique({ where: { authId: user.id }, select: { id: true } }),
+  ]);
 
   // A guardian who types /os gets the same answer as a stranger.
   if (!staff) redirect("/login?error=not-staff");
   if (!staff.active) redirect("/login?error=inactive");
 
-  const actor = toActor(staff);
+  const actor = toActor(staff, guardian !== null);
   if (!can(actor, "os.access")) redirect("/login?error=no-os-access");
 
   return actor;
@@ -75,10 +82,13 @@ export async function getOsActorOrNull(): Promise<OsActor | null> {
   } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const staff = await prisma.staffUser.findUnique({ where: { authId: user.id } });
+  const [staff, guardian] = await Promise.all([
+    prisma.staffUser.findUnique({ where: { authId: user.id } }),
+    prisma.guardian.findUnique({ where: { authId: user.id }, select: { id: true } }),
+  ]);
   if (!staff || !staff.active) return null;
 
-  const actor = toActor(staff);
+  const actor = toActor(staff, guardian !== null);
   return can(actor, "os.access") ? actor : null;
 }
 

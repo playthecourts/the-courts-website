@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import {
   bookSession,
   cancelWaitlistEntry,
@@ -231,18 +234,39 @@ export function OfferingSessionCard({ card }: { card: Card }) {
   );
 }
 
+// A salon-style time grid: tap a time to pick it, one booking panel opens
+// below for whichever slot is selected — instead of a "few spots" pill.
+const SLOT_TONE: Record<string, string> = {
+  available: "border-gray-mid bg-white text-black hover:border-black",
+  few_spots: "border-orange bg-white text-orange hover:bg-orange/5",
+  waitlist: "border-gray-mid bg-gray-light text-gray-dark hover:border-orange hover:text-orange",
+  full: "border-gray-mid bg-gray-light text-gray-dark",
+  registration_closed: "border-gray-mid bg-gray-light text-gray-dark",
+  coming_soon: "border-gray-mid bg-gray-light text-gray-dark",
+};
+
+const SLOT_NOTE: Record<string, string> = {
+  few_spots: "Few left",
+  waitlist: "Waitlist",
+  full: "Full",
+};
+
 // Several same-day slots of the same offering (Dr. Dish's 30-min blocks,
-// typically) read as one clogged list when each gets its own repeated
-// header. One header for the day, then a slot per time — same booking
-// logic underneath (each slot is still its own sessionId/form), just one
-// visual block instead of many near-identical cards.
+// typically) used to read as one clogged, scrolling list — a full booking
+// card repeated per slot. This is the same idea a hair-salon booker uses:
+// every time for the day laid out as one scannable grid, tap a time to open
+// just that slot's booking panel below it. Booking logic is untouched —
+// each time button is still just picking which sessionId/form is shown.
 export function GroupedOfferingCard({ cards }: { cards: Card[] }) {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
   if (cards.length === 1) return <OfferingSessionCard card={cards[0]} />;
 
   const first = cards[0];
   const dayLabel = new Intl.DateTimeFormat("en-US", {
     weekday: "short", month: "short", day: "numeric", timeZone: "UTC",
   }).format(new Date(first.startTime));
+  const selected = cards.find((c) => c.sessionId === selectedId) ?? null;
 
   return (
     <article className="rounded-lg border border-gray-mid bg-white px-4 py-4">
@@ -254,34 +278,59 @@ export function GroupedOfferingCard({ cards }: { cards: Card[] }) {
 
       <TenPackLinks card={first} />
 
-      <div className="flex flex-col gap-3">
-        {cards.map((card) => (
-          <div key={card.sessionId} className="rounded-md border border-gray-mid/70 p-2.5">
-            <div className="mb-2 flex items-center justify-between gap-2">
-              <span className="font-heading text-[13px] font-bold text-black">{fmtTimeOnly(card.startTime)}</span>
-              <span className="text-right">
-                <span
-                  className={`block font-sport text-[11.5px] font-bold uppercase tracking-wide ${
-                    AVAILABILITY_TONE[card.availability.state] ?? "text-gray-dark"
-                  }`}
-                >
-                  {card.availability.state === "waitlist" ? "Packed House" : card.availability.label}
+      <div className="grid grid-cols-4 gap-2 sm:grid-cols-5">
+        {cards.map((card) => {
+          const isSelected = card.sessionId === selectedId;
+          const note = SLOT_NOTE[card.availability.state];
+          return (
+            <button
+              key={card.sessionId}
+              type="button"
+              onClick={() => setSelectedId(isSelected ? null : card.sessionId)}
+              aria-pressed={isSelected}
+              className={`flex min-h-[52px] flex-col items-center justify-center rounded-md border px-1 py-1.5 font-sport text-xs font-bold uppercase tracking-wide transition-colors ${
+                isSelected ? "border-black bg-black text-white" : SLOT_TONE[card.availability.state] ?? "border-gray-mid bg-white text-black"
+              }`}
+            >
+              <span>{fmtTimeOnly(card.startTime)}</span>
+              {note ? (
+                <span className={`mt-0.5 font-body text-[9.5px] font-normal normal-case tracking-normal ${isSelected ? "text-white/70" : ""}`}>
+                  {note}
                 </span>
-                {card.capacity !== null && (
-                  <span className="block font-body text-[10.5px] text-gray-dark">
-                    {card.booked} of {card.capacity} registered
-                  </span>
-                )}
-              </span>
-            </div>
-            <div className="flex flex-col gap-2">
-              {card.perAthlete.map((a) => (
-                <PerAthleteRow key={a.athleteId} card={card} a={a} />
-              ))}
-            </div>
-          </div>
-        ))}
+              ) : null}
+            </button>
+          );
+        })}
       </div>
+
+      {selected ? (
+        <div className="mt-3 rounded-md border border-gray-mid/70 p-2.5">
+          <div className="mb-2 flex items-center justify-between gap-2">
+            <span className="font-heading text-[13px] font-bold text-black">{fmtTimeOnly(selected.startTime)}</span>
+            <span className="text-right">
+              <span
+                className={`block font-sport text-[11.5px] font-bold uppercase tracking-wide ${
+                  AVAILABILITY_TONE[selected.availability.state] ?? "text-gray-dark"
+                }`}
+              >
+                {selected.availability.state === "waitlist" ? "Packed House" : selected.availability.label}
+              </span>
+              {selected.capacity !== null && (
+                <span className="block font-body text-[10.5px] text-gray-dark">
+                  {selected.booked} of {selected.capacity} registered
+                </span>
+              )}
+            </span>
+          </div>
+          <div className="flex flex-col gap-2">
+            {selected.perAthlete.map((a) => (
+              <PerAthleteRow key={a.athleteId} card={selected} a={a} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <p className="mt-3 font-body text-sm text-gray-dark">Pick a time above to book.</p>
+      )}
 
       {first.whatToBring.length > 0 ? (
         <p className="mt-3 font-body text-xs text-gray-dark">
