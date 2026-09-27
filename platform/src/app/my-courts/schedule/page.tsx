@@ -110,7 +110,7 @@ export default async function MyCourtsSchedulePage({
         <div className="flex flex-col gap-6">
           {Array.from(byDay.entries()).map(([day, dayBookings]) => (
             <div key={day}>
-              <h2 className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">
+              <h2 className="mb-2 font-sport text-sm font-bold uppercase tracking-wide text-orange">
                 {formatDateHeading(dayBookings[0].session.startTime)}
               </h2>
               <div className="flex flex-col divide-y divide-gray-mid rounded-lg border border-gray-mid bg-white">

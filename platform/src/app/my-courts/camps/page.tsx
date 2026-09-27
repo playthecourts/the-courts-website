@@ -8,6 +8,7 @@ import { startCampRegistration, cancelCampRegistration } from "./actions";
 import { CampFilterBar } from "./filter-bar";
 import { AchCallout } from "../ach-callout";
 import { GroupedOfferingCard, type Card } from "../explore/offering-session-card";
+import { CampTypeToggle } from "./type-toggle";
 
 export const dynamic = "force-dynamic";
 
@@ -97,44 +98,26 @@ export default async function CampsPage({
     );
   }
 
-  return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="font-display text-3xl font-black text-black sm:text-4xl">Camps &amp; Events</h1>
+  const singleDayContent = oneDayEventGroups.length > 0 && (
+    <div className="flex flex-col gap-3">
+      <p className="font-sport text-xs font-bold uppercase tracking-widest text-gray-dark">One-Day Events</p>
+      {oneDayEventGroups.map((group) => (
+        <GroupedOfferingCard key={`${group[0].offeringId}-${group[0].sessionId}`} cards={group} />
+      ))}
+    </div>
+  );
+
+  const multiDayContent =
+    athletes.length === 0 ? (
+      <div className="rounded-xl border border-gray-mid bg-white p-6 text-center">
+        <p className="font-body text-sm text-gray-dark">Add an athlete to your family before registering for a camp.</p>
       </div>
-
-      {sp.checkout === "success" && (
-        <div className="rounded-xl border border-green-600/30 bg-green-50 px-4 py-3 text-sm text-green-800">
-          Registered! We&rsquo;ll see you there.
-        </div>
-      )}
-      {sp.checkout === "error" && (
-        <div className="rounded-xl border border-danger/30 bg-danger-bg px-4 py-3 text-sm text-danger">
-          Something went wrong starting checkout. Try again, or contact us if it keeps happening.
-        </div>
-      )}
-
-      <AchCallout />
-
-      {oneDayEventGroups.length > 0 && (
-        <div className="flex flex-col gap-3">
-          <p className="font-sport text-xs font-bold uppercase tracking-widest text-gray-dark">One-Day Events</p>
-          {oneDayEventGroups.map((group) => (
-            <GroupedOfferingCard key={`${group[0].offeringId}-${group[0].sessionId}`} cards={group} />
-          ))}
-        </div>
-      )}
-
-      {athletes.length === 0 ? (
-        <div className="rounded-xl border border-gray-mid bg-white p-6 text-center">
-          <p className="font-body text-sm text-gray-dark">Add an athlete to your family before registering for a camp.</p>
-        </div>
-      ) : (
-        (() => {
-          const months = [
-            ...new Set(camps.map((c) => (c.sessions[0] ? formatMonth(c.sessions[0].startTime) : null)).filter((m): m is string => Boolean(m))),
-          ];
-          const items = camps.map((camp) => {
+    ) : (
+      (() => {
+        const months = [
+          ...new Set(camps.map((c) => (c.sessions[0] ? formatMonth(c.sessions[0].startTime) : null)).filter((m): m is string => Boolean(m))),
+        ];
+        const items = camps.map((camp) => {
           const first = camp.sessions[0];
           const last = camp.sessions[camp.sessions.length - 1];
           const dateLabel =
@@ -155,7 +138,7 @@ export default async function CampsPage({
                     {sport === "volleyball" ? "Volleyball" : "Basketball"}
                   </p>
                 )}
-                <p className="font-sport text-sm font-bold text-black">{dateLabel}</p>
+                <p className="font-sport text-base font-bold text-black">{dateLabel}</p>
                 <h2 className="font-display text-lg font-black text-black">{camp.name}</h2>
                 <p className="mt-0.5 font-body text-sm text-gray-dark">
                   {formatCents(camp.priceCents ?? 0)}
@@ -243,17 +226,49 @@ export default async function CampsPage({
           );
 
           return { id: camp.id, sport, month, node } as const;
-          });
+        });
 
-          return (
-            <div className="flex flex-col gap-3">
-              {camps.length > 0 && oneDayEventGroups.length > 0 && (
-                <p className="font-sport text-xs font-bold uppercase tracking-widest text-gray-dark">Multi-Day Camps</p>
-              )}
-              <CampFilterBar items={items} months={months} />
-            </div>
-          );
-        })()
+        return (
+          <div className="flex flex-col gap-3">
+            {camps.length > 0 && oneDayEventGroups.length > 0 && (
+              <p className="font-sport text-xs font-bold uppercase tracking-widest text-gray-dark">Multi-Day Camps</p>
+            )}
+            <CampFilterBar items={items} months={months} />
+          </div>
+        );
+      })()
+    );
+
+  return (
+    <div className="flex flex-col gap-6">
+      <div>
+        <h1 className="font-display text-3xl font-black text-black sm:text-4xl">Camps &amp; Events</h1>
+      </div>
+
+      {sp.checkout === "success" && (
+        <div className="rounded-xl border border-green-600/30 bg-green-50 px-4 py-3 text-sm text-green-800">
+          Registered! We&rsquo;ll see you there.
+        </div>
+      )}
+      {sp.checkout === "error" && (
+        <div className="rounded-xl border border-danger/30 bg-danger-bg px-4 py-3 text-sm text-danger">
+          Something went wrong starting checkout. Try again, or contact us if it keeps happening.
+        </div>
+      )}
+
+      <AchCallout />
+
+      {/* The toggle only earns its place when there's actually something on
+          both sides to switch between — one athlete-less family, or a slow
+          camps month with only one type live, just sees that section, same
+          as before this toggle existed. */}
+      {oneDayEventGroups.length > 0 && camps.length > 0 ? (
+        <CampTypeToggle singleDay={singleDayContent} multiDay={multiDayContent} />
+      ) : (
+        <>
+          {singleDayContent}
+          {multiDayContent}
+        </>
       )}
 
       {camps.length === 0 && athletes.length > 0 && (

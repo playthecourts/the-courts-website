@@ -68,7 +68,7 @@ export function ActionNeededStrip({
   if (items.length === 0) return null;
   return (
     <div className="flex flex-col gap-2">
-      <p className="font-sport text-[13px] font-bold tracking-wide text-orange uppercase">
+      <p className="font-sport text-[14px] font-bold tracking-wide text-orange uppercase">
         Action Needed
       </p>
       {items.map((item, i) => (
@@ -115,7 +115,7 @@ export function AthleteRow({
   if (athletes.length === 0) return null;
   return (
     <section>
-      <p className="mb-2.5 font-sport text-[13px] font-bold tracking-wide text-orange uppercase">
+      <p className="mb-2.5 font-sport text-[14px] font-bold tracking-wide text-orange uppercase">
         Your Athletes
       </p>
       <div className="flex flex-col gap-2.5">
@@ -159,7 +159,7 @@ export function WhatsHappening({
   if (items.length === 0) return null;
   return (
     <section>
-      <p className="mb-2.5 font-sport text-[13px] font-bold tracking-wide text-orange uppercase">
+      <p className="mb-2.5 font-sport text-[14px] font-bold tracking-wide text-orange uppercase">
         What&rsquo;s Happening at The Courts
       </p>
       <div className="flex flex-col divide-y divide-gray-mid overflow-hidden rounded-2xl border border-gray-mid bg-white">

@@ -234,7 +234,7 @@ export default async function MyCourtsHomePage() {
 
       {/* 2. Membership */}
       <section>
-        <p className="mb-2.5 font-sport text-[13px] font-bold tracking-wide text-orange uppercase">Membership</p>
+        <p className="mb-2.5 font-sport text-[14px] font-bold tracking-wide text-orange uppercase">Membership</p>
         {membershipRows.length > 0 ? (
           <div className="flex flex-col gap-3">
             {membershipRows.map(({ membership, balances, memberPricing }) => (
@@ -294,7 +294,7 @@ export default async function MyCourtsHomePage() {
           so it's its own small block rather than folded into Membership. */}
       {activeCredits.length > 0 && (
         <section>
-          <p className="mb-2.5 font-sport text-[13px] font-bold tracking-wide text-orange uppercase">Your Packs</p>
+          <p className="mb-2.5 font-sport text-[14px] font-bold tracking-wide text-orange uppercase">Your Packs</p>
           <div className="flex flex-col gap-3">
             {activeCredits.map((credit) => (
               <div key={credit.id} className="rounded-2xl border border-gray-mid bg-white p-5">
@@ -320,7 +320,7 @@ export default async function MyCourtsHomePage() {
 
       {/* 4. Guardians */}
       <section>
-        <p className="mb-2.5 font-sport text-[13px] font-bold tracking-wide text-orange uppercase">Guardians</p>
+        <p className="mb-2.5 font-sport text-[14px] font-bold tracking-wide text-orange uppercase">Guardians</p>
         <div className="flex flex-col divide-y divide-gray-mid rounded-2xl border border-gray-mid bg-white">
           {guardians.map((g) => (
             <div key={g.id} className="flex items-center justify-between px-4 py-3.5">
@@ -348,7 +348,7 @@ export default async function MyCourtsHomePage() {
           }`}
         >
           <div>
-            <p className="font-sport text-[13px] font-bold tracking-wide text-orange uppercase">Waivers + Permissions</p>
+            <p className="font-sport text-[14px] font-bold tracking-wide text-orange uppercase">Waivers + Permissions</p>
             {waiversComplete ? (
               <>
                 <p className="mt-1 font-heading text-[15px] font-bold text-near-black">All Set &#10003;</p>
@@ -369,7 +369,7 @@ export default async function MyCourtsHomePage() {
 
       {/* 6. Account + Billing */}
       <section>
-        <p className="mb-2.5 font-sport text-[13px] font-bold tracking-wide text-orange uppercase">Account + Billing</p>
+        <p className="mb-2.5 font-sport text-[14px] font-bold tracking-wide text-orange uppercase">Account + Billing</p>
         <div className="flex flex-col divide-y divide-gray-mid rounded-2xl border border-gray-mid bg-white">
           {ACCOUNT_LINKS.map((link) => (
             <Link key={link.label} href={link.href} className="flex items-center justify-between px-4 py-3.5 transition-colors hover:bg-gray-light">
