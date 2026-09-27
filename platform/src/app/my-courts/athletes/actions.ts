@@ -809,3 +809,35 @@ export async function finishLater(athleteId: string, step: string) {
   revalidateAthlete(athlete.id);
   redirect(`/my-courts/athletes/${athlete.id}`);
 }
+
+// ---------------------------------------------------------------------------
+// Archive — the parent-facing "remove this athlete."
+//
+// Never a hard delete: bookings, waivers, membership history, and every
+// other real record stay exactly as they are. Setting archivedAt just drops
+// the athlete out of getCurrentGuardian()'s athletes list (dal.ts), which is
+// the single source every parent page reads from, so they disappear from
+// the roster everywhere at once — reversible by staff if a family archives
+// the wrong kid by mistake.
+//
+// Blocked while an active/past_due membership exists, because archiving is
+// silent to Stripe — it doesn't touch a subscription, so an archived athlete
+// with a live membership would keep being billed with no way for the family
+// to see or manage it. They have to cancel first, through the normal
+// membership-cancellation flow, which does handle Stripe correctly.
+// ---------------------------------------------------------------------------
+
+export async function archiveAthlete(athleteId: string): Promise<{ ok: boolean; error?: string }> {
+  const { athlete } = await requireGuardianAthlete(athleteId);
+
+  const activeMembership = await prisma.athleteMembership.findFirst({
+    where: { athleteId: athlete.id, status: { in: ["active", "past_due"] } },
+  });
+  if (activeMembership) {
+    return { ok: false, error: `${athlete.firstName} has an active membership. Cancel it first, then you can archive them.` };
+  }
+
+  await prisma.athlete.update({ where: { id: athlete.id }, data: { archivedAt: new Date() } });
+  revalidateAthlete(athlete.id);
+  redirect("/my-courts/athletes");
+}

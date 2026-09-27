@@ -20,7 +20,12 @@ export async function getCurrentGuardian() {
     include: {
       families: {
         include: {
-          family: { include: { athletes: true } },
+          // Archived athletes (see Athlete.archivedAt) stay in the database
+          // for real — bookings, waivers, membership history — but this is
+          // the single query every parent page derives its athlete list
+          // from, so excluding them here is enough to remove them from the
+          // roster everywhere at once.
+          family: { include: { athletes: { where: { archivedAt: null } } } },
         },
       },
     },

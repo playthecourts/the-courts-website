@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { updateAthlete, deleteAthlete } from "@/app/admin/actions";
+import { updateAthlete, deleteAthlete, setAthleteArchived } from "@/app/admin/actions";
 
 type Athlete = {
   id: string;
@@ -11,12 +11,14 @@ type Athlete = {
   dob: Date;
   grade: string | null;
   gender: string | null;
+  archivedAt: Date | null;
 };
 
 export function AthleteRow({ athlete }: { athlete: Athlete }) {
   const [editing, setEditing] = useState(false);
   const updateAction = updateAthlete.bind(null, athlete.id);
   const deleteAction = deleteAthlete.bind(null, athlete.id, athlete.familyId);
+  const toggleArchivedAction = setAthleteArchived.bind(null, athlete.id, athlete.familyId, !athlete.archivedAt);
 
   if (editing) {
     return (
@@ -92,11 +94,21 @@ export function AthleteRow({ athlete }: { athlete: Athlete }) {
           {athlete.firstName} {athlete.lastName}
         </span>
         {athlete.grade && <span className="text-neutral-500"> — Grade {athlete.grade}</span>}
+        {athlete.archivedAt && (
+          <span className="ml-2 rounded-full bg-neutral-200 px-2 py-0.5 text-xs font-semibold text-neutral-600">
+            Archived {athlete.archivedAt.toLocaleDateString()}
+          </span>
+        )}
       </div>
       <div className="flex gap-3">
         <button onClick={() => setEditing(true)} className="font-medium underline">
           Edit
         </button>
+        <form action={toggleArchivedAction}>
+          <button type="submit" className="font-medium underline">
+            {athlete.archivedAt ? "Unarchive" : "Archive"}
+          </button>
+        </form>
         <form action={deleteAction}>
           <button type="submit" className="font-medium text-red-600 underline">
             Delete

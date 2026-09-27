@@ -143,13 +143,20 @@ function NextGenTransferState({ guardian, athlete }: { guardian: TransferGuardia
     );
   }
 
+  // The literal copy Melissa gave: the legacy rate carries over through the
+  // end of 2026, then renews at $185/mo starting Jan 1, 2027. Only the
+  // wording changed here — nothing schedules that Jan 1 price change on the
+  // actual Stripe subscription yet (see the note where this is called).
+  const monthlyRate = Math.round(guardian.legacyRateCents / 100);
+
   return (
     <div className="rounded-lg border border-orange bg-orange/5 p-4">
       <p className="font-heading font-bold text-black">Your NextGen Rate Is Confirmed</p>
       <p className="mt-1 font-body text-sm text-gray-dark">
-        ${(guardian.legacyRateCents / 100).toFixed(2)}/mo, same as your NextGen rate. Complete checkout to start your
-        membership at The Courts.
+        Your ${monthlyRate}/month NextGen rate will carry over to The Courts through December 31, 2026. Beginning
+        January 1, 2027, your membership will renew at $185/month.
       </p>
+      <p className="mt-2 font-body text-sm text-gray-dark">Complete checkout to activate your membership at The Courts.</p>
       <form action={startNextGenLegacyCheckout.bind(null, athlete.id)} className="mt-3">
         <button
           type="submit"

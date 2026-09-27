@@ -245,6 +245,14 @@ model Athlete {
   basicsCompletedAt DateTime? @map("basics_completed_at")
   /// Where the parent left off, so "Finish Later" resumes instead of restarting.
   profileStep       String?   @map("profile_step")
+  /// Parent-initiated "remove this athlete." Never a hard delete — bookings,
+  /// waivers, membership history, and every other real record stay intact.
+  /// An archived athlete is simply excluded from getCurrentGuardian()'s
+  /// athletes list (dal.ts), which is the single source every parent-facing
+  /// page reads from, so it disappears from the roster everywhere at once.
+  /// Blocked at the action level (my-courts/athletes/actions.ts) while an
+  /// active/past_due membership exists. Reversible by staff.
+  archivedAt       DateTime? @map("archived_at")
   createdAt        DateTime @default(now()) @map("created_at")
   updatedAt        DateTime @default(now()) @updatedAt @map("updated_at")
 

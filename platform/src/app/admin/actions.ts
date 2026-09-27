@@ -63,3 +63,16 @@ export async function deleteAthlete(athleteId: string, familyId: string) {
   revalidatePath(`/admin/families/${familyId}`);
   revalidatePath("/admin/athletes");
 }
+
+/// Reverses the parent-facing "Archive" action (my-courts/athletes/actions.ts)
+/// — a family that archived the wrong kid, or wants one back, gets restored
+/// with everything intact since archiving never deleted anything. Staff can
+/// also archive directly from here; unlike the parent-facing action this has
+/// no active-membership block, since staff may have a real reason to archive
+/// alongside a membership they're separately handling in Stripe.
+export async function setAthleteArchived(athleteId: string, familyId: string, archived: boolean) {
+  await getCurrentStaff();
+  await prisma.athlete.update({ where: { id: athleteId }, data: { archivedAt: archived ? new Date() : null } });
+  revalidatePath(`/admin/families/${familyId}`);
+  revalidatePath("/admin/athletes");
+}

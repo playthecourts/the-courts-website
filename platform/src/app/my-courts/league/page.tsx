@@ -203,20 +203,29 @@ export default async function LeaguePage({
                   )}
                 </div>
 
-                <div className="border-t border-gray-mid pt-4">
-                  <p className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">What&rsquo;s Included</p>
-                  <ul className="flex flex-col gap-1 font-body text-sm text-gray-dark">
-                    {SEASON_INCLUDES.map((item) => (
-                      <li key={item}>• {item}</li>
-                    ))}
-                  </ul>
-                </div>
+                {/* "What's Included"/"What's Ahead" only apply to someone who
+                    can actually register for Fall right now — once Fall has
+                    closed, this family hasn't registered and only raised a
+                    hand for Winter, so showing Fall's real Oct 8/Oct 24 dates
+                    here reads as if they're already in. */}
+                {canRegister && (
+                  <>
+                    <div className="border-t border-gray-mid pt-4">
+                      <p className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">What&rsquo;s Included</p>
+                      <ul className="flex flex-col gap-1 font-body text-sm text-gray-dark">
+                        {SEASON_INCLUDES.map((item) => (
+                          <li key={item}>• {item}</li>
+                        ))}
+                      </ul>
+                    </div>
 
-                <div className="border-t border-gray-mid pt-4">
-                  <p className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">What&rsquo;s Ahead</p>
-                  {WHATS_AHEAD}
-                  <p className="mt-1 font-body text-sm text-gray-dark">Practice times are TBD and will be shared after team placement.</p>
-                </div>
+                    <div className="border-t border-gray-mid pt-4">
+                      <p className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">What&rsquo;s Ahead</p>
+                      {WHATS_AHEAD}
+                      <p className="mt-1 font-body text-sm text-gray-dark">Practice times are TBD and will be shared after team placement.</p>
+                    </div>
+                  </>
+                )}
               </div>
             )}
 

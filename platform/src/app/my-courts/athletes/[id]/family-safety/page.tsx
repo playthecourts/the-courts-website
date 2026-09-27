@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getGuardianAthleteOrNull } from "@/lib/athlete-profile";
+import { ArchiveAthleteButton } from "../archive-athlete-button";
 
 // Logistics and safety, not athlete/coaching info — that lives on the Player
 // Card. Three sections on one page rather than three top-level tabs: each
@@ -66,6 +67,17 @@ export default async function FamilySafetyPage({ params }: { params: Promise<{ i
           </li>
         ))}
       </ul>
+
+      <div className="rounded-xl border border-gray-mid bg-white px-4 py-4">
+        <p className="font-heading text-[15px] font-bold text-near-black">Account</p>
+        <p className="mt-0.5 font-body text-[13.5px] text-gray-dark">
+          Not playing with us right now? You can remove {athlete.firstName} from your account without losing any
+          history.
+        </p>
+        <div className="mt-3">
+          <ArchiveAthleteButton athleteId={athlete.id} firstName={athlete.firstName} />
+        </div>
+      </div>
     </div>
   );
 }
