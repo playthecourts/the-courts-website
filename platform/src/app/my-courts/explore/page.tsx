@@ -1,9 +1,15 @@
 import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
+import { prisma } from "@/lib/prisma";
 import { loadParentFeed } from "@/lib/programs/parent-feed";
 import { PARENT_CATEGORIES } from "@/lib/programs/types";
 import { expireStalePendingBookings } from "@/lib/booking";
 import { GroupedOfferingCard, type Card } from "./offering-session-card";
+import { BookingCalendar, type UpcomingBooking } from "./booking-calendar";
+
+function fmtBookingTime(date: Date) {
+  return new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "UTC" }).format(date);
+}
 
 // Explore, filtered the way a parent thinks.
 //
@@ -160,8 +166,30 @@ export default async function ExplorePage({
 
   const who = allAthletes.map((a) => a.firstName).join(" and ");
 
+  // Same "what's actually booked" data /my-courts/schedule shows, reshaped
+  // for the calendar sidebar — this is read-only here on purpose. Cancelling,
+  // the +Google link, and payment-status badges stay on the full Schedule
+  // page rather than being duplicated (and risking drifting out of sync).
+  const athleteIds = allAthletes.map((a) => a.id);
+  const upcoming =
+    athleteIds.length === 0
+      ? []
+      : await prisma.booking.findMany({
+          where: { athleteId: { in: athleteIds }, status: { not: "cancelled" }, session: { startTime: { gte: new Date() } } },
+          orderBy: { session: { startTime: "asc" } },
+          select: { session: { select: { startTime: true, program: { select: { name: true } } } }, athlete: { select: { firstName: true } } },
+        });
+  const calendarBookings: UpcomingBooking[] = upcoming.map((b) => ({
+    dateKey: b.session.startTime.toISOString().slice(0, 10),
+    startTime: b.session.startTime.toISOString(),
+    timeLabel: fmtBookingTime(b.session.startTime),
+    title: b.session.program.name,
+    athleteName: b.athlete.firstName,
+  }));
+
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+      <div className="flex min-w-0 flex-1 flex-col gap-6">
       <div>
         <h1 className="font-display text-2xl font-black text-black">Find Your Next Rep.</h1>
         <p className="mt-1 font-body text-sm text-gray-dark">
@@ -275,6 +303,9 @@ export default async function ExplorePage({
           ))}
         </div>
       )}
+      </div>
+
+      {allAthletes.length > 0 ? <BookingCalendar bookings={calendarBookings} /> : null}
     </div>
   );
 }
