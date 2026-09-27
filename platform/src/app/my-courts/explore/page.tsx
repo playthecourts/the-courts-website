@@ -128,6 +128,19 @@ export default async function ExplorePage({
     to: range.to,
   });
 
+  // The calendar sidebar answers a different question than the chip-filtered
+  // list above it — "what's bookable this month, at all" — so it gets its
+  // own unfiltered, unbounded-forward fetch rather than reusing whatever the
+  // What/Sport/Coach/When chips currently narrow the main list to. Same
+  // shape as the "Anytime" chip's own query (from today, no `to`, no
+  // category), which already proves this is fine to fetch in one go.
+  const calendarCards =
+    allAthletes.length === 0
+      ? []
+      : (await loadParentFeed(allAthletes as never, { from: new Date() })).map(
+          (c) => JSON.parse(JSON.stringify(c)) as Card
+        );
+
   // Sport/Performance and Coach are applied on top of the athlete/category/
   // date fetch, not pushed into loadParentFeed's own DB query — the card
   // already carries both fields, and these two facets are about narrowing
@@ -305,7 +318,7 @@ export default async function ExplorePage({
       )}
       </div>
 
-      {allAthletes.length > 0 ? <BookingCalendar bookings={calendarBookings} /> : null}
+      {allAthletes.length > 0 ? <BookingCalendar bookings={calendarBookings} cards={calendarCards} /> : null}
     </div>
   );
 }
