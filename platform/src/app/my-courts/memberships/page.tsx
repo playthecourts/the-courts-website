@@ -126,13 +126,11 @@ function PlansIntro({ athleteFirstName }: { athleteFirstName: string }) {
 type TransferGuardian = { nextGenVerification: string | null; legacyRateCents: number | null };
 
 function NextGenTransferState({ guardian, athlete }: { guardian: TransferGuardian; athlete: { id: string } }) {
-  // "verified" (matched against the historical NextGen list) and
-  // "admin_approved" (a manual staff override, e.g. approveAsFounderAnyway)
-  // both mean the same thing here: the family's real rate is confirmed and
-  // checkout should unlock. They're kept as distinct enum values only so
-  // /os/nextgen's table can show HOW a family got approved.
-  const isApproved = guardian.nextGenVerification === "verified" || guardian.nextGenVerification === "admin_approved";
-  if (!isApproved || guardian.legacyRateCents == null) {
+  // Honor-system now, same as Former NextGen: legacyRateCents is set
+  // automatically at signup (see auth.ts), so this only ever shows
+  // "Pending" for an account created before that change whose rate hasn't
+  // been backfilled yet — not a real approval gate anymore.
+  if (guardian.legacyRateCents == null) {
     return (
       <div className="rounded-lg border border-orange bg-orange/5 p-4">
         <p className="font-heading font-bold text-black">NextGen Membership Transfer Pending</p>

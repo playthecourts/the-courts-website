@@ -163,12 +163,19 @@ export async function signup(_prevState: unknown, formData: FormData) {
           email: values.email,
           phone: values.phone || null,
           nextGenStatus: values.nextGenStatus === "new" ? null : (values.nextGenStatus as "former_nextgen" | "current_nextgen"),
-          nextGenVerification: values.nextGenStatus === "new" ? null : "unverified",
+          // Current NextGen is now fully honor-system, same as Former
+          // NextGen already was: self-reported at signup, checkout unlocks
+          // immediately at the standard $165 legacy rate, no admin
+          // verification gate. "verified" here just means "self-reported
+          // and trusted" — os/nextgen still lets staff cross-check against
+          // the historical member list after the fact, it just never blocks
+          // checkout anymore.
+          nextGenVerification: values.nextGenStatus === "new" ? null : "verified",
+          legacyRateCents: values.nextGenStatus === "current_nextgen" ? 16500 : null,
           // Current NextGen members automatically qualify as Founders — no
-          // 25-cap, no admin gate on the LABEL. Only their actual legacy
-          // RATE still needs admin assignment (legacyRateCents stays null
-          // here). Former NextGen only earns isFounder once admin
-          // verifies/links/approves them (os/nextgen/actions.ts).
+          // 25-cap, no gate on the LABEL. Former NextGen only earns
+          // isFounder once admin verifies/links/approves them
+          // (os/nextgen/actions.ts) — that side is unchanged.
           isFounder: values.nextGenStatus === "current_nextgen",
         },
       });
