@@ -63,12 +63,18 @@ export function WeekGrid({
               const key = d.toISOString().slice(0, 10);
               const isToday = key === todayKey;
               const isOpeningDay = key === OPENING_DAY;
+              const isBeforeOpening = key < OPENING_DAY;
               return (
-                <div key={key} className={`border-l border-gray-mid px-2 py-2 text-center ${isToday ? "bg-orange/5" : ""}`}>
-                  <p className={`os-eyebrow ${isToday ? "text-orange" : "text-neutral"}`}>
+                <div
+                  key={key}
+                  className={`border-l border-gray-mid px-2 py-2 text-center ${
+                    isBeforeOpening ? "bg-gray-light/70" : isToday ? "bg-orange/5" : ""
+                  }`}
+                >
+                  <p className={`os-eyebrow ${isBeforeOpening ? "text-gray-mid" : isToday ? "text-orange" : "text-neutral"}`}>
                     {new Intl.DateTimeFormat("en-US", { weekday: "short", timeZone: "UTC" }).format(d)}
                   </p>
-                  <p className={`os-num text-sm ${isToday ? "text-orange" : "text-near-black"}`}>
+                  <p className={`os-num text-sm ${isBeforeOpening ? "text-gray-mid" : isToday ? "text-orange" : "text-near-black"}`}>
                     {d.getUTCDate()}
                   </p>
                   {isOpeningDay && (
@@ -111,11 +117,14 @@ export function WeekGrid({
 
               // Side-by-side layout for cards that overlap in time.
               const laid = layout(dayCards);
+              const isBeforeOpening = key < OPENING_DAY;
 
               return (
                 <div
                   key={key}
-                  className={`relative border-l border-gray-mid ${key === todayKey ? "bg-orange/[0.03]" : ""}`}
+                  className={`relative border-l border-gray-mid ${
+                    isBeforeOpening ? "bg-gray-light/70" : key === todayKey ? "bg-orange/[0.03]" : ""
+                  }`}
                   style={{ height: GRID_HEIGHT }}
                 >
                   {hours.map((m) => (
