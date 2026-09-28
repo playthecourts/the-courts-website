@@ -146,14 +146,28 @@ export function WeekGrid({
                     // that instead of a generic "Facility closed" label that
                     // reads identically for every block, whatever it's for.
                     const label = b.note?.trim() || `${b.resourceName ?? "Facility"} closed`;
+                    // "Closed" reasons (holiday, cleaning — nothing
+                    // happening, facility's just shut) get the
+                    // diagonal-stripe pattern back; reasons where something
+                    // real IS using the time (a practice, a party) stay flat
+                    // gray, since that's not the same kind of "closed."
+                    const isHoliday = b.reason === "holiday" || b.reason === "maintenance";
                     return (
                       <div
                         key={b.id}
                         title={`${label} — ${b.reason.replace(/_/g, " ")}`}
-                        className="absolute inset-x-0.5 overflow-hidden rounded border border-gray-mid bg-gray-mid/40"
+                        className={`absolute inset-x-0.5 overflow-hidden rounded border border-gray-mid ${
+                          isHoliday
+                            ? "bg-[repeating-linear-gradient(45deg,var(--color-gray-light),var(--color-gray-light)_5px,var(--color-gray-mid)_5px,var(--color-gray-mid)_10px)]"
+                            : "bg-gray-mid/40"
+                        }`}
                         style={{ top: (s - DAY_START_MIN) * PX_PER_MIN, height: (e - s) * PX_PER_MIN }}
                       >
-                        <span className="os-heading block px-1 py-0.5 text-[11px] leading-tight font-bold text-near-black">
+                        <span
+                          className={`os-heading block px-1 py-0.5 text-[11px] leading-tight font-bold text-near-black ${
+                            isHoliday ? "bg-white/85" : ""
+                          }`}
+                        >
                           {label}
                         </span>
                       </div>
