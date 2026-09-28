@@ -60,12 +60,12 @@ export default async function CoachLayout({ children }: { children: React.ReactN
           <Image
             src="/brand/logo-horizontal-full-white.png"
             alt="The Courts"
-            width={104}
-            height={45}
+            width={140}
+            height={60}
             priority
-            className="h-7 w-auto"
+            className="h-10 w-auto"
           />
-          <span className="font-sport text-sm font-bold uppercase tracking-[0.18em] text-orange">
+          <span className="font-sport text-lg font-bold uppercase tracking-[0.18em] text-orange">
             Coach
           </span>
         </Link>
