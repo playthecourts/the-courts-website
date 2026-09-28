@@ -54,22 +54,22 @@ export default async function CoachLayout({ children }: { children: React.ReactN
 
       {/* Top bar. Deliberately dark and compact — it's a wayfinding strip,
           not a dashboard header, and it gives back vertical space on a phone. */}
-      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-black/40 bg-charcoal px-4 py-2.5">
+      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-black/40 bg-charcoal px-4 py-4">
         <Link href="/coach" className="flex items-center gap-2.5" aria-label="The Courts Coach — Today">
           <Image
             src="/brand/logo-horizontal-full-white.png"
             alt="The Courts"
-            width={140}
-            height={60}
+            width={180}
+            height={77}
             priority
-            className="h-10 w-auto"
+            className="h-14 w-auto"
           />
-          <span className="font-sport text-lg font-bold uppercase tracking-[0.18em] text-orange">
+          <span className="font-sport text-xl font-bold uppercase tracking-[0.18em] text-orange">
             Coach
           </span>
         </Link>
         <Link
-          href="/coach/more"
+          href="/coach"
           className="flex min-h-[36px] items-center rounded-full border border-white/15 px-3 font-sport text-[11.5px] font-bold uppercase tracking-wider text-white/70 hover:border-orange hover:text-orange"
         >
           {roleLabel}
