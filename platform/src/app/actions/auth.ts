@@ -236,6 +236,76 @@ export async function signup(_prevState: unknown, formData: FormData) {
   return { success: "Check your email to confirm your account, then sign in." };
 }
 
+const COACH_SPORTS = ["Basketball", "Volleyball", "Multi-Sport", "General"] as const;
+
+/// Coach self-serve signup — the parent-signup pattern (Supabase auth.signUp,
+/// the identities-length existing-account check, session-vs-email-confirm
+/// branching) is proven and correct, so this mirrors it rather than
+/// reinventing account creation a second way. The one deliberate difference:
+/// role is ALWAYS hardcoded to "coach" here, never read from the form. A
+/// signup form that let the submitter pick their own StaffRole would let
+/// anyone grant themselves admin/owner access to every family's data — a
+/// completely different (and unacceptable) problem from "let coaches set
+/// their own password," which is all this was ever asked to do.
+export async function coachSignup(_prevState: unknown, formData: FormData) {
+  if (looksLikeBot(formData)) {
+    console.warn("[coachSignup] rejected as likely bot");
+    return { error: "Something went wrong. Please refresh the page and try again." };
+  }
+
+  const name = ((formData.get("name") as string) || "").trim();
+  const email = ((formData.get("email") as string) || "").trim().toLowerCase();
+  const password = (formData.get("password") as string) || "";
+  const phone = ((formData.get("phone") as string) || "").trim() || null;
+  const sports = formData.getAll("sports").map(String).filter((s) => (COACH_SPORTS as readonly string[]).includes(s));
+
+  if (!name || !email || !password) {
+    return { error: "Fill in your name, email, and password." };
+  }
+  if (password.length < 8) {
+    return { error: "Password must be at least 8 characters." };
+  }
+  if (sports.length === 0) {
+    return { error: "Pick at least one sport you coach." };
+  }
+
+  const existing = await prisma.staffUser.findUnique({ where: { email } });
+  if (existing) {
+    return { error: "Looks like there's already a coach account with this email." };
+  }
+
+  const supabase = await createClient();
+  const { data, error: signUpError } = await supabase.auth.signUp({ email, password });
+  if (signUpError) return { error: signUpError.message };
+  if (!data.user) return { error: "Something went wrong creating your account. Try again." };
+  if (data.user.identities?.length === 0) {
+    return { error: "Looks like there's already an account with this email." };
+  }
+
+  try {
+    await prisma.staffUser.create({
+      data: {
+        authId: data.user.id,
+        name,
+        email,
+        phone,
+        role: "coach",
+        sports,
+        active: true,
+      },
+    });
+  } catch {
+    return {
+      error: "Your login was created, but we couldn't finish setting up your coach profile. Contact us and we'll fix it.",
+    };
+  }
+
+  if (data.session) {
+    redirect("/coach");
+  }
+  return { success: "Check your email to confirm your account, then sign in." };
+}
+
 export async function logout() {
   const supabase = await createClient();
   await supabase.auth.signOut();
