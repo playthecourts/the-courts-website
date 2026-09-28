@@ -96,7 +96,7 @@ export default async function CoachTodayPage() {
 
   return (
     <div>
-      <div className="mb-5">
+      <div className="mb-5 pt-4">
         <Eyebrow className="text-orange">{formatLongDate(now)}</Eyebrow>
         <h1 className="mt-1 font-display text-[28px] font-black uppercase leading-none tracking-tight text-near-black">
           {sessions.length > 0 ? "Your Court Today." : `Nothing on Deck, ${firstName}.`}
@@ -179,11 +179,10 @@ export default async function CoachTodayPage() {
       {/* Was its own "More" bottom-nav tab — folded in here since it kept
           showing up in the nav after being asked to move. */}
       <section className="mt-6">
-        <SectionHeading>More</SectionHeading>
+        <h2 className="mb-2 font-sport text-base font-bold uppercase tracking-[0.14em] text-gray-dark">More</h2>
         <Card className="mb-4 divide-y divide-gray-mid overflow-hidden">
           {(
             [
-              { href: "/coach/evaluations", label: "Evaluations", desc: "Skill notes you've started or need to finish." },
               { href: "/coach/open-shifts", label: "Open Shifts", desc: "Unstaffed sessions you can pick up." },
               {
                 href: "/coach/coverage",
@@ -191,6 +190,7 @@ export default async function CoachTodayPage() {
                 desc: isLeadership(actor) ? "Open requests and your own." : "Sessions you need covered, and ones assigned to you.",
               },
               { href: "/coach/time-off", label: "Time Off", desc: "Days you're not available to coach." },
+              { href: "/coach/evaluations", label: "Evaluations", desc: "Skill notes you've started or need to finish." },
             ] as { href: Route; label: string; desc: string }[]
           ).map((item) => (
             <Link key={item.href} href={item.href} className="flex items-center justify-between gap-3 px-4 py-4">
