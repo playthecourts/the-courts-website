@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { getCurrentCoach } from "@/lib/coach-dal";
+import type { Route } from "next";
+import { getCurrentCoach, isLeadership } from "@/lib/coach-dal";
 import { sessionsForDay, todayActionItems, confirmedCounts, sessionTitle, type CoachSession } from "@/lib/coach-queries";
 import { formatLongDate, formatTimeRange, formatTime } from "@/lib/coach-format";
 import { capacityLabel } from "@/lib/coach-status";
 import { Card, Eyebrow, EmptyState, ActionLink, SectionHeading, Pill } from "@/components/coach/ui";
+import { coachLogout } from "./more/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -174,6 +176,44 @@ export default async function CoachTodayPage() {
         </section>
       )}
 
+      {/* Was its own "More" bottom-nav tab — folded in here since it kept
+          showing up in the nav after being asked to move. */}
+      <section className="mt-6">
+        <SectionHeading>More</SectionHeading>
+        <Card className="mb-4 divide-y divide-gray-mid overflow-hidden">
+          {(
+            [
+              { href: "/coach/evaluations", label: "Evaluations", desc: "Skill notes you've started or need to finish." },
+              { href: "/coach/open-shifts", label: "Open Shifts", desc: "Unstaffed sessions you can pick up." },
+              {
+                href: "/coach/coverage",
+                label: "Coverage Requests",
+                desc: isLeadership(actor) ? "Open requests and your own." : "Sessions you need covered, and ones assigned to you.",
+              },
+              { href: "/coach/time-off", label: "Time Off", desc: "Days you're not available to coach." },
+            ] as { href: Route; label: string; desc: string }[]
+          ).map((item) => (
+            <Link key={item.href} href={item.href} className="flex items-center justify-between gap-3 px-4 py-4">
+              <span className="min-w-0">
+                <span className="block font-heading text-[15px] font-bold text-near-black">{item.label}</span>
+                <span className="mt-0.5 block truncate font-body text-[13px] text-gray-dark">{item.desc}</span>
+              </span>
+              <span aria-hidden="true" className="shrink-0 font-body text-lg text-gray-dark">
+                &rsaquo;
+              </span>
+            </Link>
+          ))}
+        </Card>
+
+        <form action={coachLogout}>
+          <button
+            type="submit"
+            className="flex min-h-[48px] w-full items-center justify-center rounded-lg border border-gray-mid bg-white px-4 font-heading text-sm font-bold uppercase tracking-wide text-near-black hover:border-near-black"
+          >
+            Sign Out
+          </button>
+        </form>
+      </section>
     </div>
   );
 }

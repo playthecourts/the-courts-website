@@ -43,7 +43,6 @@ export default async function CoachLayout({ children }: { children: React.ReactN
       label: showsTeams ? "Teams" : "Groups",
       icon: showsTeams ? "teams" : "groups",
     },
-    { href: "/coach/more", label: "More", icon: "more" },
   ];
 
   const roleLabel = ROLE_LABELS[actor.role] ?? "Coach";
