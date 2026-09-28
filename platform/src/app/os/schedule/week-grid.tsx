@@ -150,10 +150,10 @@ export function WeekGrid({
                       <div
                         key={b.id}
                         title={`${label} — ${b.reason.replace(/_/g, " ")}`}
-                        className="absolute inset-x-0.5 overflow-hidden rounded border border-gray-mid bg-[repeating-linear-gradient(45deg,var(--color-gray-light),var(--color-gray-light)_5px,var(--color-gray-mid)_5px,var(--color-gray-mid)_10px)]"
+                        className="absolute inset-x-0.5 overflow-hidden rounded border border-gray-mid bg-gray-mid/40"
                         style={{ top: (s - DAY_START_MIN) * PX_PER_MIN, height: (e - s) * PX_PER_MIN }}
                       >
-                        <span className="os-heading block truncate bg-white/85 px-1 py-0.5 text-[11px] font-bold text-near-black">
+                        <span className="os-heading block truncate px-1 py-0.5 text-[11px] font-bold text-near-black">
                           {label}
                         </span>
                       </div>
