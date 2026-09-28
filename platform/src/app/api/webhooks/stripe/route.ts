@@ -1,7 +1,11 @@
 import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
-import { sendRegistrationStaffAlert, sendRegistrationPaymentFailedAlert } from "@/lib/registration-notifications";
+import {
+  sendRegistrationStaffAlert,
+  sendRegistrationPaymentFailedAlert,
+  sendMembershipStaffAlert,
+} from "@/lib/registration-notifications";
 import type { MembershipStatus } from "@/generated/prisma/enums";
 
 // Stripe subscription statuses -> our MembershipStatus. `incomplete`/`incomplete_expired`
@@ -79,6 +83,15 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       stripeSubscriptionId: subscriptionId,
     },
   });
+
+  // Staff notification — every real way a family lands on a monthly plan
+  // (standalone checkout, League-bundled, NextGen legacy rate) funnels
+  // through this one primaryMembership.create() call, so one alert here
+  // covers all of them. Best-effort: never blocks or retries the real
+  // subscription, which is already correct by this point.
+  await sendMembershipStaffAlert(primaryMembership.id).catch((err) =>
+    console.error("sendMembershipStaffAlert failed", primaryMembership.id, err)
+  );
 
   // A Current-NextGen family's legacy-rate subscription (startNextGenLegacyCheckout)
   // keeps its self-reported rate only through Dec 31, 2026 — after that they're

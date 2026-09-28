@@ -9,7 +9,7 @@ import type { ScheduleCard, ClosureBand } from "@/lib/programs/schedule-view";
 // carries time, program, coach, court and fill in the space a marketing tile
 // would spend on a photograph.
 
-const DAY_START_MIN = 6 * 60;   // 6 AM
+const DAY_START_MIN = 9 * 60;   // 9 AM
 const DAY_END_MIN = 22 * 60;    // 10 PM
 const PX_PER_MIN = 1.1;         // ~66px per hour: a 60-min session is legible.
 const GRID_HEIGHT = (DAY_END_MIN - DAY_START_MIN) * PX_PER_MIN;
@@ -147,8 +147,12 @@ export function WeekGrid({
                   })}
 
                   {laid.map(({ card, col, cols }) => {
-                    const top = (card.startMinute - DAY_START_MIN) * PX_PER_MIN;
-                    const height = Math.max(26, card.durationMinutes * PX_PER_MIN - 2);
+                    // A handful of real camp sessions start at 8 AM, before
+                    // this grid's new 9 AM top edge — clamp rather than let
+                    // them render with a negative offset above the grid.
+                    const clampedStart = Math.max(card.startMinute, DAY_START_MIN);
+                    const top = (clampedStart - DAY_START_MIN) * PX_PER_MIN;
+                    const height = Math.max(26, (card.startMinute + card.durationMinutes - clampedStart) * PX_PER_MIN - 2);
                     const cancelled = card.status === "cancelled";
                     const isDraft = card.offeringStatus && card.offeringStatus !== "published";
                     const full = card.booked >= card.capacity;

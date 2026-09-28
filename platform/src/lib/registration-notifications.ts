@@ -231,3 +231,66 @@ export async function sendNewAccountStaffAlert(guardianId: string) {
 
   await sendEmail({ to: STAFF_INBOX, subject, html, text });
 }
+
+// Fires once, right after a real AthleteMembership row is created by the
+// Stripe webhook (checkout.session.completed, mode "subscription") — every
+// standalone membership checkout, the League-bundled one, and the
+// NextGen-legacy-rate one all funnel through that single call site, so this
+// one function covers every real way a family ends up on a monthly plan.
+// Same best-effort/staff-inbox pattern as every alert above: never blocks or
+// retries the real subscription, which is already correct in the database
+// and in Stripe by the time this runs.
+export async function sendMembershipStaffAlert(athleteMembershipId: string) {
+  const membership = await prisma.athleteMembership.findUnique({
+    where: { id: athleteMembershipId },
+    select: {
+      startDate: true,
+      plan: { select: { name: true, priceCents: true } },
+      athlete: {
+        select: {
+          firstName: true,
+          lastName: true,
+          family: {
+            select: {
+              name: true,
+              guardians: { select: { guardian: { select: { legacyRateCents: true } } } },
+            },
+          },
+        },
+      },
+    },
+  });
+  if (!membership) return;
+
+  const { athlete, plan } = membership;
+  const athleteName = `${athlete.firstName} ${athlete.lastName}`;
+  // The "NextGen Legacy Rate" plan is a $0 placeholder row (see auth.ts /
+  // memberships/actions.ts) — the real amount is per-guardian, on
+  // Guardian.legacyRateCents, not on the plan itself.
+  const legacyRateCents = athlete.family.guardians.find((g) => g.guardian.legacyRateCents != null)?.guardian
+    .legacyRateCents;
+  const priceLabel =
+    plan.priceCents && plan.priceCents > 0
+      ? `${formatCents(plan.priceCents)}/mo`
+      : legacyRateCents != null
+        ? `${formatCents(legacyRateCents)}/mo (NextGen legacy rate)`
+        : "price not set";
+
+  const familiesUrl = "https://app.playthecourts.com/os/families";
+  const subject = `New membership: ${athleteName} — ${plan.name}`;
+  const text = `${athleteName} (${athlete.family.name}) just subscribed to ${plan.name} at ${priceLabel}.\n\nView in Courts OS: ${familiesUrl}`;
+
+  const html = `
+<div style="font-family:Arial,Helvetica,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;color:#0D0D0D;">
+  <p style="font-size:16px;font-weight:700;margin:0 0 4px;">New membership: ${athleteName}</p>
+  <p style="font-size:13px;color:#343434;margin:0 0 16px;">${plan.name} &middot; ${athlete.family.name}</p>
+  <p style="font-size:15px;line-height:1.6;margin:0 0 20px;color:#1A1A1A;background:#F2EDE7;border-left:3px solid #DE5019;padding:12px 16px;border-radius:6px;">
+    ${priceLabel}
+  </p>
+  <a href="${familiesUrl}" style="display:inline-block;background:#DE5019;color:#FFFFFF;font-weight:700;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;text-decoration:none;padding:12px 24px;border-radius:999px;">
+    View in Courts OS &rarr;
+  </a>
+</div>`.trim();
+
+  await sendEmail({ to: STAFF_INBOX, subject, html, text });
+}
