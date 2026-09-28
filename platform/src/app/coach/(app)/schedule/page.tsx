@@ -103,6 +103,25 @@ export default async function CoachSchedulePage(props: PageProps<"/coach/schedul
         </div>
       )}
 
+      <div className="mb-5 flex flex-wrap gap-2">
+        {(
+          [
+            { href: "/coach/evaluations", label: "Evaluations" },
+            { href: "/coach/open-shifts", label: "Open Shifts" },
+            { href: "/coach/coverage", label: "Coverage" },
+            { href: "/coach/time-off", label: "Time Off" },
+          ] as { href: Route; label: string }[]
+        ).map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="flex min-h-[36px] items-center rounded-full border border-gray-mid bg-white px-3.5 font-sport text-xs font-bold uppercase tracking-wide text-gray-dark hover:border-near-black hover:text-near-black"
+          >
+            {item.label}
+          </Link>
+        ))}
+      </div>
+
       {sessions.length === 0 ? (
         <EmptyState
           title="Court's Quiet."
