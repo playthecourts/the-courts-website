@@ -191,12 +191,15 @@ export default async function MembershipsPage({
     }),
   ]);
 
-  // Founders isn't a publicly available plan — current/former NextGen
-  // families see it, a plain "New to The Courts" signup never does. Filtered
-  // once, here, so both the main picker and "Change Plan" inherit the rule
-  // automatically instead of needing the same check twice.
-  const eligibleForFounders =
-    guardian.nextGenStatus === "current_nextgen" || guardian.nextGenStatus === "former_nextgen";
+  // Founders was retired as a checkout option for former-NextGen families
+  // going forward — everyone new just pays standard Unlimited ($200/mo).
+  // Only the guardians already admin-approved as Founders before that
+  // decision (isFounder: true) keep access to it, so the honor-system
+  // signup path doesn't hand out new $185 Founders subscriptions anymore.
+  // Current-NextGen guardians never reach this picker for their legacy rate
+  // (that's startNextGenLegacyCheckout, a separate ad-hoc-priced flow) — this
+  // only gates whether Founders shows up here at all.
+  const eligibleForFounders = guardian.nextGenStatus === "former_nextgen" && guardian.isFounder;
   const plans = eligibleForFounders ? allPlans : allPlans.filter((p) => p.name !== "Founders Membership");
 
   // Most recent row per athlete wins — an athlete can accumulate more than
