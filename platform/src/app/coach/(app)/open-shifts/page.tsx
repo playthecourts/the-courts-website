@@ -14,11 +14,21 @@ export default async function OpenShiftsPage() {
   // naturally limited to sports you actually coach. Admin sees everything.
   const sports = actor.sports;
 
+  // "Staff Member" is the generic placeholder used on camps/events whose
+  // real coach isn't confirmed yet (see the batch swap earlier this
+  // session) — Melissa's own words: those are "also unassigned." A session
+  // whose only coach is that placeholder counts as open, same as one with
+  // no coach at all.
+  const staffMember = await prisma.staffUser.findFirst({ where: { name: "Staff Member" }, select: { id: true } });
+
   const sessions = await prisma.session.findMany({
     where: {
       status: "scheduled",
       startTime: { gte: new Date() },
-      coaches: { none: {} },
+      OR: [
+        { coaches: { none: {} } },
+        ...(staffMember ? [{ coaches: { every: { staffUserId: staffMember.id } } }] : []),
+      ],
       ...(actor.isAdmin || sports.length === 0 ? {} : { program: { sport: { in: sports } } }),
     },
     orderBy: { startTime: "asc" },
@@ -29,12 +39,13 @@ export default async function OpenShiftsPage() {
       endTime: true,
       program: { select: { name: true, sport: true } },
       resource: { select: { name: true } },
+      coaches: { select: { staff: { select: { name: true } } } },
     },
   });
 
   return (
     <div>
-      <PageTitle eyebrow="Staffing" sub="Sessions with no coach assigned yet — claim one to be added.">
+      <PageTitle eyebrow="Staffing" sub="Sessions with no real coach confirmed yet — claim one to be added.">
         Open Shifts
       </PageTitle>
 
@@ -50,6 +61,9 @@ export default async function OpenShiftsPage() {
                   {formatLongDate(s.startTime)} · {formatTimeRange(s.startTime, s.endTime)}
                 </p>
                 {s.resource && <p className="mt-0.5 font-body text-[13px] text-gray-dark">{s.resource.name}</p>}
+                {s.coaches.length > 0 && (
+                  <p className="mt-0.5 font-body text-[13px] text-orange">Placeholder — no real coach confirmed</p>
+                )}
               </div>
               <ClaimShiftButton sessionId={s.id} />
             </Card>
