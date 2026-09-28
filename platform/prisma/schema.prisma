@@ -58,6 +58,12 @@ model Guardian {
   /// monthly billing day instead of a flat Oct 1 anchor for everyone.
   /// Null falls back to the flat MEMBERSHIP_START anchor.
   legacyBillingAnchorDay Int? @map("legacy_billing_anchor_day")
+  /// Set the one time the NextGen "complete your transfer" reminder email
+  /// goes out (cron/nextgen-reminder) — never re-sent after this. There was
+  /// no nudge of any kind before this: an approved family with no active
+  /// membership yet could sit indefinitely with zero pressure to finish
+  /// checkout, which is the real gap this closes.
+  nextGenReminderSentAt DateTime? @map("next_gen_reminder_sent_at")
 
   families         FamilyGuardian[]
   matchedNextGenRecords NextGenRecord[]
