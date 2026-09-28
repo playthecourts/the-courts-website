@@ -35,7 +35,7 @@ export default async function CoachLayout({ children }: { children: React.ReactN
   const showsTeams = teamCount > 0 || isLeadership(actor);
 
   const navItems: CoachNavItem[] = [
-    { href: "/coach", label: "Today", icon: "today" },
+    { href: "/coach", label: "Overview", icon: "today" },
     { href: "/coach/schedule", label: "Schedule", icon: "schedule" },
     { href: "/coach/athletes", label: "Athletes", icon: "athletes" },
     {
