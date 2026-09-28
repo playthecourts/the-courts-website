@@ -50,10 +50,12 @@ export type ScheduleFilters = {
 /// Monday-anchored week containing `date`. The facility thinks in weeks that
 /// start Monday even though the credit accounting is Sunday-anchored; these are
 /// different questions and both are correct for their own purpose.
+/// Sunday–Saturday, matching how Melissa actually reads the OS schedule
+/// (and how every other calendar in this app already runs — Explore's
+/// booking calendar, the day-of-week grids elsewhere all start on Sunday).
 export function weekStart(date: Date): Date {
   const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
-  const dow = d.getUTCDay();
-  d.setUTCDate(d.getUTCDate() - (dow === 0 ? 6 : dow - 1));
+  d.setUTCDate(d.getUTCDate() - d.getUTCDay());
   return d;
 }
 

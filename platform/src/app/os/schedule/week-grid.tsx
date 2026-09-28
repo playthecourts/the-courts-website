@@ -13,6 +13,7 @@ const DAY_START_MIN = 6 * 60;   // 6 AM
 const DAY_END_MIN = 22 * 60;    // 10 PM
 const PX_PER_MIN = 1.1;         // ~66px per hour: a 60-min session is legible.
 const GRID_HEIGHT = (DAY_END_MIN - DAY_START_MIN) * PX_PER_MIN;
+const OPENING_DAY = "2026-10-01";
 
 const SPORT_ACCENT: Record<string, string> = {
   Basketball: "border-l-orange",
@@ -61,6 +62,7 @@ export function WeekGrid({
             {days.map((d) => {
               const key = d.toISOString().slice(0, 10);
               const isToday = key === todayKey;
+              const isOpeningDay = key === OPENING_DAY;
               return (
                 <div key={key} className={`border-l border-gray-mid px-2 py-2 text-center ${isToday ? "bg-orange/5" : ""}`}>
                   <p className={`os-eyebrow ${isToday ? "text-orange" : "text-neutral"}`}>
@@ -69,6 +71,11 @@ export function WeekGrid({
                   <p className={`os-num text-sm ${isToday ? "text-orange" : "text-near-black"}`}>
                     {d.getUTCDate()}
                   </p>
+                  {isOpeningDay && (
+                    <p className="os-eyebrow mt-0.5 rounded-full bg-orange px-1.5 py-0.5 text-[9px] leading-none text-white">
+                      Opening Day
+                    </p>
+                  )}
                 </div>
               );
             })}
