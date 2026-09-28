@@ -45,7 +45,7 @@ function Pill({ tone, children }: { tone: "in" | "pending" | "placed" | "neutral
 const WHATS_AHEAD = (
   <div className="flex flex-col gap-1.5 font-body text-sm text-gray-dark">
     <p>
-      <span className="font-bold text-black">Practices begin Thursday, October 8.</span> Thursdays at The Courts —
+      <span className="font-bold text-black">Practices begin Thursday, October 15.</span> Thursdays at The Courts —
       3rd/4th Grade, 5:45&ndash;7:00 PM; 6th/7th Grade, 7:00&ndash;8:15 PM.
     </p>
     <p><span className="font-bold text-black">First games: October 24.</span> Saturday games are played at WNSL locations throughout West Nashville and Brentwood.</p>
@@ -218,7 +218,7 @@ export default async function LeaguePage({
                 {/* "What's Included"/"What's Ahead" only apply to someone who
                     can actually register for Fall right now — once Fall has
                     closed, this family hasn't registered and only raised a
-                    hand for Winter, so showing Fall's real Oct 8/Oct 24 dates
+                    hand for Winter, so showing Fall's real Oct 15/Oct 24 dates
                     here reads as if they're already in. */}
                 {canRegister && (
                   <>
