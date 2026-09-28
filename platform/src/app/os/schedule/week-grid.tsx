@@ -101,7 +101,10 @@ export function WeekGrid({
 
             {days.map((d) => {
               const key = d.toISOString().slice(0, 10);
-              const dayCards = cards.filter((c) => c.dayKey === key);
+              // Cancelled sessions used to still render, dimmed and struck
+              // through — Melissa wants the week grid to only show what's
+              // actually happening, not a record of what got cancelled.
+              const dayCards = cards.filter((c) => c.dayKey === key && c.status !== "cancelled");
               const dayClosures = closures.filter(
                 (b) => new Date(b.start) < new Date(`${key}T23:59:59Z`) && new Date(b.end) > new Date(`${key}T00:00:00Z`)
               );

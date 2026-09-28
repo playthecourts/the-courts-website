@@ -44,7 +44,10 @@ function Pill({ tone, children }: { tone: "in" | "pending" | "placed" | "neutral
 
 const WHATS_AHEAD = (
   <div className="flex flex-col gap-1.5 font-body text-sm text-gray-dark">
-    <p><span className="font-bold text-black">Practices begin Thursday, October 8.</span> Practices are on Thursdays.</p>
+    <p>
+      <span className="font-bold text-black">Practices begin Thursday, October 8.</span> Thursdays at The Courts —
+      3rd/4th Grade, 5:45&ndash;7:00 PM; 6th/7th Grade, 7:00&ndash;8:15 PM.
+    </p>
     <p><span className="font-bold text-black">First games: October 24.</span> Saturday games are played at WNSL locations throughout West Nashville and Brentwood.</p>
   </div>
 );
@@ -231,7 +234,10 @@ export default async function LeaguePage({
                     <div className="border-t border-gray-mid pt-4">
                       <p className="mb-2 font-sport text-xs font-bold uppercase tracking-wide text-orange">What&rsquo;s Ahead</p>
                       {WHATS_AHEAD}
-                      <p className="mt-1 font-body text-sm text-gray-dark">Practice times are TBD and will be shared after team placement.</p>
+                      <p className="mt-1 font-body text-sm text-gray-dark">
+                        Practices are Thursdays — 3rd/4th Grade, 5:45&ndash;7:00 PM; 6th/7th Grade, 7:00&ndash;8:15 PM.
+                        Which team you&rsquo;re on is shared after placement.
+                      </p>
                     </div>
                   </>
                 )}
