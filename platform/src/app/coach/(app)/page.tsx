@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getCurrentCoach, isLeadership } from "@/lib/coach-dal";
+import { getCurrentCoach } from "@/lib/coach-dal";
 import { sessionsForDay, todayActionItems, confirmedCounts, sessionTitle, type CoachSession } from "@/lib/coach-queries";
 import { formatLongDate, formatTimeRange, formatTime } from "@/lib/coach-format";
 import { capacityLabel } from "@/lib/coach-status";
@@ -174,13 +174,6 @@ export default async function CoachTodayPage() {
         </section>
       )}
 
-      {isLeadership(actor) && (
-        <div className="mt-6">
-          <ActionLink href="/coach/dashboard" variant="secondary">
-            {actor.isAdmin ? "Courts Operations" : `${actor.scopedSports.join(" & ")} Today`}
-          </ActionLink>
-        </div>
-      )}
     </div>
   );
 }

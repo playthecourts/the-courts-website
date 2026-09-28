@@ -13,7 +13,7 @@ export function Eyebrow({
   className?: string;
 }) {
   return (
-    <p className={`font-sport text-xs font-bold uppercase tracking-[0.14em] ${className}`}>
+    <p className={`font-sport text-sm font-bold uppercase tracking-[0.14em] ${className}`}>
       {children}
     </p>
   );

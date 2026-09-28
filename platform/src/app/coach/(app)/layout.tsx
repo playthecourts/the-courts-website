@@ -65,7 +65,7 @@ export default async function CoachLayout({ children }: { children: React.ReactN
             priority
             className="h-7 w-auto"
           />
-          <span className="font-sport text-[11.5px] font-bold uppercase tracking-[0.18em] text-orange">
+          <span className="font-sport text-sm font-bold uppercase tracking-[0.18em] text-orange">
             Coach
           </span>
         </Link>
