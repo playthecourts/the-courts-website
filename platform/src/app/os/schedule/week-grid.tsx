@@ -153,7 +153,7 @@ export function WeekGrid({
                         className="absolute inset-x-0.5 overflow-hidden rounded border border-gray-mid bg-gray-mid/40"
                         style={{ top: (s - DAY_START_MIN) * PX_PER_MIN, height: (e - s) * PX_PER_MIN }}
                       >
-                        <span className="os-heading block truncate px-1 py-0.5 text-[11px] font-bold text-near-black">
+                        <span className="os-heading block px-1 py-0.5 text-[11px] leading-tight font-bold text-near-black">
                           {label}
                         </span>
                       </div>
