@@ -132,15 +132,20 @@ export function WeekGrid({
                     const s = Math.max(DAY_START_MIN, minutesOfDay(b.start, key));
                     const e = Math.min(DAY_END_MIN, minutesOfDay(b.end, key, true));
                     if (e <= s) return null;
+                    // A block's note is the actual reason someone set it
+                    // aside ("Fall League Practice — 3rd/4th Grade") — show
+                    // that instead of a generic "Facility closed" label that
+                    // reads identically for every block, whatever it's for.
+                    const label = b.note?.trim() || `${b.resourceName ?? "Facility"} closed`;
                     return (
                       <div
                         key={b.id}
-                        title={`${b.resourceName ?? "Facility"} closed — ${b.reason.replace(/_/g, " ")}`}
-                        className="absolute inset-x-0.5 rounded bg-[repeating-linear-gradient(45deg,transparent,transparent_5px,var(--color-gray-mid)_5px,var(--color-gray-mid)_10px)] opacity-60"
+                        title={`${label} — ${b.reason.replace(/_/g, " ")}`}
+                        className="absolute inset-x-0.5 overflow-hidden rounded border border-gray-mid bg-[repeating-linear-gradient(45deg,var(--color-gray-light),var(--color-gray-light)_5px,var(--color-gray-mid)_5px,var(--color-gray-mid)_10px)]"
                         style={{ top: (s - DAY_START_MIN) * PX_PER_MIN, height: (e - s) * PX_PER_MIN }}
                       >
-                        <span className="os-eyebrow block px-1 pt-0.5 text-gray-dark">
-                          {b.resourceName ?? "Facility"} closed
+                        <span className="os-heading block truncate bg-white/85 px-1 py-0.5 text-[11px] font-bold text-near-black">
+                          {label}
                         </span>
                       </div>
                     );
