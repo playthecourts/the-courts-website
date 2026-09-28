@@ -179,26 +179,35 @@ export default async function LeaguePage({
             {!registration && (
               <div className="mt-4 flex flex-col gap-5">
                 <div>
-                  <p className="font-heading text-base font-bold text-black">{athlete.firstName} Isn&rsquo;t Registered Yet</p>
                   {canRegister ? (
                     <>
+                      <p className="font-heading text-base font-bold text-black">{athlete.firstName} Isn&rsquo;t Registered Yet</p>
                       <p className="mt-0.5 font-body text-sm text-gray-dark">Want in for Fall?</p>
                       <div className="mt-3">
                         <LeaguePaymentForm athleteId={athlete.id} />
                       </div>
                     </>
+                  ) : winterInterestLeads.some((l) => l.name === `${athlete.firstName} ${athlete.lastName}`) ? (
+                    <>
+                      {/* Once they're on the Winter list, "Isn't Registered
+                          Yet" no longer fits — Fall is closed for good, so
+                          "yet" reads as if it's still pending. The confirmed
+                          state here is being on the Winter list, not a gap. */}
+                      <p className="font-heading text-base font-bold text-black">{athlete.firstName}&rsquo;s on the Winter List</p>
+                      <p className="mt-0.5 font-body text-sm text-gray-dark">Fall League registration has closed.</p>
+                      <p className="mt-3 rounded-lg border border-orange bg-white px-4 py-3 font-body text-sm text-black">
+                        You&rsquo;re on the list — we&rsquo;ll reach out with Winter League details.
+                      </p>
+                    </>
                   ) : (
                     <>
+                      <p className="font-heading text-base font-bold text-black">Fall League Registration Has Closed</p>
                       <p className="mt-0.5 font-body text-sm text-gray-dark">
-                        Fall League registration has closed. Raise your hand for Winter and we&rsquo;ll be in touch.
+                        Raise your hand for Winter and we&rsquo;ll be in touch.
                       </p>
-                      {winterInterestLeads.some((l) => l.name === `${athlete.firstName} ${athlete.lastName}`) ? (
-                        <p className="mt-3 rounded-lg border border-orange bg-white px-4 py-3 font-body text-sm text-black">
-                          You&rsquo;re on the list — we&rsquo;ll reach out with Winter League details.
-                        </p>
-                      ) : (
+                      <div className="mt-3">
                         <WinterLeagueInterestForm athleteId={athlete.id} />
-                      )}
+                      </div>
                     </>
                   )}
                 </div>

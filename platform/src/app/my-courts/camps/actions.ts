@@ -2,6 +2,7 @@
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { stripe, getOrCreateStripeCustomer } from "@/lib/stripe";
@@ -157,4 +158,10 @@ export async function cancelCampRegistration(formData: FormData) {
     where: { offeringId, athleteId, status: { not: "cancelled" }, paymentStatus: { not: "paid" } },
     data: { status: "cancelled", cancelledAt: new Date() },
   });
+
+  // Real bug fix: this update was landing in the database every time, but
+  // nothing ever told the page to re-render, so clicking Cancel looked like
+  // it did nothing even though the registration really was cancelled.
+  revalidatePath("/my-courts/camps");
+  revalidatePath("/my-courts");
 }

@@ -71,17 +71,8 @@ export default async function MyCourtsSchedulePage({
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div>
         <h1 className="font-display text-2xl font-black text-black">Schedule</h1>
-        {/* Always here, not just in the empty state below — once you have
-            even one booking there was previously no way back to Explore
-            to book another class. */}
-        <a
-          href="/my-courts/explore"
-          className="inline-flex items-center gap-2 rounded-full bg-orange px-5 py-2.5 font-sport text-xs font-bold uppercase tracking-wide text-white"
-        >
-          Find a Session &rarr;
-        </a>
       </div>
 
       {checkout === "success" && (
@@ -102,8 +93,7 @@ export default async function MyCourtsSchedulePage({
         <div className="rounded-2xl border border-gray-mid bg-white p-6 text-center md:p-8">
           <p className="font-display text-lg font-black text-black md:text-xl">Nothing Booked Yet</p>
           <p className="mx-auto mt-2 max-w-[46ch] font-body text-sm text-gray-dark">
-            Group training, open gym, Dr. Dish and more are open for booking now. Find a session and
-            grab a spot.
+            Group training, open gym, Dr. Dish and more are open for booking now.
           </p>
         </div>
       ) : (
@@ -172,6 +162,22 @@ export default async function MyCourtsSchedulePage({
           ))}
         </div>
       )}
+
+      {/* The stronger, single CTA — moved down from a small header pill to
+          its own prominent block after whatever's already booked, so it
+          reads as "what's next" rather than competing with the page title. */}
+      <div className="flex flex-col items-center gap-3 rounded-2xl bg-black px-6 py-8 text-center md:py-10">
+        <p className="font-display text-xl font-black text-white md:text-2xl">Get on the Court</p>
+        <p className="max-w-[46ch] font-body text-sm text-white/70">
+          Group training, open gym, Dr. Dish and more are open for booking now.
+        </p>
+        <a
+          href="/my-courts/explore"
+          className="mt-1 inline-flex items-center gap-2 rounded-full bg-orange px-8 py-4 font-sport text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-orange-hover"
+        >
+          Find a Session &rarr;
+        </a>
+      </div>
     </div>
   );
 }

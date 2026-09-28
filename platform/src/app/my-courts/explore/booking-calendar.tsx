@@ -41,6 +41,15 @@ function todayUTC() {
   return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
 }
 
+// The facility opens October 1, 2026 — September has nothing to show, so the
+// calendar shouldn't default to opening on it. Once today is October or
+// later, this is just today, same as before; nothing to revisit after launch.
+const OPENING_DATE = new Date(Date.UTC(2026, 9, 1));
+function defaultCalendarDate(): Date {
+  const today = todayUTC();
+  return today < OPENING_DATE ? OPENING_DATE : today;
+}
+
 // Same offering, same day collapses into one group, same rule the main
 // Explore list uses (groupByOfferingAndDay in page.tsx) — Dr. Dish's 30-min
 // self-serve slots read as one block instead of a wall of near-identical cards.
@@ -56,8 +65,8 @@ function groupByOffering(cards: Card[]): Card[][] {
 
 export function BookingCalendar({ bookings, cards }: { bookings: UpcomingBooking[]; cards: Card[] }) {
   const [mode, setMode] = useState<"month" | "week">("month");
-  const [cursor, setCursor] = useState<Date>(todayUTC());
-  const [selectedDay, setSelectedDay] = useState<string>(dateKey(todayUTC()));
+  const [cursor, setCursor] = useState<Date>(defaultCalendarDate());
+  const [selectedDay, setSelectedDay] = useState<string>(dateKey(defaultCalendarDate()));
 
   const cardsByDay = useMemo(() => {
     const map = new Map<string, Card[]>();

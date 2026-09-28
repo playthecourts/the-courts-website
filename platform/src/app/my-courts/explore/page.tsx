@@ -38,19 +38,18 @@ function monthRange(monthKey: string): { from: Date; to: Date } {
   return { from, to };
 }
 
-function monthKeyFor(date: Date) {
-  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
-}
-
 function monthLabel(monthKey: string) {
   const [y, m] = monthKey.split("-").map(Number);
   return new Intl.DateTimeFormat("en-US", { month: "long", timeZone: "UTC" }).format(new Date(Date.UTC(y, m - 1, 1)));
 }
 
-// Just the current month for now — more months can join this list later
-// once there's actually something to browse further out.
+// No month chip for now — with only a couple of days left in the current
+// month, monthRange() clamps its range to today through month-end, which
+// reads as a near-empty dead-end filter. The Book page calendar sidebar
+// already covers full-month browsing (see booking-calendar.tsx); this row
+// can pick back up with real upcoming months once there's more to browse.
 function upcomingMonthKeys(): string[] {
-  return [monthKeyFor(new Date())];
+  return [];
 }
 
 function Chip({
