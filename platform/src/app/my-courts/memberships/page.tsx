@@ -49,13 +49,13 @@ const PLAN_COPY: Record<string, { tagline: string; description: string; mostPopu
     tagline: "Bring the whole crew.",
     description: "Unlimited group training and quarterly progress updates for 2 athletes. Add more for $100/mo each.",
   },
-  "Founders Membership": {
+  "NextGen Formers Membership": {
     tagline: "You were here first.",
-    description: "Everything in Unlimited, at your Founding Member rate.",
+    description: "Everything in Unlimited, at your NextGen Formers rate.",
   },
 };
 
-const FOUNDERS_ELIGIBILITY_NOTE =
+const FORMERS_ELIGIBILITY_NOTE =
   "Exclusive to qualifying current and former NextGen families. Eligibility will be confirmed after signup.";
 
 type PlanRow = { id: string; name: string; priceCents: number; billingInterval: string };
@@ -75,7 +75,7 @@ function PlanCard({
   /// the real amount lives on Guardian.legacyRateCents, threaded in here so
   /// it displays correctly instead of "$0.00/mo".
   priceOverrideCents?: number;
-  /// A small print line under the description — used for Founders'
+  /// A small print line under the description — used for NextGen Formers'
   /// eligibility disclaimer while verification runs on the honor system.
   note?: string;
 }) {
@@ -191,16 +191,16 @@ export default async function MembershipsPage({
     }),
   ]);
 
-  // Founders was retired as a checkout option for former-NextGen families
-  // going forward — everyone new just pays standard Unlimited ($200/mo).
-  // Only the guardians already admin-approved as Founders before that
-  // decision (isFounder: true) keep access to it, so the honor-system
-  // signup path doesn't hand out new $185 Founders subscriptions anymore.
+  // NextGen Formers was retired as a checkout option for former-NextGen
+  // families going forward — everyone new just pays standard Unlimited
+  // ($200/mo). Only the guardians already admin-approved as Formers before
+  // that decision (isFounder: true) keep access to it, so the honor-system
+  // signup path doesn't hand out new $185 Formers subscriptions anymore.
   // Current-NextGen guardians never reach this picker for their legacy rate
   // (that's startNextGenLegacyCheckout, a separate ad-hoc-priced flow) — this
-  // only gates whether Founders shows up here at all.
-  const eligibleForFounders = guardian.nextGenStatus === "former_nextgen" && guardian.isFounder;
-  const plans = eligibleForFounders ? allPlans : allPlans.filter((p) => p.name !== "Founders Membership");
+  // only gates whether NextGen Formers shows up here at all.
+  const eligibleForFormers = guardian.nextGenStatus === "former_nextgen" && guardian.isFounder;
+  const plans = eligibleForFormers ? allPlans : allPlans.filter((p) => p.name !== "NextGen Formers Membership");
 
   // Most recent row per athlete wins — an athlete can accumulate more than
   // one AthleteMembership over time (cancelled, then later resubscribed),
@@ -270,8 +270,8 @@ export default async function MembershipsPage({
             itemName={purchasedPlanName ?? "Membership"}
           />
           <p className="rounded-lg border border-orange bg-white px-4 py-3 font-body text-sm text-black">
-            {purchasedPlanName === "Founders Membership" || purchasedPlanName === "NextGen Legacy Rate"
-              ? "You're in — your Founders Membership is active. We'll confirm your NextGen Founding Member status behind the scenes. If we need anything from you, we'll reach out."
+            {purchasedPlanName === "NextGen Formers Membership" || purchasedPlanName === "NextGen Legacy Rate"
+              ? "You're in — your NextGen Formers Membership is active. We'll confirm your NextGen Formers status behind the scenes. If we need anything from you, we'll reach out."
               : "You're in — your Membership is active."}
           </p>
         </>
@@ -320,8 +320,8 @@ export default async function MembershipsPage({
                           key={plan.id}
                           plan={plan}
                           cta={planCta(athlete.id, plan)}
-                          badge={plan.name === "Founders Membership" ? "Founding Member Rate" : undefined}
-                          note={plan.name === "Founders Membership" ? FOUNDERS_ELIGIBILITY_NOTE : undefined}
+                          badge={plan.name === "NextGen Formers Membership" ? "NextGen Formers Rate" : undefined}
+                          note={plan.name === "NextGen Formers Membership" ? FORMERS_ELIGIBILITY_NOTE : undefined}
                         />
                       ))
                     )}
@@ -370,8 +370,8 @@ export default async function MembershipsPage({
                             key={plan.id}
                             plan={plan}
                             cta={planCta(athlete.id, plan)}
-                            badge={plan.name === "Founders Membership" ? "Founding Member Rate" : undefined}
-                            note={plan.name === "Founders Membership" ? FOUNDERS_ELIGIBILITY_NOTE : undefined}
+                            badge={plan.name === "NextGen Formers Membership" ? "NextGen Formers Rate" : undefined}
+                            note={plan.name === "NextGen Formers Membership" ? FORMERS_ELIGIBILITY_NOTE : undefined}
                           />
                         ))}
                       </>
@@ -436,8 +436,8 @@ export default async function MembershipsPage({
                                 <PlanCard
                                   key={plan.id}
                                   plan={plan}
-                                  badge={plan.name === "Founders Membership" ? "Founding Member Rate" : undefined}
-                                  note={plan.name === "Founders Membership" ? FOUNDERS_ELIGIBILITY_NOTE : undefined}
+                                  badge={plan.name === "NextGen Formers Membership" ? "NextGen Formers Rate" : undefined}
+                                  note={plan.name === "NextGen Formers Membership" ? FORMERS_ELIGIBILITY_NOTE : undefined}
                                   cta={
                                     <form action={changeMembershipTier.bind(null, membership!.id, plan.id)}>
                                       <button

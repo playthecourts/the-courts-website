@@ -11,7 +11,7 @@ import { auditLog } from "@/lib/audit";
 /// someone was confirmed. Same consequence either way: keeps the $165 rate,
 /// no billing change. Never touches Stripe — a former_nextgen guardian
 /// already self-served checkout at signup with their price already known.
-export async function approveAsFounderAnyway(guardianId: string) {
+export async function approveAsFormerAnyway(guardianId: string) {
   const actor = await requireCapability("nextgen.verify");
 
   const guardian = await prisma.guardian.findUniqueOrThrow({ where: { id: guardianId } });
@@ -43,17 +43,17 @@ export async function requestMoreInfo(guardianId: string, formData: FormData) {
   revalidatePath("/os/nextgen");
 }
 
-/// The non-punitive outcome when Founder status genuinely can't be
+/// The non-punitive outcome when Former status genuinely can't be
 /// confirmed: never cancels, never refunds, never charges the difference
 /// immediately. proration_behavior: "none" on a mid-cycle price swap is the
 /// same idiom already used for Oct-1 billing_cycle_anchor elsewhere in this
 /// codebase, applied here to a downgrade instead of a start date — the
 /// current paid period is untouched, only the NEXT invoice reflects the new
-/// price. Works for either a Founders ($165 fixed) or NextGen Legacy Rate
-/// (ad-hoc-priced) subscription — whichever this guardian actually has.
+/// price. Works for either NextGen Formers ($185 fixed) or NextGen Legacy
+/// Rate (ad-hoc-priced) subscription — whichever this guardian actually has.
 /// Shared by moveToUnlimited (former_nextgen, usually already subscribed)
 /// and denyLegacyRate (current_nextgen, usually pre-checkout): if a real
-/// paid subscription exists on the Founders/Legacy price, swap it to
+/// paid subscription exists on the Formers/Legacy price, swap it to
 /// Unlimited with no proration — the current paid period is untouched, only
 /// the next invoice reflects the new price. If no subscription exists yet,
 /// there's nothing in Stripe to touch.
@@ -62,7 +62,7 @@ async function switchGuardianToUnlimited(guardianId: string) {
     where: {
       status: { in: ["active", "past_due"] },
       stripeSubscriptionId: { not: null },
-      plan: { name: { in: ["Founders Membership", "NextGen Legacy Rate"] } },
+      plan: { name: { in: ["NextGen Formers Membership", "NextGen Legacy Rate"] } },
       athlete: { family: { guardians: { some: { guardianId } } } },
     },
   });
@@ -109,10 +109,10 @@ export async function moveToUnlimited(guardianId: string) {
 
 /// The "Deny" half of the approve/deny pair on a Current NextGen guardian's
 /// proposed rate. Distinct from moveToUnlimited (worded for an already-
-/// subscribed Founder) because most Current NextGen guardians haven't
+/// subscribed Former) because most Current NextGen guardians haven't
 /// checked out yet — there's usually nothing in Stripe to move, just a
 /// proposed rate to clear so it doesn't linger in the "Rate $" field. If
-/// they'd already subscribed on a Founders/Legacy price before being
+/// they'd already subscribed on a Formers/Legacy price before being
 /// denied, this still swaps them to Unlimited with no proration, same as
 /// moveToUnlimited — never a refund or a claw-back.
 export async function denyLegacyRate(guardianId: string) {
@@ -251,7 +251,7 @@ const NEXTGEN_RATES = [16500, 18500, 20000] as const;
 /// Every approve/deny outcome funnels through here now, so the label a
 /// guardian carries and what their real Stripe subscription charges can
 /// never drift apart again (that gap is exactly what happened to Jeremy
-/// Jenkins — approved as Founder while still billed at Unlimited). Staff
+/// Jenkins — approved as a Former while still billed at Unlimited). Staff
 /// pick the real number; this makes it true everywhere at once.
 export async function setNextGenApprovedRate(guardianId: string, formData: FormData) {
   const actor = await requireCapability("nextgen.verify");
@@ -266,13 +266,13 @@ export async function setNextGenApprovedRate(guardianId: string, formData: FormD
     throw new Error("This guardian never self-reported a NextGen status.");
   }
 
-  const [founders, unlimited, legacy] = await Promise.all([
-    prisma.membershipPlan.findFirstOrThrow({ where: { name: "Founders Membership" } }),
+  const [formers, unlimited, legacy] = await Promise.all([
+    prisma.membershipPlan.findFirstOrThrow({ where: { name: "NextGen Formers Membership" } }),
     prisma.membershipPlan.findFirstOrThrow({ where: { name: "Unlimited Membership" } }),
     prisma.membershipPlan.findFirstOrThrow({ where: { name: "NextGen Legacy Rate" } }),
   ]);
 
-  const targetPlan = rateCents === 18500 ? founders : rateCents === 20000 ? unlimited : legacy;
+  const targetPlan = rateCents === 18500 ? formers : rateCents === 20000 ? unlimited : legacy;
 
   const membership = await prisma.athleteMembership.findFirst({
     where: {

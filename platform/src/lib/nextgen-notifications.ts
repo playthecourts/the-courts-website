@@ -46,7 +46,7 @@ export async function sendNextGenReminderEmails(): Promise<{ sent: number; skipp
     const rateLine =
       isCurrent && g.legacyRateCents != null
         ? `Your confirmed rate is ${formatCents(g.legacyRateCents)}/mo — the same as your NextGen rate, carried over.`
-        : "You're approved for Founders Membership at $165/mo — exclusive to former NextGen families.";
+        : "You're approved for NextGen Formers Membership at $185/mo — exclusive to former NextGen families.";
 
     const subject = "Your NextGen membership transfer is ready to complete";
     const text = `Hi ${g.name.split(" ")[0]},\n\n${rateLine}\n\n${athleteNames} isn't on an active membership yet — complete checkout whenever you're ready:\n${MEMBERSHIPS_URL}\n\nQuestions? Just reply to this email.`;

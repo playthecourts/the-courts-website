@@ -2,7 +2,7 @@ import "server-only";
 import { prisma } from "@/lib/prisma";
 import type { PlanEntitlement } from "@/generated/prisma/client";
 
-/// A plan can point at another plan for its entitlements (Founders → Unlimited)
+/// A plan can point at another plan for its entitlements (NextGen Formers → Unlimited)
 /// so benefits can never accidentally diverge — editing Unlimited's rows
 /// changes what an inheriting plan grants too. Every real consumer of
 /// `membership.plan.entitlements` should go through this instead of reading

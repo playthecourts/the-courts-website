@@ -9,18 +9,22 @@ export const dynamic = "force-dynamic";
 // NextGen (the old gym) closes October 1, 2026. Families self-report their
 // status at signup (Current / Former / New) — this is where that
 // self-report gets reconciled against the official member list once it
-// arrives: link a real historical record, approve as a Founder anyway, or
-// move someone to Unlimited without cancelling/clawing back anything. See
-// the doc comments in ./actions.ts for exactly what each action does (and
-// doesn't) touch in Stripe.
+// arrives: link a real historical record, approve as a NextGen Former
+// anyway, or move someone to Unlimited without cancelling/clawing back
+// anything. See the doc comments in ./actions.ts for exactly what each
+// action does (and doesn't) touch in Stripe.
 
 function formatCents(cents: number) {
   return `$${(cents / 100).toFixed(2)}/mo`;
 }
 
+// "Verified"/"Admin Approved" apply to BOTH Current NextGen (legacy, $165)
+// and Former NextGen (Formers, $185) guardians — the adjacent Status column
+// already says which, so this label stays generic rather than baking in a
+// "Founder"/"Former" word that would misdescribe a Current guardian.
 const VERIFICATION_LABEL: Record<string, string> = {
   unverified: "Pending Verification",
-  verified: "Verified Founder",
+  verified: "Verified",
   not_eligible: "Unable to Verify",
   admin_approved: "Admin Approved",
 };
@@ -104,7 +108,7 @@ export default async function NextGenPage({
       },
       orderBy: { createdAt: "asc" },
     }),
-    // Verification state, not live subscription status — a Founder who
+    // Verification state, not live subscription status — a Former who
     // later cancels still counts as one of the 25 the business actually
     // confirmed. `verified` (matched) and `admin_approved` (manual
     // override) both count as real claims.
@@ -144,11 +148,11 @@ export default async function NextGenPage({
       <PageHeader
         eyebrow="NextGen Transition"
         title="NextGen Transfers"
-        subtitle="Reconcile self-reported NextGen families against the official member list — link real records, approve Founders, and move unconfirmed claims to Unlimited without cancelling anything."
+        subtitle="Reconcile self-reported NextGen families against the official member list — link real records, approve NextGen Formers, and move unconfirmed claims to Unlimited without cancelling anything."
       />
 
       <div className="mb-5">
-        <Metric label="Founders Claimed" value={`${claimedCount} / 25`} detail="Verified or admin-approved former NextGen families" />
+        <Metric label="NextGen Formers Claimed" value={`${claimedCount} / 25`} detail="Verified or admin-approved former NextGen families" />
       </div>
 
       <form method="get" action="/os/nextgen" className="mb-5 flex flex-wrap items-end gap-2">
@@ -171,7 +175,7 @@ export default async function NextGenPage({
           >
             <option value="">Any</option>
             <option value="unverified">Pending Verification</option>
-            <option value="verified">Verified Founder</option>
+            <option value="verified">Verified</option>
             <option value="admin_approved">Admin Approved</option>
             <option value="not_eligible">Unable to Verify</option>
           </select>
@@ -208,7 +212,10 @@ export default async function NextGenPage({
                     </Link>
                   </Th>
                   <Th>Verification</Th>
-                  <Th>Founder</Th>
+                  {/* isFounder — true for every approved guardian in either
+                      cohort (Current legacy or Former), not just Formers, so
+                      this stays "Approved" rather than a group-specific word. */}
+                  <Th>Approved</Th>
                   <Th>Legacy Rate</Th>
                   <Th>Current Membership</Th>
                   <Th>Current Stripe Price</Th>

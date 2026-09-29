@@ -115,11 +115,14 @@ export async function startMembershipCheckout(athleteId: string, membershipPlanI
     throw new Error("This plan isn't available for online checkout yet.");
   }
 
-  // Defense in depth: Founders is hidden from the picker for everyone except
-  // the former-NextGen guardians already admin-approved as Founders before
-  // it was retired as a checkout option — but a stale page or a crafted
-  // request could still try to post this plan id directly.
-  if (plan.name === "Founders Membership" && !(guardian.nextGenStatus === "former_nextgen" && guardian.isFounder)) {
+  // Defense in depth: NextGen Formers is hidden from the picker for everyone
+  // except the former-NextGen guardians already admin-approved as Formers
+  // before it was retired as a checkout option — but a stale page or a
+  // crafted request could still try to post this plan id directly.
+  if (
+    plan.name === "NextGen Formers Membership" &&
+    !(guardian.nextGenStatus === "former_nextgen" && guardian.isFounder)
+  ) {
     throw new Error("This plan isn't available for your account.");
   }
 

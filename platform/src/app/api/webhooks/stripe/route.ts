@@ -95,14 +95,14 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 
   // A Current-NextGen family's legacy-rate subscription (startNextGenLegacyCheckout)
   // keeps its self-reported rate only through Dec 31, 2026 — after that they're
-  // real Founders Membership customers at Founders' standard price. Converting
+  // real NextGen Formers customers at Formers' standard price. Converting
   // the plain subscription into a 2-phase schedule right after Checkout creates
   // it means Stripe enforces that date change on its own; nothing here has to
   // remember to do it later.
   const plan = await prisma.membershipPlan.findUnique({ where: { id: membershipPlanId } });
   if (plan?.name === "NextGen Legacy Rate") {
     await scheduleNextGenLegacyTransition(subscriptionId, subscription).catch((err) => {
-      console.error("Failed to schedule NextGen legacy → Founders transition", subscriptionId, err);
+      console.error("Failed to schedule NextGen legacy → Formers transition", subscriptionId, err);
     });
   }
 
@@ -142,15 +142,16 @@ const NEXTGEN_LEGACY_CUTOFF = new Date("2027-01-01T06:00:00.000Z");
 /// Converts a just-created legacy-rate subscription into a 3-phase schedule:
 /// the pre-anchor stub Stripe already creates when billing_cycle_anchor is in
 /// the future (unchanged, still no charge), the real legacy-rate period
-/// through Dec 31, then Founders Membership's real, standard price from Jan 1
-/// onward with no end date — Stripe just keeps renewing at that price once
-/// the schedule releases, same as any other subscription. proration_behavior
-/// "none" on every phase matches the anchor idiom used everywhere else in
-/// this app: no surprise mid-cycle charge at either boundary.
+/// through Dec 31, then NextGen Formers Membership's real, standard price
+/// from Jan 1 onward with no end date — Stripe just keeps renewing at that
+/// price once the schedule releases, same as any other subscription.
+/// proration_behavior "none" on every phase matches the anchor idiom used
+/// everywhere else in this app: no surprise mid-cycle charge at either
+/// boundary.
 async function scheduleNextGenLegacyTransition(subscriptionId: string, subscription: Stripe.Subscription) {
-  const foundersPlan = await prisma.membershipPlan.findFirst({ where: { name: "Founders Membership" } });
-  if (!foundersPlan?.stripePriceId) {
-    console.error("Founders Membership plan has no stripePriceId — cannot schedule NextGen transition", subscriptionId);
+  const formersPlan = await prisma.membershipPlan.findFirst({ where: { name: "NextGen Formers Membership" } });
+  if (!formersPlan?.stripePriceId) {
+    console.error("NextGen Formers Membership plan has no stripePriceId — cannot schedule NextGen transition", subscriptionId);
     return;
   }
 
@@ -170,15 +171,15 @@ async function scheduleNextGenLegacyTransition(subscriptionId: string, subscript
   // "now", and inserting a second zero-length phase on top of it would be
   // invalid.
   const legacyPhase = { items: [{ price: legacyPriceId, quantity: 1 }], start_date: anchor, end_date: cutoff, proration_behavior: "none" as const };
-  const foundersPhase = { items: [{ price: foundersPlan.stripePriceId, quantity: 1 }], start_date: cutoff, proration_behavior: "none" as const };
+  const formersPhase = { items: [{ price: formersPlan.stripePriceId, quantity: 1 }], start_date: cutoff, proration_behavior: "none" as const };
   const phases =
     stubStart < anchor
       ? [
           { items: [{ price: legacyPriceId, quantity: 1 }], start_date: stubStart, end_date: anchor, proration_behavior: "none" as const },
           legacyPhase,
-          foundersPhase,
+          formersPhase,
         ]
-      : [legacyPhase, foundersPhase];
+      : [legacyPhase, formersPhase];
 
   await stripe.subscriptionSchedules.update(schedule.id, { end_behavior: "release", phases });
 
@@ -424,7 +425,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   // scheduleNextGenLegacyTransition above) has taken effect on Stripe's
   // side. An ad-hoc price_data price (the legacy rate itself) never matches
   // a real catalog plan, so this only fires once Stripe has actually moved
-  // the subscription onto Founders' real Price — never speculatively.
+  // the subscription onto NextGen Formers' real Price — never speculatively.
   const currentItem = subscription.items.data[0];
   const currentPriceId = currentItem
     ? typeof currentItem.price === "string" ? currentItem.price : currentItem.price.id
