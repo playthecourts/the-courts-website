@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { GroupedOfferingCard, type Card } from "./offering-session-card";
+import { type Card } from "./offering-session-card";
 
 // The calendar sidebar does two different jobs, kept visually separate on
 // purpose: the grid answers "what's available this month" (every bookable
@@ -203,11 +203,45 @@ export function BookingCalendar({ bookings, cards }: { bookings: UpcomingBooking
         {selectedGroups.length === 0 ? (
           <p className="font-body text-xs text-gray-dark">Nothing bookable this day.</p>
         ) : (
-          <div className="flex flex-col gap-2.5">
-            {selectedGroups.map((group) => (
-              <GroupedOfferingCard key={`${group[0].offeringId}-${group[0].sessionId}`} cards={group} />
-            ))}
-          </div>
+          /* A summary, not a second place to book. This panel used to render
+             the same GroupedOfferingCard as the main list, so a family saw one
+             class twice — two identical cards, two Book buttons — and had no
+             way to tell whether that was one class or two. Booking lives in
+             one place; this says what's on and takes you to it. */
+          <ul className="flex flex-col gap-1">
+            {selectedGroups.map((group) => {
+              const c = group[0];
+              // The app's own wording, so this panel and the card it points at
+              // never describe the same session differently.
+              const open = c.availability.state !== "full" && c.availability.state !== "registration_closed";
+              return (
+                <li key={`${c.offeringId}-${c.sessionId}`}>
+                  <a
+                    href={`#session-${c.sessionId}`}
+                    className="flex items-baseline justify-between gap-2 rounded-md px-2 py-1.5 hover:bg-gray-light"
+                  >
+                    <span className="min-w-0">
+                      <span className="font-heading text-[12.5px] font-bold text-black">
+                        {new Intl.DateTimeFormat("en-US", {
+                          hour: "numeric",
+                          minute: "2-digit",
+                          timeZone: "UTC",
+                        }).format(new Date(c.startTime))}
+                      </span>{" "}
+                      <span className="font-body text-[12.5px] text-gray-dark">{c.offeringName}</span>
+                    </span>
+                    <span
+                      className={`shrink-0 font-sport text-[10px] font-bold uppercase tracking-wide ${
+                        open ? "text-orange" : "text-gray-dark"
+                      }`}
+                    >
+                      {c.availability.label}
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
         )}
       </div>
 

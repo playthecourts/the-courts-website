@@ -106,9 +106,9 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 export default async function ExplorePage({
   searchParams,
 }: {
-  searchParams: Promise<{ cat?: string; when?: string; sport?: string; coach?: string }>;
+  searchParams: Promise<{ cat?: string; when?: string; sport?: string; coach?: string; offering?: string }>;
 }) {
-  const { cat, when, sport, coach } = await searchParams;
+  const { cat, when, sport, coach, offering } = await searchParams;
   // A family that opened Checkout and abandoned it must not hold a seat
   // forever — sweep before computing availability below.
   await expireStalePendingBookings();
@@ -119,7 +119,14 @@ export default async function ExplorePage({
   // question someone opens the app with. A "month:2026-10" value picks a
   // real calendar month instead.
   const selectedMonthKey = when?.startsWith(MONTH_PREFIX) ? when.slice(MONTH_PREFIX.length) : null;
-  const range = selectedMonthKey ? monthRange(selectedMonthKey) : (RANGES[when ?? "week"] ?? RANGES.week)();
+  // A "Book" link from playthecourts.com names one offering. Default those
+  // to anytime rather than this week — a class three weeks out would
+  // otherwise land the family on an empty page after they clicked it.
+  const range = selectedMonthKey
+    ? monthRange(selectedMonthKey)
+    : offering && !when
+      ? { from: new Date(), to: undefined }
+      : (RANGES[when ?? "week"] ?? RANGES.week)();
 
   const unfilteredCards = await loadParentFeed(allAthletes as never, {
     category: cat,
@@ -145,10 +152,17 @@ export default async function ExplorePage({
   // already carries both fields, and these two facets are about narrowing
   // an already-fetched week/anytime view, not fetching a different one.
   const cards = unfilteredCards.filter((c) => {
+    if (offering && c.offeringId !== offering) return false;
     if (sport && c.sport !== sport) return false;
     if (coach && !c.coachNames.includes(coach)) return false;
     return true;
   });
+
+  // Name it so the page can say what it is showing, rather than silently
+  // presenting a filtered list that looks like the whole catalogue.
+  const focusedName = offering
+    ? (unfilteredCards.find((c) => c.offeringId === offering)?.offeringName ?? null)
+    : null;
 
   // Only offer a category/sport/coach chip if it would actually lead somewhere.
   const present = new Set(unfilteredCards.map((c) => c.category));
@@ -281,6 +295,20 @@ export default async function ExplorePage({
           register.
         </p>
       </details>
+
+      {offering ? (
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-orange/40 bg-orange/5 px-4 py-3">
+          <p className="font-body text-sm text-near-black">
+            Showing <strong>{focusedName ?? "this class"}</strong>.
+          </p>
+          <Link
+            href="/my-courts/explore"
+            className="font-sport text-xs font-bold uppercase tracking-wide text-orange"
+          >
+            See Everything
+          </Link>
+        </div>
+      ) : null}
 
       {cards.length === 0 ? (
         <div className="rounded-lg border border-gray-mid bg-white p-6 text-center">

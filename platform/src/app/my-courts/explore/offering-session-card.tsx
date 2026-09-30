@@ -214,7 +214,7 @@ function CardChrome({ card, timeLabel }: { card: Card; timeLabel: string }) {
 
 export function OfferingSessionCard({ card }: { card: Card }) {
   return (
-    <article className="rounded-lg border border-gray-mid bg-white px-4 py-4">
+    <article id={`session-${card.sessionId}`} className="scroll-mt-24 rounded-lg border border-gray-mid bg-white px-4 py-4">
       <CardChrome card={card} timeLabel={fmtWhen(card.startTime)} />
 
       {card.shortDescription ? (
@@ -281,7 +281,7 @@ export function GroupedOfferingCard({ cards }: { cards: Card[] }) {
   const selected = cards.find((c) => c.sessionId === selectedId) ?? null;
 
   return (
-    <article className="rounded-lg border border-gray-mid bg-white px-4 py-4">
+    <article id={`session-${first.sessionId}`} className="scroll-mt-24 rounded-lg border border-gray-mid bg-white px-4 py-4">
       <CardChrome card={first} timeLabel={dayLabel} />
 
       {first.shortDescription ? (
