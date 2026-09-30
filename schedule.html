@@ -102,9 +102,27 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   .cal-tag i { font-style:normal; font-size:9px; opacity:.85; }
   .cal-tag--bb { background:var(--orange); }
   .cal-tag--vb { background:var(--black); }
-  .cal-tag--other { background:#6E6E6E; }
+  /* "All Sports" is not a third sport, it is BOTH — Speed + Agility sits on a
+     volleyball night and counts for basketball players too. A flat grey read as
+     "other/uncategorised", so it gets a hard diagonal split in the two sport
+     colours instead: orange and black, the same two the BB and VB badges use.
+     The text-shadow is doing real work — white on --orange (#DE5019) is only
+     about 3.9:1 on its own, which is thin for a 10px badge. */
+  .cal-tag--other {
+    background: linear-gradient(107deg, var(--orange) 0 48%, var(--near-black) 48% 100%);
+    text-shadow: 0 1px 1.5px rgba(0,0,0,.6);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.28);
+  }
   .cal-cell--selected .cal-tag--vb { background:var(--white); color:var(--black); }
-  .cal-cell--selected .cal-tag--other { background:var(--white); color:#4A4A4A; }
+  /* Selected cell inverts to a dark fill, so the badge flips to white. Keep the
+     two-colour cue as a left edge rather than losing it to a flat swatch. */
+  .cal-cell--selected .cal-tag--other {
+    background: var(--white);
+    color: var(--near-black);
+    text-shadow: none;
+    box-shadow: inset 3px 0 0 0 var(--orange);
+    padding-left: 7px;
+  }
   @media (max-width: 720px) {
     .cal-tag { font-size:9px; padding:2px 4px; }
     .cal-tag i { display:none; }
