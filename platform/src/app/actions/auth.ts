@@ -121,8 +121,19 @@ export async function signup(_prevState: unknown, formData: FormData) {
     return { error: "Add at least one athlete.", values };
   }
 
-  const existing = await prisma.guardian.findUnique({ where: { email: values.email } });
-  if (existing) {
+  // A guardian row can exist with no login behind it: a second parent entered
+  // by the first, or anyone staff added to a family directly. Schema says as
+  // much on Guardian.authId. Blocking those people here is what locked them
+  // out entirely — signup refused them for "already having an account", while
+  // password reset had no auth user to send to, so it silently sent nothing
+  // (resetPasswordForEmail never reveals whether an address is registered).
+  // Only a guardian who actually has a login is a real duplicate; everyone
+  // else is claiming the record that is already theirs.
+  const existing = await prisma.guardian.findUnique({
+    where: { email: values.email },
+    include: { families: { select: { familyId: true, isPrimary: true } } },
+  });
+  if (existing?.authId) {
     return {
       error: "Looks like you already have an account with this email.",
       existingAccount: true,
@@ -156,7 +167,29 @@ export async function signup(_prevState: unknown, formData: FormData) {
   let newGuardianId: string | null = null;
   try {
     await prisma.$transaction(async (tx) => {
-      const guardian = await tx.guardian.create({
+      const selfReported =
+        values.nextGenStatus === "new" ? null : (values.nextGenStatus as "former_nextgen" | "current_nextgen");
+
+      // Claiming an existing record: fill in the login and anything the row is
+      // missing, but never overwrite what staff have already reconciled —
+      // legacyRateCents, verification state and founder status are theirs.
+      const guardian = existing
+        ? await tx.guardian.update({
+            where: { id: existing.id },
+            data: {
+              authId: data.user!.id,
+              name: values.name || existing.name,
+              phone: values.phone || existing.phone,
+              nextGenStatus: existing.nextGenStatus ?? selfReported,
+              nextGenVerification:
+                existing.nextGenVerification ?? (selfReported ? "verified" : null),
+              legacyRateCents:
+                existing.legacyRateCents ??
+                (selfReported === "current_nextgen" ? 16500 : null),
+              isFounder: existing.isFounder || selfReported === "current_nextgen",
+            },
+          })
+        : await tx.guardian.create({
         data: {
           authId: data.user!.id,
           name: values.name,
@@ -179,23 +212,55 @@ export async function signup(_prevState: unknown, formData: FormData) {
           isFounder: values.nextGenStatus === "current_nextgen",
         },
       });
-      const family = await tx.family.create({ data: { name: values.familyName } });
-      await tx.familyGuardian.create({
-        data: { familyId: family.id, guardianId: guardian.id, isPrimary: true },
-      });
+      // A claimed guardian is usually already attached to the family that was
+      // set up around them — adding a second one would split their athletes
+      // across two households.
+      const existingFamilyId = existing?.families[0]?.familyId ?? null;
+      const family = existingFamilyId
+        ? { id: existingFamilyId }
+        : await tx.family.create({ data: { name: values.familyName } });
+      if (!existingFamilyId) {
+        await tx.familyGuardian.create({
+          data: { familyId: family.id, guardianId: guardian.id, isPrimary: true },
+        });
+      }
+      // Claiming a record means the family may already have athletes on it,
+      // entered by staff or the other parent. Re-adding the same child would
+      // leave two of them on the roster, so match on name + date of birth and
+      // only create the ones that are genuinely new.
+      const alreadyOnFile = existingFamilyId
+        ? await tx.athlete.findMany({
+            where: { familyId: family.id },
+            select: { id: true, firstName: true, lastName: true, dob: true },
+          })
+        : [];
+      const key = (first: string, last: string, dob: Date) =>
+        `${first.trim().toLowerCase()}|${last.trim().toLowerCase()}|${dob.toISOString().slice(0, 10)}`;
+      const onFile = new Map(alreadyOnFile.map((a) => [key(a.firstName, a.lastName, a.dob), a.id]));
+
       const createdAthletes = await Promise.all(
-        touchedAthletes.map((a) =>
-          tx.athlete.create({
+        touchedAthletes.map(async (a) => {
+          const dob = new Date(`${a.dob}T00:00:00Z`);
+          const match = onFile.get(key(a.firstName, a.lastName, dob));
+          if (match) {
+            // Same child — top up anything the existing record is missing
+            // rather than adding a second row for them.
+            return tx.athlete.update({
+              where: { id: match },
+              data: { grade: a.grade, gender: a.gender },
+            });
+          }
+          return tx.athlete.create({
             data: {
               familyId: family.id,
               firstName: a.firstName,
               lastName: a.lastName,
-              dob: new Date(`${a.dob}T00:00:00Z`),
+              dob,
               grade: a.grade,
               gender: a.gender,
             },
-          })
-        )
+          });
+        })
       );
       newAthleteIds = createdAthletes.map((a) => a.id);
       newGuardianId = guardian.id;
