@@ -79,13 +79,45 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   .cal-nav { width:40px; height:40px; border-radius:50%; border:2px solid var(--black); background:var(--white); font-size:17px; line-height:1; cursor:pointer; transition:background .18s, color .18s; }
   .cal-nav:hover { background:var(--black); color:var(--white); }
   .cal-quick { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px 16px; max-width:900px; margin:0 auto 18px; }
-  .cal-legend { display:inline-flex; align-items:center; gap:6px; font-family:var(--font-sport); font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--gray-dark); }
-  .cal-dot { width:8px; height:8px; border-radius:50%; display:inline-block; }
-  .cal-dot--bb { background:var(--orange); }
-  .cal-dot--vb { background:var(--black); }
-  .cal-dot--other { background:#9A9A9A; }
+  /* Sport filter — the calendar script already listened for these; the buttons
+     were simply never on the page. */
+  .cal-filters { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; max-width:900px; margin:0 auto 14px; }
+  .cal-filter-btn { font-family:var(--font-sport); font-size:13px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+    padding:9px 20px; border-radius:999px; border:2px solid var(--gray-mid); background:var(--white); color:var(--gray-dark);
+    cursor:pointer; transition:background .15s, color .15s, border-color .15s; min-height:40px; }
+  .cal-filter-btn:hover { border-color:var(--gray-dark); color:var(--near-black); }
+  .cal-filter-btn:focus-visible { outline:3px solid var(--orange); outline-offset:2px; }
+  .cal-filter-btn.active { background:var(--near-black); border-color:var(--near-black); color:var(--white); }
+  .cal-filter-btn--bb.active { background:var(--orange); border-color:var(--orange); }
+
+  /* Key — was 11px text beside an 8px dot. */
+  .cal-key { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px 22px; max-width:900px; margin:0 auto 20px; }
+  .cal-key-item { display:inline-flex; align-items:center; gap:8px; font-family:var(--font-sport); font-size:13px; font-weight:700;
+    letter-spacing:.05em; text-transform:uppercase; color:var(--gray-dark); }
+
+  /* Day-cell sport tags: the label carries the meaning, colour only reinforces it. */
+  .cal-tags { display:flex; flex-wrap:wrap; justify-content:center; gap:3px; min-height:16px; }
+  .cal-tag { display:inline-flex; align-items:center; gap:3px; font-family:var(--font-sport); font-size:10px; font-weight:800;
+    letter-spacing:.04em; line-height:1; padding:3px 5px; border-radius:4px; color:var(--white); }
+  .cal-tag i { font-style:normal; font-size:9px; opacity:.85; }
+  .cal-tag--bb { background:var(--orange); }
+  .cal-tag--vb { background:var(--black); }
+  .cal-tag--other { background:#6E6E6E; }
+  .cal-cell--selected .cal-tag--vb { background:var(--white); color:var(--black); }
+  .cal-cell--selected .cal-tag--other { background:var(--white); color:#4A4A4A; }
+  @media (max-width: 720px) {
+    .cal-tag { font-size:9px; padding:2px 4px; }
+    .cal-tag i { display:none; }
+    .cal-filter-btn { font-size:12px; padding:8px 15px; }
+  }
   .cal-closed-key { width:12px; height:12px; border-radius:3px; background:repeating-linear-gradient(45deg,#E4E0D8,#E4E0D8 3px,#F7F5F0 3px,#F7F5F0 6px); border:1px solid #D6D1C7; display:inline-block; }
   .cal-wrap { max-width:900px; margin:0 auto; }
+  .cal-layout { max-width:900px; margin:0 auto; }
+  @media (min-width: 1040px) {
+    .cal-layout { max-width:1180px; display:grid; grid-template-columns:minmax(0,1.3fr) minmax(330px,1fr); gap:32px; align-items:start; }
+    .cal-layout .cal-wrap { max-width:none; }
+    .cal-layout .cal-day-panel { position:sticky; top:104px; max-height:calc(100vh - 130px); overflow-y:auto; margin-top:0; }
+  }
   .cal-grid-head { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:6px; margin-bottom:6px; }
   .cal-grid-head span { text-align:center; font-family:var(--font-sport); font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--gray-dark); }
   .cal-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:6px; }
@@ -97,9 +129,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   .cal-cell--closed { background:repeating-linear-gradient(45deg,#EFECE5,#EFECE5 4px,#F7F5F0 4px,#F7F5F0 8px); color:var(--gray-dark); }
   .cal-cell--today { border-color:var(--orange); }
   .cal-cell--selected { border-color:var(--black); background:var(--black); color:var(--white); }
-  .cal-cell--selected .cal-dot--vb { background:var(--white); }
   .cal-num { font-family:var(--font-display); font-weight:900; font-size:15px; }
-  .cal-dots { display:flex; gap:3px; min-height:8px; }
   .cal-note { margin:0 0 14px; padding:9px 12px; border-left:3px solid #D6D1C7; background:#F7F5F0; font-size:13px; line-height:1.45; color:var(--gray-dark); border-radius:0 6px 6px 0; }
   .cal-closed { font-family:var(--font-sport); font-size:9px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
   .cal-day-panel { max-width:900px; margin:30px auto 0; }
@@ -411,12 +441,22 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     <div class="cal-quick">
       <button type="button" class="sch-chip" data-jump="today">Today</button>
       <button type="button" class="sch-chip" data-jump="tomorrow">Tomorrow</button>
-      <span class="cal-legend"><span class="cal-dot cal-dot--bb"></span>Basketball</span>
-      <span class="cal-legend"><span class="cal-dot cal-dot--vb"></span>Volleyball</span>
-      <span class="cal-legend"><span class="cal-dot cal-dot--other"></span>Other</span>
-      <span class="cal-legend"><span class="cal-closed-key"></span>Closed</span>
     </div>
 
+    <div class="cal-filters" role="group" aria-label="Filter the calendar by sport">
+      <button type="button" class="cal-filter-btn active" data-filter="sport" data-value="all">All Sports</button>
+      <button type="button" class="cal-filter-btn cal-filter-btn--bb" data-filter="sport" data-value="basketball">Basketball</button>
+      <button type="button" class="cal-filter-btn cal-filter-btn--vb" data-filter="sport" data-value="volleyball">Volleyball</button>
+    </div>
+
+    <div class="cal-key">
+      <span class="cal-key-item"><span class="cal-tag cal-tag--bb">BB</span>Basketball</span>
+      <span class="cal-key-item"><span class="cal-tag cal-tag--vb">VB</span>Volleyball</span>
+      <span class="cal-key-item"><span class="cal-tag cal-tag--other">ALL</span>All Sports</span>
+      <span class="cal-key-item"><span class="cal-closed-key"></span>Closed</span>
+    </div>
+
+    <div class="cal-layout">
     <div class="cal-wrap">
       <div class="cal-grid-head">
         <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
@@ -425,6 +465,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     </div>
 
     <div id="dayPanel" class="cal-day-panel"></div>
+    </div>
     <p class="sch-note" id="schEmpty" hidden style="text-align:center; margin-top:20px;"></p>
   </div>
 </section>
@@ -637,10 +678,12 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     return new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC' }).format(d);
   }
 
-  function sportClass(c) {
+  function sportKey(c) {
     var s = (c.sport || '').toLowerCase();
-    return s.indexOf('basket') === 0 ? 'cal-dot--bb' : (s.indexOf('volley') === 0 ? 'cal-dot--vb' : 'cal-dot--other');
+    return s.indexOf('basket') === 0 ? 'bb' : (s.indexOf('volley') === 0 ? 'vb' : 'other');
   }
+  var KEY_SHORT = { bb: 'BB', vb: 'VB', other: 'ALL' };
+  var KEY_FULL  = { bb: 'Basketball', vb: 'Volleyball', other: 'All sports' };
   function matches(c) {
     if (state.sport !== 'all') {
       var s = (c.sport || '').toLowerCase();
@@ -696,19 +739,28 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       if (key === state.selected) cls += ' cal-cell--selected';
       if (!list.length && !closed) cls += ' cal-cell--quiet';
 
-      var dots = '';
-      if (!closed) {
-        var seen = {};
-        list.forEach(function (c) {
-          var k = sportClass(c);
-          if (seen[k]) return;
-          seen[k] = 1;
-          dots += '<span class="cal-dot ' + k + '"></span>';
+      // Two 8px dots that differ only in colour asked people to decode orange
+      // vs black at a glance, and told a colour-blind or low-vision visitor
+      // nothing at all. The cell now says BB or VB in words, with a count when
+      // a day holds more than one of a sport.
+      var tags = '', aria = prettyDate(key);
+      if (closed) {
+        aria += ' — closed';
+      } else {
+        var counts = {};
+        list.forEach(function (c) { var k = sportKey(c); counts[k] = (counts[k] || 0) + 1; });
+        ['bb', 'vb', 'other'].forEach(function (k) {
+          if (!counts[k]) return;
+          tags += '<span class="cal-tag cal-tag--' + k + '">' + KEY_SHORT[k] +
+                  (counts[k] > 1 ? '<i>' + counts[k] + '</i>' : '') + '</span>';
+          aria += ', ' + KEY_FULL[k] + ' ' + counts[k] + (counts[k] === 1 ? ' class' : ' classes');
         });
+        if (!tags) aria += ' — nothing scheduled';
       }
-      html += '<button type="button" class="' + cls + '" data-date="' + key + '">' +
+      html += '<button type="button" class="' + cls + '" data-date="' + key + '"' +
+                ' aria-label="' + aria.replace(/"/g, '&quot;') + '">' +
                 '<span class="cal-num">' + d + '</span>' +
-                (closed ? '<span class="cal-closed">Closed</span>' : '<span class="cal-dots">' + dots + '</span>') +
+                (closed ? '<span class="cal-closed">Closed</span>' : '<span class="cal-tags">' + tags + '</span>') +
               '</button>';
     }
     grid.innerHTML = html;
@@ -788,7 +840,10 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       if (!btn) return;
       state.selected = btn.getAttribute('data-date');
       renderAll();
-      document.getElementById('dayPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      // Side by side on a wide screen, so there is nothing to scroll to.
+      if (!window.matchMedia('(min-width: 1040px)').matches) {
+        document.getElementById('dayPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     });
     document.querySelectorAll('[data-jump]').forEach(function (b) {
       b.addEventListener('click', function () {
