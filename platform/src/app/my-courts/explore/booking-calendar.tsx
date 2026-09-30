@@ -2,7 +2,28 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { type Card } from "./offering-session-card";
+// Declared here rather than imported from lib/programs/parent-feed, which is
+// server-only — same reason Card is declared in offering-session-card.tsx.
+// loadCalendarMarkers() returns this shape structurally.
+//
+// The grid reads exactly these five fields. It used to take the full Card, and
+// be handed 200 of them complete with every booking row, waitlist entry, coach
+// and resource — that was ~400KB of HTML and a ten-second page. Do not widen
+// this back to Card to add a field; add the field here and to
+// loadCalendarMarkers()'s select.
+export type CalendarMarker = {
+  sessionId: string;
+  offeringId: string;
+  offeringName: string;
+  /// ISO string, not a Date — this crosses the server/client boundary.
+  startTime: string;
+  availability: {
+    state: string;
+    label: string;
+    spotsLeft: number | null;
+    canRegister: boolean;
+  };
+};
 
 // The calendar sidebar does two different jobs, kept visually separate on
 // purpose: the grid answers "what's available this month" (every bookable
@@ -53,8 +74,8 @@ function defaultCalendarDate(): Date {
 // Same offering, same day collapses into one group, same rule the main
 // Explore list uses (groupByOfferingAndDay in page.tsx) — Dr. Dish's 30-min
 // self-serve slots read as one block instead of a wall of near-identical cards.
-function groupByOffering(cards: Card[]): Card[][] {
-  const groups = new Map<string, Card[]>();
+function groupByOffering(cards: CalendarMarker[]): CalendarMarker[][] {
+  const groups = new Map<string, CalendarMarker[]>();
   for (const card of cards) {
     const existing = groups.get(card.offeringId);
     if (existing) existing.push(card);
@@ -63,13 +84,13 @@ function groupByOffering(cards: Card[]): Card[][] {
   return [...groups.values()];
 }
 
-export function BookingCalendar({ bookings, cards }: { bookings: UpcomingBooking[]; cards: Card[] }) {
+export function BookingCalendar({ bookings, cards }: { bookings: UpcomingBooking[]; cards: CalendarMarker[] }) {
   const [mode, setMode] = useState<"month" | "week">("month");
   const [cursor, setCursor] = useState<Date>(defaultCalendarDate());
   const [selectedDay, setSelectedDay] = useState<string>(dateKey(defaultCalendarDate()));
 
   const cardsByDay = useMemo(() => {
-    const map = new Map<string, Card[]>();
+    const map = new Map<string, CalendarMarker[]>();
     for (const c of cards) {
       const key = c.startTime.slice(0, 10);
       if (!map.has(key)) map.set(key, []);

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
-import { loadParentFeed } from "@/lib/programs/parent-feed";
+import { loadParentFeed, loadCalendarMarkers } from "@/lib/programs/parent-feed";
 import { PARENT_CATEGORIES } from "@/lib/programs/types";
 import { expireStalePendingBookings } from "@/lib/booking";
 import { GroupedOfferingCard, type Card } from "./offering-session-card";
@@ -135,17 +135,17 @@ export default async function ExplorePage({
   });
 
   // The calendar sidebar answers a different question than the chip-filtered
-  // list above it — "what's bookable this month, at all" — so it gets its
-  // own unfiltered, unbounded-forward fetch rather than reusing whatever the
-  // What/Sport/Coach/When chips currently narrow the main list to. Same
-  // shape as the "Anytime" chip's own query (from today, no `to`, no
-  // category), which already proves this is fine to fetch in one go.
+  // list above it — "what's bookable this month, at all" — so it gets its own
+  // unfiltered, unbounded-forward fetch rather than reusing whatever the
+  // What/Sport/Coach/When chips currently narrow the main list to.
+  //
+  // It does NOT reuse loadParentFeed for that. The grid reads five fields per
+  // session; loadParentFeed additionally fetches every booking row, waitlist
+  // entry, coach and resource for 200 sessions and awaits a booking-rule
+  // lookup per athlete per session, all of which was then serialised into the
+  // page and dropped. See loadCalendarMarkers() in parent-feed.ts.
   const calendarCards =
-    allAthletes.length === 0
-      ? []
-      : (await loadParentFeed(allAthletes as never, { from: new Date() })).map(
-          (c) => JSON.parse(JSON.stringify(c)) as Card
-        );
+    allAthletes.length === 0 ? [] : await loadCalendarMarkers({ from: new Date() });
 
   // Sport/Performance and Coach are applied on top of the athlete/category/
   // date fetch, not pushed into loadParentFeed's own DB query — the card

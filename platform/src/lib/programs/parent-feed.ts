@@ -217,3 +217,98 @@ export async function availableThisWeek(
   const cards = await loadParentFeed(athletes, { from: now, to: weekEnd });
   return cards.filter((c) => qualifiesForAvailableThisWeek(c.availability, true));
 }
+
+// ---------------------------------------------------------------------------
+// The Explore calendar sidebar's own loader.
+//
+// The sidebar needs five fields per session — session id, offering id + name,
+// start time, availability — to answer "which days have something bookable".
+// It used to reuse loadParentFeed(), which for every one of 200 sessions also
+// fetches each booking row, each waitlist entry, coaches and resource, and
+// then resolves a per-athlete booking rule with an awaited DB call per athlete
+// per session. All of it was then serialised into the page and thrown away by
+// a component that reads five fields.
+//
+// That was invisible while this feed returned three sessions. Once the website
+// and the Parent App started sharing PARENT_VISIBLE it became ~400KB of HTML
+// and a ten-second Explore page. availabilityFor() only ever needed a booking
+// COUNT, so a count is all this asks for.
+// ---------------------------------------------------------------------------
+
+export type CalendarMarker = {
+  sessionId: string;
+  offeringId: string;
+  offeringName: string;
+  /// Serialised here rather than left as a Date. ParentSessionCard.startTime is
+  /// a Date, and the calendar only ever received a string because the old code
+  /// ran every card through JSON.parse(JSON.stringify(...)). Being explicit
+  /// means the client component's own type can say `string` and be believed.
+  startTime: string;
+  availability: Availability;
+};
+
+export async function loadCalendarMarkers(
+  opts: { from?: Date; to?: Date } = {}
+): Promise<CalendarMarker[]> {
+  const now = new Date();
+
+  const sessions = await prisma.session.findMany({
+    where: {
+      status: "scheduled",
+      startTime: { gte: opts.from ?? now, ...(opts.to ? { lt: opts.to } : {}) },
+      offering: PARENT_VISIBLE,
+    },
+    orderBy: { startTime: "asc" },
+    select: {
+      id: true,
+      title: true,
+      startTime: true,
+      capacity: true,
+      offering: {
+        select: {
+          id: true,
+          name: true,
+          status: true,
+          registrationMode: true,
+          registrationOpensAt: true,
+          registrationClosesAt: true,
+          closeWhenFull: true,
+          waitlistMode: true,
+          lowSpotThreshold: true,
+        },
+      },
+      _count: { select: { bookings: { where: { status: { not: "cancelled" } } } } },
+    },
+  });
+
+  const markers: CalendarMarker[] = [];
+
+  for (const s of sessions) {
+    const o = s.offering;
+    // Same gate as loadParentFeed: a per-session Book button only ever means
+    // "buy this one occurrence", so camps and leagues stay out of this grid.
+    if (!o || o.registrationMode !== "session") continue;
+
+    markers.push({
+      sessionId: s.id,
+      offeringId: o.id,
+      offeringName: s.title ?? o.name,
+      startTime: s.startTime.toISOString(),
+      availability: availabilityFor(
+        {
+          status: o.status,
+          registrationOpensAt: o.registrationOpensAt,
+          registrationClosesAt: o.registrationClosesAt,
+          closeWhenFull: o.closeWhenFull,
+          waitlistMode: o.waitlistMode,
+          lowSpotThreshold: o.lowSpotThreshold,
+          capacity: s.capacity,
+          booked: s._count.bookings,
+        },
+        now
+      ),
+    });
+  }
+
+  return markers;
+}
