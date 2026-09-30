@@ -90,7 +90,7 @@ export function PublishSection({
           <div className="flex flex-col gap-2.5">
             {[
               { name: "visibleParentApp", label: "Parent App", detail: "Appears in Explore for eligible families.", checked: offering.visibleParentApp },
-              { name: "visibleWebsite", label: "Website", detail: "Renders on playthecourts.com from this record — no HTML to edit.", checked: offering.visibleWebsite },
+              { name: "visibleWebsite", label: "Website", detail: "Program cards on playthecourts.com. The public schedule follows Parent App.", checked: offering.visibleWebsite },
               { name: "visibleCoachApp", label: "Coach App", detail: "Assigned staff see it on their schedule automatically.", checked: offering.visibleCoachApp },
               { name: "internalOnly", label: "Internal only", detail: "Occupies the facility, reaches nobody. Staff practice, private bookings.", checked: offering.internalOnly },
             ].map((t) => (

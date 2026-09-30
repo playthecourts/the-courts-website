@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { gradeRangeLabel } from "@/lib/programs/types";
+import { PARENT_VISIBLE } from "@/lib/programs/parent-feed";
 
 // Public dated schedule for playthecourts.com.
 //
@@ -8,6 +9,10 @@ import { gradeRangeLabel } from "@/lib/programs/types";
 // day, who is coaching it, what is on tomorrow, and which days the building is
 // closed. So this returns real occurrences with their dates rather than a
 // weekly rollup, plus whole-facility closures over the same window.
+//
+// Visibility is not decided here: it is the Parent App's predicate, so what
+// playthecourts.com lists and what a signed-in family sees in Explore cannot
+// disagree.
 //
 // The app stores session times as wall-clock instants and formats them in UTC
 // everywhere (coach-format.ts, the booking calendar, the session cards): a 9am
@@ -61,7 +66,16 @@ export async function GET(request: Request) {
       where: {
         status: "scheduled",
         startTime: { gte: from, lte: to },
-        offering: { status: "published", visibleWebsite: true, internalOnly: false },
+        // The website is a parent-facing surface, so it reads the SAME
+        // predicate the Parent App does (PARENT_VISIBLE in parent-feed.ts)
+        // rather than a second visibleWebsite flag. Curating two lists is
+        // how the public schedule drifted from the app in the first place:
+        // staff publish to the app, the website silently keeps showing three
+        // classes. One switch now governs both. Unlike Explore, this does not
+        // drop registrationMode !== "session" — that rule exists to hide a
+        // per-session Book button that would throw, and camps and League
+        // practices still belong on a public calendar.
+        offering: PARENT_VISIBLE,
       },
       orderBy: { startTime: "asc" },
       select: {
