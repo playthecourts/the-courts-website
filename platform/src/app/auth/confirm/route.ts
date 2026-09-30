@@ -33,5 +33,20 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(`${origin}/login?error=link_expired`);
   }
 
+  // Fallback for the stock {{ .ConfirmationURL }} template, which sends a PKCE
+  // `code` rather than a token_hash. Same device-bound limitation as
+  // /auth/callback — it only completes in the browser that asked for the reset
+  // — but without this, changing redirectTo before the email template is
+  // updated would break the flow outright instead of leaving it as it was.
+  const code = searchParams.get("code");
+  if (code) {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (!error) {
+      return NextResponse.redirect(`${origin}${next}`);
+    }
+    return NextResponse.redirect(`${origin}/login?error=link_expired`);
+  }
+
   return NextResponse.redirect(`${origin}/login?error=link_invalid`);
 }
