@@ -419,7 +419,12 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           <div class="coach-card-body">
             <h4 class="coach-card-name">Johnny Coles</h4>
             <p class="coach-card-title">Head of Basketball Development</p>
-            <p class="coach-card-bio">A Nolensville native, Johnny played four years at Ravenwood High School &mdash; team captain as a senior, All-Conference Tournament Team &mdash; before continuing at Oxford College of Emory University and Emory University. At The Courts he oversees basketball programming and player development, from foundational skills through competitive play, emphasizing purposeful reps and knowing not just how to execute a skill, but when and why to use it.</p>
+            <div class="coach-card-bio" id="bio-johnny-coles">
+              <p>Nolensville native Johnny Coles leads basketball development at The Courts, bringing collegiate playing experience and a strong understanding of what it takes to develop skilled, confident players.</p>
+              <p>Johnny played four years at Ravenwood High School, serving as team captain as a senior and earning All-Conference Tournament Team honors before continuing his career at Oxford College of Emory University and Emory University.</p>
+              <p>At The Courts, Johnny oversees basketball programming and player development, from foundational skills through advanced training and competitive play. His approach emphasizes purposeful reps, strong fundamentals, game awareness, and helping athletes understand not just how to execute a skill, but when and why to use it.</p>
+            </div>
+            <button class="coach-card-more" type="button" aria-expanded="false" aria-controls="bio-johnny-coles">+ More</button>
             <p class="coach-card-focus">Player Development &middot; Ball Handling &middot; Shooting &middot; Game IQ &middot; Competitive Play</p>
           </div>
         </div>
@@ -447,7 +452,12 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           <div class="coach-card-body">
             <h4 class="coach-card-name">Jaila Lee</h4>
             <p class="coach-card-title">Basketball Coach</p>
-            <p class="coach-card-bio">A Brentwood native and Brentwood Academy graduate, Jaila grew up in the same Middle Tennessee basketball community many of our athletes are coming through today. She began her collegiate career at St. Francis Brooklyn, continued at UNC Asheville, and played at UNC Greensboro, where she became a regular starter and earned Southern Conference recognition. At The Courts she works on skill development, confidence, defense, decision-making, and turning training into live play.</p>
+            <div class="coach-card-bio" id="bio-jaila-lee">
+              <p>Brentwood native Jaila Lee brings Division I playing experience and a current player&rsquo;s perspective to the athletes she coaches at The Courts.</p>
+              <p>A graduate of Brentwood Academy, Jaila grew up playing in the same Middle Tennessee basketball community many of our athletes are coming through today. She began her collegiate career at St. Francis Brooklyn, continued at UNC Asheville, and later played at UNC Greensboro, where she became a regular starter and earned Southern Conference recognition.</p>
+              <p>At The Courts, Jaila works with players on skill development, confidence, defense, decision-making, and translating training into live play. She brings firsthand experience of what it takes to keep developing, competing, and adapting at the collegiate level.</p>
+            </div>
+            <button class="coach-card-more" type="button" aria-expanded="false" aria-controls="bio-jaila-lee">+ More</button>
             <p class="coach-card-focus">Guard Development &middot; Ball Handling &middot; Shooting &middot; Defense &middot; Game Play</p>
           </div>
         </div>
@@ -462,7 +472,12 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           <div class="coach-card-body">
             <h4 class="coach-card-name">Sara Quint</h4>
             <p class="coach-card-title">Head of Volleyball Development</p>
-            <p class="coach-card-bio">Sara leads volleyball development at The Courts, with experience as both a player and coach across multiple levels. She currently serves as Assistant Varsity and JV Coach at Providence Christian Academy and coaches an 11-1s club team this season, building fundamentals, confidence, and the reps athletes need to keep progressing.</p>
+            <div class="coach-card-bio" id="bio-sara-quint">
+              <p>Sara leads volleyball development at The Courts, bringing experience as both a player and coach across multiple levels of the game. She focuses on helping athletes build strong fundamentals, confidence, and the consistent repetitions needed to keep progressing.</p>
+              <p>Sara also brings high school and club coaching experience, currently serving as the Assistant Varsity and JV Coach at Providence Christian Academy and coaching an 11-1s club team this upcoming season.</p>
+              <p>At The Courts, she emphasizes fundamentals, court awareness, communication, and competitive confidence, creating an environment where athletes can learn, compete, and grow.</p>
+            </div>
+            <button class="coach-card-more" type="button" aria-expanded="false" aria-controls="bio-sara-quint">+ More</button>
             <p class="coach-card-focus">Fundamentals &middot; Serving &middot; Passing &middot; Setting &middot; Hitting &middot; Court Awareness</p>
           </div>
         </div>
@@ -490,7 +505,12 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           <div class="coach-card-body">
             <h4 class="coach-card-name">Justin Frank</h4>
             <p class="coach-card-title">Volleyball Coach</p>
-            <p class="coach-card-bio">Justin is the Varsity and JV Volleyball Coach at Mill Creek Middle School and brings club coaching experience to The Courts. He focuses on technically sound fundamentals, movement, court awareness, and confidence under pressure &mdash; helping players understand the game as a whole, not just individual skills.</p>
+            <div class="coach-card-bio" id="bio-justin-frank">
+              <p>Justin brings current school and club coaching experience to The Courts, along with a strong understanding of how young volleyball players develop from fundamentals into competitive play.</p>
+              <p>Justin currently serves as the Varsity and JV Volleyball Coach at Mill Creek Middle School, where he leads athletes through preseason training, practices, and competition. He also brings club volleyball coaching experience to his work with developing players.</p>
+              <p>At The Courts, Justin focuses on helping athletes build technically sound fundamentals while developing movement, communication, court awareness, and confidence under pressure. His goal is to help players understand the game as a whole, not simply master individual skills.</p>
+            </div>
+            <button class="coach-card-more" type="button" aria-expanded="false" aria-controls="bio-justin-frank">+ More</button>
             <p class="coach-card-focus">Fundamentals &middot; Passing &middot; Serving &middot; Hitting &middot; Court Awareness &middot; Competitive Play</p>
           </div>
         </div>
@@ -498,6 +518,17 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     </div>
   </div>
 
+
+  <script>
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.coach-card-more');
+      if (!btn) return;
+      var body = btn.closest('.coach-card-body');
+      var open = body.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = open ? '\u2212 Less' : '+ More';
+    });
+  </script>
   <a href="coach-collective" class="coaches-cc-banner reveal">
     <div class="container coaches-cc-banner-inner">
       <span class="coaches-cc-banner-eyebrow">Are You the Coach?</span>
@@ -557,8 +588,17 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     .coach-card-body { position: relative; padding: 20px 20px 22px; flex: 1; display: flex; flex-direction: column; }
     .coach-card-name { position: relative; z-index: 1; font-family: var(--font-display); font-weight: 900; font-size: 21px; letter-spacing: 0.01em; color: var(--black); margin: 0 0 3px; }
     .coach-card-title { position: relative; z-index: 1; font-family: var(--font-sport); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--orange); margin: 0 0 14px; }
-    .coach-card-bio { position: relative; z-index: 1; font-size: 14.5px; line-height: 1.65; color: var(--gray-dark); margin: 0; }
-    .coach-card-focus { position: relative; z-index: 1; margin: 14px 0 0; padding-top: 12px; border-top: 1px solid rgba(23,23,23,0.12); font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--orange-ink, var(--orange)); line-height: 1.6; }
+    .coach-card-bio { position: relative; z-index: 1; font-size: 14.5px; line-height: 1.65; color: var(--gray-dark); margin: 0; max-height: 4.95em; overflow: hidden; transition: max-height 0.32s var(--ease); }
+    .coach-card-bio p { margin: 0 0 11px; }
+    .coach-card-bio p:last-child { margin-bottom: 0; }
+    .coach-card-bio::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2.1em; background: linear-gradient(to bottom, rgba(255,255,255,0), var(--white) 78%); pointer-events: none; transition: opacity 0.2s var(--ease); }
+    .coach-card-body.is-open .coach-card-bio { max-height: 80em; }
+    .coach-card-body.is-open .coach-card-bio::after { opacity: 0; }
+    .coach-card-more { position: relative; z-index: 1; align-self: flex-start; margin-top: 9px; padding: 0; background: none; border: 0; cursor: pointer; font-family: var(--font-sport); font-size: 12px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--orange); transition: color 0.18s var(--ease); }
+    .coach-card-more:hover { color: var(--orange-hover, #CE5E26); text-decoration: underline; }
+    .coach-card-more:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; border-radius: 2px; }
+    @media (prefers-reduced-motion: reduce) { .coach-card-bio { transition: none; } }
+    .coach-card-focus { position: relative; z-index: 1; margin: 14px 0 0; order: 9; margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(23,23,23,0.12); font-family: var(--font-sport); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--orange-ink, var(--orange)); line-height: 1.6; }
 
     @media (max-width: 900px) {
       .coaches-board { grid-template-columns: repeat(2, 1fr); max-width: 680px; gap: 28px; }
