@@ -3,13 +3,15 @@ import { prisma } from "@/lib/prisma";
 import { availabilityFor } from "@/lib/programs/availability";
 import { programTypeDef, gradeRangeLabel } from "@/lib/programs/types";
 import { formatCents } from "@/lib/programs/format";
+import { PARENT_VISIBLE } from "@/lib/programs/parent-feed";
 
 // Public program feed for playthecourts.com.
 //
 // The marketing site renders cards from THIS, so adding a camp or an event is a
-// publish in Courts OS, not an HTML edit and a deploy. Only offerings flagged
-// for the website are included, and only fields that are genuinely public —
-// coach notes, internal notes and staffing never appear in this response.
+// publish in Courts OS, not an HTML edit and a deploy. Visibility is the Parent
+// App's predicate, so the website and the app cannot disagree about what is on
+// offer. Only genuinely public fields appear — coach notes, internal notes and
+// staffing never reach this response.
 
 export const dynamic = "force-dynamic";
 
@@ -38,9 +40,9 @@ export async function GET(request: Request) {
 
   const offerings = await prisma.offering.findMany({
     where: {
-      status: "published",
-      visibleWebsite: true,
-      internalOnly: false,
+      // Same predicate as the Parent App and the public schedule: publish once,
+      // in Courts OS, and every surface follows. See parent-feed.ts.
+      ...PARENT_VISIBLE,
       ...(sport ? { program: { sport } } : {}),
       ...(type ? { program: { programType: type as never } } : {}),
       // Only things a visitor could still act on.
