@@ -31,13 +31,49 @@ export async function getCurrentGuardian() {
     },
   });
 
-  if (!guardian) {
-    // Authenticated with Supabase but no guardian profile provisioned yet.
-    // No self-serve signup flow exists yet — this is an admin-provisioning gap for later.
-    redirect("/login?error=no-profile");
+  if (guardian) return guardian;
+
+  // Authenticated, but no guardian is linked to this login yet.
+  //
+  // This is the legacy families' other locked door. Their Guardian rows came
+  // across from NextGen with authId null. signUp already claims such a record
+  // by email (see actions/auth.ts) — but someone who resets their password
+  // instead of signing up never goes through that path, authenticates fine,
+  // and is then told to "contact us". Same claim, same trust model, applied on
+  // the way in: an unlinked record whose email matches the verified address on
+  // this login is theirs.
+  //
+  // Deliberately narrow: only an authId of null is ever claimed, so a record
+  // already attached to another login can never be taken over.
+  const email = user.email?.trim().toLowerCase();
+  if (email) {
+    const unlinked = await prisma.guardian.findFirst({
+      where: { authId: null, email: { equals: email, mode: "insensitive" } },
+      select: { id: true },
+    });
+
+    if (unlinked) {
+      await prisma.guardian.update({
+        where: { id: unlinked.id },
+        data: { authId: user.id },
+      });
+
+      const claimed = await prisma.guardian.findUnique({
+        where: { authId: user.id },
+        include: {
+          families: {
+            include: {
+              family: { include: { athletes: { where: { archivedAt: null } } } },
+            },
+          },
+        },
+      });
+      if (claimed) return claimed;
+    }
   }
 
-  return guardian;
+  // Genuinely nothing on file for this address.
+  redirect("/login?error=no-profile");
 }
 
 /// Whether this same login (same Supabase auth id) also has an active
