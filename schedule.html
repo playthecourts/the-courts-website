@@ -73,6 +73,46 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     .sch-launch-pill { font-size: 17px; padding: 16px 40px; }
   }
 
+  /* ---- real calendar ---- */
+  .cal-bar { display:flex; align-items:center; justify-content:center; gap:18px; max-width:900px; margin:0 auto 14px; }
+  .cal-month { font-family:var(--font-display); font-weight:900; font-size:26px; letter-spacing:0.01em; color:var(--black); margin:0; min-width:230px; text-align:center; }
+  .cal-nav { width:40px; height:40px; border-radius:50%; border:2px solid var(--black); background:var(--white); font-size:17px; line-height:1; cursor:pointer; transition:background .18s, color .18s; }
+  .cal-nav:hover { background:var(--black); color:var(--white); }
+  .cal-quick { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px 16px; max-width:900px; margin:0 auto 18px; }
+  .cal-legend { display:inline-flex; align-items:center; gap:6px; font-family:var(--font-sport); font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--gray-dark); }
+  .cal-dot { width:8px; height:8px; border-radius:50%; display:inline-block; }
+  .cal-dot--bb { background:var(--orange); }
+  .cal-dot--vb { background:var(--black); }
+  .cal-dot--other { background:#9A9A9A; }
+  .cal-closed-key { width:12px; height:12px; border-radius:3px; background:repeating-linear-gradient(45deg,#E4E0D8,#E4E0D8 3px,#F7F5F0 3px,#F7F5F0 6px); border:1px solid #D6D1C7; display:inline-block; }
+  .cal-wrap { max-width:900px; margin:0 auto; }
+  .cal-grid-head { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:6px; margin-bottom:6px; }
+  .cal-grid-head span { text-align:center; font-family:var(--font-sport); font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--gray-dark); }
+  .cal-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:6px; }
+  .cal-cell { position:relative; aspect-ratio:1/1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:6px; padding:8px 4px; border:2px solid #E4E0D8; border-radius:var(--radius-sm,8px); background:var(--white); cursor:pointer; font:inherit; transition:border-color .16s, transform .16s; }
+  .cal-cell:hover { border-color:var(--black); transform:translateY(-2px); }
+  .cal-cell--empty { border:0; background:none; cursor:default; }
+  .cal-cell--empty:hover { transform:none; }
+  .cal-cell--quiet { background:#FCFBF9; }
+  .cal-cell--closed { background:repeating-linear-gradient(45deg,#EFECE5,#EFECE5 4px,#F7F5F0 4px,#F7F5F0 8px); color:var(--gray-dark); }
+  .cal-cell--today { border-color:var(--orange); }
+  .cal-cell--selected { border-color:var(--black); background:var(--black); color:var(--white); }
+  .cal-cell--selected .cal-dot--vb { background:var(--white); }
+  .cal-num { font-family:var(--font-display); font-weight:900; font-size:15px; }
+  .cal-dots { display:flex; gap:3px; min-height:8px; }
+  .cal-closed { font-family:var(--font-sport); font-size:9px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+  .cal-day-panel { max-width:900px; margin:30px auto 0; }
+  .cal-day-head { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+  .cal-day-head h3 { font-family:var(--font-display); font-weight:900; font-size:21px; color:var(--black); margin:0; }
+  .cal-badge { font-family:var(--font-sport); font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--white); background:var(--orange); padding:4px 10px; border-radius:999px; }
+  .cal-empty { font-size:15px; color:var(--gray-dark); padding:18px 0; }
+  @media (max-width:640px) {
+    .cal-month { font-size:20px; min-width:150px; }
+    .cal-cell { padding:5px 2px; gap:4px; }
+    .cal-num { font-size:13px; }
+    .cal-closed { font-size:7px; }
+  }
+
   .sch-filters { display: flex; flex-direction: column; gap: 10px; max-width: 900px; margin: 0 auto 32px; padding: 16px 18px; background: var(--warm-stone); border-radius: var(--radius-md); }
   .sch-filter-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .sch-filter-label { font-family: var(--font-sport); font-weight: 800; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-dark); opacity: 0.7; width: 64px; flex-shrink: 0; }
@@ -356,46 +396,34 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     </div>
 
     <div class="sch-preview">
-      <h2>A First Look at the Schedule</h2>
-      <p>We&rsquo;re still putting the finishing touches on the schedule, but wanted to give you an early look at what we&rsquo;re planning for opening. The schedule may shift as we finalize coaches, age groups, and registrations. Check back here for the latest as we get closer to opening.</p>
+      <h2>The Real Schedule. Live.</h2>
+      <p>This is the actual calendar &mdash; the same one inside your account. Pick a day to see what&rsquo;s on, who&rsquo;s coaching it, and what you can book. Closed days are marked.</p>
       <p><strong>See something you&rsquo;re excited about? So are we.</strong></p>
     </div>
 
-    <div class="sch-tabs" id="schTabs">
-      <button type="button" class="sch-tab active" data-tab="upcoming">Upcoming</button>
+    <div class="cal-bar">
+      <button type="button" class="cal-nav" id="calPrev" aria-label="Previous month">&larr;</button>
+      <h3 class="cal-month" id="calMonth">&nbsp;</h3>
+      <button type="button" class="cal-nav" id="calNext" aria-label="Next month">&rarr;</button>
     </div>
 
-    <div class="sch-filters">
-      <div class="sch-filter-row">
-        <span class="sch-filter-label">Day</span>
-        <button type="button" class="sch-chip active" data-filter="day" data-value="all">All</button>
-        <button type="button" class="sch-chip" data-filter="day" data-value="Monday">Mon</button>
-        <button type="button" class="sch-chip" data-filter="day" data-value="Tuesday">Tue</button>
-        <button type="button" class="sch-chip" data-filter="day" data-value="Wednesday">Wed</button>
-        <button type="button" class="sch-chip" data-filter="day" data-value="Thursday">Thu</button>
-        <button type="button" class="sch-chip" data-filter="day" data-value="Friday">Fri</button>
-        <button type="button" class="sch-chip" data-filter="day" data-value="Saturday">Sat</button>
-        <button type="button" class="sch-chip" data-filter="day" data-value="Sunday">Sun</button>
-      </div>
-      <div class="sch-filter-row">
-        <span class="sch-filter-label">Sport</span>
-        <button type="button" class="sch-chip active" data-filter="sport" data-value="all">All</button>
-        <button type="button" class="sch-chip" data-filter="sport" data-value="basketball">Basketball</button>
-        <button type="button" class="sch-chip" data-filter="sport" data-value="volleyball">Volleyball</button>
-      </div>
-      <div class="sch-filter-row">
-        <span class="sch-filter-label">Type</span>
-        <button type="button" class="sch-chip active" data-filter="type" data-value="all">All</button>
-        <button type="button" class="sch-chip" data-filter="type" data-value="training">Training</button>
-        <button type="button" class="sch-chip" data-filter="type" data-value="team">Team Practice</button>
-        <button type="button" class="sch-chip" data-filter="type" data-value="open">Open Court</button>
-        <button type="button" class="sch-chip" data-filter="type" data-value="performance">Performance</button>
-        <button type="button" class="sch-chip" data-filter="type" data-value="camp">Camps</button>
-        <button type="button" class="sch-chip" data-filter="type" data-value="event">Events</button>
-      </div>
+    <div class="cal-quick">
+      <button type="button" class="sch-chip" data-jump="today">Today</button>
+      <button type="button" class="sch-chip" data-jump="tomorrow">Tomorrow</button>
+      <span class="cal-legend"><span class="cal-dot cal-dot--bb"></span>Basketball</span>
+      <span class="cal-legend"><span class="cal-dot cal-dot--vb"></span>Volleyball</span>
+      <span class="cal-legend"><span class="cal-dot cal-dot--other"></span>Other</span>
+      <span class="cal-legend"><span class="cal-closed-key"></span>Closed</span>
     </div>
 
-    <div id="schBody"></div>
+    <div class="cal-wrap">
+      <div class="cal-grid-head">
+        <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+
+    <div id="dayPanel" class="cal-day-panel"></div>
     <p class="sch-note" id="schEmpty" hidden style="text-align:center; margin-top:20px;"></p>
   </div>
 </section>
@@ -581,327 +609,198 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
 <script src="js/script.js?v=2"></script>
 <script>
 (function () {
-  // The app's own login gate already redirects an unsigned-in visitor to
-  // /login?next=/my-courts/explore and back — no manual next= needed here.
-  var BOOK_HREF = 'https://app.playthecourts.com/my-courts/explore';
+  // The schedule page shows the real calendar, not a representative week: the
+  // exact date, who is coaching, what is on tomorrow, and the days the building
+  // is closed. Everything below is drawn from the app's own schedule feed, so
+  // the website and the member app cannot drift apart.
+  var FEED = 'https://app.playthecourts.com/api/public/schedule?days=150';
+  var BOOK_FALLBACK = 'https://app.playthecourts.com/my-courts/explore';
 
-  var DATA = [
-    { day:"Monday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Skills + Game Play", time:"4:30 PM", dur:"60 min", title:"Volleyball Development", coach:"Justin", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Monday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Advanced Development", time:"5:30 PM", dur:"60 min", title:"Volleyball Performance", coach:"Justin", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Monday", type:"premium", title:"Performance Lab: Speed + Movement", gradeLabel:"Grades 3+", time:"7:00 PM", dur:"75 min", coach:"Spencer Richardson", premiumOrg:"All-Around-Game Basketball", premiumDesc:"Build quickness, coordination, balance, footwork, reaction, and body control through high-energy small-group training.", premiumTags:"Speed &middot; Agility &middot; Coordination &middot; Movement" },
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var state = { cursor: null, selected: null, sport: 'all', type: 'all' };
+  var classesByDate = {};
+  var closures = {};
+  var loaded = false;
 
-    { day:"Tuesday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Skills + Game Play", time:"5:00 PM", dur:"60 min", title:"Volleyball Development", coach:"Kenya", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Tuesday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Advanced Development", time:"6:00 PM", dur:"60 min", title:"Volleyball Performance", coach:"Kenya", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Tuesday", type:"performance", tagLabel:"Performance Training", age:[], ageLabel:"Ages 8+", desc:"All Sports &middot; Speed, Mobility + Movement", time:"7:00 PM", dur:"60 min", title:"Speed + Agility", coach:"Kenya", included:"Weekly, Unlimited + Full Court", cta:"book" },
-
-    { day:"Wednesday", sport:"basketball", type:"training", age:["4-7"], ageLabel:"Ages 4&ndash;7", desc:"New to the Game", time:"5:00 PM", dur:"50 min", title:"Basketball Basics", coach:"Johnny", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Wednesday", sport:"basketball", type:"training", age:["6-10"], ageLabel:"Ages 6&ndash;10", desc:"Skills + Game Play", time:"6:00 PM", dur:"60 min", title:"Basketball Development", coach:"Johnny", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Wednesday", sport:"basketball", type:"training", age:["9-14","11-plus"], ageLabel:"Ages 11+", desc:"Advanced Development", time:"7:00 PM", dur:"60 min", title:"Basketball Performance", coach:"Johnny", included:"Weekly, Unlimited + Full Court", cta:"book" },
-
-
-    { day:"Friday", sport:"basketball", type:"open", tagLabel:"Open Court", age:[], ageLabel:null, desc:null, time:"8:00 PM", dur:"60 min", title:"Open Court (Basketball)", coach:"Staff Member", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Friday", sport:"basketball", type:"training", age:["6-10"], ageLabel:"Ages 6&ndash;10", desc:"Skills + Game Play", time:"6:00 PM", dur:"60 min", title:"Basketball Development", coach:"Johnny", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Friday", sport:"basketball", type:"training", tagLabel:"Game Play", age:["9-14","11-plus"], ageLabel:"Ages 11+", desc:"The Run &middot; Game Play &middot; 12+ Recommended", time:"7:00 PM", dur:"60 min", title:"Basketball Performance", coach:"Johnny", included:"Weekly, Unlimited + Full Court", cta:"book" },
-
-    { day:"Saturday", sport:"basketball", type:"training", age:["4-7"], ageLabel:"Ages 4&ndash;7", desc:"New to the Game", time:"9:00 AM", dur:"50 min", title:"Basketball Basics", coach:"Johnny", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Saturday", sport:"basketball", type:"training", age:["6-10"], ageLabel:"Ages 6&ndash;10", desc:"Skills + Game Play", time:"10:00 AM", dur:"60 min", title:"Basketball Development", coach:"Johnny", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Saturday", sport:"basketball", type:"training", age:["9-14","11-plus"], ageLabel:"Ages 11+", desc:"Advanced Development", time:"11:00 AM", dur:"60 min", title:"Basketball Performance", coach:"Johnny", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Saturday", sport:"volleyball", type:"open", tagLabel:"Open Gym", age:[], ageLabel:null, desc:null, time:"3:00 PM", dur:"60 min", title:"Open Gym (Volleyball)", coach:"Staff Member", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Saturday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Skills + Game Play", time:"4:00 PM", dur:"60 min", title:"Volleyball Development", coach:"Staff Member", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Saturday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Advanced Development", time:"5:00 PM", dur:"60 min", title:"Volleyball Performance", coach:"Staff Member", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Saturday", type:"premium", title:"Performance Lab: Speed + Movement", gradeLabel:"Grades 3&ndash;5", time:"12:00 PM", dur:"75 min", coach:"Spencer Richardson", premiumOrg:"All-Around-Game Basketball", premiumDesc:"Build quickness, coordination, balance, footwork, reaction, and body control through high-energy small-group training.", premiumTags:"Speed &middot; Agility &middot; Coordination &middot; Movement" },
-    { day:"Saturday", type:"premium", title:"Performance Lab: Power + Performance", gradeLabel:"Grades 6&ndash;8", time:"1:30 PM", dur:"75 min", coach:"Spencer Richardson", premiumOrg:"All-Around-Game Basketball", premiumDesc:"Advanced performance training focused on acceleration, change of direction, explosiveness, reaction, power, and game-speed movement.", premiumTags:"Speed &middot; Power &middot; Agility &middot; Reaction" }
-  ];
-
-  var DAY_TAGLINES = {
-    Monday: "Get Back To It.",
-    Tuesday: "Keep Building.",
-    Wednesday: "Work Day.",
-    Thursday: "Put It to Work.",
-    Friday: "Game On.",
-    Saturday: "More Reps.",
-    Sunday: "Your Court. Your Time."
-  };
-
-  var SUNDAY_CARD = {
-    title: "Private Training + Dr. Dish",
-    note: "Sundays are reserved for one-on-one coaching and Dr. Dish reps — appointment-based, not a recurring class.",
-    links: [
-      { href: "contact?interest=Private%20Training#contact-form", label: "Book Private Training" },
-      { href: "dr-dish", label: "Explore Dr. Dish" }
-    ]
-  };
-
-  var THURSDAY_CARD = {
-    title: "Fall Teams Are Locked In.",
-    note: "Thursday evenings are reserved for Fall Basketball League team practices. We will not play games on November 28th due to Thanksgiving. Raise your hand for Winter and we&rsquo;ll be in touch as we work out league details.",
-    links: [
-      { href: "contact?interest=Basketball%20Leagues#contact-form", label: "Raise Your Hand for Winter" }
-    ]
-  };
-
-  var THURSDAY_ROWS = [
-    { time: "6:00 PM", dur: "75 min", title: "Fall Basketball League Practice", desc: "3rd + 4th Grade Boys Teams", coach: "Johnny", type: "team", cta: "locked" },
-    { time: "7:30 PM", dur: "75 min", title: "Fall Basketball League Practice", desc: "6th + 7th Grade Boys Team", coach: "Johnny", type: "team", cta: "locked" }
-  ];
-
-  var state = { tab: 'upcoming', day: 'all', sport: 'all', type: 'all' };
-
-  function sessionRow(s) {
-    var tagClass = s.type === 'team' ? 'sch-tag--team' : (s.type === 'open' ? 'sch-tag--open' : 'sch-tag--training');
-    var tagLabel = s.tagLabel || (s.type === 'team' ? 'Team Practice' : (s.type === 'open' ? 'Open Court' : 'Group Training'));
-    var cta = s.cta === 'book'
-      ? '<a href="' + BOOK_HREF + '" class="sch-btn sch-btn-primary" target="_blank" rel="noopener">Book &rarr;</a>'
-      : s.cta === 'soon'
-      ? '<span class="sch-btn sch-btn-locked">Coming Soon</span>'
-      : '<span class="sch-btn sch-btn-locked">Team Only</span>';
-    var included = s.included ? '<p class="sch-included">Included with <strong>' + s.included + '</strong></p>' : '';
-    var step = s.step ? '<span class="sch-step">' + s.step + '</span>' : '';
-    var ageText = s.desc;
-    var ageRow = ageText ? '<div class="sch-age-row">' + ageText + '</div>' : '';
-    return '' +
-      '<div class="sch-row">' +
-        '<div class="sch-time">' + s.time + '<span>' + s.dur + '</span></div>' +
-        '<div>' +
-          step +
-          '<h4>' + s.title + '</h4>' +
-          ageRow +
-          '<div class="sch-meta">' +
-            '<span class="sch-tag ' + tagClass + '">' + tagLabel + '</span>' +
-            '<span class="sch-coach">' + (s.coach === 'Staff Member' ? '<strong>Staff Member</strong>' : 'Coach <strong>' + s.coach + '</strong>') + '</span>' +
-          '</div>' +
-          included +
-        '</div>' +
-        '<div class="sch-cta">' + cta + '</div>' +
-      '</div>';
+  function iso(d) {
+    return d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0') + '-' + String(d.getUTCDate()).padStart(2, '0');
+  }
+  function fromIso(s) { return new Date(s + 'T00:00:00Z'); }
+  function todayIso() {
+    var n = new Date();
+    return n.getFullYear() + '-' + String(n.getMonth() + 1).padStart(2, '0') + '-' + String(n.getDate()).padStart(2, '0');
+  }
+  function addDays(isoStr, n) { return iso(new Date(fromIso(isoStr).getTime() + n * 86400000)); }
+  function prettyDate(isoStr) {
+    var d = fromIso(isoStr);
+    return new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC' }).format(d);
   }
 
-  // Premium add-ons (The Performance Lab) are deliberately NOT rendered with
-  // sessionRow — no "Included with..." line, no Book cta — but sized and
-  // spaced to sit quietly alongside the regular rows rather than as a large
-  // standalone block, so it doesn't pull focus from the rest of the day.
-  function premiumRow(s) {
-    return '' +
-      '<div class="sch-premium-card">' +
-        '<div class="sch-premium-head">' +
-          '<div>' +
-            '<span class="sch-premium-badge">Premium Add-On</span>' +
-            '<h4>' + s.title + '</h4>' +
-            '<p class="sch-premium-coach">Coach <strong>' + (s.coach || 'Spencer Richardson') + '</strong>' + (s.premiumOrg ? ' &middot; ' + s.premiumOrg : '') + '</p>' +
-          '</div>' +
-          '<div class="sch-time">' + s.time + '<span>' + s.dur + '</span></div>' +
-        '</div>' +
-        '<p class="sch-premium-desc">' + s.premiumDesc + '</p>' +
-        '<p class="sch-premium-tags">' + s.premiumTags + '</p>' +
-        '<div class="sch-premium-foot">' +
-          '<p class="sch-premium-note">Separate registration required, not included with membership &middot; $40 &middot; $35 Members</p>' +
-          '<a href="' + BOOK_HREF + '" class="sch-btn sch-btn-premium" target="_blank" rel="noopener">Book &rarr;</a>' +
-        '</div>' +
-      '</div>';
+  function sportClass(c) {
+    var s = (c.sport || '').toLowerCase();
+    return s.indexOf('basket') === 0 ? 'cal-dot--bb' : (s.indexOf('volley') === 0 ? 'cal-dot--vb' : 'cal-dot--other');
   }
-
-  function promoCard(c) {
-    var links = c.links.map(function (l) {
-      return '<a href="' + l.href + '" class="sch-btn sch-btn-outline-dark">' + l.label + ' &rarr;</a>';
-    }).join('');
-    return '' +
-      '<div class="sch-prog">' +
-        '<div class="sch-prog-head">' +
-          '<span class="sch-prog-window">' + c.title + '</span>' +
-        '</div>' +
-        '<p class="sch-prog-note">' + c.note + '</p>' +
-        '<div class="sch-prog-links">' + links + '</div>' +
-      '</div>';
-  }
-
-  function timeToMinutes(t) {
-    var m = /(\d+):(\d+)\s*(AM|PM)/.exec(t);
-    if (!m) return 9999;
-    var h = parseInt(m[1], 10) % 12;
-    if (m[3] === 'PM') h += 12;
-    return h * 60 + parseInt(m[2], 10);
-  }
-
-  function matchesFilters(s) {
-    if (state.day !== 'all' && s.day !== state.day) return false;
-    // The Performance chip covers both the "performance" type (e.g. Speed +
-    // Agility) and the Performance Lab premium cards — two different render
-    // paths, same real-world category from a parent's point of view.
-    if (state.type === 'performance') {
-      if (s.type !== 'performance' && s.type !== 'premium') return false;
-    } else if (state.type !== 'all' && s.type !== state.type) {
-      return false;
+  function matches(c) {
+    if (state.sport !== 'all') {
+      var s = (c.sport || '').toLowerCase();
+      if (s.indexOf(state.sport) !== 0) return false;
     }
-    // Premium add-ons are cross-sport — the Sport filter doesn't apply to
-    // them the way it does to regular group training.
-    if (s.type === 'premium') return true;
-    if (state.sport !== 'all' && s.sport !== state.sport) return false;
+    if (state.type !== 'all' && (c.type || '') !== state.type) return false;
     return true;
   }
 
-  // ---------------------------------------------------------------- live feed
-  // DATA below is the fallback: the week as last written by hand. On load we
-  // ask the app for what is actually scheduled and swap it in. Anything that
-  // fails — offline, deploy in progress, empty response — leaves the static
-  // week exactly as it was, which is the worst case, not a broken page.
-  var FEED_URL = 'https://app.playthecourts.com/api/public/schedule';
-  // True once the app has told us what is really scheduled. The hand-written
-  // Thursday league block and the day taglines below are written for the
-  // fallback week; with live data, Thursday is just another day and shows
-  // whatever is actually on the calendar, including nothing.
-  var LIVE = false;
+  function dayClasses(isoStr) { return (classesByDate[isoStr] || []).filter(matches); }
 
-  // The app's program vocabulary is not the page's. Everything the page needs
-  // that the feed can't know (premium copy, membership line, tag labels) is
-  // taken from the matching static row by title, so hand-written detail
-  // survives while days, times and coaches come from the schedule itself.
-  function inferType(c) {
-    var t = c.type || '';
-    if (/performance lab/i.test(c.title || '')) return 'premium';
-    if (t === 'open_gym' || t === 'court_rental') return 'open';
-    if (t === 'league') return 'team';
-    if (t === 'group_training' || t === 'skills_clinic' || t === 'class') {
-      // A class with no sport of its own is the all-sports performance work.
-      return c.sport ? 'training' : 'performance';
+  function renderMonth() {
+    var grid = document.getElementById('calGrid');
+    var label = document.getElementById('calMonth');
+    if (!grid || !state.cursor) return;
+    var cur = fromIso(state.cursor);
+    var y = cur.getUTCFullYear(), m = cur.getUTCMonth();
+    label.textContent = MONTHS[m] + ' ' + y;
+
+    var first = new Date(Date.UTC(y, m, 1));
+    var startPad = first.getUTCDay();
+    var daysInMonth = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+    var today = todayIso();
+    var html = '';
+
+    for (var i = 0; i < startPad; i++) html += '<div class="cal-cell cal-cell--empty"></div>';
+    for (var d = 1; d <= daysInMonth; d++) {
+      var key = y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+      var list = dayClasses(key);
+      var closed = closures[key];
+      var cls = 'cal-cell';
+      if (closed) cls += ' cal-cell--closed';
+      if (key === today) cls += ' cal-cell--today';
+      if (key === state.selected) cls += ' cal-cell--selected';
+      if (!list.length && !closed) cls += ' cal-cell--quiet';
+
+      var dots = '';
+      if (!closed) {
+        var seen = {};
+        list.forEach(function (c) {
+          var k = sportClass(c);
+          if (seen[k]) return;
+          seen[k] = 1;
+          dots += '<span class="cal-dot ' + k + '"></span>';
+        });
+      }
+      html += '<button type="button" class="' + cls + '" data-date="' + key + '">' +
+                '<span class="cal-num">' + d + '</span>' +
+                (closed ? '<span class="cal-closed">Closed</span>' : '<span class="cal-dots">' + dots + '</span>') +
+              '</button>';
     }
-    return null;
+    grid.innerHTML = html;
   }
 
-  function mapFeed(classes) {
-    var byTitle = {};
-    DATA.forEach(function (d) { byTitle[d.title] = d; });
+  function renderDay() {
+    var panel = document.getElementById('dayPanel');
+    if (!panel) return;
+    if (!state.selected) { panel.innerHTML = ''; return; }
+    var key = state.selected;
+    var closed = closures[key];
+    var list = dayClasses(key);
+    var head = '<div class="cal-day-head"><h3>' + prettyDate(key) + '</h3>' +
+      (key === todayIso() ? '<span class="cal-badge">Today</span>' : '') +
+      (key === addDays(todayIso(), 1) ? '<span class="cal-badge">Tomorrow</span>' : '') + '</div>';
 
-    return classes.map(function (c) {
-      var base = byTitle[c.title] || {};
-      var type = base.type || inferType(c);
-      if (!type) return null;
-      return {
-        day: c.day,
-        time: c.time,
-        dur: (c.minutes || 60) + ' min',
-        title: c.title,
-        sport: c.sport || base.sport || null,
-        type: type,
-        desc: base.desc || c.desc || c.ages || null,
-        ageLabel: base.ageLabel || c.ages || null,
-        age: base.age || [],
-        tagLabel: base.tagLabel,
-        coach: c.coach || base.coach || 'Staff Member',
-        included: type === 'premium' ? undefined : (base.included || 'Weekly, Unlimited + Full Court'),
-        cta: base.cta || 'book',
-        gradeLabel: base.gradeLabel || c.ages || null,
-        premiumOrg: base.premiumOrg,
-        premiumDesc: base.premiumDesc || c.desc || '',
-        premiumTags: base.premiumTags || ''
-      };
-    }).filter(Boolean);
+    if (closed) {
+      panel.innerHTML = head + '<p class="cal-empty"><strong>We&rsquo;re closed.</strong>' +
+        (closed.note ? ' ' + closed.note : '') + '</p>';
+      return;
+    }
+    if (!list.length) {
+      panel.innerHTML = head + '<p class="cal-empty">' +
+        (loaded ? 'Nothing on the schedule for this day.' : 'Loading the schedule&hellip;') + '</p>';
+      return;
+    }
+    panel.innerHTML = head + list.map(function (c) {
+      var tag = (c.sport || 'The Courts');
+      return '<div class="sch-row">' +
+        '<div class="sch-time">' + c.time + '<span>' + c.minutes + ' min</span></div>' +
+        '<div>' +
+          '<h4>' + c.title + '</h4>' +
+          (c.desc ? '<div class="sch-age-row">' + c.desc + '</div>' : '') +
+          '<div class="sch-meta">' +
+            '<span class="sch-tag sch-tag--training">' + tag + '</span>' +
+            '<span class="sch-coach">' + (c.coach ? 'Coach <strong>' + c.coach + '</strong>' : '<strong>Coach TBD</strong>') + '</span>' +
+          '</div>' +
+          (c.note ? '<p class="sch-included">' + c.note + '</p>' : '') +
+        '</div>' +
+        '<div class="sch-cta"><a href="' + (c.bookingUrl || BOOK_FALLBACK) + '" class="sch-btn sch-btn-primary" target="_blank" rel="noopener">Book &rarr;</a></div>' +
+      '</div>';
+    }).join('');
   }
 
-  function loadLiveSchedule() {
-    if (!window.fetch) return;
-    fetch(FEED_URL, { cache: 'no-store' })
+  function renderAll() { renderMonth(); renderDay(); }
+
+  function wire() {
+    document.getElementById('calPrev').addEventListener('click', function () {
+      var d = fromIso(state.cursor);
+      state.cursor = iso(new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() - 1, 1)));
+      renderAll();
+    });
+    document.getElementById('calNext').addEventListener('click', function () {
+      var d = fromIso(state.cursor);
+      state.cursor = iso(new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1)));
+      renderAll();
+    });
+    document.getElementById('calGrid').addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-date]');
+      if (!btn) return;
+      state.selected = btn.getAttribute('data-date');
+      renderAll();
+      document.getElementById('dayPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+    document.querySelectorAll('[data-jump]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var target = b.getAttribute('data-jump') === 'tomorrow' ? addDays(todayIso(), 1) : todayIso();
+        state.selected = target;
+        state.cursor = target.slice(0, 8) + '01';
+        renderAll();
+      });
+    });
+    document.querySelectorAll('[data-filter]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var f = b.getAttribute('data-filter'), v = b.getAttribute('data-value');
+        if (f !== 'sport' && f !== 'type') return;
+        state[f] = v;
+        document.querySelectorAll('[data-filter="' + f + '"]').forEach(function (x) { x.classList.remove('active'); });
+        b.classList.add('active');
+        renderAll();
+      });
+    });
+  }
+
+  function load() {
+    fetch(FEED, { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (j) {
-        if (!j || !j.classes || !j.classes.length) return;
-        var mapped = mapFeed(j.classes);
-        if (!mapped.length) return;
-        DATA = mapped;
-        LIVE = true;
-        render();
+        loaded = true;
+        if (!j) { renderAll(); return; }
+        (j.classes || []).forEach(function (c) {
+          (classesByDate[c.date] = classesByDate[c.date] || []).push(c);
+        });
+        (j.closures || []).forEach(function (c) { closures[c.date] = c; });
+        // Land on the next day that actually has something on it, so the page
+        // opens on real programming rather than an empty Tuesday.
+        if (!dayClasses(state.selected).length) {
+          var keys = Object.keys(classesByDate).sort();
+          for (var i = 0; i < keys.length; i++) {
+            if (keys[i] >= todayIso()) { state.selected = keys[i]; state.cursor = keys[i].slice(0, 8) + '01'; break; }
+          }
+        }
+        renderAll();
       })
-      .catch(function () { /* static week stands */ });
+      .catch(function () { loaded = true; renderAll(); });
   }
 
-  function render() {
-    var root = document.getElementById('schBody');
-    if (!root) return;
-    var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    var html = '';
-    var anyContent = false;
-
-    days.forEach(function (day) {
-      if (day === 'Thursday' && !LIVE) {
-        var showThursday = (state.day === 'all' || state.day === 'Thursday') && (state.type === 'all' || state.type === 'team') && (state.sport === 'all' || state.sport === 'basketball');
-        if (!showThursday) return;
-        anyContent = true;
-        html += '<div class="sch-day-group">';
-        html += '<div class="sch-day-head"><h3>Thursday</h3><span class="sch-day-tagline">' + DAY_TAGLINES.Thursday + '</span><span class="sch-day-sub">Fall League</span></div>';
-        THURSDAY_ROWS.forEach(function (s) { html += sessionRow(s); });
-        html += promoCard(THURSDAY_CARD);
-        html += '</div>';
-        return;
-      }
-
-      var rows = DATA.filter(function (s) { return s.day === day; }).filter(matchesFilters);
-      if (rows.length === 0) return;
-
-      var items = rows.map(function (s) {
-        return { sortMin: timeToMinutes(s.time), premium: s.type === 'premium', html: s.type === 'premium' ? premiumRow(s) : sessionRow(s) };
-      });
-      items.sort(function (a, b) { return a.sortMin - b.sortMin; });
-
-      var sportsToday = rows.reduce(function (list, s) {
-        if (s.type === 'premium') return list;
-        var label = s.sport === 'basketball' ? 'Basketball' : (s.sport === 'volleyball' ? 'Volleyball' : 'Performance Training');
-        if (list.indexOf(label) === -1) list.push(label);
-        return list;
-      }, []);
-
-      anyContent = true;
-      html += '<div class="sch-day-group">';
-      html += '<div class="sch-day-head"><h3>' + day + '</h3><span class="sch-day-tagline">' + DAY_TAGLINES[day] + '</span><span class="sch-day-sub">' + sportsToday.join(' + ') + '</span></div>';
-      items.forEach(function (it) {
-        html += it.html;
-      });
-      html += '</div>';
-    });
-
-    var showSunday = (state.day === 'all' || state.day === 'Sunday') && state.type === 'all' && (state.sport === 'all' || state.sport === 'basketball');
-    if (showSunday) {
-      anyContent = true;
-      html += '<div class="sch-day-group">';
-      html += '<div class="sch-day-head"><h3>Sunday</h3><span class="sch-day-tagline">' + DAY_TAGLINES.Sunday + '</span><span class="sch-day-sub">By Appointment</span></div>';
-      html += promoCard(SUNDAY_CARD);
-      html += '</div>';
-    }
-
-    root.innerHTML = html;
-    var emptyEl = document.getElementById('schEmpty');
-    if (emptyEl) {
-      emptyEl.hidden = anyContent;
-      if (!anyContent) {
-        emptyEl.innerHTML = state.type === 'camp'
-          ? 'Camps run on their own calendar, not the weekly schedule. <a href="camps" style="color:var(--orange); font-weight:700;">See the full Camps lineup &rarr;</a>'
-          : state.type === 'event'
-          ? 'Events run on their own calendar, not the weekly schedule. <a href="events" style="color:var(--orange); font-weight:700;">See what&rsquo;s coming up</a>'
-          : 'Nothing matches those filters. Try a different combination, or check back &mdash; more session types are coming soon.';
-      }
-    }
-  }
-
-  var tabsEl = document.getElementById('schTabs');
-  if (tabsEl) {
-    tabsEl.addEventListener('click', function (e) {
-      var btn = e.target.closest('.sch-tab');
-      if (!btn) return;
-      tabsEl.querySelectorAll('.sch-tab').forEach(function (b) { b.classList.toggle('active', b === btn); });
-      state.tab = btn.getAttribute('data-tab');
-      render();
-    });
-  }
-
-  document.querySelectorAll('.sch-chip[data-filter]').forEach(function (chip) {
-    chip.addEventListener('click', function () {
-      var group = chip.getAttribute('data-filter');
-      document.querySelectorAll('.sch-chip[data-filter="' + group + '"]').forEach(function (c) { c.classList.remove('active'); });
-      chip.classList.add('active');
-      state[group] = chip.getAttribute('data-value');
-      render();
-    });
-  });
-
-  render();
-  loadLiveSchedule();
+  state.selected = todayIso();
+  state.cursor = todayIso().slice(0, 8) + '01';
+  wire();
+  renderAll();
+  load();
 })();
 </script>
 </body>

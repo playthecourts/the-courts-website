@@ -2,29 +2,24 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { gradeRangeLabel } from "@/lib/programs/types";
 
-// Public weekly class schedule for playthecourts.com.
+// Public dated schedule for playthecourts.com.
 //
-// The marketing schedule page used to carry a hand-written copy of the week,
-// which drifted the moment anything moved in Courts OS — a coach swap, a
-// cancelled week, a new class. This is the same idea as the programs feed:
-// what families see on the website is what the app actually has scheduled.
+// Families asked for the real calendar, not a representative week: the exact
+// day, who is coaching it, what is on tomorrow, and which days the building is
+// closed. So this returns real occurrences with their dates rather than a
+// weekly rollup, plus whole-facility closures over the same window.
 //
-// Real occurrences are collapsed back into a weekly grid, because that is what
-// the page shows. A class appears once per weekday/time/name, dated by its next
-// real occurrence, with the coach actually assigned to that occurrence.
-// Cancelled sessions are excluded, so a cancelled week drops out on its own.
+// The app stores session times as wall-clock instants and formats them in UTC
+// everywhere (coach-format.ts, the booking calendar, the session cards): a 9am
+// class is stored 09:00Z and read back as 9am. Anything here that turns a time
+// into text does the same, so the website and the portal can never disagree
+// about when a class starts.
 
 export const dynamic = "force-dynamic";
 
-const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as const;
-// The app stores session times as wall-clock instants and formats them in UTC
-// everywhere (coach-format.ts, the booking calendar, the session cards). A 9am
-// class is stored 09:00Z and READ as 9am. Converting to America/Chicago here
-// would shift every class five hours earlier than the app shows it — 9am became
-// 4am. Match the app: the website and the portal must never disagree about when
-// a class starts.
 const TZ = "UTC";
-const LOOKAHEAD_DAYS = 21;
+const DEFAULT_DAYS = 120;
+const MAX_DAYS = 400;
 
 function corsOrigin(request: Request): string {
   const origin = request.headers.get("origin") ?? "";
@@ -38,93 +33,102 @@ function corsOrigin(request: Request): string {
   return allowed.includes(origin) ? origin : "https://playthecourts.com";
 }
 
-/// Weekday and clock time read the same way the app reads them (see TZ above).
-function localParts(d: Date) {
-  const fmt = new Intl.DateTimeFormat("en-US", {
-    timeZone: TZ, weekday: "long", hour: "numeric", minute: "2-digit", hour12: true,
-  });
-  const parts = Object.fromEntries(fmt.formatToParts(d).map((p) => [p.type, p.value]));
-  // Always ":00" on the hour — the marketing page parses these strings back
-  // into minutes to sort a day's rows, and "7 PM" would not parse there.
-  return {
-    day: parts.weekday as string,
-    time: `${parts.hour}:${parts.minute} ${parts.dayPeriod}`.replace(/ /g, " "),
-    sortKey: Number(
-      new Intl.DateTimeFormat("en-US", { timeZone: TZ, hour: "2-digit", minute: "2-digit", hour12: false })
-        .formatToParts(d).filter((p) => p.type === "hour" || p.type === "minute").map((p) => p.value).join("")
-    ),
-  };
+const dayKey = (d: Date) =>
+  new Intl.DateTimeFormat("en-CA", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
+
+function clock(d: Date) {
+  const p = Object.fromEntries(
+    new Intl.DateTimeFormat("en-US", { timeZone: TZ, hour: "numeric", minute: "2-digit", hour12: true })
+      .formatToParts(d).map((x) => [x.type, x.value])
+  );
+  return `${p.hour}:${p.minute} ${p.dayPeriod}`.replace(/ /g, " ");
 }
 
+const weekday = (d: Date) => new Intl.DateTimeFormat("en-US", { timeZone: TZ, weekday: "long" }).format(d);
+
 export async function GET(request: Request) {
+  const url = new URL(request.url);
   const now = new Date();
-  const until = new Date(now.getTime() + LOOKAHEAD_DAYS * 86_400_000);
 
-  const sessions = await prisma.session.findMany({
-    where: {
-      status: "scheduled",
-      startTime: { gte: now, lte: until },
-      offering: { status: "published", visibleWebsite: true, internalOnly: false },
-    },
-    orderBy: { startTime: "asc" },
-    select: {
-      startTime: true,
-      endTime: true,
-      title: true,
-      offering: {
-        select: {
-          id: true, name: true, shortDescription: true, websiteCta: true,
-          gradeMin: true, gradeMax: true,
-          program: { select: { name: true, sport: true, programType: true } },
-        },
+  const from = url.searchParams.get("from") ? new Date(`${url.searchParams.get("from")}T00:00:00Z`) : new Date(`${dayKey(now)}T00:00:00Z`);
+  const days = Math.min(Number(url.searchParams.get("days") ?? DEFAULT_DAYS) || DEFAULT_DAYS, MAX_DAYS);
+  const to = url.searchParams.get("to")
+    ? new Date(`${url.searchParams.get("to")}T23:59:59Z`)
+    : new Date(from.getTime() + days * 86_400_000);
+
+  const [sessions, blocks] = await Promise.all([
+    prisma.session.findMany({
+      where: {
+        status: "scheduled",
+        startTime: { gte: from, lte: to },
+        offering: { status: "published", visibleWebsite: true, internalOnly: false },
       },
-      coaches: { select: { role: true, staff: { select: { name: true } } } },
-    },
-  });
+      orderBy: { startTime: "asc" },
+      select: {
+        id: true, startTime: true, endTime: true, title: true, publicNote: true,
+        offering: {
+          select: {
+            id: true, name: true, shortDescription: true, websiteCta: true,
+            gradeMin: true, gradeMax: true,
+            program: { select: { name: true, sport: true, programType: true } },
+          },
+        },
+        coaches: { select: { role: true, staff: { select: { name: true } } } },
+      },
+    }),
+    // resourceId null is the whole building — a holiday or a snow day, not one
+    // court going down for maintenance.
+    prisma.facilityBlock.findMany({
+      where: { resourceId: null, startTime: { lte: to }, endTime: { gte: from } },
+      orderBy: { startTime: "asc" },
+      select: { startTime: true, endTime: true, reason: true, note: true },
+    }),
+  ]);
 
-  // One row per weekday + start time + class name. The first occurrence wins,
-  // so the coach shown is whoever is actually running it next.
-  const seen = new Map<string, Record<string, unknown>>();
-  for (const s of sessions) {
-    const o = s.offering;
-    if (!o) continue;
-    const { day, time, sortKey } = localParts(s.startTime);
-    const name = s.title ?? o.name ?? o.program.name;
-    const key = `${day}|${sortKey}|${name}`;
-    if (seen.has(key)) continue;
-
+  const classes = sessions.map((s) => {
+    const o = s.offering!;
     const lead = s.coaches.find((c) => c.role === "lead") ?? s.coaches[0];
     const coach = lead?.staff.name ?? null;
-
-    seen.set(key, {
-      day,
-      time,
-      sortKey,
-      title: name,
+    return {
+      id: s.id,
+      date: dayKey(s.startTime),
+      day: weekday(s.startTime),
+      time: clock(s.startTime),
+      endTime: clock(s.endTime),
+      minutes: Math.round((s.endTime.getTime() - s.startTime.getTime()) / 60000),
+      title: s.title ?? o.name ?? o.program.name,
       sport: o.program.sport,
       type: o.program.programType,
       desc: o.shortDescription,
+      note: s.publicNote,
       ages: gradeRangeLabel(o.gradeMin, o.gradeMax),
-      minutes: Math.round((s.endTime.getTime() - s.startTime.getTime()) / 60000),
-      // "Staff Member" is the placeholder for an unconfirmed coach — better to
-      // show nothing on the website than a name that isn't a person.
+      // The placeholder for an unconfirmed coach is not a person's name.
       coach: coach === "Staff Member" ? null : coach,
-      nextDate: s.startTime,
       cta: o.websiteCta ?? "Book",
       bookingUrl: `https://app.playthecourts.com/my-courts/explore?offering=${o.id}`,
-    });
-  }
-
-  const classes = [...seen.values()].sort((a, b) => {
-    const da = DAYS.indexOf(a.day as typeof DAYS[number]);
-    const db = DAYS.indexOf(b.day as typeof DAYS[number]);
-    // Monday-first, the way the page reads.
-    const ra = (da + 6) % 7, rb = (db + 6) % 7;
-    return ra - rb || (a.sortKey as number) - (b.sortKey as number);
+    };
   });
 
+  // Flattened to whole days so the calendar can grey a date out without
+  // reasoning about partial blocks.
+  const closures: { date: string; reason: string; note: string | null }[] = [];
+  for (const b of blocks) {
+    for (let t = new Date(`${dayKey(b.startTime)}T00:00:00Z`); t <= b.endTime; t = new Date(t.getTime() + 86_400_000)) {
+      const d = dayKey(t);
+      if (t < from || t > to) continue;
+      if (!closures.some((c) => c.date === d)) closures.push({ date: d, reason: b.reason, note: b.note });
+    }
+  }
+
   return NextResponse.json(
-    { generatedAt: now.toISOString(), lookaheadDays: LOOKAHEAD_DAYS, count: classes.length, classes },
+    {
+      generatedAt: now.toISOString(),
+      from: dayKey(from),
+      to: dayKey(to),
+      count: classes.length,
+      classes,
+      closures,
+    },
     {
       headers: {
         "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
