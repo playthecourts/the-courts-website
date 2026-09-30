@@ -130,6 +130,10 @@ export default async function ExplorePage({
 
   const unfilteredCards = await loadParentFeed(allAthletes as never, {
     category: cat,
+    // Scoped in the query, not filtered out of the results — see the note on
+    // loadParentFeed's offeringId option. A deep link asks for one class; it
+    // should not pay for 200 sessions of everything else first.
+    offeringId: offering,
     from: range.from,
     to: range.to,
   });
@@ -152,7 +156,6 @@ export default async function ExplorePage({
   // already carries both fields, and these two facets are about narrowing
   // an already-fetched week/anytime view, not fetching a different one.
   const cards = unfilteredCards.filter((c) => {
-    if (offering && c.offeringId !== offering) return false;
     if (sport && c.sport !== sport) return false;
     if (coach && !c.coachNames.includes(coach)) return false;
     return true;

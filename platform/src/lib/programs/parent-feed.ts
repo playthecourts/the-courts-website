@@ -71,6 +71,14 @@ export async function loadParentFeed(
     /// A parent-facing bucket (see PARENT_CATEGORIES) rather than one of the 12
     /// admin program types.
     category?: string;
+    /// One offering only — for a "Book" deep link from playthecourts.com, which
+    /// names a single class. Pushed into the query rather than filtered out of
+    /// the results afterwards: this function takes only the first 200 sessions,
+    /// so filtering after the fact was both slow (200 sessions' bookings,
+    /// waitlists, coaches and a per-athlete pricing lookup each, to render
+    /// ~20 of them) and wrong (a class whose sessions all fall past the 200-row
+    /// window rendered an empty page).
+    offeringId?: string;
     from?: Date;
     to?: Date;
   } = {}
@@ -82,6 +90,7 @@ export async function loadParentFeed(
     where: {
       status: "scheduled",
       startTime: { gte: opts.from ?? now, ...(opts.to ? { lt: opts.to } : {}) },
+      ...(opts.offeringId ? { offeringId: opts.offeringId } : {}),
       offering: {
         ...PARENT_VISIBLE,
         ...(opts.sport ? { program: { sport: opts.sport } } : {}),
