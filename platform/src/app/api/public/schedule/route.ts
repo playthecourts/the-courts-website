@@ -161,6 +161,14 @@ export async function GET(request: Request) {
       const covered = covEnd.getTime() - covStart.getTime();
       const allDay = covered >= 12 * 3_600_000;
 
+      // Only a whole-day closure is public. A partial block is internal
+      // scheduling — a cleaning window, a court held for a private party, a
+      // league practice — and its note is written for staff, not families.
+      // Publishing those put a customer's child's name and "Setup + Cleanup
+      // Only" on playthecourts.com, and told families court time was limited
+      // on days everything was running normally.
+      if (!allDay) continue;
+
       const existing = closures.findIndex((c) => c.date === d);
       const entry = {
         date: d, reason: b.reason, note: b.note,
