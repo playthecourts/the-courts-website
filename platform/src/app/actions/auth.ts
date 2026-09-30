@@ -327,7 +327,7 @@ export async function requestPasswordReset(_prevState: unknown, formData: FormDa
   const supabase = await createClient();
   const origin = await getOrigin();
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${origin}/auth/callback?next=/reset-password`,
+    redirectTo: `${origin}/auth/confirm?next=/reset-password`,
   });
   // A real send failure (bad email format Supabase itself rejects, rate
   // limit) is worth surfacing — silently swallowing every error here would

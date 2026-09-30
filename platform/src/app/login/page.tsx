@@ -14,6 +14,8 @@ const ERROR_MESSAGES: Record<string, string> = {
   inactive: "That staff account is inactive. Contact an admin.",
   "no-profile": "We couldn't find a family profile for that account. Contact us and we'll fix it.",
   "no-os-access": "That account doesn't have access to Courts OS.",
+  link_invalid:
+    "That password reset link looks incomplete — some mail apps trim long links. Request a new one below and open it directly from the email.",
 };
 
 export default async function LoginPage({
