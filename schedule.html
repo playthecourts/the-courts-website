@@ -448,6 +448,8 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       <button type="button" class="cal-filter-btn cal-filter-btn--bb" data-filter="sport" data-value="basketball">Basketball</button>
       <button type="button" class="cal-filter-btn cal-filter-btn--vb" data-filter="sport" data-value="volleyball">Volleyball</button>
     </div>
+    <div class="cal-filters" id="calCoachFilters" role="group" aria-label="Filter the calendar by coach" hidden>
+    </div>
 
     <div class="cal-key">
       <span class="cal-key-item"><span class="cal-tag cal-tag--bb">BB</span>Basketball</span>
@@ -659,7 +661,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   var BOOK_FALLBACK = 'https://app.playthecourts.com/my-courts/explore';
 
   var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  var state = { cursor: null, selected: null, sport: 'all', type: 'all' };
+  var state = { cursor: null, selected: null, sport: 'all', type: 'all', coach: 'all' };
   var classesByDate = {};
   var closures = {};
   var loaded = false;
@@ -690,6 +692,10 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       if (s.indexOf(state.sport) !== 0) return false;
     }
     if (state.type !== 'all' && (c.type || '') !== state.type) return false;
+    // Coach is matched on the exact feed string, and the chips are built from
+    // the feed too (buildCoachFilters), so renaming a coach in the platform
+    // renames the chip and keeps matching — nothing here hardcodes a name.
+    if (state.coach !== 'all' && (c.coach || '') !== state.coach) return false;
     return true;
   }
 
@@ -853,15 +859,48 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
         renderAll();
       });
     });
-    document.querySelectorAll('[data-filter]').forEach(function (b) {
-      b.addEventListener('click', function () {
-        var f = b.getAttribute('data-filter'), v = b.getAttribute('data-value');
-        if (f !== 'sport' && f !== 'type') return;
-        state[f] = v;
-        document.querySelectorAll('[data-filter="' + f + '"]').forEach(function (x) { x.classList.remove('active'); });
-        b.classList.add('active');
-        renderAll();
-      });
+    document.querySelectorAll('[data-filter]').forEach(bindFilterBtn);
+  }
+
+  var FILTER_FACETS = { sport: 1, type: 1, coach: 1 };
+
+  function bindFilterBtn(b) {
+    b.addEventListener('click', function () {
+      var f = b.getAttribute('data-filter'), v = b.getAttribute('data-value');
+      if (!FILTER_FACETS[f]) return;
+      state[f] = v;
+      document.querySelectorAll('[data-filter="' + f + '"]').forEach(function (x) { x.classList.remove('active'); });
+      b.classList.add('active');
+      renderAll();
+    });
+  }
+
+  // Coach chips come from whoever is actually on the schedule, not a hardcoded
+  // list — so a rename or a new hire in the platform shows up here on the next
+  // page load with no edit to this file. Sessions with no coach assigned yet
+  // read as TBD in the rows and simply don't get a chip.
+  function buildCoachFilters() {
+    var host = document.getElementById('calCoachFilters');
+    if (!host) return;
+    var names = {};
+    Object.keys(classesByDate).forEach(function (d) {
+      classesByDate[d].forEach(function (c) { if (c.coach) names[c.coach] = 1; });
+    });
+    var list = Object.keys(names).sort();
+    // One coach (or none) is not a filter, it's a label — don't render a row
+    // that can only ever say the same thing.
+    if (list.length < 2) { host.hidden = true; return; }
+    host.hidden = false;
+    host.innerHTML = '';
+    [['all', 'All Coaches']].concat(list.map(function (x) { return [x, x]; })).forEach(function (pair) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'cal-filter-btn' + (state.coach === pair[0] ? ' active' : '');
+      b.setAttribute('data-filter', 'coach');
+      b.setAttribute('data-value', pair[0]);
+      b.textContent = pair[1];
+      bindFilterBtn(b);
+      host.appendChild(b);
     });
   }
 
@@ -883,6 +922,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
             if (keys[i] >= todayIso()) { state.selected = keys[i]; state.cursor = keys[i].slice(0, 8) + '01'; break; }
           }
         }
+        buildCoachFilters();
         renderAll();
       })
       .catch(function () { loaded = true; renderAll(); });
