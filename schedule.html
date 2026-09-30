@@ -100,6 +100,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   .cal-cell--selected .cal-dot--vb { background:var(--white); }
   .cal-num { font-family:var(--font-display); font-weight:900; font-size:15px; }
   .cal-dots { display:flex; gap:3px; min-height:8px; }
+  .cal-note { margin:0 0 14px; padding:9px 12px; border-left:3px solid #D6D1C7; background:#F7F5F0; font-size:13px; line-height:1.45; color:var(--gray-dark); border-radius:0 6px 6px 0; }
   .cal-closed { font-family:var(--font-sport); font-size:9px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
   .cal-day-panel { max-width:900px; margin:30px auto 0; }
   .cal-day-head { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
@@ -669,7 +670,10 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     for (var d = 1; d <= daysInMonth; d++) {
       var key = y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
       var list = dayClasses(key);
-      var closed = closures[key];
+      var block = closures[key];
+      // A cleaning window is not a closed day. Only an all-day block blanks a
+      // date; a partial one leaves the day's classes on the calendar.
+      var closed = block && block.allDay;
       var cls = 'cal-cell';
       if (closed) cls += ' cal-cell--closed';
       if (key === today) cls += ' cal-cell--today';
@@ -699,7 +703,8 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     if (!panel) return;
     if (!state.selected) { panel.innerHTML = ''; return; }
     var key = state.selected;
-    var closed = closures[key];
+    var block = closures[key];
+    var closed = block && block.allDay;
     var list = dayClasses(key);
     var head = '<div class="cal-day-head"><h3>' + prettyDate(key) + '</h3>' +
       (key === todayIso() ? '<span class="cal-badge">Today</span>' : '') +
@@ -707,7 +712,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
 
     if (closed) {
       panel.innerHTML = head + '<p class="cal-empty"><strong>We&rsquo;re closed.</strong>' +
-        (closed.note ? ' ' + closed.note : '') + '</p>';
+        (block.note ? ' ' + block.note : '') + '</p>';
       return;
     }
     if (!list.length) {
@@ -715,7 +720,12 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
         (loaded ? 'Nothing on the schedule for this day.' : 'Loading the schedule&hellip;') + '</p>';
       return;
     }
-    panel.innerHTML = head + list.map(function (c) {
+    // A partial block runs alongside programming, so it is a note, not a wall.
+    var notice = block
+      ? '<p class="cal-note">Court time limited ' + block.from + '&ndash;' + block.to +
+        (block.note ? ' &middot; ' + block.note : '') + '</p>'
+      : '';
+    panel.innerHTML = head + notice + list.map(function (c) {
       var tag = (c.sport || 'The Courts');
       return '<div class="sch-row">' +
         '<div class="sch-time">' + c.time + '<span>' + c.minutes + ' min</span></div>' +

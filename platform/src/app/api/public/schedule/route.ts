@@ -123,14 +123,38 @@ export async function GET(request: Request) {
     };
   });
 
-  // Flattened to whole days so the calendar can grey a date out without
-  // reasoning about partial blocks.
-  const closures: { date: string; reason: string; note: string | null }[] = [];
+  // Flattened per day, but NOT flattened to "closed". A two-hour Saturday
+  // maintenance block is not a closed Saturday, and saying so on the public
+  // calendar would tell families not to come to a class that is running. So
+  // each day carries the block's real hours and an allDay flag; only allDay
+  // blanks a date. Anything shorter is a notice shown beside that day's
+  // classes.
+  const DAY_MS = 86_400_000;
+  const closures: {
+    date: string; reason: string; note: string | null;
+    from: string; to: string; allDay: boolean;
+  }[] = [];
   for (const b of blocks) {
-    for (let t = new Date(`${dayKey(b.startTime)}T00:00:00Z`); t <= b.endTime; t = new Date(t.getTime() + 86_400_000)) {
+    for (let t = new Date(`${dayKey(b.startTime)}T00:00:00Z`); t <= b.endTime; t = new Date(t.getTime() + DAY_MS)) {
       const d = dayKey(t);
       if (t < from || t > to) continue;
-      if (!closures.some((c) => c.date === d)) closures.push({ date: d, reason: b.reason, note: b.note });
+      if (closures.some((c) => c.date === d && c.allDay)) continue;
+
+      // How much of THIS calendar day the block actually covers.
+      const dayStart = new Date(`${d}T00:00:00Z`);
+      const dayEnd = new Date(dayStart.getTime() + DAY_MS);
+      const covStart = b.startTime > dayStart ? b.startTime : dayStart;
+      const covEnd = b.endTime < dayEnd ? b.endTime : dayEnd;
+      // 20h of a 24h day is a closed day; a cleaning window is not.
+      const allDay = covEnd.getTime() - covStart.getTime() >= 20 * 3_600_000;
+
+      const existing = closures.findIndex((c) => c.date === d);
+      const entry = {
+        date: d, reason: b.reason, note: b.note,
+        from: clock(covStart), to: clock(covEnd), allDay,
+      };
+      if (existing >= 0) closures[existing] = entry;
+      else closures.push(entry);
     }
   }
 
