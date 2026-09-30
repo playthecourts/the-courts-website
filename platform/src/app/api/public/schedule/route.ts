@@ -17,7 +17,13 @@ import { gradeRangeLabel } from "@/lib/programs/types";
 export const dynamic = "force-dynamic";
 
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as const;
-const TZ = "America/Chicago";
+// The app stores session times as wall-clock instants and formats them in UTC
+// everywhere (coach-format.ts, the booking calendar, the session cards). A 9am
+// class is stored 09:00Z and READ as 9am. Converting to America/Chicago here
+// would shift every class five hours earlier than the app shows it — 9am became
+// 4am. Match the app: the website and the portal must never disagree about when
+// a class starts.
+const TZ = "UTC";
 const LOOKAHEAD_DAYS = 21;
 
 function corsOrigin(request: Request): string {
@@ -32,8 +38,7 @@ function corsOrigin(request: Request): string {
   return allowed.includes(origin) ? origin : "https://playthecourts.com";
 }
 
-/// Weekday and clock time as read in Nashville, not in UTC — a 7:00 PM class
-/// is 01:00 UTC the next day, which would land it on the wrong row.
+/// Weekday and clock time read the same way the app reads them (see TZ above).
 function localParts(d: Date) {
   const fmt = new Intl.DateTimeFormat("en-US", {
     timeZone: TZ, weekday: "long", hour: "numeric", minute: "2-digit", hour12: true,

@@ -745,6 +745,11 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   // fails — offline, deploy in progress, empty response — leaves the static
   // week exactly as it was, which is the worst case, not a broken page.
   var FEED_URL = 'https://app.playthecourts.com/api/public/schedule';
+  // True once the app has told us what is really scheduled. The hand-written
+  // Thursday league block and the day taglines below are written for the
+  // fallback week; with live data, Thursday is just another day and shows
+  // whatever is actually on the calendar, including nothing.
+  var LIVE = false;
 
   // The app's program vocabulary is not the page's. Everything the page needs
   // that the feed can't know (premium copy, membership line, tag labels) is
@@ -801,6 +806,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
         var mapped = mapFeed(j.classes);
         if (!mapped.length) return;
         DATA = mapped;
+        LIVE = true;
         render();
       })
       .catch(function () { /* static week stands */ });
@@ -814,7 +820,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     var anyContent = false;
 
     days.forEach(function (day) {
-      if (day === 'Thursday') {
+      if (day === 'Thursday' && !LIVE) {
         var showThursday = (state.day === 'all' || state.day === 'Thursday') && (state.type === 'all' || state.type === 'team') && (state.sport === 'all' || state.sport === 'basketball');
         if (!showThursday) return;
         anyContent = true;
