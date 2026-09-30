@@ -588,7 +588,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   var DATA = [
     { day:"Monday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Skills + Game Play", time:"4:30 PM", dur:"60 min", title:"Volleyball Development", coach:"Justin", included:"Weekly, Unlimited + Full Court", cta:"book" },
     { day:"Monday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Advanced Development", time:"5:30 PM", dur:"60 min", title:"Volleyball Performance", coach:"Justin", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Monday", type:"premium", title:"Performance Lab: Speed + Movement", gradeLabel:"Grades 3+", time:"7:00 PM", dur:"75 min", coach:"Spencer Richardson", premiumDesc:"Build quickness, coordination, balance, footwork, reaction, and body control through high-energy small-group training.", premiumTags:"Speed &middot; Agility &middot; Coordination &middot; Movement" },
+    { day:"Monday", type:"premium", title:"Performance Lab: Speed + Movement", gradeLabel:"Grades 3+", time:"7:00 PM", dur:"75 min", coach:"Spencer Richardson", premiumOrg:"All-Around-Game Basketball", premiumDesc:"Build quickness, coordination, balance, footwork, reaction, and body control through high-energy small-group training.", premiumTags:"Speed &middot; Agility &middot; Coordination &middot; Movement" },
 
     { day:"Tuesday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Skills + Game Play", time:"5:00 PM", dur:"60 min", title:"Volleyball Development", coach:"Kenya", included:"Weekly, Unlimited + Full Court", cta:"book" },
     { day:"Tuesday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Advanced Development", time:"6:00 PM", dur:"60 min", title:"Volleyball Performance", coach:"Kenya", included:"Weekly, Unlimited + Full Court", cta:"book" },
@@ -609,8 +609,8 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     { day:"Saturday", sport:"volleyball", type:"open", tagLabel:"Open Gym", age:[], ageLabel:null, desc:null, time:"3:00 PM", dur:"60 min", title:"Open Gym (Volleyball)", coach:"Staff Member", included:"Weekly, Unlimited + Full Court", cta:"book" },
     { day:"Saturday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Skills + Game Play", time:"4:00 PM", dur:"60 min", title:"Volleyball Development", coach:"Staff Member", included:"Weekly, Unlimited + Full Court", cta:"book" },
     { day:"Saturday", sport:"volleyball", type:"training", age:[], ageLabel:null, desc:"Advanced Development", time:"5:00 PM", dur:"60 min", title:"Volleyball Performance", coach:"Staff Member", included:"Weekly, Unlimited + Full Court", cta:"book" },
-    { day:"Saturday", type:"premium", title:"Performance Lab: Speed + Movement", gradeLabel:"Grades 3&ndash;5", time:"12:00 PM", dur:"75 min", coach:"Spencer Richardson", premiumDesc:"Build quickness, coordination, balance, footwork, reaction, and body control through high-energy small-group training.", premiumTags:"Speed &middot; Agility &middot; Coordination &middot; Movement" },
-    { day:"Saturday", type:"premium", title:"Performance Lab: Power + Performance", gradeLabel:"Grades 6&ndash;8", time:"1:30 PM", dur:"75 min", coach:"Spencer Richardson", premiumDesc:"Advanced performance training focused on acceleration, change of direction, explosiveness, reaction, power, and game-speed movement.", premiumTags:"Speed &middot; Power &middot; Agility &middot; Reaction" }
+    { day:"Saturday", type:"premium", title:"Performance Lab: Speed + Movement", gradeLabel:"Grades 3&ndash;5", time:"12:00 PM", dur:"75 min", coach:"Spencer Richardson", premiumOrg:"All-Around-Game Basketball", premiumDesc:"Build quickness, coordination, balance, footwork, reaction, and body control through high-energy small-group training.", premiumTags:"Speed &middot; Agility &middot; Coordination &middot; Movement" },
+    { day:"Saturday", type:"premium", title:"Performance Lab: Power + Performance", gradeLabel:"Grades 6&ndash;8", time:"1:30 PM", dur:"75 min", coach:"Spencer Richardson", premiumOrg:"All-Around-Game Basketball", premiumDesc:"Advanced performance training focused on acceleration, change of direction, explosiveness, reaction, power, and game-speed movement.", premiumTags:"Speed &middot; Power &middot; Agility &middot; Reaction" }
   ];
 
   var DAY_TAGLINES = {
@@ -687,7 +687,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           '<div>' +
             '<span class="sch-premium-badge">Premium Add-On</span>' +
             '<h4>' + s.title + '</h4>' +
-            '<p class="sch-premium-coach">Coach <strong>Spencer Richardson</strong> &middot; All-Around-Game Basketball</p>' +
+            '<p class="sch-premium-coach">Coach <strong>' + (s.coach || 'Spencer Richardson') + '</strong>' + (s.premiumOrg ? ' &middot; ' + s.premiumOrg : '') + '</p>' +
           '</div>' +
           '<div class="sch-time">' + s.time + '<span>' + s.dur + '</span></div>' +
         '</div>' +
@@ -737,6 +737,73 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     if (s.type === 'premium') return true;
     if (state.sport !== 'all' && s.sport !== state.sport) return false;
     return true;
+  }
+
+  // ---------------------------------------------------------------- live feed
+  // DATA below is the fallback: the week as last written by hand. On load we
+  // ask the app for what is actually scheduled and swap it in. Anything that
+  // fails — offline, deploy in progress, empty response — leaves the static
+  // week exactly as it was, which is the worst case, not a broken page.
+  var FEED_URL = 'https://app.playthecourts.com/api/public/schedule';
+
+  // The app's program vocabulary is not the page's. Everything the page needs
+  // that the feed can't know (premium copy, membership line, tag labels) is
+  // taken from the matching static row by title, so hand-written detail
+  // survives while days, times and coaches come from the schedule itself.
+  function inferType(c) {
+    var t = c.type || '';
+    if (/performance lab/i.test(c.title || '')) return 'premium';
+    if (t === 'open_gym' || t === 'court_rental') return 'open';
+    if (t === 'league') return 'team';
+    if (t === 'group_training' || t === 'skills_clinic' || t === 'class') {
+      // A class with no sport of its own is the all-sports performance work.
+      return c.sport ? 'training' : 'performance';
+    }
+    return null;
+  }
+
+  function mapFeed(classes) {
+    var byTitle = {};
+    DATA.forEach(function (d) { byTitle[d.title] = d; });
+
+    return classes.map(function (c) {
+      var base = byTitle[c.title] || {};
+      var type = base.type || inferType(c);
+      if (!type) return null;
+      return {
+        day: c.day,
+        time: c.time,
+        dur: (c.minutes || 60) + ' min',
+        title: c.title,
+        sport: c.sport || base.sport || null,
+        type: type,
+        desc: base.desc || c.desc || c.ages || null,
+        ageLabel: base.ageLabel || c.ages || null,
+        age: base.age || [],
+        tagLabel: base.tagLabel,
+        coach: c.coach || base.coach || 'Staff Member',
+        included: type === 'premium' ? undefined : (base.included || 'Weekly, Unlimited + Full Court'),
+        cta: base.cta || 'book',
+        gradeLabel: base.gradeLabel || c.ages || null,
+        premiumOrg: base.premiumOrg,
+        premiumDesc: base.premiumDesc || c.desc || '',
+        premiumTags: base.premiumTags || ''
+      };
+    }).filter(Boolean);
+  }
+
+  function loadLiveSchedule() {
+    if (!window.fetch) return;
+    fetch(FEED_URL, { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (!j || !j.classes || !j.classes.length) return;
+        var mapped = mapFeed(j.classes);
+        if (!mapped.length) return;
+        DATA = mapped;
+        render();
+      })
+      .catch(function () { /* static week stands */ });
   }
 
   function render() {
@@ -828,6 +895,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   });
 
   render();
+  loadLiveSchedule();
 })();
 </script>
 </body>

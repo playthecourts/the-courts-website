@@ -39,10 +39,11 @@ function localParts(d: Date) {
     timeZone: TZ, weekday: "long", hour: "numeric", minute: "2-digit", hour12: true,
   });
   const parts = Object.fromEntries(fmt.formatToParts(d).map((p) => [p.type, p.value]));
-  const minute = parts.minute === "00" ? "" : `:${parts.minute}`;
+  // Always ":00" on the hour — the marketing page parses these strings back
+  // into minutes to sort a day's rows, and "7 PM" would not parse there.
   return {
     day: parts.weekday as string,
-    time: `${parts.hour}${minute} ${parts.dayPeriod}`.replace(/ /g, " "),
+    time: `${parts.hour}:${parts.minute} ${parts.dayPeriod}`.replace(/ /g, " "),
     sortKey: Number(
       new Intl.DateTimeFormat("en-US", { timeZone: TZ, hour: "2-digit", minute: "2-digit", hour12: false })
         .formatToParts(d).filter((p) => p.type === "hour" || p.type === "minute").map((p) => p.value).join("")
