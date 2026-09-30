@@ -91,7 +91,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .courts-commentary--on-dark { color: rgba(255,255,255,0.65); }
 
 /* ---------- Site-wide announcement bar ---------- */
-/* [REMOVE / REPLACE FALL LEAGUE BANNER SEPTEMBER 20 AT 5 PM — campaign expires at the registration deadline] */
 .site-announce {
   display: flex; align-items: center; justify-content: center; min-height: 64px; box-sizing: border-box;
   position: fixed; left: 0; right: 0; top: 0; z-index: 101; overflow: hidden;

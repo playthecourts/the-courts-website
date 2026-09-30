@@ -42,7 +42,12 @@ export async function proxy(request: NextRequest) {
 
   if (isProtected && !user) {
     const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("next", path);
+    // Carry the query string, not just the path. A "Book" link from
+    // playthecourts.com is /my-courts/explore?offering=<id>; keeping only the
+    // pathname dropped the offering at the login gate, so a logged-out family
+    // — most of the website's traffic — signed in and landed on the full
+    // browse list with no idea which class they had clicked.
+    loginUrl.searchParams.set("next", path + request.nextUrl.search);
     return NextResponse.redirect(loginUrl);
   }
 
