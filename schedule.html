@@ -652,6 +652,22 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
 
   function dayClasses(isoStr) { return (classesByDate[isoStr] || []).filter(matches); }
 
+  // Same offering, same day, repeated back-to-back — Dr. Dish's 30-minute bays
+  // are 16 rows of the same thing. The member app groups these into one card;
+  // the public calendar has to agree with it or the two read as different
+  // schedules. Distinct classes keep their own rows: Sara's 4/5/6 PM are three
+  // different titles, so they never merge.
+  function collapse(list) {
+    var groups = [], last = null;
+    list.forEach(function (c) {
+      var key = (c.title || '') + '|' + (c.coach || '') + '|' + (c.minutes || '');
+      if (last && last.key === key) { last.items.push(c); return; }
+      last = { key: key, items: [c] };
+      groups.push(last);
+    });
+    return groups.map(function (g) { return g.items; });
+  }
+
   function renderMonth() {
     var grid = document.getElementById('calGrid');
     var label = document.getElementById('calMonth');
@@ -725,13 +741,24 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       ? '<p class="cal-note">Court time limited ' + block.from + '&ndash;' + block.to +
         (block.note ? ' &middot; ' + block.note : '') + '</p>'
       : '';
-    panel.innerHTML = head + notice + list.map(function (c) {
+    panel.innerHTML = head + notice + collapse(list).map(function (g) {
+      var c = g[0];
       var tag = (c.sport || 'The Courts');
+      // A self-serve bay sold in 30-minute slots is one thing you can book at
+      // a time of your choosing, not sixteen classes. Reads as a window.
+      var many = g.length > 1;
+      var timeCell = many
+        ? c.time + '<span>to ' + g[g.length - 1].endTime + '</span>'
+        : c.time + '<span>' + c.minutes + ' min</span>';
+      var slotLine = many
+        ? '<div class="sch-age-row">' + g.length + ' &times; ' + c.minutes + '-min slots &middot; book any start time</div>'
+        : '';
       return '<div class="sch-row">' +
-        '<div class="sch-time">' + c.time + '<span>' + c.minutes + ' min</span></div>' +
+        '<div class="sch-time">' + timeCell + '</div>' +
         '<div>' +
           '<h4>' + c.title + '</h4>' +
           (c.desc ? '<div class="sch-age-row">' + c.desc + '</div>' : '') +
+          slotLine +
           '<div class="sch-meta">' +
             '<span class="sch-tag sch-tag--training">' + tag + '</span>' +
             '<span class="sch-coach">' + (c.coach ? 'Coach <strong>' + c.coach + '</strong>' : '<strong>Coach TBD</strong>') + '</span>' +

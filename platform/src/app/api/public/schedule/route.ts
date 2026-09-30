@@ -49,6 +49,16 @@ function clock(d: Date) {
   return `${p.hour}:${p.minute} ${p.dayPeriod}`.replace(/ /g, " ");
 }
 
+// Camps and open gyms are often filed under a program with no sport set, and a
+// null sport drops out of the website's sport filter. The name is unambiguous
+// where the column is empty, so read it rather than lose the card.
+function sportFromName(name: string | null): string | null {
+  const n = (name ?? "").toLowerCase();
+  if (n.includes("basketball")) return "Basketball";
+  if (n.includes("volleyball")) return "Volleyball";
+  return null;
+}
+
 const weekday = (d: Date) => new Intl.DateTimeFormat("en-US", { timeZone: TZ, weekday: "long" }).format(d);
 
 export async function GET(request: Request) {
@@ -111,7 +121,7 @@ export async function GET(request: Request) {
       endTime: clock(s.endTime),
       minutes: Math.round((s.endTime.getTime() - s.startTime.getTime()) / 60000),
       title: s.title ?? o.name ?? o.program.name,
-      sport: o.program.sport,
+      sport: o.program.sport ?? sportFromName(s.title ?? o.name ?? o.program.name),
       type: o.program.programType,
       desc: o.shortDescription,
       note: s.publicNote,
@@ -145,8 +155,11 @@ export async function GET(request: Request) {
       const dayEnd = new Date(dayStart.getTime() + DAY_MS);
       const covStart = b.startTime > dayStart ? b.startTime : dayStart;
       const covEnd = b.endTime < dayEnd ? b.endTime : dayEnd;
-      // 20h of a 24h day is a closed day; a cleaning window is not.
-      const allDay = covEnd.getTime() - covStart.getTime() >= 20 * 3_600_000;
+      // A closure is entered against opening hours, not midnight-to-midnight:
+      // Christmas reads 6:00 AM-10:00 PM. 12h covers any full operating day
+      // while leaving a cleaning window or a private party as a partial.
+      const covered = covEnd.getTime() - covStart.getTime();
+      const allDay = covered >= 12 * 3_600_000;
 
       const existing = closures.findIndex((c) => c.date === d);
       const entry = {
