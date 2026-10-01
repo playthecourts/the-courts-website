@@ -90,6 +90,8 @@ export async function GET(request: Request) {
       orderBy: { startTime: "asc" },
       select: {
         id: true, startTime: true, endTime: true, title: true, publicNote: true,
+        capacity: true,
+        _count: { select: { bookings: { where: { status: { not: "cancelled" } } } } },
         offering: {
           select: {
             id: true, name: true, shortDescription: true, websiteCta: true,
@@ -130,6 +132,9 @@ export async function GET(request: Request) {
       coach: coach === "Staff Member" ? null : coach,
       cta: o.websiteCta ?? "Book",
       bookingUrl: `https://app.playthecourts.com/my-courts/explore?offering=${o.id}`,
+      // Signed up vs. seats, shown on the public calendar ("7/12 signed up").
+      capacity: s.capacity ?? null,
+      booked: s._count.bookings,
     };
   });
 

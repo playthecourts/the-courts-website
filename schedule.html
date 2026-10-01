@@ -170,6 +170,8 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   .sch-chip.active { background: var(--near-black); border-color: var(--near-black); color: var(--white); }
 
   .sch-day-group { max-width: 900px; margin: 0 auto 34px; }
+  .sch-spots { font-size: 12.5px; color: var(--gray-dark); }
+  .sch-spots strong { color: var(--black); }
   .sch-day-head { display: flex; align-items: baseline; gap: 12px; margin: 0 0 12px; padding-bottom: 10px; border-bottom: 2px solid var(--near-black); }
   .sch-day-head h3 { font-family: var(--font-display); font-weight: 900; font-size: 19px; margin: 0; letter-spacing: -0.01em; }
   .sch-day-tagline { font-family: var(--font-body); font-style: italic; font-size: 13px; color: var(--gray-dark); opacity: 0.85; }
@@ -842,6 +844,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           '<div class="sch-meta">' +
             '<span class="sch-tag sch-tag--training">' + tag + '</span>' +
             '<span class="sch-coach">' + (c.coach ? 'Coach <strong>' + c.coach + '</strong>' : '<strong>Coach TBD</strong>') + '</span>' +
+            (!many && c.capacity ? '<span class="sch-spots">' + (c.booked >= c.capacity ? '<strong>Full</strong>' : '<strong>' + (c.booked || 0) + '/' + c.capacity + '</strong> signed up') + '</span>' : '') +
           '</div>' +
           (c.note ? '<p class="sch-included">' + c.note + '</p>' : '') +
         '</div>' +
