@@ -11,7 +11,7 @@
 export const FOUNDING_OFFER = {
   planName: "Unlimited Membership",
   rateCents: 18500,
-  couponId: "FOUNDING185-OCT1-2026",
+  couponId: "FOUNDING185-OCT1-2026-CAP20",
   // Oct 1, 2026 12:00 AM → Oct 2, 2026 12:00 AM Central (CDT, UTC-5)
   opensAt: new Date("2026-10-01T05:00:00.000Z"),
   closesAt: new Date("2026-10-02T05:00:00.000Z"),
