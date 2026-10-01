@@ -29,6 +29,7 @@ export const PRIMARY_NAV: NavItem[] = [
     capability: "families.view",
     mobilePriority: true,
   },
+  { label: "Members", href: "/os/members", capability: "families.view" },
   { label: "Leagues + Teams", href: "/os/leagues", capability: "leagues.view" },
   { label: "Coaches", href: "/os/coaches", capability: "coaches.view" },
   { label: "Progress Reports", href: "/os/progress", capability: "athletes.view" },

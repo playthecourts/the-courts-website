@@ -5,7 +5,7 @@ import { displayName } from "@/lib/athlete";
 import { signedPhotoUrls } from "@/lib/athlete-photo";
 import { AthleteAvatar } from "@/components/athlete/avatar";
 import { PageHeader, Card, CardHeader, EmptyState, Pill, BTN, INPUT, SELECT, PAYMENT_TONE } from "../_components/ui";
-import { createLeagueTeam, placeOnTeam, removeFromTeam } from "./actions";
+import { createLeagueTeam, placeOnTeam, removeFromTeam, addPlayerToTeam } from "./actions";
 import { JerseySelect } from "./jersey-select";
 
 export const dynamic = "force-dynamic";
@@ -178,6 +178,69 @@ export default async function LeaguesPage() {
       </Card>
 
       {registrations.some((r) => teamOf.has(r.athleteId)) && null}
+
+      {canManage && (
+        <Card className="mt-5">
+          <CardHeader title="Add a Player" />
+          <p className="px-4 pt-3 text-xs text-gray-dark">
+            For a player who didn&rsquo;t register in the app. Puts them on the roster only &mdash; no charge.
+          </p>
+          <form action={addPlayerToTeam} className="flex flex-wrap items-end gap-3 px-4 py-4">
+            <label className="flex flex-col gap-1 text-xs font-bold uppercase tracking-wide text-gray-dark">
+              First name
+              <input name="firstName" required className={INPUT} />
+            </label>
+            <label className="flex flex-col gap-1 text-xs font-bold uppercase tracking-wide text-gray-dark">
+              Last name
+              <input name="lastName" required className={INPUT} />
+            </label>
+            <label className="flex flex-col gap-1 text-xs font-bold uppercase tracking-wide text-gray-dark">
+              Birthdate
+              <input name="dob" type="date" required className={INPUT} />
+            </label>
+            <label className="flex flex-col gap-1 text-xs font-bold uppercase tracking-wide text-gray-dark">
+              Grade
+              <select name="grade" defaultValue="" className={SELECT}>
+                <option value="">—</option>
+                {["K", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th"].map((g) => (
+                  <option key={g} value={g}>{g}</option>
+                ))}
+              </select>
+            </label>
+            <label className="flex flex-col gap-1 text-xs font-bold uppercase tracking-wide text-gray-dark">
+              Team
+              <select name="teamId" required defaultValue="" className={SELECT}>
+                <option value="" disabled>Choose team…</option>
+                {teams.map((t) => (
+                  <option key={t.id} value={t.id}>{t.name}</option>
+                ))}
+              </select>
+            </label>
+            <label className="flex flex-col gap-1 text-xs font-bold uppercase tracking-wide text-gray-dark">
+              Jersey size
+              <select name="jerseySize" defaultValue="" className={SELECT}>
+                <option value="">—</option>
+                {["Youth Small", "Youth Medium", "Youth Large", "Youth XL", "Adult Small", "Adult Medium", "Adult Large"].map((j) => (
+                  <option key={j} value={j}>{j}</option>
+                ))}
+              </select>
+            </label>
+            <label className="flex flex-col gap-1 text-xs font-bold uppercase tracking-wide text-gray-dark">
+              Parent name
+              <input name="parentName" className={INPUT} />
+            </label>
+            <label className="flex flex-col gap-1 text-xs font-bold uppercase tracking-wide text-gray-dark">
+              Parent email
+              <input name="parentEmail" type="email" className={INPUT} />
+            </label>
+            <label className="flex flex-col gap-1 text-xs font-bold uppercase tracking-wide text-gray-dark">
+              Parent phone
+              <input name="parentPhone" type="tel" className={INPUT} />
+            </label>
+            <button className={BTN.primary}>Add Player</button>
+          </form>
+        </Card>
+      )}
 
       {canManage && (
         <Card className="mt-5">
