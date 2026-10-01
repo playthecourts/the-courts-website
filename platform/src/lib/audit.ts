@@ -48,6 +48,7 @@ export type AuditAction =
   | "verify_nextgen_founder"
   | "mark_nextgen_not_eligible"
   | "set_nextgen_legacy_rate"
+  | "set_next_billing_date"
   // --- Training plan credits ---
   | "grant_drop_in_credits";
 

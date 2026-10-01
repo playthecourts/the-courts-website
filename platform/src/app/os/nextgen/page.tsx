@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requireCapability } from "@/lib/os/dal";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, EmptyState, Pill, Metric, TableWrap, Th, Td } from "../_components/ui";
-import { requestMoreInfo, setNextGenApprovedRate, linkNextGenRecord, unlinkNextGenRecord, dismissNextGenCandidate } from "./actions";
+import { requestMoreInfo, setNextGenApprovedRate, linkNextGenRecord, unlinkNextGenRecord, dismissNextGenCandidate, setNextBillingDate } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -283,6 +283,24 @@ export default async function NextGenPage({
                               Save
                             </button>
                           </form>
+                          {membership?.stripeSubscriptionId && (
+                            <form action={setNextBillingDate.bind(null, g.id)} className="flex items-center gap-1">
+                              <input
+                                type="date"
+                                name="nextBilling"
+                                aria-label="Next billing date"
+                                defaultValue={membership.renewalDate ? new Date(membership.renewalDate).toISOString().slice(0, 10) : ""}
+                                className="min-h-9 w-32 rounded-lg border border-gray-mid bg-white px-1.5 text-xs focus:border-orange focus:outline-none"
+                              />
+                              <button
+                                type="submit"
+                                title="Moves the next charge to this date. No charge or refund now."
+                                className="os-heading min-h-9 rounded-lg border border-gray-mid bg-white px-2 text-xs uppercase tracking-wide hover:border-near-black"
+                              >
+                                Set Billing
+                              </button>
+                            </form>
+                          )}
                         </div>
                       </Td>
                       <Td>

@@ -333,3 +333,48 @@ export async function setNextGenApprovedRate(guardianId: string, formData: FormD
 
   revalidatePath("/os/nextgen");
 }
+
+/// Move a family's next charge to a specific date — for a NextGen family who
+/// was already paid through mid-month, or anyone whose first Courts charge
+/// landed on the wrong day. Sets a Stripe trial ending on that date with
+/// proration off: nothing is charged or credited now, the next invoice is on
+/// the chosen date, and the subscription renews on that day of the month
+/// after. Never refunds — refunds stay a deliberate step in Stripe.
+export async function setNextBillingDate(guardianId: string, formData: FormData) {
+  const actor = await requireCapability("nextgen.verify");
+
+  const raw = String(formData.get("nextBilling") ?? "").trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) throw new Error("Pick a date.");
+  // Noon in Nolensville (17:00 UTC) so the charge lands on the chosen day
+  // whichever side of daylight saving it falls on.
+  const when = new Date(`${raw}T17:00:00Z`);
+  const minimum = Date.now() + 60 * 60 * 1000;
+  if (when.getTime() < minimum) throw new Error("The new billing date has to be in the future.");
+  if (when.getTime() > Date.now() + 730 * 86_400_000) throw new Error("That date is too far out.");
+
+  const membership = await prisma.athleteMembership.findFirst({
+    where: {
+      status: { in: ["active", "past_due"] },
+      stripeSubscriptionId: { not: null },
+      athlete: { family: { guardians: { some: { guardianId } } } },
+    },
+  });
+  if (!membership?.stripeSubscriptionId) throw new Error("This family has no active subscription to move.");
+
+  await stripe.subscriptions.update(membership.stripeSubscriptionId, {
+    trial_end: Math.floor(when.getTime() / 1000),
+    proration_behavior: "none",
+  });
+  // The Stripe webhook will also set this; writing it now keeps the table
+  // honest the moment the page reloads.
+  await prisma.athleteMembership.updateMany({
+    where: { stripeSubscriptionId: membership.stripeSubscriptionId },
+    data: { renewalDate: when },
+  });
+  await auditLog(actor.id, "set_next_billing_date", "guardian", guardianId, {
+    subscription: membership.stripeSubscriptionId,
+    nextBilling: raw,
+  });
+
+  revalidatePath("/os/nextgen");
+}
