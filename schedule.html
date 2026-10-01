@@ -728,7 +728,11 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     var groups = [], last = null;
     list.forEach(function (c) {
       var key = (c.title || '') + '|' + (c.coach || '') + '|' + (c.minutes || '');
-      if (last && last.key === key) { last.items.push(c); return; }
+      // Only self-serve bays merge. Two hours of the same class (e.g. a 5 PM
+      // and a 6 PM Basketball Development group) are separate sessions and
+      // keep separate rows.
+      var mergeable = /dr\.?\s*dish/i.test(c.title || '');
+      if (mergeable && last && last.key === key) { last.items.push(c); return; }
       last = { key: key, items: [c] };
       groups.push(last);
     });
