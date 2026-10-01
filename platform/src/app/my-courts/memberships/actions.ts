@@ -9,6 +9,8 @@ import { prisma } from "@/lib/prisma";
 import { stripe, getOrCreateStripeCustomer } from "@/lib/stripe";
 import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { CANCELLATION_REASONS } from "./constants";
+import { isFoundingOfferEligible } from "@/lib/founding-offer";
+import { getFoundingCouponId } from "@/lib/founding-offer-stripe";
 
 // ACH costs a small flat fee (capped low) instead of card's ~3% — worth
 // making available for recurring membership billing without removing card
@@ -133,12 +135,18 @@ export async function startMembershipCheckout(athleteId: string, membershipPlanI
   try {
     await assertNoActiveMembership(athleteId);
     const customerId = await getOrCreateStripeCustomer(guardian);
+    // Opening-day founding rate (see lib/founding-offer.ts). Null once the 25
+    // are gone or the day is over — then it's just the normal price.
+    const foundingCoupon = isFoundingOfferEligible(guardian, plan.name)
+      ? await getFoundingCouponId(plan.priceCents)
+      : null;
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       customer: customerId,
       payment_method_types: MEMBERSHIP_PAYMENT_METHODS,
       line_items: [{ price: plan.stripePriceId, quantity: 1 }],
-      success_url: `${origin}/my-courts/memberships?checkout=success&amount=${plan.priceCents}&plan=${encodeURIComponent(plan.name)}`,
+      ...(foundingCoupon ? { discounts: [{ coupon: foundingCoupon }] } : {}),
+      success_url: `${origin}/my-courts/memberships?checkout=success&amount=${foundingCoupon ? 18500 : plan.priceCents}&plan=${encodeURIComponent(plan.name)}`,
       cancel_url: `${origin}/my-courts/memberships?checkout=cancelled`,
       metadata: { athleteId, membershipPlanId, guardianId: guardian.id },
       subscription_data: {

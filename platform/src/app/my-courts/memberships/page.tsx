@@ -12,6 +12,7 @@ import { FamilyPlanSelector } from "./family-plan-selector";
 import { CancelMembershipFlow } from "./cancel-flow";
 import { GaConversionEvent } from "@/components/ga-conversion-event";
 import { AchCallout } from "../ach-callout";
+import { isFoundingOfferEligible } from "@/lib/founding-offer";
 
 function formatPrice(cents: number, interval: string) {
   return `$${(cents / 100).toFixed(2)}/${interval === "monthly" ? "mo" : "yr"}`;
@@ -320,8 +321,21 @@ export default async function MembershipsPage({
                           key={plan.id}
                           plan={plan}
                           cta={planCta(athlete.id, plan)}
-                          badge={plan.name === "NextGen Formers Membership" ? "NextGen Formers Rate" : undefined}
-                          note={plan.name === "NextGen Formers Membership" ? FORMERS_ELIGIBILITY_NOTE : undefined}
+                          badge={
+                            plan.name === "NextGen Formers Membership"
+                              ? "NextGen Formers Rate"
+                              : isFoundingOfferEligible(guardian, plan.name)
+                                ? "Founding Rate · Today Only"
+                                : undefined
+                          }
+                          priceOverrideCents={isFoundingOfferEligible(guardian, plan.name) ? 18500 : undefined}
+                          note={
+                            plan.name === "NextGen Formers Membership"
+                              ? FORMERS_ELIGIBILITY_NOTE
+                              : isFoundingOfferEligible(guardian, plan.name)
+                                ? "Opening-day founding rate: $185/mo through December, then $200/mo starting January 1. First 25 families."
+                                : undefined
+                          }
                         />
                       ))
                     )}
