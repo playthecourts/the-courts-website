@@ -33,6 +33,12 @@ function formatMonth(d: Date) {
   return new Intl.DateTimeFormat("en-US", { month: "short", timeZone: "UTC" }).format(d);
 }
 
+// Each camp card gets a stable anchor from its name, so the website can link
+// straight to it: /my-courts/camps#fall-break-volleyball-camp
+function campAnchor(name: string) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
 export default async function CampsPage({
   searchParams,
 }: {
@@ -102,7 +108,9 @@ export default async function CampsPage({
     <div className="flex flex-col gap-3">
       <p className="font-sport text-xs font-bold uppercase tracking-widest text-gray-dark">One-Day Events</p>
       {oneDayEventGroups.map((group) => (
-        <GroupedOfferingCard key={`${group[0].offeringId}-${group[0].sessionId}`} cards={group} />
+        <div key={`${group[0].offeringId}-${group[0].sessionId}`} id={campAnchor(group[0].offeringName)} className="scroll-mt-24">
+          <GroupedOfferingCard cards={group} />
+        </div>
       ))}
     </div>
   );
@@ -131,7 +139,7 @@ export default async function CampsPage({
           const month = first ? formatMonth(first.startTime) : "other";
 
           const node = (
-            <div className="overflow-hidden rounded-xl border border-gray-mid bg-white">
+            <div id={campAnchor(camp.name)} className="scroll-mt-24 overflow-hidden rounded-xl border border-gray-mid bg-white">
               <div className="border-b border-gray-mid bg-warm-stone px-4 py-3">
                 {sport !== "other" && (
                   <p className="font-sport text-xs font-bold uppercase tracking-wide text-orange">
