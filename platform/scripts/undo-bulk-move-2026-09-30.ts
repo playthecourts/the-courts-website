@@ -15,6 +15,16 @@
 //   npx tsx scripts/undo-bulk-move-2026-09-30.ts --batch 2026-09-30T21:46 --apply
 //       restores, in one transaction, and logs a "moved" change on each
 //
+// The batch was NOT a uniform shift: it also moved some sessions that were
+// at :30 onto the hour (e.g. Monday volleyball 4:30 → 5:00). Those are right
+// now and are left alone. Rules, per session in the batch:
+//   • Camps / Day Off, Game On: set straight to the new camp hours —
+//     volleyball 9:00 AM–12:00 PM, basketball 1:00–4:00 PM, same date.
+//   • Dr. Dish Self-Serve: restore the original 30-minute slot.
+//   • Everything else: restore ONLY if the batch moved it from :00 to :30.
+//     Otherwise it's left as is.
+// Afterwards the preview lists any non-Dr. Dish session still starting at :30.
+//
 // A session is only restored if its current times still equal the batch's
 // "after" value. Anything changed again since (by hand, or a later batch) is
 // skipped and listed, never overwritten.
@@ -78,7 +88,8 @@ async function main() {
   });
   if (!changes.length) return console.log("No moves in that minute.");
 
-  const plan: { id: string; name: string; from: string; to: string; start: Date; end: Date; regs: number }[] = [];
+  const plan: { id: string; name: string; from: string; to: string; start: Date; end: Date; regs: number; rule: string }[] = [];
+  const leftAlone: string[] = [];
   const skipped: string[] = [];
   const seen = new Set<string>();
 
@@ -96,20 +107,57 @@ async function main() {
       skipped.push(`${label}  (status ${s.status})`);
       continue;
     }
-    const [start, end] = parseRange(c.previousValue ?? "", s.startTime);
-    plan.push({ id: s.id, name: s.offering?.name ?? "?", from: nowVal, to: `${fmt(start)}–${fmt(end)}`, start, end, regs: 0 });
+    const name = s.offering?.name ?? "?";
+    const [pStart, pEnd] = parseRange(c.previousValue ?? "", s.startTime);
+    let start: Date, end: Date, rule: string;
+    if (/camp|day off/i.test(name)) {
+      const vb = /volleyball/i.test(name);
+      const d = s.startTime;
+      start = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), vb ? 9 : 13, 0));
+      end = new Date(start.getTime() + 3 * 3600_000);
+      rule = vb ? "camp → 9–12" : "camp → 1–4";
+    } else if (/dr\. dish/i.test(name)) {
+      start = pStart; end = pEnd; rule = "Dr. Dish restore";
+    } else if (pStart.getUTCMinutes() === 0 && s.startTime.getUTCMinutes() === 30) {
+      start = pStart; end = pEnd; rule = "back to the hour";
+    } else {
+      leftAlone.push(`${name}: ${nowVal}  (batch moved it from ${c.previousValue}; already on the hour or not a :00→:30 move)`);
+      continue;
+    }
+    plan.push({ id: s.id, name, from: nowVal, to: `${fmt(start)}–${fmt(end)}`, start, end, regs: 0, rule });
   }
 
-  const byName: Record<string, number> = {};
-  for (const p of plan) byName[p.name] = (byName[p.name] ?? 0) + 1;
-  console.log(`Batch ${batchArg} UTC: ${changes.length} change rows, ${plan.length} sessions to restore, ${skipped.length} skipped.\n`);
-  for (const [n, k] of Object.entries(byName).sort()) console.log(`  ${k.toString().padStart(3)}  ${n}`);
-  console.log("\nFirst 25:");
-  for (const p of plan.slice(0, 25)) console.log(`  ${p.name}: ${p.from}  →  ${p.to}`);
-  if (skipped.length) {
-    console.log("\nSkipped (left alone):");
-    for (const s of skipped) console.log("  " + s);
+  // Summarise as patterns: "Basketball Development: Wed 6:30 PM → 6:00 PM ×12"
+  const hm = (d: Date) => norm(new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "UTC" }).format(d));
+  const wd = (d: Date) => new Intl.DateTimeFormat("en-US", { weekday: "short", timeZone: "UTC" }).format(d);
+  const pat: Record<string, number> = {};
+  for (const p of plan) {
+    const cur = parseRange(p.from, p.start);
+    const k = `${p.name}: ${wd(p.start)} ${hm(cur[0])}–${hm(cur[1])}  →  ${hm(p.start)}–${hm(p.end)}`;
+    pat[k] = (pat[k] ?? 0) + 1;
   }
+  console.log(`Batch ${batchArg} UTC: ${changes.length} change rows → ${plan.length} to fix, ${leftAlone.length} already right (left alone), ${skipped.length} skipped.\n`);
+  console.log("WILL CHANGE (pattern × count):");
+  for (const [k, n] of Object.entries(pat).sort()) console.log(`  ${k}  ×${n}`);
+  const la: Record<string, number> = {};
+  for (const l of leftAlone) { const k = l.split(":")[0]; la[k] = (la[k] ?? 0) + 1; }
+  console.log("\nLEFT ALONE (already on the hour after the batch):");
+  for (const [k, n] of Object.entries(la).sort()) console.log(`  ${k}  ×${n}`);
+  if (skipped.length) {
+    console.log("\nSKIPPED (changed since, or cancelled):");
+    for (const x of skipped) console.log("  " + x);
+  }
+  // What would still start at :30 afterwards (outside Dr. Dish)?
+  const fixed = new Set(plan.map((p) => p.id));
+  const still = await prisma.session.findMany({
+    where: { status: "scheduled", startTime: { gte: new Date("2026-10-01T00:00:00Z") } },
+    include: { offering: { select: { name: true } } },
+  });
+  const stillHalf = still.filter((x) => !fixed.has(x.id) && x.startTime.getUTCMinutes() === 30 && !/dr\. dish/i.test(x.offering?.name ?? ""));
+  const sh: Record<string, number> = {};
+  for (const x of stillHalf) { const k = `${x.offering?.name}: ${wd(x.startTime)} ${hm(x.startTime)}`; sh[k] = (sh[k] ?? 0) + 1; }
+  console.log(`\nSTILL AT :30 AFTERWARDS (not touched by this script): ${stillHalf.length}`);
+  for (const [k, n] of Object.entries(sh).sort()) console.log(`  ${k}  ×${n}`);
 
   if (!APPLY) return console.log("\nPreview only. Add --apply to restore.");
 
@@ -124,7 +172,7 @@ async function main() {
           changeType: "moved",
           previousValue: p.from,
           newValue: p.to,
-          reason: `Undo bulk move of ${batchArg} UTC`,
+          reason: `Fix bulk move of ${batchArg} UTC (${p.rule})`,
           changedById: actorId,
         },
       });
