@@ -24,6 +24,12 @@ export const PRIMARY_NAV: NavItem[] = [
     mobilePriority: true,
   },
   {
+    label: "Class Rosters",
+    href: "/os/rosters",
+    capability: "registrations.view",
+    mobilePriority: true,
+  },
+  {
     label: "Athletes + Families",
     href: "/os/families",
     capability: "families.view",
