@@ -77,9 +77,11 @@ function defaultCalendarDate(): Date {
 function groupByOffering(cards: CalendarMarker[]): CalendarMarker[][] {
   const groups = new Map<string, CalendarMarker[]>();
   for (const card of cards) {
-    const existing = groups.get(card.offeringId);
+    // Same rule as page.tsx: only Dr. Dish self-serve slots fold together.
+    const key = /dr\.?\s*dish/i.test(card.offeringName) ? card.offeringId : card.sessionId;
+    const existing = groups.get(key);
     if (existing) existing.push(card);
-    else groups.set(card.offeringId, [card]);
+    else groups.set(key, [card]);
   }
   return [...groups.values()];
 }

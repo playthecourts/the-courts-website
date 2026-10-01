@@ -80,11 +80,16 @@ function Chip({
 // mainly) collapse into one group so the list reads as one block per day
 // instead of a wall of near-identical cards — booking itself is untouched,
 // each slot is still its own session underneath.
+const SELF_SERVE = /dr\.?\s*dish/i;
+
 function groupByOfferingAndDay(cards: Card[]): Card[][] {
   const groups = new Map<string, Card[]>();
   for (const card of cards) {
     const day = card.startTime.slice(0, 10);
-    const key = `${card.offeringId}-${day}`;
+    // Only self-serve slots (Dr. Dish) fold together. Two hours of the same
+    // class — a 5 PM and a 6 PM Basketball Development group — stay as two
+    // cards, because families pick between them.
+    const key = SELF_SERVE.test(card.offeringName) ? `${card.offeringId}-${day}` : card.sessionId;
     const existing = groups.get(key);
     if (existing) existing.push(card);
     else groups.set(key, [card]);
