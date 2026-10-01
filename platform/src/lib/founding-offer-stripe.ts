@@ -3,7 +3,7 @@ import { stripe } from "@/lib/stripe";
 import { FOUNDING_OFFER } from "@/lib/founding-offer";
 
 /// Returns the founding coupon id if it can still be redeemed, creating it in
-/// Stripe the first time it's needed. Returns null once all 25 are used or the
+/// Stripe the first time it's needed. Returns null once all spots are used or the
 /// window has closed, so checkout falls back to the normal price instead of
 /// failing.
 export async function getFoundingCouponId(regularPriceCents: number): Promise<string | null> {

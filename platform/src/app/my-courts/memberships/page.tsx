@@ -333,7 +333,7 @@ export default async function MembershipsPage({
                             plan.name === "NextGen Formers Membership"
                               ? FORMERS_ELIGIBILITY_NOTE
                               : isFoundingOfferEligible(guardian, plan.name)
-                                ? "Opening-day founding rate: $185/mo through December, then $200/mo starting January 1. First 25 families."
+                                ? "Opening-day founding rate: $185/mo through December, then $200/mo starting January 1. Limited spots."
                                 : undefined
                           }
                         />
