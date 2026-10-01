@@ -910,7 +910,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     if (list.length < 2) { host.hidden = true; return; }
     host.hidden = false;
     host.innerHTML = '';
-    [['all', 'All Coaches']].concat(list.map(function (x) { return [x, x]; })).forEach(function (pair) {
+    [['all', 'All Coaches']].concat(list.map(function (x) { return [x, x.split(' ')[0]]; })).forEach(function (pair) {
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'cal-filter-btn' + (state.coach === pair[0] ? ' active' : '');
