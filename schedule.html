@@ -843,7 +843,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           slotLine +
           '<div class="sch-meta">' +
             '<span class="sch-tag sch-tag--training">' + tag + '</span>' +
-            '<span class="sch-coach">' + (c.coach ? 'Coach <strong>' + c.coach + '</strong>' : '<strong>Coach TBD</strong>') + '</span>' +
+            '<span class="sch-coach">' + (c.coach ? 'Coach <strong>' + c.coach.split(' ')[0] + '</strong>' : '<strong>Coach TBD</strong>') + '</span>' +
             (!many && c.capacity ? '<span class="sch-spots">' + (c.booked >= c.capacity ? '<strong>Full</strong>' : '<strong>' + (c.booked || 0) + '/' + c.capacity + '</strong> signed up') + '</span>' : '') +
           '</div>' +
           (c.note ? '<p class="sch-included">' + c.note + '</p>' : '') +
