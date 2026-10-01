@@ -27,7 +27,7 @@ function fmt(d: Date): string {
     .toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "2-digit",
-      timeZone: "America/Chicago",
+      timeZone: "UTC", // session times are stored as wall-clock UTC
     })
     .replace(":00", "");
 }

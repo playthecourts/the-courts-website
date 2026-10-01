@@ -2,7 +2,7 @@ import "server-only";
 import { prisma } from "@/lib/prisma";
 import type { OsActor } from "./permissions";
 import { sessionScope } from "./dal";
-import { dayBounds } from "./format";
+import { dayBounds, wallClockNow } from "./format";
 
 // Queries behind the Today screen. Each returns exactly what the view renders
 // — no over-fetching a whole day of bookings to count them in JS.
@@ -74,7 +74,7 @@ export function summarize(sessions: TodaySession[]): TodayCounts {
         new Intl.DateTimeFormat("en-US", {
           hour: "numeric",
           hour12: false,
-          timeZone: "America/Chicago",
+          timeZone: "UTC", // stored wall-clock time
         }).format(s.startTime)
       );
       return hour >= 16;
@@ -93,7 +93,7 @@ export function summarize(sessions: TodaySession[]): TodayCounts {
 /// The next few sessions that haven't started yet — the "NEXT UP" rail.
 export function nextUp(sessions: TodaySession[], now = new Date(), limit = 6) {
   return sessions
-    .filter((s) => s.status === "scheduled" && s.endTime.getTime() > now.getTime())
+    .filter((s) => s.status === "scheduled" && s.endTime.getTime() > wallClockNow(now).getTime())
     .slice(0, limit);
 }
 

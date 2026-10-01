@@ -278,7 +278,7 @@ export function ScheduleSection({
                 {coaches.map((c) => (
                   <label key={c.id} className="cursor-pointer rounded-lg border border-gray-mid bg-white px-3 py-2 text-sm has-checked:border-orange has-checked:bg-orange has-checked:text-white">
                     <input type="checkbox" name="coachIds" value={c.id} className="sr-only" />
-                    {c.name}
+                    {c.name.split(" ")[0]}
                   </label>
                 ))}
               </div>
@@ -449,7 +449,7 @@ function SessionRowView({
             {session.isException ? <span className="os-eyebrow ml-2 text-warning">Edited</span> : null}
           </p>
           <p className="text-xs text-neutral">
-            {[courts || "No court", session.coaches.map((c) => c.staff.name).join(", ") || "No coach"].join(" · ")}
+            {[courts || "No court", session.coaches.map((c) => c.staff.name.split(" ")[0]).join(", ") || "No coach"].join(" · ")}
           </p>
         </div>
         <div className="flex items-center gap-2">

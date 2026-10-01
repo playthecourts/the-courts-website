@@ -78,7 +78,7 @@ export function SessionRow({ session: s }: { session: SessionLike }) {
 
         <span className="w-32 shrink-0 text-xs text-gray-dark">
           {lead ? (
-            lead.staff.name
+            lead.staff.name.split(" ")[0]
           ) : s.program.programType === "rental" || s.program.programType === "resource" ? (
             <span className="text-neutral">—</span>
           ) : (

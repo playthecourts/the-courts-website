@@ -18,12 +18,18 @@ export function moneyExact(cents: number | null | undefined): string {
   return (cents / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
 
+// Session times are stored as wall-clock values in UTC (a 7 PM class is
+// 19:00Z) — the platform-wide convention in lib/coach-format.ts. So a session
+// time is formatted in UTC, never converted to Central, or a 7 PM class reads
+// as 2 PM.
+const WALL_CLOCK_TZ = "UTC";
+
 export function time(d: Date): string {
   return d
     .toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "2-digit",
-      timeZone: TZ,
+      timeZone: WALL_CLOCK_TZ,
     })
     .replace(":00", "");
 }
@@ -82,9 +88,11 @@ export function pluralize(n: number, one: string, many = `${one}s`): string {
 }
 
 /// Start/end of a day in the facility's timezone, returned as UTC instants.
+/// "Today" is decided in Central time; the bounds are wall-clock UTC to match
+/// how session times are stored.
 export function dayBounds(d: Date): { start: Date; end: Date } {
   const y = d.toLocaleDateString("en-CA", { timeZone: TZ }); // YYYY-MM-DD
-  const start = new Date(`${y}T00:00:00`);
+  const start = new Date(`${y}T00:00:00Z`);
   const end = new Date(start.getTime() + 86_400_000);
   return { start, end };
 }
@@ -146,3 +154,17 @@ export const PAYMENT_STATUS_LABELS: Record<string, string> = {
   refunded: "Refunded",
   partially_refunded: "Partially Refunded",
 };
+
+/// The current moment expressed in the stored wall-clock convention: 2:09 PM
+/// Central becomes 14:09Z, so it can be compared directly with session times.
+export function wallClockNow(now = new Date()): Date {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-US", {
+      year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", second: "2-digit",
+      hour12: false, timeZone: TZ,
+    }).formatToParts(now).map((p) => [p.type, p.value])
+  );
+  const hour = parts.hour === "24" ? "00" : parts.hour;
+  return new Date(`${parts.year}-${parts.month}-${parts.day}T${hour}:${parts.minute}:${parts.second}Z`);
+}

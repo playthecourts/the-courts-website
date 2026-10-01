@@ -81,7 +81,7 @@ export default async function SchedulePage({ searchParams }: PageProps<"/os/sche
           { name: "sport", label: "Sport", value: filters.sport, options: SPORTS.map((s) => [s, s] as const) },
           { name: "type", label: "Type", value: filters.programType, options: CREATE_PICKER_ORDER.map((t) => [t, PROGRAM_TYPE_LABELS[t]] as const) },
           { name: "court", label: "Court", value: filters.resourceId, options: resources.map((r) => [r.id, r.name] as const) },
-          { name: "coach", label: "Coach", value: filters.coachId, options: coaches.map((c) => [c.id, c.name] as const) },
+          { name: "coach", label: "Coach", value: filters.coachId, options: coaches.map((c) => [c.id, c.name.split(" ")[0]] as const) },
         ].map((f) => (
           <div key={f.name}>
             <label htmlFor={f.name} className="os-eyebrow mb-1.5 block text-gray-dark">{f.label}</label>
