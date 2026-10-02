@@ -50,7 +50,6 @@ function StripeLink({ p }: { p: PayerInfo }) {
 
 export default async function PaymentsPage() {
   const actor = await requireCapability("payments.view");
-  const canMarkPaid = can(actor, "payments.markPaid");
   const canSendLink = can(actor, "payments.sendLink");
   const canMoveDates = can(actor, "plans.manage");
   const data = await loadPaymentsOverview(actor);
@@ -79,7 +78,7 @@ export default async function PaymentsPage() {
             <TableWrap>
               <table>
                 <thead>
-                  <tr><Th>Athlete</Th><Th>For</Th><Th>Amount</Th><Th>Parent</Th><Th>Collect</Th></tr>
+                  <tr><Th>Athlete</Th><Th>For</Th><Th>Amount</Th><Th>Parent</Th><Th>Get Paid</Th></tr>
                 </thead>
                 <tbody>
                   {data.owed.map((o) => (
@@ -98,7 +97,7 @@ export default async function PaymentsPage() {
                         <div className="mt-1"><StripeLink p={o.payer} /></div>
                       </Td>
                       <Td>
-                        <OwedActions kind={o.kind} id={o.id} canMarkPaid={canMarkPaid} canSendLink={canSendLink} />
+                        <OwedActions kind={o.kind} id={o.id} canSendLink={canSendLink} />
                       </Td>
                     </tr>
                   ))}

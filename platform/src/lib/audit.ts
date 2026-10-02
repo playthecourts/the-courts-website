@@ -54,7 +54,6 @@ export type AuditAction =
   // --- Class rosters ---
   | "admin_add_booking"
   // --- Payments ---
-  | "mark_paid_at_desk"
   | "send_payment_link";
 
 export async function auditLog(

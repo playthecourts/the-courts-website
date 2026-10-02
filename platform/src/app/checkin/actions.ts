@@ -46,7 +46,7 @@ export async function deskUndoCheckIn(bookingId: string): Promise<DeskResult> {
 }
 
 /// Walk-in: book the athlete into the class (membership covers it, or it's
-/// marked Due for the desk to collect) and check them in, in one tap.
+/// marked Due — the family pays online via a link from Payments) and check them in, in one tap.
 export async function deskAddWalkIn(sessionId: string, athleteId: string): Promise<DeskResult> {
   try {
     const actor = await deskActor();
@@ -69,7 +69,7 @@ export async function deskAddWalkIn(sessionId: string, athleteId: string): Promi
     });
     await checkInBooking(booking.id, actor.id, "desk");
     revalidatePath("/checkin");
-    return { ok: true, message: result.status === "booked" && result.due ? "Added and checked in — payment Due" : "Added and checked in" };
+    return { ok: true, message: result.status === "booked" && result.due ? "Added and checked in — payment due: send a link from Payments" : "Added and checked in" };
   } catch (err) {
     return fail(err);
   }

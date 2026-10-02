@@ -34,7 +34,7 @@ export async function addAthleteToSession(_prev: AddAthleteState, formData: Form
       revalidatePath("/os");
       return {
         ok: result.due
-          ? `${name} added. No membership covers this class, so it shows as Due — collect at the desk.`
+          ? `${name} added. No membership covers this class, so it shows as Due — send a payment link from Payments.`
           : `${name} added.`,
       };
     }

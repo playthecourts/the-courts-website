@@ -2,12 +2,11 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { markPaidAtDesk, sendPaymentLink, setMembershipBillingDate, type PayResult } from "./actions";
-import { BTN, SELECT, INPUT } from "../_components/ui";
+import { sendPaymentLink, setMembershipBillingDate, type PayResult } from "./actions";
+import { BTN, INPUT } from "../_components/ui";
 
-// Row actions for the Payments page. Each one confirms in place and says what
-// happened in plain words; nothing here moves money without a person reading
-// the amount on the same row first.
+// Row actions for the Payments page. Payment is online only, so collecting a
+// balance always means a Stripe payment link the family pays themselves.
 
 function Note({ res }: { res: PayResult | null }) {
   if (!res) return null;
@@ -17,18 +16,12 @@ function Note({ res }: { res: PayResult | null }) {
 export function OwedActions({
   kind,
   id,
-  canMarkPaid,
   canSendLink,
 }: {
   kind: "booking" | "registration";
   id: string;
-  canMarkPaid: boolean;
   canSendLink: boolean;
 }) {
-  const router = useRouter();
-  const [open, setOpen] = useState<null | "paid">(null);
-  const [method, setMethod] = useState("card_at_desk");
-  const [note, setNote] = useState("");
   const [link, setLink] = useState<string | null>(null);
   const [res, setRes] = useState<PayResult | null>(null);
   const [copied, setCopied] = useState(false);
@@ -39,46 +32,20 @@ export function OwedActions({
       const r = await fn();
       setRes(r);
       if (r.ok && r.url) setLink(r.url);
-      if (r.ok && !r.url) {
-        setOpen(null);
-        router.refresh();
-      }
     });
 
   return (
     <div className="min-w-[14rem]">
       {kind === "registration" ? (
-        <p className="text-xs text-gray-dark">Camp or league — collect it from the registration.</p>
+        <p className="text-xs text-gray-dark">Camp or league — the family finishes paying on its page in My Courts.</p>
       ) : null}
       <div className="flex flex-wrap gap-2">
-        {canMarkPaid && kind === "booking" ? (
-          <button type="button" className={BTN.secondary} disabled={pending} onClick={() => setOpen(open ? null : "paid")}>
-            Mark Paid
-          </button>
-        ) : null}
-        {canSendLink && kind === "booking" ? (
-          <button type="button" className={BTN.secondary} disabled={pending} onClick={() => run(() => sendPaymentLink(id, false))}>
-            {pending && !open ? "Making link…" : "Payment Link"}
+        {canSendLink && kind === "booking" && !link ? (
+          <button type="button" className={BTN.primary} disabled={pending} onClick={() => run(() => sendPaymentLink(id, false))}>
+            {pending ? "Making link…" : "Send Payment Link"}
           </button>
         ) : null}
       </div>
-
-      {open === "paid" ? (
-        <div className="mt-2 flex flex-col gap-2 rounded-lg border border-gray-mid bg-gray-light p-3">
-          <label className="os-eyebrow text-gray-dark" htmlFor={`m-${id}`}>How they paid</label>
-          <select id={`m-${id}`} className={SELECT} value={method} onChange={(e) => setMethod(e.target.value)}>
-            <option value="card_at_desk">Card at the desk</option>
-            <option value="cash">Cash</option>
-            <option value="check">Check</option>
-            <option value="other">Other</option>
-          </select>
-          <label className="sr-only" htmlFor={`n-${id}`}>Note</label>
-          <input id={`n-${id}`} className={INPUT} placeholder="Note (optional) — check #, receipt…" value={note} onChange={(e) => setNote(e.target.value)} />
-          <button type="button" className={BTN.primary} disabled={pending} onClick={() => run(() => markPaidAtDesk(kind, id, method, note))}>
-            {pending ? "Saving…" : "Confirm Paid"}
-          </button>
-        </div>
-      ) : null}
 
       {link ? (
         <div className="mt-2 flex flex-col gap-2 rounded-lg border border-gray-mid bg-gray-light p-3">

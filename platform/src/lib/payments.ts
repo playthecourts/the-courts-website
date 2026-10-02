@@ -53,7 +53,7 @@ export async function loadPaymentsOverview(actor: OsActor) {
   const ago30 = new Date(Date.now() - 30 * 86_400_000);
 
   const [owedBookings, owedRegistrations, pastDue, renewals, paidBookings, paidRegistrations] = await Promise.all([
-    // A seat that still has money outstanding: booked at the desk with no plan
+    // A seat that still has money outstanding: added by staff with no plan
     // covering it ("due"), or a card that was declined ("failed").
     prisma.booking.findMany({
       where: {

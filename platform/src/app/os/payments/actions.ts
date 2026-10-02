@@ -15,57 +15,9 @@ const fail = (err: unknown): PayResult => ({ ok: false, error: err instanceof Er
 
 const esc = (t: string) => t.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 
-const METHODS = ["cash", "check", "card_at_desk", "other"] as const;
-type Method = (typeof METHODS)[number];
-const METHOD_LABEL: Record<Method, string> = { cash: "cash", check: "check", card_at_desk: "card at the desk", other: "other" };
-
-/// Records money taken in person against a booking. Moves no money; it's the
-/// desk saying "they paid us". Any open online link for the same seat is
-/// expired first so the family can't pay twice.
+/// The Courts takes payment online only — there's no cash or card at the desk.
+/// So the one way to collect a balance is a Stripe payment link.
 ///
-/// Registrations (camps, leagues) aren't marked paid here: a paid
-/// registration also changes its status, sends confirmations and has its own
-/// Stripe payment to cancel — that stays in the registration flow.
-export async function markPaidAtDesk(kind: "booking" | "registration", id: string, method: string, note: string): Promise<PayResult> {
-  try {
-    const actor = await requireCapability("payments.markPaid");
-    if (!(METHODS as readonly string[]).includes(method)) return { ok: false, error: "Pick how they paid." };
-    const label = METHOD_LABEL[method as Method];
-    const memo = `Paid at desk (${label}) by ${actor.name}${note.trim() ? ` — ${note.trim()}` : ""}`;
-
-    if (kind !== "booking") return { ok: false, error: "Camp and league payments are collected from the registration, not here." };
-
-    const b = await prisma.booking.findUnique({
-      where: { id },
-      select: { paymentStatus: true, status: true, priceChargedCents: true, stripeCheckoutSessionId: true },
-    });
-    if (!b || b.status === "cancelled") return { ok: false, error: "That booking isn't active anymore." };
-    if (b.paymentStatus !== "due" && b.paymentStatus !== "failed") return { ok: false, error: "That booking doesn't owe anything." };
-
-    if (b.stripeCheckoutSessionId) {
-      const s = await stripe.checkout.sessions.retrieve(b.stripeCheckoutSessionId).catch(() => null);
-      if (s?.status === "complete") return { ok: false, error: "They already paid online — refresh the page." };
-      if (s?.status === "open") await stripe.checkout.sessions.expire(s.id);
-    }
-
-    // Conditional so two taps (or a webhook landing mid-tap) can't both win.
-    const updated = await prisma.booking.updateMany({
-      where: { id, paymentStatus: { in: ["due", "failed"] } },
-      // Cleared so a later cancellation never tries to refund a cash seat
-      // against an expired, unpaid link.
-      data: { paymentStatus: "paid", stripeCheckoutSessionId: null },
-    });
-    if (updated.count === 0) return { ok: false, error: "That booking was just paid — refresh the page." };
-    await auditLog(actor.id, "mark_paid_at_desk", "booking", id, { method, memo, cents: b.priceChargedCents });
-
-    revalidatePath("/os/payments");
-    revalidatePath("/checkin");
-    return { ok: true, message: `Marked paid (${label}).` };
-  } catch (err) {
-    return fail(err);
-  }
-}
-
 /// Makes a Stripe payment link for a booking that owes money, and emails it to
 /// the family's primary parent when asked. The link is also returned so the
 /// desk can copy it into a text.
