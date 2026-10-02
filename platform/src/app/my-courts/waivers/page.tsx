@@ -26,7 +26,7 @@ function formatDate(date: Date) {
 
 const BACK_LABELS: Record<string, string> = {
   "/my-courts/league": "Fall League",
-  "/my-courts/explore": "Explore",
+  "/my-courts/explore": "Book",
   "/my-courts/memberships": "Memberships",
 };
 

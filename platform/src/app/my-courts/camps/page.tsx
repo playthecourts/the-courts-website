@@ -251,6 +251,7 @@ export default async function CampsPage({
   return (
     <div className="flex flex-col gap-6">
       <div>
+        <p className="font-sport text-xs font-bold uppercase tracking-wide text-orange">Book</p>
         <h1 className="font-display text-3xl font-black text-black sm:text-4xl">Camps &amp; Events</h1>
       </div>
 

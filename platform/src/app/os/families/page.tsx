@@ -156,9 +156,13 @@ export default async function FamiliesPage({ searchParams }: PageProps<"/os/fami
                 {rows.map((r) => (
                   <tr key={r.id}>
                     <Td>
-                      <span className="font-medium text-near-black">{r.firstName} {r.lastName}</span>
+                      <Link href={`/os/athletes/${r.id}`} className="font-medium text-near-black hover:underline">
+                        {r.firstName} {r.lastName}
+                      </Link>
                     </Td>
-                    <Td className="text-neutral">{r.familyName}</Td>
+                    <Td className="text-neutral">
+                      <Link href={`/os/families/${r.familyId}`} className="hover:underline">{r.familyName}</Link>
+                    </Td>
                     <Td>{formatGrade(r.grade) ?? "—"}</Td>
                     <Td>{r.gender ?? "—"}</Td>
                     <Td>{r.sports.join(", ") || "—"}</Td>

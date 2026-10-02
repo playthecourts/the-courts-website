@@ -19,6 +19,9 @@ export type DeskAthlete = {
   absent: boolean;
   selfCheckedIn: boolean;
   paymentDue: boolean;
+  /// Safety flags — that a concern exists; detail is on the athlete page.
+  health: boolean;
+  pickupRestriction: boolean;
 };
 export type DeskClass = {
   id: string;
@@ -130,7 +133,15 @@ function AthleteRow({ a }: { a: DeskAthlete }) {
           ✓
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block font-heading text-[16px] font-bold text-near-black">{a.fullName}</span>
+          <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span className="font-heading text-[16px] font-bold text-near-black">{a.fullName}</span>
+            {a.health ? (
+              <span className="rounded-full bg-warning-bg px-2 py-0.5 font-sport text-[11px] font-bold uppercase tracking-wide text-warning">Health</span>
+            ) : null}
+            {a.pickupRestriction ? (
+              <span className="rounded-full bg-danger-bg px-2 py-0.5 font-sport text-[11px] font-bold uppercase tracking-wide text-danger">Pickup</span>
+            ) : null}
+          </span>
           <span className="block font-body text-[13px] text-gray-dark">
             {[
               a.grade ? `${a.grade} Grade` : null,

@@ -20,6 +20,12 @@ function formatPrice(cents: number) {
 // second copy of Membership (that has its own sidebar page) — active plans
 // get one line, not a card.
 
+
+// Same anchor the Camps page puts on each camp card.
+function campAnchor(name: string) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
 export default async function PaymentsPage() {
   const guardian = await getCurrentGuardian();
   const athletes = guardian.families.flatMap((fg) => fg.family.athletes);
@@ -37,7 +43,7 @@ export default async function PaymentsPage() {
     }),
     prisma.registration.findMany({
       where: { athleteId: { in: athleteIds }, status: { not: "cancelled" }, paymentStatus: { in: ["pending", "failed"] } },
-      include: { offering: true, athlete: true },
+      include: { offering: { include: { program: { select: { programType: true } } } }, athlete: true },
       orderBy: { registeredAt: "desc" },
     }),
     prisma.booking.findMany({
@@ -182,7 +188,7 @@ export default async function PaymentsPage() {
                       )}
                       <div className="mt-3 flex flex-col gap-1 font-body text-sm text-gray-dark">
                         <div className="flex items-center justify-between">
-                          <span>League registration</span>
+                          <span>{isLeague ? "League registration" : "Registration"}</span>
                           <span>{formatPrice(base)}</span>
                         </div>
                         {credit > 0 && (
@@ -196,12 +202,16 @@ export default async function PaymentsPage() {
                           <span>{formatPrice(total)}</span>
                         </div>
                       </div>
-                      <Link
-                        href="/my-courts/league"
-                        className="mt-3 inline-block rounded-full bg-orange px-4 py-2 font-sport text-xs font-bold uppercase tracking-wide text-white"
-                      >
-                        Pay {formatPrice(total)} &rarr;
-                      </Link>
+                      {isLeague || r.offering.program.programType === "camp" || r.offering.program.programType === "event" ? (
+                        <Link
+                          href={isLeague ? "/my-courts/league" : `/my-courts/camps#${campAnchor(r.offering.name)}`}
+                          className="mt-3 inline-block rounded-full bg-orange px-4 py-2 font-sport text-xs font-bold uppercase tracking-wide text-white"
+                        >
+                          Pay {formatPrice(total)} &rarr;
+                        </Link>
+                      ) : (
+                        <p className="mt-3 font-body text-xs text-gray-dark">Questions about this balance? Email hello@playthecourts.com.</p>
+                      )}
                     </div>
                   );
                 })}

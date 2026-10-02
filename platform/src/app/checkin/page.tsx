@@ -81,6 +81,7 @@ export default async function CheckinPage(props: {
     athletes: c.athletes.map((a) => ({
       bookingId: a.bookingId, athleteId: a.athleteId, fullName: a.fullName, grade: a.grade,
       here: a.here, late: a.late, absent: a.absent, selfCheckedIn: a.selfCheckedIn, paymentDue: a.paymentDue,
+      health: a.health, pickupRestriction: a.pickupRestriction,
     })),
   }));
   const walkInOptions = everyone.map((a) => ({ id: a.id, label: `${a.nickname?.trim() || a.firstName} ${a.lastName}` }));

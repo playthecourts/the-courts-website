@@ -226,6 +226,7 @@ export default async function ExplorePage({
     <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
       <div className="flex min-w-0 flex-1 flex-col gap-6">
       <div>
+        <p className="font-sport text-xs font-bold uppercase tracking-wide text-orange">Book</p>
         <h1 className="font-display text-2xl font-black text-black">Find Your Next Rep.</h1>
         <p className="mt-1 font-body text-sm text-gray-dark">
           {allAthletes.length === 0
@@ -234,6 +235,14 @@ export default async function ExplorePage({
                 selectedMonthKey ? ` in ${monthLabel(selectedMonthKey)}` : when === "anytime" ? "" : " this week"
               }.`}
         </p>
+        {/* Whole-camp registration lives on its own page; with Camps out of
+            the main nav, this is its front door from Book. */}
+        <Link
+          href="/my-courts/camps"
+          className="mt-2 inline-flex min-h-[44px] items-center font-sport text-xs font-bold uppercase tracking-wide text-orange"
+        >
+          Camps &amp; Events &rarr;
+        </Link>
       </div>
 
       <div className="flex flex-col gap-2.5">

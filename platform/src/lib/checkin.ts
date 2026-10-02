@@ -60,7 +60,7 @@ export async function todaysClasses({ kioskOnly = false }: { kioskOnly?: boolean
         select: {
           id: true, status: true, paymentStatus: true,
           attendance: { select: { status: true, checkedInAt: true, note: true } },
-          athlete: { select: { id: true, firstName: true, nickname: true, lastName: true, grade: true } },
+          athlete: { select: { id: true, firstName: true, nickname: true, lastName: true, grade: true, hasMedicalInfo: true, hasCustodyRestrictions: true } },
         },
       },
     },
@@ -85,6 +85,10 @@ export async function todaysClasses({ kioskOnly = false }: { kioskOnly?: boolean
         fullName: `${first} ${b.athlete.lastName}`,
         grade: b.athlete.grade,
         paymentDue: b.paymentStatus === "due" || b.paymentStatus === "pending",
+        // Desk-only safety flags (existence, never detail). Forced false for
+        // the kiosk so they can't reach a lobby screen even by a later mapping change.
+        health: kioskOnly ? false : b.athlete.hasMedicalInfo,
+        pickupRestriction: kioskOnly ? false : b.athlete.hasCustodyRestrictions,
         here,
         late: b.attendance?.status === "late",
         absent: b.attendance?.status === "absent" || b.attendance?.status === "excused",

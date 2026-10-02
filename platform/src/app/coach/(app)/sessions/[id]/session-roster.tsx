@@ -31,6 +31,10 @@ export type RosterRow = {
   attendance: AttendanceStatus | null;
   rsvp: string | null;
   flags: string[];
+  /// Safety flags: only that a concern EXISTS, never what it is. The detail
+  /// lives behind the athlete page's logged reveal.
+  hasHealthInfo: boolean;
+  pickupRestriction: boolean;
   registrationLabel: string;
   registrationTone: "ok" | "warn" | "neutral";
   planLabel: string | null;
@@ -76,7 +80,9 @@ export default function SessionRoster({
   const [unsynced, setUnsynced] = useState<Record<string, AttendanceStatus>>({});
   const [pending, startTransition] = useTransition();
   const unsyncedRef = useRef(unsynced);
-  unsyncedRef.current = unsynced;
+  useEffect(() => {
+    unsyncedRef.current = unsynced;
+  }, [unsynced]);
   const router = useRouter();
   const [hereOnly, setHereOnly] = useState(false);
 
@@ -218,14 +224,23 @@ export default function SessionRoster({
                     <span className="block truncate font-heading text-[15px] font-bold text-near-black">
                       {r.firstName} {r.lastName}
                     </span>
+                    {/* Safety first: visible on the row, no tap needed. */}
+                    {(r.hasHealthInfo || r.pickupRestriction) && (
+                      <span className="mt-0.5 flex flex-wrap items-center gap-1">
+                        {r.hasHealthInfo && (
+                          <span className="rounded-full bg-warning-bg px-2 py-0.5 font-sport text-[11px] font-bold uppercase tracking-wide text-warning">
+                            Health
+                          </span>
+                        )}
+                        {r.pickupRestriction && (
+                          <span className="rounded-full bg-danger-bg px-2 py-0.5 font-sport text-[11px] font-bold uppercase tracking-wide text-danger">
+                            Pickup
+                          </span>
+                        )}
+                      </span>
+                    )}
                     <span className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 font-body text-xs text-gray-dark">
                       {r.grade && <span>{r.grade}</span>}
-                      {r.registrationTone === "warn" && (
-                        <span className="font-sport font-bold uppercase text-red-700">
-                          {r.registrationLabel}
-                        </span>
-                      )}
-                      {r.planLabel && <span>· {r.planLabel}</span>}
                       {/* Only surfaced when it changes what a coach should do.
                           "Media OK" is the quiet default and needs no shouting. */}
                       {r.mediaNeedsCare && (
@@ -233,6 +248,10 @@ export default function SessionRoster({
                           · {r.mediaLabel}
                         </span>
                       )}
+                      {/* Billing is the desk's job — kept, but quiet, so it
+                          never competes with the safety flags courtside. */}
+                      {r.registrationTone === "warn" && <span>· {r.registrationLabel}</span>}
+                      {r.planLabel && <span>· {r.planLabel}</span>}
                     </span>
                   </Link>
 

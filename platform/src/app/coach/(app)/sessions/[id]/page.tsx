@@ -73,6 +73,9 @@ export default async function CoachSessionPage(props: PageProps<"/coach/sessions
       attendance: b.attendance?.status ?? null,
       rsvp: b.rsvpStatus,
       flags: flags.get(b.athleteId) ?? [],
+      // Existence only — the detail stays behind the athlete page's logged reveal.
+      hasHealthInfo: b.athlete.hasMedicalInfo,
+      pickupRestriction: b.athlete.hasCustodyRestrictions,
       registrationLabel: reg.label,
       registrationTone: reg.tone,
       mediaLabel: staffMediaLabel(b.athlete.mediaConsent?.status ?? null),

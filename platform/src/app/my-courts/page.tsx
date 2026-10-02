@@ -2,10 +2,9 @@ import { facilityNow } from "@/lib/facility-time";
 import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
-import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { getSessionBalances } from "@/lib/entitlements";
 import { signedPhotoUrls } from "@/lib/athlete-photo";
-import { completeness } from "@/lib/athlete";
+import { getParentActionNeeded } from "@/lib/parent-action-needed";
 import { familyCrewName, familyCrewInitials } from "@/lib/family";
 import { AthleteAvatar } from "@/components/athlete/avatar";
 import { ActionNeededStrip, AthleteRow, WhatsHappening } from "./dashboard-sections";
@@ -30,9 +29,8 @@ function formatDate(date: Date) {
 // The Home page IS the family's live status page — every section below reads
 // real account data, no future-state placeholders. Reuses, rather than
 // re-derives, the same queries the rest of the app already relies on:
-// getSessionBalances (memberships/entitlements), getUnsignedRequiredWaivers +
-// mediaConsent (waivers), unreadCountForFamily (messages) — one source of
-// truth per fact, read from more than one place.
+// getSessionBalances (memberships/entitlements), and getParentActionNeeded
+// for the one Action Needed list at the top — one source of truth per fact.
 
 export default async function MyCourtsHomePage() {
   const guardian = await getCurrentGuardian();
@@ -53,9 +51,8 @@ export default async function MyCourtsHomePage() {
     upcomingBookings,
     photoUrls,
     upcomingEvents,
-    emergencyContactCounts,
     athleteMemberships,
-    mediaConsents,
+    actionItems,
   ] = await Promise.all([
     athleteIds.length
       ? prisma.booking.findMany({
@@ -73,17 +70,12 @@ export default async function MyCourtsHomePage() {
       take: 3,
     }),
     athleteIds.length
-      ? prisma.emergencyContact.groupBy({ by: ["athleteId"], where: { athleteId: { in: athleteIds } }, _count: { athleteId: true } })
-      : Promise.resolve([]),
-    athleteIds.length
       ? prisma.athleteMembership.findMany({
           where: { athleteId: { in: athleteIds }, status: "active" },
           include: { plan: { include: { entitlements: true } }, athlete: { select: { firstName: true } } },
         })
       : Promise.resolve([]),
-    athleteIds.length
-      ? prisma.mediaConsent.findMany({ where: { athleteId: { in: athleteIds } }, select: { athleteId: true } })
-      : Promise.resolve([]),
+    getParentActionNeeded(guardian),
   ]);
 
   // Purchased session packs (Dr. Dish 10-pack, a drop-in pack) — a separate
@@ -101,8 +93,6 @@ export default async function MyCourtsHomePage() {
     drop_in_pack: "Drop-In Credits",
   };
 
-  const emergencyContactCountByAthlete = new Map(emergencyContactCounts.map((row) => [row.athleteId, row._count.athleteId]));
-
   const athleteCards = athletes.map((athlete) => {
     const next = upcomingBookings.find((b) => b.athleteId === athlete.id);
     return {
@@ -117,92 +107,6 @@ export default async function MyCourtsHomePage() {
     };
   });
 
-  // Action Needed: only what doesn't already have a natural home in one of
-  // the sections below (each of those shows its own inline status instead of
-  // repeating itself up here — see the Waivers+Permissions and Membership
-  // sections).
-  const attentionItems: { athleteName: string; message: string; href: string; cta?: string }[] = [];
-  for (const athlete of athletes) {
-    const { nextStep } = completeness(
-      {
-        goal: athlete.goal,
-        coachingPreferences: athlete.coachingPreferences,
-        competitiveMeter: athlete.competitiveMeter,
-        emergencyContactCount: emergencyContactCountByAthlete.get(athlete.id) ?? 0,
-      },
-      athlete.id
-    );
-    if (nextStep?.key === "emergency-backup") {
-      attentionItems.push({
-        athleteName: athlete.firstName,
-        message: "needs a Backup Emergency Contact — someone we can call if the primary guardian can't be reached",
-        href: nextStep.href,
-        cta: "Add Contact",
-      });
-    } else if (nextStep) {
-      attentionItems.push({ athleteName: athlete.firstName, message: `Finish their Player Card — next: ${nextStep.label}`, href: nextStep.href, cta: "Continue" });
-    }
-  }
-  const pastDue = await (athleteIds.length
-    ? prisma.athleteMembership.findMany({ where: { athleteId: { in: athleteIds }, status: "past_due" }, include: { athlete: true, plan: true } })
-    : Promise.resolve([]));
-  for (const m of pastDue) {
-    attentionItems.push({ athleteName: m.athlete.firstName, message: `${m.plan.name} — payment didn't go through`, href: "/my-courts/memberships" });
-  }
-
-  // League requires an active Courts membership (Weekly or higher — and
-  // Weekly is the floor, so any active plan qualifies) per the FAQ's own
-  // policy. A family can be mid-registration (or even paid, if they
-  // registered before this check existed) without one — flag it plainly
-  // rather than let them find out only when league actually starts.
-  const activeMembershipAthleteIds = new Set(athleteMemberships.map((m) => m.athleteId));
-  const leagueRegistrations = athleteIds.length
-    ? await prisma.registration.findMany({
-        where: {
-          athleteId: { in: athleteIds },
-          status: { not: "cancelled" },
-          offering: { name: "Fall 2026 Basketball League" },
-        },
-        include: { athlete: { select: { firstName: true, id: true } } },
-      })
-    : [];
-  for (const r of leagueRegistrations) {
-    // A League payment that succeeded but couldn't finish setting up the
-    // bundled membership (see confirmLeagueRegistration) takes priority over
-    // the generic "no membership" check below — the seat and payment are
-    // real, only the subscription needs finishing, and "Choose Plan" would
-    // send them through checkout again for something they already paid for.
-    if (r.membershipSetupNeeded) {
-      attentionItems.push({
-        athleteName: r.athlete.firstName,
-        message: `Finish setting up ${r.athlete.firstName}'s membership`,
-        href: "/my-courts/league",
-        cta: "Finish Setup",
-      });
-      continue;
-    }
-    if (activeMembershipAthleteIds.has(r.athlete.id)) continue;
-    attentionItems.push({
-      athleteName: r.athlete.firstName,
-      message: "Fall League requires a Weekly membership or higher — choose a plan to stay eligible",
-      href: `/my-courts/memberships?required=league&athlete=${r.athlete.id}`,
-      cta: "Choose Plan",
-    });
-  }
-
-  // Waivers + Permissions family-level roll-up — a direct consequence of the
-  // same per-athlete checks the dedicated section/dashboard strip already
-  // make, computed once here as a plain boolean rather than a new status
-  // system. A media_no choice counts as fully answered, same as media_ok.
-  let waiversComplete = athletes.length > 0;
-  for (const athlete of athletes) {
-    if (!waiversComplete) break;
-    const unsigned = await getUnsignedRequiredWaivers(guardian.id, athlete.id);
-    if (unsigned.length > 0) waiversComplete = false;
-  }
-  const consentedIds = new Set(mediaConsents.map((c) => c.athleteId));
-  if (waiversComplete && athletes.some((a) => !consentedIds.has(a.id))) waiversComplete = false;
-
   const membershipRows = await Promise.all(
     athleteMemberships.map(async (m) => {
       const balances = await getSessionBalances(m.athleteId);
@@ -212,11 +116,6 @@ export default async function MyCourtsHomePage() {
   );
 
   const happeningItems = upcomingEvents.map((s) => ({ id: s.id, name: s.program.name, dayLabel: formatDay(s.startTime, now), time: formatTime(s.startTime) }));
-
-  const ACCOUNT_LINKS = [
-    { href: "/my-courts/payments", label: "Payments" },
-    { href: "/my-courts/settings", label: "Family Settings" },
-  ];
 
   return (
     <div className="flex flex-col gap-7 md:gap-9">
@@ -231,7 +130,9 @@ export default async function MyCourtsHomePage() {
         </div>
       </div>
 
-      <ActionNeededStrip items={attentionItems} />
+      {/* Action Needed — first thing on Home, the one place for anything
+          unfinished (waivers, payments, held spots, profile gaps). */}
+      <ActionNeededStrip items={actionItems} />
 
       {/* 2. Membership */}
       <section>
@@ -334,59 +235,13 @@ export default async function MyCourtsHomePage() {
           ))}
         </div>
         {athletes[0] && (
-          <Link href={`/my-courts/athletes/${athletes[0].id}/edit/guardians`} className="mt-2 inline-block font-sport text-xs font-bold tracking-wide text-orange uppercase">
+          <Link href="/my-courts/family" className="mt-2 inline-block font-sport text-xs font-bold tracking-wide text-orange uppercase">
             Manage Guardians &rarr;
           </Link>
         )}
       </section>
 
-      {/* 5. Waivers + Permissions */}
-      <section>
-        <Link
-          href="/my-courts/waivers"
-          className={`flex items-center justify-between gap-3 rounded-2xl border px-5 py-4 transition-colors ${
-            waiversComplete ? "border-gray-mid bg-white hover:border-orange" : "border-orange/40 bg-orange/5"
-          }`}
-        >
-          <div>
-            <p className="font-sport text-[14px] font-bold tracking-wide text-orange uppercase">Waivers + Permissions</p>
-            {waiversComplete ? (
-              <>
-                <p className="mt-1 font-heading text-[15px] font-bold text-near-black">All Set &#10003;</p>
-                <p className="mt-0.5 font-body text-[13px] text-gray-dark">All required waivers and permissions are complete.</p>
-              </>
-            ) : (
-              <>
-                <p className="mt-1 font-heading text-[15px] font-bold text-near-black">Action Needed</p>
-                <p className="mt-0.5 font-body text-[13px] text-gray-dark">Complete required forms and manage permissions for your athletes.</p>
-              </>
-            )}
-          </div>
-          <span className="shrink-0 font-sport text-xs font-bold tracking-wide text-orange uppercase">
-            View Waivers + Permissions &rarr;
-          </span>
-        </Link>
-      </section>
-
-      {/* 6. Account + Billing */}
-      <section>
-        <p className="mb-2.5 font-sport text-[14px] font-bold tracking-wide text-orange uppercase">Account + Billing</p>
-        <div className="flex flex-col divide-y divide-gray-mid rounded-2xl border border-gray-mid bg-white">
-          {ACCOUNT_LINKS.map((link) => (
-            <Link key={link.label} href={link.href} className="flex items-center justify-between px-4 py-3.5 transition-colors hover:bg-gray-light">
-              <span className="font-heading text-sm font-bold text-near-black">{link.label}</span>
-              <span className="text-gray-dark">&rarr;</span>
-            </Link>
-          ))}
-        </div>
-        {pastDue.length > 0 && (
-          <p className="mt-2 font-body text-[13px] text-danger">
-            {pastDue.length} membership{pastDue.length === 1 ? "" : "s"} with a payment that didn&rsquo;t go through — see Payments.
-          </p>
-        )}
-      </section>
-
-      {/* 7. Messages — hidden for now, not deleted. See also: my-courts/nav-link.tsx
+      {/* Messages — hidden for now, not deleted. See also: my-courts/nav-link.tsx
           ("messages" icon case, unused), lib/os/nav.ts (Communications nav entry,
           hidden), coach app "Message This Team/Group/Family" buttons (hidden).
           Underlying routes, schema, and lib/messaging.ts are untouched. */}

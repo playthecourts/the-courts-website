@@ -14,12 +14,14 @@ export function GET() {
     scope: "/coach/",
     display: "standalone",
     orientation: "portrait",
-    background_color: "#FAF8F5",
-    theme_color: "#1A1A1A",
+    // Dark, to match the icons — the splash screen reads as one piece.
+    background_color: "#171717",
+    theme_color: "#171717",
+    // Square icons only: a non-square source fails install or gets stretched.
     icons: [
-      { src: "/brand/icon-mark-color.png", sizes: "192x192", type: "image/png", purpose: "any" },
-      { src: "/brand/icon-mark-color.png", sizes: "512x512", type: "image/png", purpose: "any" },
-      { src: "/brand/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      { src: "/icons/coach-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: "/icons/coach-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+      { src: "/icons/coach-maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
     ],
   });
 }

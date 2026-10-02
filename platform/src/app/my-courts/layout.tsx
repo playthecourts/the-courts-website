@@ -1,32 +1,80 @@
+import type { Metadata, Viewport } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getCurrentGuardian, hasActiveStaffAccount } from "@/lib/dal";
 import { familyCrewInitials, familyCrewName } from "@/lib/family";
 import { AccountMenu } from "./account-menu";
-import NavLink from "./nav-link";
+import NavLink, { type IconName } from "./nav-link";
 
-// Always shown, not conditional on registration — a family that hasn't
-// registered still sees a real "raise your hand for Winter League" prompt
-// on this page (league/page.tsx) rather than the item just disappearing,
-// which would look like a bug more than a design choice.
-// Navigation Audit, Option A ("Rename, don't restructure"): "Book" is what
-// used to be labeled "Schedule" (Explore's real browse/filter/book flow —
-// month toggle, sport/coach filters, per-athlete booking, the calendar
-// sidebar). "My Bookings" is promoted from a link buried inside that page to
-// its own tab. Camps now also covers the one-day events (Early Release, Day
-// Off/Game On) that used to only surface through Explore's Camps category —
-// see camps/page.tsx. Payments, Waivers, Messages, and Settings move under
-// "More" so Messages finally has a real way in (it had zero links anywhere
-// before this).
-const NAV_ITEMS = [
-  { href: "/my-courts", label: "Home", icon: "home" as const },
-  { href: "/my-courts/explore", label: "Book", icon: "schedule" as const },
-  { href: "/my-courts/schedule", label: "My Bookings", icon: "explore" as const },
-  { href: "/my-courts/camps", label: "Camps & Events", icon: "camps" as const },
-  { href: "/my-courts/athletes", label: "My Athletes", icon: "athletes" as const },
-  { href: "/my-courts/memberships", label: "Membership", icon: "training" as const },
-  { href: "/my-courts/league", label: "League", icon: "league" as const },
-  { href: "/my-courts/more", label: "More", icon: "more" as const },
+// The Parent App ("My Courts") as an installable app — its own manifest and
+// identity, scoped to /my-courts so "Add to Home Screen" installs The Courts
+// family app rather than the Coach App (see coach/(app)/layout.tsx, which this
+// mirrors).
+export const metadata: Metadata = {
+  applicationName: "The Courts",
+  manifest: "/my-courts/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    title: "The Courts",
+    statusBarStyle: "default",
+  },
+  // Metadata merges shallowly — `icons` here replaces the root layout's whole
+  // icons object, so the favicons are repeated alongside the app icon.
+  icons: {
+    icon: [
+      { url: "/brand/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/brand/favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon.ico", sizes: "32x32" },
+    ],
+    apple: "/icons/parent-apple-180.png",
+  },
+  other: { "mobile-web-app-capable": "yes" },
+};
+
+// viewport-fit=cover is what makes env(safe-area-inset-*) report real values,
+// so the bottom bar can clear the iPhone home indicator.
+export const viewport: Viewport = {
+  themeColor: "#171717",
+  viewportFit: "cover",
+};
+
+// Desktop/tablet sidebar: every named destination, in the order a parent
+// thinks about them. No "More" junk drawer — Payments and Waivers get real
+// slots; profile-type things (Family Profile, Payment Methods, Account
+// Settings, Sign Out) live in the account menu at the bottom of the sidebar.
+//
+// Camps & Events isn't its own slot: it's a way to Book, so Explore links to
+// it and the Book item stays lit while you're there.
+const SIDEBAR_ITEMS: { href: string; label: string; icon: IconName; match?: string[] }[] = [
+  { href: "/my-courts", label: "Home", icon: "home" },
+  { href: "/my-courts/explore", label: "Book", icon: "book", match: ["/my-courts/camps"] },
+  { href: "/my-courts/schedule", label: "Schedule", icon: "schedule" },
+  { href: "/my-courts/athletes", label: "My Athletes", icon: "athletes" },
+  { href: "/my-courts/memberships", label: "Membership", icon: "membership" },
+  { href: "/my-courts/league", label: "Fall League", icon: "league" },
+  { href: "/my-courts/payments", label: "Payments", icon: "payments" },
+  { href: "/my-courts/waivers", label: "Waivers + Permissions", icon: "waivers" },
+];
+
+// Phone bottom bar: exactly five tabs, no sideways scroll. Everything else
+// lives on Account (/my-courts/more — the path is kept so old links work).
+const BOTTOM_ITEMS: { href: string; label: string; icon: IconName; match?: string[] }[] = [
+  { href: "/my-courts", label: "Home", icon: "home" },
+  { href: "/my-courts/explore", label: "Book", icon: "book", match: ["/my-courts/camps"] },
+  { href: "/my-courts/schedule", label: "Schedule", icon: "schedule" },
+  { href: "/my-courts/athletes", label: "Athletes", icon: "athletes" },
+  {
+    href: "/my-courts/more",
+    label: "Account",
+    icon: "account",
+    match: [
+      "/my-courts/memberships",
+      "/my-courts/league",
+      "/my-courts/payments",
+      "/my-courts/waivers",
+      "/my-courts/settings",
+    ],
+  },
 ];
 
 export default async function MyCourtsLayout({ children }: { children: React.ReactNode }) {
@@ -54,8 +102,8 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
           </Link>
         </div>
         <nav className="flex flex-1 flex-col gap-1 px-4">
-          {NAV_ITEMS.map((item) => (
-            <NavLink key={item.href} href={item.href} icon={item.icon} variant="sidebar">
+          {SIDEBAR_ITEMS.map((item) => (
+            <NavLink key={item.href} href={item.href} icon={item.icon} match={item.match} variant="sidebar">
               {item.label}
             </NavLink>
           ))}
@@ -66,7 +114,7 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
       </aside>
 
       {/* Mobile top bar */}
-      <header className="flex items-center justify-between border-b border-gray-mid bg-white px-4 py-3 md:hidden">
+      <header className="flex items-center justify-between border-b border-gray-mid bg-white px-4 pb-2 pt-[calc(env(safe-area-inset-top)+0.5rem)] md:hidden">
         <Link href="/my-courts">
           <Image
             src="/brand/logo-horizontal-full-color.png"
@@ -79,15 +127,18 @@ export default async function MyCourtsLayout({ children }: { children: React.Rea
         <AccountMenu crewName={crewName} initials={initials} variant="mobile" showAdminSwitch={showAdminSwitch} />
       </header>
 
-      <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-24 pt-10 md:px-10 md:pb-10 md:pt-14">
+      <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-[calc(env(safe-area-inset-bottom)+6rem)] pt-10 md:px-10 md:pb-10 md:pt-14">
         {children}
       </main>
 
-      {/* Mobile bottom nav — scrolls horizontally since it now holds every
-          destination that used to live behind "More" */}
-      <nav className="fixed inset-x-0 bottom-0 z-20 flex overflow-x-auto border-t border-gray-mid bg-white md:hidden">
-        {NAV_ITEMS.map((item) => (
-          <NavLink key={item.href} href={item.href} icon={item.icon} variant="bottom">
+      {/* Mobile bottom nav — five fixed-width tabs, padded clear of the
+          iPhone home indicator. */}
+      <nav
+        aria-label="Main"
+        className="fixed inset-x-0 bottom-0 z-20 flex border-t border-gray-mid bg-white pb-[env(safe-area-inset-bottom)] md:hidden"
+      >
+        {BOTTOM_ITEMS.map((item) => (
+          <NavLink key={item.href} href={item.href} icon={item.icon} match={item.match} variant="bottom">
             {item.label}
           </NavLink>
         ))}

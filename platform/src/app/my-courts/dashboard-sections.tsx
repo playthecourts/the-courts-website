@@ -1,96 +1,95 @@
 import Link from "next/link";
-import { CourtArc } from "./court-lines";
-import { ArrowGlyph } from "./glyphs";
+import type { ActionNeededItem } from "@/lib/parent-action-needed";
+import { openBillingPortal, payBooking } from "./actions";
 import { AthleteAvatar } from "@/components/athlete/avatar";
 import { displayName } from "@/lib/athlete";
 import { formatGrade } from "@/lib/coach-format";
 
 // ---------------------------------------------------------------------------
-// Welcome — launch-focused: pre-October 1, the dashboard's job is to get a
-// family to a membership and a set-up athlete, not to imply there's a
-// schedule to browse yet. Compact utility header, not a marketing hero.
+// Action Needed — THE one list of genuinely unfinished things (built by
+// lib/parent-action-needed.ts). Each row says what's wrong in plain words and
+// carries a CTA named for the job ("Pay $25", "Sign Waivers"). Where the app
+// already has a one-tap server action (resume a booking's Checkout, open the
+// Stripe billing portal) the CTA submits it directly. Nothing to do → one
+// quiet line, not an empty box.
 // ---------------------------------------------------------------------------
-export function WelcomeHero({
-  firstName,
-  hasAthlete,
-}: {
-  firstName: string;
-  hasAthlete: boolean;
-}) {
+const ctaClass =
+  "inline-flex min-h-[44px] shrink-0 items-center justify-center rounded-full px-4 font-sport text-xs font-bold tracking-wide uppercase transition-colors";
+
+function ActionCta({ item }: { item: ActionNeededItem }) {
+  const tone =
+    item.tone === "urgent"
+      ? "bg-orange text-white hover:bg-orange-hover"
+      : "border border-near-black/15 bg-white text-near-black hover:border-orange hover:text-orange";
+  const label = <>{item.cta} &rarr;</>;
+  if (item.action?.kind === "payBooking") {
+    return (
+      <form action={payBooking.bind(null, item.action.bookingId)}>
+        <button type="submit" className={`${ctaClass} ${tone}`}>
+          {label}
+        </button>
+      </form>
+    );
+  }
+  if (item.action?.kind === "billingPortal") {
+    return (
+      <form action={openBillingPortal}>
+        <button type="submit" className={`${ctaClass} ${tone}`}>
+          {label}
+        </button>
+      </form>
+    );
+  }
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-warm-white px-6 py-7 md:px-9 md:py-9">
-      <CourtArc className="pointer-events-none absolute -top-10 -right-12 h-40 w-40 text-orange/[0.1] md:h-52 md:w-52" />
-      <p className="relative font-heading text-[19px] font-bold text-gray-dark md:text-[22px]">
-        Hey, {firstName}.
-      </p>
-      <h1 className="relative mt-1 max-w-[16ch] font-display text-[21px] leading-[1.1] font-black tracking-tight text-near-black md:text-[28px]">
-        Ready to get started?
-      </h1>
-      <p className="relative mt-3 max-w-[52ch] font-heading text-[15px] font-bold text-near-black md:text-[16px]">
-        Memberships are open now for an October 1 start.
-      </p>
-      <p className="relative mt-2 max-w-[54ch] font-body text-[14px] leading-relaxed text-gray-dark md:text-[15px]">
-        Choose the membership that works for your family and get everything in place before
-        opening day.
-      </p>
-      <div className="relative mt-5 flex flex-wrap items-center gap-3">
-        <Link
-          href="/my-courts/memberships"
-          className="inline-flex items-center gap-2 rounded-full bg-orange px-6 py-3.5 font-sport text-sm font-bold tracking-wide text-white uppercase transition-colors hover:bg-orange-hover"
-        >
-          View Memberships <ArrowGlyph className="h-4 w-4" />
-        </Link>
-        {!hasAthlete && (
-          <Link
-            href="/my-courts/athletes"
-            className="inline-flex items-center gap-2 rounded-full border border-gray-mid bg-white px-6 py-3.5 font-sport text-sm font-bold tracking-wide text-near-black uppercase transition-colors hover:border-orange hover:text-orange"
-          >
-            Add Your Athlete &rarr;
-          </Link>
-        )}
-      </div>
-      <p className="relative mt-4 font-body text-[12.5px] text-near-black">
-        Schedules and bookings are coming soon.
-      </p>
-    </div>
+    <Link href={item.href} className={`${ctaClass} ${tone}`}>
+      {label}
+    </Link>
   );
 }
 
-// ---------------------------------------------------------------------------
-// Action Needed — only renders when something actually needs attention.
-// Warm Stone background with a single orange accent, per brand direction.
-// ---------------------------------------------------------------------------
-export function ActionNeededStrip({
-  items,
-}: {
-  items: { athleteName: string; message: string; href: string; cta?: string }[];
-}) {
-  if (items.length === 0) return null;
-  return (
-    <div className="flex flex-col gap-2">
-      <p className="font-sport text-[14px] font-bold tracking-wide text-orange uppercase">
-        Action Needed
+export function ActionNeededStrip({ items }: { items: ActionNeededItem[] }) {
+  if (items.length === 0) {
+    return (
+      <p className="flex items-center gap-2 font-body text-[13.5px] text-gray-dark">
+        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-orange/10 font-display text-xs text-orange">
+          &#10003;
+        </span>
+        You&rsquo;re all set. Nothing needs you right now.
       </p>
-      {items.map((item, i) => (
-        <Link
-          key={i}
-          href={item.href}
-          className="flex items-center justify-between gap-4 rounded-xl border border-orange/20 bg-warm-stone px-4 py-3.5 transition-colors hover:border-orange/40 md:px-5"
+    );
+  }
+  return (
+    <section className="flex flex-col gap-2">
+      <p className="font-sport text-[14px] font-bold tracking-wide text-orange uppercase">
+        Action Needed <span className="text-gray-dark">&middot; {items.length}</span>
+      </p>
+      {items.map((item) => (
+        <div
+          key={item.key}
+          className={`flex flex-col gap-3 rounded-xl border px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between md:px-5 ${
+            item.tone === "urgent" ? "border-orange/40 bg-orange/5" : "border-orange/20 bg-warm-stone"
+          }`}
         >
-          <div className="flex min-w-0 items-center gap-3">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-orange/15 font-display text-sm font-black text-orange">
+          <div className="flex min-w-0 items-start gap-3">
+            <span
+              className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-display text-sm font-black ${
+                item.tone === "urgent" ? "bg-orange text-white" : "bg-orange/15 text-orange"
+              }`}
+              aria-hidden="true"
+            >
               !
             </span>
-            <span className="min-w-0 font-body text-[13.5px] text-near-black">
-              <span className="font-heading font-bold">{item.athleteName}</span> — {item.message}
-            </span>
+            <div className="min-w-0">
+              <p className="font-heading text-[14.5px] font-bold text-near-black">{item.title}</p>
+              <p className="mt-0.5 font-body text-[13px] text-gray-dark">{item.detail}</p>
+            </div>
           </div>
-          <span className="shrink-0 font-sport text-xs font-bold tracking-wide text-orange uppercase">
-            {item.cta ?? "Complete"} &rarr;
-          </span>
-        </Link>
+          <div className="pl-10 sm:pl-0">
+            <ActionCta item={item} />
+          </div>
+        </div>
       ))}
-    </div>
+    </section>
   );
 }
 

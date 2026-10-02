@@ -52,7 +52,8 @@ export async function proxy(request: NextRequest) {
   ) {
     return NextResponse.redirect(new URL("/kiosk", request.url));
   }
-  const isProtected = path.startsWith("/my-courts") || path.startsWith("/admin");
+  const isProtected =
+    (path.startsWith("/my-courts") && path !== "/my-courts/manifest.webmanifest") || path.startsWith("/admin");
 
   if (isProtected && !user) {
     const loginUrl = new URL("/login", request.url);

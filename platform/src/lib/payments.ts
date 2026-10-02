@@ -15,6 +15,7 @@ import { FOUNDING_OFFER } from "@/lib/founding-offer";
 const primaryGuardian = {
   family: {
     select: {
+      id: true,
       name: true,
       guardians: {
         orderBy: { isPrimary: "desc" as const },
@@ -26,6 +27,7 @@ const primaryGuardian = {
 };
 
 export type PayerInfo = {
+  familyId: string;
   familyName: string;
   guardianName: string | null;
   email: string | null;
@@ -33,9 +35,10 @@ export type PayerInfo = {
   stripeCustomerId: string | null;
 };
 
-function payer(a: { family: { name: string; guardians: { guardian: { name: string; email: string | null; phone: string | null; stripeCustomerId: string | null } }[] } }): PayerInfo {
+function payer(a: { family: { id: string; name: string; guardians: { guardian: { name: string; email: string | null; phone: string | null; stripeCustomerId: string | null } }[] } }): PayerInfo {
   const g = a.family.guardians[0]?.guardian;
   return {
+    familyId: a.family.id,
     familyName: a.family.name,
     guardianName: g?.name ?? null,
     email: g?.email ?? null,

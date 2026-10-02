@@ -77,6 +77,7 @@ export default async function MembersPage({
           firstName: true,
           lastName: true,
           grade: true,
+          familyId: true,
           family: {
             select: {
               guardians: {
@@ -117,6 +118,7 @@ export default async function MembersPage({
       id: m.id,
       athlete: `${m.athlete.firstName} ${m.athlete.lastName}`,
       grade: m.athlete.grade,
+      familyId: m.athlete.familyId,
       guardian,
       segment,
       type: TYPE_LABEL[planName] ?? planName.replace(/\s+Membership$/, ""),
@@ -239,7 +241,11 @@ export default async function MembersPage({
                       {r.grade ? <span className="ml-1.5 text-neutral">· {r.grade}</span> : null}
                     </Td>
                     <Td>
-                      <span className="text-near-black">{r.guardian?.name ?? "—"}</span>
+                      {r.guardian ? (
+                        <Link href={`/os/families/${r.familyId}`} className="text-near-black hover:underline">{r.guardian.name}</Link>
+                      ) : (
+                        <Link href={`/os/families/${r.familyId}`} className="text-near-black hover:underline">View family</Link>
+                      )}
                       <br />
                       <span className="text-neutral">{r.guardian?.email ?? ""}</span>
                     </Td>

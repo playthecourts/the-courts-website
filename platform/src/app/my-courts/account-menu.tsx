@@ -3,17 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { logout } from "@/app/actions/auth";
+import { openBillingPortal } from "./actions";
 
-// The family account switcher — represents the household, not the
-// individual parent who happens to be signed in. Lives bottom-left on
-// desktop (sidebar variant, opens upward) and behind a small avatar in the
-// mobile header (mobile variant, opens downward).
+// The family account menu — represents the household, not the individual
+// parent who happens to be signed in. Lives bottom-left on desktop (sidebar
+// variant, opens upward). On phones the header avatar is just a shortcut to
+// the Account tab (/my-courts/more), which already lists every one of these
+// — so a phone has exactly one Sign Out, not two.
 
-const MENU_ITEMS = [
-  { href: "/my-courts", label: "Family Profile" },
-  { href: "/my-courts/payments", label: "Payment Methods" },
-  { href: "/my-courts/settings", label: "Account Settings" },
-];
+const itemClass =
+  "flex min-h-[44px] w-full items-center px-4 text-left font-body text-sm text-near-black transition-colors hover:bg-orange/10 hover:text-orange";
 
 export function AccountMenu({
   crewName,
@@ -62,46 +61,35 @@ export function AccountMenu({
           </span>
         </button>
       ) : (
-        <button
-          type="button"
-          onClick={() => setOpen((o) => !o)}
-          aria-expanded={open}
-          aria-label="Account menu"
-          className="block"
-        >
+        <Link href="/my-courts/more" aria-label="Account" className="flex h-11 w-11 items-center justify-center">
           {avatar}
-        </button>
+        </Link>
       )}
 
-      {open && (
+      {open && variant === "sidebar" && (
         <div
-          className={`absolute z-30 w-56 rounded-xl border border-gray-mid bg-white py-1.5 shadow-lg ${
-            variant === "sidebar" ? "bottom-full left-0 mb-2" : "right-0 top-full mt-2"
-          }`}
+          className="absolute bottom-full left-0 z-30 mb-2 w-56 rounded-xl border border-gray-mid bg-white py-1.5 shadow-lg"
         >
-          {variant === "mobile" && (
-            <div className="border-b border-gray-mid px-4 py-2.5">
-              <p className="truncate font-heading text-[13.5px] font-bold text-near-black">{crewName}</p>
-              <p className="font-body text-[11.5px] text-gray-dark">Family Account</p>
-            </div>
-          )}
-          {MENU_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className="block px-4 py-2 font-body text-sm text-near-black transition-colors hover:bg-orange/10 hover:text-orange"
-            >
-              {item.label}
-            </Link>
-          ))}
+          <Link href="/my-courts/family" onClick={() => setOpen(false)} className={itemClass}>
+            Family Profile
+          </Link>
+          {/* Stripe billing portal — same place Membership's "Manage
+              Billing" goes. No Stripe customer yet → Payments. */}
+          <form action={openBillingPortal}>
+            <button type="submit" className={itemClass}>
+              Payment Methods
+            </button>
+          </form>
+          <Link href="/my-courts/settings" onClick={() => setOpen(false)} className={itemClass}>
+            Account Settings
+          </Link>
           {showAdminSwitch && (
             <>
               <div className="my-1 border-t border-gray-mid" />
               <Link
                 href="/os"
                 onClick={() => setOpen(false)}
-                className="block px-4 py-2 font-body text-sm text-orange transition-colors hover:bg-orange/10"
+                className="flex min-h-[44px] items-center px-4 font-body text-sm text-orange transition-colors hover:bg-orange/10"
               >
                 Switch to Admin →
               </Link>
@@ -109,10 +97,7 @@ export function AccountMenu({
           )}
           <div className="my-1 border-t border-gray-mid" />
           <form action={logout}>
-            <button
-              type="submit"
-              className="block w-full px-4 py-2 text-left font-body text-sm text-near-black transition-colors hover:bg-orange/10 hover:text-orange"
-            >
+            <button type="submit" className={itemClass}>
               Sign Out
             </button>
           </form>

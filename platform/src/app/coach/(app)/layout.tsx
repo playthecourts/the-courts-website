@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "The Courts Coach",
   applicationName: "The Courts Coach",
   manifest: "/coach/manifest.webmanifest",
+  icons: { apple: "/icons/coach-apple-180.png" },
   appleWebApp: {
     capable: true,
     title: "The Courts Coach",

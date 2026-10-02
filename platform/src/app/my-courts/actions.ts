@@ -35,7 +35,6 @@ export async function bookSession(athleteId: string, sessionId: string) {
   const guardian = await assertOwnsAthlete(athleteId);
   await requireWaiversOrRedirect(guardian.id, athleteId, "/my-courts/explore");
   const result = await bookAthleteIntoSession(sessionId, athleteId, guardian.id);
-  revalidatePath("/my-courts/bookings");
   revalidatePath("/my-courts/schedule");
   revalidatePath("/my-courts/explore");
   // A paid booking's seat is already held (see bookAthleteIntoSession) — this
@@ -61,7 +60,6 @@ export async function cancelBooking(bookingId: string) {
   }
 
   await cancelBookingById(bookingId);
-  revalidatePath("/my-courts/bookings");
   revalidatePath("/my-courts/schedule");
 }
 
@@ -86,10 +84,32 @@ export async function payBooking(bookingId: string) {
   redirect(checkoutUrl);
 }
 
+/// "Payment Methods" (profile menu, Account page) and the past-due Action
+/// Needed item. Same Stripe billing portal Membership's "Manage Billing"
+/// opens — but a family with no Stripe customer yet has no portal to open,
+/// so they land on Payments instead of an error page.
+export async function openBillingPortal() {
+  const guardian = await getCurrentGuardian();
+  if (!guardian.stripeCustomerId) {
+    redirect("/my-courts/payments");
+  }
+
+  const requestHeaders = await headers();
+  const host = requestHeaders.get("host") ?? "localhost:3000";
+  const origin = `${host.startsWith("localhost") ? "http" : "https"}://${host}`;
+
+  const customerId = await getOrCreateStripeCustomer(guardian);
+  const session = await stripe.billingPortal.sessions.create({
+    customer: customerId,
+    return_url: `${origin}/my-courts`,
+  });
+  redirect(session.url);
+}
+
 export async function cancelWaitlistEntry(waitlistEntryId: string, athleteId: string) {
   await assertOwnsAthlete(athleteId);
   await cancelWaitlistEntryById(waitlistEntryId);
-  revalidatePath("/my-courts/bookings");
+  revalidatePath("/my-courts/schedule");
 }
 
 export async function setRsvp(bookingId: string, rsvpStatus: "going" | "not_going" | "not_sure") {
@@ -124,7 +144,6 @@ export async function acceptWaitlistOffer(waitlistEntryId: string, athleteId: st
   // family didn't lose through any fault of theirs.
   await acceptOffer(waitlistEntryId, guardian.id);
   revalidatePath("/my-courts/explore");
-  revalidatePath("/my-courts/bookings");
   revalidatePath("/my-courts/schedule");
 }
 
@@ -132,7 +151,7 @@ export async function declineWaitlistOffer(waitlistEntryId: string, athleteId: s
   await assertOwnsAthlete(athleteId);
   await declineOffer(waitlistEntryId, null);
   revalidatePath("/my-courts/explore");
-  revalidatePath("/my-courts/bookings");
+  revalidatePath("/my-courts/schedule");
 }
 
 // --- Dr. Dish 10-pack --------------------------------------------------

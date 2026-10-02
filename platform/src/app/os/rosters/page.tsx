@@ -73,6 +73,7 @@ export default async function RostersPage({
               id: true, firstName: true, lastName: true, nickname: true, grade: true,
               family: {
                 select: {
+                  id: true,
                   guardians: {
                     orderBy: { isPrimary: "desc" },
                     take: 1,
@@ -240,7 +241,9 @@ export default async function RostersPage({
                                 {b.status === "no_show" ? <span className="ml-2"><Pill tone="danger">No show</Pill></span> : null}
                               </Td>
                               <Td className="text-neutral">{b.athlete.grade ? formatGrade(b.athlete.grade) : "—"}</Td>
-                              <Td>{g?.name ?? "—"}</Td>
+                              <Td>
+                                <Link href={`/os/families/${b.athlete.family.id}`} className="hover:underline">{g?.name ?? "Family"}</Link>
+                              </Td>
                               <Td>{g?.phone ? <a href={`tel:${g.phone}`} className="os-num hover:underline">{g.phone}</a> : "—"}</Td>
                               <Td><Pill tone={pay.tone}>{pay.label}</Pill></Td>
                               <Td className="os-num text-neutral">

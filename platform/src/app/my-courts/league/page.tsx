@@ -112,7 +112,7 @@ export default async function LeaguePage({
   if (leaguePrograms.length === 0) {
     return (
       <div className="flex flex-col gap-6">
-        <h1 className="font-display text-2xl font-black text-black">League</h1>
+        <h1 className="font-display text-2xl font-black text-black">Fall League</h1>
         <div className="rounded-lg border border-gray-mid bg-white p-6 text-center">
           <p className="font-display text-lg font-black text-black">No Team Yet.</p>
           <p className="mt-1 font-body text-sm text-gray-dark">League registration opens throughout the year.</p>
@@ -130,6 +130,7 @@ export default async function LeaguePage({
   return (
     <div className="flex flex-col gap-8">
       <div>
+        <p className="font-sport text-xs font-bold uppercase tracking-wide text-orange">Fall League</p>
         <h1 className="font-display text-3xl font-black text-black sm:text-4xl">2026 Fall Basketball League</h1>
       </div>
 

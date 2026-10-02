@@ -21,10 +21,15 @@ const wallDayTime = (d: Date) =>
 const centralDay = (d: Date) => new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "America/Chicago" }).format(d);
 const isoDay = (d: Date | null) => (d ? d.toISOString().slice(0, 10) : null);
 
-function Payer({ p }: { p: PayerInfo }) {
+function Payer({ p, linkFamily }: { p: PayerInfo; linkFamily: boolean }) {
+  const name = p.guardianName ?? p.familyName;
   return (
     <div className="text-sm">
-      <div className="font-medium text-near-black">{p.guardianName ?? p.familyName}</div>
+      {linkFamily ? (
+        <Link href={`/os/families/${p.familyId}`} className="block font-medium text-near-black hover:underline">{name}</Link>
+      ) : (
+        <div className="font-medium text-near-black">{name}</div>
+      )}
       <div className="text-xs text-gray-dark">
         {[p.phone ? <a key="ph" href={`tel:${p.phone}`} className="os-num hover:underline">{p.phone}</a> : null, p.email]
           .filter(Boolean)
@@ -51,6 +56,8 @@ function StripeLink({ p }: { p: PayerInfo }) {
 export default async function PaymentsPage() {
   const actor = await requireCapability("payments.view");
   const canSendLink = can(actor, "payments.sendLink");
+  // Finance viewers see payments but not family records — no dead links.
+  const canViewFamilies = can(actor, "families.view");
   const canMoveDates = can(actor, "plans.manage");
   const data = await loadPaymentsOverview(actor);
 
@@ -93,7 +100,7 @@ export default async function PaymentsPage() {
                       </Td>
                       <Td className="os-num font-semibold text-near-black">{money(o.amountCents)}</Td>
                       <Td>
-                        <Payer p={o.payer} />
+                        <Payer p={o.payer} linkFamily={canViewFamilies} />
                         <div className="mt-1"><StripeLink p={o.payer} /></div>
                       </Td>
                       <Td>
@@ -127,7 +134,7 @@ export default async function PaymentsPage() {
                         <Td><Link href={`/os/athletes/${m.athleteId}`} className="font-medium text-near-black hover:underline">{m.athlete}</Link></Td>
                         <Td>{m.plan}</Td>
                         <Td className="os-num">{money(m.priceCents)}/mo</Td>
-                        <Td><Payer p={m.payer} /></Td>
+                        <Td><Payer p={m.payer} linkFamily={canViewFamilies} /></Td>
                         <Td><StripeLink p={m.payer} /></Td>
                       </tr>
                     ))}
@@ -153,7 +160,11 @@ export default async function PaymentsPage() {
                     <tr key={m.id} className="align-top">
                       <Td>
                         <Link href={`/os/athletes/${m.athleteId}`} className="font-medium text-near-black hover:underline">{m.athlete}</Link>
-                        <div className="text-xs text-gray-dark">{m.payer.guardianName ?? m.payer.familyName}</div>
+                        {canViewFamilies ? (
+                          <Link href={`/os/families/${m.payer.familyId}`} className="block text-xs text-gray-dark hover:underline">{m.payer.guardianName ?? m.payer.familyName}</Link>
+                        ) : (
+                          <div className="text-xs text-gray-dark">{m.payer.guardianName ?? m.payer.familyName}</div>
+                        )}
                       </Td>
                       <Td>{m.plan}</Td>
                       <Td className="os-num">{money(m.priceCents)}</Td>
