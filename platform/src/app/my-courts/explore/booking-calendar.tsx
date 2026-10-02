@@ -1,5 +1,6 @@
 "use client";
 
+import { facilityToday } from "@/lib/facility-time";
 import { useMemo, useState } from "react";
 import Link from "next/link";
 // Declared here rather than imported from lib/programs/parent-feed, which is
@@ -58,8 +59,7 @@ function addDays(d: Date, n: number) {
 }
 
 function todayUTC() {
-  const now = new Date();
-  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+  return facilityToday();
 }
 
 // The facility opens October 1, 2026 — September has nothing to show, so the

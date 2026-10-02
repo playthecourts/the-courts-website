@@ -1,5 +1,6 @@
 import "server-only";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@/generated/prisma/client";
@@ -69,7 +70,13 @@ export async function getOsActor(): Promise<OsActor> {
   if (!staff.active) redirect("/login?error=inactive");
 
   const actor = toActor(staff, guardian !== null);
-  if (!can(actor, "os.access")) redirect("/login?error=no-os-access");
+  if (!can(actor, "os.access")) {
+    // Coaches live in the Coach App; send them there rather than to an error.
+    // Not on a lobby kiosk, though: proxy.ts pins that device to /kiosk, so a
+    // redirect to /coach would loop. There it gets the plain error instead.
+    const onKiosk = (await cookies()).get("courts_kiosk")?.value === "1";
+    redirect(actor.role === "coach" && actor.active && !onKiosk ? "/coach" : "/login?error=no-os-access");
+  }
 
   return actor;
 }

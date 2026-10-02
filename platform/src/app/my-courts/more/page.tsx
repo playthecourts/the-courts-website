@@ -6,12 +6,7 @@ import { SignOutNavItem, Icon } from "../nav-link";
 // zero links to it anywhere in the app before this page existed — this is
 // its first real entry point.
 const MORE_ITEMS = [
-  {
-    href: "/my-courts/messages",
-    icon: "messages" as const,
-    label: "Messages",
-    desc: "Threads with coaches and staff.",
-  },
+  // Messages is hidden for now (proxy.ts blocks /my-courts/messages).
   {
     href: "/my-courts/payments",
     icon: "payments" as const,

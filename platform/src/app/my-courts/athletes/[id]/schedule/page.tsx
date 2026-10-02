@@ -1,3 +1,4 @@
+import { facilityNow } from "@/lib/facility-time";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getGuardianAthleteOrNull } from "@/lib/athlete-profile";
@@ -24,7 +25,7 @@ export default async function AthleteSchedulePage({ params }: { params: Promise<
     where: {
       athleteId: athlete.id,
       status: { not: "cancelled" },
-      session: { startTime: { gte: new Date() } },
+      session: { startTime: { gte: facilityNow() } },
     },
     orderBy: { session: { startTime: "asc" } },
     include: { session: { include: { program: true } } },

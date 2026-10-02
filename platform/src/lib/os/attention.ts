@@ -1,3 +1,4 @@
+import { facilityNow } from "@/lib/facility-time";
 import "server-only";
 import { prisma } from "@/lib/prisma";
 import type { OsActor } from "./permissions";
@@ -32,8 +33,11 @@ const SEVERITY_RANK: Record<Severity, number> = { critical: 0, warning: 1, info:
 
 export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]> {
   const now = new Date();
+  // Session times are wall-clock (lib/facility-time.ts); `now` stays real for
+  // timestamps like createdAt, due dates and registration windows.
+  const wallNow = facilityNow();
+  const wallIn7Days = new Date(wallNow.getTime() + 7 * 86_400_000);
   const in3Days = new Date(now.getTime() + 3 * 86_400_000);
-  const in7Days = new Date(now.getTime() + 7 * 86_400_000);
   const dayAgo = new Date(now.getTime() - 86_400_000);
 
   const items: AttentionItem[] = [];
@@ -50,7 +54,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
             severity: "critical",
             title: `${n} failed Membership Plan ${n === 1 ? "payment" : "payments"}`,
             detail: "Stripe reported the subscription payment did not go through.",
-            href: "/os/plans?status=past_due",
+            href: "/os/members",
             count: n,
           });
       })()
@@ -67,7 +71,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
             severity: "critical",
             title: `${n} failed registration ${n === 1 ? "payment" : "payments"}`,
             detail: "The athlete is registered but the charge failed.",
-            href: "/os/registrations?paymentStatus=failed",
+            href: "/os/registrations?view=unpaid",
             count: n,
           });
       })()
@@ -93,7 +97,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
             severity: "critical",
             title: `${n} ${n === 1 ? "waiver is" : "waivers are"} unsigned`,
             detail: "These athletes are registered for a program that requires a signed waiver.",
-            href: "/os/registrations?waivers=missing",
+            href: "/os/families?waiver=missing",
             count: n,
           });
       })()
@@ -110,7 +114,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
             severity: "warning",
             title: `${n} ${n === 1 ? "registration needs" : "registrations need"} review`,
             detail: "Flagged for a human decision before they can be confirmed.",
-            href: "/os/registrations?status=admin_review",
+            href: "/os/registrations?view=needs_action",
             count: n,
           });
       })()
@@ -134,7 +138,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
             severity: "warning",
             title: `${n} incomplete ${n === 1 ? "registration" : "registrations"}`,
             detail: "Families who started signing up more than a day ago and never finished.",
-            href: "/os/registrations?status=incomplete",
+            href: "/os/registrations?view=needs_action",
             count: n,
           });
       })()
@@ -146,7 +150,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
     jobs.push(
       (async () => {
         const open = await prisma.coverageRequest.findMany({
-          where: { status: "open", session: { startTime: { gte: now } } },
+          where: { status: "open", session: { startTime: { gte: wallNow } } },
           select: { id: true, session: { select: { startTime: true } } },
           orderBy: { session: { startTime: "asc" } },
           take: 20,
@@ -157,7 +161,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
             severity: "critical",
             title: `Coach coverage needed for ${open.length} ${open.length === 1 ? "session" : "sessions"}`,
             detail: "A coach has asked to be replaced and nobody is assigned yet.",
-            href: "/os/coaches/coverage",
+            href: "/coach/coverage",
             count: open.length,
           });
       })()
@@ -173,7 +177,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
             AND: [
               sessionScope(actor),
               { status: "scheduled" },
-              { startTime: { gte: now, lt: in7Days } },
+              { startTime: { gte: wallNow, lt: wallIn7Days } },
               { coaches: { none: {} } },
               // Rentals and self-serve resource time genuinely have no coach.
               { program: { programType: { notIn: ["rental", "resource"] } } },
@@ -207,7 +211,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
           WHERE a.resource_id IS NOT NULL
             AND a.status = 'scheduled'
             AND b.status = 'scheduled'
-            AND a.end_time >= ${now}
+            AND a.end_time >= ${wallNow}
         `;
         const n = Number(rows[0]?.n ?? 0);
         if (n > 0)
@@ -216,7 +220,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
             severity: "critical",
             title: `${n} court ${n === 1 ? "conflict" : "conflicts"} on the schedule`,
             detail: "Two sessions are booked on the same resource at the same time.",
-            href: "/os/facility?view=conflicts",
+            href: "/os/schedule",
             count: n,
           });
       })()
@@ -232,7 +236,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
             AND: [
               { status: "waiting" },
               { session: sessionScope(actor) },
-              { session: { startTime: { gte: now } } },
+              { session: { startTime: { gte: wallNow } } },
             ],
           },
         });
@@ -242,7 +246,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
             severity: "info",
             title: `${n} ${n === 1 ? "athlete is" : "athletes are"} on a waitlist`,
             detail: "Demand you could convert if a spot opens or you add a session.",
-            href: "/os/registrations?view=waitlist",
+            href: "/os/registrations?view=waitlisted",
             count: n,
           });
       })()
@@ -291,7 +295,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
             AND: [
               offeringScope(actor),
               { status: "draft" },
-              { sessions: { some: { startTime: { gte: now } } } },
+              { sessions: { some: { startTime: { gte: wallNow } } } },
             ],
           },
         });
@@ -301,7 +305,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
             severity: "warning",
             title: `${n} unpublished ${n === 1 ? "program has" : "programs have"} upcoming sessions`,
             detail: "Scheduled but not visible to families — nobody can register yet.",
-            href: "/os/programs?status=draft",
+            href: "/os/programs?view=draft",
             count: n,
           });
       })()
@@ -336,7 +340,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
               severity: "warning",
               title: `${unplaced} ${unplaced === 1 ? "athlete" : "athletes"} unplaced in ${l.name}`,
               detail: "Registered for the league but not yet on a team.",
-              href: `/os/leagues/${l.id}/teams`,
+              href: "/os/leagues",
               count: unplaced,
             });
         }

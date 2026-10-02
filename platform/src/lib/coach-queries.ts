@@ -161,16 +161,8 @@ export async function todayActionItems(actor: CoachActor, day: Date): Promise<Ac
     }
   }
 
-  // Evaluations this coach has started but not finished.
-  const incompleteEvals = await prisma.evaluation.count({
-    where: { staffUserId: actor.id, recommendedLevel: null },
-  });
-  if (incompleteEvals > 0) {
-    items.push({
-      label: `Evaluation notes due for ${incompleteEvals} athlete${incompleteEvals === 1 ? "" : "s"}`,
-      href: "/coach/evaluations",
-    });
-  }
+  // "Evaluation notes due" returns with the /coach/evaluations page; until
+  // then it would only link to a 404.
 
   // Coverage: a coach sees their own resolved requests; leadership sees the queue.
   if (isLeadership(actor)) {

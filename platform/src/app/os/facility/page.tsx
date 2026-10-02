@@ -1,3 +1,4 @@
+import { facilityNow } from "@/lib/facility-time";
 import { requireCapability } from "@/lib/os/dal";
 import { prisma } from "@/lib/prisma";
 import { can } from "@/lib/os/permissions";
@@ -15,7 +16,7 @@ const fmt = (d: Date) =>
 
 export default async function FacilityPage() {
   const actor = await requireCapability("facility.view");
-  const now = new Date();
+  const now = facilityNow();
 
   const [resources, blocks] = await Promise.all([
     prisma.resource.findMany({

@@ -1,3 +1,4 @@
+import { facilityNow } from "@/lib/facility-time";
 import Link from "next/link";
 import { requireCapability } from "@/lib/os/dal";
 import { prisma } from "@/lib/prisma";
@@ -44,7 +45,7 @@ export default async function MediaPage({ searchParams }: PageProps<"/os/media">
     listMediaPermissions(actor, { status, q }),
     showDetail ? openMediaFollowUps() : Promise.resolve([]),
     prisma.offering.findMany({
-      where: { status: "published", sessions: { some: { startTime: { gte: new Date() } } } },
+      where: { status: "published", sessions: { some: { startTime: { gte: facilityNow() } } } },
       orderBy: { startDate: "asc" },
       take: 20,
       select: { id: true, name: true, seasonLabel: true },

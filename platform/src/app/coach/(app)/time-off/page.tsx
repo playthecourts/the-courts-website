@@ -1,6 +1,7 @@
+import { facilityToday } from "@/lib/facility-time";
 import { prisma } from "@/lib/prisma";
 import { getCurrentCoach } from "@/lib/coach-dal";
-import { formatShortDate, startOfDay } from "@/lib/coach-format";
+import { formatShortDate } from "@/lib/coach-format";
 import { PageTitle, Card, SectionHeading, EmptyState } from "@/components/coach/ui";
 import { RequestTimeOffForm, CancelTimeOffButton } from "./time-off-controls";
 
@@ -31,7 +32,7 @@ export default async function TimeOffPage() {
   const actor = await getCurrentCoach();
 
   const rawRows = await prisma.coachAvailability.findMany({
-    where: { staffUserId: actor.id, status: "unavailable", specificDate: { gte: startOfDay(new Date()) } },
+    where: { staffUserId: actor.id, status: "unavailable", specificDate: { gte: facilityToday() } },
     select: { id: true, specificDate: true, note: true },
   });
   // The where clause guarantees specificDate is set (this page only ever

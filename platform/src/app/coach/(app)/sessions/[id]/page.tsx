@@ -4,7 +4,7 @@ import { getCurrentCoach, assertSessionAccess, canManageCapacity } from "@/lib/c
 import { formatLongDate, formatTimeRange, formatGrade, initials } from "@/lib/coach-format";
 import { capacityLabel, pastDueAthleteIds, registrationStatusFor, trainingPlanStatusFor } from "@/lib/coach-status";
 import { activeFlagsFor } from "@/lib/coach-queries";
-import { Card, Eyebrow, Pill, SectionHeading, BackLink, ActionLink } from "@/components/coach/ui";
+import { Card, Eyebrow, Pill, SectionHeading, BackLink } from "@/components/coach/ui";
 import SessionRoster, { type RosterRow } from "./session-roster";
 import { staffMediaLabel, needsPhotographerAttention } from "@/lib/media-consent";
 import SessionPlan from "./session-plan";
@@ -225,9 +225,7 @@ export default async function CoachSessionPage(props: PageProps<"/coach/sessions
 
       <section className="mb-6 flex flex-col gap-2">
         {/* "Message This Group" hidden for now — /coach/messages route untouched. */}
-        <ActionLink href={`/coach/incidents/new?sessionId=${session.id}`} variant="secondary">
-          Report an Incident
-        </ActionLink>
+        {/* "Report an Incident" (/coach/incidents/new) hidden until that page is built. */}
       </section>
 
       {/* Coverage + capacity are secondary; tucked behind a disclosure so they

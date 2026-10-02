@@ -1,3 +1,4 @@
+import { facilityNow } from "@/lib/facility-time";
 import "server-only";
 import { prisma } from "@/lib/prisma";
 import { availabilityFor, type Availability, qualifiesForAvailableThisWeek } from "./availability";
@@ -89,7 +90,7 @@ export async function loadParentFeed(
   const sessions = await prisma.session.findMany({
     where: {
       status: "scheduled",
-      startTime: { gte: opts.from ?? now, ...(opts.to ? { lt: opts.to } : {}) },
+      startTime: { gte: opts.from ?? facilityNow(), ...(opts.to ? { lt: opts.to } : {}) },
       ...(opts.offeringId ? { offeringId: opts.offeringId } : {}),
       offering: {
         ...PARENT_VISIBLE,
@@ -264,7 +265,7 @@ export async function loadCalendarMarkers(
   const sessions = await prisma.session.findMany({
     where: {
       status: "scheduled",
-      startTime: { gte: opts.from ?? now, ...(opts.to ? { lt: opts.to } : {}) },
+      startTime: { gte: opts.from ?? facilityNow(), ...(opts.to ? { lt: opts.to } : {}) },
       offering: PARENT_VISIBLE,
     },
     orderBy: { startTime: "asc" },

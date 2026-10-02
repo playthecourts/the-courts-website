@@ -1,5 +1,6 @@
 "use client";
 
+import { facilityTodayKey } from "@/lib/facility-time";
 import Link from "next/link";
 import { useState } from "react";
 import type { ScheduleCard, ClosureBand } from "@/lib/programs/schedule-view";
@@ -46,7 +47,7 @@ export function WeekGrid({
     return d;
   });
 
-  const todayKey = new Date().toISOString().slice(0, 10);
+  const todayKey = facilityTodayKey();
   const hours = Array.from(
     { length: (DAY_END_MIN - DAY_START_MIN) / 60 + 1 },
     (_, i) => DAY_START_MIN + i * 60

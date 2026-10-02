@@ -191,15 +191,11 @@ const HEAD_COACH: Capability[] = [
 
 /// Coaches live in the Coach App. This is the sliver of Courts OS they can
 /// reach if they land here — their own schedule and the athletes they coach.
-const COACH: Capability[] = [
-  "os.access",
-  "athletes.view",
-  "athletes.viewMediaStatus",
-  "schedule.view",
-  "coverage.view",
-  "communications.view",
-  "tasks.view",
-];
+/// Coaches work in the Coach App, which scopes them to the athletes in their
+/// own sessions and teams. Courts OS has no such scoping for this role (see
+/// scopedSports), so a coach here would see every athlete in the business —
+/// and anyone with the coach signup link becomes a coach. No OS access.
+const COACH: Capability[] = [];
 
 const FRONT_DESK: Capability[] = [
   "os.access",

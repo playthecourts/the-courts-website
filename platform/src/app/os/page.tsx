@@ -69,7 +69,6 @@ export default async function TodayPage() {
             label="Coaches Working"
             value={counts.coachesWorking}
             detail="Assigned today"
-            href="/os/coaches"
           />
           <Metric
             label="Open Spots Tonight"

@@ -1,3 +1,4 @@
+import { facilityTodayKey } from "@/lib/facility-time";
 import { NextResponse } from "next/server";
 import { requireCapability, OsAccessError } from "@/lib/os/dal";
 import { can } from "@/lib/os/permissions";
@@ -86,7 +87,7 @@ export async function GET(request: Request) {
 
 
   const csv = lines.join("\r\n");
-  const date = new Date().toISOString().slice(0, 10);
+  const date = facilityTodayKey();
 
   return new NextResponse(csv, {
     headers: {

@@ -45,6 +45,9 @@ export type ScheduleFilters = {
   resourceId?: string;
   programType?: string;
   offeringId?: string;
+  /// "unstaffed": classes with no coach assigned (rentals and self-serve
+  /// resource time excluded — they never have one). Linked from Today.
+  filter?: string;
 };
 
 /// Monday-anchored week containing `date`. The facility thinks in weeks that
@@ -86,6 +89,9 @@ export async function loadWeek(actor: OsActor, from: Date, filters: ScheduleFilt
                 { extraResources: { some: { resourceId: filters.resourceId } } },
               ],
             }
+          : {}),
+        ...(filters.filter === "unstaffed"
+          ? { AND: [{ coaches: { none: {} } }, { program: { programType: { notIn: ["rental", "resource"] as never } } }] }
           : {}),
       },
       orderBy: { startTime: "asc" },

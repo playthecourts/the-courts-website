@@ -155,7 +155,9 @@ export async function globalSearch(actor: OsActor, rawQuery: string): Promise<Se
         id: p.id,
         title: p.name,
         subtitle: [p.sport, PROGRAM_TYPE_LABELS[p.programType], "program"].filter(Boolean).join(" · "),
-        href: `/os/programs/${p.id}`,
+        // A Program is the reusable definition, with no page of its own; its
+        // seasons (offerings) are what open. Land on the list, searched by name.
+        href: `/os/programs?q=${encodeURIComponent(p.name)}`,
       });
     }
   }
@@ -179,7 +181,7 @@ export async function globalSearch(actor: OsActor, rawQuery: string): Promise<Se
         id: t.id,
         title: t.name,
         subtitle: `${t.program.name} · ${t._count.members} on roster`,
-        href: `/os/teams/${t.id}`,
+        href: "/os/leagues",
       });
     }
   }
@@ -199,7 +201,7 @@ export async function globalSearch(actor: OsActor, rawQuery: string): Promise<Se
         subtitle: [c.role.replace("_", " "), c.sports.join("/"), c.active ? null : "Inactive"]
           .filter(Boolean)
           .join(" · "),
-        href: `/os/coaches/${c.id}`,
+        href: `/os/schedule?coach=${c.id}`,
       });
     }
   }
@@ -217,7 +219,7 @@ export async function globalSearch(actor: OsActor, rawQuery: string): Promise<Se
         id: l.id,
         title: l.name,
         subtitle: `Lead · ${l.stage.replace("_", " ")} · ${l.source.replace("_", " ")}`,
-        href: `/os/leads/${l.id}`,
+        href: "/os/leads",
       });
     }
   }

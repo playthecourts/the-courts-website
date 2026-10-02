@@ -1,3 +1,4 @@
+import { facilityNow, facilityToday } from "@/lib/facility-time";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { availabilityFor } from "@/lib/programs/availability";
@@ -46,14 +47,14 @@ export async function GET(request: Request) {
       ...(sport ? { program: { sport } } : {}),
       ...(type ? { program: { programType: type as never } } : {}),
       // Only things a visitor could still act on.
-      OR: [{ endDate: null }, { endDate: { gte: now } }],
+      OR: [{ endDate: null }, { endDate: { gte: facilityToday() } }],
     },
     orderBy: [{ startDate: "asc" }],
     take: limit,
     include: {
       program: { select: { sport: true, programType: true } },
       sessions: {
-        where: { status: "scheduled", startTime: { gte: now } },
+        where: { status: "scheduled", startTime: { gte: facilityNow() } },
         orderBy: { startTime: "asc" },
         select: {
           startTime: true,

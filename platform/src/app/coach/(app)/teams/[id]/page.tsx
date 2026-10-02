@@ -1,3 +1,4 @@
+import { facilityNow } from "@/lib/facility-time";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { getCurrentCoach, assertTeamAccess } from "@/lib/coach-dal";
@@ -17,7 +18,7 @@ export default async function CoachTeamPage(props: PageProps<"/coach/teams/[id]"
 
   await assertTeamAccess(actor, id);
 
-  const now = new Date();
+  const now = facilityNow();
   const team = await prisma.team.findUniqueOrThrow({
     where: { id },
     include: {

@@ -1,3 +1,4 @@
+import { facilityNow, facilityToday } from "@/lib/facility-time";
 import "server-only";
 import { prisma } from "@/lib/prisma";
 import type { OsActor } from "@/lib/os/permissions";
@@ -97,6 +98,9 @@ export async function listOfferings(
   filters: OfferingFilters
 ): Promise<OfferingSummary[]> {
   const now = new Date();
+  // Class times are wall-clock (see lib/facility-time.ts); registration
+  // windows are compared with the real clock.
+  const wallNow = facilityNow();
   const in7Days = new Date(now.getTime() + 7 * 86_400_000);
 
   const where: Record<string, unknown> = { ...offeringSportScope(actor) };
@@ -107,7 +111,7 @@ export async function listOfferings(
       break;
     case "upcoming":
       where.status = "published";
-      where.startDate = { gte: now };
+      where.startDate = { gte: facilityToday() };
       break;
     case "registration_open":
       where.status = "published";
@@ -168,7 +172,7 @@ export async function listOfferings(
 
   const summaries = offerings.map((o): OfferingSummary => {
     const def = programTypeDef(o.program.programType);
-    const upcoming = o.sessions.filter((s) => s.startTime >= now);
+    const upcoming = o.sessions.filter((s) => s.startTime >= wallNow);
     const seats = o.sessions.reduce((n, s) => n + s.capacity, 0);
     const booked = o.sessions.reduce((n, s) => n + s._count.bookings, 0);
     const sessionWaitlist = 0; // counted per-session below where needed

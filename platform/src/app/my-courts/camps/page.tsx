@@ -1,3 +1,4 @@
+import { facilityNow } from "@/lib/facility-time";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { gradeRangeLabel } from "@/lib/programs/types";
@@ -56,7 +57,7 @@ export default async function CampsPage({
   // registration. A family that abandoned a Checkout for one of these needs
   // the same stale-hold sweep Explore runs before computing availability.
   await expireStalePendingBookings();
-  const oneDayEventCards = await loadParentFeed(athletes as never, { category: "camps", from: new Date() });
+  const oneDayEventCards = await loadParentFeed(athletes as never, { category: "camps", from: facilityNow() });
   const oneDayEventGroups = (() => {
     const groups = new Map<string, Card[]>();
     for (const raw of oneDayEventCards) {

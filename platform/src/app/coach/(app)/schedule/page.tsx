@@ -1,3 +1,4 @@
+import { facilityNow, facilityToday } from "@/lib/facility-time";
 import { sessionTitle } from "@/lib/coach-queries";
 import Link from "next/link";
 import type { Route } from "next";
@@ -27,7 +28,7 @@ export default async function CoachSchedulePage(props: PageProps<"/coach/schedul
     scope = requestedScope;
   }
 
-  const from = startOfDay(new Date());
+  const from = facilityToday();
   const to = addDays(from, RANGE_DAYS);
 
   const scopeFilter =
@@ -69,7 +70,7 @@ export default async function CoachSchedulePage(props: PageProps<"/coach/schedul
     ...(actor.isAdmin ? [{ key: "all", label: "All Courts" }] : []),
   ];
 
-  const now = new Date();
+  const now = facilityNow();
 
   return (
     <div>
@@ -106,7 +107,6 @@ export default async function CoachSchedulePage(props: PageProps<"/coach/schedul
       <div className="mb-5 flex flex-wrap gap-2">
         {(
           [
-            { href: "/coach/evaluations", label: "Evaluations" },
             { href: "/coach/open-shifts", label: "Open Shifts" },
             { href: "/coach/coverage", label: "Coverage" },
             { href: "/coach/time-off", label: "Time Off" },

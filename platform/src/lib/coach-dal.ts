@@ -33,7 +33,7 @@ export type CoachActor = StaffUser & {
 };
 
 function decorate(staff: StaffUser): CoachActor {
-  const isAdmin = staff.role === "admin";
+  const isAdmin = staff.role === "admin" || staff.role === "owner";
   const isHeadCoach = staff.role === "head_coach";
   return {
     ...staff,

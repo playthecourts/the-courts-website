@@ -1,3 +1,4 @@
+import { facilityNow } from "@/lib/facility-time";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { CancelBookingButton } from "./cancel-booking-button";
@@ -56,7 +57,7 @@ export default async function MyCourtsSchedulePage({
       // marks it right at session start), the booking shouldn't vanish
       // from "upcoming" just because its status moved to attended/no_show.
       status: { not: "cancelled" },
-      session: { startTime: { gte: new Date() } },
+      session: { startTime: { gte: facilityNow() } },
     },
     orderBy: { session: { startTime: "asc" } },
     include: { session: { include: { program: true, offering: true } }, athlete: true },
@@ -105,7 +106,7 @@ export default async function MyCourtsSchedulePage({
               </h2>
               <div className="flex flex-col divide-y divide-gray-mid rounded-lg border border-gray-mid bg-white">
                 {dayBookings.map((booking) => {
-                  const hoursUntilStart = (booking.session.startTime.getTime() - Date.now()) / (1000 * 60 * 60);
+                  const hoursUntilStart = (booking.session.startTime.getTime() - facilityNow().getTime()) / (1000 * 60 * 60);
                   const isDropIn = booking.session.offering?.registrationMode === "session";
                   const hasMoneyOrCredit =
                     (booking.paymentStatus === "paid" && !!booking.priceChargedCents) || !!booking.creditSource;

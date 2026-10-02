@@ -180,7 +180,7 @@ export async function getOccupancy(
       endTime: r.endTime,
       label: "Court Rental",
       sublabel: r.family.name,
-      href: `/os/rentals/${r.id}`,
+      href: "/os/facility",
       tone: "info",
     });
   }

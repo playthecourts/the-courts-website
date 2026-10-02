@@ -1,3 +1,4 @@
+import { facilityToday } from "@/lib/facility-time";
 import Link from "next/link";
 import { requireCapability } from "@/lib/os/dal";
 import { loadWeek, weekStart, utilization } from "@/lib/programs/schedule-view";
@@ -16,13 +17,15 @@ export default async function SchedulePage({ searchParams }: PageProps<"/os/sche
   const sp = await searchParams;
 
   const weekParam = typeof sp.week === "string" ? sp.week : null;
-  const anchor = weekParam ? new Date(`${weekParam}T00:00:00Z`) : new Date();
+  const anchor = weekParam ? new Date(`${weekParam}T00:00:00Z`) : facilityToday();
   const filters = {
     sport: typeof sp.sport === "string" ? sp.sport : undefined,
     coachId: typeof sp.coach === "string" ? sp.coach : undefined,
     resourceId: typeof sp.court === "string" ? sp.court : undefined,
     programType: typeof sp.type === "string" ? sp.type : undefined,
     offeringId: typeof sp.offering === "string" ? sp.offering : undefined,
+    // "unstaffed" — the Today page's 'no coach assigned' alert links here.
+    filter: typeof sp.filter === "string" ? sp.filter : undefined,
   };
 
   const { start, cards, closures, resources, coaches } = await loadWeek(actor, anchor, filters);
@@ -65,7 +68,7 @@ export default async function SchedulePage({ searchParams }: PageProps<"/os/sche
             <Link href={href({ week: key(prev) })} className="os-heading inline-flex min-h-11 items-center rounded-lg border border-gray-mid bg-white px-3 text-sm hover:border-near-black">
               ← Prev
             </Link>
-            <Link href={href({ week: key(weekStart(new Date())) })} className="os-heading inline-flex min-h-11 items-center rounded-lg border border-gray-mid bg-white px-3 text-sm hover:border-near-black">
+            <Link href={href({ week: key(weekStart(facilityToday())) })} className="os-heading inline-flex min-h-11 items-center rounded-lg border border-gray-mid bg-white px-3 text-sm hover:border-near-black">
               This Week
             </Link>
             <Link href={href({ week: key(next) })} className="os-heading inline-flex min-h-11 items-center rounded-lg border border-gray-mid bg-white px-3 text-sm hover:border-near-black">
@@ -94,7 +97,7 @@ export default async function SchedulePage({ searchParams }: PageProps<"/os/sche
         <button type="submit" className="os-heading min-h-11 rounded-lg border border-gray-mid bg-white px-4 text-sm uppercase tracking-wide hover:border-near-black">
           Filter
         </button>
-        {(filters.sport || filters.coachId || filters.resourceId || filters.programType || filters.offeringId) ? (
+        {(filters.sport || filters.coachId || filters.resourceId || filters.programType || filters.offeringId || filters.filter) ? (
           <Link href={`/os/schedule?week=${key(start)}`} className="os-eyebrow min-h-11 self-center text-orange underline underline-offset-2">
             Clear
           </Link>

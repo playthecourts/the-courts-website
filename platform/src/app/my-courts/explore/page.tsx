@@ -1,3 +1,4 @@
+import { facilityNow } from "@/lib/facility-time";
 import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
@@ -19,8 +20,8 @@ function fmtBookingTime(date: Date) {
 // default is this week — the question people actually arrive with.
 
 const RANGES: Record<string, () => { from: Date; to?: Date }> = {
-  week: () => ({ from: new Date(), to: new Date(Date.now() + 7 * 86_400_000) }),
-  anytime: () => ({ from: new Date() }),
+  week: () => ({ from: facilityNow(), to: new Date(facilityNow().getTime() + 7 * 86_400_000) }),
+  anytime: () => ({ from: facilityNow() }),
 };
 
 // "When" also offers real calendar months — "This Week"/"Anytime" answer
@@ -31,7 +32,7 @@ const MONTH_PREFIX = "month:";
 
 function monthRange(monthKey: string): { from: Date; to: Date } {
   const [y, m] = monthKey.split("-").map(Number);
-  const today = new Date();
+  const today = facilityNow();
   const monthStart = new Date(Date.UTC(y, m - 1, 1));
   const from = monthStart > today ? monthStart : today;
   const to = new Date(Date.UTC(y, m, 1)); // exclusive — first moment of next month
@@ -130,7 +131,7 @@ export default async function ExplorePage({
   const range = selectedMonthKey
     ? monthRange(selectedMonthKey)
     : offering && !when
-      ? { from: new Date(), to: undefined }
+      ? { from: facilityNow(), to: undefined }
       : (RANGES[when ?? "week"] ?? RANGES.week)();
 
   const unfilteredCards = await loadParentFeed(allAthletes as never, {
@@ -154,7 +155,7 @@ export default async function ExplorePage({
   // lookup per athlete per session, all of which was then serialised into the
   // page and dropped. See loadCalendarMarkers() in parent-feed.ts.
   const calendarCards =
-    allAthletes.length === 0 ? [] : await loadCalendarMarkers({ from: new Date() });
+    allAthletes.length === 0 ? [] : await loadCalendarMarkers({ from: facilityNow() });
 
   // Sport/Performance and Coach are applied on top of the athlete/category/
   // date fetch, not pushed into loadParentFeed's own DB query — the card
@@ -209,7 +210,7 @@ export default async function ExplorePage({
     athleteIds.length === 0
       ? []
       : await prisma.booking.findMany({
-          where: { athleteId: { in: athleteIds }, status: { not: "cancelled" }, session: { startTime: { gte: new Date() } } },
+          where: { athleteId: { in: athleteIds }, status: { not: "cancelled" }, session: { startTime: { gte: facilityNow() } } },
           orderBy: { session: { startTime: "asc" } },
           select: { session: { select: { startTime: true, program: { select: { name: true } } } }, athlete: { select: { firstName: true } } },
         });

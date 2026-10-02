@@ -1,3 +1,4 @@
+import { facilityNow } from "@/lib/facility-time";
 import { prisma } from "@/lib/prisma";
 import { getCurrentCoach } from "@/lib/coach-dal";
 import { formatLongDate, formatTimeRange } from "@/lib/coach-format";
@@ -24,7 +25,7 @@ export default async function OpenShiftsPage() {
   const sessions = await prisma.session.findMany({
     where: {
       status: "scheduled",
-      startTime: { gte: new Date() },
+      startTime: { gte: facilityNow() },
       OR: [
         { coaches: { none: {} } },
         ...(staffMember ? [{ coaches: { every: { staffUserId: staffMember.id } } }] : []),

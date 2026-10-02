@@ -1,3 +1,4 @@
+import { facilityNow } from "@/lib/facility-time";
 import Link from "next/link";
 import type { Route } from "next";
 import { getCurrentCoach, isLeadership } from "@/lib/coach-dal";
@@ -76,7 +77,7 @@ function LaterRow({ session }: { session: CoachSession }) {
 
 export default async function CoachTodayPage() {
   const actor = await getCurrentCoach();
-  const now = new Date();
+  const now = facilityNow();
 
   const [sessions, actionItems] = await Promise.all([
     sessionsForDay(actor, now),
@@ -190,7 +191,7 @@ export default async function CoachTodayPage() {
                 desc: isLeadership(actor) ? "Open requests and your own." : "Sessions you need covered, and ones assigned to you.",
               },
               { href: "/coach/time-off", label: "Time Off", desc: "Days you're not available to coach." },
-              { href: "/coach/evaluations", label: "Evaluations", desc: "Skill notes you've started or need to finish." },
+              // Evaluations (/coach/evaluations) returns when that page is built.
             ] as { href: Route; label: string; desc: string }[]
           ).map((item) => (
             <Link key={item.href} href={item.href} className="flex items-center justify-between gap-3 px-4 py-4">

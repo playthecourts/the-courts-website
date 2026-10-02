@@ -1,6 +1,7 @@
+import { facilityNow } from "@/lib/facility-time";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { getCurrentCoach, assertAthleteAccess, sessionScope, isLeadership } from "@/lib/coach-dal";
+import { getCurrentCoach, assertAthleteAccess, sessionScope } from "@/lib/coach-dal";
 import { formatGrade, formatShortDate, formatTime, relativeDayLabel } from "@/lib/coach-format";
 import { trainingPlanStatusFor, pastDueAthleteIds } from "@/lib/coach-status";
 import { tagsForSport } from "@/lib/coach-tags";
@@ -75,7 +76,7 @@ export default async function CoachAthletePage(props: PageProps<"/coach/athletes
     },
   });
 
-  const now = new Date();
+  const now = facilityNow();
 
   // Recent + upcoming activity, restricted to sessions this coach may see.
   // A coach never sees an athlete's schedule outside their own scope.
@@ -436,11 +437,7 @@ export default async function CoachAthletePage(props: PageProps<"/coach/athletes
 
       <div className="flex flex-col gap-2 pb-2">
         {/* "Message This Family" hidden for now — /coach/messages route untouched. */}
-        {isLeadership(actor) && (
-          <ActionLink href={`/coach/incidents/new?athleteId=${athlete.id}`} variant="secondary">
-            Report an Incident
-          </ActionLink>
-        )}
+        {/* "Report an Incident" (/coach/incidents/new) hidden until that page is built. */}
       </div>
     </div>
   );

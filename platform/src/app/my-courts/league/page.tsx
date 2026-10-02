@@ -1,3 +1,4 @@
+import { facilityNow } from "@/lib/facility-time";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
@@ -93,7 +94,7 @@ export default async function LeaguePage({
           include: {
             program: true,
             sessions: {
-              where: { startTime: { gte: new Date() } },
+              where: { startTime: { gte: facilityNow() } },
               orderBy: { startTime: "asc" },
               include: { bookings: { where: { athleteId: { in: athleteIds } } } },
             },

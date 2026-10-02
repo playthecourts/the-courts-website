@@ -1,3 +1,4 @@
+import { facilityNow } from "@/lib/facility-time";
 import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
@@ -40,7 +41,7 @@ export default async function MyCourtsHomePage() {
   const initials = familyCrewInitials(family?.name);
   const athletes = family?.athletes ?? [];
   const athleteIds = athletes.map((a) => a.id);
-  const now = new Date();
+  const now = facilityNow();
 
   // A guardian can belong to more than one family in the schema, but the
   // Parent App only ever shows the first — same assumption the rest of

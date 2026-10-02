@@ -1,3 +1,4 @@
+import { facilityNow } from "@/lib/facility-time";
 import "server-only";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
@@ -329,7 +330,7 @@ export async function cancelBookingById(bookingId: string) {
   });
   if (found.status !== "booked") return;
 
-  const hoursUntilStart = (found.session.startTime.getTime() - Date.now()) / (1000 * 60 * 60);
+  const hoursUntilStart = (found.session.startTime.getTime() - facilityNow().getTime()) / (1000 * 60 * 60);
   const inTime = hoursUntilStart >= REFUND_CUTOFF_HOURS;
   const isDropIn = found.session.offering?.registrationMode === "session";
 

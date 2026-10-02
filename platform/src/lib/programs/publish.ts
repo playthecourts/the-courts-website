@@ -1,3 +1,4 @@
+import { facilityNow } from "@/lib/facility-time";
 import "server-only";
 import { prisma } from "@/lib/prisma";
 import { programTypeDef } from "./types";
@@ -80,7 +81,7 @@ export async function checkReadiness(offeringId: string): Promise<Readiness> {
   if (offering.sessions.length === 0) {
     blockers.push({ severity: "blocker", label: "No sessions scheduled yet", group: "schedule" });
   }
-  const past = offering.sessions.filter((s) => s.startTime < new Date()).length;
+  const past = offering.sessions.filter((s) => s.startTime < facilityNow()).length;
   if (past > 0 && past === offering.sessions.length) {
     warnings.push({
       severity: "warning",

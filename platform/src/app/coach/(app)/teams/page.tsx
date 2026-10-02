@@ -1,7 +1,8 @@
+import { facilityNow } from "@/lib/facility-time";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { getCurrentCoach, teamScope, programScope, isLeadership } from "@/lib/coach-dal";
-import { Card, PageTitle, EmptyState, SectionHeading, Pill, ActionLink } from "@/components/coach/ui";
+import { getCurrentCoach, teamScope, programScope } from "@/lib/coach-dal";
+import { Card, PageTitle, EmptyState, SectionHeading, Pill } from "@/components/coach/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -32,7 +33,7 @@ export default async function CoachTeamsPage() {
     },
     orderBy: { name: "asc" },
     include: {
-      _count: { select: { sessions: { where: { status: "scheduled", startTime: { gte: new Date() } } } } },
+      _count: { select: { sessions: { where: { status: "scheduled", startTime: { gte: facilityNow() } } } } },
     },
   });
 
@@ -83,13 +84,7 @@ export default async function CoachTeamsPage() {
                 </Link>
               ))}
             </Card>
-            {isLeadership(actor) && (
-              <div className="mt-2">
-                <ActionLink href={`/coach/teams/build/${programId}`} variant="secondary">
-                  Team Placement
-                </ActionLink>
-              </div>
-            )}
+            {/* "Team Placement" (/coach/teams/build/[programId]) hidden until that page is built. */}
           </section>
         );
       })}

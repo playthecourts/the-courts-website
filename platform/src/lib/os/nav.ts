@@ -37,28 +37,24 @@ export const PRIMARY_NAV: NavItem[] = [
   },
   { label: "Members", href: "/os/members", capability: "families.view" },
   { label: "Leagues + Teams", href: "/os/leagues", capability: "leagues.view" },
-  { label: "Coaches", href: "/os/coaches", capability: "coaches.view" },
   { label: "Progress Reports", href: "/os/progress", capability: "athletes.view" },
   { label: "Photos + Video", href: "/os/media", capability: "athletes.viewMediaStatus" },
   { label: "Facility", href: "/os/facility", capability: "facility.view" },
   // Communications nav entry hidden for now — /os/communications and its
   // capability gate are untouched, just not linked from the sidebar.
-  { label: "Payments", href: "/os/payments", capability: "payments.view" },
-  { label: "Reports", href: "/os/reports", capability: "reports.view" },
-  { label: "Content", href: "/os/content", capability: "content.manage" },
+  // Not built yet, so not linked (every link here must open a real page):
+  // Coaches (/os/coaches), Payments (/os/payments), Reports (/os/reports),
+  // Content (/os/content). Add each back when its page ships.
 ];
 
 export const MORE_NAV: NavItem[] = [
   { label: "Leads", href: "/os/leads", capability: "leads.view" },
   { label: "NextGen Transfers", href: "/os/nextgen", capability: "nextgen.verify" },
-  { label: "Membership Plans", href: "/os/plans", capability: "plans.view" },
-  { label: "Promo Codes + Credits", href: "/os/promos", capability: "payments.promo" },
-  { label: "Camps", href: "/os/camps", capability: "programs.view" },
-  { label: "Rentals + Parties", href: "/os/rentals", capability: "facility.view" },
-  { label: "Waivers + Forms", href: "/os/waivers", capability: "programs.view" },
   { label: "Tasks", href: "/os/tasks", capability: "tasks.view" },
-  { label: "Staff + Roles", href: "/os/staff", capability: "staff.manage" },
-  { label: "Audit Log", href: "/os/audit", capability: "audit.view" },
+  // Not built yet, so not linked: Membership Plans (/os/plans), Promo Codes
+  // (/os/promos), Camps (/os/camps), Rentals + Parties (/os/rentals),
+  // Waivers + Forms (/os/waivers), Staff + Roles (/os/staff), Audit Log
+  // (/os/audit).
 ];
 
 export type QuickAction = { label: string; href: string; capability: Capability };
@@ -67,8 +63,8 @@ export const QUICK_ACTIONS: QuickAction[] = [
   { label: "Create Program", href: "/os/programs/new", capability: "programs.create" },
   { label: "Add Session", href: "/os/schedule/new", capability: "schedule.edit" },
   { label: "Register Athlete", href: "/os/rosters", capability: "registrations.create" },
-  { label: "Add Family", href: "/os/families/new", capability: "families.edit" },
   // "Send Update" quick action hidden alongside the Communications nav entry.
   { label: "Block Court", href: "/os/facility/block", capability: "facility.block" },
-  { label: "Add Coach", href: "/os/coaches/new", capability: "coaches.manage" },
+  // Add Family (/os/families/new) and Add Coach (/os/coaches/new) return
+  // when those pages exist.
 ];
