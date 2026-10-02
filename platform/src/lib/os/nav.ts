@@ -42,8 +42,9 @@ export const PRIMARY_NAV: NavItem[] = [
   { label: "Facility", href: "/os/facility", capability: "facility.view" },
   // Communications nav entry hidden for now — /os/communications and its
   // capability gate are untouched, just not linked from the sidebar.
+  { label: "Payments", href: "/os/payments", capability: "payments.view" },
   // Not built yet, so not linked (every link here must open a real page):
-  // Coaches (/os/coaches), Payments (/os/payments), Reports (/os/reports),
+  // Coaches (/os/coaches), Reports (/os/reports),
   // Content (/os/content). Add each back when its page ships.
 ];
 

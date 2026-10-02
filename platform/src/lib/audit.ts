@@ -52,7 +52,10 @@ export type AuditAction =
   // --- Training plan credits ---
   | "grant_drop_in_credits"
   // --- Class rosters ---
-  | "admin_add_booking";
+  | "admin_add_booking"
+  // --- Payments ---
+  | "mark_paid_at_desk"
+  | "send_payment_link";
 
 export async function auditLog(
   staffUserId: string,

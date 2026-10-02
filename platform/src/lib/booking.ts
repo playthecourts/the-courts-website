@@ -483,3 +483,74 @@ export async function adminBookAthleteIntoSession(sessionId: string, athleteId: 
     return { status: "booked" as const, due: true as const, priceChargedCents };
   });
 }
+
+// A payment link the front desk can text or email for a seat that still owes
+// money (booked at the desk as "due", or a declined card). Same Checkout and
+// same webhook as a family's own booking — when it's paid, the
+// checkout.session.completed handler marks the booking "paid" by its
+// bookingId metadata. Deliberately does NOT move the booking to "pending" or
+// set checkoutExpiresAt: those exist so an abandoned in-app checkout frees the
+// seat, and a link sitting in someone's texts must never cancel a booking.
+// Stripe caps a Checkout Session at 24 hours, so the link lasts 23.
+export async function createDeskPaymentLink(bookingId: string): Promise<{ url: string; email: string | null }> {
+  const booking = await prisma.booking.findUniqueOrThrow({
+    where: { id: bookingId },
+    include: {
+      session: { include: { offering: true, program: true } },
+      athlete: { include: { family: { include: { guardians: { orderBy: { isPrimary: "desc" }, take: 1, include: { guardian: true } } } } } },
+    },
+  });
+  if (booking.status === "cancelled") throw new Error("That booking was cancelled.");
+  if (booking.paymentStatus !== "due" && booking.paymentStatus !== "failed") {
+    throw new Error("This booking doesn't have a balance due.");
+  }
+  if (!booking.priceChargedCents || booking.priceChargedCents <= 0) throw new Error("This booking has no amount to charge.");
+  const guardian = booking.athlete.family.guardians[0]?.guardian;
+  if (!guardian) throw new Error("This family has no parent on file to pay.");
+
+  // One live link per booking. Re-sending (or emailing after copying) reuses
+  // the open desk link rather than minting a second payable one; an earlier
+  // in-app checkout is expired first, and a completed one means it's paid.
+  if (booking.stripeCheckoutSessionId) {
+    const prev = await stripe.checkout.sessions.retrieve(booking.stripeCheckoutSessionId).catch(() => null);
+    if (prev?.status === "complete") throw new Error("This was already paid online — refresh the page.");
+    if (prev?.status === "open") {
+      if (prev.metadata?.source === "desk_payment_link" && prev.url) return { url: prev.url, email: guardian.email };
+      await stripe.checkout.sessions.expire(prev.id);
+    }
+  }
+
+  const customerId = await getOrCreateStripeCustomer(guardian);
+  const origin = await getOrigin();
+  const name = booking.session.title ?? booking.session.offering?.name ?? booking.session.program.name;
+  const checkout = await stripe.checkout.sessions.create({
+    mode: "payment",
+    payment_method_types: ["card"],
+    customer: customerId,
+    line_items: [
+      {
+        price_data: {
+          currency: "usd",
+          unit_amount: booking.priceChargedCents,
+          product: booking.session.offering?.stripeProductId ?? undefined,
+          product_data: booking.session.offering?.stripeProductId ? undefined : { name },
+        },
+        quantity: 1,
+      },
+    ],
+    success_url: `${origin}/my-courts/schedule?checkout=success&amount=${booking.priceChargedCents}&item=${encodeURIComponent(name)}&txn=${bookingId}`,
+    cancel_url: `${origin}/my-courts/schedule`,
+    expires_at: Math.floor(Date.now() / 1000) + 23 * 60 * 60,
+    metadata: { bookingId, athleteId: booking.athleteId, guardianId: guardian.id, source: "desk_payment_link" },
+    payment_intent_data: {
+      description: `${name} — ${booking.athlete.firstName} ${booking.athlete.lastName}`,
+      metadata: { bookingId, athleteId: booking.athleteId, guardianId: guardian.id },
+    },
+  });
+  if (!checkout.url) throw new Error("Stripe did not return a payment link.");
+  // Recorded so the link can be reused or expired (mark-paid, cancel) and so
+  // a cancellation can refund a seat paid this way. pending/checkoutExpiresAt
+  // stay untouched, so the stale-checkout sweep never cancels this booking.
+  await prisma.booking.update({ where: { id: bookingId }, data: { stripeCheckoutSessionId: checkout.id } });
+  return { url: checkout.url, email: guardian.email };
+}

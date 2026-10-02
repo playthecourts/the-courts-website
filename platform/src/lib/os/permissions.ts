@@ -70,6 +70,9 @@ export const CAPABILITIES = [
   // Money
   "payments.view",
   "payments.sendLink",
+  /// Record money taken in person (cash, check, card on the desk reader)
+  /// against something a family owes. Moves no money itself.
+  "payments.markPaid",
   "payments.refund",
   "payments.promo",
   /// Business-level revenue reporting — deliberately distinct from
@@ -212,8 +215,11 @@ const FRONT_DESK: Capability[] = [
   "facility.view",
   "registrations.view",
   "registrations.create",
-  // "Did this family pay?" — yes. "Refund them" — no.
+  // "Did this family pay?" — yes. Take payment at the desk — yes.
+  // "Refund them" — no.
   "payments.view",
+  "payments.markPaid",
+  "payments.sendLink",
   "plans.view",
   "communications.view",
   "coverage.view",

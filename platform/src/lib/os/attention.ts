@@ -54,7 +54,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
             severity: "critical",
             title: `${n} failed Membership Plan ${n === 1 ? "payment" : "payments"}`,
             detail: "Stripe reported the subscription payment did not go through.",
-            href: "/os/members",
+            href: "/os/payments",
             count: n,
           });
       })()
@@ -71,7 +71,7 @@ export async function getAttentionItems(actor: OsActor): Promise<AttentionItem[]
             severity: "critical",
             title: `${n} failed registration ${n === 1 ? "payment" : "payments"}`,
             detail: "The athlete is registered but the charge failed.",
-            href: "/os/registrations?view=unpaid",
+            href: "/os/payments",
             count: n,
           });
       })()
