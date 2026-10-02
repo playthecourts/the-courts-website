@@ -13,6 +13,39 @@ export type PayResult = { ok: true; message: string; url?: string } | { ok: fals
 
 const fail = (err: unknown): PayResult => ({ ok: false, error: err instanceof Error ? err.message : "That didn't work — try again." });
 
+/// Waives a class balance — a comp (staff kids, a make-good). Cancels any open
+/// payment link first so the family can't pay it, then zeroes the seat so it
+/// never shows as owed again. Owner/admin only (plans.manage). A seat that was
+/// already paid online is refused: that's a refund, done in Stripe.
+export async function waiveBookingBalance(bookingId: string): Promise<PayResult> {
+  try {
+    const actor = await requireCapability("plans.manage");
+    const b = await prisma.booking.findUnique({
+      where: { id: bookingId },
+      select: { status: true, paymentStatus: true, priceChargedCents: true, stripeCheckoutSessionId: true },
+    });
+    if (!b || b.status === "cancelled") return { ok: false, error: "That booking isn't active anymore." };
+    if (b.paymentStatus === "paid") return { ok: false, error: "This was already paid — refund it in Stripe instead." };
+    if (b.stripeCheckoutSessionId) {
+      const s = await stripe.checkout.sessions.retrieve(b.stripeCheckoutSessionId).catch(() => null);
+      if (s?.status === "complete") return { ok: false, error: "They just paid online — refund it in Stripe instead." };
+      if (s?.status === "open") await stripe.checkout.sessions.expire(s.id);
+    }
+    const updated = await prisma.booking.updateMany({
+      where: { id: bookingId, paymentStatus: { not: "paid" } },
+      data: { paymentStatus: "none", priceChargedCents: 0, stripeCheckoutSessionId: null, checkoutExpiresAt: null },
+    });
+    if (updated.count === 0) return { ok: false, error: "That booking was just paid — refresh the page." };
+    await auditLog(actor.id, "waive_balance", "booking", bookingId, { cents: b.priceChargedCents });
+    revalidatePath("/os/payments");
+    revalidatePath("/os/families");
+    revalidatePath("/checkin");
+    return { ok: true, message: "Waived — nothing owed, and the payment link no longer works." };
+  } catch (err) {
+    return fail(err);
+  }
+}
+
 /// The Courts takes payment online only — there's no cash or card at the desk.
 /// So the one way to collect a balance is a Stripe payment link.
 ///

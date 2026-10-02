@@ -54,7 +54,8 @@ export type AuditAction =
   // --- Class rosters ---
   | "admin_add_booking"
   // --- Payments ---
-  | "send_payment_link";
+  | "send_payment_link"
+  | "waive_balance";
 
 export async function auditLog(
   staffUserId: string,

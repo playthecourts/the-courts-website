@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { sendPaymentLink, setMembershipBillingDate, type PayResult } from "./actions";
+import { sendPaymentLink, setMembershipBillingDate, waiveBookingBalance, type PayResult } from "./actions";
 import { BTN, INPUT } from "../_components/ui";
 
 // Row actions for the Payments page. Payment is online only, so collecting a
@@ -17,11 +17,15 @@ export function OwedActions({
   kind,
   id,
   canSendLink,
+  canWaive = false,
 }: {
   kind: "booking" | "registration";
   id: string;
   canSendLink: boolean;
+  canWaive?: boolean;
 }) {
+  const router = useRouter();
+  const [confirmWaive, setConfirmWaive] = useState(false);
   const [link, setLink] = useState<string | null>(null);
   const [res, setRes] = useState<PayResult | null>(null);
   const [copied, setCopied] = useState(false);
@@ -40,6 +44,29 @@ export function OwedActions({
         <p className="text-xs text-gray-dark">Camp or league — the family finishes paying on its page in My Courts.</p>
       ) : null}
       <div className="flex flex-wrap gap-2">
+        {canWaive && kind === "booking" ? (
+          confirmWaive ? (
+            <button
+              type="button"
+              className={BTN.danger}
+              disabled={pending}
+              onClick={() =>
+                start(async () => {
+                  const r = await waiveBookingBalance(id);
+                  setRes(r);
+                  setConfirmWaive(false);
+                  if (r.ok) router.refresh();
+                })
+              }
+            >
+              {pending ? "Waiving…" : "Confirm Waive"}
+            </button>
+          ) : (
+            <button type="button" className={BTN.secondary} disabled={pending} onClick={() => setConfirmWaive(true)}>
+              Waive
+            </button>
+          )
+        ) : null}
         {canSendLink && kind === "booking" && !link ? (
           <button type="button" className={BTN.primary} disabled={pending} onClick={() => run(() => sendPaymentLink(id, false))}>
             {pending ? "Making link…" : "Send Payment Link"}

@@ -256,7 +256,7 @@ export default async function OsFamilyPage({ params }: { params: Promise<{ id: s
                           <Pill tone={o.status === "failed" ? "danger" : "warning"}>{o.status === "failed" ? "Card failed" : "Due"}</Pill>
                         </Td>
                         <Td>
-                          <OwedActions kind={o.kind} id={o.id} canSendLink={canSendLink} />
+                          <OwedActions kind={o.kind} id={o.id} canSendLink={canSendLink} canWaive={can(actor, "plans.manage")} />
                         </Td>
                       </tr>
                     ))}

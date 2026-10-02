@@ -104,7 +104,7 @@ export default async function PaymentsPage() {
                         <div className="mt-1"><StripeLink p={o.payer} /></div>
                       </Td>
                       <Td>
-                        <OwedActions kind={o.kind} id={o.id} canSendLink={canSendLink} />
+                        <OwedActions kind={o.kind} id={o.id} canSendLink={canSendLink} canWaive={canMoveDates} />
                       </Td>
                     </tr>
                   ))}
