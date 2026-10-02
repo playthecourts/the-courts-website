@@ -122,7 +122,10 @@ export async function checkInBooking(bookingId: string, staffId: string, source:
     if (now < opens || now >= booking.session.endTime) throw new Error("Check-in for this class isn't open right now — ask the front desk.");
   }
 
-  const late = now.getTime() > st.getTime() + LATE_AFTER_MIN * 60_000;
+  // Only a kid tapping in at the kiosk can be "late" — that time is when they
+  // actually walked in. A staff check-in is often entered after the fact
+  // (catching up mid-class), so its time says nothing about arrival.
+  const late = source === "kiosk" && now.getTime() > st.getTime() + LATE_AFTER_MIN * 60_000;
   const status = late ? ("late" as const) : ("present" as const);
   const note = source === "kiosk" ? SELF_NOTE : null;
   const checkedInAt = new Date();

@@ -160,44 +160,60 @@ function AthleteRow({ a }: { a: DeskAthlete }) {
 
 function WalkIn({ sessionId, options, full }: { sessionId: string; options: WalkInOption[]; full: boolean }) {
   const router = useRouter();
-  const [athleteId, setAthleteId] = useState("");
+  const [query, setQuery] = useState("");
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [pending, start] = useTransition();
 
-  function add() {
-    if (!athleteId) return;
+  // Type a few letters of a first or last name; matches every word in any order.
+  const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  const matches = words.length === 0 ? [] : options.filter((o) => words.every((w) => o.label.toLowerCase().includes(w))).slice(0, 6);
+
+  function add(o: WalkInOption) {
     setMsg(null);
     start(async () => {
-      const res = await deskAddWalkIn(sessionId, athleteId);
-      setMsg(res.ok ? { ok: true, text: res.message ?? "Added" } : { ok: false, text: res.error });
-      if (res.ok) setAthleteId("");
+      const res = await deskAddWalkIn(sessionId, o.id);
+      setMsg(res.ok ? { ok: true, text: `${o.label}: ${res.message ?? "Added"}` } : { ok: false, text: res.error });
+      if (res.ok) setQuery("");
       router.refresh();
     });
   }
 
   return (
     <div className="border-t border-gray-mid bg-gray-light/60 px-4 py-3">
-      <div className="flex flex-wrap items-center gap-2">
-        <label htmlFor={`walkin-${sessionId}`} className="sr-only">Walk-in athlete</label>
-        <select
-          id={`walkin-${sessionId}`}
-          value={athleteId}
-          onChange={(e) => setAthleteId(e.target.value)}
-          disabled={full}
-          className="min-h-[48px] min-w-0 flex-1 rounded-lg border border-gray-mid bg-white px-3 font-body text-[16px] text-near-black"
-        >
-          <option value="">{full ? "Class is full" : "Add a walk-in…"}</option>
-          {options.map((o) => <option key={o.id} value={o.id}>{o.label}</option>)}
-        </select>
-        <button
-          type="button"
-          onClick={add}
-          disabled={!athleteId || pending || full}
-          className="min-h-[48px] rounded-lg bg-orange px-4 font-sport text-[13px] font-bold uppercase tracking-wide text-white hover:bg-orange-hover disabled:opacity-40"
-        >
-          {pending ? "Adding…" : "Add + Check In"}
-        </button>
-      </div>
+      <label htmlFor={`walkin-${sessionId}`} className="sr-only">Search for a walk-in</label>
+      <input
+        id={`walkin-${sessionId}`}
+        type="search"
+        autoComplete="off"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        disabled={full || pending}
+        placeholder={full ? "Class is full" : "Walk-in? Type a name…"}
+        className="min-h-[48px] w-full rounded-lg border border-gray-mid bg-white px-3 font-body text-[16px] text-near-black placeholder:text-gray-dark/60 focus:border-orange focus:outline-none"
+      />
+      {words.length > 0 ? (
+        matches.length === 0 ? (
+          <p className="mt-2 font-body text-[13px] text-gray-dark">No athlete matches &ldquo;{query.trim()}&rdquo;.</p>
+        ) : (
+          <ul className="mt-2 overflow-hidden rounded-lg border border-gray-mid bg-white">
+            {matches.map((o) => (
+              <li key={o.id} className="border-t border-gray-mid first:border-t-0">
+                <button
+                  type="button"
+                  onClick={() => add(o)}
+                  disabled={pending}
+                  className="flex min-h-[48px] w-full items-center justify-between gap-3 px-3 text-left hover:bg-gray-light disabled:opacity-50"
+                >
+                  <span className="font-heading text-[15px] font-bold text-near-black">{o.label}</span>
+                  <span className="font-sport text-[12px] font-bold uppercase tracking-wide text-orange">
+                    {pending ? "Adding…" : "Add + Check In"}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )
+      ) : null}
       {msg ? <p className={`mt-2 font-body text-[13px] ${msg.ok ? "text-emerald-700" : "text-danger"}`}>{msg.text}</p> : null}
     </div>
   );

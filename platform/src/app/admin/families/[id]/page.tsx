@@ -21,7 +21,9 @@ export default async function FamilyDetailPage(props: PageProps<"/admin/families
         guardians: { include: { guardian: true } },
       },
     }),
-    prisma.membershipPlan.findMany({ where: { active: true }, orderBy: { name: "asc" } }),
+    // Every plan, including ones hidden from families (e.g. Owner Comp) —
+    // /admin is owner/admin only, and comps are assigned by hand here.
+    prisma.membershipPlan.findMany({ orderBy: [{ active: "desc" }, { name: "asc" }] }),
   ]);
 
   if (!family) notFound();
@@ -95,7 +97,7 @@ export default async function FamilyDetailPage(props: PageProps<"/admin/families
                 athleteName={`${athlete.firstName} ${athlete.lastName}`}
                 familyId={family.id}
                 memberships={athlete.memberships}
-                plans={plans}
+                plans={plans.map((p) => ({ id: p.id, name: p.active ? p.name : `${p.name} (not for sale)` }))}
               />
             ))}
           </div>
