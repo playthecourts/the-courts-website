@@ -6,14 +6,12 @@ import { requireCapability } from "@/lib/os/dal";
 import { createDeskPaymentLink } from "@/lib/booking";
 import { stripe } from "@/lib/stripe";
 import { facilityToday } from "@/lib/facility-time";
-import { sendEmail } from "@/lib/email";
+import { emailPaymentLink } from "@/lib/payment-link-email";
 import { auditLog } from "@/lib/audit";
 
 export type PayResult = { ok: true; message: string; url?: string } | { ok: false; error: string };
 
 const fail = (err: unknown): PayResult => ({ ok: false, error: err instanceof Error ? err.message : "That didn't work — try again." });
-
-const esc = (t: string) => t.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 
 /// The Courts takes payment online only — there's no cash or card at the desk.
 /// So the one way to collect a balance is a Stripe payment link.
@@ -24,32 +22,24 @@ const esc = (t: string) => t.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&
 export async function sendPaymentLink(bookingId: string, email: boolean): Promise<PayResult> {
   try {
     const actor = await requireCapability("payments.sendLink");
-    const { url, email: to } = await createDeskPaymentLink(bookingId);
-
-    let message = "Payment link ready — copy it into a text, or email it.";
-    if (email) {
-      if (!to) return { ok: true, url, message: "No email on file for this parent — copy the link instead." };
-      const b = await prisma.booking.findUniqueOrThrow({
-        where: { id: bookingId },
-        select: {
-          priceChargedCents: true,
-          athlete: { select: { firstName: true, nickname: true } },
-          session: { select: { title: true, offering: { select: { name: true } }, program: { select: { name: true } } } },
-        },
-      });
-      const what = b.session.title ?? b.session.offering?.name ?? b.session.program.name;
-      const kid = b.athlete.nickname?.trim() || b.athlete.firstName;
-      const amount = `$${((b.priceChargedCents ?? 0) / 100).toFixed(2)}`;
-      const res = await sendEmail({
-        to,
-        subject: `Your balance for ${kid}'s ${what}`,
-        text: `Hi! ${kid}'s ${what} has a balance of ${amount}. You can pay securely here: ${url}\n\nThis link works for 23 hours. Questions? Just reply.\n\nThe Courts`,
-        html: `<p>Hi!</p><p>${esc(kid)}'s <strong>${esc(what)}</strong> has a balance of <strong>${amount}</strong>.</p><p><a href="${esc(url)}">Pay securely here</a></p><p>This link works for 23 hours. Questions? Just reply.</p><p>The Courts</p>`,
-      });
-      message = res.ok ? `Emailed to ${to}.` : "Couldn't send the email — copy the link instead.";
+    let result: PayResult;
+    if (!email) {
+      const { url } = await createDeskPaymentLink(bookingId);
+      result = { ok: true, url, message: "Payment link ready — copy it into a text, or email it." };
+    } else {
+      const r = await emailPaymentLink(bookingId);
+      result = {
+        ok: true,
+        url: r.url,
+        message: r.sent
+          ? `Emailed to ${r.to}.`
+          : r.reason === "no_email"
+            ? "No email on file for this parent — copy the link instead."
+            : "Couldn't send the email — copy the link instead.",
+      };
     }
     await auditLog(actor.id, "send_payment_link", "booking", bookingId, { emailed: email });
-    return { ok: true, url, message };
+    return result;
   } catch (err) {
     return fail(err);
   }

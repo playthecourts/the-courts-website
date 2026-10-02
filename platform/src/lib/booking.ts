@@ -474,6 +474,9 @@ export async function adminBookAthleteIntoSession(sessionId: string, athleteId: 
       bookedByGuardianId: guardianId,
       priceChargedCents,
       paymentStatus: "due" as const,
+      // A re-booked seat starts clean: an old checkout from a cancelled
+      // booking must not block (or be mistaken for) this one's payment link.
+      stripeCheckoutSessionId: null,
       creditSource: null,
       creditRestored: false,
       bookedAt: new Date(),

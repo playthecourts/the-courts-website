@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { requireCapability, assertForSport } from "@/lib/os/dal";
 import { adminBookAthleteIntoSession } from "@/lib/booking";
 import { auditLog } from "@/lib/audit";
+import { autoEmailPaymentLink } from "@/lib/payment-link-email";
 
 export type AddAthleteState = { error?: string; ok?: string } | null;
 
@@ -32,11 +33,14 @@ export async function addAthleteToSession(_prev: AddAthleteState, formData: Form
       await auditLog(actor.id, "admin_add_booking", "session", sessionId, { athleteId, due: result.due });
       revalidatePath("/os/rosters");
       revalidatePath("/os");
-      return {
-        ok: result.due
-          ? `${name} added. No membership covers this class, so it shows as Due — send a payment link from Payments.`
-          : `${name} added.`,
-      };
+      if (!result.due) return { ok: `${name} added.` };
+      // Online-only payment: email the family their link right away.
+      const booking = await prisma.booking.findUniqueOrThrow({
+        where: { sessionId_athleteId: { sessionId, athleteId } },
+        select: { id: true },
+      });
+      const sent = await autoEmailPaymentLink(booking.id);
+      return { ok: `${name} added. No membership covers this class, so payment is due. ${sent}` };
     }
     if (result.status === "already_booked") return { error: `${name} is already in this class.` };
     if (result.status === "waitlisted" || result.status === "already_waitlisted") {

@@ -8,6 +8,7 @@ import { can } from "@/lib/os/permissions";
 import { checkInBooking, undoCheckIn } from "@/lib/checkin";
 import { adminBookAthleteIntoSession } from "@/lib/booking";
 import { auditLog } from "@/lib/audit";
+import { autoEmailPaymentLink } from "@/lib/payment-link-email";
 import { setKioskCookie } from "@/lib/kiosk";
 
 export type DeskResult = { ok: true; message?: string } | { ok: false; error: string };
@@ -46,7 +47,7 @@ export async function deskUndoCheckIn(bookingId: string): Promise<DeskResult> {
 }
 
 /// Walk-in: book the athlete into the class (membership covers it, or it's
-/// marked Due — the family pays online via a link from Payments) and check them in, in one tap.
+/// marked Due and the family is emailed a payment link) and check them in, in one tap.
 export async function deskAddWalkIn(sessionId: string, athleteId: string): Promise<DeskResult> {
   try {
     const actor = await deskActor();
@@ -69,7 +70,12 @@ export async function deskAddWalkIn(sessionId: string, athleteId: string): Promi
     });
     await checkInBooking(booking.id, actor.id, "desk");
     revalidatePath("/checkin");
-    return { ok: true, message: result.status === "booked" && result.due ? "Added and checked in — payment due: send a link from Payments" : "Added and checked in" };
+    if (result.status === "booked" && result.due) {
+      // Online-only payment: the family gets their link by email right away.
+      const sent = await autoEmailPaymentLink(booking.id);
+      return { ok: true, message: `Added and checked in — payment due. ${sent}` };
+    }
+    return { ok: true, message: "Added and checked in" };
   } catch (err) {
     return fail(err);
   }
