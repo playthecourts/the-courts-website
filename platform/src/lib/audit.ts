@@ -50,7 +50,9 @@ export type AuditAction =
   | "set_nextgen_legacy_rate"
   | "set_next_billing_date"
   // --- Training plan credits ---
-  | "grant_drop_in_credits";
+  | "grant_drop_in_credits"
+  // --- Class rosters ---
+  | "admin_add_booking";
 
 export async function auditLog(
   staffUserId: string,

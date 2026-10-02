@@ -66,7 +66,7 @@ export type QuickAction = { label: string; href: string; capability: Capability 
 export const QUICK_ACTIONS: QuickAction[] = [
   { label: "Create Program", href: "/os/programs/new", capability: "programs.create" },
   { label: "Add Session", href: "/os/schedule/new", capability: "schedule.edit" },
-  { label: "Register Athlete", href: "/os/registrations/new", capability: "registrations.create" },
+  { label: "Register Athlete", href: "/os/rosters", capability: "registrations.create" },
   { label: "Add Family", href: "/os/families/new", capability: "families.edit" },
   // "Send Update" quick action hidden alongside the Communications nav entry.
   { label: "Block Court", href: "/os/facility/block", capability: "facility.block" },

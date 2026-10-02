@@ -3,6 +3,8 @@ import { requireCapability } from "@/lib/os/dal";
 import { prisma } from "@/lib/prisma";
 import { formatGrade, formatTimeRange, formatLongDate, addDays } from "@/lib/coach-format";
 import { PageHeader, Card, EmptyState, Pill, TableWrap, Th, Td } from "../_components/ui";
+import { can } from "@/lib/os/permissions";
+import { AddAthleteForm, type AthleteOption } from "./add-athlete-form";
 
 export const dynamic = "force-dynamic";
 
@@ -39,7 +41,8 @@ export default async function RostersPage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  await requireCapability("registrations.view");
+  const actor = await requireCapability("registrations.view");
+  const canAdd = can(actor, "registrations.create");
   const sp = await searchParams;
   const dateParam = typeof sp.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(sp.date) ? sp.date : todayCentral();
   const sport = typeof sp.sport === "string" ? sp.sport : "all";
@@ -84,6 +87,20 @@ export default async function RostersPage({
       waitlistEntries: { where: { status: { in: ["waiting", "offered"] } }, select: { id: true } },
     },
   });
+
+  // Everyone who could be added to a class, for the "Add athlete" picker on
+  // each card. Fetched once for the page, not per card.
+  const athleteOptions: AthleteOption[] = canAdd
+    ? (
+        await prisma.athlete.findMany({
+          orderBy: [{ lastName: "asc" }, { firstName: "asc" }],
+          select: { id: true, firstName: true, nickname: true, lastName: true, grade: true },
+        })
+      ).map((a) => ({
+        id: a.id,
+        label: `${a.lastName}, ${a.nickname || a.firstName}${a.grade ? ` · ${formatGrade(a.grade)}` : ""}`,
+      }))
+    : [];
 
   const visible = sessions.filter((s) => showEmpty || s.bookings.length > 0);
   const live = sessions.filter((s) => s.status === "scheduled");
@@ -236,6 +253,12 @@ export default async function RostersPage({
                     </table>
                   </TableWrap>
                 )}
+                {canAdd && !cancelled ? (
+                  <AddAthleteForm
+                    sessionId={s.id}
+                    athletes={athleteOptions.filter((a) => !s.bookings.some((b) => b.athlete.id === a.id))}
+                  />
+                ) : null}
               </Card>
             );
           })}

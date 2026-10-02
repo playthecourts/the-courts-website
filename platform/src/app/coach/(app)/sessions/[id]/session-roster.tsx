@@ -2,6 +2,7 @@
 
 import { useState, useTransition, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { markAttendance, markAllHere } from "../actions";
 import type { AttendanceStatus } from "@/generated/prisma/enums";
 
@@ -76,6 +77,18 @@ export default function SessionRoster({
   const [pending, startTransition] = useTransition();
   const unsyncedRef = useRef(unsynced);
   unsyncedRef.current = unsynced;
+  const router = useRouter();
+  const [hereOnly, setHereOnly] = useState(false);
+
+  // Live roster: kids checking in at the lobby kiosk or the front desk show up
+  // here within ~20s. Paused while anything is unsynced, so a refresh never
+  // races a coach's own taps.
+  useEffect(() => {
+    const t = setInterval(() => {
+      if (Object.keys(unsyncedRef.current).length === 0) router.refresh();
+    }, 20_000);
+    return () => clearInterval(t);
+  }, [router]);
 
   const send = useCallback(
     async (bookingId: string, status: AttendanceStatus) => {
@@ -131,13 +144,28 @@ export default function SessionRoster({
   const markedCount = rows.filter((r) => statusOf(r) !== null && statusOf(r) !== undefined).length;
   const unsyncedCount = Object.keys(unsynced).length;
   const allMarked = rows.length > 0 && markedCount === rows.length;
+  const isHere = (r: RosterRow) => statusOf(r) === "present" || statusOf(r) === "late";
+  const hereCount = rows.filter(isHere).length;
+  const shownRows = hereOnly ? rows.filter(isHere) : rows;
 
   return (
     <div>
       <div className="mb-2 flex items-center justify-between gap-3">
         <h2 className="font-sport text-xs font-bold uppercase tracking-[0.14em] text-gray-dark">
-          Roster · {markedCount}/{rows.length} marked
+          Roster · {hereCount}/{rows.length} here
         </h2>
+        {rows.length > 0 && (
+          <button
+            type="button"
+            onClick={() => setHereOnly((v) => !v)}
+            aria-pressed={hereOnly}
+            className={`ml-auto flex min-h-[36px] items-center justify-center rounded-full border px-3 font-sport text-xs font-bold uppercase tracking-wide ${
+              hereOnly ? "border-emerald-600 bg-emerald-600 text-white" : "border-gray-mid bg-white text-near-black hover:border-near-black"
+            }`}
+          >
+            {hereOnly ? "Showing Who's Here" : "Who's Here"}
+          </button>
+        )}
         {rows.length > 0 && (
           <button
             type="button"
@@ -165,8 +193,12 @@ export default function SessionRoster({
           <p className="px-4 py-8 text-center font-body text-sm text-gray-dark">
             Nobody registered yet.
           </p>
+        ) : shownRows.length === 0 ? (
+          <p className="px-4 py-8 text-center font-body text-sm text-gray-dark">
+            Nobody has checked in yet.
+          </p>
         ) : (
-          rows.map((r) => {
+          shownRows.map((r) => {
             const status = statusOf(r);
             const isUnsynced = Boolean(unsynced[r.bookingId]);
             return (

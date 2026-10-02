@@ -411,3 +411,74 @@ export async function cancelBookingById(bookingId: string) {
 export async function cancelWaitlistEntryById(waitlistEntryId: string) {
   await prisma.waitlistEntry.delete({ where: { id: waitlistEntryId } });
 }
+
+// Staff adding an athlete to a drop-in class from Courts OS (Class Rosters).
+//
+// Same seat, same pricing rule and same capacity lock as a family booking —
+// the one difference is money. A family pays at Stripe Checkout in the moment;
+// a staff member at the front desk can't, so a seat that would need payment is
+// booked with paymentStatus "due" (shown as "Due" on the roster) for the desk
+// to collect, instead of opening a Checkout nobody will complete. Seats covered
+// by a membership, a pack credit or a free class go through the normal family
+// path untouched, so credits are spent exactly as if the parent had booked.
+export async function adminBookAthleteIntoSession(sessionId: string, athleteId: string) {
+  const session = await prisma.session.findUniqueOrThrow({
+    where: { id: sessionId },
+    include: { offering: true },
+  });
+  if (session.status !== "scheduled") {
+    throw new Error("That class isn't running, so nobody can be added to it.");
+  }
+  if (session.offering && session.offering.registrationMode !== "session") {
+    throw new Error("Camps and leagues are registered for the whole program, not one session at a time.");
+  }
+
+  // The athlete's primary guardian is recorded as the booker, same as when a
+  // parent books — it's who a "Due" balance or a receipt belongs to.
+  const athlete = await prisma.athlete.findUniqueOrThrow({
+    where: { id: athleteId },
+    select: { family: { select: { guardians: { orderBy: { isPrimary: "desc" }, take: 1, select: { guardianId: true } } } } },
+  });
+  const guardianId = athlete.family.guardians[0]?.guardianId ?? null;
+
+  let needsPayment = false;
+  let priceChargedCents: number | null = null;
+  if (session.offeringId) {
+    const firstBooking = await prisma.booking.findFirst({
+      where: { sessionId, status: { not: "cancelled" } },
+      orderBy: { bookedAt: "asc" },
+      select: { priceChargedCents: true },
+    });
+    const rule = await resolveBookingRule(athleteId, session.offeringId, session.startTime, firstBooking?.priceChargedCents ?? null);
+    needsPayment = rule.kind === "full_price" || rule.kind === "member_price" || rule.kind === "credit_exhausted";
+    priceChargedCents = "priceCents" in rule ? rule.priceCents : 0;
+  }
+
+  if (!needsPayment) {
+    // Never reaches Stripe on this branch — bookAthleteIntoSession only opens
+    // Checkout when the rule needs payment.
+    const result = await bookAthleteIntoSession(sessionId, athleteId, guardianId);
+    return { status: result.status, due: false as const };
+  }
+
+  return prisma.$transaction(async (tx) => {
+    await tx.$executeRaw`SELECT id FROM sessions WHERE id = ${sessionId} FOR UPDATE`;
+    const existing = await tx.booking.findUnique({ where: { sessionId_athleteId: { sessionId, athleteId } } });
+    if (existing && existing.status !== "cancelled") return { status: "already_booked" as const, due: false as const };
+    const bookedCount = await tx.booking.count({ where: { sessionId, status: { not: "cancelled" } } });
+    if (bookedCount >= session.capacity) return { status: "full" as const, due: false as const };
+
+    const data = {
+      status: "booked" as const,
+      bookedByGuardianId: guardianId,
+      priceChargedCents,
+      paymentStatus: "due" as const,
+      creditSource: null,
+      creditRestored: false,
+      bookedAt: new Date(),
+    };
+    if (existing) await tx.booking.update({ where: { id: existing.id }, data });
+    else await tx.booking.create({ data: { sessionId, athleteId, ...data } });
+    return { status: "booked" as const, due: true as const, priceChargedCents };
+  });
+}

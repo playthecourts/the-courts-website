@@ -126,7 +126,7 @@ export default async function OsAthletePage({ params }: { params: Promise<{ id: 
         <Row label="Sports">{athlete.sports.join(" · ") || "—"}</Row>
         {athlete.favoriteSport && <Row label="Favorite Sport">{athlete.favoriteSport}</Row>}
         <Row label="Family">
-          <Link href={`/os/families/${athlete.familyId}`} className="underline">
+          <Link href={`/os/families?q=${encodeURIComponent(athlete.family.name)}`} className="underline">
             {athlete.family.name}
           </Link>
         </Row>

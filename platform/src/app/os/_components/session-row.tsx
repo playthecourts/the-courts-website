@@ -49,7 +49,7 @@ export function SessionRow({ session: s }: { session: SessionLike }) {
   return (
     <li className={cancelled ? "opacity-60" : undefined}>
       <Link
-        href={`/os/sessions/${s.id}`}
+        href={`/os/rosters?date=${s.startTime.toISOString().slice(0, 10)}`}
         className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3 transition-colors hover:bg-warm-stone"
       >
         <span className="os-display os-num w-20 shrink-0 text-lg text-near-black">

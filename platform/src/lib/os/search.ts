@@ -58,7 +58,7 @@ export async function globalSearch(actor: OsActor, rawQuery: string): Promise<Se
         id: f.id,
         title: f.name,
         subtitle: [adults, kids].filter(Boolean).join(" · ") || "No athletes yet",
-        href: `/os/families/${f.id}`,
+        href: `/os/families?q=${encodeURIComponent(f.name)}`,
       });
     }
   }

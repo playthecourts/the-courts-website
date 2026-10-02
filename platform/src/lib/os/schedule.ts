@@ -166,7 +166,7 @@ export async function getOccupancy(
       sublabel: `${s.booked}/${s.capacity}${
         s.coaches[0] ? ` · ${s.coaches[0].staff.name}` : ""
       }`,
-      href: `/os/sessions/${s.id}`,
+      href: `/os/rosters?date=${s.startTime.toISOString().slice(0, 10)}`,
       tone: "brand",
     });
   }

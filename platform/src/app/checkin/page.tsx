@@ -5,6 +5,10 @@ import { signedPhotoUrls } from "@/lib/athlete-photo";
 import { AthleteAvatar } from "@/components/athlete/avatar";
 import { HealthAlertBadge, PickupRestrictionBadge, MediaStatusBadge } from "@/components/athlete/badges";
 import { displayName, fullName } from "@/lib/athlete";
+import { can } from "@/lib/os/permissions";
+import { todaysClasses, formatClassTime } from "@/lib/checkin";
+import { CheckinBoard, type DeskClass } from "./checkin-board";
+import { startKioskMode } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -14,11 +18,6 @@ export const dynamic = "force-dynamic";
 // desk actually needs them in: recognise the child, then know if there's
 // anything to act on before the parent is halfway out the door.
 
-function startOfToday() {
-  const now = new Date();
-  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
-}
-
 export default async function CheckinPage(props: {
   searchParams: Promise<{ q?: string }>;
 }) {
@@ -26,8 +25,6 @@ export default async function CheckinPage(props: {
   const { q } = await props.searchParams;
   const query = (q ?? "").trim();
 
-  const start = startOfToday();
-  const end = new Date(start.getTime() + 86_400_000);
 
   const athleteSelect = {
     id: true,
@@ -41,19 +38,7 @@ export default async function CheckinPage(props: {
     mediaConsent: { select: { status: true } },
   };
 
-  const [todayBookings, searchResults] = await Promise.all([
-    prisma.booking.findMany({
-      where: {
-        status: { not: "cancelled" },
-        session: { startTime: { gte: start, lt: end } },
-      },
-      orderBy: { session: { startTime: "asc" } },
-      include: {
-        athlete: { select: athleteSelect },
-        session: { include: { program: { select: { name: true } } } },
-      },
-    }),
-    query.length >= 2
+  const searchResults = await (query.length >= 2
       ? prisma.athlete.findMany({
           // The actor's scope is composed into the query, so a head coach
           // searching here still can't reach another sport's families.
@@ -73,14 +58,46 @@ export default async function CheckinPage(props: {
           take: 20,
           orderBy: { firstName: "asc" },
         })
-      : Promise.resolve([]),
-  ]);
+      : Promise.resolve([]));
 
-  const shown = query.length >= 2 ? searchResults : todayBookings.map((b) => b.athlete);
+  // Today's classes for the check-in board, plus everyone a walk-in could be.
+  const canAddWalkIns = can(actor, "registrations.create");
+  const [classes, everyone] = await Promise.all([
+    query.length >= 2 ? Promise.resolve([]) : todaysClasses(),
+    query.length >= 2 || !canAddWalkIns
+      ? Promise.resolve([])
+      : prisma.athlete.findMany({
+          where: athleteScope(actor),
+          orderBy: [{ lastName: "asc" }, { firstName: "asc" }],
+          select: { id: true, firstName: true, nickname: true, lastName: true },
+        }),
+  ]);
+  const deskClasses: DeskClass[] = classes.map((c) => ({
+    id: c.id,
+    name: c.name,
+    time: `${formatClassTime(c.startTime)}–${formatClassTime(c.endTime)}`,
+    coach: c.coach,
+    capacity: c.capacity,
+    athletes: c.athletes.map((a) => ({
+      bookingId: a.bookingId, athleteId: a.athleteId, fullName: a.fullName, grade: a.grade,
+      here: a.here, late: a.late, absent: a.absent, selfCheckedIn: a.selfCheckedIn, paymentDue: a.paymentDue,
+    })),
+  }));
+  const walkInOptions = everyone.map((a) => ({ id: a.id, label: `${a.nickname?.trim() || a.firstName} ${a.lastName}` }));
+
+  const shown = searchResults;
   const photoUrls = await signedPhotoUrls(shown.map((a) => a.photoPath));
 
   return (
     <div className="flex flex-col gap-6">
+      <form action={startKioskMode} className="flex justify-end">
+        <button
+          type="submit"
+          className="min-h-[44px] rounded-lg border border-near-black bg-white px-4 font-sport text-[12px] font-bold uppercase tracking-wide text-near-black hover:bg-near-black hover:text-white"
+        >
+          Start Kiosk Mode
+        </button>
+      </form>
       <form method="get" className="flex gap-2">
         <input
           name="q"
@@ -96,10 +113,16 @@ export default async function CheckinPage(props: {
         </button>
       </form>
 
+      {query.length < 2 ? (
+        <section>
+          <h1 className="mb-2 font-display text-[22px] font-black tracking-tight text-near-black">Today&apos;s Classes</h1>
+          <CheckinBoard classes={deskClasses} walkInOptions={walkInOptions} canAddWalkIns={canAddWalkIns} />
+        </section>
+      ) : (
       <section>
         <div className="mb-2 flex items-baseline justify-between gap-3">
           <h1 className="font-display text-[22px] font-black tracking-tight text-near-black">
-            {query.length >= 2 ? "Search Results" : "Here Today"}
+            Search Results
           </h1>
           {query.length >= 2 && (
             <Link
@@ -152,6 +175,7 @@ export default async function CheckinPage(props: {
           </ul>
         )}
       </section>
+      )}
     </div>
   );
 }

@@ -38,6 +38,20 @@ export async function proxy(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const path = request.nextUrl.pathname;
+
+  // Kiosk Mode lock (see lib/kiosk.ts). A device in Kiosk Mode can only show
+  // the self check-in screen — every other page bounces back to /kiosk, so the
+  // staff session it's signed in with can't be used from the lobby. /login and
+  // /auth stay reachable so staff can sign the iPad back in if that session
+  // expires; leaving Kiosk Mode itself goes through /kiosk/exit.
+  if (
+    request.cookies.get("courts_kiosk")?.value === "1" &&
+    !path.startsWith("/kiosk") &&
+    !path.startsWith("/login") &&
+    !path.startsWith("/auth")
+  ) {
+    return NextResponse.redirect(new URL("/kiosk", request.url));
+  }
   const isProtected = path.startsWith("/my-courts") || path.startsWith("/admin");
 
   if (isProtected && !user) {
