@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requireCapability } from "@/lib/os/dal";
 import { can } from "@/lib/os/permissions";
 import { loadPaymentsOverview, type PayerInfo } from "@/lib/payments";
-import { money } from "@/lib/os/format";
+import { money, moneyExact } from "@/lib/os/format";
 import { PageHeader, Card, CardHeader, EmptyState, Metric, Pill, TableWrap, Th, Td } from "../_components/ui";
 import { OwedActions, BillingDateForm } from "./row-actions";
 
@@ -64,10 +64,10 @@ export default async function PaymentsPage() {
       />
 
       <div className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Metric label="Owed" value={money(data.owedTotalCents)} detail={`${data.owed.length} item${data.owed.length === 1 ? "" : "s"}`} tone={data.owed.length ? "warning" : undefined} />
+        <Metric label="Owed" value={moneyExact(data.owedTotalCents)} detail={`${data.owed.length} item${data.owed.length === 1 ? "" : "s"}`} tone={data.owed.length ? "warning" : undefined} />
         <Metric label="Failed Memberships" value={data.pastDue.length} detail="Card declined" tone={data.pastDue.length ? "danger" : undefined} />
-        <Metric label="Renewing This Week" value={data.renewals.length} detail={money(data.renewals.reduce((n, r) => n + r.priceCents, 0))} />
-        <Metric label="Paid Bookings, 30 Days" value={money(data.recentTotalCents)} detail="Booked in the last 30 days" />
+        <Metric label="Renewing This Week" value={data.renewals.length} detail={moneyExact(data.renewals.reduce((n, r) => n + r.priceCents, 0))} />
+        <Metric label="Paid Bookings, 30 Days" value={moneyExact(data.recentTotalCents)} detail="Booked in the last 30 days" />
       </div>
 
       <div className="flex flex-col gap-5">

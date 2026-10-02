@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import type { OsActor } from "@/lib/os/permissions";
 import { sessionScope, registrationScope, athleteScope } from "@/lib/os/dal";
 import { facilityToday } from "@/lib/facility-time";
+import { FOUNDING_OFFER } from "@/lib/founding-offer";
 
 // ---------------------------------------------------------------------------
 // Payments overview for Courts OS: one page answering "who owes us, whose
@@ -18,7 +19,7 @@ const primaryGuardian = {
       guardians: {
         orderBy: { isPrimary: "desc" as const },
         take: 1,
-        select: { guardian: { select: { id: true, name: true, email: true, phone: true, stripeCustomerId: true } } },
+        select: { guardian: { select: { id: true, name: true, email: true, phone: true, stripeCustomerId: true, legacyRateCents: true } } },
       },
     },
   },
@@ -81,7 +82,7 @@ export async function loadPaymentsOverview(actor: OsActor) {
       where: { status: "past_due", athlete: athleteScope(actor) },
       orderBy: { renewalDate: "asc" },
       select: {
-        id: true, renewalDate: true, stripeSubscriptionId: true,
+        id: true, renewalDate: true, stripeSubscriptionId: true, startDate: true,
         plan: { select: { name: true, priceCents: true } },
         athlete: { select: { id: true, firstName: true, nickname: true, lastName: true, ...primaryGuardian } },
       },
@@ -90,7 +91,7 @@ export async function loadPaymentsOverview(actor: OsActor) {
       where: { status: "active", renewalDate: { gte: today, lt: in7 }, athlete: athleteScope(actor) },
       orderBy: { renewalDate: "asc" },
       select: {
-        id: true, renewalDate: true, stripeSubscriptionId: true,
+        id: true, renewalDate: true, stripeSubscriptionId: true, startDate: true,
         plan: { select: { name: true, priceCents: true } },
         athlete: { select: { id: true, firstName: true, nickname: true, lastName: true, ...primaryGuardian } },
       },
@@ -147,7 +148,15 @@ export async function loadPaymentsOverview(actor: OsActor) {
     athleteId: m.athlete.id,
     athlete: athleteName(m.athlete),
     plan: m.plan.name,
-    priceCents: m.plan.priceCents,
+    // What this family actually pays — the same rule as the Members page:
+    // NextGen legacy families pay their own approved rate, opening-day
+    // founders the founding rate, everyone else the plan price.
+    priceCents:
+      m.plan.name === "NextGen Legacy Rate"
+        ? (m.athlete.family.guardians[0]?.guardian.legacyRateCents ?? 0)
+        : m.plan.name === FOUNDING_OFFER.planName && m.startDate.toISOString().slice(0, 10) === FOUNDING_OFFER.opensAt.toISOString().slice(0, 10)
+          ? FOUNDING_OFFER.rateCents
+          : m.plan.priceCents,
     renewalDate: m.renewalDate,
     hasStripe: !!m.stripeSubscriptionId,
     payer: payer(m.athlete),
