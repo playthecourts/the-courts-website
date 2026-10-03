@@ -9,6 +9,7 @@ import { money, moneyExact, pluralize } from "@/lib/os/format";
 import { MediaStatusBadge } from "@/components/athlete/badges";
 import { PageHeader, Card, CardHeader, EmptyState, Metric, Pill, TableWrap, Th, Td } from "../../_components/ui";
 import { OwedActions, BillingDateForm } from "../../payments/row-actions";
+import { ApproveLegacyRate } from "./approve-legacy-rate";
 
 export const dynamic = "force-dynamic";
 
@@ -60,6 +61,7 @@ export default async function OsFamilyPage({ params }: { params: Promise<{ id: s
   const seePayments = can(actor, "payments.view");
   const canSendLink = can(actor, "payments.sendLink");
   const canMoveDates = can(actor, "plans.manage");
+  const canVerifyNextGen = can(actor, "nextgen.verify");
 
   const active = data.athletes.filter((a) => !a.archivedAt);
   const archived = data.athletes.filter((a) => a.archivedAt);
@@ -133,6 +135,7 @@ export default async function OsFamilyPage({ params }: { params: Promise<{ id: s
                         Open in Stripe
                       </a>
                     ) : null}
+                    {canVerifyNextGen && !fg.guardian.nextGenStatus ? <ApproveLegacyRate guardianId={fg.guardian.id} /> : null}
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {fg.isPrimary ? <Pill tone="brand">Primary</Pill> : null}
