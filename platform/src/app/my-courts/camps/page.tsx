@@ -78,7 +78,7 @@ export default async function CampsPage({
       registrationMode: { in: ["offering", "multi_day"] },
     },
     include: {
-      sessions: { orderBy: { startTime: "asc" } },
+      sessions: { where: { status: "scheduled" }, orderBy: { startTime: "asc" } },
       registrations: { where: { athleteId: { in: athleteIds } } },
     },
     orderBy: { sessions: { _count: "asc" } },

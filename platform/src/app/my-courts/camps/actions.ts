@@ -55,7 +55,7 @@ export async function startCampRegistration(formData: FormData) {
 
   const offering = await prisma.offering.findUniqueOrThrow({
     where: { id: offeringId },
-    include: { sessions: { orderBy: { startTime: "asc" } } },
+    include: { sessions: { where: { status: "scheduled" }, orderBy: { startTime: "asc" } } },
   });
   if (offering.registrationMode !== "offering" && offering.registrationMode !== "multi_day") {
     throw new Error("This offering isn't a whole-camp registration.");
