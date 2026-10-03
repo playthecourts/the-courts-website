@@ -56,6 +56,7 @@ export type AuditAction =
   | "admin_remove_booking"
   // --- Families ---
   | "add_guardian"
+  | "edit_guardian"
   // --- Payments ---
   | "send_payment_link"
   | "waive_balance";

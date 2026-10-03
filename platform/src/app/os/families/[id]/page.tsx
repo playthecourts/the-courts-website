@@ -11,6 +11,7 @@ import { PageHeader, Card, CardHeader, EmptyState, Metric, Pill, TableWrap, Th, 
 import { OwedActions, BillingDateForm } from "../../payments/row-actions";
 import { ApproveLegacyRate } from "./approve-legacy-rate";
 import { AddParentForm } from "./add-parent-form";
+import { EditParent } from "./edit-parent";
 
 export const dynamic = "force-dynamic";
 
@@ -136,6 +137,17 @@ export default async function OsFamilyPage({ params }: { params: Promise<{ id: s
                       >
                         Open in Stripe
                       </a>
+                    ) : null}
+                    {canEditFamily && seeSensitive ? (
+                      <EditParent
+                        familyId={id}
+                        guardianId={fg.guardian.id}
+                        name={fg.guardian.name}
+                        email={fg.guardian.email}
+                        phone={fg.guardian.phone}
+                        relationship={fg.relationship}
+                        hasLogin={!!fg.guardian.authId}
+                      />
                     ) : null}
                     {canVerifyNextGen && !fg.guardian.nextGenStatus ? <ApproveLegacyRate guardianId={fg.guardian.id} /> : null}
                   </div>

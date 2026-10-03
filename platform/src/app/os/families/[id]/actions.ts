@@ -70,3 +70,47 @@ export async function addParentToFamily(_prev: AddParentState, formData: FormDat
     return { error: err instanceof Error ? err.message : "Couldn't add that parent." };
   }
 }
+
+/// Staff correcting a parent's contact details from the Family page — name,
+/// phone, relationship, and email. Email can only change for a parent who
+/// hasn't signed in yet: a signed-in parent's email is their login, which
+/// they change themselves.
+export async function updateParentContact(_prev: AddParentState, formData: FormData): Promise<AddParentState> {
+  try {
+    const actor = await requireCapability("families.edit");
+    const familyId = String(formData.get("familyId") ?? "");
+    const guardianId = String(formData.get("guardianId") ?? "");
+    await assertFamilyAccess(actor, familyId);
+    const link = await prisma.familyGuardian.findUnique({
+      where: { familyId_guardianId: { familyId, guardianId } },
+      select: { guardian: { select: { authId: true, email: true } } },
+    });
+    if (!link) return { error: "That parent isn't on this family." };
+
+    const name = String(formData.get("name") ?? "").trim();
+    const phone = String(formData.get("phone") ?? "").trim() || null;
+    const relationship = String(formData.get("relationship") ?? "").trim() || null;
+    const emailRaw = String(formData.get("email") ?? "").trim().toLowerCase() || null;
+    if (!name) return { error: "Name can't be blank." };
+
+    let email = link.guardian.email;
+    if (!link.guardian.authId && emailRaw !== link.guardian.email) {
+      if (emailRaw && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailRaw)) return { error: "That email doesn't look right." };
+      if (emailRaw) {
+        const taken = await prisma.guardian.findUnique({ where: { email: emailRaw }, select: { id: true } });
+        if (taken && taken.id !== guardianId) return { error: "Another parent already uses that email." };
+      }
+      email = emailRaw;
+    }
+
+    await prisma.$transaction([
+      prisma.guardian.update({ where: { id: guardianId }, data: { name, phone, email } }),
+      prisma.familyGuardian.update({ where: { familyId_guardianId: { familyId, guardianId } }, data: { relationship } }),
+    ]);
+    await auditLog(actor.id, "edit_guardian", "family", familyId, { guardianId });
+    revalidatePath(`/os/families/${familyId}`);
+    return { ok: "Saved." };
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Couldn't save." };
+  }
+}
