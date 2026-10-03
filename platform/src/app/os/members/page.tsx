@@ -167,7 +167,7 @@ export default async function MembersPage({
         <Metric label="Active members" value={rows.filter((r) => r.status === "active").length} href={segLink("")} />
         <Metric label="NextGen Founders" value={countBy("nextgen")} href={segLink("nextgen")} />
         <Metric label="Former Members" value={countBy("former")} href={segLink("former")} />
-        <Metric label="Founding 10" value={countBy("founding")} href={segLink("founding")} />
+        <Metric label="Comped" value={countBy("comp")} href={segLink("comp")} />
         <Metric label="New to The Courts" value={countBy("new")} href={segLink("new")} />
         <Metric label="Monthly (active)" value={money(monthly)} detail="At each member's current rate" />
       </div>
