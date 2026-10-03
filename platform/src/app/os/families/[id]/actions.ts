@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { requireCapability } from "@/lib/os/dal";
+import { requireCapability, assertFamilyAccess } from "@/lib/os/dal";
 import { auditLog } from "@/lib/audit";
 
 /// Puts a family on the NextGen Founders Legacy rate ($165/mo) when they never
@@ -27,5 +27,46 @@ export async function approveNextGenLegacyRate(guardianId: string): Promise<{ ok
     return { ok: true };
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : "Couldn't approve the rate." };
+  }
+}
+
+export type AddParentState = { ok?: string; error?: string } | null;
+
+/// Staff adding a second parent (or grandparent, stepparent…) to a family —
+/// the same record a parent creates from My Courts. No login is created: if
+/// they sign up later with this email, the account attaches to this record.
+/// An email that already belongs to a parent in the system links that person
+/// instead of creating a duplicate.
+export async function addParentToFamily(_prev: AddParentState, formData: FormData): Promise<AddParentState> {
+  try {
+    const actor = await requireCapability("families.edit");
+    const familyId = String(formData.get("familyId") ?? "");
+    await assertFamilyAccess(actor, familyId);
+    const name = String(formData.get("name") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim().toLowerCase() || null;
+    const phone = String(formData.get("phone") ?? "").trim() || null;
+    const relationship = String(formData.get("relationship") ?? "").trim() || null;
+    const pickup = formData.get("pickup") === "on";
+    if (!name) return { error: "Enter their name." };
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { error: "That email doesn't look right." };
+
+    const existing = email ? await prisma.guardian.findUnique({ where: { email }, select: { id: true, name: true } }) : null;
+    if (existing) {
+      const linked = await prisma.familyGuardian.findUnique({ where: { familyId_guardianId: { familyId, guardianId: existing.id } } });
+      if (linked) return { error: `${existing.name} is already on this family.` };
+    }
+
+    const guardianId = await prisma.$transaction(async (tx) => {
+      const g = existing ?? (await tx.guardian.create({ data: { name, email, phone }, select: { id: true, name: true } }));
+      await tx.familyGuardian.create({
+        data: { familyId, guardianId: g.id, isPrimary: false, relationship, authorizedForPickup: pickup },
+      });
+      return g.id;
+    });
+    await auditLog(actor.id, "add_guardian", "family", familyId, { guardianId, linkedExisting: !!existing });
+    revalidatePath(`/os/families/${familyId}`);
+    return { ok: existing ? `${existing.name} already had an account — linked to this family.` : `${name} added.` };
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Couldn't add that parent." };
   }
 }

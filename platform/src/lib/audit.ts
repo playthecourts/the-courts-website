@@ -54,6 +54,8 @@ export type AuditAction =
   // --- Class rosters ---
   | "admin_add_booking"
   | "admin_remove_booking"
+  // --- Families ---
+  | "add_guardian"
   // --- Payments ---
   | "send_payment_link"
   | "waive_balance";

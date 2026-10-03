@@ -10,6 +10,7 @@ import { MediaStatusBadge } from "@/components/athlete/badges";
 import { PageHeader, Card, CardHeader, EmptyState, Metric, Pill, TableWrap, Th, Td } from "../../_components/ui";
 import { OwedActions, BillingDateForm } from "../../payments/row-actions";
 import { ApproveLegacyRate } from "./approve-legacy-rate";
+import { AddParentForm } from "./add-parent-form";
 
 export const dynamic = "force-dynamic";
 
@@ -62,6 +63,7 @@ export default async function OsFamilyPage({ params }: { params: Promise<{ id: s
   const canSendLink = can(actor, "payments.sendLink");
   const canMoveDates = can(actor, "plans.manage");
   const canVerifyNextGen = can(actor, "nextgen.verify");
+  const canEditFamily = can(actor, "families.edit");
 
   const active = data.athletes.filter((a) => !a.archivedAt);
   const archived = data.athletes.filter((a) => a.archivedAt);
@@ -149,6 +151,7 @@ export default async function OsFamilyPage({ params }: { params: Promise<{ id: s
               </Row>
             ))
           )}
+          {canEditFamily ? <AddParentForm familyId={id} /> : null}
         </Card>
 
         <Card as="section">
