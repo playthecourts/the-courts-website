@@ -6,6 +6,7 @@ import { requireCapability, assertForSport } from "@/lib/os/dal";
 import { adminBookAthleteIntoSession } from "@/lib/booking";
 import { auditLog } from "@/lib/audit";
 import { autoEmailPaymentLink } from "@/lib/payment-link-email";
+import { checkInBooking, undoCheckIn } from "@/lib/checkin";
 
 export type AddAthleteState = { error?: string; ok?: string } | null;
 
@@ -50,5 +51,28 @@ export async function addAthleteToSession(_prev: AddAthleteState, formData: Form
     return { error: `The class is full — raise capacity first if you want to add ${name}.` };
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Couldn't add that athlete." };
+  }
+}
+
+/// Check in (or undo) from a Class Rosters row — the same record the Front
+/// Desk, kiosk and Coach App write. Today's classes only (checkInBooking
+/// enforces that), and never marked late: a staff check-in is often entered
+/// after the fact.
+export async function rosterSetCheckIn(bookingId: string, here: boolean): Promise<{ ok: true } | { ok: false; error: string }> {
+  try {
+    const actor = await requireCapability("registrations.create");
+    const b = await prisma.booking.findUnique({
+      where: { id: bookingId },
+      select: { session: { select: { program: { select: { sport: true } } } } },
+    });
+    if (!b) return { ok: false, error: "That booking no longer exists." };
+    assertForSport(actor, "registrations.create", b.session.program.sport);
+    if (here) await checkInBooking(bookingId, actor.id, "desk");
+    else await undoCheckIn(bookingId);
+    revalidatePath("/os/rosters");
+    revalidatePath("/checkin");
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : "Couldn't update check-in." };
   }
 }

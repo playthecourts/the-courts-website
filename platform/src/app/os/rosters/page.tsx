@@ -5,6 +5,7 @@ import { formatGrade, formatTimeRange, formatLongDate, addDays } from "@/lib/coa
 import { PageHeader, Card, EmptyState, Pill, TableWrap, Th, Td } from "../_components/ui";
 import { can } from "@/lib/os/permissions";
 import { AddAthleteForm, type AthleteOption } from "./add-athlete-form";
+import { CheckInToggle } from "./check-in-toggle";
 
 export const dynamic = "force-dynamic";
 
@@ -47,6 +48,8 @@ export default async function RostersPage({
   const dateParam = typeof sp.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(sp.date) ? sp.date : todayCentral();
   const sport = typeof sp.sport === "string" ? sp.sport : "all";
   const showEmpty = sp.empty !== "hide";
+  // Check-in buttons only on today's roster, for staff who can add athletes.
+  const checkInToday = dateParam === todayCentral() && canAdd;
 
   const dayStart = new Date(`${dateParam}T00:00:00Z`);
   const dayEnd = addDays(dayStart, 1);
@@ -222,7 +225,7 @@ export default async function RostersPage({
                   <TableWrap>
                     <table>
                       <thead>
-                        <tr><Th>#</Th><Th>Athlete</Th><Th>Grade</Th><Th>Parent</Th><Th>Phone</Th><Th>How</Th><Th>Signed up</Th></tr>
+                        <tr><Th>#</Th><Th>Athlete</Th>{checkInToday ? <Th>Check In</Th> : null}<Th>Grade</Th><Th>Parent</Th><Th>Phone</Th><Th>How</Th><Th>Signed up</Th></tr>
                       </thead>
                       <tbody>
                         {s.bookings.map((b, i) => {
@@ -237,9 +240,14 @@ export default async function RostersPage({
                                 <Link href={`/os/athletes/${b.athlete.id}`} className="font-medium text-near-black hover:underline">
                                   {b.athlete.nickname || b.athlete.firstName} {b.athlete.lastName}
                                 </Link>
-                                {b.status === "attended" ? <span className="ml-2"><Pill tone="success">Checked in</Pill></span> : null}
+                                {!checkInToday && b.status === "attended" ? <span className="ml-2"><Pill tone="success">Checked in</Pill></span> : null}
                                 {b.status === "no_show" ? <span className="ml-2"><Pill tone="danger">No show</Pill></span> : null}
                               </Td>
+                              {checkInToday ? (
+                                <Td>
+                                  {cancelled ? "—" : <CheckInToggle bookingId={b.id} here={b.status === "attended"} />}
+                                </Td>
+                              ) : null}
                               <Td className="text-neutral">{b.athlete.grade ? formatGrade(b.athlete.grade) : "—"}</Td>
                               <Td>
                                 <Link href={`/os/families/${b.athlete.family.id}`} className="hover:underline">{g?.name ?? "Family"}</Link>
