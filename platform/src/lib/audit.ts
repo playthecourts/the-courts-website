@@ -53,6 +53,7 @@ export type AuditAction =
   | "grant_drop_in_credits"
   // --- Class rosters ---
   | "admin_add_booking"
+  | "admin_remove_booking"
   // --- Payments ---
   | "send_payment_link"
   | "waive_balance";

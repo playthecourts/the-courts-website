@@ -6,6 +6,7 @@ import { PageHeader, Card, EmptyState, Pill, TableWrap, Th, Td } from "../_compo
 import { can } from "@/lib/os/permissions";
 import { AddAthleteForm, type AthleteOption } from "./add-athlete-form";
 import { CheckInToggle } from "./check-in-toggle";
+import { RemoveFromClass } from "./remove-from-class";
 
 export const dynamic = "force-dynamic";
 
@@ -225,7 +226,7 @@ export default async function RostersPage({
                   <TableWrap>
                     <table>
                       <thead>
-                        <tr><Th>#</Th><Th>Athlete</Th>{checkInToday ? <Th>Check In</Th> : null}<Th>Grade</Th><Th>Parent</Th><Th>Phone</Th><Th>How</Th><Th>Signed up</Th></tr>
+                        <tr><Th>#</Th><Th>Athlete</Th>{checkInToday ? <Th>Check In</Th> : null}<Th>Grade</Th><Th>Parent</Th><Th>Phone</Th><Th>How</Th><Th>Signed up</Th>{canAdd && !cancelled ? <Th><span className="sr-only">Remove</span></Th> : null}</tr>
                       </thead>
                       <tbody>
                         {s.bookings.map((b, i) => {
@@ -257,6 +258,13 @@ export default async function RostersPage({
                               <Td className="os-num text-neutral">
                                 {new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "America/Chicago" }).format(b.bookedAt)}
                               </Td>
+                              {canAdd && !cancelled ? (
+                                <Td>
+                                  {b.status === "booked" && !b.registrationId ? (
+                                    <RemoveFromClass bookingId={b.id} name={b.athlete.nickname || b.athlete.firstName} />
+                                  ) : null}
+                                </Td>
+                              ) : null}
                             </tr>
                           );
                         })}

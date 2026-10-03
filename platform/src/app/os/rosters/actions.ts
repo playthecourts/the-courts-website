@@ -7,6 +7,8 @@ import { adminBookAthleteIntoSession } from "@/lib/booking";
 import { auditLog } from "@/lib/audit";
 import { autoEmailPaymentLink } from "@/lib/payment-link-email";
 import { checkInBooking, undoCheckIn } from "@/lib/checkin";
+import { cancelBookingById } from "@/lib/booking";
+import { stripe } from "@/lib/stripe";
 
 export type AddAthleteState = { error?: string; ok?: string } | null;
 
@@ -74,5 +76,41 @@ export async function rosterSetCheckIn(bookingId: string, here: boolean): Promis
     return { ok: true };
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : "Couldn't update check-in." };
+  }
+}
+
+/// Takes an athlete out of a class from Class Rosters. Same cancellation a
+/// family does from My Courts: frees the seat, gives back a membership credit
+/// or pack credit when it's early enough, refunds an online payment when it's
+/// early enough, and offers the spot to the waitlist. An unpaid payment link
+/// is cancelled first so it can't be paid for a class they're no longer in.
+/// Only "booked" seats — a checked-in athlete is undone first.
+export async function rosterRemoveBooking(bookingId: string): Promise<{ ok: true } | { ok: false; error: string }> {
+  try {
+    const actor = await requireCapability("registrations.create");
+    const b = await prisma.booking.findUnique({
+      where: { id: bookingId },
+      select: {
+        status: true, paymentStatus: true, stripeCheckoutSessionId: true, registrationId: true, athleteId: true, sessionId: true,
+        session: { select: { program: { select: { sport: true } } } },
+      },
+    });
+    if (!b || b.status === "cancelled") return { ok: false, error: "They're already out of this class." };
+    assertForSport(actor, "registrations.create", b.session.program.sport);
+    if (b.registrationId) return { ok: false, error: "This is part of a camp or program registration — cancel the registration instead." };
+    if (b.status !== "booked") return { ok: false, error: "Undo their check-in first, then remove them." };
+    if (b.paymentStatus !== "paid" && b.stripeCheckoutSessionId) {
+      const s = await stripe.checkout.sessions.retrieve(b.stripeCheckoutSessionId).catch(() => null);
+      if (s?.status === "complete") return { ok: false, error: "They just paid — refresh the page and try again." };
+      if (s?.status === "open") await stripe.checkout.sessions.expire(s.id);
+    }
+    await cancelBookingById(bookingId);
+    await auditLog(actor.id, "admin_remove_booking", "session", b.sessionId, { athleteId: b.athleteId, bookingId });
+    revalidatePath("/os/rosters");
+    revalidatePath("/os");
+    revalidatePath("/checkin");
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : "Couldn't remove them." };
   }
 }
