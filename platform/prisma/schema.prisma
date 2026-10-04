@@ -2808,3 +2808,21 @@ enum FeaturedApprovalStatus {
   expired
   withdrawn
 }
+
+/// A phone running The Courts app that can receive push notifications. Keyed
+/// by the Supabase auth user, so one login covers every role it has (a coach
+/// who is also a parent gets both kinds of alerts on one device). Tokens move
+/// between users when someone signs into a shared phone; the unique token
+/// keeps one row per device.
+model PushDevice {
+  id         String   @id @default(uuid())
+  authId     String   @map("auth_id")
+  /// "ios" or "android"
+  platform   String
+  token      String   @unique
+  createdAt  DateTime @default(now()) @map("created_at")
+  lastSeenAt DateTime @default(now()) @map("last_seen_at")
+
+  @@index([authId])
+  @@map("push_devices")
+}

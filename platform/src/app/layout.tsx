@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Archivo, Archivo_Black, Inter, Barlow_Condensed } from "next/font/google";
 import "./globals.css";
+import { NativeBridge } from "@/components/native/native-bridge";
 
 // Same GA4 property and Meta Pixel as the marketing site (playthecourts.com)
 // — one property/pixel, two surfaces' worth of traffic, so a family's path
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${archivo.variable} ${archivoBlack.variable} ${inter.variable} ${barlowCondensed.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <NativeBridge />
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"

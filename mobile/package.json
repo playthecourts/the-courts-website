@@ -1,0 +1,25 @@
+{
+  "name": "the-courts-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The Courts — native iPhone and Android app. A thin shell around app.playthecourts.com.",
+  "scripts": {
+    "sync": "cap sync",
+    "ios": "cap sync ios && cap open ios",
+    "android": "cap sync android && cap open android",
+    "assets": "capacitor-assets generate --iconBackgroundColor '#F7F5F0' --iconBackgroundColorDark '#171717' --splashBackgroundColor '#F7F5F0' --splashBackgroundColorDark '#171717'"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/ios": "^8.5.2",
+    "@capacitor/push-notifications": "^8.1.3",
+    "@capacitor/splash-screen": "^8.0.0",
+    "@capacitor/status-bar": "^8.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.5.2"
+  }
+}
