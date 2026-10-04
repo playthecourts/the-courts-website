@@ -215,6 +215,7 @@ export async function generateOfferingSessions(offeringId: string, formData: For
       resourceIds,
       coachIds,
       capacity,
+      title: str(formData, "sessionTitle"),
       saveAsSeries: spec.kind === "recurring",
       numberDays: spec.kind === "multi_day",
       actorId: actor.id,

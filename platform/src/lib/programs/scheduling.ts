@@ -78,6 +78,9 @@ export type CreateSessionsInput = {
   resourceIds: string[];
   coachIds: string[];
   capacity: number;
+  /// Optional name for these sessions ("Fall League Practice — 3rd/4th Grade").
+  /// Shown instead of the offering's name everywhere a session is listed.
+  title?: string | null;
   /// Persist the rule so "edit this and future" can regenerate the tail later.
   /// Only meaningful for recurring specs.
   saveAsSeries?: boolean;
@@ -131,6 +134,7 @@ export async function createSessions(input: CreateSessionsInput) {
           startTime: occ.startTime,
           endTime: occ.endTime,
           capacity: input.capacity,
+          title: input.title?.trim() || null,
           dayIndex: input.numberDays ? occ.index : null,
         },
       });

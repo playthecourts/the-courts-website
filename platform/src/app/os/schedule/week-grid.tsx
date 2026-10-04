@@ -2,7 +2,8 @@
 
 import { facilityTodayKey } from "@/lib/facility-time";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getSessionRoster, type RosterRow } from "./actions";
 import type { ScheduleCard, ClosureBand } from "@/lib/programs/schedule-view";
 
 // A real time grid: days across, time down, cards positioned by their actual
@@ -39,6 +40,21 @@ export function WeekGrid({
   closures: ClosureBand[];
 }) {
   const [selected, setSelected] = useState<ScheduleCard | null>(null);
+  const [roster, setRoster] = useState<{ id: string; rows: RosterRow[] | null; error?: string } | null>(null);
+
+  // Load who's in the class when a card is opened.
+  useEffect(() => {
+    if (!selected || selected.booked === 0) return;
+    let live = true;
+    getSessionRoster(selected.id).then((res) => {
+      if (!live) return;
+      setRoster(res.ok ? { id: selected.id, rows: res.rows } : { id: selected.id, rows: null, error: res.error });
+    });
+    return () => {
+      live = false;
+    };
+  }, [selected]);
+  const rows = selected && roster?.id === selected.id ? roster : null;
   const start = new Date(weekStartIso);
 
   const days = Array.from({ length: 7 }, (_, i) => {
@@ -256,7 +272,38 @@ export function WeekGrid({
                 </div>
               ))}
             </dl>
+            <div className="mt-4">
+              <p className="os-eyebrow mb-1.5 text-neutral">Who&rsquo;s Signed Up</p>
+              {selected.booked === 0 ? (
+                <p className="text-sm text-gray-dark">No one yet.</p>
+              ) : rows?.error ? (
+                <p className="text-sm text-danger">{rows.error}</p>
+              ) : !rows?.rows ? (
+                <p className="text-sm text-gray-dark">Loading…</p>
+              ) : (
+                <ul className="max-h-56 overflow-y-auto rounded-lg border border-gray-mid">
+                  {rows.rows.map((r) => (
+                    <li key={r.athleteId} className="flex items-center justify-between gap-3 border-b border-gray-mid/60 px-3 py-1.5 text-sm last:border-b-0">
+                      <Link href={`/os/athletes/${r.athleteId}`} className="truncate text-near-black hover:underline">
+                        {r.name}
+                        {r.grade ? <span className="text-gray-dark"> · {r.grade}</span> : null}
+                      </Link>
+                      <span className="flex shrink-0 gap-1.5 text-xs">
+                        {r.due ? <span className="text-warning">Due</span> : null}
+                        {r.here ? <span className="text-success">✓ Here</span> : null}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
             <div className="mt-4 flex gap-2">
+              <Link
+                href={`/os/rosters?date=${selected.start.slice(0, 10)}`}
+                className="os-heading inline-flex min-h-11 flex-1 items-center justify-center rounded-lg border border-gray-mid px-4 text-sm uppercase tracking-wide text-near-black"
+              >
+                Class Roster
+              </Link>
               {selected.offeringId ? (
                 <Link
                   href={`/os/offerings/${selected.offeringId}?tab=schedule`}

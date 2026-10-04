@@ -254,6 +254,14 @@ export function ScheduleSection({
               </div>
             ) : null}
 
+            <Field
+              label="Session name"
+              htmlFor="sessionTitle"
+              hint="Optional. Leave blank to use the program's name. e.g. “Fall League Practice — 3rd/4th Grade”."
+            >
+              <input id="sessionTitle" name="sessionTitle" type="text" maxLength={120} className={INPUT} />
+            </Field>
+
             <div className="grid gap-4 sm:grid-cols-3">
               <Field label="Capacity per session" htmlFor="capacity" required>
                 <input id="capacity" name="capacity" type="number" min="1" defaultValue={defaultCapacity} className={INPUT} required />
