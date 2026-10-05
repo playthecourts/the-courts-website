@@ -267,6 +267,29 @@ export async function moveOfferingSession(formData: FormData) {
   }
 }
 
+/// Swap who's coaching one session — a sub for a night, or "Staff" until
+/// someone is picked. Replaces the session's staff with the one chosen (as
+/// lead). Only this session; the rest of the series is untouched.
+export async function setSessionStaff(formData: FormData) {
+  const sessionId = str(formData, "sessionId")!;
+  const staffUserId = str(formData, "staffUserId");
+  const session = await prisma.session.findUniqueOrThrow({
+    where: { id: sessionId },
+    select: { offeringId: true },
+  });
+  await loadForEdit(session.offeringId!, "schedule.edit");
+  if (staffUserId) {
+    const staff = await prisma.staffUser.findUnique({ where: { id: staffUserId }, select: { active: true } });
+    if (!staff?.active) return { ok: false as const, error: "Pick an active staff member." };
+  }
+  await prisma.$transaction([
+    prisma.sessionCoach.deleteMany({ where: { sessionId } }),
+    ...(staffUserId ? [prisma.sessionCoach.create({ data: { sessionId, staffUserId, role: "lead" } })] : []),
+  ]);
+  touch(session.offeringId!);
+  return { ok: true as const };
+}
+
 export async function cancelOfferingSession(formData: FormData) {
   const sessionId = str(formData, "sessionId")!;
   const session = await prisma.session.findUniqueOrThrow({

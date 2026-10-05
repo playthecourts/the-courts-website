@@ -7,6 +7,7 @@ import {
   moveOfferingSession,
   cancelOfferingSession,
   offerWaitlistSpot,
+  setSessionStaff,
 } from "../actions";
 import { WEEKDAY_LABELS } from "@/lib/programs/recurrence";
 import { Card, CardHeader, Field, INPUT, SELECT, TEXTAREA, BTN, Pill, ErrorNote, EmptyState } from "../../_components/ui";
@@ -359,7 +360,7 @@ export function ScheduleSection({
         ) : (
           <ul className="divide-y divide-gray-mid">
             {scheduled.map((s) => (
-              <SessionRowView key={s.id} session={s} canEdit={canEdit} resources={resources} />
+              <SessionRowView key={s.id} session={s} canEdit={canEdit} resources={resources} coaches={coaches} />
             ))}
           </ul>
         )}
@@ -421,12 +422,14 @@ function SessionRowView({
   session,
   canEdit,
   resources,
+  coaches,
 }: {
   session: SessionRow;
   canEdit: boolean;
   resources: { id: string; name: string }[];
+  coaches: { id: string; name: string }[];
 }) {
-  const [open, setOpen] = useState<"none" | "move" | "cancel">("none");
+  const [open, setOpen] = useState<"none" | "move" | "cancel" | "staff">("none");
   const [error, setError] = useState<string | null>(null);
   const [waitlistMsg, setWaitlistMsg] = useState<string | null>(null);
   const [pending, start] = useTransition();
@@ -487,6 +490,9 @@ function SessionRowView({
           {session.coaches.length === 0 ? <Pill tone="danger">Needs coach</Pill> : null}
           {canEdit ? (
             <>
+              <button type="button" onClick={() => setOpen(open === "staff" ? "none" : "staff")} className="os-eyebrow min-h-9 px-2 text-gray-dark underline underline-offset-2 hover:text-orange">
+                Staff
+              </button>
               <button type="button" onClick={() => setOpen(open === "move" ? "none" : "move")} className="os-eyebrow min-h-9 px-2 text-gray-dark underline underline-offset-2 hover:text-orange">
                 Move
               </button>
@@ -597,6 +603,29 @@ function SessionRowView({
             </button>
             <button type="button" onClick={() => setOpen("none")} className={BTN.ghost}>Keep it</button>
           </div>
+        </form>
+      ) : null}
+      {open === "staff" ? (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            submit(setSessionStaff, e.currentTarget);
+          }}
+          className="mt-3 flex flex-wrap items-end gap-2"
+        >
+          <input type="hidden" name="sessionId" value={session.id} />
+          <Field label="Who's coaching this session" htmlFor={`st-${session.id}`}>
+            <select id={`st-${session.id}`} name="staffUserId" defaultValue={session.coaches[0]?.staff.id ?? ""} className={SELECT}>
+              <option value="">No coach</option>
+              {coaches.map((c) => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          </Field>
+          <button type="submit" disabled={pending} className={BTN.primary}>{pending ? "Saving…" : "Save"}</button>
+          <button type="button" onClick={() => setOpen("none")} className={BTN.ghost}>Cancel</button>
+          <p className="w-full text-xs text-neutral">Only this session changes. The rest of the schedule keeps its coach.</p>
+          {error ? <div className="w-full"><ErrorNote>{error}</ErrorNote></div> : null}
         </form>
       ) : null}
     </li>
