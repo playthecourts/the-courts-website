@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requireCapability } from "@/lib/os/dal";
 import { prisma } from "@/lib/prisma";
 import { PageHeader, Card, CardHeader, EmptyState, Pill, Metric, TableWrap, Th, Td } from "../_components/ui";
-import { requestMoreInfo, setNextGenApprovedRate, linkNextGenRecord, unlinkNextGenRecord, dismissNextGenCandidate, setNextBillingDate } from "./actions";
+import { requestMoreInfo, setNextGenApprovedRate, linkNextGenRecord, unlinkNextGenRecord, dismissNextGenCandidate, setNextBillingDate, setLegacyBillingDay } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -283,6 +283,27 @@ export default async function NextGenPage({
                               Save
                             </button>
                           </form>
+                          {!membership?.stripeSubscriptionId && g.nextGenStatus === "current_nextgen" && (
+                            <form action={setLegacyBillingDay.bind(null, g.id)} className="flex items-center gap-1">
+                              <input
+                                type="number"
+                                name="billingDay"
+                                min={1}
+                                max={31}
+                                placeholder="Day"
+                                aria-label="NextGen billing day of month"
+                                defaultValue={g.legacyBillingAnchorDay ?? ""}
+                                className="min-h-9 w-14 rounded-lg border border-gray-mid bg-white px-1.5 text-xs focus:border-orange focus:outline-none"
+                              />
+                              <button
+                                type="submit"
+                                title="The day NextGen bills them. Checkout charges nothing now; their first Courts charge is this day next month."
+                                className="os-heading min-h-9 rounded-lg border border-gray-mid bg-white px-2 text-xs uppercase tracking-wide hover:border-near-black"
+                              >
+                                Billing Day
+                              </button>
+                            </form>
+                          )}
                           {membership?.stripeSubscriptionId && (
                             <form action={setNextBillingDate.bind(null, g.id)} className="flex items-center gap-1">
                               <input

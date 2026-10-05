@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { getCurrentGuardian } from "@/lib/dal";
+import { nextGenFirstChargeLabel } from "@/lib/nextgen-anchor";
 import { prisma } from "@/lib/prisma";
 import {
   changeMembershipTier,
@@ -124,7 +125,7 @@ function PlansIntro({ athleteFirstName }: { athleteFirstName: string }) {
   );
 }
 
-type TransferGuardian = { nextGenVerification: string | null; legacyRateCents: number | null };
+type TransferGuardian = { nextGenVerification: string | null; legacyRateCents: number | null; legacyBillingAnchorDay?: number | null };
 
 function NextGenTransferState({ guardian, athlete }: { guardian: TransferGuardian; athlete: { id: string } }) {
   // Honor-system now, same as Former NextGen: legacyRateCents is set
@@ -149,6 +150,7 @@ function NextGenTransferState({ guardian, athlete }: { guardian: TransferGuardia
   // wording changed here — nothing schedules that Jan 1 price change on the
   // actual Stripe subscription yet (see the note where this is called).
   const monthlyRate = Math.round(guardian.legacyRateCents / 100);
+  const firstCharge = nextGenFirstChargeLabel(guardian.legacyBillingAnchorDay);
 
   return (
     <div className="rounded-lg border border-orange bg-orange/5 p-4">
@@ -157,7 +159,10 @@ function NextGenTransferState({ guardian, athlete }: { guardian: TransferGuardia
         Your ${monthlyRate}/month NextGen rate will carry over to The Courts through December 31, 2026. Beginning
         January 1, 2027, your membership will renew at $185/month.
       </p>
-      <p className="mt-2 font-body text-sm text-gray-dark">Complete checkout to activate your membership at The Courts.</p>
+      <p className="mt-2 font-body text-sm text-gray-dark">
+        Complete checkout to activate your membership at The Courts.
+        {firstCharge ? ` Nothing is charged today — your first charge is ${firstCharge}.` : ""}
+      </p>
       <form action={startNextGenLegacyCheckout.bind(null, athlete.id)} className="mt-3">
         <button
           type="submit"

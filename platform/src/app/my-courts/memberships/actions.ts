@@ -11,6 +11,7 @@ import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { CANCELLATION_REASONS } from "./constants";
 import { isFoundingOfferEligible } from "@/lib/founding-offer";
 import { getFoundingCouponId } from "@/lib/founding-offer-stripe";
+import { nextGenLegacyAnchor } from "@/lib/nextgen-anchor";
 
 // ACH costs a small flat fee (capped low) instead of card's ~3% — worth
 // making available for recurring membership billing without removing card
@@ -35,16 +36,7 @@ function isBeforeMembershipStart() {
   return Date.now() < MEMBERSHIP_START.getTime();
 }
 
-/// A Current-NextGen family whose existing NextGen billing already lands on
-/// a known day of month (staff-entered, from NextGen's own billing export)
-/// keeps that same day for their Courts anchor instead of the flat Oct 1
-/// everyone else gets — October has 31 days, so any day 1-31 lands validly
-/// inside it. Falls back to the flat MEMBERSHIP_START anchor when unset.
-function nextGenLegacyAnchor(legacyBillingAnchorDay: number | null): Date {
-  if (legacyBillingAnchorDay == null) return MEMBERSHIP_START;
-  const day = String(legacyBillingAnchorDay).padStart(2, "0");
-  return new Date(`2026-10-${day}T05:00:00.000Z`);
-}
+
 
 async function getOrigin() {
   const requestHeaders = await headers();

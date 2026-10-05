@@ -320,7 +320,10 @@ export async function setNextGenApprovedRate(guardianId: string, formData: FormD
     data: {
       nextGenVerification: rateCents === 20000 ? "not_eligible" : "admin_approved",
       isFounder: rateCents !== 20000,
-      legacyRateCents: rateCents === 16500 ? rateCents : null,
+      // A Current NextGen family keeps their own transfer checkout at the
+      // approved rate ($165 or $185). Former families buy the Formers plan.
+      legacyRateCents:
+        rateCents === 16500 || (rateCents === 18500 && guardian.nextGenStatus === "current_nextgen") ? rateCents : null,
     },
   });
   await auditLog(
@@ -376,5 +379,21 @@ export async function setNextBillingDate(guardianId: string, formData: FormData)
     nextBilling: raw,
   });
 
+  revalidatePath("/os/nextgen");
+}
+
+/// The day of the month NextGen bills this family. Their Courts membership
+/// keeps that day, and since NextGen already charged them this month, the
+/// transfer checkout charges nothing now and the first Courts charge lands on
+/// that day next month (see nextGenLegacyAnchor in my-courts memberships).
+/// Only for families who haven't checked out yet — an active subscription is
+/// moved with Set Billing instead.
+export async function setLegacyBillingDay(guardianId: string, formData: FormData) {
+  const actor = await requireCapability("nextgen.verify");
+  const raw = String(formData.get("billingDay") ?? "").trim();
+  const day = raw === "" ? null : Number(raw);
+  if (day !== null && (!Number.isInteger(day) || day < 1 || day > 31)) throw new Error("Pick a day from 1 to 31.");
+  await prisma.guardian.update({ where: { id: guardianId }, data: { legacyBillingAnchorDay: day } });
+  await auditLog(actor.id, "set_next_billing_date", "guardian", guardianId, { legacyBillingAnchorDay: day });
   revalidatePath("/os/nextgen");
 }
