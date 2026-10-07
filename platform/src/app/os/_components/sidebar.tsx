@@ -11,24 +11,26 @@ import type { NavItem } from "@/lib/os/nav";
 // from the actor's capabilities and passed in, so nothing here is a security
 // boundary. A link this component never renders is still refused by the page.
 
-function isSelected(pathname: string, href: string) {
-  if (href === "/os") return pathname === "/os";
+function isSelected(pathname: string, href: string, homeHref: string) {
+  if (href === homeHref) return pathname === homeHref;
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
 function NavList({
   items,
   pathname,
+  homeHref,
   onNavigate,
 }: {
-  items: NavItem[];
+  items: Pick<NavItem, "label" | "href">[];
   pathname: string;
+  homeHref: string;
   onNavigate?: () => void;
 }) {
   return (
     <ul className="space-y-0.5">
       {items.map((item) => {
-        const selected = isSelected(pathname, item.href);
+        const selected = isSelected(pathname, item.href, homeHref);
         return (
           <li key={item.href}>
             <Link
@@ -58,9 +60,16 @@ export function Sidebar({
   scopeNote,
   familySwitchHref,
   signOut,
+  homeHref = "/os",
+  badge = "OS",
+  moreLabel = "More",
 }: {
-  primary: NavItem[];
-  more: NavItem[];
+  primary: Pick<NavItem, "label" | "href">[];
+  more: Pick<NavItem, "label" | "href">[];
+  /// Where the logo links, and the one item highlighted only on an exact match.
+  homeHref?: string;
+  badge?: string;
+  moreLabel?: string;
   actorName: string;
   actorRole: string;
   scopeNote: string | null;
@@ -86,7 +95,7 @@ export function Sidebar({
   }, [open]);
 
   const brand = (
-    <Link href="/os" className="flex items-center gap-2.5 px-3 py-4">
+    <Link href={homeHref} className="flex items-center gap-2.5 px-3 py-4">
       <Image
         src="/brand/logo-horizontal-full-white.png"
         alt="The Courts"
@@ -94,18 +103,18 @@ export function Sidebar({
         height={48}
         priority
       />
-      <span className="os-eyebrow rounded bg-orange px-1.5 py-1 text-white">OS</span>
+      <span className="os-eyebrow rounded bg-orange px-1.5 py-1 text-white">{badge}</span>
     </Link>
   );
 
   const body = (
     <>
       <nav aria-label="Primary" className="flex-1 overflow-y-auto px-3 pb-4">
-        <NavList items={primary} pathname={pathname} />
+        <NavList items={primary} pathname={pathname} homeHref={homeHref} />
         {more.length > 0 ? (
           <>
-            <p className="os-eyebrow px-3 pb-2 pt-5 text-white/40">More</p>
-            <NavList items={more} pathname={pathname} />
+            <p className="os-eyebrow px-3 pb-2 pt-5 text-white/40">{moreLabel}</p>
+            <NavList items={more} pathname={pathname} homeHref={homeHref} />
           </>
         ) : null}
       </nav>
