@@ -2,8 +2,10 @@
 
 import { facilityTodayKey } from "@/lib/facility-time";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getSessionRoster, type RosterRow } from "./actions";
+import { rosterSetCheckIn } from "../rosters/actions";
+import { AddAthleteForm } from "../rosters/add-athlete-form";
 import type { ScheduleCard, ClosureBand } from "@/lib/programs/schedule-view";
 
 // A real time grid: days across, time down, cards positioned by their actual
@@ -40,21 +42,61 @@ export function WeekGrid({
   closures: ClosureBand[];
 }) {
   const [selected, setSelected] = useState<ScheduleCard | null>(null);
-  const [roster, setRoster] = useState<{ id: string; rows: RosterRow[] | null; error?: string } | null>(null);
+  const [roster, setRoster] = useState<RosterState | null>(null);
+  const [search, setSearch] = useState("");
+  const [busy, setBusy] = useState<string | null>(null);
+  const [rowError, setRowError] = useState<string | null>(null);
 
-  // Load who's in the class when a card is opened.
+  const load = useCallback((sessionId: string) => {
+    return getSessionRoster(sessionId).then((res) => {
+      setRoster(
+        res.ok
+          ? { id: sessionId, rows: res.rows, canEdit: res.canEdit, addable: res.addable }
+          : { id: sessionId, rows: null, canEdit: false, addable: [], error: res.error }
+      );
+    });
+  }, []);
+
+  // Load who's in the class when a card is opened (even an empty one, so
+  // staff can add the first kid from here).
   useEffect(() => {
-    if (!selected || selected.booked === 0) return;
+    if (!selected) return;
     let live = true;
     getSessionRoster(selected.id).then((res) => {
       if (!live) return;
-      setRoster(res.ok ? { id: selected.id, rows: res.rows } : { id: selected.id, rows: null, error: res.error });
+      setRoster(
+        res.ok
+          ? { id: selected.id, rows: res.rows, canEdit: res.canEdit, addable: res.addable }
+          : { id: selected.id, rows: null, canEdit: false, addable: [], error: res.error }
+      );
     });
     return () => {
       live = false;
     };
   }, [selected]);
   const rows = selected && roster?.id === selected.id ? roster : null;
+
+  function openCard(card: ScheduleCard) {
+    setSearch("");
+    setRowError(null);
+    setSelected(card);
+  }
+
+  // Same check-in record as Class Rosters, the Front Desk and the kiosk.
+  // Flip the row right away, then confirm with the server.
+  async function toggleHere(r: RosterRow) {
+    if (!rows?.rows || !selected) return;
+    const next = !r.here;
+    setBusy(r.bookingId);
+    setRowError(null);
+    setRoster({ ...rows, rows: rows.rows.map((x) => (x.bookingId === r.bookingId ? { ...x, here: next } : x)) });
+    const res = await rosterSetCheckIn(r.bookingId, next);
+    if (!res.ok) {
+      setRowError(`${r.name}: ${res.error}`);
+      await load(selected.id);
+    }
+    setBusy(null);
+  }
   const start = new Date(weekStartIso);
 
   const days = Array.from({ length: 7 }, (_, i) => {
@@ -206,7 +248,7 @@ export function WeekGrid({
                       <button
                         key={card.id}
                         type="button"
-                        onClick={() => setSelected(card)}
+                        onClick={() => openCard(card)}
                         style={{
                           top,
                           height,
@@ -253,7 +295,7 @@ export function WeekGrid({
           className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 sm:items-center"
           onClick={() => setSelected(null)}
         >
-          <div className="w-full max-w-md rounded-xl border border-gray-mid bg-white p-5" onClick={(e) => e.stopPropagation()}>
+          <div className="max-h-[92vh] w-full max-w-md overflow-y-auto rounded-xl border border-gray-mid bg-white p-5" onClick={(e) => e.stopPropagation()}>
             <p className="os-eyebrow text-orange">
               {[selected.sport, selected.programType.replace(/_/g, " ")].filter(Boolean).join(" · ")}
             </p>
@@ -273,29 +315,95 @@ export function WeekGrid({
               ))}
             </dl>
             <div className="mt-4">
-              <p className="os-eyebrow mb-1.5 text-neutral">Who&rsquo;s Signed Up</p>
-              {selected.booked === 0 ? (
-                <p className="text-sm text-gray-dark">No one yet.</p>
-              ) : rows?.error ? (
-                <p className="text-sm text-danger">{rows.error}</p>
-              ) : !rows?.rows ? (
-                <p className="text-sm text-gray-dark">Loading…</p>
-              ) : (
-                <ul className="max-h-56 overflow-y-auto rounded-lg border border-gray-mid">
-                  {rows.rows.map((r) => (
-                    <li key={r.athleteId} className="flex items-center justify-between gap-3 border-b border-gray-mid/60 px-3 py-1.5 text-sm last:border-b-0">
-                      <Link href={`/os/athletes/${r.athleteId}`} className="truncate text-near-black hover:underline">
-                        {r.name}
-                        {r.grade ? <span className="text-gray-dark"> · {r.grade}</span> : null}
-                      </Link>
-                      <span className="flex shrink-0 gap-1.5 text-xs">
-                        {r.due ? <span className="text-warning">Due</span> : null}
-                        {r.here ? <span className="text-success">✓ Here</span> : null}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              {(() => {
+                const isToday = selected.dayKey === todayKey && selected.status !== "cancelled";
+                const canCheckIn = isToday && !!rows?.canEdit;
+                const list = rows?.rows ?? [];
+                const hereCount = list.filter((r) => r.here).length;
+                const words = search.trim().toLowerCase().split(/\s+/).filter(Boolean);
+                const shown = words.length
+                  ? list.filter((r) => words.every((w) => r.name.toLowerCase().includes(w)))
+                  : list;
+                return (
+                  <>
+                    <div className="mb-1.5 flex items-baseline justify-between gap-2">
+                      <p className="os-eyebrow text-neutral">Who&rsquo;s Signed Up</p>
+                      {list.length > 0 && isToday ? (
+                        <p className="os-num text-xs text-gray-dark">{hereCount} of {list.length} here</p>
+                      ) : null}
+                    </div>
+                    {!rows ? (
+                      <p className="text-sm text-gray-dark">Loading…</p>
+                    ) : rows.error ? (
+                      <p className="text-sm text-danger">{rows.error}</p>
+                    ) : list.length === 0 ? (
+                      <p className="text-sm text-gray-dark">No one yet.</p>
+                    ) : (
+                      <>
+                        {list.length > 4 ? (
+                          <input
+                            type="search"
+                            inputMode="search"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            autoCapitalize="none"
+                            spellCheck={false}
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder="Find an athlete in this class…"
+                            aria-label="Find an athlete in this class"
+                            className="mb-2 min-h-11 w-full rounded-lg border border-gray-mid bg-white px-3 text-sm text-near-black placeholder:text-neutral/60 focus:border-orange focus:outline-none"
+                          />
+                        ) : null}
+                        <ul className="max-h-[45vh] overflow-y-auto rounded-lg border border-gray-mid">
+                          {shown.length === 0 ? (
+                            <li className="px-3 py-2.5 text-sm text-gray-dark">No one in this class matches &ldquo;{search}&rdquo;.</li>
+                          ) : (
+                            shown.map((r) => (
+                              <li key={r.athleteId} className="flex min-h-12 items-center justify-between gap-3 border-b border-gray-mid/60 px-3 py-1.5 text-sm last:border-b-0">
+                                <Link href={`/os/athletes/${r.athleteId}`} className="truncate text-near-black hover:underline">
+                                  {r.name}
+                                  {r.grade ? <span className="text-gray-dark"> · {r.grade}</span> : null}
+                                </Link>
+                                <span className="flex shrink-0 items-center gap-2 text-xs">
+                                  {r.due ? <span className="text-warning">Due</span> : null}
+                                  {canCheckIn ? (
+                                    <button
+                                      type="button"
+                                      onClick={() => toggleHere(r)}
+                                      disabled={busy === r.bookingId}
+                                      aria-pressed={r.here}
+                                      className={`os-heading inline-flex min-h-10 items-center gap-1.5 rounded-full border px-3 text-xs uppercase tracking-wide transition-colors disabled:opacity-60 ${
+                                        r.here ? "border-success bg-success-bg text-success" : "border-gray-mid bg-white text-near-black hover:border-near-black"
+                                      }`}
+                                    >
+                                      <span aria-hidden="true">{r.here ? "✓" : "○"}</span>
+                                      {r.here ? "Checked In" : "Check In"}
+                                    </button>
+                                  ) : r.here ? (
+                                    <span className="text-success">✓ Here</span>
+                                  ) : null}
+                                </span>
+                              </li>
+                            ))
+                          )}
+                        </ul>
+                      </>
+                    )}
+                    {rowError ? <p className="mt-1.5 text-xs text-danger">{rowError}</p> : null}
+                    {rows?.canEdit && selected.status !== "cancelled" ? (
+                      <div className="mt-3">
+                        <AddAthleteForm
+                          bare
+                          sessionId={selected.id}
+                          athletes={rows.addable}
+                          onAdded={() => load(selected.id)}
+                        />
+                      </div>
+                    ) : null}
+                  </>
+                );
+              })()}
             </div>
             <div className="mt-4 flex gap-2">
               <Link
@@ -322,6 +430,14 @@ export function WeekGrid({
     </>
   );
 }
+
+type RosterState = {
+  id: string;
+  rows: RosterRow[] | null;
+  canEdit: boolean;
+  addable: { id: string; label: string }[];
+  error?: string;
+};
 
 function minutesOfDay(iso: string, dayKey: string, isEnd = false) {
   const d = new Date(iso);
