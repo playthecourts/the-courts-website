@@ -13,7 +13,7 @@ export type PickerOption = { id: string; label: string };
 export function AthletePicker({
   name,
   options,
-  placeholder = "Search athletes…",
+  placeholder = "Type a first or last name…",
   id,
 }: {
   name: string;
@@ -28,11 +28,12 @@ export function AthletePicker({
 
   const matches = useMemo(() => {
     const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
-    if (words.length === 0) return options.slice(0, 50);
+    // Nothing until they type — no full alphabetical list to scroll.
+    if (words.length === 0) return [];
     return options.filter((o) => {
       const l = o.label.toLowerCase();
       return words.every((w) => l.includes(w));
-    }).slice(0, 50);
+    }).slice(0, 8);
   }, [query, options]);
 
   if (chosen) {
@@ -79,9 +80,10 @@ export function AthletePicker({
         }}
         onFocus={() => setOpen(true)}
         onBlur={() => setTimeout(() => setOpen(false), 150)}
-        className={INPUT}
+        // 16px text so iOS Safari doesn't zoom the page when the field is tapped.
+        className={`${INPUT} text-[16px]`}
       />
-      {open ? (
+      {open && query.trim() ? (
         <ul className="absolute inset-x-0 top-full z-20 mt-1 max-h-64 overflow-y-auto rounded-lg border border-gray-mid bg-white shadow-lg">
           {matches.length === 0 ? (
             <li className="px-3 py-2.5 text-sm text-gray-dark">No athletes match &ldquo;{query}&rdquo;.</li>

@@ -40,7 +40,7 @@ export function AddAthleteForm({
         <input type="hidden" name="sessionId" value={sessionId} />
         <label htmlFor={`add-${sessionId}`} className="sr-only">Athlete to add</label>
         {/* Re-key after each successful add so the picker clears for the next kid. */}
-        <AthletePicker key={state?.ok ?? "picker"} id={`add-${sessionId}`} name="athleteId" options={athletes} placeholder="Add an athlete — type a name…" />
+        <AthletePicker key={state?.ok ?? "picker"} id={`add-${sessionId}`} name="athleteId" options={athletes} placeholder="Add athlete — type a first or last name…" />
         <button type="submit" disabled={pending} className={BTN.secondary}>
           {pending ? "Adding…" : "Add to Class"}
         </button>
