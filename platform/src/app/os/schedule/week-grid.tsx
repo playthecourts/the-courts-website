@@ -261,6 +261,11 @@ export function WeekGrid({
                       >
                         <p className="os-num text-[11.5px] leading-tight text-neutral">
                           {fmtTime(card.start)}–{fmtTime(card.end)}
+                          {/* Short classes (e.g. 50-min Basics) are too small for the
+                              fill line below, so show the count up here instead. */}
+                          {height <= 58 ? (
+                            <span className={full ? "text-danger" : ""}> · {card.booked}/{card.capacity}</span>
+                          ) : null}
                         </p>
                         <p className="os-heading truncate text-[12px] leading-tight text-near-black">
                           {card.title ?? card.offeringName}
