@@ -235,6 +235,10 @@ async function createBookingCheckout(
     // later. ACH stays enabled account-wide for membership subscriptions,
     // which already handle that delay correctly.
     payment_method_types: ["card"],
+    // Lets families enter a Stripe promotion code (e.g. a free Dr. Dish
+    // session). Codes are created in Stripe and should be limited to the
+    // offering's product there so they can't be used on other classes.
+    allow_promotion_codes: true,
     customer: customerId,
     line_items: [
       {
@@ -529,6 +533,7 @@ export async function createDeskPaymentLink(bookingId: string): Promise<{ url: s
   const checkout = await stripe.checkout.sessions.create({
     mode: "payment",
     payment_method_types: ["card"],
+    allow_promotion_codes: true,
     customer: customerId,
     line_items: [
       {

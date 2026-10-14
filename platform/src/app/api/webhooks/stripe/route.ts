@@ -241,7 +241,13 @@ async function handleBookingCheckoutCompleted(session: Stripe.Checkout.Session) 
 
   await prisma.booking.update({
     where: { id: bookingId },
-    data: { paymentStatus: "paid", receiptUrl },
+    data: {
+      paymentStatus: "paid",
+      receiptUrl,
+      // A promotion code can lower (or zero) what was actually charged —
+      // record the real amount so Payments reports match Stripe.
+      ...(session.amount_total != null ? { priceChargedCents: session.amount_total } : {}),
+    },
   });
 }
 
