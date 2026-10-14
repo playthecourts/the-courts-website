@@ -94,7 +94,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .site-announce {
   display: flex; align-items: center; justify-content: center; min-height: 64px; box-sizing: border-box;
   position: fixed; left: 0; right: 0; top: 0; z-index: 101; overflow: hidden;
-  background: var(--orange); color: var(--white); text-align: center; padding: 12px 20px;
+  background: #156530; color: var(--white); text-align: center; padding: 12px 20px;
   animation: announceIn 0.35s var(--ease) both;
 }
 @keyframes announceIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
@@ -106,7 +106,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .site-announce-cta .arrow { display: inline-block; color: var(--white); transition: transform 0.2s var(--ease); animation: announceCtaNudge 7s ease-in-out infinite; }
 @keyframes announceCtaNudge { 0%, 85%, 100% { transform: translateX(0); } 90% { transform: translateX(4px); } 95% { transform: translateX(0); } }
 .site-announce-inner:hover .arrow { transform: translateX(3px); }
-.site-announce:has(.site-announce-inner:hover) { background: var(--orange-hover); }
+.site-announce:has(.site-announce-inner:hover) { background: #0F4F25; }
 
 /* Decorative hoop (inline, next to the headline) + bouncing basketballs
    (right, queued up toward the hoop) — pure texture, never the content
