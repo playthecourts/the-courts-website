@@ -4,7 +4,6 @@ import { useState, useEffect, useActionState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { signup } from "@/app/actions/auth";
-import { ChoiceCard, CardStack } from "@/components/athlete/form-ui";
 
 type AthleteRow = { key: number };
 
@@ -116,33 +115,6 @@ export function SignupForm() {
             className={inputClass}
           />
         </label>
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <h2 className="font-sport text-xs font-bold uppercase tracking-widest text-orange">
-          Were You Part of NextGen?
-        </h2>
-        <p className="font-body text-[13px] normal-case tracking-normal text-gray-dark">
-          As NextGen transitions to The Courts on October 1, let us know which best describes your family so we can
-          get you set up correctly.
-        </p>
-        <CardStack>
-          {(
-            [
-              { value: "new", label: "We're new to The Courts" },
-              { value: "former_nextgen", label: "We were part of NextGen, but aren't currently members" },
-              { value: "current_nextgen", label: "We're current NextGen members" },
-            ] as const
-          ).map((option) => (
-            <ChoiceCard
-              key={option.value}
-              name="nextGenStatus"
-              value={option.value}
-              headline={option.label}
-              defaultChecked={values?.nextGenStatus === option.value}
-            />
-          ))}
-        </CardStack>
       </div>
 
       <div className="flex flex-col gap-4">

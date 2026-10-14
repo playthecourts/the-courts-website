@@ -101,9 +101,10 @@ export async function signup(_prevState: unknown, formData: FormData) {
   if (!values.name || !values.email || !password || !values.familyName) {
     return { error: "Fill in all required fields.", values };
   }
-  if (!values.nextGenStatus) {
-    return { error: "Let us know whether you're a NextGen family.", values };
-  }
+  // The NextGen question came off the signup form after the Oct 1
+  // transition; new signups are new families. Staff still link real
+  // NextGen families from Courts OS → NextGen Transfers.
+  if (!values.nextGenStatus) values.nextGenStatus = "new";
   if (password.length < 8) {
     return { error: "Password must be at least 8 characters.", values };
   }
