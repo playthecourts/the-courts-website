@@ -408,7 +408,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       <div class="lg-season-card reveal">
         <span class="lg-season-eyebrow">Games</span>
         <h3>Saturdays, Starting Oct 24</h3>
-        <p>Played at WNSL locations throughout West Nashville and Brentwood. Your coach shares game times and locations each week.</p>
+        <p>Played at WNSL locations throughout West Nashville and Brentwood. Team schedules are below as games are posted.</p>
         <p class="lg-season-note">No games Nov 28 (Thanksgiving).</p>
       </div>
       <div class="lg-season-card lg-season-card--accent reveal">
@@ -416,6 +416,23 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
         <h3>Dec 11&ndash;13</h3>
         <p>For qualifying teams. We&rsquo;ll share details as the season wraps up.</p>
       </div>
+    </div>
+
+    <div class="lg-games reveal" id="games">
+      <h3 class="lg-games-title">Game Schedule</h3>
+      <div class="lg-games-team">
+        <span class="lg-season-eyebrow">3rd Grade</span>
+        <div class="lg-games-wrap">
+          <table class="lg-games-table">
+            <thead><tr><th scope="col">Date</th><th scope="col">Time</th><th scope="col">Opponent</th><th scope="col">Location</th></tr></thead>
+            <tbody>
+              <tr><td>Sat, Oct 24</td><td>1:00 PM</td><td>Friars (Keeling)</td><td>Away &middot; Percy Priest Elementary Gym</td></tr>
+              <tr><td>Sat, Oct 31</td><td>12:00 PM</td><td>Mustangs (Tarquinio)</td><td>Home &middot; Percy Priest Elementary Gym</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="lg-season-note" style="margin-top:16px;">4th Grade and 6th/7th Grade schedules coming soon. More games are added as WNSL posts them.</p>
     </div>
   </div>
 </section>
@@ -432,6 +449,15 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   .lg-season-dates { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
   .lg-season-dates span { font-family: var(--font-sport); font-weight: 700; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--white); border: 1px solid rgba(255,255,255,0.3); border-radius: 999px; padding: 5px 12px; }
   .lg-season-note { font-size: 14px !important; color: rgba(255,255,255,0.6); }
+  .lg-games { margin-top: 48px; }
+  .lg-games-title { margin: 0 0 20px; font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 2.8vw, 32px); color: var(--white); }
+  .lg-games-team { display: flex; flex-direction: column; gap: 12px; }
+  .lg-games-wrap { overflow-x: auto; border: 1px solid rgba(255,255,255,0.14); border-radius: var(--radius-md); }
+  .lg-games-table { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 15px; color: rgba(255,255,255,0.85); }
+  .lg-games-table th { text-align: left; font-family: var(--font-sport); font-weight: 700; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.6); padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.14); }
+  .lg-games-table td { padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .lg-games-table tr:last-child td { border-bottom: none; }
+  .lg-games-table td:first-child { color: var(--white); font-weight: 700; }
   @media (max-width: 900px) { .lg-season { grid-template-columns: 1fr; } }
 </style>
 
