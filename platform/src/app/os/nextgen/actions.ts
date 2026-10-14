@@ -158,7 +158,8 @@ export async function setLegacyRate(guardianId: string, formData: FormData) {
 
   await prisma.guardian.update({
     where: { id: guardianId },
-    data: { legacyRateCents, nextGenVerification: "verified" },
+    // Setting a rate here is a staff approval: it unlocks their checkout.
+    data: { legacyRateCents, nextGenVerification: "admin_approved", isFounder: true },
   });
   await auditLog(actor.id, "set_nextgen_legacy_rate", "guardian", guardianId, { legacyRateCents });
 

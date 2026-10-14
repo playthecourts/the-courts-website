@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { getCurrentGuardian } from "@/lib/dal";
 import { nextGenFirstChargeLabel } from "@/lib/nextgen-anchor";
+import { canUseNextGenLegacyCheckout } from "@/lib/nextgen-gate";
 import { prisma } from "@/lib/prisma";
 import {
   changeMembershipTier,
@@ -207,6 +208,7 @@ export default async function MembershipsPage({
   // only gates whether NextGen Formers shows up here at all.
   const eligibleForFormers = guardian.nextGenStatus === "former_nextgen" && guardian.isFounder;
   const plans = eligibleForFormers ? allPlans : allPlans.filter((p) => p.name !== "NextGen Formers Membership");
+  const legacyOk = canUseNextGenLegacyCheckout(guardian);
 
   // Most recent row per athlete wins — an athlete can accumulate more than
   // one AthleteMembership over time (cancelled, then later resubscribed),
@@ -311,11 +313,11 @@ export default async function MembershipsPage({
                   {athlete.firstName} {athlete.lastName}
                 </h2>
 
-                {!membership && guardian.nextGenStatus === "current_nextgen" && (
+                {!membership && legacyOk && (
                   <NextGenTransferState guardian={guardian} athlete={athlete} />
                 )}
 
-                {!membership && guardian.nextGenStatus !== "current_nextgen" && (
+                {!membership && !legacyOk && (
                   <div className="flex flex-col gap-3">
                     <PlansIntro athleteFirstName={athlete.firstName} />
                     {plans.length === 0 ? (
@@ -379,7 +381,7 @@ export default async function MembershipsPage({
                       </p>
                       <p className="font-body text-sm text-gray-dark">{STATUS_LABEL.cancelled}</p>
                     </div>
-                    {guardian.nextGenStatus === "current_nextgen" ? (
+                    {legacyOk ? (
                       <NextGenTransferState guardian={guardian} athlete={athlete} />
                     ) : (
                       <>

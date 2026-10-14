@@ -12,6 +12,7 @@ import { CANCELLATION_REASONS } from "./constants";
 import { isFoundingOfferEligible } from "@/lib/founding-offer";
 import { getFoundingCouponId } from "@/lib/founding-offer-stripe";
 import { nextGenLegacyAnchor } from "@/lib/nextgen-anchor";
+import { canUseNextGenLegacyCheckout } from "@/lib/nextgen-gate";
 
 // ACH costs a small flat fee (capped low) instead of card's ~3% — worth
 // making available for recurring membership billing without removing card
@@ -179,10 +180,8 @@ export async function startNextGenLegacyCheckout(athleteId: string) {
     throw new Error("Not authorized to act on this athlete.");
   }
 
-  // Honor-system, same as Former NextGen: no admin-verification gate.
-  // legacyRateCents is set automatically at signup now (see auth.ts), so
-  // this is really just confirming the guardian is who they say they are.
-  if (guardian.nextGenStatus !== "current_nextgen" || guardian.legacyRateCents == null) {
+  // Staff-approved families only (lib/nextgen-gate.ts).
+  if (!canUseNextGenLegacyCheckout(guardian) || guardian.legacyRateCents == null) {
     throw new Error("Your NextGen transfer isn't ready for checkout yet.");
   }
 

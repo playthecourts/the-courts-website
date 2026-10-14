@@ -14,7 +14,8 @@ export async function sendNextGenReminderEmails(): Promise<{ sent: number; skipp
   const candidates = await prisma.guardian.findMany({
     where: {
       nextGenStatus: { not: null },
-      nextGenVerification: { in: ["verified", "admin_approved"] },
+      // Only staff-approved families can complete a transfer now.
+      nextGenVerification: "admin_approved",
       nextGenReminderSentAt: null,
     },
     select: {
