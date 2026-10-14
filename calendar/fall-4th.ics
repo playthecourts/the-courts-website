@@ -1,0 +1,117 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//The Courts//Fall League//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:The Courts · Fall League 4th Grade
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT12H
+X-PUBLISHED-TTL:PT12H
+BEGIN:VTIMEZONE
+TZID:America/Chicago
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0600
+TZOFFSETTO:-0500
+TZNAME:CDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0600
+TZNAME:CST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:fall26-4th-practice-20261015@playthecourts.com
+DTSTAMP:20261014T210000Z
+DTSTART;TZID=America/Chicago:20261015T174500
+DTEND;TZID=America/Chicago:20261015T190000
+SUMMARY:Fall League Practice · 4th Grade
+LOCATION:The Courts\, 2011 Johnson Industrial Blvd\, Nolensville\, TN 37086
+DESCRIPTION:Thursday team practice at The Courts. playthecourts.com/leagues
+END:VEVENT
+BEGIN:VEVENT
+UID:fall26-4th-practice-20261022@playthecourts.com
+DTSTAMP:20261014T210000Z
+DTSTART;TZID=America/Chicago:20261022T174500
+DTEND;TZID=America/Chicago:20261022T190000
+SUMMARY:Fall League Practice · 4th Grade
+LOCATION:The Courts\, 2011 Johnson Industrial Blvd\, Nolensville\, TN 37086
+DESCRIPTION:Thursday team practice at The Courts. playthecourts.com/leagues
+END:VEVENT
+BEGIN:VEVENT
+UID:fall26-4th-practice-20261029@playthecourts.com
+DTSTAMP:20261014T210000Z
+DTSTART;TZID=America/Chicago:20261029T174500
+DTEND;TZID=America/Chicago:20261029T190000
+SUMMARY:Fall League Practice · 4th Grade
+LOCATION:The Courts\, 2011 Johnson Industrial Blvd\, Nolensville\, TN 37086
+DESCRIPTION:Thursday team practice at The Courts. playthecourts.com/leagues
+END:VEVENT
+BEGIN:VEVENT
+UID:fall26-4th-practice-20261105@playthecourts.com
+DTSTAMP:20261014T210000Z
+DTSTART;TZID=America/Chicago:20261105T174500
+DTEND;TZID=America/Chicago:20261105T190000
+SUMMARY:Fall League Practice · 4th Grade
+LOCATION:The Courts\, 2011 Johnson Industrial Blvd\, Nolensville\, TN 37086
+DESCRIPTION:Thursday team practice at The Courts. playthecourts.com/leagues
+END:VEVENT
+BEGIN:VEVENT
+UID:fall26-4th-practice-20261112@playthecourts.com
+DTSTAMP:20261014T210000Z
+DTSTART;TZID=America/Chicago:20261112T174500
+DTEND;TZID=America/Chicago:20261112T190000
+SUMMARY:Fall League Practice · 4th Grade
+LOCATION:The Courts\, 2011 Johnson Industrial Blvd\, Nolensville\, TN 37086
+DESCRIPTION:Thursday team practice at The Courts. playthecourts.com/leagues
+END:VEVENT
+BEGIN:VEVENT
+UID:fall26-4th-practice-20261119@playthecourts.com
+DTSTAMP:20261014T210000Z
+DTSTART;TZID=America/Chicago:20261119T174500
+DTEND;TZID=America/Chicago:20261119T190000
+SUMMARY:Fall League Practice · 4th Grade
+LOCATION:The Courts\, 2011 Johnson Industrial Blvd\, Nolensville\, TN 37086
+DESCRIPTION:Thursday team practice at The Courts. playthecourts.com/leagues
+END:VEVENT
+BEGIN:VEVENT
+UID:fall26-4th-practice-20261203@playthecourts.com
+DTSTAMP:20261014T210000Z
+DTSTART;TZID=America/Chicago:20261203T174500
+DTEND;TZID=America/Chicago:20261203T190000
+SUMMARY:Fall League Practice · 4th Grade
+LOCATION:The Courts\, 2011 Johnson Industrial Blvd\, Nolensville\, TN 37086
+DESCRIPTION:Thursday team practice at The Courts. playthecourts.com/leagues
+END:VEVENT
+BEGIN:VEVENT
+UID:fall26-4th-game-20261024@playthecourts.com
+DTSTAMP:20261014T210000Z
+DTSTART;TZID=America/Chicago:20261024T140000
+DTEND;TZID=America/Chicago:20261024T150000
+SUMMARY:4th Grade Game vs USN Tigers (Copeland) (Away)
+LOCATION:Percy Priest Elementary Gym
+DESCRIPTION:Arrive 20 minutes before game time. playthecourts.com/leagues
+END:VEVENT
+BEGIN:VEVENT
+UID:fall26-4th-game-20261031@playthecourts.com
+DTSTAMP:20261014T210000Z
+DTSTART;TZID=America/Chicago:20261031T130000
+DTEND;TZID=America/Chicago:20261031T140000
+SUMMARY:4th Grade Game vs Spurs (Walker) (Home)
+LOCATION:Percy Priest Elementary Gym
+DESCRIPTION:Arrive 20 minutes before game time. playthecourts.com/leagues
+END:VEVENT
+BEGIN:VEVENT
+UID:fall26-4th-tournament@playthecourts.com
+DTSTAMP:20261014T210000Z
+DTSTART;VALUE=DATE:20261211
+DTEND;VALUE=DATE:20261214
+SUMMARY:Tournament Weekend (if applicable) · 4th Grade
+LOCATION:WNSL
+DESCRIPTION:For qualifying teams. Details to come. playthecourts.com/leagues
+END:VEVENT
+END:VCALENDAR
