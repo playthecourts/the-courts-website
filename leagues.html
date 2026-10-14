@@ -421,10 +421,16 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     <div class="lg-games reveal" id="games">
       <h3 class="lg-games-title">Game Schedule</h3>
       <p class="lg-games-arrive"><strong>Arrive 20 minutes before game time</strong> to warm up with the team.</p>
-      <div class="lg-games-team">
-        <span class="lg-season-eyebrow">3rd Grade</span>
+      <div class="lg-games-filter" role="group" aria-label="Filter games by grade">
+        <button type="button" class="active" data-grade-filter="all" aria-pressed="true">All Teams</button>
+        <button type="button" data-grade-filter="3" aria-pressed="false">3rd Grade</button>
+        <button type="button" data-grade-filter="4" aria-pressed="false">4th Grade</button>
+        <button type="button" data-grade-filter="67" aria-pressed="false">6th/7th Grade</button>
+      </div>
+      <div class="lg-games-team" data-grade="3">
+        <h4 class="lg-games-grade">3rd Grade</h4>
         <div class="lg-games-wrap">
-          <table class="lg-games-table">
+          <table class="lg-games-table"><colgroup><col style="width:17%"><col style="width:13%"><col style="width:30%"><col style="width:40%"></colgroup>
             <thead><tr><th scope="col">Date</th><th scope="col">Time</th><th scope="col">Opponent</th><th scope="col">Location</th></tr></thead>
             <tbody>
               <tr><td>Sat, Oct 24</td><td>1:00 PM</td><td>Friars (Keeling)</td><td>Away &middot; Percy Priest Elementary Gym</td></tr>
@@ -433,10 +439,10 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           </table>
         </div>
       </div>
-      <div class="lg-games-team" style="margin-top:28px;">
-        <span class="lg-season-eyebrow">4th Grade</span>
+      <div class="lg-games-team" data-grade="4" style="margin-top:28px;">
+        <h4 class="lg-games-grade">4th Grade</h4>
         <div class="lg-games-wrap">
-          <table class="lg-games-table">
+          <table class="lg-games-table"><colgroup><col style="width:17%"><col style="width:13%"><col style="width:30%"><col style="width:40%"></colgroup>
             <thead><tr><th scope="col">Date</th><th scope="col">Time</th><th scope="col">Opponent</th><th scope="col">Location</th></tr></thead>
             <tbody>
               <tr><td>Sat, Oct 24</td><td>2:00 PM</td><td>USN Tigers (Copeland)</td><td>Away &middot; Percy Priest Elementary Gym</td></tr>
@@ -445,10 +451,10 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           </table>
         </div>
       </div>
-      <div class="lg-games-team" style="margin-top:28px;">
-        <span class="lg-season-eyebrow">6th/7th Grade</span>
+      <div class="lg-games-team" data-grade="67" style="margin-top:28px;">
+        <h4 class="lg-games-grade">6th/7th Grade</h4>
         <div class="lg-games-wrap">
-          <table class="lg-games-table">
+          <table class="lg-games-table"><colgroup><col style="width:17%"><col style="width:13%"><col style="width:30%"><col style="width:40%"></colgroup>
             <thead><tr><th scope="col">Date</th><th scope="col">Time</th><th scope="col">Opponent</th><th scope="col">Location</th></tr></thead>
             <tbody>
               <tr><td>Sat, Oct 24</td><td>8:00 AM</td><td>Friendly Fishies (Yuster)</td><td>Away &middot; Christ Presbyterian Academy, Veritas Gym</td></tr>
@@ -458,6 +464,19 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
         </div>
       </div>
       <p class="lg-season-note" style="margin-top:16px;">October is posted. We&rsquo;ll add more game times as soon as they&rsquo;re available.</p>
+      <script>
+        (function () {
+          var btns = document.querySelectorAll('[data-grade-filter]');
+          var teams = document.querySelectorAll('.lg-games-team[data-grade]');
+          btns.forEach(function (b) {
+            b.addEventListener('click', function () {
+              var g = b.getAttribute('data-grade-filter');
+              btns.forEach(function (x) { var on = x === b; x.classList.toggle('active', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+              teams.forEach(function (t) { t.hidden = g !== 'all' && t.getAttribute('data-grade') !== g; });
+            });
+          });
+        })();
+      </script>
     </div>
   </div>
 </section>
@@ -479,6 +498,14 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   .lg-season-dates span { font-family: var(--font-sport); font-weight: 700; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--white); border: 1px solid rgba(255,255,255,0.3); border-radius: 999px; padding: 5px 12px; }
   .lg-season-note { font-size: 14px !important; color: rgba(255,255,255,0.6); }
   .lg-games { margin-top: 48px; }
+  .lg-games-grade { margin: 0; font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2.4vw, 28px); color: var(--white); }
+  .lg-games-team[hidden] { display: none; }
+  .lg-games-table { table-layout: fixed; }
+  .lg-games-filter { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 28px; }
+  .lg-games-filter button { font-family: var(--font-sport); font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--white); background: transparent; border: 1px solid rgba(255,255,255,0.35); border-radius: 999px; padding: 10px 18px; min-height: 44px; cursor: pointer; }
+  .lg-games-filter button:hover { border-color: var(--white); }
+  .lg-games-filter button.active { background: var(--white); color: var(--black); border-color: var(--white); }
+
   .lg-games-title { margin: 0 0 20px; font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 2.8vw, 32px); color: var(--white); }
   .lg-games-arrive { margin: -8px 0 24px; font-size: 16px; color: rgba(255,255,255,0.8); }
   .lg-games-arrive strong { color: var(--orange); }
@@ -539,10 +566,9 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
         </div>
         <div class="lg-membership-item">
           <h4>Not Yet?</h4>
-          <p>Start with <strong>Weekly at $120/mo</strong>.</p>
+          <p><a href="membership#plan-selector" style="color:var(--orange); font-weight:700;">See Membership Plans →</a></p>
         </div>
       </div>
-      <p class="lg-included-body" style="margin:20px 0 0;"><a href="membership#plan-selector" style="color:var(--orange); font-weight:700;">See Membership Plans →</a></p>
     </div>
     </div>
   </div>
@@ -554,8 +580,8 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   .lg-winter-callout p { margin: 0; font-size: 15.5px; line-height: 1.55; color: var(--gray-dark); max-width: 30ch; }
   .lg-winter-callout .lg-winter-dates { font-family: var(--font-heading); font-weight: 800; font-size: 19px; color: var(--black); }
   .lg-winter-callout .lg-winter-stat { font-family: var(--font-heading); font-weight: 700; color: var(--black); margin-bottom: 10px; }
-  .lg-winter-snowman { position: absolute; right: 12px; bottom: 12px; width: 120px; height: auto; opacity: 0.9; pointer-events: none; }
-  .lg-winter-snowman circle[fill="#F5F5F5"] { fill: #ECE8DF; }
+  .lg-winter-snowman { position: absolute; right: 16px; bottom: 14px; width: 130px; height: auto; pointer-events: none; }
+  .lg-winter-snowman circle[fill="#F5F5F5"] { fill: #FFFFFF; stroke: #9C9486; stroke-width: 2.5; }
   @media (max-width: 560px) { .lg-winter-snowman { width: 84px; opacity: 0.5; } }
 </style>
 
