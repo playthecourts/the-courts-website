@@ -437,7 +437,8 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
 
 <section style="padding:96px 0; background:var(--gray-light);" id="membership-requirement">
   <div class="container">
-    <div class="lg-included-card lg-included-card--dark reveal" style="max-width:640px; margin:0 auto;">
+    <div class="lg-included-single" style="margin-top:0;">
+    <div class="lg-included-card lg-included-card--dark reveal">
       <p class="lg-included-eyebrow-sm">Membership Requirement</p>
       <p class="lg-included-body" style="margin-bottom:20px;">League athletes must maintain an active <strong style="color:var(--white);">Courts membership at the Weekly level or higher</strong> during the season.</p>
       <div class="lg-membership-grid">
@@ -452,12 +453,8 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       </div>
       <p class="lg-included-body" style="margin:20px 0 0;"><a href="membership#plan-selector" style="color:var(--orange); font-weight:700;">See Membership Plans →</a></p>
     </div>
-  </div>
-</section>
-
-<section class="lg-nextup" id="register">
-  <div class="container lg-nextup-grid">
-    <svg class="lg-nextup-snowman" viewBox="0 0 160 210" aria-hidden="true">
+      <aside class="lg-winter-callout reveal" id="register">
+        <svg class="lg-winter-snowman" viewBox="0 0 160 210" aria-hidden="true">
       <circle cx="80" cy="168" r="38" fill="#F5F5F5"/>
       <circle cx="80" cy="106" r="30" fill="#F5F5F5"/>
       <circle cx="80" cy="58" r="24" fill="#F5F5F5"/>
@@ -483,16 +480,29 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       <path d="M139,146 L139,174 M125,160 L153,160" stroke="#1A1A1A" stroke-width="1.4"/>
       <path d="M128,149 Q139,160 128,171 M150,149 Q139,160 150,171" stroke="#1A1A1A" stroke-width="1.4" fill="none"/>
     </svg>
-    <div class="lg-nextup-content">
-      <span class="eyebrow lg-nextup-eyebrow">Up Next</span>
-      <h2 class="lg-nextup-title">Winter Basketball</h2>
-      <p class="lg-nextup-dates">Dates Coming Soon</p>
-      <p class="lg-nextup-detail">Weekly team practice. Saturday games. Courts coaching.</p>
-      <p class="lg-nextup-stat">Miss fall? We go again.</p>
-      <a href="contact?interest=Basketball%20Leagues&amp;sub=Winter#contact-form" class="btn btn-primary">Raise Your Hand →</a>
+        <span class="eyebrow">Up Next</span>
+        <h3>Winter Basketball</h3>
+        <p class="lg-winter-dates">Dates Coming Soon</p>
+        <p>Weekly team practice. Saturday games. Courts coaching.</p>
+        <p class="lg-winter-stat">Miss fall? We go again.</p>
+        <a href="contact?interest=Basketball%20Leagues&amp;sub=Winter#contact-form" class="btn btn-primary">Raise Your Hand →</a>
+      </aside>
     </div>
   </div>
 </section>
+
+<style>
+  .lg-winter-callout { position: relative; overflow: hidden; background: var(--white); border: 2px solid var(--orange); border-radius: var(--radius-md); padding: 36px 32px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; scroll-margin-top: 140px; }
+  .lg-winter-callout h3 { margin: 0; font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3vw, 34px); color: var(--black); }
+  .lg-winter-callout p { margin: 0; font-size: 15.5px; line-height: 1.55; color: var(--gray-dark); max-width: 30ch; }
+  .lg-winter-callout .lg-winter-dates { font-family: var(--font-heading); font-weight: 800; font-size: 19px; color: var(--black); }
+  .lg-winter-callout .lg-winter-stat { font-family: var(--font-heading); font-weight: 700; color: var(--black); margin-bottom: 10px; }
+  .lg-winter-snowman { position: absolute; right: 12px; bottom: 12px; width: 120px; height: auto; opacity: 0.9; pointer-events: none; }
+  .lg-winter-snowman circle[fill="#F5F5F5"] { fill: #ECE8DF; }
+  @media (max-width: 560px) { .lg-winter-snowman { width: 84px; opacity: 0.5; } }
+</style>
+
+
 
 <style>
   .lg-nextup { background: var(--black); color: var(--white); padding: 100px 0; overflow: hidden; position: relative; }
