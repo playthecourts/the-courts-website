@@ -141,6 +141,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (subParam) applySub(subParam);
 
+    // Optional pre-filled message (?note=…) and chip (?chip=<checkbox id>) for links
+    // from emails and campaigns, e.g. a "recommend a coach" referral.
+    const noteParam = urlParams.get('note');
+    const chipParam = urlParams.get('chip');
+    const activeGroupEl = document.querySelector('.cf-group[data-cat]:not([hidden])');
+    if (noteParam && activeGroupEl) {
+      const ta = activeGroupEl.querySelector('textarea');
+      if (ta && !ta.value) ta.value = noteParam;
+    }
+    if (chipParam) {
+      const chip = document.getElementById(chipParam);
+      if (chip && chip.type === 'checkbox') { chip.checked = true; chip.dispatchEvent(new Event('change', { bubbles: true })); }
+    }
+
     /* ---------- Contact form submit (visual only, with inline validation) ---------- */
     const errorMessages = {
       cName: 'Enter your name',
