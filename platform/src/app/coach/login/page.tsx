@@ -22,7 +22,7 @@ export default async function CoachLoginPage() {
         alt="The Courts"
         width={186}
         height={80}
-        className="mb-6 h-14 w-auto"
+        className="mb-6 h-14 w-auto self-start"
         priority
       />
       <p className="mb-1 font-sport text-xs font-bold uppercase tracking-[0.18em] text-orange">
