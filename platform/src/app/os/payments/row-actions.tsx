@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { sendPaymentLink, setMembershipBillingDate, waiveBookingBalance, type PayResult } from "./actions";
+import { endMembershipAfterThisPeriod, sendPaymentLink, setMembershipBillingDate, waiveBookingBalance, type PayResult } from "./actions";
 import { BTN, INPUT } from "../_components/ui";
 
 // Row actions for the Payments page. Payment is online only, so collecting a
@@ -131,6 +131,50 @@ export function BillingDateForm({ membershipId, current }: { membershipId: strin
           {pending ? "Moving…" : "Move Date"}
         </button>
       </div>
+      <Note res={res} />
+    </div>
+  );
+}
+
+export function EndAfterPeriodButton({ membershipId, endsLabel }: { membershipId: string; endsLabel: string | null }) {
+  const router = useRouter();
+  const [confirming, setConfirming] = useState(false);
+  const [res, setRes] = useState<PayResult | null>(null);
+  const [pending, start] = useTransition();
+
+  return (
+    <div className="mt-2">
+      {confirming ? (
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            className={BTN.secondary}
+            disabled={pending}
+            onClick={() =>
+              start(async () => {
+                const r = await endMembershipAfterThisPeriod(membershipId);
+                setRes(r);
+                setConfirming(false);
+                if (r.ok) router.refresh();
+              })
+            }
+          >
+            {pending ? "Ending…" : `Yes, End${endsLabel ? ` ${endsLabel}` : ""}`}
+          </button>
+          <button type="button" className="text-xs text-gray-dark underline" disabled={pending} onClick={() => setConfirming(false)}>
+            Keep It
+          </button>
+        </div>
+      ) : (
+        <button
+          type="button"
+          className="text-xs font-semibold text-near-black underline"
+          title="No more charges. The membership stays active through what they've already paid for."
+          onClick={() => setConfirming(true)}
+        >
+          End After This Month
+        </button>
+      )}
       <Note res={res} />
     </div>
   );

@@ -49,6 +49,7 @@ export type AuditAction =
   | "mark_nextgen_not_eligible"
   | "set_nextgen_legacy_rate"
   | "set_next_billing_date"
+  | "end_membership_after_period"
   // --- Training plan credits ---
   | "grant_drop_in_credits"
   // --- Class rosters ---

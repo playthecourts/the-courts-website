@@ -129,3 +129,44 @@ export async function setMembershipBillingDate(membershipId: string, raw: string
     return fail(err);
   }
 }
+
+/// One-month memberships: the family has paid for the current period and
+/// shouldn't be charged again. Stripe ends the subscription at the end of the
+/// period already paid for (cancel_at_period_end), so the next renewal never
+/// bills. This is the owner's call, separate from the 30-day-notice flow
+/// families use themselves.
+export async function endMembershipAfterThisPeriod(membershipId: string): Promise<PayResult> {
+  try {
+    const actor = await requireCapability("plans.manage");
+    const m = await prisma.athleteMembership.findUnique({
+      where: { id: membershipId },
+      select: { stripeSubscriptionId: true, status: true, cancelAt: true, renewalDate: true },
+    });
+    if (!m?.stripeSubscriptionId) return { ok: false, error: "This membership isn't billed through Stripe." };
+    if (m.status !== "active") return { ok: false, error: "Only active memberships can be ended this way." };
+    if (m.renewalDate && m.renewalDate <= facilityToday()) return { ok: false, error: "This membership renews today — cancel it in Stripe." };
+
+    const current = await stripe.subscriptions.retrieve(m.stripeSubscriptionId);
+    if (current.schedule) return { ok: false, error: "This membership is on a billing schedule — end it in Stripe." };
+
+    const sub = await stripe.subscriptions.update(m.stripeSubscriptionId, {
+      cancel_at_period_end: true,
+    });
+    const endsAt = sub.cancel_at ? new Date(sub.cancel_at * 1000) : m.renewalDate;
+    await prisma.athleteMembership.updateMany({
+      where: { stripeSubscriptionId: m.stripeSubscriptionId },
+      data: { cancelAt: endsAt, cancelledAt: new Date(), cancellationReason: "Ended by The Courts after current month" },
+    });
+    await auditLog(actor.id, "end_membership_after_period", "membership", membershipId, {
+      subscription: m.stripeSubscriptionId,
+      endsAt: endsAt?.toISOString() ?? null,
+    });
+
+    revalidatePath("/os/payments");
+    revalidatePath("/os/members");
+    revalidatePath("/os/families", "layout");
+    return { ok: true, message: endsAt ? `Won't renew. Membership ends ${endsAt.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "America/Chicago" })}.` : "Won't renew." };
+  } catch (err) {
+    return fail(err);
+  }
+}

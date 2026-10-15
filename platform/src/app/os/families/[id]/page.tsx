@@ -8,7 +8,7 @@ import { formatGrade } from "@/lib/coach-format";
 import { money, moneyExact, pluralize } from "@/lib/os/format";
 import { MediaStatusBadge } from "@/components/athlete/badges";
 import { PageHeader, Card, CardHeader, EmptyState, Metric, Pill, TableWrap, Th, Td } from "../../_components/ui";
-import { OwedActions, BillingDateForm } from "../../payments/row-actions";
+import { OwedActions, BillingDateForm, EndAfterPeriodButton } from "../../payments/row-actions";
 import { ApproveLegacyRate } from "./approve-legacy-rate";
 import { AddParentForm } from "./add-parent-form";
 import { EditParent } from "./edit-parent";
@@ -232,7 +232,10 @@ export default async function OsFamilyPage({ params }: { params: Promise<{ id: s
                       {canMoveDates ? (
                         <Td>
                           {m.status === "active" && m.hasStripe ? (
-                            <BillingDateForm membershipId={m.id} current={isoDay(m.renewalDate)} />
+                            <>
+                              <BillingDateForm membershipId={m.id} current={isoDay(m.renewalDate)} />
+                              {!m.cancelAt ? <EndAfterPeriodButton membershipId={m.id} endsLabel={m.renewalDate ? wallDay(m.renewalDate) : null} /> : null}
+                            </>
                           ) : (
                             <span className="text-xs text-gray-dark">{m.hasStripe ? "—" : "Not billed in Stripe"}</span>
                           )}
