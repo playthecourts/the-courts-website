@@ -52,9 +52,10 @@ export const MORE_NAV: NavItem[] = [
   { label: "Leads", href: "/os/leads", capability: "leads.view" },
   { label: "NextGen Transfers", href: "/os/nextgen", capability: "nextgen.verify" },
   { label: "Tasks", href: "/os/tasks", capability: "tasks.view" },
+  { label: "Staff", href: "/os/staff", capability: "coaches.view" },
   // Not built yet, so not linked: Membership Plans (/os/plans), Promo Codes
   // (/os/promos), Camps (/os/camps), Rentals + Parties (/os/rentals),
-  // Waivers + Forms (/os/waivers), Staff + Roles (/os/staff), Audit Log
+  // Waivers + Forms (/os/waivers), Audit Log
   // (/os/audit).
 ];
 

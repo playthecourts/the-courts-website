@@ -60,7 +60,10 @@ export type AuditAction =
   | "edit_guardian"
   // --- Payments ---
   | "send_payment_link"
-  | "waive_balance";
+  | "waive_balance"
+  // --- Staff ---
+  | "merge_staff"
+  | "set_staff_active";
 
 export async function auditLog(
   staffUserId: string,
