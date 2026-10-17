@@ -431,32 +431,10 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
         </div>
       </div>
 
-      <div class="coach-card coach-card--2">
-        <div class="coach-card-frame">
-          <div class="coach-card-photo photo">
-            <img src="images/coach-spencer-richardson.jpg" alt="Spencer Richardson, Basketball Development Specialist at The Courts" width="900" height="1500" loading="lazy" decoding="async">
-            <span class="coach-card-corner"></span>
-          </div>
-          <div class="coach-card-body">
-            <h4 class="coach-card-name">Spencer Richardson</h4>
-            <p class="coach-card-title">Basketball Development Specialist</p>
-            <p class="coach-card-teaser">A Nashville native and founder of All-Around-Game Basketball, Spencer has spent more than 15 years developing players from the youth level through the professional ranks. At The Courts he joins us for select basketball training and specialty programming.</p>
-            <div class="coach-card-bio" id="bio-spencer-richardson">
-              <p>A Nashville native and founder of All-Around-Game Basketball, Spencer Richardson has spent more than 15 years developing basketball players from the youth level through college and the professional ranks.</p>
-              <p>Spencer starred at Nashville&rsquo;s Maplewood High School, helping lead the program to back-to-back state tournament appearances while earning All-District and All-Region honors as a junior and senior. He averaged 19.1 points per game as a senior while shooting 45 percent from three-point range, then continued his playing career at Shawnee Community College before returning home to Nashville and turning his focus to player development.</p>
-              <p>Since then, Spencer has built his reputation around long-term basketball development, working with athletes on the skill, decision-making, confidence, and discipline needed to continue progressing.</p>
-              <p>At The Courts, Spencer joins us for select basketball training and specialty programming, giving athletes access to his experience and proven approach to developing complete players.</p>
-            </div>
-            <button class="coach-card-more" type="button" aria-expanded="false" aria-controls="bio-spencer-richardson">+ More</button>
-            <p class="coach-card-focus">Basketball Development &middot; Shooting &middot; Ball Handling &middot; Guard Skills &middot; Game IQ &middot; Competitive Play</p>
-          </div>
-        </div>
-      </div>
-
       <div class="coach-card coach-card--5">
         <div class="coach-card-frame">
           <div class="coach-card-photo photo">
-            <img src="images/coach-jaila-lee.jpg?v=2" alt="Jaila Lee, Basketball Coach at The Courts" width="900" height="1500" loading="lazy" decoding="async">
+            <img src="images/coach-jaila-lee.jpg?v=3" alt="Jaila Lee, Basketball Coach at The Courts" width="900" height="1500" loading="lazy" decoding="async">
             <span class="coach-card-corner"></span>
           </div>
           <div class="coach-card-body">
@@ -575,12 +553,12 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   </style>
 
   <style>
-    .coaches-board { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 22px; align-items: stretch; max-width: 1340px; margin: 0 auto; }
+    .coaches-board { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 22px; align-items: stretch; max-width: 1340px; margin: 0 auto; }
     .coaches-board[hidden] { display: none; }
     .coach-pill { display: flex; justify-content: center; align-items: flex-end; padding-bottom: 20px; }
-    .coach-pill--bb { grid-column: 1 / 4; grid-row: 1; }
-    .coach-pill--vb { grid-column: 4 / 6; grid-row: 1; }
-    .coach-pill--pf { grid-column: 6 / 7; grid-row: 1; }
+    .coach-pill--bb { grid-column: 1 / 3; grid-row: 1; }
+    .coach-pill--vb { grid-column: 3 / 5; grid-row: 1; }
+    .coach-pill--pf { grid-column: 5 / 6; grid-row: 1; }
     .coach-group-pill {
       position: relative; display: inline-flex; align-items: center; gap: 9px;
       background: var(--black); color: var(--white); font-family: var(--font-display); font-weight: 900;
@@ -591,11 +569,10 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
 
     .coach-card { grid-row: 2; height: 100%; }
     .coach-card--1 { grid-column: 1; }
-    .coach-card--2 { grid-column: 2; }
-    .coach-card--5 { grid-column: 3; }
-    .coach-card--6 { grid-column: 4; }
-    .coach-card--4 { grid-column: 5; }
-    .coach-card--3 { grid-column: 6; }
+    .coach-card--5 { grid-column: 2; }
+    .coach-card--6 { grid-column: 3; }
+    .coach-card--4 { grid-column: 4; }
+    .coach-card--3 { grid-column: 5; }
 
     .coach-card-frame {
       position: relative; height: 100%; display: flex; flex-direction: column;
@@ -629,8 +606,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       .coaches-board { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 680px; gap: 28px; }
       .coach-pill--bb { grid-column: 1 / 3; grid-row: 1; padding-bottom: 8px; }
       .coach-card--1 { grid-column: 1; grid-row: 2; }
-      .coach-card--2 { grid-column: 2; grid-row: 2; }
-      .coach-card--5 { grid-column: 1 / 3; grid-row: 3; max-width: calc(50% - 14px); margin: 0 auto; }
+      .coach-card--5 { grid-column: 2; grid-row: 2; }
       .coach-pill--vb { grid-column: 1 / 3; grid-row: 4; padding-bottom: 8px; padding-top: 20px; }
       .coach-card--6 { grid-column: 1; grid-row: 5; }
       .coach-card--4 { grid-column: 2; grid-row: 5; }
@@ -639,12 +615,11 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     }
     @media (max-width: 640px) {
       .coaches-board { grid-template-columns: minmax(0, 1fr); max-width: 340px; }
-      .coach-pill--bb, .coach-card--1, .coach-card--2, .coach-card--5, .coach-pill--vb, .coach-card--6, .coach-card--4, .coach-pill--pf, .coach-card--3 { grid-column: 1; }
-      .coach-card--5, .coach-card--3 { max-width: none; margin: 0; }
+      .coach-pill--bb, .coach-card--1, .coach-card--5, .coach-pill--vb, .coach-card--6, .coach-card--4, .coach-pill--pf, .coach-card--3 { grid-column: 1; }
+      .coach-card--3 { max-width: none; margin: 0; }
       .coach-pill--bb { grid-row: 1; }
       .coach-card--1 { grid-row: 2; }
-      .coach-card--2 { grid-row: 3; }
-      .coach-card--5 { grid-row: 4; }
+      .coach-card--5 { grid-row: 3; }
       .coach-pill--vb { grid-row: 5; padding-top: 20px; }
       .coach-card--6 { grid-row: 6; }
       .coach-card--4 { grid-row: 7; }
