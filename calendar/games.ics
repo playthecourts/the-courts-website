@@ -1,0 +1,72 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//The Courts//WNSL Games//EN
+X-WR-CALNAME:The Courts – League Games
+X-WR-TIMEZONE:America/Chicago
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:America/Chicago
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0600
+TZOFFSETTO:-0500
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+TZNAME:CDT
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0600
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+TZNAME:CST
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:courts-wnsl-0@playthecourts.com
+DTSTAMP:20261021T000000Z
+DTSTART;TZID=America/Chicago:20261024T130000
+DTEND;TZID=America/Chicago:20261024T140000
+SUMMARY:The Courts 3rd Grade vs Friars (Keeling) – Away
+LOCATION:Percy Priest Elementary School\, Nashville\, TN
+END:VEVENT
+BEGIN:VEVENT
+UID:courts-wnsl-1@playthecourts.com
+DTSTAMP:20261021T000000Z
+DTSTART;TZID=America/Chicago:20261031T120000
+DTEND;TZID=America/Chicago:20261031T130000
+SUMMARY:The Courts 3rd Grade vs Mustangs (Tarquinio) – Home
+LOCATION:Percy Priest Elementary School\, Nashville\, TN
+END:VEVENT
+BEGIN:VEVENT
+UID:courts-wnsl-2@playthecourts.com
+DTSTAMP:20261021T000000Z
+DTSTART;TZID=America/Chicago:20261024T140000
+DTEND;TZID=America/Chicago:20261024T150000
+SUMMARY:The Courts 4th Grade vs USN Tigers (Copeland) – Away
+LOCATION:Percy Priest Elementary School\, Nashville\, TN
+END:VEVENT
+BEGIN:VEVENT
+UID:courts-wnsl-3@playthecourts.com
+DTSTAMP:20261021T000000Z
+DTSTART;TZID=America/Chicago:20261031T130000
+DTEND;TZID=America/Chicago:20261031T140000
+SUMMARY:The Courts 4th Grade vs Spurs (Walker) – Home
+LOCATION:Percy Priest Elementary School\, Nashville\, TN
+END:VEVENT
+BEGIN:VEVENT
+UID:courts-wnsl-4@playthecourts.com
+DTSTAMP:20261021T000000Z
+DTSTART;TZID=America/Chicago:20261024T080000
+DTEND;TZID=America/Chicago:20261024T090000
+SUMMARY:The Courts 6th/7th Grade vs Friendly Fishies (Yuster) – Away
+LOCATION:Christ Presbyterian Academy\, Veritas Gym\, Nashville\, TN
+END:VEVENT
+BEGIN:VEVENT
+UID:courts-wnsl-5@playthecourts.com
+DTSTAMP:20261021T000000Z
+DTSTART;TZID=America/Chicago:20261031T150000
+DTEND;TZID=America/Chicago:20261031T160000
+SUMMARY:The Courts 6th/7th Grade vs Boyd – Away
+LOCATION:West End Middle School\, New Gym\, Nashville\, TN
+END:VEVENT
+END:VCALENDAR
