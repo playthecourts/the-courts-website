@@ -7,6 +7,7 @@ import { can } from "@/lib/os/permissions";
 import { AddAthleteForm, type AthleteOption } from "./add-athlete-form";
 import { CheckInToggle } from "./check-in-toggle";
 import { RemoveFromClass } from "./remove-from-class";
+import { CapacityEditor } from "./capacity-editor";
 
 export const dynamic = "force-dynamic";
 
@@ -45,6 +46,7 @@ export default async function RostersPage({
 }) {
   const actor = await requireCapability("registrations.view");
   const canAdd = can(actor, "registrations.create");
+  const canEditCapacity = can(actor, "schedule.edit");
   const sp = await searchParams;
   const dateParam = typeof sp.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(sp.date) ? sp.date : todayCentral();
   const sport = typeof sp.sport === "string" ? sp.sport : "all";
@@ -215,6 +217,11 @@ export default async function RostersPage({
                           <span className="block h-1.5 w-24 overflow-hidden rounded-full bg-warm-stone">
                             <span className={`block h-full ${full ? "bg-danger" : "bg-orange"}`} style={{ width: `${pct}%` }} />
                           </span>
+                          {canEditCapacity ? (
+                            <div className="mt-1">
+                              <CapacityEditor sessionId={s.id} capacity={s.capacity} booked={count} />
+                            </div>
+                          ) : null}
                         </div>
                       </>
                     )}

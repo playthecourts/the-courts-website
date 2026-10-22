@@ -114,3 +114,35 @@ export async function rosterRemoveBooking(bookingId: string): Promise<{ ok: true
     return { ok: false, error: err instanceof Error ? err.message : "Couldn't remove them." };
   }
 }
+
+/// Change how many seats one class has, from its Class Rosters card. Only this
+/// session — the rest of the series keeps its capacity. Can't go below the
+/// number already booked, so nobody gets bumped.
+export async function rosterSetCapacity(sessionId: string, capacity: number): Promise<{ ok: true } | { ok: false; error: string }> {
+  try {
+    const actor = await requireCapability("schedule.edit");
+    if (!Number.isInteger(capacity) || capacity < 1 || capacity > 500) {
+      return { ok: false, error: "Enter a whole number between 1 and 500." };
+    }
+    const s = await prisma.session.findUnique({
+      where: { id: sessionId },
+      select: {
+        capacity: true,
+        program: { select: { sport: true } },
+        _count: { select: { bookings: { where: { status: { not: "cancelled" } } } } },
+      },
+    });
+    if (!s) return { ok: false, error: "That class no longer exists — refresh the page." };
+    assertForSport(actor, "schedule.edit", s.program.sport);
+    if (capacity < s._count.bookings) {
+      return { ok: false, error: `${s._count.bookings} are already signed up — capacity can't go below that.` };
+    }
+    await prisma.session.update({ where: { id: sessionId }, data: { capacity } });
+    await auditLog(actor.id, "admin_set_capacity", "session", sessionId, { from: s.capacity, to: capacity });
+    revalidatePath("/os/rosters");
+    revalidatePath("/os");
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : "Couldn't change capacity." };
+  }
+}

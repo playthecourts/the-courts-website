@@ -54,6 +54,7 @@ export type AuditAction =
   | "grant_drop_in_credits"
   // --- Class rosters ---
   | "admin_add_booking"
+  | "admin_set_capacity"
   | "admin_remove_booking"
   // --- Families ---
   | "add_guardian"
