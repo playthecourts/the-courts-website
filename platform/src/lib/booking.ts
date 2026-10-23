@@ -426,7 +426,10 @@ export async function cancelWaitlistEntryById(waitlistEntryId: string) {
 // to collect, instead of opening a Checkout nobody will complete. Seats covered
 // by a membership, a pack credit or a free class go through the normal family
 // path untouched, so credits are spent exactly as if the parent had booked.
-export async function adminBookAthleteIntoSession(sessionId: string, athleteId: string) {
+/// `comp: true` books the seat free (paymentStatus "none", $0) without looking
+/// at memberships or opening any payment — a staff comp. Caller checks that the
+/// staffer is allowed to comp (plans.manage).
+export async function adminBookAthleteIntoSession(sessionId: string, athleteId: string, opts: { comp?: boolean } = {}) {
   const session = await prisma.session.findUniqueOrThrow({
     where: { id: sessionId },
     include: { offering: true },
@@ -448,7 +451,7 @@ export async function adminBookAthleteIntoSession(sessionId: string, athleteId: 
 
   let needsPayment = false;
   let priceChargedCents: number | null = null;
-  if (session.offeringId) {
+  if (session.offeringId && !opts.comp) {
     const firstBooking = await prisma.booking.findFirst({
       where: { sessionId, status: { not: "cancelled" } },
       orderBy: { bookedAt: "asc" },
@@ -459,7 +462,7 @@ export async function adminBookAthleteIntoSession(sessionId: string, athleteId: 
     priceChargedCents = "priceCents" in rule ? rule.priceCents : 0;
   }
 
-  if (!needsPayment) {
+  if (!needsPayment && !opts.comp) {
     // Never reaches Stripe on this branch — bookAthleteIntoSession only opens
     // Checkout when the rule needs payment.
     const result = await bookAthleteIntoSession(sessionId, athleteId, guardianId);
@@ -476,8 +479,8 @@ export async function adminBookAthleteIntoSession(sessionId: string, athleteId: 
     const data = {
       status: "booked" as const,
       bookedByGuardianId: guardianId,
-      priceChargedCents,
-      paymentStatus: "due" as const,
+      priceChargedCents: opts.comp ? 0 : priceChargedCents,
+      paymentStatus: opts.comp ? ("none" as const) : ("due" as const),
       // A re-booked seat starts clean: an old checkout from a cancelled
       // booking must not block (or be mistaken for) this one's payment link.
       stripeCheckoutSessionId: null,
@@ -487,6 +490,7 @@ export async function adminBookAthleteIntoSession(sessionId: string, athleteId: 
     };
     if (existing) await tx.booking.update({ where: { id: existing.id }, data });
     else await tx.booking.create({ data: { sessionId, athleteId, ...data } });
+    if (opts.comp) return { status: "booked" as const, due: false as const };
     return { status: "booked" as const, due: true as const, priceChargedCents };
   });
 }

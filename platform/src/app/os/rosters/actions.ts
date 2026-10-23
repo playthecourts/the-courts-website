@@ -9,6 +9,7 @@ import { autoEmailPaymentLink } from "@/lib/payment-link-email";
 import { checkInBooking, undoCheckIn } from "@/lib/checkin";
 import { cancelBookingById } from "@/lib/booking";
 import { stripe } from "@/lib/stripe";
+import { can } from "@/lib/os/permissions";
 
 export type AddAthleteState = { error?: string; ok?: string } | null;
 
@@ -30,12 +31,15 @@ export async function addAthleteToSession(_prev: AddAthleteState, formData: Form
     assertForSport(actor, "registrations.create", session.program.sport);
 
     const name = `${athlete.nickname || athlete.firstName} ${athlete.lastName}`;
-    const result = await adminBookAthleteIntoSession(sessionId, athleteId);
+    const comp = formData.get("noCharge") === "on";
+    if (comp && !can(actor, "plans.manage")) return { error: "Only an owner or admin can add someone at no charge." };
+    const result = await adminBookAthleteIntoSession(sessionId, athleteId, { comp });
 
     if (result.status === "booked") {
-      await auditLog(actor.id, "admin_add_booking", "session", sessionId, { athleteId, due: result.due });
+      await auditLog(actor.id, "admin_add_booking", "session", sessionId, { athleteId, due: result.due, comp });
       revalidatePath("/os/rosters");
       revalidatePath("/os");
+      if (comp) return { ok: `${name} added at no charge.` };
       if (!result.due) return { ok: `${name} added.` };
       // Online-only payment: email the family their link right away.
       const booking = await prisma.booking.findUniqueOrThrow({
