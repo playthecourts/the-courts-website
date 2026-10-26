@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
+import { effectiveCancelAt } from "@/lib/subscription-cancellation";
 import {
   sendRegistrationStaffAlert,
   sendRegistrationPaymentFailedAlert,
@@ -446,12 +447,15 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   // without syncing this separately the app would show a cancelling
   // membership as fully active right up until the very last second
   // (customer.subscription.deleted, below).
+  // A cancellation on a schedule-managed (NextGen) subscription lives on the
+  // schedule, not subscription.cancel_at — see lib/subscription-cancellation.
+  const cancelAt = await effectiveCancelAt(subscription);
   await prisma.athleteMembership.updateMany({
     where: { stripeSubscriptionId: subscription.id },
     data: {
       status: mapStatus(subscription.status),
       renewalDate: renewalDateFrom(subscription),
-      cancelAt: subscription.cancel_at ? new Date(subscription.cancel_at * 1000) : null,
+      cancelAt: cancelAt ? new Date(cancelAt * 1000) : null,
       ...(matchedPlan ? { membershipPlanId: matchedPlan.id } : {}),
     },
   });

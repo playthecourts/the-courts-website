@@ -13,6 +13,7 @@ import { isFoundingOfferEligible } from "@/lib/founding-offer";
 import { getFoundingCouponId } from "@/lib/founding-offer-stripe";
 import { nextGenLegacyAnchor } from "@/lib/nextgen-anchor";
 import { canUseNextGenLegacyCheckout } from "@/lib/nextgen-gate";
+import { scheduleSubscriptionCancellation, reverseSubscriptionCancellation } from "@/lib/subscription-cancellation";
 
 // ACH costs a small flat fee (capped low) instead of card's ~3% — worth
 // making available for recurring membership billing without removing card
@@ -361,9 +362,9 @@ export async function cancelMembership(athleteMembershipId: string, formData: Fo
 
   const cancelAt = new Date(Date.now() + CANCELLATION_NOTICE_DAYS * 24 * 60 * 60 * 1000);
 
-  await stripe.subscriptions.update(membership.stripeSubscriptionId!, {
-    cancel_at: Math.floor(cancelAt.getTime() / 1000),
-  });
+  // Schedule-aware: NextGen legacy memberships are managed by a Subscription
+  // Schedule, and Stripe rejects cancel_at on those directly.
+  await scheduleSubscriptionCancellation(membership.stripeSubscriptionId!, Math.floor(cancelAt.getTime() / 1000));
 
   await prisma.athleteMembership.update({
     where: { id: membership.id },
@@ -384,9 +385,7 @@ export async function cancelMembership(athleteMembershipId: string, formData: Fo
 export async function reverseScheduledCancellation(athleteMembershipId: string) {
   const { membership } = await requireGuardianMembership(athleteMembershipId);
 
-  await stripe.subscriptions.update(membership.stripeSubscriptionId!, {
-    cancel_at: null,
-  });
+  await reverseSubscriptionCancellation(membership.stripeSubscriptionId!);
 
   await prisma.athleteMembership.update({
     where: { id: membership.id },
