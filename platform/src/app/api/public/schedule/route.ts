@@ -108,7 +108,7 @@ export async function GET(request: Request) {
         _count: { select: { bookings: { where: { status: { not: "cancelled" } } } } },
         offering: {
           select: {
-            id: true, name: true, shortDescription: true, websiteCta: true,
+            id: true, name: true, shortDescription: true, websiteCta: true, registrationMode: true,
             gradeMin: true, gradeMax: true,
             program: { select: { name: true, sport: true, programType: true } },
           },
@@ -180,7 +180,11 @@ export async function GET(request: Request) {
         ? "https://playthecourts.com/private-coaching"
         : isLeague
           ? "https://playthecourts.com/leagues"
-          : `https://app.playthecourts.com/my-courts/explore?offering=${o.id}`,
+          : o.registrationMode === "offering" || o.registrationMode === "multi_day"
+            // Multi-day camps are bought as a package from the Camps page, not
+            // booked one day at a time in Explore (which would not list them).
+            ? `https://app.playthecourts.com/my-courts/camps#${o.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`
+            : `https://app.playthecourts.com/my-courts/explore?offering=${o.id}`,
       // Signed up vs. seats, shown on the public calendar ("7/12 signed up").
       // Not meaningful for team practices or one-on-one sessions.
       capacity: isPrivate || isLeague ? null : (s.capacity ?? null),
