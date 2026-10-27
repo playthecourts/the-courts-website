@@ -741,7 +741,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     // Coach is matched on the exact feed string, and the chips are built from
     // the feed too (buildCoachFilters), so renaming a coach in the platform
     // renames the chip and keeps matching — nothing here hardcodes a name.
-    if (state.coach !== 'all' && (c.coach || '') !== state.coach) return false;
+    if (state.coach !== 'all' && (c.coaches || [c.coach]).indexOf(state.coach) < 0) return false;
     return true;
   }
 
@@ -910,7 +910,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           slotLine +
           '<div class="sch-meta">' +
             '<span class="sch-tag sch-tag--training">' + tag + '</span>' +
-            '<span class="sch-coach">' + (c.coach ? 'Coach <strong>' + c.coach.split(' ')[0] + '</strong>' : '<strong>Coach TBD</strong>') + '</span>' +
+            '<span class="sch-coach">' + (c.coaches && c.coaches.length > 1 ? 'Coaches <strong>' + c.coaches.map(function (n) { return n.split(' ')[0]; }).join(' &amp; ') + '</strong>' : (c.coach ? 'Coach <strong>' + c.coach.split(' ')[0] + '</strong>' : '<strong>Coach TBD</strong>')) + '</span>' +
             (!many && c.capacity ? '<span class="sch-spots">' + (c.booked >= c.capacity ? '<strong>Full</strong>' : '<strong>' + (c.booked || 0) + '/' + c.capacity + '</strong> signed up') + '</span>' : '') +
           '</div>' +
           (c.note ? '<p class="sch-included">' + c.note + '</p>' : '') +
@@ -976,7 +976,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     if (!host) return;
     var names = {};
     Object.keys(classesByDate).forEach(function (d) {
-      classesByDate[d].forEach(function (c) { if (c.coach) names[c.coach] = 1; });
+      classesByDate[d].forEach(function (c) { (c.coaches || [c.coach]).forEach(function (n) { if (n) names[n] = 1; }); });
     });
     var list = Object.keys(names).sort();
     // One coach (or none) is not a filter, it's a label — don't render a row

@@ -122,6 +122,12 @@ export async function GET(request: Request) {
     const o = s.offering!;
     const lead = s.coaches.find((c) => c.role === "lead") ?? s.coaches[0];
     const coach = lead?.staff.name ?? null;
+    // Everyone on the session, lead first, so a two-coach practice shows both
+    // names. The placeholder for an unconfirmed coach is not a person.
+    const coachNames = [...s.coaches]
+      .sort((a, b) => (a.role === "lead" ? -1 : 0) - (b.role === "lead" ? -1 : 0))
+      .map((c) => c.staff.name)
+      .filter((n) => n !== "Staff Member");
     const type = o.program.programType;
     const isPrivate = type === "private_training";
     const isLeague = type === "league";
@@ -143,6 +149,7 @@ export async function GET(request: Request) {
       ages: isPrivate ? "" : gradeRangeLabel(o.gradeMin, o.gradeMax),
       // The placeholder for an unconfirmed coach is not a person's name.
       coach: coach === "Staff Member" ? null : coach,
+      coaches: coachNames,
       cta: o.websiteCta ?? "Book",
       // Practices and private sessions are not booked per-session, so they
       // point at their own info page rather than an Explore Book button that
