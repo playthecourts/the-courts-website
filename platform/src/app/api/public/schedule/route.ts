@@ -163,8 +163,9 @@ export async function GET(request: Request) {
       note: isPrivate ? null : s.publicNote,
       ages: isPrivate ? "" : gradeRangeLabel(o.gradeMin, o.gradeMax),
       // The placeholder for an unconfirmed coach is not a person's name.
-      coach: coach === "Staff Member" ? null : coach,
-      coaches: coachNames,
+      // A rental has no coach; the staff member attached to it is internal.
+      coach: isParty || coach === "Staff Member" ? null : coach,
+      coaches: isParty ? [] : coachNames,
       cta: o.websiteCta ?? "Book",
       // Practices and private sessions are not booked per-session, so they
       // point at their own info page rather than an Explore Book button that
