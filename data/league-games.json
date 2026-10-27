@@ -1,0 +1,72 @@
+{
+  "league": "Fall 2026 Basketball League",
+  "arriveEarlyMinutes": 20,
+  "games": [
+    {
+      "date": "2026-10-24",
+      "time": "8:00 AM",
+      "grade": "6th/7th Grade",
+      "gradeKey": "67",
+      "opponent": "Friendly Fishies (Yuster)",
+      "homeAway": "Away",
+      "venue": "Christ Presbyterian Academy, Veritas Gym",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=Christ+Presbyterian+Academy%2C+Nashville%2C+TN",
+      "startMinute": 480
+    },
+    {
+      "date": "2026-10-24",
+      "time": "1:00 PM",
+      "grade": "3rd Grade",
+      "gradeKey": "3",
+      "opponent": "Friars (Keeling)",
+      "homeAway": "Away",
+      "venue": "Percy Priest Elementary Gym",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=Percy+Priest+Elementary+School%2C+Nashville%2C+TN",
+      "startMinute": 780
+    },
+    {
+      "date": "2026-10-24",
+      "time": "2:00 PM",
+      "grade": "4th Grade",
+      "gradeKey": "4",
+      "opponent": "USN Tigers (Copeland)",
+      "homeAway": "Away",
+      "venue": "Percy Priest Elementary Gym",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=Percy+Priest+Elementary+School%2C+Nashville%2C+TN",
+      "startMinute": 840
+    },
+    {
+      "date": "2026-10-31",
+      "time": "12:00 PM",
+      "grade": "3rd Grade",
+      "gradeKey": "3",
+      "opponent": "Mustangs (Tarquinio)",
+      "homeAway": "Home",
+      "venue": "Percy Priest Elementary Gym",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=Percy+Priest+Elementary+School%2C+Nashville%2C+TN",
+      "startMinute": 720
+    },
+    {
+      "date": "2026-10-31",
+      "time": "1:00 PM",
+      "grade": "4th Grade",
+      "gradeKey": "4",
+      "opponent": "Spurs (Walker)",
+      "homeAway": "Home",
+      "venue": "Percy Priest Elementary Gym",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=Percy+Priest+Elementary+School%2C+Nashville%2C+TN",
+      "startMinute": 780
+    },
+    {
+      "date": "2026-10-31",
+      "time": "3:00 PM",
+      "grade": "6th/7th Grade",
+      "gradeKey": "67",
+      "opponent": "Boyd",
+      "homeAway": "Away",
+      "venue": "West End Middle School, New Gym",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=West+End+Middle+School%2C+Nashville%2C+TN",
+      "startMinute": 900
+    }
+  ]
+}

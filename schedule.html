@@ -128,6 +128,29 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     .cal-tag i { display:none; }
     .cal-filter-btn { font-size:12px; padding:8px 15px; }
   }
+  /* League games are played at other gyms, often at the same hour as a class
+     here. They get their own blue treatment (the "team" blue already used for
+     team tags) so a Saturday 1 PM game never reads as a second class we are
+     double-booking. */
+  .cal-tag--game { background:#1F5F8B; }
+  .cal-cell--selected .cal-tag--game { background:var(--white); color:#1F5F8B; }
+  .cal-game-key { width:12px; height:12px; border-radius:3px; background:#1F5F8B; display:inline-block; }
+  .gm-block { margin:0 0 22px; }
+  .gm-head { display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap; margin:0 0 10px; }
+  .gm-head h4 { margin:0; font-family:var(--font-sport); font-weight:800; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#1F5F8B; }
+  .gm-head span { font-size:12px; color:var(--gray-dark); }
+  .gm-card { display:grid; grid-template-columns:84px 1fr; gap:18px; padding:14px 16px; margin:0 0 10px; background:rgba(31,95,139,0.07);
+    border:1.5px solid rgba(31,95,139,0.28); border-left:5px solid #1F5F8B; border-radius:8px; }
+  .gm-time { font-family:var(--font-sport); font-weight:800; font-size:15px; line-height:1.15; color:#174A6E; }
+  .gm-time span { display:block; font-size:10.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; opacity:.75; margin-top:1px; }
+  .gm-card h5 { margin:0 0 4px; font-family:var(--font-heading); font-weight:800; font-size:15px; color:var(--near-black); }
+  .gm-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:13px; color:var(--gray-dark); }
+  .gm-pill { font-family:var(--font-sport); font-weight:800; font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--white); background:#1F5F8B; padding:3px 8px; border-radius:999px; }
+  .gm-pill--home { background:var(--near-black); }
+  .gm-loc { display:inline-block; margin-top:5px; font-size:13.5px; font-weight:700; color:#1F5F8B; text-decoration:underline; text-underline-offset:2px; }
+  .gm-foot { margin:0; font-size:12.5px; line-height:1.5; color:var(--gray-dark); }
+  .gm-foot a { color:#1F5F8B; font-weight:700; }
+  @media (max-width:640px) { .gm-card { grid-template-columns:62px 1fr; gap:12px; padding:12px; } }
   .cal-closed-key { width:12px; height:12px; border-radius:3px; background:repeating-linear-gradient(45deg,#E4E0D8,#E4E0D8 3px,#F7F5F0 3px,#F7F5F0 6px); border:1px solid #D6D1C7; display:inline-block; }
   .cal-wrap { max-width:900px; margin:0 auto; }
   .cal-layout { max-width:900px; margin:0 auto; }
@@ -474,6 +497,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       <span class="cal-key-item"><span class="cal-tag cal-tag--bb">BB</span>Basketball</span>
       <span class="cal-key-item"><span class="cal-tag cal-tag--vb">VB</span>Volleyball</span>
       <span class="cal-key-item"><span class="cal-tag cal-tag--other">ALL</span>All Sports</span>
+      <span class="cal-key-item"><span class="cal-game-key"></span>League game (off-site)</span>
       <span class="cal-key-item"><span class="cal-closed-key"></span>Closed</span>
     </div>
 
@@ -683,6 +707,9 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   var state = { cursor: null, selected: null, sport: 'all', type: 'all', coach: 'all' };
   var classesByDate = {};
   var closures = {};
+  var gamesByDate = {};
+  var gamesArrive = 20;
+  var GAMES_URL = 'data/league-games.json';
   var loaded = false;
 
   function iso(d) {
@@ -719,6 +746,37 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   }
 
   function dayClasses(isoStr) { return (classesByDate[isoStr] || []).filter(matches); }
+
+  // League games are off-site basketball, so they follow the sport filter but
+  // are not tied to a Courts coach: a coach filter narrows to that coach's
+  // classes and leaves games out.
+  function dayGames(isoStr) {
+    if (state.sport !== 'all' && state.sport !== 'basketball') return [];
+    if (state.type !== 'all' && state.type !== 'league') return [];
+    if (state.coach !== 'all') return [];
+    return gamesByDate[isoStr] || [];
+  }
+  function esc(t) { return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function renderGames(list, arrive) {
+    if (!list.length) return '';
+    return '<div class="gm-block">' +
+      '<div class="gm-head"><h4>League Games</h4><span>Played off-site &middot; not a Courts class</span></div>' +
+      list.map(function (g) {
+        return '<div class="gm-card">' +
+          '<div class="gm-time">' + esc(g.time) + '<span>Game</span></div>' +
+          '<div>' +
+            '<h5>' + esc(g.grade) + ' vs. ' + esc(g.opponent) + '</h5>' +
+            '<div class="gm-meta"><span class="gm-pill' + (g.homeAway === 'Home' ? ' gm-pill--home' : '') + '">' + esc(g.homeAway) + '</span>' +
+              '<span>Fall League</span></div>' +
+            '<a class="gm-loc" href="' + esc(g.mapUrl) + '" target="_blank" rel="noopener">' + esc(g.venue) + ' &rarr;</a>' +
+          '</div>' +
+        '</div>';
+      }).join('') +
+      '<p class="gm-foot">Arrive ' + (arrive || 20) + ' minutes before game time to warm up with the team. ' +
+      '<a href="leagues#games">Full game schedule &rarr;</a></p>' +
+    '</div>';
+  }
+
 
   // Same offering, same day, repeated back-to-back — Dr. Dish's 30-minute bays
   // are 16 rows of the same thing. The member app groups these into one card;
@@ -758,6 +816,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     for (var d = 1; d <= daysInMonth; d++) {
       var key = y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
       var list = dayClasses(key);
+      var gameList = dayGames(key);
       var block = closures[key];
       // A cleaning window is not a closed day. Only an all-day block blanks a
       // date; a partial one leaves the day's classes on the calendar.
@@ -766,7 +825,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       if (closed) cls += ' cal-cell--closed';
       if (key === today) cls += ' cal-cell--today';
       if (key === state.selected) cls += ' cal-cell--selected';
-      if (!list.length && !closed) cls += ' cal-cell--quiet';
+      if (!list.length && !gameList.length && !closed) cls += ' cal-cell--quiet';
 
       // Two 8px dots that differ only in colour asked people to decode orange
       // vs black at a glance, and told a colour-blind or low-vision visitor
@@ -784,6 +843,10 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
                   (counts[k] > 1 ? '<i>' + counts[k] + '</i>' : '') + '</span>';
           aria += ', ' + KEY_FULL[k] + ' ' + counts[k] + (counts[k] === 1 ? ' class' : ' classes');
         });
+        if (gameList.length) {
+          tags += '<span class="cal-tag cal-tag--game">GAME' + (gameList.length > 1 ? '<i>' + gameList.length + '</i>' : '') + '</span>';
+          aria += ', ' + gameList.length + (gameList.length === 1 ? ' league game' : ' league games') + ' (off-site)';
+        }
         if (!tags) aria += ' — nothing scheduled';
       }
       html += '<button type="button" class="' + cls + '" data-date="' + key + '"' +
@@ -803,6 +866,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     var block = closures[key];
     var closed = block && block.allDay;
     var list = dayClasses(key);
+    var gameList = dayGames(key);
     var head = '<div class="cal-day-head"><h3>' + prettyDate(key) + '</h3>' +
       (key === todayIso() ? '<span class="cal-badge">Today</span>' : '') +
       (key === addDays(todayIso(), 1) ? '<span class="cal-badge">Tomorrow</span>' : '') + '</div>';
@@ -810,6 +874,10 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     if (closed) {
       panel.innerHTML = head + '<p class="cal-empty"><strong>We&rsquo;re closed.</strong>' +
         (block.note ? ' ' + block.note : '') + '</p>';
+      return;
+    }
+    if (!list.length && gameList.length) {
+      panel.innerHTML = head + renderGames(gameList, gamesArrive);
       return;
     }
     if (!list.length) {
@@ -822,7 +890,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       ? '<p class="cal-note">Court time limited ' + block.from + '&ndash;' + block.to +
         (block.note ? ' &middot; ' + block.note : '') + '</p>'
       : '';
-    panel.innerHTML = head + notice + collapse(list).map(function (g) {
+    panel.innerHTML = head + notice + renderGames(gameList, gamesArrive) + (list.length && gameList.length ? '<div class="gm-head"><h4 style="color:var(--near-black)">At The Courts</h4></div>' : '') + collapse(list).map(function (g) {
       var c = g[0];
       var tag = (c.sport || 'The Courts');
       // A self-serve bay sold in 30-minute slots is one thing you can book at
@@ -847,7 +915,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           '</div>' +
           (c.note ? '<p class="sch-included">' + c.note + '</p>' : '') +
         '</div>' +
-        '<div class="sch-cta"><a href="' + (c.bookingUrl || BOOK_FALLBACK) + '" class="sch-btn sch-btn-primary" target="_blank" rel="noopener">Book &rarr;</a></div>' +
+        '<div class="sch-cta"><a href="' + (c.bookingUrl || BOOK_FALLBACK) + '" class="sch-btn sch-btn-primary" target="_blank" rel="noopener">' + esc(c.ctaLabel || 'Book') + ' &rarr;</a></div>' +
       '</div>';
     }).join('');
   }
@@ -928,9 +996,22 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     });
   }
 
+  function loadGames() {
+    return fetch(GAMES_URL, { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (!j) return;
+        gamesArrive = j.arriveEarlyMinutes || 20;
+        (j.games || []).forEach(function (g) { (gamesByDate[g.date] = gamesByDate[g.date] || []).push(g); });
+      })
+      .catch(function () {});
+  }
+
   function load() {
+    var gamesReady = loadGames();
     fetch(FEED, { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { return gamesReady.then(function () { return j; }); })
       .then(function (j) {
         loaded = true;
         if (!j) { renderAll(); return; }
@@ -940,7 +1021,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
         (j.closures || []).forEach(function (c) { closures[c.date] = c; });
         // Land on the next day that actually has something on it, so the page
         // opens on real programming rather than an empty Tuesday.
-        if (!dayClasses(state.selected).length) {
+        if (!dayClasses(state.selected).length && !dayGames(state.selected).length) {
           var keys = Object.keys(classesByDate).sort();
           for (var i = 0; i < keys.length; i++) {
             if (keys[i] >= todayIso()) { state.selected = keys[i]; state.cursor = keys[i].slice(0, 8) + '01'; break; }
