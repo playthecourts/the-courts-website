@@ -129,36 +129,48 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     .cal-tag i { display:none; }
     .cal-filter-btn { font-size:12px; padding:8px 15px; }
   }
-  /* League games are played at other gyms, often at the same hour as a class
-     here. They get their own blue treatment (the "team" blue already used for
-     team tags) so a Saturday 1 PM game never reads as a second class we are
-     double-booking. */
-  .cal-tag--game, .cal-tag--league { background:#1F5F8B; }
-  .cal-cell--selected .cal-tag--game, .cal-cell--selected .cal-tag--league { background:var(--white); color:#1F5F8B; }
-  .cal-game-key { width:12px; height:12px; border-radius:3px; background:#1F5F8B; display:inline-block; }
+  /* League (practices and games) is the one thing on this calendar that is not
+     a Courts class, so it does not borrow a sport colour. It is a scoreboard:
+     an outlined white tag on the month grid, and dark charcoal cards with an
+     orange top rule in the day list. Black + orange only - no new palette. */
+  .cal-tag--game, .cal-tag--league { background:var(--white); color:var(--near-black); box-shadow:inset 0 0 0 2px var(--near-black); text-shadow:none; }
+  .cal-cell--selected .cal-tag--game, .cal-cell--selected .cal-tag--league { background:var(--white); color:var(--near-black); box-shadow:inset 3px 0 0 0 var(--orange); padding-left:7px; }
+  .cal-game-key { width:14px; height:12px; border-radius:3px; background:var(--white); box-shadow:inset 0 0 0 2px var(--near-black); display:inline-block; }
   .gm-block { margin:0 0 18px; }
   .gm-head { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin:0 0 8px; }
-  .gm-head h4 { margin:0; font-family:var(--font-sport); font-weight:800; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#1F5F8B; }
+  .gm-head h4 { margin:0; font-family:var(--font-sport); font-weight:800; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--near-black); }
   .gm-head span { font-size:12px; color:var(--gray-dark); }
   /* One compact card per game, side by side, so a Saturday with three games is
      a single glance and the day's classes start right underneath. */
   .gm-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(135px, 1fr)); gap:8px; margin:0 0 8px; }
-  .gm-card { display:flex; flex-direction:column; gap:3px; padding:10px 11px 11px; background:rgba(31,95,139,0.07);
-    border:1.5px solid rgba(31,95,139,0.28); border-top:4px solid #1F5F8B; border-radius:8px; min-width:0; }
+  .gm-card { display:flex; flex-direction:column; gap:3px; padding:10px 11px 11px; background:var(--charcoal); color:var(--white);
+    border-top:4px solid var(--orange); border-radius:8px; min-width:0; }
   .gm-top { display:flex; align-items:center; justify-content:space-between; gap:6px; }
-  .gm-time { font-family:var(--font-sport); font-weight:800; font-size:15px; line-height:1.1; color:#174A6E; white-space:nowrap; }
-  .gm-pill { font-family:var(--font-sport); font-weight:800; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--white); background:#1F5F8B; padding:3px 7px; border-radius:999px; }
-  .gm-pill--home { background:var(--near-black); }
-  .gm-card h5 { margin:3px 0 0; font-family:var(--font-heading); font-weight:800; font-size:14px; line-height:1.2; color:var(--near-black); }
-  .gm-opp { font-size:12.5px; line-height:1.3; color:var(--near-black); }
-  .gm-loc { font-size:12px; line-height:1.3; font-weight:700; color:#1F5F8B; text-decoration:underline; text-underline-offset:2px; }
-  .gm-coach { margin-top:auto; padding-top:4px; font-size:12px; color:var(--gray-dark); }
-  .gm-coach strong { color:var(--near-black); font-weight:700; }
+  .gm-time { font-family:var(--font-sport); font-weight:800; font-size:16px; line-height:1.1; color:var(--white); white-space:nowrap; }
+  .gm-pill { font-family:var(--font-sport); font-weight:800; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--white); background:transparent; box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.7); padding:3px 7px; border-radius:999px; }
+  .gm-pill--home { background:var(--orange); box-shadow:none; }
+  .gm-card h5 { margin:3px 0 0; font-family:var(--font-heading); font-weight:800; font-size:14px; line-height:1.2; color:var(--white); }
+  .gm-opp { font-size:12.5px; line-height:1.3; color:var(--gray-mid); }
+  .gm-loc { font-size:12px; line-height:1.3; font-weight:700; color:var(--white); text-decoration:underline; text-underline-offset:2px; }
+  .gm-coach { margin-top:auto; padding-top:4px; font-size:12px; color:var(--gray-mid); }
+  .gm-coach strong { color:var(--white); font-weight:700; }
   .gm-foot { margin:0; font-size:12.5px; line-height:1.5; color:var(--gray-dark); }
-  .gm-foot a { color:#1F5F8B; font-weight:700; }
+  .gm-foot a { color:var(--orange-ink); font-weight:700; }
+  /* League practice rows in the day list use the same dark scoreboard card.
+     Doubled class so these beat the generic .sch-row rules that come later. */
+  .sch-row.sch-row--league { background:var(--charcoal); color:var(--white); border-top:4px solid var(--orange); border-bottom:0; border-radius:8px; padding:14px 14px; margin:0 0 8px; }
+  .sch-row.sch-row--league:last-child { margin-bottom:0; }
+  .sch-row.sch-row--league:hover { background:var(--black); }
+  .sch-row.sch-row--league .sch-time { color:var(--white); }
+  .sch-row.sch-row--league .sch-time span { color:var(--gray-mid); opacity:.85; }
+  .sch-row.sch-row--league h4 { color:var(--white); }
+  .sch-row.sch-row--league .sch-coach { color:var(--gray-mid); }
+  .sch-row.sch-row--league .sch-coach strong { color:var(--white); }
+  .sch-row .sch-tag.sch-tag--league { background:transparent; color:var(--white); box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.7); }
+  .sch-tag.sch-tag--league::before { background:var(--orange); }
   @media (max-width:640px) {
     .gm-grid { grid-template-columns:1fr; }
-    .gm-card { display:grid; grid-template-columns:72px 1fr; column-gap:12px; row-gap:2px; border-top:1.5px solid rgba(31,95,139,0.28); border-left:5px solid #1F5F8B; padding:10px 12px; }
+    .gm-card { display:grid; grid-template-columns:72px 1fr; column-gap:12px; row-gap:2px; border-top:0; border-left:5px solid var(--orange); padding:10px 12px; }
     .gm-top { grid-row:1 / span 4; flex-direction:column; align-items:flex-start; justify-content:flex-start; gap:6px; }
     .gm-card h5 { margin:0; }
     .gm-coach { margin-top:0; padding-top:0; }
@@ -509,8 +521,8 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       <span class="cal-key-item"><span class="cal-tag cal-tag--bb">BB</span>Basketball</span>
       <span class="cal-key-item"><span class="cal-tag cal-tag--vb">VB</span>Volleyball</span>
       <span class="cal-key-item"><span class="cal-tag cal-tag--other">ALL</span>All Sports</span>
-      <span class="cal-key-item"><span class="cal-tag cal-tag--league">LEAGUE</span>League practice</span>
-      <span class="cal-key-item"><span class="cal-game-key"></span>League game (off-site)</span>
+      <span class="cal-key-item"><span class="cal-tag cal-tag--league">LEAGUE</span>League practice &middot; at The Courts</span>
+      <span class="cal-key-item"><span class="cal-tag cal-tag--game">GAME</span>League game &middot; off-site</span>
       <span class="cal-key-item"><span class="cal-closed-key"></span>Closed</span>
     </div>
 
@@ -774,7 +786,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   function renderGames(list, arrive) {
     if (!list.length) return '';
     return '<div class="gm-block">' +
-      '<div class="gm-head"><h4>League Games</h4><span>Played off-site</span></div>' +
+      '<div class="gm-head"><h4>League Games</h4><span>Off-site &middot; not at The Courts</span></div>' +
       '<div class="gm-grid">' +
       list.map(function (g) {
         return '<div class="gm-card">' +
@@ -907,7 +919,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       : '';
     panel.innerHTML = head + notice + renderGames(gameList, gamesArrive) + (list.length && gameList.length ? '<div class="gm-head"><h4 style="color:var(--near-black)">At The Courts</h4></div>' : '') + collapse(list).map(function (g) {
       var c = g[0];
-      var tag = c.type === 'private_training' ? 'Private' : (c.type === 'league' ? 'League' : (c.sport || 'The Courts'));
+      var tag = c.type === 'private_training' ? 'Private' : (c.type === 'league' ? 'League &middot; At The Courts' : (c.sport || 'The Courts'));
       // A self-serve bay sold in 30-minute slots is one thing you can book at
       // a time of your choosing, not sixteen classes. Reads as a window.
       var many = g.length > 1;
@@ -917,14 +929,14 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       var slotLine = many
         ? '<div class="sch-age-row">' + g.length + ' &times; ' + c.minutes + '-min slots &middot; book any start time</div>'
         : '';
-      return '<div class="sch-row">' +
+      return '<div class="sch-row' + (c.type === 'league' ? ' sch-row--league' : '') + '">' +
         '<div class="sch-time">' + timeCell + '</div>' +
         '<div>' +
           '<h4>' + c.title + '</h4>' +
           (c.desc ? '<div class="sch-age-row">' + c.desc + '</div>' : '') +
           slotLine +
           '<div class="sch-meta">' +
-            '<span class="sch-tag ' + (c.type === 'league' ? 'sch-tag--team' : 'sch-tag--training') + '">' + tag + '</span>' +
+            '<span class="sch-tag ' + (c.type === 'league' ? 'sch-tag--league' : 'sch-tag--training') + '">' + tag + '</span>' +
             '<span class="sch-coach">' + (c.coaches && c.coaches.length > 1 ? 'Coaches <strong>' + c.coaches.map(function (n) { return n.split(' ')[0]; }).join(' &amp; ') + '</strong>' : (c.coach ? 'Coach <strong>' + c.coach.split(' ')[0] + '</strong>' : '<strong>Coach TBD</strong>')) + '</span>' +
             (!many && c.capacity ? '<span class="sch-spots">' + (c.booked >= c.capacity ? '<strong>Full</strong>' : '<strong>' + (c.booked || 0) + '/' + c.capacity + '</strong> signed up') + '</span>' : '') +
           '</div>' +
