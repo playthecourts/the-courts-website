@@ -12,7 +12,7 @@ import type { AttendanceStatus } from "@/generated/prisma/enums";
 // Two requirements shape this component:
 //
 //  1. Speed. Eight athletes in ten seconds means no navigation, no dialogs,
-//     no per-athlete screens. Four buttons per row, plus "Mark All Here" for
+//     no per-athlete screens. Two buttons per row (Checked In / Not Here), plus "Mark All Here" for
 //     the common case where everyone showed up.
 //
 //  2. Never silently lose attendance. State is applied optimistically so the
@@ -45,12 +45,15 @@ export type RosterRow = {
   mediaNeedsCare: boolean;
 };
 
+// Simple check-in: a kid is either checked in or not. Older records marked
+// "late" show as Checked In, and "excused" shows as Not Here.
 const OPTIONS: { value: AttendanceStatus; label: string }[] = [
-  { value: "present", label: "Here" },
-  { value: "late", label: "Late" },
-  { value: "absent", label: "Absent" },
-  { value: "excused", label: "Excused" },
+  { value: "present", label: "Checked In" },
+  { value: "absent", label: "Not Here" },
 ];
+
+const displayStatus = (s: AttendanceStatus | null | undefined): AttendanceStatus | null =>
+  s === "late" ? "present" : s === "excused" ? "absent" : s ?? null;
 
 const FLAG_LABELS: Record<string, string> = {
   new_athlete: "NEW",
@@ -285,15 +288,15 @@ export default function SessionRoster({
                   </div>
                 </div>
 
-                {/* 4-up attendance. Buttons are 44px tall and full-width in
-                    their quarter, so they're reliably hittable one-handed. */}
+                {/* Two-button check-in. Buttons are 44px tall and full-width in
+                    their half, so they're reliably hittable one-handed. */}
                 <div
                   role="group"
                   aria-label={`Attendance for ${r.firstName} ${r.lastName}`}
-                  className="mt-2 grid grid-cols-4 gap-1.5"
+                  className="mt-2 grid grid-cols-2 gap-1.5"
                 >
                   {OPTIONS.map((opt) => {
-                    const selected = status === opt.value;
+                    const selected = displayStatus(status) === opt.value;
                     return (
                       <button
                         key={opt.value}

@@ -85,7 +85,14 @@ export async function GET(request: Request) {
         // drop registrationMode !== "session" — that rule exists to hide a
         // per-session Book button that would throw, and camps and League
         // practices still belong on a public calendar.
-        offering: PARENT_VISIBLE,
+        //
+        // Private training is the one deliberate exception to "same predicate
+        // as the Parent App": those offerings are internal (a family's own
+        // 1:1 booking), but families do want to see that a coach is tied up.
+        // They are listed below as a generic block with every identifying
+        // field stripped — never the session title, which carries the
+        // client's names.
+        OR: [{ offering: PARENT_VISIBLE }, { offering: { program: { programType: "private_training" } } }],
       },
       orderBy: { startTime: "asc" },
       select: {
@@ -115,6 +122,12 @@ export async function GET(request: Request) {
     const o = s.offering!;
     const lead = s.coaches.find((c) => c.role === "lead") ?? s.coaches[0];
     const coach = lead?.staff.name ?? null;
+    const type = o.program.programType;
+    const isPrivate = type === "private_training";
+    const isLeague = type === "league";
+    // Private training: nothing from the session or offering may reach the
+    // public site except that this coach has a private session at this time.
+    const title = isPrivate ? "Private Training" : (s.title ?? o.name ?? o.program.name);
     return {
       id: s.id,
       date: dayKey(s.startTime),
@@ -122,19 +135,28 @@ export async function GET(request: Request) {
       time: clock(s.startTime),
       endTime: clock(s.endTime),
       minutes: Math.round((s.endTime.getTime() - s.startTime.getTime()) / 60000),
-      title: s.title ?? o.name ?? o.program.name,
-      sport: o.program.sport ?? sportFromName(s.title ?? o.name ?? o.program.name),
-      type: o.program.programType,
-      desc: o.shortDescription,
-      note: s.publicNote,
-      ages: gradeRangeLabel(o.gradeMin, o.gradeMax),
+      title,
+      sport: isPrivate ? null : (o.program.sport ?? sportFromName(title)),
+      type,
+      desc: isPrivate ? null : o.shortDescription,
+      note: isPrivate ? null : s.publicNote,
+      ages: isPrivate ? "" : gradeRangeLabel(o.gradeMin, o.gradeMax),
       // The placeholder for an unconfirmed coach is not a person's name.
       coach: coach === "Staff Member" ? null : coach,
       cta: o.websiteCta ?? "Book",
-      bookingUrl: `https://app.playthecourts.com/my-courts/explore?offering=${o.id}`,
+      // Practices and private sessions are not booked per-session, so they
+      // point at their own info page rather than an Explore Book button that
+      // would not work for them.
+      ctaLabel: isPrivate ? "Private Training" : isLeague ? "League Info" : null,
+      bookingUrl: isPrivate
+        ? "https://playthecourts.com/private-coaching"
+        : isLeague
+          ? "https://playthecourts.com/leagues"
+          : `https://app.playthecourts.com/my-courts/explore?offering=${o.id}`,
       // Signed up vs. seats, shown on the public calendar ("7/12 signed up").
-      capacity: s.capacity ?? null,
-      booked: s._count.bookings,
+      // Not meaningful for team practices or one-on-one sessions.
+      capacity: isPrivate || isLeague ? null : (s.capacity ?? null),
+      booked: isPrivate || isLeague ? 0 : s._count.bookings,
     };
   });
 
