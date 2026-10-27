@@ -147,7 +147,12 @@ export async function GET(request: Request) {
       // Practices and private sessions are not booked per-session, so they
       // point at their own info page rather than an Explore Book button that
       // would not work for them.
-      ctaLabel: isPrivate ? "Private Training" : isLeague ? "League Info" : null,
+      ctaLabel: null,
+      // A private session is already someone's own booking, and league
+      // practices are for rostered teams (registration is separate) — both
+      // are shown so families can see what is happening, never as something
+      // to book.
+      bookable: !isPrivate && !isLeague,
       bookingUrl: isPrivate
         ? "https://playthecourts.com/private-coaching"
         : isLeague
