@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { getBookingEligibility } from "@/lib/entitlements";
 import { resolveBookingRule } from "@/lib/programs/pricing";
+import { sendDrDishBookingAlert } from "@/lib/registration-notifications";
 import { offerNextSpot } from "@/lib/programs/waitlist";
 import { stripe, getOrCreateStripeCustomer } from "@/lib/stripe";
 
@@ -193,6 +194,15 @@ export async function bookAthleteIntoSession(
       await cancelBookingById(result.booking.id);
       throw err;
     }
+  }
+
+  // Confirmed with no payment step (free, member benefit, 10-pack): tell
+  // Melissa now. A paid booking is announced from the Stripe webhook instead,
+  // once the money lands.
+  if (result.status === "booked" && !result.needsPayment) {
+    await sendDrDishBookingAlert(result.booking.id).catch((err) =>
+      console.error("sendDrDishBookingAlert failed", result.booking.id, err)
+    );
   }
 
   return result;

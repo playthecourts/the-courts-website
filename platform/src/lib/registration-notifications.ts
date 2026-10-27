@@ -294,3 +294,99 @@ export async function sendMembershipStaffAlert(athleteMembershipId: string) {
 
   await sendEmail({ to: STAFF_INBOX, subject, html, text });
 }
+
+
+// Every confirmed Dr. Dish booking: an email to Melissa with the family's
+// contact details, plus a calendar invite (.ics, METHOD:REQUEST) so the slot
+// lands on her calendar. Called only once a seat is actually confirmed — right
+// away for a free / member-credit / 10-pack booking, and from the Stripe
+// webhook for a paid one — so an abandoned checkout never sends an alert.
+// Sessions store wall-clock times as UTC, so the invite uses floating local
+// time (no zone) and reads 12:30 as 12:30 at The Courts.
+const DR_DISH_INVITE_INBOX = "melissakcarle@gmail.com";
+
+function icsStamp(d: Date) {
+  return d.toISOString().replace(/[-:]/g, "").slice(0, 15); // 20261101T123000
+}
+
+export async function sendDrDishBookingAlert(bookingId: string) {
+  const booking = await prisma.booking.findUnique({
+    where: { id: bookingId },
+    select: {
+      id: true,
+      status: true,
+      paymentStatus: true,
+      priceChargedCents: true,
+      creditSource: true,
+      session: { select: { startTime: true, endTime: true, program: { select: { programType: true } } } },
+      athlete: {
+        select: {
+          firstName: true,
+          lastName: true,
+          family: { select: { name: true, guardians: { select: { isPrimary: true, guardian: { select: { name: true, email: true, phone: true } } } } } },
+        },
+      },
+    },
+  });
+  if (!booking || booking.status === "cancelled") return;
+  if (booking.session.program.programType !== "self_serve_dr_dish") return;
+
+  const athleteName = `${booking.athlete.firstName} ${booking.athlete.lastName}`;
+  const parent = [...booking.athlete.family.guardians].sort((a, b) => Number(b.isPrimary) - Number(a.isPrimary))[0]?.guardian;
+  const when = new Intl.DateTimeFormat("en-US", {
+    weekday: "long", month: "long", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: "UTC",
+  }).format(booking.session.startTime);
+  const endClock = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "UTC" }).format(booking.session.endTime);
+
+  const payment =
+    booking.paymentStatus === "paid"
+      ? `Paid ${formatCents(booking.priceChargedCents ?? 0)}`
+      : booking.creditSource
+        ? "Covered by a membership benefit or 10-pack credit"
+        : (booking.priceChargedCents ?? 0) === 0
+          ? "No charge"
+          : "Payment due";
+  const contact = [parent?.name, parent?.phone, parent?.email].filter(Boolean).join(" · ");
+
+  const subject = `Dr. Dish booked: ${athleteName} — ${when}`;
+  const text = `${athleteName} (${booking.athlete.family.name}) booked Dr. Dish.\n\n${when} – ${endClock}\n${payment}\nParent: ${contact || "—"}\n\nA calendar invite is attached.`;
+  const html = `
+<div style="font-family:Arial,Helvetica,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;color:#0D0D0D;">
+  <p style="font-size:16px;font-weight:700;margin:0 0 4px;">Dr. Dish booked: ${athleteName}</p>
+  <p style="font-size:13px;color:#343434;margin:0 0 16px;">${booking.athlete.family.name}</p>
+  <p style="font-size:15px;line-height:1.6;margin:0 0 12px;color:#1A1A1A;background:#F2EDE7;border-left:3px solid #DE5019;padding:12px 16px;border-radius:6px;">
+    <strong>${when} – ${endClock}</strong><br>${payment}
+  </p>
+  <p style="font-size:13px;line-height:1.6;color:#343434;margin:0;">Parent: ${contact || "—"}</p>
+  <p style="font-size:12px;color:#6B6B6B;margin:16px 0 0;">A calendar invite is attached.</p>
+</div>`.trim();
+
+  const ics = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//The Courts//Dr. Dish//EN",
+    "CALSCALE:GREGORIAN",
+    "METHOD:REQUEST",
+    "BEGIN:VEVENT",
+    `UID:dr-dish-${booking.id}@playthecourts.com`,
+    `DTSTAMP:${icsStamp(new Date())}Z`,
+    `DTSTART:${icsStamp(booking.session.startTime)}`,
+    `DTEND:${icsStamp(booking.session.endTime)}`,
+    `SUMMARY:Dr. Dish — ${athleteName}`,
+    "LOCATION:The Courts\\, Nolensville\\, TN",
+    `DESCRIPTION:${athleteName} (${booking.athlete.family.name})\\n${payment}\\nParent: ${contact || "-"}`,
+    "ORGANIZER;CN=The Courts:mailto:hello@playthecourts.com",
+    `ATTENDEE;CN=Melissa;RSVP=FALSE;PARTSTAT=ACCEPTED:mailto:${DR_DISH_INVITE_INBOX}`,
+    "STATUS:CONFIRMED",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\r\n");
+
+  await sendEmail({
+    to: [STAFF_INBOX, DR_DISH_INVITE_INBOX],
+    subject,
+    html,
+    text,
+    attachments: [{ filename: "dr-dish.ics", content: Buffer.from(ics, "utf8"), contentType: "text/calendar; charset=utf-8; method=REQUEST" }],
+  });
+}

@@ -16,10 +16,16 @@ const FROM = "The Courts <hello@playthecourts.com>";
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
-export async function sendEmail(params: { to: string; subject: string; html: string; text: string }) {
+export async function sendEmail(params: {
+  to: string | string[];
+  subject: string;
+  html: string;
+  text: string;
+  attachments?: { filename: string; content: Buffer; contentType?: string }[];
+}) {
   if (!resend) {
     console.warn(
-      `[email] RESEND_API_KEY not set — skipping send. Would have sent "${params.subject}" to ${params.to}.`
+      `[email] RESEND_API_KEY not set — skipping send. Would have sent "${params.subject}" to ${[params.to].flat().join(", ")}.`
     );
     return { ok: false as const, reason: "not_configured" as const };
   }
@@ -31,6 +37,7 @@ export async function sendEmail(params: { to: string; subject: string; html: str
       subject: params.subject,
       html: params.html,
       text: params.text,
+      ...(params.attachments ? { attachments: params.attachments } : {}),
     });
     if (error) {
       console.error("[email] Resend rejected the send:", error);

@@ -5,6 +5,7 @@ import {
   sendRegistrationStaffAlert,
   sendRegistrationPaymentFailedAlert,
   sendMembershipStaffAlert,
+  sendDrDishBookingAlert,
 } from "@/lib/registration-notifications";
 import type { MembershipStatus } from "@/generated/prisma/enums";
 
@@ -249,6 +250,10 @@ async function handleBookingCheckoutCompleted(session: Stripe.Checkout.Session) 
       ...(session.amount_total != null ? { priceChargedCents: session.amount_total } : {}),
     },
   });
+
+  // Paid and confirmed — now it is a real booking worth an alert (Dr. Dish only;
+  // the function ignores every other program).
+  await sendDrDishBookingAlert(bookingId).catch((err) => console.error("sendDrDishBookingAlert failed", bookingId, err));
 }
 
 // Dr. Dish 10-pack — see purchaseDrDishTenPack in my-courts/actions.ts, which
