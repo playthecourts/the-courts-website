@@ -449,12 +449,27 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   await prisma.athleteMembership.updateMany({
     where: { stripeSubscriptionId: subscription.id },
     data: {
-      status: mapStatus(subscription.status),
+      status: isPausedNow(subscription) ? "paused" : mapStatus(subscription.status),
       renewalDate: renewalDateFrom(subscription),
       cancelAt: subscription.cancel_at ? new Date(subscription.cancel_at * 1000) : null,
       ...(matchedPlan ? { membershipPlanId: matchedPlan.id } : {}),
     },
   });
+}
+
+/// A membership pause is set in Stripe as pause_collection (no charge until
+/// resumes_at) plus metadata.pauseStartsAt (unix seconds) — the moment the
+/// family stops being able to book. Stripe keeps status "active" during a
+/// collection pause, so without this the app would keep granting bookings.
+/// The renewal at pauseStartsAt and the resume at resumes_at both fire
+/// customer.subscription.updated, which flips the app's status each way.
+function isPausedNow(subscription: Stripe.Subscription): boolean {
+  const pause = subscription.pause_collection;
+  if (!pause) return false;
+  const now = Math.floor(Date.now() / 1000);
+  if (pause.resumes_at && now >= pause.resumes_at) return false;
+  const startsAt = Number(subscription.metadata?.pauseStartsAt ?? 0);
+  return now >= startsAt;
 }
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
