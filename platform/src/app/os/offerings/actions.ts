@@ -209,6 +209,7 @@ export async function generateOfferingSessions(offeringId: string, formData: For
   const capacity = int(formData, "capacity") ?? 8;
 
   try {
+    const priorSessions = await prisma.session.count({ where: { offeringId } });
     const created = await createSessions({
       offeringId,
       spec,
@@ -221,12 +222,22 @@ export async function generateOfferingSessions(offeringId: string, formData: For
       actorId: actor.id,
     });
 
+    // Adding sessions to an offering that already has a schedule must WIDEN
+    // its date range, never replace it with just the new batch — the public
+    // programs API hides an offering once endDate passes, so overwriting it
+    // with a one-off date hid offerings that still had later sessions.
+    // Likewise the pattern (scheduleKind) is only set by the first batch.
+    const span = await prisma.session.aggregate({
+      where: { offeringId, status: "scheduled" },
+      _min: { startTime: true },
+      _max: { endTime: true },
+    });
     await prisma.offering.update({
       where: { id: offeringId },
       data: {
-        scheduleKind: spec.kind === "custom" ? "custom" : (spec.kind as never),
-        startDate: created[0]?.startTime ?? null,
-        endDate: created[created.length - 1]?.endTime ?? null,
+        ...(priorSessions === 0 ? { scheduleKind: spec.kind === "custom" ? "custom" : (spec.kind as never) } : {}),
+        startDate: span._min.startTime ?? created[0]?.startTime ?? null,
+        endDate: span._max.endTime ?? created[created.length - 1]?.endTime ?? null,
       },
     });
 
