@@ -200,7 +200,7 @@ function CardChrome({ card, timeLabel }: { card: Card; timeLabel: string }) {
             AVAILABILITY_TONE[card.availability.state] ?? "text-gray-dark"
           }`}
         >
-          {card.availability.state === "waitlist" ? "Packed House" : card.availability.label}
+          {isTaken(card) ? "Packed House" : card.availability.label}
         </p>
         {card.capacity !== null && (
           <p className="whitespace-nowrap font-body text-[11px] text-gray-dark">
@@ -221,7 +221,7 @@ export function OfferingSessionCard({ card }: { card: Card }) {
         <p className="mb-3 font-body text-sm text-gray-dark">{card.shortDescription}</p>
       ) : null}
 
-      {card.availability.state === "waitlist" ? (
+      {isTaken(card) ? (
         <p className="mb-3 font-body text-sm text-gray-dark">This session is full.</p>
       ) : null}
 
@@ -263,6 +263,16 @@ const SLOT_NOTE: Record<string, string> = {
   full: "Full",
 };
 
+// A seat-less session that is out of room. "Taken" slots stay on the calendar
+// so families can see what is gone and what is open, but are not selectable.
+// A family's own booked slot is not "taken" for them — they can still open it.
+function isTaken(card: Card) {
+  return card.availability.state === "full" || card.availability.state === "waitlist";
+}
+function isTakenForViewer(card: Card) {
+  return isTaken(card) && !card.perAthlete.some((a) => a.hasSeat);
+}
+
 // Several same-day slots of the same offering (Dr. Dish's 30-min blocks,
 // typically) used to read as one clogged, scrolling list — a full booking
 // card repeated per slot. This is the same idea a hair-salon booker uses:
@@ -293,18 +303,26 @@ export function GroupedOfferingCard({ cards }: { cards: Card[] }) {
       <div className="grid grid-cols-4 gap-2 sm:grid-cols-5">
         {cards.map((card) => {
           const isSelected = card.sessionId === selectedId;
-          const note = SLOT_NOTE[card.availability.state];
+          const taken = isTakenForViewer(card);
+          const mine = isTaken(card) && !taken;
+          const note = taken ? "Booked" : mine ? "Yours" : SLOT_NOTE[card.availability.state];
           return (
             <button
               key={card.sessionId}
               type="button"
+              disabled={taken}
               onClick={() => setSelectedId(isSelected ? null : card.sessionId)}
               aria-pressed={isSelected}
+              aria-label={taken ? `${fmtTimeOnly(card.startTime)} is booked` : undefined}
               className={`flex min-h-[52px] flex-col items-center justify-center rounded-md border px-1 py-1.5 font-sport text-xs font-bold uppercase tracking-wide transition-colors ${
-                isSelected ? "border-black bg-black text-white" : SLOT_TONE[card.availability.state] ?? "border-gray-mid bg-white text-black"
+                taken
+                  ? "cursor-not-allowed border-gray-mid bg-gray-light text-gray-dark/50"
+                  : isSelected
+                    ? "border-black bg-black text-white"
+                    : SLOT_TONE[card.availability.state] ?? "border-gray-mid bg-white text-black"
               }`}
             >
-              <span>{fmtTimeOnly(card.startTime)}</span>
+              <span className={taken ? "line-through decoration-gray-dark/40" : undefined}>{fmtTimeOnly(card.startTime)}</span>
               {note ? (
                 <span className={`mt-0.5 font-body text-[9.5px] font-normal normal-case tracking-normal ${isSelected ? "text-white/70" : ""}`}>
                   {note}
@@ -325,7 +343,7 @@ export function GroupedOfferingCard({ cards }: { cards: Card[] }) {
                   AVAILABILITY_TONE[selected.availability.state] ?? "text-gray-dark"
                 }`}
               >
-                {selected.availability.state === "waitlist" ? "Packed House" : selected.availability.label}
+                {isTaken(selected) ? "Packed House" : selected.availability.label}
               </span>
               {selected.capacity !== null && (
                 <span className="block font-body text-[10.5px] text-gray-dark">

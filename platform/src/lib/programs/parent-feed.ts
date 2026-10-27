@@ -167,7 +167,7 @@ export async function loadParentFeed(
       const ruleText =
         check.eligible && !hasSeat
           ? describeBookingRule(
-              await resolveBookingRule(athlete.id, o.id, s.startTime, s.bookings[0]?.priceChargedCents ?? null)
+              await resolveBookingRule(athlete.id, o.id, s.startTime)
             )
           : "";
 

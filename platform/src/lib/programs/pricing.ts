@@ -26,17 +26,7 @@ export type { BookingRule };
 export async function resolveBookingRule(
   athleteId: string,
   offeringId: string,
-  sessionStart: Date,
-  /// What the FIRST non-cancelled booking on this specific session actually
-  /// paid, or null if there isn't one — this athlete would be the first.
-  /// When the offering has a companionPriceCents set and this isn't null,
-  /// `companionPriceCents` is read as the FLAT TOTAL for both people
-  /// together, not this person's own price: the companion is charged
-  /// whatever's left of that total after the first booker's own charge, so
-  /// e.g. Dr. Dish's real "$50 total, same for members and non-members"
-  /// promise holds exactly regardless of which of the two is a member. This
-  /// overrides full_price/member_price alike, same as before.
-  firstBookingPriceCents: number | null = null
+  sessionStart: Date
 ): Promise<BookingRule> {
   const offering = await prisma.offering.findUniqueOrThrow({
     where: { id: offeringId },
@@ -44,7 +34,6 @@ export async function resolveBookingRule(
       programId: true,
       priceCents: true,
       memberPriceCents: true,
-      companionPriceCents: true,
       creditRule: true,
       creditsPerBooking: true,
       pricingModel: true,
@@ -53,11 +42,6 @@ export async function resolveBookingRule(
   });
 
   if (offering.pricingModel === "free" || offering.creditRule === "free") return { kind: "free" };
-
-  const isCompanion = offering.companionPriceCents !== null && firstBookingPriceCents !== null;
-  const companionChargeCents = isCompanion
-    ? Math.max(0, offering.companionPriceCents! - firstBookingPriceCents!)
-    : null;
 
   const memberships = await prisma.athleteMembership.findMany({
     where: { athleteId, status: "active" },
@@ -68,9 +52,8 @@ export async function resolveBookingRule(
   // have a purchased 10-pack to draw from instead. Checked before the
   // membership switch below, not as part of it — the pack is a separate
   // purchase, not a Training Plan benefit, and applies only to the solo
-  // non-member rate (a "bring a teammate" companion still pays the flat
-  // companion price, not a pack credit).
-  if (offering.program.programType === "self_serve_dr_dish" && !isCompanion) {
+  // non-member rate.
+  if (offering.program.programType === "self_serve_dr_dish") {
     const hasMemberPricing = memberships.some((m) =>
       effectiveEntitlements(m.plan).some(
         (e) => e.benefitType === "member_pricing" && (e.programId === null || e.programId === offering.programId)
@@ -92,7 +75,7 @@ export async function resolveBookingRule(
     // as the Dr. Dish 10-pack above, just not scoped to one program. Skipped
     // for Dr. Dish itself (that program keeps its own separate pack type)
     // and for a companion booking (flat companion pricing always wins).
-    if (offering.program.programType !== "self_serve_dr_dish" && !isCompanion) {
+    if (offering.program.programType !== "self_serve_dr_dish") {
       const pack = await prisma.credit.findFirst({
         where: { athleteId, creditType: "drop_in_pack", status: "issued", balance: { gt: 0 } },
         orderBy: { createdAt: "asc" },
@@ -101,8 +84,8 @@ export async function resolveBookingRule(
     }
     return {
       kind: "full_price",
-      priceCents: isCompanion ? companionChargeCents : offering.priceCents,
-      memberPriceCents: isCompanion ? null : offering.memberPriceCents,
+      priceCents: offering.priceCents,
+      memberPriceCents: offering.memberPriceCents,
     };
   }
 
@@ -119,8 +102,8 @@ export async function resolveBookingRule(
         ? { kind: "included", planName: m.plan.name }
         : {
             kind: "full_price",
-            priceCents: isCompanion ? companionChargeCents : offering.priceCents,
-            memberPriceCents: isCompanion ? null : offering.memberPriceCents,
+            priceCents: offering.priceCents,
+            memberPriceCents: offering.memberPriceCents,
           };
     }
 
@@ -195,8 +178,8 @@ export async function resolveBookingRule(
       if (!m) {
         return {
           kind: "full_price",
-          priceCents: isCompanion ? companionChargeCents : offering.priceCents,
-          memberPriceCents: isCompanion ? null : offering.memberPriceCents,
+          priceCents: offering.priceCents,
+          memberPriceCents: offering.memberPriceCents,
         };
       }
       // A member price of exactly 0 means genuinely free for members, not
@@ -206,12 +189,12 @@ export async function resolveBookingRule(
       // member_price/full_price kind as needing a real Stripe Checkout
       // Session — never tries to create a $0 payment-mode session, which
       // Stripe rejects outright.
-      if (!isCompanion && offering.memberPriceCents === 0) {
+      if (offering.memberPriceCents === 0) {
         return { kind: "included", planName: m.plan.name };
       }
       return {
         kind: "member_price",
-        priceCents: isCompanion ? companionChargeCents : offering.memberPriceCents ?? offering.priceCents,
+        priceCents: offering.memberPriceCents ?? offering.priceCents,
         planName: m.plan.name,
       };
     }
@@ -220,8 +203,8 @@ export async function resolveBookingRule(
     default:
       return {
         kind: "full_price",
-        priceCents: isCompanion ? companionChargeCents : offering.priceCents,
-        memberPriceCents: isCompanion ? null : offering.memberPriceCents,
+        priceCents: offering.priceCents,
+        memberPriceCents: offering.memberPriceCents,
       };
   }
 }

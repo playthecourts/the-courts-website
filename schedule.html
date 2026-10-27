@@ -940,8 +940,12 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       var timeCell = many
         ? c.time + '<span>to ' + g[g.length - 1].endTime + '</span>'
         : c.time + '<span>' + c.minutes + ' min</span>';
+      // One athlete per self-serve slot, so a taken slot is gone: say how many
+      // are still open instead of implying every start time is available.
+      var openCt = g.filter(function (x) { return !(x.capacity && x.booked >= x.capacity); }).length;
       var slotLine = many
-        ? '<div class="sch-age-row">' + g.length + ' &times; ' + c.minutes + '-min slots &middot; book any start time</div>'
+        ? '<div class="sch-age-row">' + g.length + ' &times; ' + c.minutes + '-min slots &middot; ' +
+            (isPast(c.date) ? 'self-serve' : (openCt ? openCt + ' open &middot; book any start time' : '<strong>Packed House</strong>')) + '</div>'
         : '';
       var past = isPast(c.date);
       return '<div class="sch-row' + (c.type === 'league' ? ' sch-row--league' : '') + (past ? ' sch-row--past' : '') + '">' +
