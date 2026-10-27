@@ -2069,6 +2069,9 @@ model FacilityBlock {
   endTime    DateTime @map("end_time")
   reason     FacilityBlockReason
   note       String?
+  /// Partial closures are internal unless staff publish them. Whole-day
+  /// closures are always public. See api/public/schedule.
+  showOnWebsite Boolean @default(false) @map("show_on_website")
   createdById String? @map("created_by_id")
   createdAt  DateTime @default(now()) @map("created_at")
 

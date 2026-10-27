@@ -92,7 +92,14 @@ export async function GET(request: Request) {
         // They are listed below as a generic block with every identifying
         // field stripped — never the session title, which carries the
         // client's names.
-        OR: [{ offering: PARENT_VISIBLE }, { offering: { program: { programType: "private_training" } } }],
+        OR: [
+          { offering: PARENT_VISIBLE },
+          { offering: { program: { programType: "private_training" } } },
+          // A confirmed party / private rental. Shown only as a generic
+          // "Private Rental" block (nothing about who it is for) so families
+          // can see the court is spoken for. HOLDs are dropped below.
+          { offering: { program: { programType: "party" } } },
+        ],
       },
       orderBy: { startTime: "asc" },
       select: {
@@ -114,11 +121,18 @@ export async function GET(request: Request) {
     prisma.facilityBlock.findMany({
       where: { resourceId: null, startTime: { lte: to }, endTime: { gte: from } },
       orderBy: { startTime: "asc" },
-      select: { startTime: true, endTime: true, reason: true, note: true },
+      select: { startTime: true, endTime: true, reason: true, note: true, showOnWebsite: true },
     }),
   ]);
 
-  const classes = sessions.map((s) => {
+  // An unconfirmed HOLD is a staff note, not a booking. It must never read as
+  // "Private Rental" to the public.
+  const visibleSessions = sessions.filter((s) => {
+    if (s.offering?.program.programType !== "party") return true;
+    return !/^\s*hold\b/i.test(s.title ?? "") && !/^\s*hold\b/i.test(s.offering.name ?? "");
+  });
+
+  const classes = visibleSessions.map((s) => {
     const o = s.offering!;
     const lead = s.coaches.find((c) => c.role === "lead") ?? s.coaches[0];
     const coach = lead?.staff.name ?? null;
@@ -129,11 +143,12 @@ export async function GET(request: Request) {
       .map((c) => c.staff.name)
       .filter((n) => n !== "Staff Member");
     const type = o.program.programType;
-    const isPrivate = type === "private_training";
+    const isParty = type === "party";
+    const isPrivate = type === "private_training" || isParty;
     const isLeague = type === "league";
     // Private training: nothing from the session or offering may reach the
     // public site except that this coach has a private session at this time.
-    const title = isPrivate ? "Private Training" : (s.title ?? o.name ?? o.program.name);
+    const title = isParty ? "Private Rental" : isPrivate ? "Private Training" : (s.title ?? o.name ?? o.program.name);
     return {
       id: s.id,
       date: dayKey(s.startTime),
@@ -206,7 +221,9 @@ export async function GET(request: Request) {
       // Publishing those put a customer's child's name and "Setup + Cleanup
       // Only" on playthecourts.com, and told families court time was limited
       // on days everything was running normally.
-      if (!allDay) continue;
+      // ...unless staff marked it showOnWebsite, which publishes that closure
+      // (e.g. the hour before a private rental) with the note as written.
+      if (!allDay && !b.showOnWebsite) continue;
 
       const existing = closures.findIndex((c) => c.date === d);
       const entry = {
