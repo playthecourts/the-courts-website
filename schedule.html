@@ -99,7 +99,8 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   .cal-tags { display:flex; flex-wrap:wrap; justify-content:center; gap:3px; min-height:16px; }
   .cal-tag { display:inline-flex; align-items:center; gap:3px; font-family:var(--font-sport); font-size:10px; font-weight:800;
     letter-spacing:.04em; line-height:1; padding:3px 5px; border-radius:4px; color:var(--white); }
-  .cal-tag i { font-style:normal; font-size:9px; opacity:.85; }
+  /* Counts are not shown on the day tags (they stay in the screen-reader label). */
+  .cal-tag i { display:none; }
   .cal-tag--bb { background:var(--orange); }
   .cal-tag--vb { background:var(--black); }
   /* "All Sports" is not a third sport, it is BOTH — Speed + Agility sits on a
