@@ -132,8 +132,8 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
      here. They get their own blue treatment (the "team" blue already used for
      team tags) so a Saturday 1 PM game never reads as a second class we are
      double-booking. */
-  .cal-tag--game { background:#1F5F8B; }
-  .cal-cell--selected .cal-tag--game { background:var(--white); color:#1F5F8B; }
+  .cal-tag--game, .cal-tag--league { background:#1F5F8B; }
+  .cal-cell--selected .cal-tag--game, .cal-cell--selected .cal-tag--league { background:var(--white); color:#1F5F8B; }
   .cal-game-key { width:12px; height:12px; border-radius:3px; background:#1F5F8B; display:inline-block; }
   .gm-block { margin:0 0 18px; }
   .gm-head { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin:0 0 8px; }
@@ -508,6 +508,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       <span class="cal-key-item"><span class="cal-tag cal-tag--bb">BB</span>Basketball</span>
       <span class="cal-key-item"><span class="cal-tag cal-tag--vb">VB</span>Volleyball</span>
       <span class="cal-key-item"><span class="cal-tag cal-tag--other">ALL</span>All Sports</span>
+      <span class="cal-key-item"><span class="cal-tag cal-tag--league">LEAGUE</span>League practice</span>
       <span class="cal-key-item"><span class="cal-game-key"></span>League game (off-site)</span>
       <span class="cal-key-item"><span class="cal-closed-key"></span>Closed</span>
     </div>
@@ -738,11 +739,12 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   }
 
   function sportKey(c) {
+    if (c.type === 'league') return 'league';
     var s = (c.sport || '').toLowerCase();
     return s.indexOf('basket') === 0 ? 'bb' : (s.indexOf('volley') === 0 ? 'vb' : 'other');
   }
-  var KEY_SHORT = { bb: 'BB', vb: 'VB', other: 'ALL' };
-  var KEY_FULL  = { bb: 'Basketball', vb: 'Volleyball', other: 'All sports' };
+  var KEY_SHORT = { bb: 'BB', vb: 'VB', other: 'ALL', league: 'LEAGUE' };
+  var KEY_FULL  = { bb: 'Basketball', vb: 'Volleyball', other: 'All sports', league: 'League practice' };
   function matches(c) {
     if (state.sport !== 'all') {
       var s = (c.sport || '').toLowerCase();
@@ -849,7 +851,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       } else {
         var counts = {};
         list.forEach(function (c) { var k = sportKey(c); counts[k] = (counts[k] || 0) + 1; });
-        ['bb', 'vb', 'other'].forEach(function (k) {
+        ['bb', 'vb', 'other', 'league'].forEach(function (k) {
           if (!counts[k]) return;
           tags += '<span class="cal-tag cal-tag--' + k + '">' + KEY_SHORT[k] +
                   (counts[k] > 1 ? '<i>' + counts[k] + '</i>' : '') + '</span>';
@@ -904,7 +906,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       : '';
     panel.innerHTML = head + notice + renderGames(gameList, gamesArrive) + (list.length && gameList.length ? '<div class="gm-head"><h4 style="color:var(--near-black)">At The Courts</h4></div>' : '') + collapse(list).map(function (g) {
       var c = g[0];
-      var tag = c.type === 'private_training' ? 'Private' : (c.sport || 'The Courts');
+      var tag = c.type === 'private_training' ? 'Private' : (c.type === 'league' ? 'League' : (c.sport || 'The Courts'));
       // A self-serve bay sold in 30-minute slots is one thing you can book at
       // a time of your choosing, not sixteen classes. Reads as a window.
       var many = g.length > 1;
@@ -921,7 +923,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           (c.desc ? '<div class="sch-age-row">' + c.desc + '</div>' : '') +
           slotLine +
           '<div class="sch-meta">' +
-            '<span class="sch-tag sch-tag--training">' + tag + '</span>' +
+            '<span class="sch-tag ' + (c.type === 'league' ? 'sch-tag--team' : 'sch-tag--training') + '">' + tag + '</span>' +
             '<span class="sch-coach">' + (c.coaches && c.coaches.length > 1 ? 'Coaches <strong>' + c.coaches.map(function (n) { return n.split(' ')[0]; }).join(' &amp; ') + '</strong>' : (c.coach ? 'Coach <strong>' + c.coach.split(' ')[0] + '</strong>' : '<strong>Coach TBD</strong>')) + '</span>' +
             (!many && c.capacity ? '<span class="sch-spots">' + (c.booked >= c.capacity ? '<strong>Full</strong>' : '<strong>' + (c.booked || 0) + '/' + c.capacity + '</strong> signed up') + '</span>' : '') +
           '</div>' +
