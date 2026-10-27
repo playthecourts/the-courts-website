@@ -175,6 +175,14 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     .gm-card h5 { margin:0; }
     .gm-coach { margin-top:0; padding-top:0; }
   }
+  /* Past days stay on the calendar as history: greyed, and nothing to book. */
+  .cal-cell--past .cal-num { color:#9C9A94; }
+  .cal-cell--past .cal-tag { filter:grayscale(1); opacity:.5; }
+  .cal-badge--past { background:#9C9A94; }
+  .sch-row--past { opacity:.55; filter:grayscale(1); }
+  .sch-row--past:hover, .sch-row.sch-row--league.sch-row--past:hover { background:transparent; }
+  .sch-row.sch-row--league.sch-row--past:hover { background:var(--charcoal); }
+  .gm-card--past { opacity:.55; filter:grayscale(1); }
   .cal-closed-key { width:12px; height:12px; border-radius:3px; background:repeating-linear-gradient(45deg,#E4E0D8,#E4E0D8 3px,#F7F5F0 3px,#F7F5F0 6px); border:1px solid #D6D1C7; display:inline-block; }
   .cal-wrap { max-width:900px; margin:0 auto; }
   .cal-layout { max-width:900px; margin:0 auto; }
@@ -725,7 +733,10 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   // exact date, who is coaching, what is on tomorrow, and the days the building
   // is closed. Everything below is drawn from the app's own schedule feed, so
   // the website and the member app cannot drift apart.
-  var FEED = 'https://app.playthecourts.com/api/public/schedule?days=150';
+  // History is kept: the feed starts at opening day, not today, so classes that
+  // already happened stay on the calendar (greyed out, not bookable).
+  var OPEN_DAY = '2026-10-01';
+  var FEED_BASE = 'https://app.playthecourts.com/api/public/schedule';
   var BOOK_FALLBACK = 'https://app.playthecourts.com/my-courts/explore';
 
   var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -771,6 +782,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     return true;
   }
 
+  function isPast(isoStr) { return isoStr < todayIso(); }
   function dayClasses(isoStr) { return (classesByDate[isoStr] || []).filter(matches); }
 
   // League games are off-site basketball, so they follow the sport filter but
@@ -789,7 +801,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       '<div class="gm-head"><h4>League Games</h4><span>Off-site &middot; not at The Courts</span></div>' +
       '<div class="gm-grid">' +
       list.map(function (g) {
-        return '<div class="gm-card">' +
+        return '<div class="gm-card' + (isPast(g.date) ? ' gm-card--past' : '') + '">' +
           '<div class="gm-top"><span class="gm-time">' + esc(g.time) + '</span>' +
             '<span class="gm-pill' + (g.homeAway === 'Home' ? ' gm-pill--home' : '') + '">' + esc(g.homeAway) + '</span></div>' +
           '<h5>' + esc(g.grade) + '</h5>' +
@@ -851,6 +863,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       var cls = 'cal-cell';
       if (closed) cls += ' cal-cell--closed';
       if (key === today) cls += ' cal-cell--today';
+      if (key < today) cls += ' cal-cell--past';
       if (key === state.selected) cls += ' cal-cell--selected';
       if (!list.length && !gameList.length && !closed) cls += ' cal-cell--quiet';
 
@@ -896,6 +909,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     var gameList = dayGames(key);
     var head = '<div class="cal-day-head"><h3>' + prettyDate(key) + '</h3>' +
       (key === todayIso() ? '<span class="cal-badge">Today</span>' : '') +
+      (isPast(key) ? '<span class="cal-badge cal-badge--past">Past</span>' : '') +
       (key === addDays(todayIso(), 1) ? '<span class="cal-badge">Tomorrow</span>' : '') + '</div>';
 
     if (closed) {
@@ -929,7 +943,8 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       var slotLine = many
         ? '<div class="sch-age-row">' + g.length + ' &times; ' + c.minutes + '-min slots &middot; book any start time</div>'
         : '';
-      return '<div class="sch-row' + (c.type === 'league' ? ' sch-row--league' : '') + '">' +
+      var past = isPast(c.date);
+      return '<div class="sch-row' + (c.type === 'league' ? ' sch-row--league' : '') + (past ? ' sch-row--past' : '') + '">' +
         '<div class="sch-time">' + timeCell + '</div>' +
         '<div>' +
           '<h4>' + c.title + '</h4>' +
@@ -938,11 +953,11 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           '<div class="sch-meta">' +
             '<span class="sch-tag ' + (c.type === 'league' ? 'sch-tag--league' : 'sch-tag--training') + '">' + tag + '</span>' +
             '<span class="sch-coach">' + (c.coaches && c.coaches.length > 1 ? 'Coaches <strong>' + c.coaches.map(function (n) { return n.split(' ')[0]; }).join(' &amp; ') + '</strong>' : (c.coach ? 'Coach <strong>' + c.coach.split(' ')[0] + '</strong>' : '<strong>Coach TBD</strong>')) + '</span>' +
-            (!many && c.capacity ? '<span class="sch-spots">' + (c.booked >= c.capacity ? '<strong>Full</strong>' : '<strong>' + (c.booked || 0) + '/' + c.capacity + '</strong> signed up') + '</span>' : '') +
+            (!many && !past && c.capacity ? '<span class="sch-spots">' + (c.booked >= c.capacity ? '<strong>Full</strong>' : '<strong>' + (c.booked || 0) + '/' + c.capacity + '</strong> signed up') + '</span>' : '') +
           '</div>' +
           (c.note ? '<p class="sch-included">' + c.note + '</p>' : '') +
         '</div>' +
-        (c.bookable === false ? '' : '<div class="sch-cta"><a href="' + (c.bookingUrl || BOOK_FALLBACK) + '" class="sch-btn sch-btn-primary" target="_blank" rel="noopener">' + esc(c.ctaLabel || 'Book') + ' &rarr;</a></div>') +
+        (c.bookable === false || past ? '' : '<div class="sch-cta"><a href="' + (c.bookingUrl || BOOK_FALLBACK) + '" class="sch-btn sch-btn-primary" target="_blank" rel="noopener">' + esc(c.ctaLabel || 'Book') + ' &rarr;</a></div>') +
       '</div>';
     }).join('');
   }
@@ -1034,9 +1049,14 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       .catch(function () {});
   }
 
+  function feedUrl() {
+    var since = Math.max(0, Math.round((fromIso(todayIso()) - fromIso(OPEN_DAY)) / 86400000));
+    return FEED_BASE + '?from=' + OPEN_DAY + '&days=' + Math.min(since + 150, 400);
+  }
+
   function load() {
     var gamesReady = loadGames();
-    fetch(FEED, { cache: 'no-store' })
+    fetch(feedUrl(), { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (j) { return gamesReady.then(function () { return j; }); })
       .then(function (j) {
