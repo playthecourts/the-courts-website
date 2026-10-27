@@ -48,6 +48,7 @@ export type AuditAction =
   | "verify_nextgen_founder"
   | "mark_nextgen_not_eligible"
   | "set_nextgen_legacy_rate"
+  | "make_guardian_coach"
   | "set_next_billing_date"
   | "end_membership_after_period"
   // --- Training plan credits ---

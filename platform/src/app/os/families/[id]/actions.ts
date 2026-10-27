@@ -114,3 +114,30 @@ export async function updateParentContact(_prev: AddParentState, formData: FormD
     return { error: err instanceof Error ? err.message : "Couldn't save." };
   }
 }
+
+/// Makes an existing parent a coach on the SAME login — the staff record shares
+/// the guardian's Supabase auth id, which is exactly what drives the
+/// "Switch to Family View" toggle (OsActor.hasFamilyAccount). No new login is
+/// created and nothing is emailed; the parent just signs in as usual and now
+/// also has the Coach App / staff side. Owner-only (staff.manage), and always
+/// role "coach" — never an elevated role from this button.
+export async function makeGuardianCoach(guardianId: string): Promise<{ ok: true } | { ok: false; error: string }> {
+  try {
+    const actor = await requireCapability("staff.manage");
+    const g = await prisma.guardian.findUnique({ where: { id: guardianId }, select: { authId: true, name: true, email: true, phone: true } });
+    if (!g) return { ok: false, error: "That parent no longer exists." };
+    if (!g.authId) return { ok: false, error: "This parent hasn't created a login yet." };
+    if (!g.email) return { ok: false, error: "This parent has no email on file." };
+    const existing = await prisma.staffUser.findFirst({ where: { OR: [{ authId: g.authId }, { email: g.email.toLowerCase() }] } });
+    if (existing) return { ok: false, error: `${g.name} is already on staff.` };
+    const staff = await prisma.staffUser.create({
+      data: { authId: g.authId, name: g.name, email: g.email.toLowerCase(), phone: g.phone ?? null, role: "coach", active: true },
+    });
+    await auditLog(actor.id, "make_guardian_coach", "staff_user", staff.id, { guardianId });
+    revalidatePath("/os/staff");
+    revalidatePath("/os/families");
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : "Couldn't add them as a coach." };
+  }
+}
