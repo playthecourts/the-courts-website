@@ -11,7 +11,8 @@
       "homeAway": "Away",
       "venue": "Christ Presbyterian Academy, Veritas Gym",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Christ+Presbyterian+Academy%2C+Nashville%2C+TN",
-      "startMinute": 480
+      "startMinute": 480,
+      "coach": "Johnny Coles"
     },
     {
       "date": "2026-10-24",
@@ -22,7 +23,8 @@
       "homeAway": "Away",
       "venue": "Percy Priest Elementary Gym",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Percy+Priest+Elementary+School%2C+Nashville%2C+TN",
-      "startMinute": 780
+      "startMinute": 780,
+      "coach": "Johnny Coles"
     },
     {
       "date": "2026-10-24",
@@ -33,7 +35,8 @@
       "homeAway": "Away",
       "venue": "Percy Priest Elementary Gym",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Percy+Priest+Elementary+School%2C+Nashville%2C+TN",
-      "startMinute": 840
+      "startMinute": 840,
+      "coach": "Johnny Coles"
     },
     {
       "date": "2026-10-31",
@@ -44,7 +47,8 @@
       "homeAway": "Home",
       "venue": "Percy Priest Elementary Gym",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Percy+Priest+Elementary+School%2C+Nashville%2C+TN",
-      "startMinute": 720
+      "startMinute": 720,
+      "coach": "Johnny Coles"
     },
     {
       "date": "2026-10-31",
@@ -55,7 +59,8 @@
       "homeAway": "Home",
       "venue": "Percy Priest Elementary Gym",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Percy+Priest+Elementary+School%2C+Nashville%2C+TN",
-      "startMinute": 780
+      "startMinute": 780,
+      "coach": "Johnny Coles"
     },
     {
       "date": "2026-10-31",
@@ -66,7 +71,8 @@
       "homeAway": "Away",
       "venue": "West End Middle School, New Gym",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=West+End+Middle+School%2C+Nashville%2C+TN",
-      "startMinute": 900
+      "startMinute": 900,
+      "coach": "Johnny Coles"
     }
   ]
 }
