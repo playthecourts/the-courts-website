@@ -61,6 +61,17 @@ function sportFromName(name: string | null): string | null {
 
 const weekday = (d: Date) => new Intl.DateTimeFormat("en-US", { timeZone: TZ, weekday: "long" }).format(d);
 
+/// What a confirmed rental reads as publicly. A team rental is opted in by
+/// titling it "Team Rental (Team Name)" and shows that title as written; a
+/// birthday reads "Private Rental (Birthday)" with no name; anything else
+/// stays a plain "Private Rental".
+function partyLabel(sessionTitle: string | null, offeringName: string | null): string {
+  const t = sessionTitle?.trim() ?? "";
+  if (/^team rental\b/i.test(t)) return t;
+  if (/birthday/i.test(`${t} ${offeringName ?? ""}`)) return "Private Rental (Birthday)";
+  return "Private Rental";
+}
+
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const now = new Date();
@@ -148,7 +159,7 @@ export async function GET(request: Request) {
     const isLeague = type === "league";
     // Private training: nothing from the session or offering may reach the
     // public site except that this coach has a private session at this time.
-    const title = isParty ? "Private Rental" : isPrivate ? "Private Training" : (s.title ?? o.name ?? o.program.name);
+    const title = isParty ? partyLabel(s.title, o.name) : isPrivate ? "Private Training" : (s.title ?? o.name ?? o.program.name);
     return {
       id: s.id,
       date: dayKey(s.startTime),
