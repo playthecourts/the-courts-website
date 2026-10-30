@@ -67,11 +67,35 @@
       "time": "3:00 PM",
       "grade": "6th/7th Grade",
       "gradeKey": "67",
-      "opponent": "Boyd",
+      "opponent": "Bad News Bears (Womack)",
       "homeAway": "Away",
       "venue": "West End Middle School, New Gym",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=West+End+Middle+School%2C+Nashville%2C+TN",
       "startMinute": 900,
+      "coach": "Johnny Coles"
+    },
+    {
+      "date": "2026-11-07",
+      "time": "2:00 PM",
+      "grade": "6th/7th Grade",
+      "gradeKey": "67",
+      "opponent": "Tigers (Sulkowski)",
+      "homeAway": "Away",
+      "venue": "West End Middle School, New Gym",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=West+End+Middle+School%2C+Nashville%2C+TN",
+      "startMinute": 840,
+      "coach": "Johnny Coles"
+    },
+    {
+      "date": "2026-11-14",
+      "time": "4:00 PM",
+      "grade": "6th/7th Grade",
+      "gradeKey": "67",
+      "opponent": "Dragons (Pound)",
+      "homeAway": "Home",
+      "venue": "West End Middle School, New Gym",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=West+End+Middle+School%2C+Nashville%2C+TN",
+      "startMinute": 960,
       "coach": "Johnny Coles"
     }
   ]
