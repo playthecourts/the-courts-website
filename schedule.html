@@ -738,6 +738,8 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   var OPEN_DAY = '2026-10-01';
   var FEED_BASE = 'https://app.playthecourts.com/api/public/schedule';
   var BOOK_FALLBACK = 'https://app.playthecourts.com/my-courts/explore';
+  // Events where we don't show "x/y signed up" publicly (price still shows).
+  var HIDE_SPOTS = /shootout|volleyween/i;
 
   var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   var state = { cursor: null, selected: null, sport: 'all', type: 'all', coach: 'all' };
@@ -962,7 +964,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           '<div class="sch-meta">' +
             '<span class="sch-tag ' + (c.type === 'league' ? 'sch-tag--league' : 'sch-tag--training') + '">' + tag + '</span>' +
             '<span class="sch-coach">' + (c.coaches && c.coaches.length > 1 ? 'Coaches <strong>' + c.coaches.map(function (n) { return n.split(' ')[0]; }).join(' &amp; ') + '</strong>' : (c.coach ? 'Coach <strong>' + c.coach.split(' ')[0] + '</strong>' : '<strong>Coach TBD</strong>')) + '</span>' +
-            (!many && !past && c.capacity ? '<span class="sch-spots">' + (c.booked >= c.capacity ? '<strong>Full</strong>' : '<strong>' + (c.booked || 0) + '/' + c.capacity + '</strong> signed up') + '</span>' : '') +
+            (!many && !past && c.capacity && !HIDE_SPOTS.test(c.title) ? '<span class="sch-spots">' + (c.booked >= c.capacity ? '<strong>Full</strong>' : '<strong>' + (c.booked || 0) + '/' + c.capacity + '</strong> signed up') + '</span>' : '') +
           '</div>' +
           (c.note ? '<p class="sch-included">' + c.note + '</p>' : '') +
         '</div>' +
