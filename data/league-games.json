@@ -87,6 +87,54 @@
       "coach": "Johnny Coles"
     },
     {
+      "date": "2026-11-07",
+      "time": "4:00 PM",
+      "grade": "4th Grade",
+      "gradeKey": "4",
+      "opponent": "Warriors (Rogers)",
+      "homeAway": "Away",
+      "venue": "Lipscomb Academy Gym",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=Lipscomb+Academy%2C+Nashville%2C+TN",
+      "startMinute": 960,
+      "coach": "Johnny Coles"
+    },
+    {
+      "date": "2026-11-07",
+      "time": "5:00 PM",
+      "grade": "3rd Grade",
+      "gradeKey": "3",
+      "opponent": "D13 Elite Vols (Redding)",
+      "homeAway": "Away",
+      "venue": "Lipscomb Academy Gym",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=Lipscomb+Academy%2C+Nashville%2C+TN",
+      "startMinute": 1020,
+      "coach": "Johnny Coles"
+    },
+    {
+      "date": "2026-11-14",
+      "time": "1:00 PM",
+      "grade": "4th Grade",
+      "gradeKey": "4",
+      "opponent": "Tigers (Falik)",
+      "homeAway": "Away",
+      "venue": "Percy Priest Elementary Gym",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=Percy+Priest+Elementary+School%2C+Nashville%2C+TN",
+      "startMinute": 780,
+      "coach": "Johnny Coles"
+    },
+    {
+      "date": "2026-11-14",
+      "time": "2:00 PM",
+      "grade": "3rd Grade",
+      "gradeKey": "3",
+      "opponent": "Tigers (Saitta)",
+      "homeAway": "Away",
+      "venue": "Percy Priest Elementary Gym",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=Percy+Priest+Elementary+School%2C+Nashville%2C+TN",
+      "startMinute": 840,
+      "coach": "Johnny Coles"
+    },
+    {
       "date": "2026-11-14",
       "time": "4:00 PM",
       "grade": "6th/7th Grade",

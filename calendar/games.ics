@@ -66,7 +66,55 @@ UID:courts-wnsl-5@playthecourts.com
 DTSTAMP:20261021T000000Z
 DTSTART;TZID=America/Chicago:20261031T150000
 DTEND;TZID=America/Chicago:20261031T160000
-SUMMARY:The Courts 6th/7th Grade vs Boyd – Away
+SUMMARY:The Courts 6th/7th Grade vs Bad News Bears (Womack) – Away
+LOCATION:West End Middle School\, New Gym\, Nashville\, TN
+END:VEVENT
+BEGIN:VEVENT
+UID:courts-wnsl-6@playthecourts.com
+DTSTAMP:20261030T000000Z
+DTSTART;TZID=America/Chicago:20261107T160000
+DTEND;TZID=America/Chicago:20261107T170000
+SUMMARY:The Courts 4th Grade vs Warriors (Rogers) – Away
+LOCATION:Lipscomb Academy\, Nashville\, TN
+END:VEVENT
+BEGIN:VEVENT
+UID:courts-wnsl-7@playthecourts.com
+DTSTAMP:20261030T000000Z
+DTSTART;TZID=America/Chicago:20261107T170000
+DTEND;TZID=America/Chicago:20261107T180000
+SUMMARY:The Courts 3rd Grade vs D13 Elite Vols (Redding) – Away
+LOCATION:Lipscomb Academy\, Nashville\, TN
+END:VEVENT
+BEGIN:VEVENT
+UID:courts-wnsl-8@playthecourts.com
+DTSTAMP:20261030T000000Z
+DTSTART;TZID=America/Chicago:20261107T140000
+DTEND;TZID=America/Chicago:20261107T150000
+SUMMARY:The Courts 6th/7th Grade vs Tigers (Sulkowski) – Away
+LOCATION:West End Middle School\, New Gym\, Nashville\, TN
+END:VEVENT
+BEGIN:VEVENT
+UID:courts-wnsl-9@playthecourts.com
+DTSTAMP:20261030T000000Z
+DTSTART;TZID=America/Chicago:20261114T130000
+DTEND;TZID=America/Chicago:20261114T140000
+SUMMARY:The Courts 4th Grade vs Tigers (Falik) – Away
+LOCATION:Percy Priest Elementary School\, Nashville\, TN
+END:VEVENT
+BEGIN:VEVENT
+UID:courts-wnsl-10@playthecourts.com
+DTSTAMP:20261030T000000Z
+DTSTART;TZID=America/Chicago:20261114T140000
+DTEND;TZID=America/Chicago:20261114T150000
+SUMMARY:The Courts 3rd Grade vs Tigers (Saitta) – Away
+LOCATION:Percy Priest Elementary School\, Nashville\, TN
+END:VEVENT
+BEGIN:VEVENT
+UID:courts-wnsl-11@playthecourts.com
+DTSTAMP:20261030T000000Z
+DTSTART;TZID=America/Chicago:20261114T160000
+DTEND;TZID=America/Chicago:20261114T170000
+SUMMARY:The Courts 6th/7th Grade vs Dragons (Pound) – Home
 LOCATION:West End Middle School\, New Gym\, Nashville\, TN
 END:VEVENT
 END:VCALENDAR
