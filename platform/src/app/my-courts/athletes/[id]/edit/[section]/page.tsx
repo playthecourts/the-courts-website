@@ -4,6 +4,7 @@ import { getGuardianAthleteOrNull } from "@/lib/athlete-profile";
 import { signedPhotoUrl } from "@/lib/athlete-photo";
 import { displayName } from "@/lib/athlete";
 import { prisma } from "@/lib/prisma";
+import { getCurrentGuardian } from "@/lib/dal";
 import PhotoPicker from "@/components/athlete/photo-picker";
 import AboutForm from "@/components/athlete/forms/about-form";
 import FamilySafetyForm from "@/components/athlete/forms/family-safety-form";
@@ -39,6 +40,17 @@ export default async function EditSectionPage({
 
   const name = displayName(athlete);
   const back = `/my-courts/athletes/${athlete.id}`;
+
+  const currentGuardianId = (await getCurrentGuardian()).id;
+  const guardianFamilyCounts = new Map(
+    (
+      await prisma.familyGuardian.groupBy({
+        by: ["guardianId"],
+        where: { guardianId: { in: athlete.family.guardians.map((fg) => fg.guardianId) } },
+        _count: { _all: true },
+      })
+    ).map((r) => [r.guardianId, r._count._all])
+  );
   const done =
     section === "player-card" || section === "privacy"
       ? back
@@ -53,6 +65,13 @@ export default async function EditSectionPage({
     isPrimary: fg.isPrimary,
     authorizedForPickup: fg.authorizedForPickup,
     hasLogin: Boolean(fg.guardian.authId),
+    livesWithAthlete: fg.livesWithAthlete,
+    isSelf: fg.guardian.id === currentGuardianId,
+    // Contact details live on the shared guardian record, so they are only
+    // editable when it's this family's own (see canEditGuardianContact).
+    contactEditable:
+      fg.guardian.id === currentGuardianId ||
+      (!fg.guardian.authId && (guardianFamilyCounts.get(fg.guardian.id) ?? 1) <= 1),
   }));
 
   // Siblings' provider info feeds the explicit "use the same as…" button only.

@@ -625,6 +625,125 @@ export async function addGuardian(_prev: ActionState, formData: FormData): Promi
   return OK;
 }
 
+/// Whose contact details (name, email, phone) a parent may change. Those live
+/// on the shared guardian record, not this family's link to it, so they are
+/// editable only when that record is effectively this family's own: no portal
+/// login (a login's email is how that person signs in) and linked to no other
+/// family. The signed-in parent may always fix their own name and phone.
+async function canEditGuardianContact(targetGuardianId: string, selfId: string) {
+  const g = await prisma.guardian.findUnique({
+    where: { id: targetGuardianId },
+    select: { authId: true, _count: { select: { families: true } } },
+  });
+  if (!g) return { name: false, email: false };
+  if (targetGuardianId === selfId) return { name: true, email: false };
+  const own = !g.authId && g._count.families <= 1;
+  return { name: own, email: own };
+}
+
+export async function updateGuardian(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const athleteId = str(formData, "athleteId");
+  const targetGuardianId = str(formData, "guardianId");
+  const { athlete, guardianId, guardianName } = await requireGuardianAthlete(athleteId);
+
+  const link = await prisma.familyGuardian.findUnique({
+    where: { familyId_guardianId: { familyId: athlete.familyId, guardianId: targetGuardianId } },
+    include: { guardian: true },
+  });
+  if (!link) return { ok: false, errors: { form: "That person isn't on your family anymore." } };
+
+  const can = await canEditGuardianContact(targetGuardianId, guardianId);
+  const relationship = str(formData, "relationship");
+  const isPrimary = str(formData, "isPrimary") === "yes";
+  const livesWithAthleteRaw = str(formData, "livesWithAthlete");
+
+  const errors: Record<string, string> = {};
+  if (!relationship) errors.relationship = "How are they related?";
+
+  let name = link.guardian.name;
+  let email = link.guardian.email;
+  let phone = link.guardian.phone;
+  if (can.name) {
+    const firstName = str(formData, "firstName");
+    const lastName = str(formData, "lastName");
+    if (!firstName) errors.firstName = "We need a first name.";
+    if (!lastName) errors.lastName = "We need a last name.";
+    name = `${firstName} ${lastName}`;
+    phone = optional(formData, "phone");
+  }
+  if (can.email) {
+    email = optional(formData, "email");
+    if (email && email !== link.guardian.email) {
+      const taken = await prisma.guardian.findUnique({ where: { email } });
+      if (taken) errors.email = "Someone else already uses that email. Contact us and we'll link them for you.";
+    }
+  }
+  if (Object.keys(errors).length > 0) return { ok: false, errors };
+
+  await prisma.$transaction(async (tx) => {
+    if (can.name || can.email) {
+      await tx.guardian.update({ where: { id: targetGuardianId }, data: { name, email, phone } });
+    }
+    await tx.familyGuardian.update({
+      where: { familyId_guardianId: { familyId: athlete.familyId, guardianId: targetGuardianId } },
+      data: {
+        relationship,
+        isPrimary,
+        livesWithAthlete: livesWithAthleteRaw ? livesWithAthleteRaw === "yes" : null,
+      },
+    });
+  });
+
+  await recordProfileChange({
+    athleteId: athlete.id,
+    actor: { type: "guardian", id: guardianId, label: guardianName },
+    category: "guardians",
+    field: "guardian_edited",
+    oldValue: `${link.guardian.name} (${link.relationship ?? "—"})`,
+    newValue: `${name} (${relationship})`,
+  });
+
+  revalidateAthlete(athlete.id);
+  return OK;
+}
+
+/// Takes someone off the family. Only the family link is removed; the guardian
+/// record itself stays, since it may belong to another family or a login. A
+/// parent can't remove themselves (they'd lose access) or anyone with their
+/// own portal login (that would cut off another parent's access, which staff
+/// handle).
+export async function removeGuardian(
+  athleteId: string,
+  targetGuardianId: string
+): Promise<{ ok: boolean; error?: string }> {
+  const { athlete, guardianId, guardianName } = await requireGuardianAthlete(athleteId);
+  if (targetGuardianId === guardianId) return { ok: false, error: "You can't remove yourself." };
+
+  const link = await prisma.familyGuardian.findUnique({
+    where: { familyId_guardianId: { familyId: athlete.familyId, guardianId: targetGuardianId } },
+    include: { guardian: true },
+  });
+  if (!link) return { ok: true };
+  if (link.guardian.authId) {
+    return { ok: false, error: "They have their own login, so contact us and we'll remove them for you." };
+  }
+
+  await prisma.familyGuardian.delete({
+    where: { familyId_guardianId: { familyId: athlete.familyId, guardianId: targetGuardianId } },
+  });
+
+  await recordProfileChange({
+    athleteId: athlete.id,
+    actor: { type: "guardian", id: guardianId, label: guardianName },
+    category: "guardians",
+    field: "guardian_removed",
+    oldValue: `${link.guardian.name} (${link.relationship ?? "—"})`,
+  });
+
+  revalidateAthlete(athlete.id);
+  return { ok: true };
+}
+
 export async function updateGuardianPickup(
   athleteId: string,
   targetGuardianId: string,
