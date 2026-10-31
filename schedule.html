@@ -160,10 +160,13 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
      Doubled class so these beat the generic .sch-row rules that come later. */
   .sch-row.sch-row--league { background:var(--charcoal); color:var(--white); border-top:4px solid var(--orange); border-bottom:0; border-radius:8px; padding:14px 14px; margin:0 0 8px; }
   .sch-row.sch-row--league:last-child { margin-bottom:0; }
-  .sch-events { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; background:var(--orange); color:var(--white); border-radius:8px; padding:12px 14px; margin:0 0 16px; }
-  .sch-events-label { font-family:var(--font-sport); font-weight:700; font-size:13px; letter-spacing:.12em; text-transform:uppercase; opacity:.9; }
-  .sch-events-item { color:var(--white); text-decoration:none; font-size:15px; }
-  .sch-events-item:hover { text-decoration:underline; }
+  .sch-events { display:flex; flex-direction:column; gap:10px; background:var(--black, #000); color:var(--white); border-left:5px solid var(--orange); border-radius:10px; padding:16px 18px; margin:0 0 18px; box-shadow:0 6px 18px rgba(0,0,0,.18); }
+  .sch-events-label { font-family:var(--font-sport); font-weight:700; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--orange); }
+  .sch-events-item { display:flex; align-items:center; gap:14px; color:var(--white); text-decoration:none; }
+  .sch-events-item strong { display:block; font-family:var(--font-display, inherit); font-size:22px; line-height:1.15; letter-spacing:.01em; }
+  .sch-events-icon { font-size:34px; line-height:1; }
+  .sch-events-time { display:block; font-size:14px; color:var(--gray-mid); margin-top:2px; }
+  .sch-events-item:hover strong { text-decoration:underline; }
   .sch-row.sch-row--event { border-left:4px solid var(--orange); padding-left:12px; background:rgba(222,80,25,.06); scroll-margin-top:120px; }
   .sch-row.sch-row--league:hover { background:var(--black); }
   .sch-row.sch-row--league .sch-time { color:var(--white); }
@@ -950,7 +953,8 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     var eventCallout = events.length
       ? '<div class="sch-events"><span class="sch-events-label">Special event' + (events.length > 1 ? 's' : '') + '</span>' +
           events.map(function (c) {
-            return '<a href="#ev-' + c.id + '" class="sch-events-item"><strong>' + c.title + '</strong> &middot; ' + c.time + '&ndash;' + c.endTime + ' &darr;</a>';
+            var icon = /volley/i.test((c.sport || '') + ' ' + c.title) ? '&#127952;' : (/basket|shoot/i.test((c.sport || '') + ' ' + c.title) ? '&#127936;' : '&#11088;');
+            return '<a href="#ev-' + c.id + '" class="sch-events-item"><span class="sch-events-icon" aria-hidden="true">' + icon + '</span><span><strong>' + c.title + '</strong><span class="sch-events-time">' + c.time + '&ndash;' + c.endTime + ' &middot; see details &darr;</span></span></a>';
           }).join('') + '</div>'
       : '';
     panel.innerHTML = head + notice + eventCallout + renderGames(gameList, gamesArrive) + (list.length && gameList.length ? '<div class="gm-head"><h4 style="color:var(--near-black)">At The Courts</h4></div>' : '') + collapse(list).map(function (g) {
