@@ -160,6 +160,11 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
      Doubled class so these beat the generic .sch-row rules that come later. */
   .sch-row.sch-row--league { background:var(--charcoal); color:var(--white); border-top:4px solid var(--orange); border-bottom:0; border-radius:8px; padding:14px 14px; margin:0 0 8px; }
   .sch-row.sch-row--league:last-child { margin-bottom:0; }
+  .sch-events { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; background:var(--orange); color:var(--white); border-radius:8px; padding:12px 14px; margin:0 0 16px; }
+  .sch-events-label { font-family:var(--font-sport); font-weight:700; font-size:13px; letter-spacing:.12em; text-transform:uppercase; opacity:.9; }
+  .sch-events-item { color:var(--white); text-decoration:none; font-size:15px; }
+  .sch-events-item:hover { text-decoration:underline; }
+  .sch-row.sch-row--event { border-left:4px solid var(--orange); padding-left:12px; background:rgba(222,80,25,.06); scroll-margin-top:120px; }
   .sch-row.sch-row--league:hover { background:var(--black); }
   .sch-row.sch-row--league .sch-time { color:var(--white); }
   .sch-row.sch-row--league .sch-time span { color:var(--gray-mid); opacity:.85; }
@@ -938,7 +943,17 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           : '<p class="cal-note">Court time limited ' + block.from + '&ndash;' + block.to +
             (block.note ? ' &middot; ' + block.note : '') + '</p>')
       : '';
-    panel.innerHTML = head + notice + renderGames(gameList, gamesArrive) + (list.length && gameList.length ? '<div class="gm-head"><h4 style="color:var(--near-black)">At The Courts</h4></div>' : '') + collapse(list).map(function (g) {
+    // Special events (Volleyween, the Shootout) sit below a morning of classes,
+    // so a family scanning the top of the day never sees them. Call them out
+    // first, each linking down to its row.
+    var events = list.filter(function (c) { return c.type === 'special_event'; });
+    var eventCallout = events.length
+      ? '<div class="sch-events"><span class="sch-events-label">Special event' + (events.length > 1 ? 's' : '') + '</span>' +
+          events.map(function (c) {
+            return '<a href="#ev-' + c.id + '" class="sch-events-item"><strong>' + c.title + '</strong> &middot; ' + c.time + '&ndash;' + c.endTime + ' &darr;</a>';
+          }).join('') + '</div>'
+      : '';
+    panel.innerHTML = head + notice + eventCallout + renderGames(gameList, gamesArrive) + (list.length && gameList.length ? '<div class="gm-head"><h4 style="color:var(--near-black)">At The Courts</h4></div>' : '') + collapse(list).map(function (g) {
       var c = g[0];
       var tag = (c.type === 'private_training' || c.type === 'party') ? 'Private' : (c.type === 'league' ? 'League &middot; At The Courts' : (c.sport || 'The Courts'));
       // A self-serve bay sold in 30-minute slots is one thing you can book at
@@ -955,7 +970,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
             (isPast(c.date) ? 'self-serve' : (openCt ? openCt + ' open &middot; book any start time' : '<strong>Packed House</strong>')) + '</div>'
         : '';
       var past = isPast(c.date);
-      return '<div class="sch-row' + (c.type === 'league' ? ' sch-row--league' : '') + (past ? ' sch-row--past' : '') + '">' +
+      return '<div class="sch-row' + (c.type === 'league' ? ' sch-row--league' : '') + (c.type === 'special_event' ? ' sch-row--event' : '') + (past ? ' sch-row--past' : '') + '"' + (c.type === 'special_event' ? ' id="ev-' + c.id + '"' : '') + '>' +
         '<div class="sch-time">' + timeCell + '</div>' +
         '<div>' +
           '<h4>' + c.title + '</h4>' +
