@@ -167,6 +167,10 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   .sch-events-icon { font-size:34px; line-height:1; }
   .sch-events-time { display:block; font-size:14px; color:var(--gray-mid); margin-top:2px; }
   .sch-events-item:hover strong { text-decoration:underline; }
+  .sch-row.sch-row--compact { padding:8px 4px; }
+  .sch-row.sch-row--compact h4 { font-size:15px; margin-bottom:2px; }
+  .sch-row.sch-row--compact .sch-time span, .sch-row.sch-row--compact .sch-tag { display:none; }
+  .sch-row.sch-row--compact .sch-btn { min-height:34px; padding:6px 14px; font-size:13px; }
   .sch-row.sch-row--event { border-left:4px solid var(--orange); padding-left:12px; background:rgba(222,80,25,.06); scroll-margin-top:120px; }
   .sch-row.sch-row--league:hover { background:var(--black); }
   .sch-row.sch-row--league .sch-time { color:var(--white); }
@@ -974,18 +978,21 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
             (isPast(c.date) ? 'self-serve' : (openCt ? openCt + ' open &middot; book any start time' : '<strong>Packed House</strong>')) + '</div>'
         : '';
       var past = isPast(c.date);
-      return '<div class="sch-row' + (c.type === 'league' ? ' sch-row--league' : '') + (c.type === 'special_event' ? ' sch-row--event' : '') + (past ? ' sch-row--past' : '') + '"' + (c.type === 'special_event' ? ' id="ev-' + c.id + '"' : '') + '>' +
+      // On a special-event day the regular classes shrink to time, title and
+      // coach so the event is what stands out.
+      var compact = events.length > 0 && c.type !== 'special_event' && c.type !== 'league';
+      return '<div class="sch-row' + (c.type === 'league' ? ' sch-row--league' : '') + (c.type === 'special_event' ? ' sch-row--event' : '') + (compact ? ' sch-row--compact' : '') + (past ? ' sch-row--past' : '') + '"' + (c.type === 'special_event' ? ' id="ev-' + c.id + '"' : '') + '>' +
         '<div class="sch-time">' + timeCell + '</div>' +
         '<div>' +
           '<h4>' + c.title + '</h4>' +
-          (c.desc ? '<div class="sch-age-row">' + c.desc + '</div>' : '') +
+          (c.desc && !compact ? '<div class="sch-age-row">' + c.desc + '</div>' : '') +
           slotLine +
           '<div class="sch-meta">' +
             '<span class="sch-tag ' + (c.type === 'league' ? 'sch-tag--league' : 'sch-tag--training') + '">' + tag + '</span>' +
             '<span class="sch-coach">' + (c.coaches && c.coaches.length > 1 ? 'Coaches <strong>' + c.coaches.map(function (n) { return n.split(' ')[0]; }).join(' &amp; ') + '</strong>' : (c.coach ? 'Coach <strong>' + c.coach.split(' ')[0] + '</strong>' : '<strong>Coach TBD</strong>')) + '</span>' +
             (!many && !past && c.capacity && !HIDE_SPOTS.test(c.title) ? '<span class="sch-spots">' + (c.booked >= c.capacity ? '<strong>Full</strong>' : '<strong>' + (c.booked || 0) + '/' + c.capacity + '</strong> signed up') + '</span>' : '') +
           '</div>' +
-          (c.note ? '<p class="sch-included">' + c.note + '</p>' : '') +
+          (c.note && !compact ? '<p class="sch-included">' + c.note + '</p>' : '') +
         '</div>' +
         (c.bookable === false || past ? '' : '<div class="sch-cta"><a href="' + (c.bookingUrl || BOOK_FALLBACK) + '" class="sch-btn sch-btn-primary" target="_blank" rel="noopener">' + esc(c.ctaLabel || 'Book') + ' &rarr;</a></div>') +
       '</div>';
