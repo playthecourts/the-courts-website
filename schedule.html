@@ -201,7 +201,9 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   @media (min-width: 1040px) {
     .cal-layout { max-width:1180px; display:grid; grid-template-columns:minmax(0,1.3fr) minmax(330px,1fr); gap:32px; align-items:start; }
     .cal-layout .cal-wrap { max-width:none; }
-    .cal-layout .cal-day-panel { position:sticky; top:104px; max-height:calc(100vh - 130px); overflow-y:auto; margin-top:0; }
+    /* The day panel grows to fit the whole day. A capped, inner-scrolling box
+       hid whatever came after the first few classes (Volleyween on Oct 31). */
+    .cal-layout .cal-day-panel { margin-top:0; }
   }
   .cal-grid-head { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:6px; margin-bottom:6px; }
   .cal-grid-head span { text-align:center; font-family:var(--font-sport); font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--gray-dark); }
