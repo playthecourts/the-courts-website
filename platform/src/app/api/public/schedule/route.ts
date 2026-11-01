@@ -64,11 +64,13 @@ const weekday = (d: Date) => new Intl.DateTimeFormat("en-US", { timeZone: TZ, we
 /// What a confirmed rental reads as publicly. A team rental is opted in by
 /// titling it "Team Rental (Team Name)" and shows that title as written; a
 /// birthday reads "Private Rental (Birthday)" with no name; anything else
-/// stays a plain "Private Rental".
+/// stays a plain "Private Rental". A session's own title wins over its
+/// offering's name, so a rental parked on a birthday offering but titled
+/// "Private Rental" doesn't read as a birthday.
 function partyLabel(sessionTitle: string | null, offeringName: string | null): string {
   const t = sessionTitle?.trim() ?? "";
   if (/^team rental\b/i.test(t)) return t;
-  if (/birthday/i.test(`${t} ${offeringName ?? ""}`)) return "Private Rental (Birthday)";
+  if (/birthday/i.test(t || offeringName || "")) return "Private Rental (Birthday)";
   return "Private Rental";
 }
 
