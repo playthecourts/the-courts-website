@@ -2,6 +2,7 @@ import Link from "next/link";
 import { requireCapability } from "@/lib/os/dal";
 import { prisma } from "@/lib/prisma";
 import { FOUNDING_OFFER } from "@/lib/founding-offer";
+import { stripe } from "@/lib/stripe";
 import { PageHeader, Card, CardHeader, EmptyState, Pill, Metric, TableWrap, Th, Td } from "../_components/ui";
 
 export const dynamic = "force-dynamic";
@@ -96,6 +97,25 @@ export default async function MembersPage({
     orderBy: [{ renewalDate: "asc" }, { startDate: "asc" }],
   });
 
+  // Family Unlimited is one subscription per family, often at a rate set by
+  // hand in Stripe, so its real price comes from the subscription itself.
+  // The sibling's row has no subscription of its own and rides on it.
+  const familyRates = new Map(
+    await Promise.all(
+      memberships
+        .filter((m) => m.plan.name === "Family Unlimited Membership" && m.stripeSubscriptionId)
+        .map(async (m) => {
+          try {
+            const sub = await stripe.subscriptions.retrieve(m.stripeSubscriptionId!);
+            const cents = sub.items.data.reduce((n, i) => n + (i.price.unit_amount ?? 0) * (i.quantity ?? 1), 0);
+            return [m.id, cents] as const;
+          } catch {
+            return [m.id, m.plan.priceCents] as const;
+          }
+        })
+    )
+  );
+
   const rows = memberships.map((m) => {
     const guardian = m.athlete.family.guardians[0]?.guardian ?? null;
     const planName = m.plan.name;
@@ -108,11 +128,15 @@ export default async function MembersPage({
     else segment = "new";
 
     const rateCents =
-      planName === "NextGen Legacy Rate"
-        ? (guardian?.legacyRateCents ?? 0)
-        : segment === "founding"
-          ? FOUNDING_OFFER.rateCents
-          : m.plan.priceCents;
+      m.linkedMembershipId && !m.stripeSubscriptionId
+        ? 0
+        : familyRates.has(m.id)
+          ? familyRates.get(m.id)!
+          : planName === "NextGen Legacy Rate"
+            ? (guardian?.legacyRateCents ?? 0)
+            : segment === "founding"
+              ? FOUNDING_OFFER.rateCents
+              : m.plan.priceCents;
 
     return {
       id: m.id,
@@ -123,6 +147,7 @@ export default async function MembersPage({
       segment,
       type: TYPE_LABEL[planName] ?? planName.replace(/\s+Membership$/, ""),
       rateCents,
+      ridesOnSibling: Boolean(m.linkedMembershipId && !m.stripeSubscriptionId),
       status: m.status,
       startDate: m.startDate,
       nextBilling: m.renewalDate,
@@ -251,7 +276,7 @@ export default async function MembersPage({
                     </Td>
                     <Td><Pill tone={SEGMENT_TONE[r.segment]}>{SEGMENT_LABEL[r.segment]}</Pill></Td>
                     <Td className="text-near-black">{r.type}</Td>
-                    <Td className="os-num text-near-black">{r.rateCents ? `${money(r.rateCents)}/mo` : "Free"}</Td>
+                    <Td className="os-num text-near-black">{r.ridesOnSibling ? "Included" : r.rateCents ? `${money(r.rateCents)}/mo` : "Free"}</Td>
                     <Td className="text-near-black">
                       {r.cancelAt ? <span className="text-danger">Ends {day(r.cancelAt)}</span> : day(r.nextBilling)}
                     </Td>
