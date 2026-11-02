@@ -5,6 +5,7 @@ import { requireCapability } from "@/lib/os/dal";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 import { auditLog } from "@/lib/audit";
+import { canGrantNextGen165 } from "@/lib/nextgen-gate";
 
 /// A manual override with no matching historical record — distinct from
 /// `linkNextGenRecord` (a real data match) so admin's table can see HOW
@@ -155,6 +156,9 @@ export async function setLegacyRate(guardianId: string, formData: FormData) {
     throw new Error("Enter a valid monthly rate.");
   }
   const legacyRateCents = Math.round(dollars * 100);
+  if (legacyRateCents < 18500 && !canGrantNextGen165(guardian.legacyRateCents)) {
+    throw new Error("The $165 NextGen rate is closed to new families. Use $185 or more.");
+  }
 
   await prisma.guardian.update({
     where: { id: guardianId },
@@ -193,7 +197,10 @@ export async function linkNextGenRecord(recordId: string, guardianId: string) {
       data: {
         nextGenVerification: "verified",
         isFounder: true,
-        ...(record.legacyRateCents != null ? { legacyRateCents: record.legacyRateCents } : {}),
+        ...(record.legacyRateCents != null &&
+        (record.legacyRateCents >= 18500 || canGrantNextGen165(guardian.legacyRateCents))
+          ? { legacyRateCents: record.legacyRateCents }
+          : {}),
       },
     }),
   ]);
@@ -265,6 +272,9 @@ export async function setNextGenApprovedRate(guardianId: string, formData: FormD
   const guardian = await prisma.guardian.findUniqueOrThrow({ where: { id: guardianId } });
   if (guardian.nextGenStatus === null) {
     throw new Error("This guardian never self-reported a NextGen status.");
+  }
+  if (rateCents === 16500 && !canGrantNextGen165(guardian.legacyRateCents)) {
+    throw new Error("The $165 NextGen rate is closed to new families. Approve at $185 or $200.");
   }
 
   const [formers, unlimited, legacy] = await Promise.all([

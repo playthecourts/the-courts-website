@@ -10,3 +10,9 @@ export function canUseNextGenLegacyCheckout(g: {
 }) {
   return g.nextGenStatus === "current_nextgen" && g.nextGenVerification === "admin_approved" && g.legacyRateCents != null;
 }
+
+/// As of Nov 1, 2026 the $165 NextGen rate is closed to new families. Staff
+/// can still approve $185 or $200; $165 stays only for families already on it.
+export function canGrantNextGen165(currentLegacyRateCents: number | null) {
+  return currentLegacyRateCents === 16500;
+}

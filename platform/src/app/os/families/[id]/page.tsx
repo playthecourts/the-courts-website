@@ -9,7 +9,6 @@ import { money, moneyExact, pluralize } from "@/lib/os/format";
 import { MediaStatusBadge } from "@/components/athlete/badges";
 import { PageHeader, Card, CardHeader, EmptyState, Metric, Pill, TableWrap, Th, Td } from "../../_components/ui";
 import { OwedActions, BillingDateForm, EndAfterPeriodButton } from "../../payments/row-actions";
-import { ApproveLegacyRate } from "./approve-legacy-rate";
 import { MakeCoach } from "./make-coach";
 import { AddParentForm } from "./add-parent-form";
 import { EditParent } from "./edit-parent";
@@ -64,7 +63,6 @@ export default async function OsFamilyPage({ params }: { params: Promise<{ id: s
   const seePayments = can(actor, "payments.view");
   const canSendLink = can(actor, "payments.sendLink");
   const canMoveDates = can(actor, "plans.manage");
-  const canVerifyNextGen = can(actor, "nextgen.verify");
   const canManageStaff = can(actor, "staff.manage");
   const canEditFamily = can(actor, "families.edit");
 
@@ -151,7 +149,6 @@ export default async function OsFamilyPage({ params }: { params: Promise<{ id: s
                         hasLogin={!!fg.guardian.authId}
                       />
                     ) : null}
-                    {canVerifyNextGen && !fg.guardian.nextGenStatus ? <ApproveLegacyRate guardianId={fg.guardian.id} /> : null}
                     {canManageStaff && fg.guardian.authId ? <MakeCoach guardianId={fg.guardian.id} /> : null}
                   </div>
                   <div className="flex flex-wrap gap-1.5">

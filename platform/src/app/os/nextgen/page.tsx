@@ -247,7 +247,7 @@ export default async function NextGenPage({
                               <option value="" disabled>
                                 Approve at…
                               </option>
-                              <option value="16500">$165</option>
+                              {g.legacyRateCents === 16500 ? <option value="16500">$165</option> : null}
                               <option value="18500">$185</option>
                               <option value="20000">$200</option>
                             </select>
