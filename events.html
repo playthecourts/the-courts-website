@@ -165,6 +165,19 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   @media (max-width:760px) { .ev-goat-decor { display:none; } }
   @media (prefers-reduced-motion:reduce) { .ev-goat-decor--pizza { animation:none; } }
 
+  /* Glow Night — lights off, neon on */
+  .ev-poster--glow { background:radial-gradient(ellipse 700px 320px at 50% 0%, rgba(222,80,25,0.18), transparent 65%), #050505; text-align:center; box-shadow:0 0 0 1px rgba(255,90,31,0.35), 0 18px 48px rgba(222,80,25,0.18); }
+  .ev-glow-art { display:block; width:100%; height:auto; aspect-ratio:16/9; }
+  .ev-poster--glow .ev-poster-body { padding:26px clamp(22px,4vw,48px) 30px; }
+  .ev-poster--glow .ev-poster-status { color:#FF7A45; }
+  .ev-poster--glow h3 { font-family:var(--font-display); font-weight:900; font-size:clamp(30px,4.2vw,44px); color:var(--white); margin:0 0 10px; }
+  .ev-glow-copy { font-size:15px; line-height:1.65; color:rgba(255,255,255,0.68); max-width:52ch; margin:10px auto 0; text-wrap:balance; }
+  .ev-glow-bold { font-family:var(--font-heading); font-weight:800; font-size:15.5px; color:var(--white); margin:16px auto 0; text-wrap:balance; }
+  .ev-glow-meta { display:flex; flex-wrap:wrap; justify-content:center; gap:10px 20px; margin:16px 0 10px; font-family:var(--font-sport); font-weight:800; font-size:18px; letter-spacing:0.04em; text-transform:uppercase; color:var(--white); }
+  .ev-glow-meta span:nth-child(2) { color:#B6FF3B; }
+  .ev-glow-price { font-family:var(--font-sport); font-weight:800; font-size:15px; letter-spacing:0.04em; text-transform:uppercase; color:#FF7A45; margin:0 0 20px; }
+  .ev-poster--glow .courts-commentary { margin:16px auto 0; }
+
   /* Holiday Classic */
   .ev-poster--holiday { background:var(--charcoal); padding:0; position:relative; text-align:center; }
   .ev-poster--holiday::before { content:''; position:absolute; top:0; left:0; right:0; height:5px; z-index:2; background:repeating-linear-gradient(90deg, #B32133 0 16px, #FFFFFF 16px 32px); }
@@ -604,6 +617,22 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           <p>Good thing we planned ahead.</p>
           <p class="cal-schedule">Volleyball &middot; 3&ndash;5 PM</p>
           <a href="camps#board" class="cal-link">View Camps →</a>
+        </div>
+      </div>
+
+      <div class="ev-poster ev-poster--glow reveal" data-ends="2026-11-21" id="glow-night" data-filter="special">
+        <img class="ev-glow-art" src="images/glow-night.jpg" width="2400" height="1350" alt="Glow Night at The Courts: Lights off, glow on. Saturday, November 21, 5 to 8 PM. Wear white or bright colors." loading="lazy">
+        <div class="ev-poster-body">
+          <span class="ev-poster-status">Sat, Nov 21 &middot; 5&ndash;8 PM</span>
+          <h3>Glow Night</h3>
+          <p class="ev-glow-copy">We love The Courts orange. A close second? All things neon. We&rsquo;re turning the lights off and the glow on for a night of glow sticks, games and a whole lot of color.</p>
+          <p class="ev-glow-bold">Wear white or bright colors. You&rsquo;ll see why.</p>
+          <div class="ev-glow-meta">
+            <span>5&ndash;8 PM</span><span>Drinks + Snacks Included</span>
+          </div>
+          <p class="ev-glow-price">Members $10 &middot; Non-Members $20</p>
+          <span class="soon-savedate soon-savedate--dark"><strong>Save the Date</strong><span>Registration coming soon.</span></span>
+          <span class="courts-commentary courts-commentary--on-dark">Brightest outfit wins. Unofficially.</span>
         </div>
       </div>
 
