@@ -166,17 +166,16 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   @media (prefers-reduced-motion:reduce) { .ev-goat-decor--pizza { animation:none; } }
 
   /* Glow Night — lights off, neon on */
-  .ev-poster--glow { background:radial-gradient(ellipse 700px 320px at 50% 0%, rgba(222,80,25,0.18), transparent 65%), #050505; text-align:center; box-shadow:0 0 0 1px rgba(255,90,31,0.35), 0 18px 48px rgba(222,80,25,0.18); }
-  .ev-glow-art { display:block; width:100%; height:auto; aspect-ratio:16/9; }
-  .ev-poster--glow .ev-poster-body { padding:26px clamp(22px,4vw,48px) 30px; }
+  .ev-poster--glow { background:radial-gradient(ellipse 46% 62% at 50% 50%, rgba(5,5,5,0.92) 30%, rgba(5,5,5,0.55) 70%, rgba(5,5,5,0.2)), url('images/glow-night-bg.jpg') center/cover no-repeat, #050505; position:relative; text-align:center; }
+  .ev-poster--glow .ev-poster-body { position:relative; z-index:1; padding:28px clamp(24px,4vw,48px) 26px; }
   .ev-poster--glow .ev-poster-status { color:#FF7A45; }
-  .ev-poster--glow h3 { font-family:var(--font-display); font-weight:900; font-size:clamp(30px,4.2vw,44px); color:var(--white); margin:0 0 10px; }
-  .ev-glow-copy { font-size:15px; line-height:1.65; color:rgba(255,255,255,0.68); max-width:52ch; margin:10px auto 0; text-wrap:balance; }
-  .ev-glow-bold { font-family:var(--font-heading); font-weight:800; font-size:15.5px; color:var(--white); margin:16px auto 0; text-wrap:balance; }
+  .ev-poster--glow h3 { font-family:var(--font-display); font-weight:900; font-size:clamp(30px,4.2vw,44px); color:var(--white); margin:0 0 10px; text-shadow:3px 3px 0 #FF2E9A; }
+  .ev-glow-copy { font-size:15px; line-height:1.65; color:rgba(255,255,255,0.72); max-width:52ch; margin:14px auto 0; text-wrap:balance; }
+  .ev-glow-bold { font-family:var(--font-heading); font-weight:800; font-size:15.5px; color:var(--white); max-width:50ch; margin:18px auto 0; text-wrap:balance; }
   .ev-glow-meta { display:flex; flex-wrap:wrap; justify-content:center; gap:10px 20px; margin:16px 0 10px; font-family:var(--font-sport); font-weight:800; font-size:18px; letter-spacing:0.04em; text-transform:uppercase; color:var(--white); }
   .ev-glow-meta span:nth-child(2) { color:#B6FF3B; }
-  .ev-glow-price { font-family:var(--font-sport); font-weight:800; font-size:15px; letter-spacing:0.04em; text-transform:uppercase; color:#FF7A45; margin:0 0 20px; }
-  .ev-poster--glow .courts-commentary { margin:16px auto 0; }
+  .ev-glow-price { font-family:var(--font-sport); font-weight:800; font-size:15px; letter-spacing:0.04em; text-transform:uppercase; color:#FF7A45; margin:0 0 22px; }
+  @media (max-width:760px) { .ev-poster--glow { background:linear-gradient(rgba(5,5,5,0.72), rgba(5,5,5,0.72)), url('images/glow-night-bg.jpg') center/cover no-repeat, #050505; } }
 
   /* Holiday Classic */
   .ev-poster--holiday { background:var(--charcoal); padding:0; position:relative; text-align:center; }
@@ -621,19 +620,20 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       </div>
 
       <div class="ev-poster ev-poster--glow reveal" data-ends="2026-11-21" id="glow-night" data-filter="special">
-        <img class="ev-glow-art" src="images/glow-night.jpg" width="2400" height="1350" alt="Glow Night at The Courts: Lights off, glow on. Saturday, November 21, 5 to 8 PM. Wear white or bright colors." loading="lazy">
         <div class="ev-poster-body">
           <span class="ev-poster-status">Sat, Nov 21 &middot; 5&ndash;8 PM</span>
           <h3>Glow Night</h3>
-          <p class="ev-glow-copy">We love The Courts orange. A close second? All things neon. We&rsquo;re turning the lights off and the glow on for a night of glow sticks, games and a whole lot of color.</p>
+          <p class="ev-glow-copy">We love The Courts orange. A close second? All things neon. Lights off, glow on: glow sticks, games and a whole lot of color.</p>
           <p class="ev-glow-bold">Wear white or bright colors. You&rsquo;ll see why.</p>
           <div class="ev-glow-meta">
             <span>5&ndash;8 PM</span><span>Drinks + Snacks Included</span>
           </div>
           <p class="ev-glow-price">Members $10 &middot; Non-Members $20</p>
-          <span class="soon-savedate soon-savedate--dark"><strong>Save the Date</strong><span>Registration coming soon.</span></span>
-          <span class="courts-commentary courts-commentary--on-dark">Brightest outfit wins. Unofficially.</span>
+          <div class="hero-ctas ctas" style="justify-content:center;">
+            <a href="https://app.playthecourts.com/my-courts/explore?offering=7ec2d0d6-2257-4cc8-ac9f-4a0f535d5c6e" class="btn btn-primary">Sign Up for Glow Night →</a>
+          </div>
         </div>
+      </div>
       </div>
 
       <div class="cal-item cal-item--camp reveal" data-ends="2026-11-25" style="position:relative; overflow:hidden;" data-category="camps" data-filter="camps">
@@ -703,7 +703,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           <p class="ev-goat-price">Members $20 &middot; Non-Members $30</p>
           <div class="hero-ctas ctas" style="justify-content:center;">
             <a href="https://youtu.be/kmY-rYS7yng?si=OmYEtnJ3JZn2W79G" class="btn btn-on-dark" target="_blank" rel="noopener">Watch the Trailer ↗</a>
-            <span class="ev-status-note ev-status-note--dark">Details Dropping Soon</span>
+            <a href="https://app.playthecourts.com/my-courts/explore?offering=90f0832e-88d1-4d99-831d-3eb8fc3acbd2" class="btn btn-primary">Sign Up for Movie Night →</a>
           </div>
         </div>
       </div>
