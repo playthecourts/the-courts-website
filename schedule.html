@@ -989,7 +989,8 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           slotLine +
           '<div class="sch-meta">' +
             '<span class="sch-tag ' + (c.type === 'league' ? 'sch-tag--league' : 'sch-tag--training') + '">' + tag + '</span>' +
-            '<span class="sch-coach">' + (c.coaches && c.coaches.length > 1 ? 'Coaches <strong>' + c.coaches.map(function (n) { return n.split(' ')[0]; }).join(' &amp; ') + '</strong>' : (c.coach ? 'Coach <strong>' + c.coach.split(' ')[0] + '</strong>' : '<strong>Coach TBD</strong>')) + '</span>' +
+            // A rental has no coach, so it gets no coach line at all.
+            (c.type === 'party' ? '' : '<span class="sch-coach">' + (c.coaches && c.coaches.length > 1 ? 'Coaches <strong>' + c.coaches.map(function (n) { return n.split(' ')[0]; }).join(' &amp; ') + '</strong>' : (c.coach ? 'Coach <strong>' + c.coach.split(' ')[0] + '</strong>' : '<strong>Coach TBD</strong>')) + '</span>') +
             (!many && !past && c.capacity && !HIDE_SPOTS.test(c.title) ? '<span class="sch-spots">' + (c.booked >= c.capacity ? '<strong>Full</strong>' : '<strong>' + (c.booked || 0) + '/' + c.capacity + '</strong> signed up') + '</span>' : '') +
           '</div>' +
           (c.note && !compact ? '<p class="sch-included">' + c.note + '</p>' : '') +
