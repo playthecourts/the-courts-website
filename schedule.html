@@ -944,9 +944,14 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     // A closure staff chose to publish reads as written ("Facility closed 2-3 PM");
     // any other partial block stays a "court time limited" notice.
     var closedNote = block && /^\s*facility closed/i.test(block.note || '');
+    // A published "other" block is a community moment (the ribbon cutting),
+    // not a restriction, so it reads as its own name and time.
+    var eventNote = block && block.reason === 'other' && block.note;
     var notice = block
       ? (closedNote
           ? '<p class="cal-note"><strong>Facility closed ' + block.from + '&ndash;' + block.to + '</strong></p>'
+          : eventNote
+          ? '<p class="cal-note"><strong>' + block.note + '</strong> &middot; ' + block.from + '&ndash;' + block.to + '</p>'
           : '<p class="cal-note">Court time limited ' + block.from + '&ndash;' + block.to +
             (block.note ? ' &middot; ' + block.note : '') + '</p>')
       : '';
