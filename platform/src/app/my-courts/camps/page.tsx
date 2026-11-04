@@ -150,10 +150,13 @@ export default async function CampsPage({
                 <p className="font-sport text-base font-bold text-black">{dateLabel}</p>
                 <h2 className="font-display text-lg font-black text-black">{camp.name}</h2>
                 <p className="mt-0.5 font-body text-sm text-gray-dark">
+                  {camp.registrationMode === "multi_day" && camp.allowSingleDay && camp.singleDayPriceCents ? "Full camp " : ""}
                   {formatCents(camp.priceCents ?? 0)}
                   {camp.memberPriceCents != null ? ` · Members ${formatCents(camp.memberPriceCents)}` : ""}
                   {camp.registrationMode === "multi_day" && camp.allowSingleDay && camp.singleDayPriceCents
-                    ? ` full week · ${formatCents(camp.singleDayPriceCents)}/day`
+                    ? ` · or ${formatCents(camp.singleDayPriceCents)}/day${
+                        camp.singleDayMemberPriceCents != null ? ` (Members ${formatCents(camp.singleDayMemberPriceCents)})` : ""
+                      }`
                     : ""}
                   {gradeLabel ? ` · ${gradeLabel}` : ""}
                 </p>
