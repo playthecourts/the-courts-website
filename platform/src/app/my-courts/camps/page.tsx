@@ -150,14 +150,31 @@ export default async function CampsPage({
                 <p className="font-sport text-base font-bold text-black">{dateLabel}</p>
                 <h2 className="font-display text-lg font-black text-black">{camp.name}</h2>
                 <p className="mt-0.5 font-body text-sm text-gray-dark">
-                  {camp.registrationMode === "multi_day" && camp.allowSingleDay && camp.singleDayPriceCents ? "Full camp " : ""}
-                  {formatCents(camp.priceCents ?? 0)}
-                  {camp.memberPriceCents != null ? ` · Members ${formatCents(camp.memberPriceCents)}` : ""}
-                  {camp.registrationMode === "multi_day" && camp.allowSingleDay && camp.singleDayPriceCents
-                    ? ` · or ${formatCents(camp.singleDayPriceCents)}/day${
-                        camp.singleDayMemberPriceCents != null ? ` (Members ${formatCents(camp.singleDayMemberPriceCents)})` : ""
-                      }`
-                    : ""}
+                  {(() => {
+                    // A family that's all-member or all-non-member sees just
+                    // their own rate; a mixed family sees both.
+                    const memberFlags = athletes.map((a) => isMemberFor(a.id, camp.programId));
+                    const allMember = memberFlags.length > 0 && memberFlags.every(Boolean);
+                    const noneMember = !memberFlags.some(Boolean);
+                    const hasDaily = camp.registrationMode === "multi_day" && camp.allowSingleDay && camp.singleDayPriceCents;
+                    const full = camp.priceCents ?? 0;
+                    const fullM = camp.memberPriceCents;
+                    const day = camp.singleDayPriceCents ?? 0;
+                    const dayM = camp.singleDayMemberPriceCents;
+                    const fullText = allMember && fullM != null
+                      ? `${formatCents(fullM)} member price`
+                      : noneMember || fullM == null
+                        ? formatCents(full)
+                        : `${formatCents(full)} · Members ${formatCents(fullM)}`;
+                    const dayText = !hasDaily
+                      ? ""
+                      : allMember && dayM != null
+                        ? ` · or ${formatCents(dayM)}/day`
+                        : noneMember || dayM == null
+                          ? ` · or ${formatCents(day)}/day`
+                          : ` · or ${formatCents(day)}/day (Members ${formatCents(dayM)})`;
+                    return `${hasDaily ? "Full camp " : ""}${fullText}${dayText}`;
+                  })()}
                   {gradeLabel ? ` · ${gradeLabel}` : ""}
                 </p>
               </div>
