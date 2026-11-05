@@ -1,0 +1,13 @@
+{
+  "note": "Off-site community events shown on the schedule page (schedule.html). On-site events live in Courts OS.",
+  "events": [
+    {
+      "date": "2027-04-01",
+      "time": "5:00 PM",
+      "endTime": "7:00 PM",
+      "title": "NES Carnival",
+      "location": "Nolensville Elementary · find our booth on the outdoor basketball court",
+      "detail": "Rain date Thu, Apr 8"
+    }
+  ]
+}

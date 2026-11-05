@@ -543,6 +543,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       <span class="cal-key-item"><span class="cal-tag cal-tag--other">ALL</span>All Sports</span>
       <span class="cal-key-item"><span class="cal-tag cal-tag--league">LEAGUE</span>League practice &middot; at The Courts</span>
       <span class="cal-key-item"><span class="cal-tag cal-tag--game">GAME</span>League game &middot; off-site</span>
+      <span class="cal-key-item"><span class="cal-tag cal-tag--game">EVENT</span>Community event &middot; off-site</span>
       <span class="cal-key-item"><span class="cal-closed-key"></span>Closed</span>
     </div>
 
@@ -760,6 +761,13 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   var gamesByDate = {};
   var gamesArrive = 20;
   var GAMES_URL = 'data/league-games.json';
+  // Off-site community events (the NES Carnival): not in Courts OS, so they
+  // come from a small data file and show on every filter.
+  var COMMUNITY_URL = 'data/community-events.json';
+  var communityByDate = {};
+  // The calendar runs at least this far ahead, even past the last scheduled
+  // class, so upcoming events show.
+  var CALENDAR_THROUGH = '2027-04-30';
   var loaded = false;
 
   function iso(d) {
@@ -886,7 +894,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       if (key === today) cls += ' cal-cell--today';
       if (key < today) cls += ' cal-cell--past';
       if (key === state.selected) cls += ' cal-cell--selected';
-      if (!list.length && !gameList.length && !closed) cls += ' cal-cell--quiet';
+      if (!list.length && !gameList.length && !(communityByDate[key] || []).length && !closed) cls += ' cal-cell--quiet';
 
       // Two 8px dots that differ only in colour asked people to decode orange
       // vs black at a glance, and told a colour-blind or low-vision visitor
@@ -904,6 +912,11 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
                   (counts[k] > 1 ? '<i>' + counts[k] + '</i>' : '') + '</span>';
           aria += ', ' + KEY_FULL[k] + ' ' + counts[k] + (counts[k] === 1 ? ' class' : ' classes');
         });
+        var evs = communityByDate[key] || [];
+        if (evs.length) {
+          tags += '<span class="cal-tag cal-tag--game">EVENT</span>';
+          aria += ', ' + evs.map(function (e) { return e.title; }).join(', ') + ' (off-site)';
+        }
         if (gameList.length) {
           tags += '<span class="cal-tag cal-tag--game">GAME' + (gameList.length > 1 ? '<i>' + gameList.length + '</i>' : '') + '</span>';
           aria += ', ' + gameList.length + (gameList.length === 1 ? ' league game' : ' league games') + ' (off-site)';
@@ -930,6 +943,15 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     // A published community moment (the ribbon cutting) is part of the day's
     // lineup, so it sits in the list at its own time rather than as a note.
     var communityBlock = block && !block.allDay && block.reason === 'other' && block.note;
+    (communityByDate[key] || []).forEach(function (e, i) {
+      var em = clockMinutes(e.time);
+      var erow = { id: 'cev-' + key + '-' + i, date: key, title: e.title, time: e.time, endTime: e.endTime,
+        minutes: clockMinutes(e.endTime) - em, type: 'community', bookable: false,
+        desc: esc(e.location) + (e.detail ? ' &middot; ' + esc(e.detail) : '') };
+      var eat = list.findIndex(function (c) { return clockMinutes(c.time) > em; });
+      list = list.slice();
+      list.splice(eat < 0 ? list.length : eat, 0, erow);
+    });
     if (communityBlock) {
       var cm = clockMinutes(block.from), ce = clockMinutes(block.to);
       var row = { id: 'blk-' + key, date: key, title: block.note, time: block.from, endTime: block.to,
@@ -1099,6 +1121,15 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     });
   }
 
+  function loadCommunity() {
+    return fetch(COMMUNITY_URL, { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        ((j && j.events) || []).forEach(function (e) { (communityByDate[e.date] = communityByDate[e.date] || []).push(e); });
+      })
+      .catch(function () {});
+  }
+
   function loadGames() {
     return fetch(GAMES_URL, { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -1112,11 +1143,12 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
 
   function feedUrl() {
     var since = Math.max(0, Math.round((fromIso(todayIso()) - fromIso(OPEN_DAY)) / 86400000));
-    return FEED_BASE + '?from=' + OPEN_DAY + '&days=' + Math.min(since + 150, 400);
+    var through = Math.round((fromIso(CALENDAR_THROUGH) - fromIso(OPEN_DAY)) / 86400000) + 1;
+    return FEED_BASE + '?from=' + OPEN_DAY + '&days=' + Math.min(Math.max(since + 150, through), 400);
   }
 
   function load() {
-    var gamesReady = loadGames();
+    var gamesReady = Promise.all([loadGames(), loadCommunity()]);
     fetch(feedUrl(), { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (j) { return gamesReady.then(function () { return j; }); })
