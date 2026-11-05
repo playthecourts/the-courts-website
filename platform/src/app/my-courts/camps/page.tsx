@@ -144,7 +144,7 @@ export default async function CampsPage({
             <div id={campAnchor(camp.name)} className="scroll-mt-24 overflow-hidden rounded-xl border border-gray-mid bg-white">
               <div className="border-b border-gray-mid bg-warm-stone px-4 py-3">
                 {sport !== "other" && (
-                  <p className="font-sport text-xs font-bold uppercase tracking-wide text-orange underline decoration-2 underline-offset-4">
+                  <p className="font-sport text-xs font-bold uppercase tracking-wide text-orange">
                     {sport === "volleyball" ? "Volleyball" : "Basketball"}
                   </p>
                 )}
@@ -152,7 +152,17 @@ export default async function CampsPage({
                   {dateLabel}
                   {first ? ` · ${formatTimeRange(first.startTime, first.endTime)}` : ""}
                 </p>
-                <h2 className="font-display text-lg font-black text-black">{camp.name}</h2>
+                <h2 className="font-display text-lg font-black text-black">
+                  {camp.name.split(/(Volleyball|Basketball)/).map((part, i) =>
+                    part === "Volleyball" || part === "Basketball" ? (
+                      <span key={i} className="text-orange underline decoration-2 underline-offset-4">
+                        {part}
+                      </span>
+                    ) : (
+                      part
+                    )
+                  )}
+                </h2>
                 <p className="mt-0.5 font-body text-sm text-gray-dark">
                   {(() => {
                     const hasDaily = camp.registrationMode === "multi_day" && camp.allowSingleDay && camp.singleDayPriceCents;
