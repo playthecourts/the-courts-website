@@ -4,7 +4,12 @@ import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { getBookingEligibility } from "@/lib/entitlements";
 import { resolveBookingRule } from "@/lib/programs/pricing";
-import { sendDrDishBookingAlert } from "@/lib/registration-notifications";
+import {
+  notifyStaffSafely,
+  sendClassFullAlert,
+  sendDrDishBookingAlert,
+  sendWaitlistJoinAlert,
+} from "@/lib/registration-notifications";
 import { offerNextSpot } from "@/lib/programs/waitlist";
 import { stripe, getOrCreateStripeCustomer } from "@/lib/stripe";
 
@@ -161,7 +166,9 @@ export async function bookAthleteIntoSession(
         }
       }
 
-      return { status: "booked" as const, booking, needsPayment };
+      // This seat was the last one: the class just filled.
+      const filled = bookedCount + 1 >= session.capacity;
+      return { status: "booked" as const, booking, needsPayment, filled };
     }
 
     const existingWaitlist = await tx.waitlistEntry.findUnique({
@@ -183,12 +190,19 @@ export async function bookAthleteIntoSession(
     return { status: "waitlisted" as const };
   });
 
+  if (result.status === "waitlisted") {
+    await notifyStaffSafely("sendWaitlistJoinAlert", () => sendWaitlistJoinAlert(sessionId, athleteId));
+  }
+
   // Stripe checkout creation happens outside the transaction — an external API
   // call must never hold the session's row lock open. If it fails, the seat
   // is released rather than left held forever on a booking nobody can pay for.
   if (result.status === "booked" && result.needsPayment) {
     try {
       const checkoutUrl = await createBookingCheckout(result.booking.id, athleteId, bookedByGuardianId, priceChargedCents!);
+      // The pending seat is held from here on, so the class counts as full
+      // now, not when the card clears.
+      if (result.filled) await notifyStaffSafely("sendClassFullAlert", () => sendClassFullAlert(sessionId));
       return { status: "booked" as const, checkoutUrl };
     } catch (err) {
       await cancelBookingById(result.booking.id);
@@ -203,6 +217,7 @@ export async function bookAthleteIntoSession(
     await sendDrDishBookingAlert(result.booking.id).catch((err) =>
       console.error("sendDrDishBookingAlert failed", result.booking.id, err)
     );
+    if (result.filled) await notifyStaffSafely("sendClassFullAlert", () => sendClassFullAlert(sessionId));
   }
 
   return result;
@@ -464,7 +479,7 @@ export async function adminBookAthleteIntoSession(sessionId: string, athleteId: 
     return { status: result.status, due: false as const };
   }
 
-  return prisma.$transaction(async (tx) => {
+  const deskResult = await prisma.$transaction(async (tx) => {
     await tx.$executeRaw`SELECT id FROM sessions WHERE id = ${sessionId} FOR UPDATE`;
     const existing = await tx.booking.findUnique({ where: { sessionId_athleteId: { sessionId, athleteId } } });
     if (existing && existing.status !== "cancelled") return { status: "already_booked" as const, due: false as const };
@@ -485,9 +500,15 @@ export async function adminBookAthleteIntoSession(sessionId: string, athleteId: 
     };
     if (existing) await tx.booking.update({ where: { id: existing.id }, data });
     else await tx.booking.create({ data: { sessionId, athleteId, ...data } });
-    if (opts.comp) return { status: "booked" as const, due: false as const };
-    return { status: "booked" as const, due: true as const, priceChargedCents };
+    const filled = bookedCount + 1 >= session.capacity;
+    if (opts.comp) return { status: "booked" as const, due: false as const, filled };
+    return { status: "booked" as const, due: true as const, priceChargedCents, filled };
   });
+
+  if (deskResult.status === "booked" && deskResult.filled) {
+    await notifyStaffSafely("sendClassFullAlert", () => sendClassFullAlert(sessionId));
+  }
+  return deskResult;
 }
 
 // A payment link the front desk can text or email for a seat that still owes

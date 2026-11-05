@@ -390,3 +390,128 @@ export async function sendDrDishBookingAlert(bookingId: string) {
     attachments: [{ filename: "dr-dish.ics", content: Buffer.from(ics, "utf8"), contentType: "text/calendar; charset=utf-8; method=REQUEST" }],
   });
 }
+
+// ---------------------------------------------------------------------------
+// Class-full and waitlist staff alerts. Same best-effort contract as the rest
+// of this file: callers run these after the booking transaction commits and
+// swallow failures (notifyStaffSafely), so an email problem can never undo or
+// block a booking. Session times are wall-clock UTC, so every format here
+// pins timeZone: "UTC".
+// ---------------------------------------------------------------------------
+
+function escapeHtml(s: string) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+// "Wed Nov 4, 6:00 PM"
+function sessionWhen(d: Date) {
+  const day = new Intl.DateTimeFormat("en-US", { weekday: "short", month: "short", day: "numeric", timeZone: "UTC" })
+    .formatToParts(d)
+    .filter((p) => p.type !== "literal")
+    .map((p) => p.value);
+  const clock = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: "UTC" }).format(d);
+  return `${day[0]} ${day[1]} ${day[2]}, ${clock}`;
+}
+
+async function loadSessionForAlert(sessionId: string) {
+  const session = await prisma.session.findUnique({
+    where: { id: sessionId },
+    select: {
+      id: true,
+      startTime: true,
+      capacity: true,
+      title: true,
+      offeringId: true,
+      offering: { select: { name: true } },
+      program: { select: { name: true } },
+    },
+  });
+  if (!session) return null;
+  const [booked, waiting] = await Promise.all([
+    prisma.booking.count({ where: { sessionId, status: { not: "cancelled" } } }),
+    prisma.waitlistEntry.count({ where: { sessionId, status: "waiting" } }),
+  ]);
+  const name = session.title || session.offering?.name || session.program.name;
+  const date = session.startTime.toISOString().slice(0, 10);
+  return {
+    ...session,
+    name,
+    when: sessionWhen(session.startTime),
+    booked,
+    waiting,
+    rosterUrl: `https://app.playthecourts.com/os/rosters?date=${date}`,
+    offeringUrl: session.offeringId ? `https://app.playthecourts.com/os/offerings/${session.offeringId}?tab=schedule` : null,
+  };
+}
+
+function alertHtml(heading: string, sub: string, body: string, url: string) {
+  return `
+<div style="font-family:Arial,Helvetica,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;color:#0D0D0D;">
+  <p style="font-size:16px;font-weight:700;margin:0 0 4px;">${heading}</p>
+  <p style="font-size:13px;color:#343434;margin:0 0 16px;">${sub}</p>
+  <p style="font-size:15px;line-height:1.6;margin:0 0 20px;color:#1A1A1A;background:#F2EDE7;border-left:3px solid #DE5019;padding:12px 16px;border-radius:6px;">
+    ${body}
+  </p>
+  <a href="${url}" style="display:inline-block;background:#DE5019;color:#FFFFFF;font-weight:700;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;text-decoration:none;padding:12px 24px;border-radius:999px;">
+    Open roster in Courts OS &rarr;
+  </a>
+</div>`.trim();
+}
+
+/// A session just went from one open seat to none. Callers only fire this on
+/// that transition (the booking that took the last seat), so it goes out once
+/// per fill — later waitlist joins don't resend it, but a seat that opens and
+/// fills again does.
+export async function sendClassFullAlert(sessionId: string) {
+  const s = await loadSessionForAlert(sessionId);
+  if (!s) return;
+  const count = `${s.booked}/${s.capacity}`;
+  const waitingLine = s.waiting ? `${s.waiting} on the waitlist` : "Nobody on the waitlist yet";
+  const subject = `Class full: ${s.name} — ${s.when} (${count})`;
+  const text = `${s.name} on ${s.when} is full (${count} booked).\n${waitingLine}.\n\nRoster: ${s.rosterUrl}${s.offeringUrl ? `\nOffering: ${s.offeringUrl}` : ""}`;
+  const html = alertHtml(
+    `Class full: ${escapeHtml(s.name)}`,
+    `${escapeHtml(s.when)}`,
+    `<strong>${count} booked</strong><br>${waitingLine}`,
+    s.rosterUrl
+  );
+  await sendEmail({ to: STAFF_INBOX, subject, html, text });
+}
+
+export async function sendWaitlistJoinAlert(sessionId: string, athleteId: string) {
+  const [s, athlete] = await Promise.all([
+    loadSessionForAlert(sessionId),
+    prisma.athlete.findUnique({
+      where: { id: athleteId },
+      select: {
+        firstName: true,
+        lastName: true,
+        family: { select: { name: true, guardians: { select: { isPrimary: true, guardian: { select: { name: true, email: true, phone: true } } } } } },
+      },
+    }),
+  ]);
+  if (!s || !athlete) return;
+  const athleteName = `${athlete.firstName} ${athlete.lastName}`;
+  const parent = [...athlete.family.guardians].sort((a, b) => Number(b.isPrimary) - Number(a.isPrimary))[0]?.guardian;
+  const contact = [parent?.name, parent?.email, parent?.phone].filter(Boolean).join(" · ") || "—";
+  const count = `${s.booked}/${s.capacity}`;
+
+  const subject = `Waitlist: ${athleteName} — ${s.name}, ${s.when} (${s.waiting} waiting)`;
+  const text = `${athleteName} (${athlete.family.name}) joined the waitlist for ${s.name} on ${s.when}.\n\nBooked: ${count}\nWaiting: ${s.waiting}\nParent: ${contact}\n\nRoster: ${s.rosterUrl}${s.offeringUrl ? `\nOffering: ${s.offeringUrl}` : ""}`;
+  const html = alertHtml(
+    `Waitlist: ${escapeHtml(athleteName)}`,
+    `${escapeHtml(s.name)} · ${escapeHtml(s.when)}`,
+    `<strong>${count} booked · ${s.waiting} waiting</strong><br>Parent: ${escapeHtml(contact)}<br>Family: ${escapeHtml(athlete.family.name)}`,
+    s.rosterUrl
+  );
+  await sendEmail({ to: STAFF_INBOX, subject, html, text });
+}
+
+/// Runs a staff alert without letting it throw into the caller.
+export async function notifyStaffSafely(label: string, fn: () => Promise<void>) {
+  try {
+    await fn();
+  } catch (err) {
+    console.error(`${label} failed`, err);
+  }
+}

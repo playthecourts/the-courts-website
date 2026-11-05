@@ -1,5 +1,6 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
+import { notifyStaffSafely, sendClassFullAlert } from "@/lib/registration-notifications";
 
 // ---------------------------------------------------------------------------
 // Waitlist promotion.
@@ -81,7 +82,7 @@ export async function offerNextSpot(
 /// to a real booking, and it is always initiated by the family (or by an admin
 /// acting explicitly on their behalf).
 export async function acceptOffer(waitlistEntryId: string, acceptedByGuardianId: string | null) {
-  return prisma.$transaction(async (tx) => {
+  const result = await prisma.$transaction(async (tx) => {
     const entry = await tx.waitlistEntry.findUniqueOrThrow({
       where: { id: waitlistEntryId },
       select: { id: true, sessionId: true, athleteId: true, status: true, offerExpiresAt: true },
@@ -123,8 +124,13 @@ export async function acceptOffer(waitlistEntryId: string, acceptedByGuardianId:
       data: { status: "converted", respondedAt: new Date() },
     });
 
-    return { ok: true as const };
+    return { ok: true as const, sessionId: entry.sessionId, filled: booked + 1 >= session.capacity };
   });
+
+  if (result.ok && result.filled) {
+    await notifyStaffSafely("sendClassFullAlert", () => sendClassFullAlert(result.sessionId));
+  }
+  return result;
 }
 
 export async function declineOffer(waitlistEntryId: string, actorId: string | null) {
