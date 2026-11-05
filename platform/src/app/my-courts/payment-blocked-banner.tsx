@@ -2,8 +2,8 @@ import { paymentBlockedAthleteIds, PAYMENT_BLOCKED_MESSAGE } from "@/lib/members
 import { payPastDueMembership } from "./actions";
 
 // Shown at the top of every booking surface (Explore, Camps & Events,
-// Membership) when an athlete's membership payment failed and the grace
-// period in lib/membership-standing.ts has run out. Booking is blocked for
+// Membership) when an athlete's membership payment failed (past_due — see
+// lib/membership-standing.ts). Booking is blocked for
 // that athlete until the card is fixed — this is where they fix it.
 export async function PaymentBlockedBanner({
   athletes,

@@ -55,7 +55,7 @@ export type ParentSessionCard = {
     waitlisted: boolean;
     waitlistOffered: boolean;
     waitlistEntryId: string | null;
-    /// Membership payment failed and the grace period is over — no new
+    /// Membership payment failed (past_due) — no new
     /// bookings for this athlete until the card is fixed (see
     /// lib/membership-standing.ts). The card shows "Update Card" instead of Book.
     paymentBlocked: boolean;

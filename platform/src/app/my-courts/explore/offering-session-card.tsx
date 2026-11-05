@@ -90,7 +90,7 @@ function PerAthleteRow({ card, a }: { card: Card; a: Card["perAthlete"][number] 
       {a.hasSeat ? (
         <span className="font-sport text-xs font-bold uppercase tracking-wide text-orange">You&rsquo;re In</span>
       ) : a.paymentBlocked && a.eligible ? (
-        // Past the payment grace period: no new bookings (not even at the
+        // Membership payment failed: no new bookings (not even at the
         // drop-in price) until the membership card is fixed.
         <form action={payPastDueMembership.bind(null, a.athleteId)}>
           <button

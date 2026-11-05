@@ -65,7 +65,7 @@ export async function startCampRegistration(formData: FormData) {
     throw new Error("This camp isn't open for registration.");
   }
 
-  // Membership payment past its grace period: no new registrations until the
+  // Membership payment failed (past_due): no new registrations until the
   // card is fixed (lib/membership-standing.ts). The page already hides the
   // Register button; this is the backstop.
   if (await isPaymentBlocked(athleteId)) {

@@ -32,7 +32,7 @@ async function requireWaiversOrRedirect(guardianId: string, athleteId: string, b
   }
 }
 
-/// A membership past its payment grace period blocks new bookings (see
+/// A past-due membership blocks new bookings (see
 /// lib/membership-standing.ts). The Book buttons are already swapped for an
 /// "Update Card" button in that case; this is the server-side backstop, and
 /// it redirects rather than throws for the same reason as the waiver check.

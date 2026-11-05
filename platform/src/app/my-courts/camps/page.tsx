@@ -208,7 +208,7 @@ export default async function CampsPage({
                       </span>
 
                       {!paid && blockedAthletes.has(athlete.id) ? (
-                        // Membership payment past its grace period — no new
+                        // Membership payment failed (past_due) — no new
                         // camp registrations until the card is fixed.
                         <form action={payPastDueMembership.bind(null, athlete.id)}>
                           <button className="rounded-full bg-black px-4 py-2 font-heading text-xs font-bold uppercase tracking-wide text-white hover:bg-orange">

@@ -32,9 +32,8 @@ function mapStatus(stripeStatus: Stripe.Subscription.Status): MembershipStatus {
 
 /// Keeps past_due_since in step with status after any write that may have
 /// changed it: stamped the first time a subscription's membership(s) go
-/// past_due (never re-stamped by later retries, so the grace period in
-/// lib/membership-standing.ts can't be extended by Stripe's dunning), and
-/// cleared as soon as they leave past_due.
+/// past_due (never re-stamped by later retries), and cleared as soon as they
+/// leave past_due.
 async function syncPastDueSince(subscriptionId: string) {
   await prisma.athleteMembership.updateMany({
     where: { stripeSubscriptionId: subscriptionId, status: "past_due", pastDueSince: null },
