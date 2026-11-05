@@ -25,6 +25,10 @@ export type AvailabilityInput = {
   lowSpotThreshold: number;
   capacity: number | null;
   booked: number;
+  /// Overflow ceiling (session.overflowCapacity). Past `capacity` the session
+  /// still reads as full, but a waitlist join is booked straight in while
+  /// `booked` is under this.
+  overflowCapacity?: number | null;
 };
 
 export type Availability = {
@@ -34,9 +38,19 @@ export type Availability = {
   spotsLeft: number | null;
   canRegister: boolean;
   canJoinWaitlist: boolean;
+  /// Full at the advertised capacity, but an overflow seat is open: joining
+  /// the waitlist books the athlete right away.
+  autoMoveIn?: boolean;
 };
 
 export function availabilityFor(input: AvailabilityInput, now: Date = new Date()): Availability {
+  const a = baseAvailability(input, now);
+  const autoMoveIn =
+    a.canJoinWaitlist && input.overflowCapacity != null && input.booked < input.overflowCapacity;
+  return autoMoveIn ? { ...a, autoMoveIn } : a;
+}
+
+function baseAvailability(input: AvailabilityInput, now: Date): Availability {
   const spotsLeft = input.capacity === null ? null : Math.max(0, input.capacity - input.booked);
   const isFull = spotsLeft !== null && spotsLeft === 0;
   const waitlistOffered = input.waitlistMode !== "none";

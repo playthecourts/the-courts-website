@@ -420,6 +420,7 @@ async function loadSessionForAlert(sessionId: string) {
       id: true,
       startTime: true,
       capacity: true,
+      overflowCapacity: true,
       title: true,
       offeringId: true,
       offering: { select: { name: true } },
@@ -439,6 +440,13 @@ async function loadSessionForAlert(sessionId: string) {
     when: sessionWhen(session.startTime),
     booked,
     waiting,
+    // "15/14, max 18" for an overflow class, plain "12/12" otherwise.
+    count: session.overflowCapacity !== null && session.overflowCapacity > session.capacity
+      ? `${booked}/${session.capacity}, max ${session.overflowCapacity}`
+      : `${booked}/${session.capacity}`,
+    overflowNote: session.overflowCapacity !== null && session.overflowCapacity > session.capacity
+      ? `Overflow is on: waitlist joins are moved in automatically up to ${session.overflowCapacity}.`
+      : null,
     rosterUrl: `https://app.playthecourts.com/os/rosters?date=${date}`,
     offeringUrl: session.offeringId ? `https://app.playthecourts.com/os/offerings/${session.offeringId}?tab=schedule` : null,
   };
@@ -468,11 +476,11 @@ export async function sendClassFullAlert(sessionId: string) {
   const count = `${s.booked}/${s.capacity}`;
   const waitingLine = s.waiting ? `${s.waiting} on the waitlist` : "Nobody on the waitlist yet";
   const subject = `Class full: ${s.name} — ${s.when} (${count})`;
-  const text = `${s.name} on ${s.when} is full (${count} booked).\n${waitingLine}.\n\nRoster: ${s.rosterUrl}${s.offeringUrl ? `\nOffering: ${s.offeringUrl}` : ""}`;
+  const text = `${s.name} on ${s.when} is full (${count} booked).\n${waitingLine}.${s.overflowNote ? `\n${s.overflowNote}` : ""}\n\nRoster: ${s.rosterUrl}${s.offeringUrl ? `\nOffering: ${s.offeringUrl}` : ""}`;
   const html = alertHtml(
     `Class full: ${escapeHtml(s.name)}`,
     `${escapeHtml(s.when)}`,
-    `<strong>${count} booked</strong><br>${waitingLine}`,
+    `<strong>${count} booked</strong><br>${waitingLine}${s.overflowNote ? `<br>${s.overflowNote}` : ""}`,
     s.rosterUrl
   );
   await sendEmail({ to: STAFF_INBOX, subject, html, text });
@@ -494,7 +502,7 @@ export async function sendWaitlistJoinAlert(sessionId: string, athleteId: string
   const athleteName = `${athlete.firstName} ${athlete.lastName}`;
   const parent = [...athlete.family.guardians].sort((a, b) => Number(b.isPrimary) - Number(a.isPrimary))[0]?.guardian;
   const contact = [parent?.name, parent?.email, parent?.phone].filter(Boolean).join(" · ") || "—";
-  const count = `${s.booked}/${s.capacity}`;
+  const count = s.count;
 
   const subject = `Waitlist: ${athleteName} — ${s.name}, ${s.when} (${s.waiting} waiting)`;
   const text = `${athleteName} (${athlete.family.name}) joined the waitlist for ${s.name} on ${s.when}.\n\nBooked: ${count}\nWaiting: ${s.waiting}\nParent: ${contact}\n\nRoster: ${s.rosterUrl}${s.offeringUrl ? `\nOffering: ${s.offeringUrl}` : ""}`;
@@ -502,6 +510,51 @@ export async function sendWaitlistJoinAlert(sessionId: string, athleteId: string
     `Waitlist: ${escapeHtml(athleteName)}`,
     `${escapeHtml(s.name)} · ${escapeHtml(s.when)}`,
     `<strong>${count} booked · ${s.waiting} waiting</strong><br>Parent: ${escapeHtml(contact)}<br>Family: ${escapeHtml(athlete.family.name)}`,
+    s.rosterUrl
+  );
+  await sendEmail({ to: STAFF_INBOX, subject, html, text });
+}
+
+/// An athlete was moved off the waitlist into an overflow seat (past the
+/// class's advertised capacity, under its overflow ceiling) — either the
+/// moment they joined, or later when a seat freed up.
+export async function sendOverflowBookingAlert(bookingId: string, opts: { awaitingPayment: boolean }) {
+  const booking = await prisma.booking.findUnique({
+    where: { id: bookingId },
+    select: {
+      sessionId: true,
+      priceChargedCents: true,
+      creditSource: true,
+      athlete: {
+        select: {
+          firstName: true,
+          lastName: true,
+          family: { select: { name: true, guardians: { select: { isPrimary: true, guardian: { select: { name: true, email: true, phone: true } } } } } },
+        },
+      },
+    },
+  });
+  if (!booking) return;
+  const s = await loadSessionForAlert(booking.sessionId);
+  if (!s) return;
+  const { athlete } = booking;
+  const athleteName = `${athlete.firstName} ${athlete.lastName}`;
+  const parent = [...athlete.family.guardians].sort((a, b) => Number(b.isPrimary) - Number(a.isPrimary))[0]?.guardian;
+  const contact = [parent?.name, parent?.email, parent?.phone].filter(Boolean).join(" · ") || "—";
+  const payment = opts.awaitingPayment
+    ? `Sent to checkout for ${formatCents(booking.priceChargedCents ?? 0)} (seat held while they pay)`
+    : booking.creditSource
+      ? "Covered by a membership benefit or credit"
+      : (booking.priceChargedCents ?? 0) === 0
+        ? "No charge"
+        : `Price ${formatCents(booking.priceChargedCents ?? 0)}`;
+
+  const subject = `Moved off waitlist: ${athleteName} — ${s.name}, ${s.when} (${s.count})`;
+  const text = `${athleteName} (${athlete.family.name}) was moved off the waitlist into ${s.name} on ${s.when}.\n\nNow booked: ${s.count}\nWaiting: ${s.waiting}\n${payment}\nParent: ${contact}\n\nRoster: ${s.rosterUrl}${s.offeringUrl ? `\nOffering: ${s.offeringUrl}` : ""}`;
+  const html = alertHtml(
+    `Moved off waitlist: ${escapeHtml(athleteName)}`,
+    `${escapeHtml(s.name)} · ${escapeHtml(s.when)}`,
+    `<strong>Now ${s.count} booked · ${s.waiting} waiting</strong><br>${escapeHtml(payment)}<br>Parent: ${escapeHtml(contact)}<br>Family: ${escapeHtml(athlete.family.name)}`,
     s.rosterUrl
   );
   await sendEmail({ to: STAFF_INBOX, subject, html, text });

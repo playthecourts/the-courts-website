@@ -38,6 +38,7 @@ export type Card = {
     spotsLeft: number | null;
     canRegister: boolean;
     canJoinWaitlist: boolean;
+    autoMoveIn?: boolean;
   };
   perAthlete: {
     athleteId: string;
@@ -220,7 +221,7 @@ function CardChrome({ card, timeLabel }: { card: Card; timeLabel: string }) {
         </p>
         {card.capacity !== null && (
           <p className="whitespace-nowrap font-body text-[11px] text-gray-dark">
-            {card.booked} of {card.capacity} registered
+            {Math.min(card.booked, card.capacity)} of {card.capacity} registered
           </p>
         )}
       </div>
@@ -238,7 +239,11 @@ export function OfferingSessionCard({ card }: { card: Card }) {
       ) : null}
 
       {isTaken(card) ? (
-        <p className="mb-3 font-body text-sm text-gray-dark">This session is full.</p>
+        <p className="mb-3 font-body text-sm text-gray-dark">
+          {card.availability.autoMoveIn
+            ? "This session is full, but we can still fit a few more. Join the waitlist and you'll be moved in right away."
+            : "This session is full."}
+        </p>
       ) : null}
 
       <TenPackLinks card={card} />
@@ -363,7 +368,7 @@ export function GroupedOfferingCard({ cards }: { cards: Card[] }) {
               </span>
               {selected.capacity !== null && (
                 <span className="block font-body text-[10.5px] text-gray-dark">
-                  {selected.booked} of {selected.capacity} registered
+                  {Math.min(selected.booked, selected.capacity)} of {selected.capacity} registered
                 </span>
               )}
             </span>

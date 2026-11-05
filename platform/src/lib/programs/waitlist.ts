@@ -26,12 +26,18 @@ export async function offerNextSpot(
   sessionId: string,
   actorId: string | null
 ): Promise<WaitlistOfferResult> {
+  // Overflow classes move waiting athletes straight in first; only whoever
+  // couldn't be (owes money, past due) gets an offer below. Imported lazily:
+  // lib/booking imports this module.
+  const { autoPromoteWaitlist } = await import("@/lib/booking");
+  await autoPromoteWaitlist(sessionId);
+
   return prisma.$transaction(async (tx) => {
     await tx.$executeRaw`SELECT id FROM sessions WHERE id = ${sessionId} FOR UPDATE`;
 
     const session = await tx.session.findUniqueOrThrow({
       where: { id: sessionId },
-      select: { id: true, capacity: true, offering: { select: { waitlistMode: true, waitlistOfferHours: true } } },
+      select: { id: true, capacity: true, overflowCapacity: true, offering: { select: { waitlistMode: true, waitlistOfferHours: true } } },
     });
 
     if (session.offering?.waitlistMode === "none") return { kind: "nobody_waiting" as const };
@@ -53,7 +59,7 @@ export async function offerNextSpot(
     const booked = await tx.booking.count({
       where: { sessionId, status: { not: "cancelled" } },
     });
-    if (booked >= session.capacity) return { kind: "no_seat_free" as const };
+    if (booked >= Math.max(session.capacity, session.overflowCapacity ?? 0)) return { kind: "no_seat_free" as const };
 
     const next = await tx.waitlistEntry.findFirst({
       where: { sessionId, status: "waiting" },
@@ -99,12 +105,12 @@ export async function acceptOffer(waitlistEntryId: string, acceptedByGuardianId:
     await tx.$executeRaw`SELECT id FROM sessions WHERE id = ${entry.sessionId} FOR UPDATE`;
     const session = await tx.session.findUniqueOrThrow({
       where: { id: entry.sessionId },
-      select: { capacity: true },
+      select: { capacity: true, overflowCapacity: true },
     });
     const booked = await tx.booking.count({
       where: { sessionId: entry.sessionId, status: { not: "cancelled" } },
     });
-    if (booked >= session.capacity) {
+    if (booked >= Math.max(session.capacity, session.overflowCapacity ?? 0)) {
       return { ok: false as const, reason: "That session filled up before the offer was accepted." };
     }
 
@@ -124,7 +130,7 @@ export async function acceptOffer(waitlistEntryId: string, acceptedByGuardianId:
       data: { status: "converted", respondedAt: new Date() },
     });
 
-    return { ok: true as const, sessionId: entry.sessionId, filled: booked + 1 >= session.capacity };
+    return { ok: true as const, sessionId: entry.sessionId, filled: booked + 1 === session.capacity };
   });
 
   if (result.ok && result.filled) {

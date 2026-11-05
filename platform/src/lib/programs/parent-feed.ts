@@ -155,6 +155,7 @@ export async function loadParentFeed(
         lowSpotThreshold: o.lowSpotThreshold,
         capacity: s.capacity,
         booked: s._count.bookings,
+        overflowCapacity: s.overflowCapacity,
       },
       now
     );
@@ -283,6 +284,7 @@ export async function loadCalendarMarkers(
       title: true,
       startTime: true,
       capacity: true,
+      overflowCapacity: true,
       offering: {
         select: {
           id: true,
@@ -323,6 +325,7 @@ export async function loadCalendarMarkers(
           lowSpotThreshold: o.lowSpotThreshold,
           capacity: s.capacity,
           booked: s._count.bookings,
+          overflowCapacity: s.overflowCapacity,
         },
         now
       ),

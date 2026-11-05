@@ -8,8 +8,10 @@ import {
   notifyStaffSafely,
   sendClassFullAlert,
   sendDrDishBookingAlert,
+  sendOverflowBookingAlert,
   sendWaitlistJoinAlert,
 } from "@/lib/registration-notifications";
+import { isPaymentBlocked } from "@/lib/membership-standing";
 import { offerNextSpot } from "@/lib/programs/waitlist";
 import { stripe, getOrCreateStripeCustomer } from "@/lib/stripe";
 
@@ -37,7 +39,12 @@ async function getOrigin() {
 export async function bookAthleteIntoSession(
   sessionId: string,
   athleteId: string,
-  bookedByGuardianId: string | null
+  bookedByGuardianId: string | null,
+  // autoPromote: moving an existing waitlist entry in (autoPromoteWaitlist) —
+  // never opens Stripe Checkout (nobody is there to pay) and never re-queues
+  // the athlete if the class is full. staff: a front-desk add, which staff
+  // already knows about, so no overflow email.
+  opts: { autoPromote?: boolean; staff?: boolean } = {}
 ) {
   // Computed outside the transaction: pricing queries via the plain prisma
   // client, not the tx client below. A price computed a moment before the
@@ -83,6 +90,12 @@ export async function bookAthleteIntoSession(
     priceChargedCents = eligibility.type === "included" ? 0 : eligibility.priceCents;
   }
 
+  if (opts.autoPromote && needsPayment) return { status: "needs_payment" as const };
+
+  // Seats beyond `capacity` up to overflowCapacity: the class reads as full to
+  // families (Packed House / Join Waitlist), but a join is booked straight in.
+  const ceiling = Math.max(session.capacity, session.overflowCapacity ?? 0);
+
   const result = await prisma.$transaction(async (tx) => {
     await tx.$executeRaw`SELECT id FROM sessions WHERE id = ${sessionId} FOR UPDATE`;
 
@@ -99,7 +112,7 @@ export async function bookAthleteIntoSession(
       where: { sessionId, status: { not: "cancelled" } },
     });
 
-    if (bookedCount < session.capacity) {
+    if (bookedCount < ceiling) {
       const paymentStatus = needsPayment ? "pending" : "none";
       let booking;
       if (existing) {
@@ -166,10 +179,20 @@ export async function bookAthleteIntoSession(
         }
       }
 
-      // This seat was the last one: the class just filled.
-      const filled = bookedCount + 1 >= session.capacity;
-      return { status: "booked" as const, booking, needsPayment, filled };
+      // Now booked, so any waitlist entry for this athlete is done with.
+      await tx.waitlistEntry.updateMany({
+        where: { sessionId, athleteId, status: { in: ["waiting", "offered"] } },
+        data: { status: "converted", respondedAt: new Date() },
+      });
+
+      // This seat was the last advertised one: the class just filled.
+      const filled = bookedCount + 1 === session.capacity;
+      // Past the advertised capacity: moved in off the waitlist.
+      const overflow = bookedCount >= session.capacity;
+      return { status: "booked" as const, booking, needsPayment, filled, overflow };
     }
+
+    if (opts.autoPromote) return { status: "full" as const };
 
     const existingWaitlist = await tx.waitlistEntry.findUnique({
       where: { sessionId_athleteId: { sessionId, athleteId } },
@@ -203,6 +226,11 @@ export async function bookAthleteIntoSession(
       // The pending seat is held from here on, so the class counts as full
       // now, not when the card clears.
       if (result.filled) await notifyStaffSafely("sendClassFullAlert", () => sendClassFullAlert(sessionId));
+      if (result.overflow && !opts.staff) {
+        await notifyStaffSafely("sendOverflowBookingAlert", () =>
+          sendOverflowBookingAlert(result.booking.id, { awaitingPayment: true })
+        );
+      }
       return { status: "booked" as const, checkoutUrl };
     } catch (err) {
       await cancelBookingById(result.booking.id);
@@ -218,6 +246,13 @@ export async function bookAthleteIntoSession(
       console.error("sendDrDishBookingAlert failed", result.booking.id, err)
     );
     if (result.filled) await notifyStaffSafely("sendClassFullAlert", () => sendClassFullAlert(sessionId));
+    // Every move off the waitlist is announced, whether into an overflow seat
+    // or a regular one that freed up.
+    if ((result.overflow || opts.autoPromote) && !opts.staff) {
+      await notifyStaffSafely("sendOverflowBookingAlert", () =>
+        sendOverflowBookingAlert(result.booking.id, { awaitingPayment: false })
+      );
+    }
   }
 
   return result;
@@ -475,7 +510,7 @@ export async function adminBookAthleteIntoSession(sessionId: string, athleteId: 
   if (!needsPayment && !opts.comp) {
     // Never reaches Stripe on this branch — bookAthleteIntoSession only opens
     // Checkout when the rule needs payment.
-    const result = await bookAthleteIntoSession(sessionId, athleteId, guardianId);
+    const result = await bookAthleteIntoSession(sessionId, athleteId, guardianId, { staff: true });
     return { status: result.status, due: false as const };
   }
 
@@ -484,7 +519,9 @@ export async function adminBookAthleteIntoSession(sessionId: string, athleteId: 
     const existing = await tx.booking.findUnique({ where: { sessionId_athleteId: { sessionId, athleteId } } });
     if (existing && existing.status !== "cancelled") return { status: "already_booked" as const, due: false as const };
     const bookedCount = await tx.booking.count({ where: { sessionId, status: { not: "cancelled" } } });
-    if (bookedCount >= session.capacity) return { status: "full" as const, due: false as const };
+    if (bookedCount >= Math.max(session.capacity, session.overflowCapacity ?? 0)) {
+      return { status: "full" as const, due: false as const };
+    }
 
     const data = {
       status: "booked" as const,
@@ -500,7 +537,7 @@ export async function adminBookAthleteIntoSession(sessionId: string, athleteId: 
     };
     if (existing) await tx.booking.update({ where: { id: existing.id }, data });
     else await tx.booking.create({ data: { sessionId, athleteId, ...data } });
-    const filled = bookedCount + 1 >= session.capacity;
+    const filled = bookedCount + 1 === session.capacity;
     if (opts.comp) return { status: "booked" as const, due: false as const, filled };
     return { status: "booked" as const, due: true as const, priceChargedCents, filled };
   });
@@ -581,4 +618,47 @@ export async function createDeskPaymentLink(bookingId: string): Promise<{ url: s
   // stay untouched, so the stale-checkout sweep never cancels this booking.
   await prisma.booking.update({ where: { id: bookingId }, data: { stripeCheckoutSessionId: checkout.id } });
   return { url: checkout.url, email: guardian.email };
+}
+
+// Overflow classes (session.overflowCapacity set): anyone still waiting is
+// moved straight in while bookings are under the overflow ceiling — the same
+// booking path as a family's own Book click (member pricing, credits), with
+// staff emailed for each one. Two exceptions stay on the waitlist and fall
+// through to the normal 24-hour offer in offerNextSpot: an athlete whose
+// membership is past due (blocked from new bookings), and one who would owe
+// money, since nobody is at a checkout to pay and we never charge silently.
+// Called from offerNextSpot, so every "a seat just freed up" path runs it.
+export async function autoPromoteWaitlist(sessionId: string): Promise<number> {
+  const session = await prisma.session.findUnique({
+    where: { id: sessionId },
+    select: { capacity: true, overflowCapacity: true, status: true, startTime: true },
+  });
+  if (!session || session.overflowCapacity === null || session.status === "cancelled") return 0;
+  if (session.startTime < facilityNow()) return 0;
+  const ceiling = Math.max(session.capacity, session.overflowCapacity);
+
+  const waiting = await prisma.waitlistEntry.findMany({
+    where: { sessionId, status: "waiting" },
+    orderBy: { position: "asc" },
+    select: {
+      athleteId: true,
+      athlete: { select: { family: { select: { guardians: { orderBy: { isPrimary: "desc" }, take: 1, select: { guardianId: true } } } } } },
+    },
+  });
+
+  let promoted = 0;
+  for (const w of waiting) {
+    const booked = await prisma.booking.count({ where: { sessionId, status: { not: "cancelled" } } });
+    if (booked >= ceiling) break;
+    if (await isPaymentBlocked(w.athleteId)) continue;
+    const guardianId = w.athlete.family.guardians[0]?.guardianId ?? null;
+    try {
+      const r = await bookAthleteIntoSession(sessionId, w.athleteId, guardianId, { autoPromote: true });
+      if (r.status === "booked") promoted++;
+      if (r.status === "full") break;
+    } catch (err) {
+      console.error("autoPromoteWaitlist failed", sessionId, w.athleteId, err);
+    }
+  }
+  return promoted;
 }

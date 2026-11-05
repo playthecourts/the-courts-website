@@ -546,6 +546,8 @@ model Offering {
   capacityTotal          Int? @map("capacity_total")
   /// Seeded onto each generated Session; individual sessions can differ.
   defaultSessionCapacity Int? @map("default_session_capacity")
+  /// Seeded onto each generated Session as overflowCapacity. Null = no overflow.
+  defaultOverflowCapacity Int? @map("default_overflow_capacity")
   /// "Few spots left" threshold. Configurable because 3 is right for group
   /// training and wrong for a 40-seat camp.
   lowSpotThreshold       Int  @default(3) @map("low_spot_threshold")
@@ -813,6 +815,10 @@ model Session {
   startTime  DateTime      @map("start_time")
   endTime    DateTime      @map("end_time")
   capacity   Int
+  /// Overflow ceiling above `capacity`. Families still see the class as full
+  /// at `capacity`, but anyone who joins the waitlist is moved straight in
+  /// (and staff emailed) until bookings reach this number. Null = no overflow.
+  overflowCapacity Int?    @map("overflow_capacity")
   status     SessionStatus @default(scheduled)
   /// Per-occurrence label ("Day 2 — Tournament", "Make-up session"). The
   /// offering's name is used when null.

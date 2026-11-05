@@ -96,7 +96,7 @@ export async function createSessions(input: CreateSessionsInput) {
 
   const offering = await prisma.offering.findUniqueOrThrow({
     where: { id: input.offeringId },
-    select: { id: true, programId: true, name: true },
+    select: { id: true, programId: true, name: true, defaultOverflowCapacity: true },
   });
 
   const result = await prisma.$transaction(async (tx) => {
@@ -134,6 +134,7 @@ export async function createSessions(input: CreateSessionsInput) {
           startTime: occ.startTime,
           endTime: occ.endTime,
           capacity: input.capacity,
+          overflowCapacity: offering.defaultOverflowCapacity,
           title: input.title?.trim() || null,
           dayIndex: input.numberDays ? occ.index : null,
         },
@@ -383,7 +384,7 @@ export async function addMakeupSession(params: {
 }) {
   const original = await prisma.session.findUniqueOrThrow({
     where: { id: params.replacesSessionId },
-    select: { programId: true, offeringId: true, capacity: true, teamId: true },
+    select: { programId: true, offeringId: true, capacity: true, overflowCapacity: true, teamId: true },
   });
 
   return prisma.$transaction(async (tx) => {
@@ -398,6 +399,7 @@ export async function addMakeupSession(params: {
         startTime: params.startTime,
         endTime: params.endTime,
         capacity: original.capacity,
+        overflowCapacity: original.overflowCapacity,
         title: "Make-up session",
         isException: true,
         replacesSessionId: params.replacesSessionId,
