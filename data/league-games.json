@@ -148,6 +148,18 @@
     },
     {
       "date": "2026-11-21",
+      "time": "2:00 PM",
+      "grade": "6th/7th Grade",
+      "gradeKey": "67",
+      "opponent": "DC Elite (Shake)",
+      "homeAway": "Home",
+      "venue": "West End Middle School, New Gym",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=West+End+Middle+School%2C+Nashville%2C+TN",
+      "startMinute": 840,
+      "coach": "Johnny Coles"
+    },
+    {
+      "date": "2026-11-21",
       "time": "4:00 PM",
       "grade": "4th Grade",
       "gradeKey": "4",
