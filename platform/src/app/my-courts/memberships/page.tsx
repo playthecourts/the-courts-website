@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { getCurrentGuardian } from "@/lib/dal";
+import { PaymentBlockedBanner } from "../payment-blocked-banner";
 import { nextGenFirstChargeLabel } from "@/lib/nextgen-anchor";
 import { canUseNextGenLegacyCheckout } from "@/lib/nextgen-gate";
 import { prisma } from "@/lib/prisma";
@@ -262,6 +263,8 @@ export default async function MembershipsPage({
           </form>
         )}
       </div>
+
+      <PaymentBlockedBanner athletes={athletes} />
 
       {required === "league" && requiredForAthlete && (
         <div className="rounded-lg border border-orange bg-orange/5 p-4 font-body text-sm text-neutral-800">

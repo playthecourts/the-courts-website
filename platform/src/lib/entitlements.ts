@@ -1,6 +1,7 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
 import type { PlanEntitlement } from "@/generated/prisma/client";
+import { bookableMembershipWhere } from "@/lib/membership-standing";
 
 /// A plan can point at another plan for its entitlements (NextGen Formers → Unlimited)
 /// so benefits can never accidentally diverge — editing Unlimited's rows
@@ -71,7 +72,7 @@ export async function getBookingEligibility(
   });
 
   const memberships = await prisma.athleteMembership.findMany({
-    where: { athleteId, status: "active" },
+    where: { athleteId, ...bookableMembershipWhere() },
     include: { plan: { include: { entitlements: true, entitlementsFromPlan: { include: { entitlements: true } } } } },
   });
 
@@ -154,7 +155,7 @@ export type SessionBalance = {
 // one session.
 export async function getSessionBalances(athleteId: string): Promise<SessionBalance[]> {
   const memberships = await prisma.athleteMembership.findMany({
-    where: { athleteId, status: "active" },
+    where: { athleteId, ...bookableMembershipWhere() },
     include: { plan: { include: { entitlements: true, entitlementsFromPlan: { include: { entitlements: true } } } } },
   });
 

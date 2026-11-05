@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
-import { payBooking } from "../actions";
-import { startBillingPortalSession } from "../memberships/actions";
+import { payBooking, payPastDueMembership } from "../actions";
+import { PAYMENT_BLOCKED_MESSAGE } from "@/lib/membership-standing";
 
 const LEAGUE_OFFERING_NAME = "Fall 2026 Basketball League";
 const LEAGUE_DISPLAY_NAME = "Fall League 2026";
@@ -153,13 +153,13 @@ export default async function PaymentsPage() {
                   <div key={`mem-${m.id}`} className="rounded-lg border border-red-200 bg-red-50 p-4">
                     <p className="font-heading font-bold text-black">{m.plan.name}</p>
                     <p className="font-body text-xs text-gray-dark">{m.athlete.firstName} {m.athlete.lastName}</p>
-                    <p className="mt-1 font-body text-sm text-gray-dark">Your last payment didn&rsquo;t go through.</p>
-                    <form action={startBillingPortalSession} className="mt-3">
+                    <p className="mt-1 font-body text-sm text-gray-dark">{PAYMENT_BLOCKED_MESSAGE}</p>
+                    <form action={payPastDueMembership.bind(null, m.athleteId)} className="mt-3">
                       <button
                         type="submit"
                         className="rounded-full bg-black px-4 py-2 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange"
                       >
-                        Update Payment Method &rarr;
+                        Update Card &rarr;
                       </button>
                     </form>
                   </div>

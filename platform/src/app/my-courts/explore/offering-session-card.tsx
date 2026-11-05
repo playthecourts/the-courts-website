@@ -7,6 +7,7 @@ import {
   acceptWaitlistOffer,
   declineWaitlistOffer,
   purchaseDrDishTenPack,
+  payPastDueMembership,
 } from "@/app/my-courts/actions";
 import { ConfirmSubmitButton } from "./confirm-submit-button";
 
@@ -48,6 +49,7 @@ export type Card = {
     waitlisted: boolean;
     waitlistOffered: boolean;
     waitlistEntryId: string | null;
+    paymentBlocked?: boolean;
   }[];
 };
 
@@ -77,6 +79,9 @@ function PerAthleteRow({ card, a }: { card: Card; a: Card["perAthlete"][number] 
         {a.eligible && !a.hasSeat && a.bookingRuleText ? (
           <span className="ml-2 font-body text-xs text-gray-dark">{a.bookingRuleText}</span>
         ) : null}
+        {a.eligible && !a.hasSeat && a.paymentBlocked ? (
+          <span className="ml-2 font-body text-xs text-danger">Membership payment didn&rsquo;t go through</span>
+        ) : null}
         {!a.eligible && a.ineligibleReason ? (
           <span className="ml-2 font-body text-xs text-gray-dark">{a.ineligibleReason}</span>
         ) : null}
@@ -84,6 +89,17 @@ function PerAthleteRow({ card, a }: { card: Card; a: Card["perAthlete"][number] 
 
       {a.hasSeat ? (
         <span className="font-sport text-xs font-bold uppercase tracking-wide text-orange">You&rsquo;re In</span>
+      ) : a.paymentBlocked && a.eligible ? (
+        // Past the payment grace period: no new bookings (not even at the
+        // drop-in price) until the membership card is fixed.
+        <form action={payPastDueMembership.bind(null, a.athleteId)}>
+          <button
+            type="submit"
+            className="min-h-9 rounded-md bg-orange px-3 font-sport text-xs font-bold uppercase tracking-wide text-white hover:bg-orange-hover"
+          >
+            Update Card
+          </button>
+        </form>
       ) : a.waitlistOffered && a.waitlistEntryId ? (
         // The explicit promotion step. A spot opened; the family chooses.
         <div className="flex items-center gap-2">
@@ -152,7 +168,7 @@ function PerAthleteRow({ card, a }: { card: Card; a: Card["perAthlete"][number] 
 // — it banks credits for whichever Dr. Dish visit the family books next.
 function TenPackLinks({ card }: { card: Card }) {
   if (card.programTypeLabel !== "Self-Service Dr. Dish") return null;
-  const notYetIn = card.perAthlete.filter((a) => a.eligible && !a.hasSeat);
+  const notYetIn = card.perAthlete.filter((a) => a.eligible && !a.hasSeat && !a.paymentBlocked);
   if (notYetIn.length === 0) return null;
   return (
     <div className="mb-3 flex flex-wrap gap-2">

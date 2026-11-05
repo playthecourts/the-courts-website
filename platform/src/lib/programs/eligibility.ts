@@ -1,5 +1,6 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
+import { bookableMembershipWhere } from "@/lib/membership-standing";
 
 // ---------------------------------------------------------------------------
 // Who may register, and what a family sees.
@@ -140,7 +141,7 @@ export async function checkEligibility(
 
   if (offering.requiresTrainingPlan) {
     const active = await prisma.athleteMembership.count({
-      where: { athleteId, status: "active" },
+      where: { athleteId, ...bookableMembershipWhere() },
     });
     if (active === 0) {
       return {

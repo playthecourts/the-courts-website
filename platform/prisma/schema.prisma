@@ -1038,6 +1038,10 @@ model AthleteMembership {
   /// only customer.subscription.deleted at the actual cancel_at moment flips
   /// status to "cancelled" and clears this back to null.
   cancelAt             DateTime? @map("cancel_at")
+  /// When this membership most recently flipped into past_due (set/cleared by
+  /// the Stripe webhook). Drives the booking grace period in
+  /// lib/membership-standing.ts. Null whenever status isn't past_due.
+  pastDueSince         DateTime? @map("past_due_since")
   /// When the cancellation was REQUESTED, not when it takes effect.
   cancelledAt          DateTime? @map("cancelled_at")
   cancellationReason   String?   @map("cancellation_reason")

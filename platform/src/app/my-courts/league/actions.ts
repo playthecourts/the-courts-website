@@ -9,6 +9,7 @@ import {
   sendRegistrationStaffAlert,
   sendRegistrationConfirmationEmail,
 } from "@/lib/registration-notifications";
+import { isPaymentBlocked, PAYMENT_BLOCKED_MESSAGE } from "@/lib/membership-standing";
 
 // Oct 1, 2026, 12:00 AM Central (CDT, UTC-5 — DST is still in effect on this
 // date). Both the billing anchor for a bundled membership and the cutoff
@@ -50,6 +51,10 @@ export async function createLeaguePaymentIntent(athleteId: string) {
   }
 
   // Waivers are intentionally not required for League registration.
+
+  if (await isPaymentBlocked(athleteId)) {
+    throw new Error(PAYMENT_BLOCKED_MESSAGE);
+  }
 
   const offering = await prisma.offering.findFirstOrThrow({
     where: { name: "Fall 2026 Basketball League" },

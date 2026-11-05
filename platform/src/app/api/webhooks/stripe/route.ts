@@ -30,6 +30,22 @@ function mapStatus(stripeStatus: Stripe.Subscription.Status): MembershipStatus {
   }
 }
 
+/// Keeps past_due_since in step with status after any write that may have
+/// changed it: stamped the first time a subscription's membership(s) go
+/// past_due (never re-stamped by later retries, so the grace period in
+/// lib/membership-standing.ts can't be extended by Stripe's dunning), and
+/// cleared as soon as they leave past_due.
+async function syncPastDueSince(subscriptionId: string) {
+  await prisma.athleteMembership.updateMany({
+    where: { stripeSubscriptionId: subscriptionId, status: "past_due", pastDueSince: null },
+    data: { pastDueSince: new Date() },
+  });
+  await prisma.athleteMembership.updateMany({
+    where: { stripeSubscriptionId: subscriptionId, status: { not: "past_due" }, pastDueSince: { not: null } },
+    data: { pastDueSince: null },
+  });
+}
+
 function renewalDateFrom(subscription: Stripe.Subscription): Date | null {
   const periodEnd = subscription.items.data[0]?.current_period_end;
   return periodEnd ? new Date(periodEnd * 1000) : null;
@@ -415,6 +431,7 @@ async function handleInvoicePaid(invoice: Stripe.Invoice) {
     where: { stripeSubscriptionId: subscriptionId },
     data: { status: "active" },
   });
+  await syncPastDueSince(subscriptionId);
 }
 
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
@@ -428,6 +445,7 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
     where: { stripeSubscriptionId: subscriptionId },
     data: { status: "past_due" },
   });
+  await syncPastDueSince(subscriptionId);
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
@@ -460,6 +478,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
       ...(matchedPlan ? { membershipPlanId: matchedPlan.id } : {}),
     },
   });
+  await syncPastDueSince(subscription.id);
 }
 
 /// A membership pause is set in Stripe as pause_collection (no charge until
@@ -480,7 +499,7 @@ function isPausedNow(subscription: Stripe.Subscription): boolean {
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   await prisma.athleteMembership.updateMany({
     where: { stripeSubscriptionId: subscription.id },
-    data: { status: "cancelled", cancelAt: null },
+    data: { status: "cancelled", cancelAt: null, pastDueSince: null },
   });
 }
 

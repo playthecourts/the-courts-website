@@ -4,11 +4,14 @@ import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { gradeRangeLabel } from "@/lib/programs/types";
 import { effectiveEntitlements } from "@/lib/entitlements";
+import { bookableMembershipWhere, paymentBlockedAthleteIds } from "@/lib/membership-standing";
 import { loadParentFeed } from "@/lib/programs/parent-feed";
 import { expireStalePendingBookings } from "@/lib/booking";
 import { startCampRegistration, cancelCampRegistration } from "./actions";
+import { payPastDueMembership } from "../actions";
 import { CampFilterBar } from "./filter-bar";
 import { AchCallout } from "../ach-callout";
+import { PaymentBlockedBanner } from "../payment-blocked-banner";
 import { GroupedOfferingCard, type Card } from "../explore/offering-session-card";
 import { CampTypeToggle } from "./type-toggle";
 
@@ -93,9 +96,10 @@ export default async function CampsPage({
   // athlete here so the price shown matches what they'd actually pay,
   // instead of always showing the flat non-member rate.
   const memberships = await prisma.athleteMembership.findMany({
-    where: { athleteId: { in: athleteIds }, status: "active" },
+    where: { athleteId: { in: athleteIds }, ...bookableMembershipWhere() },
     include: { plan: { include: { entitlements: true, entitlementsFromPlan: { include: { entitlements: true } } } } },
   });
+  const blockedAthletes = await paymentBlockedAthleteIds(athleteIds);
   function isMemberFor(athleteId: string, programId: string) {
     return memberships.some(
       (m) =>
@@ -203,7 +207,15 @@ export default async function CampsPage({
                         )}
                       </span>
 
-                      {paid ? (
+                      {!paid && blockedAthletes.has(athlete.id) ? (
+                        // Membership payment past its grace period — no new
+                        // camp registrations until the card is fixed.
+                        <form action={payPastDueMembership.bind(null, athlete.id)}>
+                          <button className="rounded-full bg-black px-4 py-2 font-heading text-xs font-bold uppercase tracking-wide text-white hover:bg-orange">
+                            Update Card to Register
+                          </button>
+                        </form>
+                      ) : paid ? (
                         <span className="rounded-full bg-green-50 px-3 py-1 font-sport text-xs font-bold uppercase tracking-wide text-green-800">
                           Registered — {reg?.selection === "single_day" ? "1 Day" : "Full Camp"}
                         </span>
@@ -283,6 +295,8 @@ export default async function CampsPage({
           Something went wrong starting checkout. Try again, or contact us if it keeps happening.
         </div>
       )}
+
+      <PaymentBlockedBanner athletes={athletes} />
 
       <AchCallout />
 

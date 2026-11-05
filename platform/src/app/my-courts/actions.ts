@@ -9,6 +9,7 @@ import { stripe, getOrCreateStripeCustomer } from "@/lib/stripe";
 import { bookAthleteIntoSession, cancelBookingById, cancelWaitlistEntryById, resumeBookingCheckout } from "@/lib/booking";
 import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { acceptOffer, declineOffer } from "@/lib/programs/waitlist";
+import { isPaymentBlocked } from "@/lib/membership-standing";
 
 async function assertOwnsAthlete(athleteId: string) {
   const guardian = await getCurrentGuardian();
@@ -31,8 +32,19 @@ async function requireWaiversOrRedirect(guardianId: string, athleteId: string, b
   }
 }
 
+/// A membership past its payment grace period blocks new bookings (see
+/// lib/membership-standing.ts). The Book buttons are already swapped for an
+/// "Update Card" button in that case; this is the server-side backstop, and
+/// it redirects rather than throws for the same reason as the waiver check.
+async function requireGoodStandingOrRedirect(athleteId: string) {
+  if (await isPaymentBlocked(athleteId)) {
+    redirect("/my-courts/payments");
+  }
+}
+
 export async function bookSession(athleteId: string, sessionId: string) {
   const guardian = await assertOwnsAthlete(athleteId);
+  await requireGoodStandingOrRedirect(athleteId);
   await requireWaiversOrRedirect(guardian.id, athleteId, "/my-courts/explore");
   const result = await bookAthleteIntoSession(sessionId, athleteId, guardian.id);
   revalidatePath("/my-courts/schedule");
@@ -136,6 +148,7 @@ export async function setRsvp(bookingId: string, rsvpStatus: "going" | "not_goin
 
 export async function acceptWaitlistOffer(waitlistEntryId: string, athleteId: string) {
   const guardian = await assertOwnsAthlete(athleteId);
+  await requireGoodStandingOrRedirect(athleteId);
   await requireWaiversOrRedirect(guardian.id, athleteId, "/my-courts/explore");
 
   // Returns void so it can be used directly as a <form action>. A refusal
@@ -189,4 +202,43 @@ export async function purchaseDrDishTenPack(athleteId: string) {
     throw new Error("Stripe did not return a checkout URL.");
   }
   redirect(session.url);
+}
+
+/// "Update Card" for a past-due membership. Sends the family straight to the
+/// failed invoice's Stripe-hosted payment page when there is one — paying it
+/// there clears past_due immediately (invoice.paid webhook), whereas only
+/// changing the card in the billing portal waits for Stripe's next retry.
+/// Falls back to the billing portal when no open invoice can be found.
+export async function payPastDueMembership(athleteId: string) {
+  await assertOwnsAthlete(athleteId);
+
+  const membership = await prisma.athleteMembership.findFirst({
+    where: { athleteId, status: "past_due" },
+    orderBy: { pastDueSince: "asc" },
+    select: {
+      stripeSubscriptionId: true,
+      linkedMembership: { select: { stripeSubscriptionId: true } },
+      linkedFrom: { select: { stripeSubscriptionId: true } },
+    },
+  });
+  // A Family Unlimited sibling row carries no subscription of its own — the
+  // bill lives on the linked primary row.
+  const subscriptionId =
+    membership?.stripeSubscriptionId ??
+    membership?.linkedMembership?.stripeSubscriptionId ??
+    membership?.linkedFrom.find((m) => m.stripeSubscriptionId)?.stripeSubscriptionId ??
+    null;
+
+  let invoiceUrl: string | null = null;
+  if (subscriptionId) {
+    try {
+      const invoices = await stripe.invoices.list({ subscription: subscriptionId, status: "open", limit: 1 });
+      invoiceUrl = invoices.data[0]?.hosted_invoice_url ?? null;
+    } catch (err) {
+      console.error("payPastDueMembership: invoice lookup failed", subscriptionId, err);
+    }
+  }
+  if (invoiceUrl) redirect(invoiceUrl);
+
+  await openBillingPortal();
 }

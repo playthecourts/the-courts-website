@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { availabilityFor, type Availability, qualifiesForAvailableThisWeek } from "./availability";
 import { checkAgeAndGrade, type AthleteForEligibility } from "./eligibility";
 import { resolveBookingRule } from "./pricing";
+import { paymentBlockedAthleteIds } from "@/lib/membership-standing";
 import { describeBookingRule } from "./format";
 import { programTypeDef, gradeRangeLabel, parentCategoryFor, typesInCategory } from "./types";
 
@@ -54,6 +55,10 @@ export type ParentSessionCard = {
     waitlisted: boolean;
     waitlistOffered: boolean;
     waitlistEntryId: string | null;
+    /// Membership payment failed and the grace period is over — no new
+    /// bookings for this athlete until the card is fixed (see
+    /// lib/membership-standing.ts). The card shows "Update Card" instead of Book.
+    paymentBlocked: boolean;
   }[];
 };
 
@@ -123,6 +128,8 @@ export async function loadParentFeed(
     },
   });
 
+  const blockedAthletes = await paymentBlockedAthleteIds(athleteIds);
+
   const cards: ParentSessionCard[] = [];
 
   for (const s of sessions) {
@@ -164,8 +171,9 @@ export async function loadParentFeed(
 
       // Only priced for athletes who could actually book it — no point
       // computing a Training Plan rule for a child who isn't eligible.
+      const paymentBlocked = blockedAthletes.has(athlete.id);
       const ruleText =
-        check.eligible && !hasSeat
+        check.eligible && !hasSeat && !paymentBlocked
           ? describeBookingRule(
               await resolveBookingRule(athlete.id, o.id, s.startTime)
             )
@@ -181,6 +189,7 @@ export async function loadParentFeed(
         waitlisted: wl?.status === "waiting",
         waitlistOffered: wl?.status === "offered",
         waitlistEntryId: wl?.id ?? null,
+        paymentBlocked,
       });
     }
 

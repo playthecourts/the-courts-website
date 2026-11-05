@@ -1,5 +1,6 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
+import { bookableMembershipWhere } from "@/lib/membership-standing";
 
 // ---------------------------------------------------------------------------
 // What this costs THIS family, and how the payment is set up.
@@ -44,7 +45,7 @@ export async function resolveBookingRule(
   if (offering.pricingModel === "free" || offering.creditRule === "free") return { kind: "free" };
 
   const memberships = await prisma.athleteMembership.findMany({
-    where: { athleteId, status: "active" },
+    where: { athleteId, ...bookableMembershipWhere() },
     include: { plan: { include: { entitlements: true, entitlementsFromPlan: { include: { entitlements: true } } } } },
   });
 

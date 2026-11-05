@@ -9,6 +9,7 @@ import { stripe, getOrCreateStripeCustomer } from "@/lib/stripe";
 import { getUnsignedRequiredWaivers } from "@/lib/waivers";
 import { sendRegistrationStaffAlert } from "@/lib/registration-notifications";
 import { effectiveEntitlements } from "@/lib/entitlements";
+import { bookableMembershipWhere, isPaymentBlocked } from "@/lib/membership-standing";
 
 /// Same "does this athlete's active membership carry a member_pricing (or
 /// class_credit) entitlement for this program" check used for per-session
@@ -17,7 +18,7 @@ import { effectiveEntitlements } from "@/lib/entitlements";
 /// "member" for whole-camp registration.
 async function hasMemberPricing(athleteId: string, programId: string): Promise<boolean> {
   const memberships = await prisma.athleteMembership.findMany({
-    where: { athleteId, status: "active" },
+    where: { athleteId, ...bookableMembershipWhere() },
     include: { plan: { include: { entitlements: true, entitlementsFromPlan: { include: { entitlements: true } } } } },
   });
   return memberships.some((m) =>
@@ -62,6 +63,13 @@ export async function startCampRegistration(formData: FormData) {
   }
   if (offering.status !== "published") {
     throw new Error("This camp isn't open for registration.");
+  }
+
+  // Membership payment past its grace period: no new registrations until the
+  // card is fixed (lib/membership-standing.ts). The page already hides the
+  // Register button; this is the backstop.
+  if (await isPaymentBlocked(athleteId)) {
+    redirect("/my-courts/payments");
   }
 
   const unsigned = await getUnsignedRequiredWaivers(guardian.id, athleteId);

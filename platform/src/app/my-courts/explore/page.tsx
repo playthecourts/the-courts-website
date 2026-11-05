@@ -1,6 +1,7 @@
 import { facilityNow } from "@/lib/facility-time";
 import Link from "next/link";
 import { getCurrentGuardian } from "@/lib/dal";
+import { PaymentBlockedBanner } from "../payment-blocked-banner";
 import { prisma } from "@/lib/prisma";
 import { loadParentFeed, loadCalendarMarkers } from "@/lib/programs/parent-feed";
 import { PARENT_CATEGORIES } from "@/lib/programs/types";
@@ -225,6 +226,7 @@ export default async function ExplorePage({
   return (
     <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
       <div className="flex min-w-0 flex-1 flex-col gap-6">
+      <PaymentBlockedBanner athletes={allAthletes} />
       <div>
         <p className="font-sport text-xs font-bold uppercase tracking-wide text-orange">Book</p>
         <h1 className="font-display text-2xl font-black text-black">Find Your Next Rep.</h1>
