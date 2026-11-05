@@ -1,4 +1,5 @@
 import { facilityNow } from "@/lib/facility-time";
+import { formatTimeRange } from "@/lib/coach-format";
 import { getCurrentGuardian } from "@/lib/dal";
 import { prisma } from "@/lib/prisma";
 import { gradeRangeLabel } from "@/lib/programs/types";
@@ -19,7 +20,7 @@ export const dynamic = "force-dynamic";
 // booked through Explore instead, same as any other single session.
 
 function formatCents(cents: number) {
-  return `$${(cents / 100).toFixed(2)}`;
+  return cents % 100 === 0 ? `$${cents / 100}` : `$${(cents / 100).toFixed(2)}`;
 }
 
 function formatDate(d: Date) {
@@ -143,37 +144,24 @@ export default async function CampsPage({
             <div id={campAnchor(camp.name)} className="scroll-mt-24 overflow-hidden rounded-xl border border-gray-mid bg-white">
               <div className="border-b border-gray-mid bg-warm-stone px-4 py-3">
                 {sport !== "other" && (
-                  <p className="font-sport text-xs font-bold uppercase tracking-wide text-orange">
+                  <p className="font-sport text-xs font-bold uppercase tracking-wide text-orange underline decoration-2 underline-offset-4">
                     {sport === "volleyball" ? "Volleyball" : "Basketball"}
                   </p>
                 )}
-                <p className="font-sport text-base font-bold text-black">{dateLabel}</p>
+                <p className="font-sport text-base font-bold text-black">
+                  {dateLabel}
+                  {first ? ` · ${formatTimeRange(first.startTime, first.endTime)}` : ""}
+                </p>
                 <h2 className="font-display text-lg font-black text-black">{camp.name}</h2>
                 <p className="mt-0.5 font-body text-sm text-gray-dark">
                   {(() => {
-                    // A family that's all-member or all-non-member sees just
-                    // their own rate; a mixed family sees both.
-                    const memberFlags = athletes.map((a) => isMemberFor(a.id, camp.programId));
-                    const allMember = memberFlags.length > 0 && memberFlags.every(Boolean);
-                    const noneMember = !memberFlags.some(Boolean);
                     const hasDaily = camp.registrationMode === "multi_day" && camp.allowSingleDay && camp.singleDayPriceCents;
-                    const full = camp.priceCents ?? 0;
-                    const fullM = camp.memberPriceCents;
-                    const day = camp.singleDayPriceCents ?? 0;
-                    const dayM = camp.singleDayMemberPriceCents;
-                    const fullText = allMember && fullM != null
-                      ? `${formatCents(fullM)} member price`
-                      : noneMember || fullM == null
-                        ? formatCents(full)
-                        : `${formatCents(full)} · Members ${formatCents(fullM)}`;
-                    const dayText = !hasDaily
-                      ? ""
-                      : allMember && dayM != null
-                        ? ` · or ${formatCents(dayM)}/day`
-                        : noneMember || dayM == null
-                          ? ` · or ${formatCents(day)}/day`
-                          : ` · or ${formatCents(day)}/day (Members ${formatCents(dayM)})`;
-                    return `${hasDaily ? "Full camp " : ""}${fullText}${dayText}`;
+                    const withMember = (base: number, member: number | null) =>
+                      member != null ? `${formatCents(base)} (Members ${formatCents(member)})` : formatCents(base);
+                    const fullText = withMember(camp.priceCents ?? 0, camp.memberPriceCents);
+                    return hasDaily
+                      ? `Full Camp ${fullText} or ${withMember(camp.singleDayPriceCents ?? 0, camp.singleDayMemberPriceCents)}/day`
+                      : fullText;
                   })()}
                   {gradeLabel ? ` · ${gradeLabel}` : ""}
                 </p>
