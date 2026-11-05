@@ -836,6 +836,13 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
   // the public calendar has to agree with it or the two read as different
   // schedules. Distinct classes keep their own rows: Sara's 4/5/6 PM are three
   // different titles, so they never merge.
+  // "12:00 PM" -> 720, for slotting a community block into the day's list.
+  function clockMinutes(t) {
+    var m = /(\d+):(\d+)\s*([AP]M)/i.exec(t || '');
+    if (!m) return 0;
+    return (+m[1] % 12 + (/p/i.test(m[3]) ? 12 : 0)) * 60 + +m[2];
+  }
+
   function collapse(list) {
     var groups = [], last = null;
     list.forEach(function (c) {
@@ -920,6 +927,17 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     var block = closures[key];
     var closed = block && block.allDay;
     var list = dayClasses(key);
+    // A published community moment (the ribbon cutting) is part of the day's
+    // lineup, so it sits in the list at its own time rather than as a note.
+    var communityBlock = block && !block.allDay && block.reason === 'other' && block.note;
+    if (communityBlock) {
+      var cm = clockMinutes(block.from), ce = clockMinutes(block.to);
+      var row = { id: 'blk-' + key, date: key, title: block.note, time: block.from, endTime: block.to,
+        minutes: ce - cm, type: 'community', bookable: false };
+      var at = list.findIndex(function (c) { return clockMinutes(c.time) > cm; });
+      list = list.slice();
+      list.splice(at < 0 ? list.length : at, 0, row);
+    }
     var gameList = dayGames(key);
     var head = '<div class="cal-day-head"><h3>' + prettyDate(key) + '</h3>' +
       (key === todayIso() ? '<span class="cal-badge">Today</span>' : '') +
@@ -946,7 +964,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
     var closedNote = block && /^\s*facility closed/i.test(block.note || '');
     // A published "other" block is a community moment (the ribbon cutting),
     // not a restriction, so it reads as its own name and time.
-    var eventNote = block && block.reason === 'other' && block.note;
+    var eventNote = false; // shown as its own row in the list (communityBlock above)
     var notice = block
       ? (closedNote
           ? '<p class="cal-note"><strong>Facility closed ' + block.from + '&ndash;' + block.to + '</strong></p>'
@@ -968,7 +986,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
       : '';
     panel.innerHTML = head + notice + eventCallout + renderGames(gameList, gamesArrive) + (list.length && gameList.length ? '<div class="gm-head"><h4 style="color:var(--near-black)">At The Courts</h4></div>' : '') + collapse(list).map(function (g) {
       var c = g[0];
-      var tag = (c.type === 'private_training' || c.type === 'party') ? 'Private' : (c.type === 'league' ? 'League &middot; At The Courts' : (c.sport || 'The Courts'));
+      var tag = c.type === 'community' ? 'Community' : (c.type === 'private_training' || c.type === 'party') ? 'Private' : (c.type === 'league' ? 'League &middot; At The Courts' : (c.sport || 'The Courts'));
       // A self-serve bay sold in 30-minute slots is one thing you can book at
       // a time of your choosing, not sixteen classes. Reads as a window.
       var many = g.length > 1;
@@ -995,7 +1013,7 @@ src="https://www.facebook.com/tr?id=846020845059569&ev=PageView&noscript=1"
           '<div class="sch-meta">' +
             '<span class="sch-tag ' + (c.type === 'league' ? 'sch-tag--league' : 'sch-tag--training') + '">' + tag + '</span>' +
             // A rental has no coach, so it gets no coach line at all.
-            (c.type === 'party' ? '' : '<span class="sch-coach">' + (c.coaches && c.coaches.length > 1 ? 'Coaches <strong>' + c.coaches.map(function (n) { return n.split(' ')[0]; }).join(' &amp; ') + '</strong>' : (c.coach ? 'Coach <strong>' + c.coach.split(' ')[0] + '</strong>' : '<strong>Coach TBD</strong>')) + '</span>') +
+            (c.type === 'party' || c.type === 'community' ? '' : '<span class="sch-coach">' + (c.coaches && c.coaches.length > 1 ? 'Coaches <strong>' + c.coaches.map(function (n) { return n.split(' ')[0]; }).join(' &amp; ') + '</strong>' : (c.coach ? 'Coach <strong>' + c.coach.split(' ')[0] + '</strong>' : '<strong>Coach TBD</strong>')) + '</span>') +
             (!many && !past && c.capacity && !HIDE_SPOTS.test(c.title) ? '<span class="sch-spots">' + (c.booked >= c.capacity ? '<strong>Full</strong>' : '<strong>' + (c.booked || 0) + '/' + c.capacity + '</strong> signed up') + '</span>' : '') +
           '</div>' +
           (c.note && !compact ? '<p class="sch-included">' + c.note + '</p>' : '') +
