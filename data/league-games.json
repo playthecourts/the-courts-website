@@ -145,6 +145,30 @@
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=West+End+Middle+School%2C+Nashville%2C+TN",
       "startMinute": 960,
       "coach": "Johnny Coles"
+    },
+    {
+      "date": "2026-11-21",
+      "time": "4:00 PM",
+      "grade": "4th Grade",
+      "gradeKey": "4",
+      "opponent": "USN Tigers (Copeland)",
+      "homeAway": "Away",
+      "venue": "Percy Priest Elementary Gym",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=Percy+Priest+Elementary+School%2C+Nashville%2C+TN",
+      "startMinute": 960,
+      "coach": "Johnny Coles"
+    },
+    {
+      "date": "2026-11-21",
+      "time": "5:00 PM",
+      "grade": "3rd Grade",
+      "gradeKey": "3",
+      "opponent": "Charging Cheetah Ballers (Goldberg)",
+      "homeAway": "Away",
+      "venue": "Percy Priest Elementary Gym",
+      "mapUrl": "https://www.google.com/maps/search/?api=1&query=Percy+Priest+Elementary+School%2C+Nashville%2C+TN",
+      "startMinute": 1020,
+      "coach": "Johnny Coles"
     }
   ]
 }

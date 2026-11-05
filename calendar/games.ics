@@ -117,4 +117,20 @@ DTEND;TZID=America/Chicago:20261114T170000
 SUMMARY:The Courts 6th/7th Grade vs Dragons (Pound) – Home
 LOCATION:West End Middle School\, New Gym\, Nashville\, TN
 END:VEVENT
+BEGIN:VEVENT
+UID:courts-wnsl-12@playthecourts.com
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Chicago:20261121T160000
+DTEND;TZID=America/Chicago:20261121T170000
+SUMMARY:The Courts 4th Grade vs USN Tigers (Copeland) – Away
+LOCATION:Percy Priest Elementary School\, Nashville\, TN
+END:VEVENT
+BEGIN:VEVENT
+UID:courts-wnsl-13@playthecourts.com
+DTSTAMP:20261105T000000Z
+DTSTART;TZID=America/Chicago:20261121T170000
+DTEND;TZID=America/Chicago:20261121T180000
+SUMMARY:The Courts 3rd Grade vs Charging Cheetah Ballers (Goldberg) – Away
+LOCATION:Percy Priest Elementary School\, Nashville\, TN
+END:VEVENT
 END:VCALENDAR
