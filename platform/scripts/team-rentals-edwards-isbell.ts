@@ -25,7 +25,7 @@ const mondays: string[] = [];
 for (let d = new Date("2026-11-09T00:00:00Z"); d <= new Date("2026-12-28T00:00:00Z"); d = new Date(d.getTime() + 7 * 86_400_000)) mondays.push(d.toISOString().slice(0, 10));
 const plan = [
   ...mondays.map((day) => ({ day, from: "06:00", to: "08:00", title: "Private Rental (Men's League - Edwards)", note: "Alan Edwards men's league, Mondays 6–8 AM through Dec 28." })),
-  ...["2026-11-30", "2026-12-01"].map((day) => ({ day, from: "19:00", to: "20:00", title: "Team Rental (Isbell)", note: "Court rental for Daniel Isbell team, 7–8 PM (Nov 30 & Dec 1)." })),
+  ...["2026-11-30", "2026-12-01"].map((day) => ({ day, from: "19:00", to: "20:00", title: "Team Rental (Isbell)", note: "Court rental for Daniel Isbell (renter), 7–8 PM Nov 30 & Dec 1. $150 total for both dates via Stripe link." })),
 ];
 const t = (d: Date) => d.toISOString().slice(11, 16);
 
