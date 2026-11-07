@@ -13,7 +13,7 @@ const APPLY = process.argv.includes("--apply");
   for (const o of offs) console.log(`${o.name} ${o.seasonLabel ?? ""} $${(o.priceCents ?? 0) / 100} product=${o.stripeProductId}`);
   const existing = await stripe.promotionCodes.list({ code: "NODAYSOFF", limit: 5 });
   console.log("existing NODAYSOFF codes:", existing.data.map((c) => ({ id: c.id, active: c.active })));
-  const products = [...new Set(offs.map((o) => o.stripeProductId).filter(Boolean))] as string[];
+  const products = [...new Set(offs.filter((o) => o.priceCents === 4000).map((o) => o.stripeProductId).filter(Boolean))] as string[];
   console.log("products to restrict to:", products.length, "offerings without product:", offs.filter((o) => !o.stripeProductId).map((o) => o.name));
   if (!APPLY) return p.$disconnect();
   if (existing.data.some((c) => c.active)) throw new Error("NODAYSOFF already exists.");
