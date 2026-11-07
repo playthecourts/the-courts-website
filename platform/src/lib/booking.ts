@@ -14,6 +14,7 @@ import {
 import { isPaymentBlocked } from "@/lib/membership-standing";
 import { offerNextSpot } from "@/lib/programs/waitlist";
 import { stripe, getOrCreateStripeCustomer } from "@/lib/stripe";
+import { familyHasUsedOncePerFamilyPromo } from "@/lib/promo-limits";
 
 const CHECKOUT_EXPIRY_MINUTES = 30;
 
@@ -288,7 +289,9 @@ async function createBookingCheckout(
     // Lets families enter a Stripe promotion code (e.g. a free Dr. Dish
     // session). Codes are created in Stripe and should be limited to the
     // offering's product there so they can't be used on other classes.
-    allow_promotion_codes: true,
+    // Hidden once the family has used a once-per-family code (NODAYSOFF) —
+    // see lib/promo-limits.ts.
+    allow_promotion_codes: !(await familyHasUsedOncePerFamilyPromo(athleteId)),
     customer: customerId,
     line_items: [
       {
@@ -590,7 +593,7 @@ export async function createDeskPaymentLink(bookingId: string): Promise<{ url: s
   const checkout = await stripe.checkout.sessions.create({
     mode: "payment",
     payment_method_types: ["card"],
-    allow_promotion_codes: true,
+    allow_promotion_codes: !(await familyHasUsedOncePerFamilyPromo(booking.athleteId)),
     customer: customerId,
     line_items: [
       {
