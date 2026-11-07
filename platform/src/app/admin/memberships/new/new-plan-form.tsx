@@ -13,7 +13,7 @@ export function NewPlanForm() {
         <input
           name="name"
           required
-          placeholder="Weekly Membership"
+          placeholder="Flex 4 Membership"
           className="rounded-md border border-neutral-300 px-3 py-2 text-base"
         />
       </label>

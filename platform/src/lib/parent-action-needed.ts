@@ -287,7 +287,7 @@ export async function getParentActionNeeded(guardian: Guardian): Promise<ActionN
     items.push({
       key: `league-plan-${r.id}`,
       title: `Choose a plan for ${r.athlete.firstName}`,
-      detail: "Fall League requires a Weekly membership or higher to stay eligible.",
+      detail: "Fall League requires a Flex 4 membership or higher to stay eligible.",
       cta: "Choose Plan",
       href: `/my-courts/memberships?required=league&athlete=${r.athlete.id}`,
       tone: "default",

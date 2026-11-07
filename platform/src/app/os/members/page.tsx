@@ -35,7 +35,7 @@ const SEGMENT_TONE: Record<Segment, "warning" | "info" | "brand" | "success" | "
 };
 
 const TYPE_LABEL: Record<string, string> = {
-  "Weekly Membership": "Weekly",
+  "Flex 4 Membership": "Flex 4",
   "Unlimited Membership": "Unlimited",
   "Full Court Membership": "Full Court",
   "Family Unlimited Membership": "Family Unlimited",

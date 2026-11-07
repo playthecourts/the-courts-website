@@ -103,10 +103,14 @@ export async function getBookingEligibility(
       return { type: "included", membershipPlanName: membership.plan.name };
     }
     const { start, end } = entitlementPeriodBounds(membership, session.startTime);
+    // Only seats this plan's allowance actually paid for (creditSource = plan
+    // name, set at booking time). A paid camp day, event or private session
+    // never touched the allowance and must not count against it.
     const usedThisPeriod = await prisma.booking.count({
       where: {
         athleteId,
-        OR: [{ status: { not: "cancelled" } }, { status: "cancelled", creditRestored: false, creditSource: { not: null } }],
+        creditSource: membership.plan.name,
+        OR: [{ status: { not: "cancelled" } }, { creditRestored: false }],
         session: {
           ...(entitlement.programId ? { programId: entitlement.programId } : {}),
           startTime: { gte: start, lt: end },
@@ -181,10 +185,12 @@ export async function getSessionBalances(athleteId: string): Promise<SessionBala
       // restored (cancelled >= the refund cutoff before the session started
       // — see cancelBookingById in lib/booking.ts). Kept in sync with the
       // same rule resolveBookingRule uses for the live booking decision.
+      // Only seats this plan's allowance paid for — see getBookingEligibility.
       const usedThisPeriod = await prisma.booking.count({
         where: {
           athleteId,
-          OR: [{ status: { not: "cancelled" } }, { status: "cancelled", creditRestored: false, creditSource: { not: null } }],
+          creditSource: membership.plan.name,
+          OR: [{ status: { not: "cancelled" } }, { creditRestored: false }],
           session: {
             ...(entitlement.programId ? { programId: entitlement.programId } : {}),
             startTime: { gte: start, lt: end },

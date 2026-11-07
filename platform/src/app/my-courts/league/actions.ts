@@ -16,7 +16,7 @@ import { isPaymentBlocked, PAYMENT_BLOCKED_MESSAGE } from "@/lib/membership-stan
 // that switches "anchor to Oct 1" over to "bill today" once the season has
 // actually started.
 const MEMBERSHIP_START = new Date("2026-10-01T05:00:00.000Z");
-const WEEKLY_PLAN_NAME = "Weekly Membership";
+const WEEKLY_PLAN_NAME = "Flex 4 Membership";
 
 // A standalone Stripe payment method configuration (card only — no ACH, no
 // wallets), separate from the account default. Using this instead of a raw

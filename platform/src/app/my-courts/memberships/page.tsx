@@ -35,7 +35,7 @@ const STATUS_LABEL: Record<string, string> = {
 const FAMILY_PLAN_NAME = "Family Unlimited Membership";
 
 const PLAN_COPY: Record<string, { tagline: string; description: string; mostPopular?: boolean }> = {
-  "Weekly Membership": {
+  "Flex 4 Membership": {
     tagline: "Your schedule. Your four.",
     description: "4 group training sessions per billing cycle. Unused sessions don't roll over.",
   },
@@ -268,7 +268,7 @@ export default async function MembershipsPage({
 
       {required === "league" && requiredForAthlete && (
         <div className="rounded-lg border border-orange bg-orange/5 p-4 font-body text-sm text-neutral-800">
-          Fall League requires a Weekly membership or higher. Choose a plan for{" "}
+          Fall League requires a Flex 4 membership or higher. Choose a plan for{" "}
           <strong>{requiredForAthlete.firstName}</strong>.
         </div>
       )}

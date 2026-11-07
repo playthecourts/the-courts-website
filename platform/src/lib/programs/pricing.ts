@@ -129,12 +129,17 @@ export async function resolveBookingRule(
         // restored (cancelled >= REFUND_CUTOFF_HOURS before start — see
         // cancelBookingById in lib/booking.ts). A late cancellation still
         // spends the allowance, same as skipping the class outright.
+        // Only seats this plan's allowance actually paid for (creditSource =
+        // plan name) — a paid camp day or event never spent a credit. A null
+        // entitlement programId is one shared pool across programs, counted
+        // the same way as getSessionBalances so "sessions left" matches.
         const used = await prisma.booking.count({
           where: {
             athleteId,
-            OR: [{ status: { not: "cancelled" } }, { status: "cancelled", creditRestored: false, creditSource: { not: null } }],
+            creditSource: m.plan.name,
+            OR: [{ status: { not: "cancelled" } }, { creditRestored: false }],
             session: {
-              programId: offering.programId,
+              ...(ent.programId ? { programId: ent.programId } : {}),
               startTime: { gte: periodStart, lt: periodEnd },
             },
           },
