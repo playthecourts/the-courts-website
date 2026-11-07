@@ -12,7 +12,7 @@ import { stripe } from "@/lib/stripe";
 //
 // Side effect, accepted when this was built: a family that has used one of
 // these codes can't enter any other code at drop-in checkout either.
-export const ONCE_PER_FAMILY_CODES = ["NODAYSOFF"];
+export const ONCE_PER_FAMILY_CODES = ["NODAYSOFF", "EGGE20"];
 
 let promoIdCache: { at: number; ids: string[] } | null = null;
 
